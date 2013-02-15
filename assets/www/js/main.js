@@ -229,7 +229,7 @@ var AppRouter = Backbone.Router.extend({
   },*/
   
 
-  historyCount: 0,
+  historyCount: 0
 });
 
 
@@ -263,14 +263,14 @@ $(document).ready(function () {
 	      },
 	      nextTransition: {
 	          type:"none",
-	          reverse:false,
-	  },
-	  defaults:{
-	      lang: "fr",
-	      //transition: "slide",
-	      transition: "none",
-	      reverse:false
-	   }
+	          reverse:false
+	      },
+	      defaults:{
+	          lang: "fr",
+	          //transition: "slide",
+	          transition: "none",
+	          reverse:false
+	       }
 	  };
 	  //Extend view
 	  Backbone.View.prototype.close = function(){

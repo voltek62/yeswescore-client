@@ -10,12 +10,12 @@ var ClubsCollection = Backbone.Collection.extend({
 	
 	initialize: function (param) {
 
-/*
+
 		if (param==='follow')
 			this.storage = new Offline.Storage('clubsfollow', this);		
 		else		
 		this.storage = new Offline.Storage('clubs', this);	
-*/		
+		
 	},	
 	  
     url:function() {

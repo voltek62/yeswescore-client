@@ -30,12 +30,15 @@ var IndexView = Backbone.View.extend({
         
         //console.log('this.games in cache size ',this.games.length);
         
+        /*
         if (this.games.length>0) {
          	$.mobile.hidePageLoadingMsg();
         	this.renderList();
         }
         else 		
-        	this.games.on( 'all', this.renderList, this ); 
+       	*/
+        	
+        this.games.on( 'all', this.renderList, this ); 
         
         
         //Controle si localStorage contient Owner

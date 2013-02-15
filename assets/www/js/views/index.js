@@ -31,8 +31,6 @@ var IndexView = Backbone.View.extend({
         
         this.render();
         
-        console.log('this.games in cache size ',this.games.length);
-        
 
         if (this.games.length>0) {
          	$.mobile.hidePageLoadingMsg();
@@ -108,7 +106,7 @@ var IndexView = Backbone.View.extend({
 
     renderList: function(query) {
     
-      console.log('games ',this.games.toJSON());
+      //console.log('games ',this.games.toJSON());
     	
       $(this.listview).html(_.template(this.gameListViewTemplate({games:this.games.toJSON(),query:' '})));    	
 

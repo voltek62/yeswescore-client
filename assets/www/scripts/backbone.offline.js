@@ -123,7 +123,19 @@
         if (options == null) {
           options = {};
         }
-        return JSON.parse(this.getItem("" + this.name + "-" + model.id));
+        
+        /*return JSON.parse(this.getItem("" + this.name + "-" + model.id));
+        */
+        
+        var item = null;
+		try {
+		   item = this.getItem(this.name + "-" + model.id);
+		} catch (e) {};
+			
+		console.log('backbone offline item ',item);	
+			
+		return JSON.parse(item);      
+        
       };
 
       Storage.prototype.findAll = function(options) {

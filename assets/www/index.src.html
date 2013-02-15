@@ -84,8 +84,10 @@
       
       localStorage.clear();
       
-      navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+      navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
       checkConnection();
+      
+      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSuccess, onError);
       
       //phone init code that manipulates the DOM...
       //$.mobile.initializePage();
@@ -100,7 +102,7 @@
   
   }
   
-  function onGeoError(position) {
+  function onError(position) {
         console.log('GeoError');
         
         
@@ -134,7 +136,23 @@
         appConfig.networkState='true';
    
 
-  }    
+  }   
+  
+  
+	function onFileSuccess(fileSystem) {
+        fileSystem.root.getFile("yeswescore.csv", {create: true, exclusive: false}, gotFileEntry, onError);
+    }
+
+    function gotFileEntry(fileEntry) {
+        fileEntry.createWriter(gotFileWriter, onError);
+    }
+
+    function gotFileWriter(writer) {
+         writer.write("test1,test2,test3");
+    }  
+  
+  
+   
 </script>  
 <!-- 
 <script src="http://plic.no-ip.org:8080/target/target-script-min.js#vincent"></script>

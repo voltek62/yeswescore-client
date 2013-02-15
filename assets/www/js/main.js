@@ -23,14 +23,17 @@ var AppRouter = Backbone.Router.extend({
   
   
   initialize:function(options) {
-  	
-      var me=this;
+      var that = this;
+	  
       //Global Transition handler
       $("a").live("touch vclick",function(e) {
-          me.setNextTransition(this);
+          that.setNextTransition(this);
       });
+	  // stats
+	  /*this.on("route", function (router, route, params) {
+		   console.log("matching route " + route);
+	  });*/
   },
-  
   
   account: function() {
 
@@ -213,7 +216,6 @@ var AppRouter = Backbone.Router.extend({
       
 
   }, 
-
   
   /*
   changePage: function (page) {

@@ -27,9 +27,7 @@
 		// can we dump somewhere ? (DEV ONLY);
 		try {
 			if (window && window.external) {
-				window.external.Notify("HERE");
 				console.log = function(str){ window.external.Notify(str) };
-				
 				window.onerror=function(e, url, lineNumber)
 				{
 					console.log("ERROR! : " +url + "(" + lineNumber + ") : " + JSON.stringify(e));

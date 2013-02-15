@@ -6,8 +6,7 @@
 	
 	
 	<link rel="stylesheet" href="styles/jquery.mobile-1.2.0.min.css">
-	<link rel="stylesheet" href="styles/main.css">	
-	 
+	<link rel="stylesheet" href="styles/main.css">		 
 	 
 	<script type="text/javascript">
 		// windows phone 8 BOOTSTRAP
@@ -20,15 +19,23 @@
 		{
 			console.log("ERROR! : " +url + "(" + lineNumber + ") : " + JSON.stringify(e));
 		};
+		*/
 		
+		// patch bug cordova 2.4.
 		var prompt = function (strA, strB) { console.log("prompt: " + strB + strA); };
-*/
+		// clearing local storage on start.
 		localStorage.clear();
+		// can we dump somewhere ? (DEV ONLY);
+		if (window && window.external && window.external.Notify) {
+			console.log = function(str){ window.external.Notify(str) };
+		}
 		console.log("Installed console ! ");
 	  </script>
 	 
     <!-- we will use cordova 2.2 to package the mobile application-->
     <script type="text/javascript" src="scripts/cordova-2.4.0.js"></script>
+
+    <script type="text/javascript" src="scripts/cordova-2.4.0.js"></script> 
     
   	<!-- JQuery -->
 	<script type="text/javascript" src="scripts/jquery.min.js"></script>
@@ -39,7 +46,7 @@
   	<script type="text/javascript" src="js/app-config.js"></script>	
 	
 	<!-- Libraries -->  
-	<script type="text/javascript" src="scripts/jquery.mobile-1.1.1.min.js"></script>
+	<script type="text/javascript" src="scripts/jquery.mobile-1.2.0.min.js"></script>
 	 
 	<script type="text/javascript" src="scripts/lodash.min.js"></script>
 	<script type="text/javascript" src="scripts/backbone-min.js"></script>
@@ -1216,27 +1223,6 @@ else {
 </script>
 
 <!-- TEMPLATE END -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

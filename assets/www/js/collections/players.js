@@ -17,14 +17,14 @@ var PlayersCollection = Backbone.Collection.extend({
 		console.log('Players mode '+param);
 		
 		//, {local:true}
-		/*
+		
 		if (param==='follow')
 			this.storage = new Offline.Storage('playersfollow', this);		
 		else if (param==='me')
 			this.storage = new Offline.Storage('Owner', this);
 		else		
 			this.storage = new Offline.Storage('players', this);	
-		*/
+		
 		
 	},
 	  

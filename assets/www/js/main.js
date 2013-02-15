@@ -29,7 +29,6 @@ var AppRouter = Backbone.Router.extend({
       $("a").live("touch vclick",function(e) {
           me.setNextTransition(this);
       });
-     
   },
   
   

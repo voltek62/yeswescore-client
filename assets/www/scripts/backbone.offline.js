@@ -47,6 +47,9 @@
     Offline.Storage = (function() {
 
       function Storage(name, collection, options) {
+      
+      	console.log('backbone.offline init Storage '+name);
+      
         this.name = name;
         this.collection = collection;
         if (options == null) {

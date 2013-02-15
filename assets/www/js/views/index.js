@@ -10,6 +10,9 @@ var IndexView = Backbone.View.extend({
 
         //this.indexViewTemplate = _.template($('#indexViewTemplate').html());
         //this.gameListViewTemplate = _.template($('#gameListViewTemplate').html());
+        
+ 
+        console.time('time2');
     	
         this.indexViewTemplate = _.template(tpl.get('indexViewTemplate'));
         this.gameListViewTemplate = _.template(tpl.get('gameListViewTemplate'));
@@ -28,7 +31,7 @@ var IndexView = Backbone.View.extend({
         
         this.render();
         
-        //console.log('this.games in cache size ',this.games.length);
+        console.log('this.games in cache size ',this.games.length);
         
 
         if (this.games.length>0) {
@@ -59,6 +62,7 @@ var IndexView = Backbone.View.extend({
   
        
         
+        console.timeEnd('time2');
     },
     
     events: {
@@ -103,6 +107,8 @@ var IndexView = Backbone.View.extend({
     },
 
     renderList: function(query) {
+    
+      console.log('games ',this.games.toJSON());
     	
       $(this.listview).html(_.template(this.gameListViewTemplate({games:this.games.toJSON(),query:' '})));    	
 

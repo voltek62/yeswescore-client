@@ -9,8 +9,7 @@ var ClubsCollection = Backbone.Collection.extend({
 	//storeName : "club",	
 	
 	initialize: function (param) {
-
-
+	
 		if (param==='follow')
 			this.storage = new Offline.Storage('clubsfollow', this);		
 		else		

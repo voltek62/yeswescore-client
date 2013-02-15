@@ -15,16 +15,13 @@ $(document).bind("mobileinit", function () {
     //$.mobile.slideText:"none";
     //$.mobile.slideUpText:"none";
     
-    
-    var iosDevice = ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) ? true : false;
-
     $.extend($.mobile, {
       //autoInitializePage : false,
       touchOverflowEnabled : false,
-      slideText :  (iosDevice) ? "slide" : "none",
-      slideUpText :  (iosDevice) ? "slideup" : "none",
-      defaultPageTransition:(iosDevice) ? "slide" : "none",
-      defaultDialogTransition:(iosDevice) ? "slideup" : "none"
+      slideText :  "none",
+      slideUpText :  "none",
+      defaultPageTransition:"none",
+      defaultDialogTransition:"none"
     });
 
     // Remove page from DOM when it's being replaced

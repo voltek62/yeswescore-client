@@ -50,6 +50,3 @@ var AccountView = Backbone.View.extend({
     this.undelegateEvents();
   }
 });
-
-
-

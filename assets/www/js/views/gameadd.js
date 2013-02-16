@@ -29,9 +29,6 @@ var GameAddView = Backbone.View.extend({
     $.mobile.hidePageLoadingMsg();
   },
 
-
-
-
   displayTeam1: function (li) {
     selectedId = $('#team1_choice:checked').val();
     selectedName = $('#team1_choice:checked').next('label').text();
@@ -268,6 +265,3 @@ var GameAddView = Backbone.View.extend({
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
   }
 });
-
-
-

@@ -47,6 +47,9 @@
     Offline.Storage = (function() {
 
       function Storage(name, collection, options) {
+      
+      	console.log('backbone.offline init Storage '+name);
+      
         this.name = name;
         this.collection = collection;
         if (options == null) {
@@ -120,7 +123,19 @@
         if (options == null) {
           options = {};
         }
-        return JSON.parse(this.getItem("" + this.name + "-" + model.id));
+        
+        /*return JSON.parse(this.getItem("" + this.name + "-" + model.id));
+        */
+        
+        var item = null;
+		try {
+		   item = this.getItem(this.name + "-" + model.id);
+		} catch (e) {};
+			
+		console.log('backbone offline item ',item);	
+			
+		return JSON.parse(item);      
+        
       };
 
       Storage.prototype.findAll = function(options) {

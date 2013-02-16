@@ -79,4 +79,3 @@ var GameListView = Backbone.View.extend({
     this.games.off("all",this.renderList,this);
   }
 });
-

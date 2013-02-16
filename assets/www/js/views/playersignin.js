@@ -1,36 +1,34 @@
 var PlayerSigninView = Backbone.View.extend({
-  el:"#index",
-    
+  el : "#index",
+
   events: {
-    'submit form#frmSigninPlayer':'signin'
+    'submit form#frmSigninPlayer' : 'signin'
   },
 
-  initialize:function() {
+  initialize : function() {
     this.playerSigninTemplate = YesWeScore.Templates.get('playerSigninTemplate');
-	  this.render();
-    $.mobile.hidePageLoadingMsg(); 
+    this.render();
+    $.mobile.hidePageLoadingMsg();
   },
-  
-  signin: function (event) {
-    var email = $('#email').val();
-    var password = $('#password').val();        
 
-    console.log('test authentification avec '+email);
-        
+  signin : function(event) {
+    var email = $('#email').val();
+    var password = $('#password').val();
+
+    console.log('test authentification avec ' + email);
     this.player = new Player();
-    this.player.login(email,password);
-        
+    this.player.login(email, password);
     return false;
-  },     
-    
-  //render the content into div of view
-  render: function(){
-    this.$el.html(YesWeScore.Templates.get(this.playerSigninTemplate({})));
+  },
+
+  // render the content into div of view
+  render : function() {
+    this.$el.html(this.playerSigninTemplate({}));
     this.$el.trigger('pagecreate');
     return this;
   },
 
-  onClose: function(){
+  onClose : function() {
     this.undelegateEvents();
   }
 });

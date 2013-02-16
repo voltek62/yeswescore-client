@@ -37,12 +37,8 @@ var ClubView = Backbone.View.extend({
   },
 
   onClose: function(){
-    //Clean
     this.undelegateEvents();
     this.club.off("change",this.render,this); 
     //this.$el.off('pagebeforeshow'); 
   }
 });
-  
-
-

@@ -1,6 +1,6 @@
 var StreamModel = Backbone.Model.extend({
 
-  urlRoot : appConfig.serviceURLGames,
+  urlRoot : YesWeScore.Conf.get("api.url.games"),
 
   storeName : "stream",
 

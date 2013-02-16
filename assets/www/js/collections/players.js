@@ -1,10 +1,10 @@
 var PlayersCollection = Backbone.Collection.extend({
   
-  	model:PlayerModel, 
+  	model: PlayerModel, 
   		
-  	mode:'default',
+  	mode: 'default',
   	
-  	query:'',
+  	query: '',
   	
   	//storeName : "player",	
 
@@ -31,14 +31,14 @@ var PlayersCollection = Backbone.Collection.extend({
     url:function() {
     	
      console.log('url() : mode de Players',this.mode); 	
-     //console.log('url Players',appConfig.serviceURLPlayers+'autocomplete/?q='+this.query); 	
+     //console.log('url Players', YesWeScore.Conf.get("api.url.players")+'autocomplete/?q='+this.query); 	
           
      if (this.mode === 'club')
-        return appConfig.serviceURLPlayers+'?club='+this.query;
+        return YesWeScore.Conf.get("api.url.players")+'?club='+this.query;
      else if (this.mode === 'search'  )
-        return appConfig.serviceURLPlayers+'autocomplete/?q='+this.query;        
+        return YesWeScore.Conf.get("api.url.players")+'autocomplete/?q='+this.query;        
       else	
-      	return appConfig.serviceURLPlayers;
+      	return YesWeScore.Conf.get("api.url.players");
       	
       	
     },

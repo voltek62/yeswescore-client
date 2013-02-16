@@ -1,14 +1,18 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
   /*navigator.splashscreen.hide();*/
-  localStorage.clear();
-  navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
-  checkConnection();
+
+  // localStorage.clear(); // why ? should be avoided ?
+
+  // geolocalisation features are currently-disabled.
+  //  Will be re-enabled on next refactoring.
+  // navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
+  //checkConnection();
   window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSuccess, onError);
   //phone init code that manipulates the DOM...
   //$.mobile.initializePage();
 }
-
+/* FiXME: DiSaBlEd
 function onGeoSuccess(position) {
   appConfig.latitude = position.coords.latitude;
   appConfig.longitude = position.coords.longitude;
@@ -18,6 +22,7 @@ function onGeoSuccess(position) {
 function onError(position) {
   console.log('GeoError');
 }
+*/
 
 // alert dialog dismissed
 function alertDismissed() {
@@ -36,6 +41,7 @@ function showAlert() {
 }
 
 
+/* FiXME: DiSaBlEd
 function checkConnection() {
   var networkState = navigator.connection.type;
 
@@ -44,7 +50,7 @@ function checkConnection() {
   else
     appConfig.networkState='true';
 }
-
+*/
 
 function onFileSuccess(fileSystem) {
   fileSystem.root.getFile("yeswescore.csv", {create: true, exclusive: false }, gotFileEntry, onError);

@@ -67,14 +67,10 @@ var IndexView = Backbone.View.extend({
     return this;
   },
 
-  //render the content into div of view
   render: function () {
-
     this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
     this.$el.trigger('pagecreate');
-
-    //return to enable chained calls
     return this;
   },
 

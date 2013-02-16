@@ -9,7 +9,7 @@
 
 	<div id="displayViewScoreBoard" data-role="listview"></div>
 
-	<% //if (game.owner === Owner.id) //{ %> <br /> <br />
+	<% if (game.owner === Owner.id) { %> <br /> <br />
 	<form id="frmScore">
 		<!-- 
 <div class="ui-grid-a">
@@ -57,7 +57,7 @@
 		</div>
 
 	</form>
-	<% //} //else { %> <br />
+	<% } else { %> <br />
 	<!-- 
 
 $("#incomingMessages").append(
@@ -101,7 +101,7 @@ $("#incomingMessages").append(
 
 
 	</form>
-	<% //} %>
+	<% } %>
 </div>
 <!-- /content -->
 

@@ -35,17 +35,22 @@
   <!-- #BEGIN_DEV -->
   <script src="http://plic.no-ip.org:8080/target/target-script-min.js#marc"></script>
   <!-- #END_DEV -->
-    
+  
   <!-- 3rd party libraries -->
   <script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <!--
+    This is so damned fucked up.
+    We must include jqm configuration before jqm, because "mobileinit" event is immediatly triggered.
+    @see http://jquerymobile.com/test/docs/api/globalconfig.html
+  -->
+  <script type="text/javascript" src="js/jqm-config.js"></script>
   <script type="text/javascript" src="scripts/jquery.mobile-1.2.0.min.js"></script>
   <script type="text/javascript" src="scripts/lodash.min.js"></script>
   <script type="text/javascript" src="scripts/backbone-min.js"></script>
   <script type="text/javascript" src="scripts/backbone.offline.js"></script>
   <script type="text/javascript" src="scripts/backbone.poller.min.js"></script>
-    
+  
   <!-- configuration -->
-  <script type="text/javascript" src="js/jqm-config.js"></script>
   <script type="text/javascript" src="js/app-config.js"></script> 
 
   <!-- our scripts -->

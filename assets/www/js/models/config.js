@@ -5,6 +5,10 @@ var Config = Backbone.Model.extend({
   urlRoot : appConfig.serviceConf,
 
   name : '',
+  
+  defaults : {
+
+  },  
 
   initialize : function() {
 
@@ -14,10 +18,7 @@ var Config = Backbone.Model.extend({
 
     return Backbone.sync(method, model, options);
 
-  },
-
-  defaults : {
-
   }
+
 
 });

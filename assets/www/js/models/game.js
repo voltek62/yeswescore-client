@@ -16,6 +16,36 @@ var GameModel = Backbone.Model.extend({
   setSets : function(s) {
     this.sets = s;
   },
+  
+  defaults : {
+    sport : "tennis",
+    status : "ongoing",
+    location : {
+      country : "",
+      city : "",
+      pos : []
+    },
+    teams : [ {
+      points : "",
+      players : [ {
+        name : "A"
+      } ]
+    }, {
+      points : "",
+      players : [ {
+        name : "B"
+      } ]
+    } ],
+    options : {
+      subtype : "A",
+      sets : "0/0",
+      score : "0/0",
+      court : "",
+      surface : "",
+      tour : "",
+    },
+    updated_at : new Date()
+  }  
 
   /*
    * sync: function (method, model, options) {
@@ -99,34 +129,6 @@ var GameModel = Backbone.Model.extend({
    * convertDate(this.get('date')); return json; },
    */
 
-  defaults : {
-    sport : "tennis",
-    status : "ongoing",
-    location : {
-      country : "",
-      city : "",
-      pos : []
-    },
-    teams : [ {
-      points : "",
-      players : [ {
-        name : "A"
-      } ]
-    }, {
-      points : "",
-      players : [ {
-        name : "B"
-      } ]
-    } ],
-    options : {
-      subtype : "A",
-      sets : "0/0",
-      score : "0/0",
-      court : "",
-      surface : "",
-      tour : "",
-    },
-    updated_at : new Date()
-  }
+
 
 });

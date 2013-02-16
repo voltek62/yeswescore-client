@@ -1,7 +1,7 @@
 tpl = {
   // Hash of preloaded templates for the app
   templates : {},
-
+  
   // Recursively pre-load all the templates for the app.
   // This implementation should be changed in a production environment.
   // All the template files should be concatenated in a single file.

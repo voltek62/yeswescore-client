@@ -1,24 +1,19 @@
 <div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true"
-		data-icon="back">Back</a>
+	<a href="#" data-transition="slide" data-reverse="true" data-icon="back">Back</a>
 	<h1>YesWeScore</h1>
 </div>
 <!-- /header -->
-
 <div data-role="content">
-
-	<span class="success label label-info hide" style="color: red"></span>
-
-	<h3><%= player.name %> alias <%= player.nickname %></h3>
-
-	Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus
-		d'infos</a><br /> Classement : <%= player.rank %><br /> <% if (follow
-	=== 'true') { %> <a data-role="button" id="followButton">Ne plus
-		suivre ce joueur</a> <% } else { %> <a data-role="button"
-		id="followButton">Suivre ce joueur</a> <% } %>
+<span class="success label label-info hide" style="color: red"></span>
+<h3><%= player.name %> alias <%= player.nickname %></h3>
+Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a><br /> Classement : <%= player.rank %><br /> 
+<% if (follow === 'true') { %> 
+<a data-role="button" id="followButton">Ne plus suivre ce joueur</a> 
+<% } else { %> 
+<a data-role="button" id="followButton">Suivre ce joueur</a>
+<% } %>
 </div>
 <!-- /content -->
-
 <div data-role="footer" data-theme="b" data-position="fixed">
 	<div data-role="navbar">
 		<ul>

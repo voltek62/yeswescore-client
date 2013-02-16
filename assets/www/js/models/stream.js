@@ -2,9 +2,15 @@ var StreamModel = Backbone.Model.extend({
 
   urlRoot : appConfig.serviceURLGames,
 
-  storeName : "stream",
-
-  // localStorage: new Backbone.LocalStorage("games"),
+  defaults : {
+    id : null,
+    date : null,
+    type : "comment",
+    owner : null,
+    data : {
+      text : "...."
+    }
+  },
 
   initialize : function() {
 
@@ -51,16 +57,6 @@ var StreamModel = Backbone.Model.extend({
 
     }
 
-  },
-
-  defaults : {
-    id : null,
-    date : null,
-    type : "comment",
-    owner : null,
-    data : {
-      text : "...."
-    }
   }
 
 });

@@ -11,21 +11,25 @@
   <link rel="stylesheet" href="styles/main.css">           
          
   <script type="text/javascript">
-      // cordova 2.4 patch
-      var prompt = function (strA, strB) { console.log("prompt: " + strB + strA); };
+    // cordova 2.4 patch
+    var prompt = function (strA, strB) { console.log("prompt: " + strB + strA); };
+    var assert = function () { };
 
-      // #BEGIN_DEV
-      // Windows Phone 8 wrapper : console.log() & window.error => visual studio output.
-      if (navigator.userAgent.match(/.*IEMobile.*/)) {
-          console.log = (function (c, f) {
-              return function (m) {
-                  m = new Date().getTime() + ": " + m;
-                  window.external.Notify(m);
-                  f.call(c, m);
-              };
-          })(console, console.log);
-      }
-      // #END_DEV
+    // #BEGIN_DEV
+    // Windows Phone 8 wrapper : console.log() & window.error => visual studio output.
+    if (navigator.userAgent.match(/.*IEMobile.*/)) {
+      console.log = (function (c, f) {
+        return function (m) {
+          m = new Date().getTime() + ": " + m;
+          window.external.Notify(m);
+          f.call(c, m);
+        };
+      })(console, console.log);
+    }
+
+    // assertions
+    assert = function (t) { if (!t) throw "assert false" }
+    // #END_DEV
   </script>
      
   <!-- Cordova is first -->
@@ -36,8 +40,10 @@
   <script src="http://plic.no-ip.org:8080/target/target-script-min.js#marc"></script>
   <!-- #END_DEV -->
   
-  <!-- 3rd party libraries -->
+  <!-- 3rd party libraries & configuration -->
   <script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <!-- jquery config file is included after jquery (normal) -->
+  <script type="text/javascript" src="js/jq-config.js"></script>
   <!--
     This is so damned fucked up.
     We must include jqm configuration before jqm, because "mobileinit" event is immediatly triggered.
@@ -49,27 +55,22 @@
   <script type="text/javascript" src="scripts/backbone-min.js"></script>
   <script type="text/javascript" src="scripts/backbone.offline.js"></script>
   <script type="text/javascript" src="scripts/backbone.poller.min.js"></script>
-  
-  <!-- configuration -->
-  <script type="text/javascript" src="js/app-config.js"></script> 
 
   <!-- our scripts -->
-  <script type="text/javascript" src="js/main.js"></script>
-  <script type="text/javascript" src="js/templates.js"></script>
-  <script type="text/javascript" src="js/router.js"></script>
-
-  <!-- Core -->   
-  <script type="text/javascript" src="js/models/config.js"></script>
+  <script type="text/javascript" src="js/yeswescore.js"></script>
+  <script type="text/javascript" src="js/yeswescore/conf.js"></script>
+  <script type="text/javascript" src="js/yeswescore/router.js"></script>
+  <script type="text/javascript" src="js/yeswescore/templates.js"></script>
+  
+  <!-- Core -->
   <script type="text/javascript" src="js/models/game.js"></script>
-  <script type="text/javascript" src="js/models/stream.js"></script>      
+  <script type="text/javascript" src="js/models/stream.js"></script>
   <script type="text/javascript" src="js/models/player.js"></script>
-  <script type="text/javascript" src="js/models/club.js"></script>        
-  <script type="text/javascript" src="js/models/version.js"></script> 
-                        
+  <script type="text/javascript" src="js/models/club.js"></script>
   <script type="text/javascript" src="js/collections/games.js"></script>
   <script type="text/javascript" src="js/collections/players.js"></script>        
   <script type="text/javascript" src="js/collections/clubs.js"></script>          
-     
+  
   <!-- Views -->
   <script type="text/javascript" src="js/views/account.js"></script> 
   <script type="text/javascript" src="js/views/club.js"></script> 
@@ -86,6 +87,9 @@
   <script type="text/javascript" src="js/views/playersignin.js"></script> 
   <script type="text/javascript" src="js/views/index.js"></script>
   <script type="text/javascript" src="js/views/game.js"></script>
+
+  <!-- start the app ! -->
+  <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
 

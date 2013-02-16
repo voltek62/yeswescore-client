@@ -68,7 +68,7 @@ var GameAddView = Backbone.View.extend({
 
     //this.usersCollection.fetch();
     /*
-    this.userCollection.fetch({ url: serviceURLPlayers+'97e2f09341b45294f3cd2699', success: function() {
+    this.userCollection.fetch({ url: YesWeScore.Conf.get("api.url.players")+'97e2f09341b45294f3cd2699', success: function() {
     console.log('usersCollection 2',this.userCollection);
     }});        */
     //Games.fetch();

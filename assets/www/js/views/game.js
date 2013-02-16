@@ -85,7 +85,7 @@ var GameView = Backbone.View.extend({
     var options = {
 		  // default delay is 1000ms
       //FIXME : on passe sur 30 s car souci avec API
-		  delay: appConfig.gameRefresh
+		  delay: YesWeScore.Conf.get("game.refresh")
 		  //data: {id:this.id}
 		};
 

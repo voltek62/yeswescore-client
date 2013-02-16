@@ -1,5 +1,3 @@
-
-
 var AppRouter = Backbone.Router.extend({
   routes: {
      '':                                            'index',
@@ -31,7 +29,7 @@ var AppRouter = Backbone.Router.extend({
       });
      
   },
-  
+			  
   
   account: function() {
 

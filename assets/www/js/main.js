@@ -8,10 +8,13 @@ var YesWeScore = {
     // init router
     this.Router.initialize();
     // load the templates.
-    this.Templates.loadAsync(callback);
-    // start dispatching routes
-    // @see http://backbonejs.org/#History-start
-    Backbone.history.start();
+    this.Templates.loadAsync(function () {
+      // start dispatching routes
+      // @see http://backbonejs.org/#History-start
+      Backbone.history.start();
+      // 
+      callback();
+    });
   },
 
   // same as jquery ;)

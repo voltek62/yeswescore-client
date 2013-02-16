@@ -9,13 +9,15 @@
 	<a href="#games/me/<%= Owner.id %>" data-role="button" id="">Mes
 		Matchs</a> <a href="#games/follow" data-role="button" id="">Matchs
 		Suivis</a> <a href="#players/follow" data-role="button" id="">Joueurs
-		Suivis</a> <% if(Owner.mail === '') print ('<a href="#players/form"
-		data-role="button" id="">Inscription</a>'); else print ('<a
-		href="#players/form" data-role="button" id="">Profil</a>'); %> <a
-		href="#players/signin" data-role="button" id="">Charger un autre
-		compte</a> <br /> <br /> <a id="debug" data-role="button">Debug</a>
-
-
+		Suivis</a>
+      <%
+      if (Owner.mail === '')
+        print ('<a href="#players/form" data-role="button" id="">Inscription</a>');
+      else
+        print ('<a href="#players/form" data-role="button" id="">Profil</a>');
+      %>
+    <a href="#players/signin" data-role="button" id="">Charger un autrecompte</a> <br /> <br />
+    <a id="debug" data-role="button">Debug</a>
 </div>
 <!-- /content -->
 

@@ -174,295 +174,318 @@ var GameView = Backbone.View.extend({
           },
           success:function () {
               alert('File uploaded')
-          }
-      })*/
-
-      return false;
+         */
+    return false;
   },
-    
-  sendUpdater: function(){
-    //console.log('action setPlusSet avec '+$('input[name=team_selected]:checked').val()); 
-    	
-    //ADD SERVICE
-    var gameid = $('#gameid').val(),
-        team1_id = $('#team1_id').val(),
-        team1_points = $('#team1_points').val(),
-        team1_set1 = $('#team1_set1').val(),
-        team1_set2 = $('#team1_set2').val(),
-        team1_set3 = $('#team1_set3').val(),        	
-        team2_id = $('#team2_id').val(),
-          team2_points = $('#team2_points').val(),
-          team2_set1 = $('#team2_set1').val(),
-        team2_set2 = $('#team2_set2').val(),
-        team2_set3 = $('#team2_set3').val(),                           
-          playerid = $('#playerid').val(),
-          token = $('#token').val(),    
-          tennis_update = null;
-  
 
-  	if ($.isNumeric(team1_set1)===false) team1_set1='0';
-  	if ($.isNumeric(team2_set1)===false) team2_set1='0';
-  			  			
-  	var sets_update = team1_set1+'/'+team2_set1;
-  		
-  	if (team1_set2>0 || team2_set2>0) {
-  			
-  		if ($.isNumeric(team1_set2)===false) team1_set2='0';
-  		if ($.isNumeric(team2_set2)===false) team2_set2='0';
-  			 
-  		sets_update += ";"+team1_set2+'/'+team2_set2;
-  	}
-  	if (team1_set3>0 || team2_set3>0) {
-  		
-  		  if ($.isNumeric(team1_set3)===false) team1_set3='0';
-  		if ($.isNumeric(team2_set3)===false) team2_set3='0';
-  			  		
-  		sets_update += ";"+team1_set3+'/'+team2_set3;
-  	}
-  		
-  	//FIXME : On remplace les espaces par des zeros
-  	//sets_update = sets_update.replace(/ /g,'0');
-  		
-  	//console.log('sets_update',sets_update);
-  			    	
-    tennis_update = new GameModel({sets:sets_update,team1_points:team1_points,team2_points:team2_points,id:gameid,team1_id:team1_id,team2_id:team2_id,playerid:playerid,token:token});
-      	
-    //console.log('setPlusSet',tennis_update);
-    	
-    tennis_update.save();   
-    	
-    //FIXME: on ajoute dans le stream
-    var stream = new StreamModel({type:"score",playerid:playerid,token:token,text:sets_update,gameid:gameid});
-    //console.log('stream',stream);
+  sendUpdater : function() {
+    // console.log('action setPlusSet avec
+    // '+$('input[name=team_selected]:checked').val());
+
+    // ADD SERVICE
+    var gameid = $('#gameid').val()
+    , team1_id = $('#team1_id').val()
+    , team1_points = $('#team1_points').val()
+    , team1_set1 = $('#team1_set1').val()
+    , team1_set2 = $('#team1_set2').val()
+    , team1_set3 = $('#team1_set3').val()
+    , team2_id = $('#team2_id').val()
+    , team2_points = $('#team2_points').val()
+    , team2_set1 = $('#team2_set1').val()
+    , team2_set2 = $('#team2_set2').val()
+    , team2_set3 = $('#team2_set3').val()
+    , playerid = $('#playerid').val()
+    , token = $('#token').val()
+    , tennis_update = null;
+
+    if ($.isNumeric(team1_set1) === false)
+      team1_set1 = '0';
+    if ($.isNumeric(team2_set1) === false)
+      team2_set1 = '0';
+
+    var sets_update = team1_set1 + '/' + team2_set1;
+
+    if (team1_set2 > 0 || team2_set2 > 0) {
+      if ($.isNumeric(team1_set2) === false)
+        team1_set2 = '0';
+      if ($.isNumeric(team2_set2) === false)
+        team2_set2 = '0';
+
+      sets_update += ";" + team1_set2 + '/' + team2_set2;
+    }
+    if (team1_set3 > 0 || team2_set3 > 0) {
+
+      if ($.isNumeric(team1_set3) === false)
+        team1_set3 = '0';
+      if ($.isNumeric(team2_set3) === false)
+        team2_set3 = '0';
+
+      sets_update += ";" + team1_set3 + '/' + team2_set3;
+    }
+
+    // FIXME : On remplace les espaces par des zeros
+    // sets_update = sets_update.replace(/ /g,'0');
+
+    // console.log('sets_update',sets_update);
+
+    tennis_update = new GameModel({
+        sets : sets_update
+      , team1_points : team1_points
+      , team2_points : team2_points
+      , id : gameid
+      , team1_id : team1_id
+      , team2_id : team2_id
+      , playerid : playerid
+      , token : token
+    });
+
+    // console.log('setPlusSet',tennis_update);
+
+    tennis_update.save();
+
+    // FIXME: on ajoute dans le stream
+    var stream = new StreamModel({
+        type : "score"
+      , playerid : playerid
+      , token : token
+      , text : sets_update
+      , gameid : gameid
+    });
+    // console.log('stream',stream);
     stream.save();
   },
-    
-  setPlusSet: function(){		
- 	  var selected = 	$('input[name=team_selected]:checked').val();
- 	  var set = parseInt($('#team'+selected+'_set1').val(), 10 ) + 1;  
- 	  //console.log(set);
 
-	  //FIXME : Regle de Gestion selon le score 		
- 		
-	  $('#team'+selected+'_set1').val(set);
-	  $('#team'+selected+'_set1_div').html(set);
-		
-	  this.sendUpdater();
-  },
-    
-  setMinusSet: function(){	
- 	  var selected = 	$('input[name=team_selected]:checked').val();
- 	  var set = parseInt($('#team'+selected+'_set1').val(), 10 ) - 1;  
- 	  console.log(set);
+  setPlusSet : function() {
+    var selected = $('input[name=team_selected]:checked').val();
+    var set = parseInt($('#team' + selected + '_set1').val(), 10) + 1;
+    // console.log(set);
 
-	  if (set<0) set = 0;
-	  //FIXME : Regle de Gestion selon le score  		
- 		
- 		
-	  $('#team'+selected+'_set1').val(set);
-	  $('#team'+selected+'_set1_div').html(set);		
-		
-	  this.sendUpdater();    	  	    
+    // FIXME : Regle de Gestion selon le score
+
+    $('#team' + selected + '_set1').val(set);
+    $('#team' + selected + '_set1_div').html(set);
+
+    this.sendUpdater();
   },
-    
-    
-  setPoint: function(mode){	
-  	// 15 30 40 AV
-    var selected = 	$('input[name=team_selected]:checked').val(); 
-  	var selected_opponent = '';
- 		
-  	//le serveur gagne un point
-    if (mode==true) {
-    	if (selected=='2') {selected_opponent = '2';}
-    	else
-    		selected_opponent = '1';
+
+  setMinusSet : function() {
+    var selected = $('input[name=team_selected]:checked').val();
+    var set = parseInt($('#team' + selected + '_set1').val(), 10) - 1;
+    console.log(set);
+
+    if (set < 0)
+      set = 0;
+    // FIXME : Regle de Gestion selon le score
+
+    $('#team' + selected + '_set1').val(set);
+    $('#team' + selected + '_set1_div').html(set);
+
+    this.sendUpdater();
+  },
+
+  setPoint : function(mode) {
+    // 15 30 40 AV
+    var selected = $('input[name=team_selected]:checked').val()
+      , selected_opponent = '';
+
+    // le serveur gagne un point
+    if (mode == true) {
+      if (selected == '2') {
+        selected_opponent = '2';
+      } else
+        selected_opponent = '1';
     }
-    //le serveur perd un point
-    else {    		
-    	if (selected=='2') {selected='1';selected_opponent='2';}
-    	else
-    		selected='2';
-    		selected_opponent = '1';
-    }	
- 		
- 	  var set_current = 	$('input[name=set_current]:checked').val();  			
- 	  var point = $('#team'+selected+'_points').val();
- 	  var point_opponent = $('#team'+selected_opponent+'_points').val();
- 		
- 	  //Le serveur gagne son set
- 	  if (point=='AV' || ( point=='40' && (point_opponent!='40' || point_opponent!='AV')) )  
- 	  {
- 		  // On ajoute 1 set au gagnant les point repartent à zero
- 		  var set = parseInt($('#team'+selected+'_set'+set_current).val(), 10 ) + 1;  
- 		  $('#team'+selected+'_set1').val(set);
- 		  $('#team'+selected+'_set1_div').html(set);	
- 			
- 		  point='00';
- 		  $('#team1_points').val(point);
- 		  $('#team1_points_div').html(point); 
- 		  $('#team2_points').val(point);
- 		  $('#team2_points_div').html(point); 
- 	  } else {
-	 	  if (point==='00') point='15';
-	 	  else if (point==='15') point='30';
-	 	  else if (point==='30') point='40';
-	 	  else if (point==='40') point='AV';
-	 	  else if (point==='AV') point='00';
-	 	  else {
-	 		  point='00';
-	 			
-	 		  //On met l'adversaire à zéro
-	 		  $('#team'+selected_opponent+'_points').val(point);
-			  $('#team'+selected_opponent+'_points_div').html(point); 
-	 	  }
-	 		
-		  $('#team'+selected+'_points').val(point);
-		  $('#team'+selected+'_points_div').html(point); 
- 	  }
-	  this.sendUpdater();
+    // le serveur perd un point
+    else {
+      if (selected == '2') {
+        selected = '1';
+        selected_opponent = '2';
+      } else
+        selected = '2';
+      selected_opponent = '1';
+    }
+
+    var set_current = $('input[name=set_current]:checked').val()
+      , point = $('#team' + selected + '_points').val()
+      , point_opponent = $('#team' + selected_opponent + '_points').val();
+
+    // Le serveur gagne son set
+    if (point == 'AV'
+        || (point == '40' && (point_opponent != '40' || point_opponent != 'AV'))) {
+      // On ajoute 1 set au gagnant les point repartent à zero
+      var set = parseInt($('#team' + selected + '_set' + set_current).val(), 10) + 1;
+      $('#team' + selected + '_set1').val(set);
+      $('#team' + selected + '_set1_div').html(set);
+
+      point = '00';
+      $('#team1_points').val(point);
+      $('#team1_points_div').html(point);
+      $('#team2_points').val(point);
+      $('#team2_points_div').html(point);
+    } else {
+      if (point === '00')
+        point = '15';
+      else if (point === '15')
+        point = '30';
+      else if (point === '30')
+        point = '40';
+      else if (point === '40')
+        point = 'AV';
+      else if (point === 'AV')
+        point = '00';
+      else {
+        point = '00';
+        // On met l'adversaire à zéro
+        $('#team' + selected_opponent + '_points').val(point);
+        $('#team' + selected_opponent + '_points_div').html(point);
+      }
+
+      $('#team' + selected + '_points').val(point);
+      $('#team' + selected + '_points_div').html(point);
+    }
+    this.sendUpdater();
   },
-    
-  setPointWin: function(){	
+
+  setPointWin : function() {
     console.log('setPointWin');
     this.setPoint(true);
   },
-    
-  setPointError: function(){	
+
+  setPointError : function() {
     console.log('setPointError');
     this.setPoint(false);
   },
-    
+
   /*
-  setMinusPoint: function(){	
-
- 	var selected = 	$('input[name=team_selected]:checked').val();  
- 	var point = $('#team'+selected+'_points').val();
-
- 	if (point==='AV') point='40';
- 	else if (point==='40') point='30';
- 	else if (point==='30') point='15';
- 	else if (point==='15') point='00';
- 	else if (point==='00') point='00'; 	 		
- 		
-	$('#team'+selected+'_points').val(point);
-	$('#team'+selected+'_points_div').html(point);  
-		
-	this.sendUpdater(); 
-		
-  },   */
-
-  //render the content into div of view
-  renderRefresh: function(){
-    //On met à jour la cache
-    if (this.scoreboard!==undefined) this.games.storage.save(this.scoreboard);
-        
-    //On rafraichit tout 
-    $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({game:this.scoreboard.toJSON(), Owner:this.Owner}));
-
-    //FIXME: refresh div
-    $(this.displayViewScoreBoard).listview('refresh');
-    //$.mobile.hidePageLoadingMsg();
-        
-    //console.log('stream',this.game.toJSON().stream);
-        
-    //FIXME: convert date
-    /*
-      var today = new Date();
-    var msg_time = today.getHours()+":"+(today.getMinutes()<10?'0':'')+today.getMinutes()+" - ";
+    * setMinusPoint: function(){
+    * 
+    * var selected = $('input[name=team_selected]:checked').val(); var point =
+    * $('#team'+selected+'_points').val();
+    * 
+    * if (point==='AV') point='40'; else if (point==='40') point='30'; else
+    * if (point==='30') point='15'; else if (point==='15') point='00'; else
+    * if (point==='00') point='00';
+    * 
+    * $('#team'+selected+'_points').val(point);
+    * $('#team'+selected+'_points_div').html(point);
+    * 
+    * this.sendUpdater(); },
     */
-        
+  // render the content into div of view
+  renderRefresh : function() {
+    // On met à jour la cache
+    if (this.scoreboard !== undefined)
+      this.games.storage.save(this.scoreboard);
+
+    // On rafraichit tout
+    $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
+      game : this.scoreboard.toJSON(),
+      Owner : this.Owner
+    }));
+
+    // FIXME: refresh div
+    $(this.displayViewScoreBoard).listview('refresh');
+    // $.mobile.hidePageLoadingMsg();
+
+    // console.log('stream',this.game.toJSON().stream);
+
+    // FIXME: convert date
+    /*
+      * var today = new Date(); var msg_time =
+      * today.getHours()+":"+(today.getMinutes()<10?'0':'')+today.getMinutes()+" - ";
+      */
+
     // if we have comments
-    //console.log('this.game.toJSON().stream ',this.scoreboard.toJSON().stream );
-        
-    if (this.scoreboard.toJSON().stream !== undefined )        
-      $(this.incomingComment).html(this.gameViewCommentListTemplate({streams:this.scoreboard.toJSON().stream.reverse(), query:' '})); 
-           	
+    // console.log('this.game.toJSON().stream
+    // ',this.scoreboard.toJSON().stream );
+    if (this.scoreboard.toJSON().stream !== undefined)
+      $(this.incomingComment).html(this.gameViewCommentListTemplate({
+        streams : this.scoreboard.toJSON().stream.reverse(),
+        query : ' '
+      }));
+
     $(this.incomingComment).listview('refresh');
-    //$(this.incomingComment).html('Bot : Hello');
+    // $(this.incomingComment).html('Bot : Hello');
 
     return this;
   },
-  
-  render: function(){
-    //On rafraichit tout 
-    //FIXME: refresh only input and id	
+
+  render : function() {
+    // On rafraichit tout
+    // FIXME: refresh only input and id
     this.$el.html(this.gameViewTemplate({
-      game:this.scoreboard.toJSON(),Owner:this.Owner,
-      follow:this.follow
+      game : this.scoreboard.toJSON(),
+      Owner : this.Owner,
+      follow : this.follow
     }));
 
-  	$.mobile.hidePageLoadingMsg();
+    $.mobile.hidePageLoadingMsg();
     this.$el.trigger('pagecreate');
 
     return this;
   },
 
-
   alertDismissed : function() {
-      // do something
+    // do something
   },
-    
-  endGame : function() {	
-    window.location.href = '#games/end/'+this.id;
+
+  endGame : function() {
+    window.location.href = '#games/end/' + this.id;
   },
 
   followGame : function() {
-    //this.gamesfollow = new GamesCollection('follow');
-    //this.gamesfollow.create(this.scoreboard);
-    //console.log('followGame')
-       
-    if (this.follow==='true') 
-    {
-	    this.gamesfollow = new GamesCollection('follow');
-	       
-	    console.log('On ne suit plus nofollow '+this.id);
-	       
-	    this.gamesfollow.storage.remove(this.scoreboard);
-	    	       
-	    $('span.success').html('Vous ne suivez plus ce match').show();
-	    //$('#followPlayerButton').html('Suivre ce joueur');
-       	$("#followButton .ui-btn-text").text("Suivre");	       
-	       
-	    this.follow = 'false';
-       
-	  }
-	  else 
-	  {
-		
+    // this.gamesfollow = new GamesCollection('follow');
+    // this.gamesfollow.create(this.scoreboard);
+    // console.log('followGame')
+
+    if (this.follow === 'true') {
       this.gamesfollow = new GamesCollection('follow');
-       		
+
+      console.log('On ne suit plus nofollow ' + this.id);
+
+      this.gamesfollow.storage.remove(this.scoreboard);
+
+      $('span.success').html('Vous ne suivez plus ce match').show();
+      // $('#followPlayerButton').html('Suivre ce joueur');
+      $("#followButton .ui-btn-text").text("Suivre");
+
+      this.follow = 'false';
+
+    } else {
+
+      this.gamesfollow = new GamesCollection('follow');
+
       this.gamesfollow.create(this.scoreboard);
-    	       
-      $('span.success').html('Vous suivez ce joueur').show();	
-      //$('#followPlayerButton').html('Ne plus suivre ce joueur');	
+
+      $('span.success').html('Vous suivez ce joueur').show();
+      // $('#followPlayerButton').html('Ne plus suivre ce joueur');
       $("#followButton .ui-btn-text").text("Ne plus suivre");
-       		
-	    this.follow = 'true';       		
-       		
-	  }
-		
-  	this.$el.trigger('pagecreate');       
+
+      this.follow = 'true';
+
+    }
+
+    this.$el.trigger('pagecreate');
 
   },
-    
-  cancelGame : function() {
-    	
-    console.log('On retire la derniere action');
-      	
-  },    
 
-  onClose: function(){
-    //Clean
+  cancelGame : function() {
+
+    console.log('On retire la derniere action');
+
+  },
+
+  onClose : function() {
+    // Clean
     this.undelegateEvents();
-    //this.scoreboard.off("all",this.render,this); 
-      
-    //FIXME:remettre
+    // this.scoreboard.off("all",this.render,this);
+
+    // FIXME:remettre
     poller.stop();
     poller.off('success', this.renderRefresh, this);
-      
 
-    //FIXME:
-    //poller.off('complete', this.render, this);
-    //this.$el.off('pagebeforeshow'); 
+    // FIXME:
+    // poller.off('complete', this.render, this);
+    // this.$el.off('pagebeforeshow');
   }
 });

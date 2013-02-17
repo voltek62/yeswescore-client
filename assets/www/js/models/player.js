@@ -2,6 +2,26 @@ var PlayerModel = Backbone.Model.extend({
   urlRoot : YesWeScore.Conf.get("api.url.players"),
 
   mode : '',
+  
+  defaults : {
+    name : "",
+    nickname : "",
+    rank : "NC",
+    type : "default",
+    games : [],
+    club : {
+      id : "",
+      name : ""
+    },
+    dates : {
+      update : "",
+      creation : new Date()
+    },
+    location : {
+      currentPos : [ 0, 0 ]
+    },
+    updated_at : new Date()
+  },  
 
   initialize : function() {
 
@@ -125,26 +145,6 @@ var PlayerModel = Backbone.Model.extend({
     // window.localStorage.setItem("Owner",JSON.stringify(new PlayerModel()));
     return Backbone.sync(method, model, options);
 
-  },
-
-  defaults : {
-    name : "",
-    nickname : "",
-    rank : "NC",
-    type : "default",
-    games : [],
-    club : {
-      id : "",
-      name : ""
-    },
-    dates : {
-      update : "",
-      creation : new Date()
-    },
-    location : {
-      currentPos : [ 0, 0 ]
-    },
-    updated_at : new Date()
   }
 
 });

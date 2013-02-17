@@ -2,27 +2,8 @@ var ClubModel = Backbone.Model.extend({
 
   urlRoot : YesWeScore.Conf.get("api.url.clubs"),
 
-  // storeName : "club",
-
   mode : '',
-
-  initialize : function() {
-
-  },
-
-  sync : function(method, model, options) {
-
-    /*
-     * var params = _.extend({ type: 'GET', dataType: 'json', url: model.url(),
-     * processData:false }, options);
-     * 
-     * return $.ajax(params);
-     */
-
-    return Backbone.sync(method, model, options);
-
-  },
-
+  
   defaults : {
     sport : "tennis",
     name : "",
@@ -45,6 +26,24 @@ var ClubModel = Backbone.Model.extend({
       creation : new Date()
     },
     updated_at : new Date()
+  },  
+
+  initialize : function() {
+
+  },
+
+  sync : function(method, model, options) {
+
+    /*
+     * var params = _.extend({ type: 'GET', dataType: 'json', url: model.url(),
+     * processData:false }, options);
+     * 
+     * return $.ajax(params);
+     */
+
+    return Backbone.sync(method, model, options);
+
   }
+
 
 });

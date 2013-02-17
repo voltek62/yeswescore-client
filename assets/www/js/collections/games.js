@@ -2,10 +2,6 @@ var GamesCollection = Backbone.Collection.extend({
   	 
 	model:GameModel, 
 	
-	//storeName : "game",	
-	//localStorage: new Backbone.localStorage("games"),
-	//localStorage: new Store("games"),
-	
 	mode:'default',
 	
 	initialize: function (param) {	

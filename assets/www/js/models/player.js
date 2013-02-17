@@ -1,6 +1,5 @@
 var PlayerModel = Backbone.Model.extend({
-
-  urlRoot : appConfig.serviceURLPlayers,
+  urlRoot : YesWeScore.Conf.get("api.url.players"),
 
   mode : '',
 
@@ -12,7 +11,7 @@ var PlayerModel = Backbone.Model.extend({
 
     return $.ajax({
       dataType : 'json',
-      url : appConfig.serviceAuth,
+      url : YesWeScore.Conf.get("api.url.auth"),
       type : 'POST',
       data : {
         email : mail,
@@ -82,7 +81,7 @@ var PlayerModel = Backbone.Model.extend({
      * /////////////////////////////////////////////////
      * 
      * console.log('url
-     * update',appConfig.serviceURLPlayers+(this.get('playerid') ||
+     * update',YesWeScore.Conf.get("api.url.players")+(this.get('playerid') ||
      * '')+'/?playerid='+(this.get('playerid') ||
      * '')+'&token='+(this.get('token') || ''));
      * 
@@ -99,7 +98,7 @@ var PlayerModel = Backbone.Model.extend({
      * console.log('dataSend',dataSend);
      * 
      * return $.ajax({ dataType: 'json', url:
-     * appConfig.serviceURLPlayers+(this.get('playerid') ||
+     * YesWeScore.Conf.get("api.url.players")+(this.get('playerid') ||
      * '')+'/?playerid='+(this.get('playerid') ||
      * '')+'&token='+(this.get('token') || ''), type:'POST', data: dataSend,
      * success: function (data) {

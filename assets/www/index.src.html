@@ -1,70 +1,95 @@
 <!DOCTYPE html>
 <html class="ui-mobile-rendering">
 <head>
-<title>YesWeScore</title>
-<meta name="viewport" content="user-scalable=no,width=device-width" />
+  <title>YesWeScore</title>
+  <meta name="viewport" content="user-scalable=no,width=device-width" />
+    
+  <!-- Third party css -->
+  <link rel="stylesheet" href="styles/jquery.mobile-1.2.0.min.css">
 
-
-<link rel="stylesheet" href="styles/jquery.mobile-1.2.0.min.css">
-<link rel="stylesheet" href="styles/main.css">
-
-<!-- we will use cordova 2.2 to package the mobile application-->
-<script type="text/javascript">
+  <!-- our css -->
+  <link rel="stylesheet" href="styles/main.css">           
+         
+  <script type="text/javascript">
+    // cordova 2.4 patch
     var prompt = function (strA, strB) { console.log("prompt: " + strB + strA); };
-    </script>
+    var assert = function () { };
 
-<script type="text/javascript" src="scripts/cordova-2.4.0.js"></script>
+    // #BEGIN_DEV
+    // Windows Phone 8 wrapper : console.log() & window.error => visual studio output.
+    if (navigator.userAgent.match(/.*IEMobile.*/)) {
+      console.log = (function (c, f) {
+        return function (m) {
+          m = new Date().getTime() + ": " + m;
+          window.external.Notify(m);
+          f.call(c, m);
+        };
+      })(console, console.log);
+    }
 
+    // assertions
+    assert = function (t) { if (!t) throw "assert false" }
+    // #END_DEV
+  </script>
+     
+  <!-- Cordova is first -->
+  <script type="text/javascript" src="scripts/cordova-2.4.0.js"></script> 
 
-<!-- JQuery -->
-<script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <!-- weinre -->
+  <!-- #BEGIN_DEV -->
+  <script src="http://plic.no-ip.org:8080/target/target-script-min.js#marc"></script>
+  <!-- #END_DEV -->
+  
+  <!-- 3rd party libraries & configuration -->
+  <script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <!-- jquery config file is included after jquery (normal) -->
+  <script type="text/javascript" src="js/jq-config.js"></script>
+  <!--
+    This is so damned fucked up.
+    We must include jqm configuration before jqm, because "mobileinit" event is immediatly triggered.
+    @see http://jquerymobile.com/test/docs/api/globalconfig.html
+  -->
+  <script type="text/javascript" src="js/jqm-config.js"></script>
+  <script type="text/javascript" src="scripts/jquery.mobile-1.2.0.min.js"></script>
+  <script type="text/javascript" src="scripts/lodash.min.js"></script>
+  <script type="text/javascript" src="scripts/backbone-min.js"></script>
+  <script type="text/javascript" src="scripts/backbone.offline.js"></script>
+  <script type="text/javascript" src="scripts/backbone.poller.min.js"></script>
 
-<!-- Config -->
+  <!-- our scripts -->
+  <script type="text/javascript" src="js/yeswescore.js"></script>
+  <script type="text/javascript" src="js/yeswescore/conf.js"></script>
+  <script type="text/javascript" src="js/yeswescore/router.js"></script>
+  <script type="text/javascript" src="js/yeswescore/templates.js"></script>
+  
+  <!-- Core -->
+  <script type="text/javascript" src="js/models/game.js"></script>
+  <script type="text/javascript" src="js/models/stream.js"></script>
+  <script type="text/javascript" src="js/models/player.js"></script>
+  <script type="text/javascript" src="js/models/club.js"></script>
+  <script type="text/javascript" src="js/collections/games.js"></script>
+  <script type="text/javascript" src="js/collections/players.js"></script>        
+  <script type="text/javascript" src="js/collections/clubs.js"></script>          
+  
+  <!-- Views -->
+  <script type="text/javascript" src="js/views/account.js"></script> 
+  <script type="text/javascript" src="js/views/club.js"></script> 
+  <script type="text/javascript" src="js/views/game.js"></script> 
+  <script type="text/javascript" src="js/views/gameadd.js"></script> 
+  <script type="text/javascript" src="js/views/gameend.js"></script> 
+  <script type="text/javascript" src="js/views/gamefollow.js"></script>   
+  <script type="text/javascript" src="js/views/gamelist.js"></script>     
+  <script type="text/javascript" src="js/views/index.js"></script> 
+  <script type="text/javascript" src="js/views/player.js"></script> 
+  <script type="text/javascript" src="js/views/playerfollow.js"></script> 
+  <script type="text/javascript" src="js/views/playerform.js"></script> 
+  <script type="text/javascript" src="js/views/playerlist.js"></script> 
+  <script type="text/javascript" src="js/views/playersignin.js"></script> 
+  <script type="text/javascript" src="js/views/index.js"></script>
+  <script type="text/javascript" src="js/views/game.js"></script>
 
-<script type="text/javascript" src="js/jqm-config.js"></script>
-<script type="text/javascript" src="js/app-config.js"></script>
-
-<!-- Libraries -->
-<script type="text/javascript" src="scripts/jquery.mobile-1.2.0.min.js"></script>
-
-<script type="text/javascript" src="scripts/lodash.min.js"></script>
-<script type="text/javascript" src="scripts/backbone-min.js"></script>
-
-<script type="text/javascript" src="scripts/backbone.offline.js"></script>
-
-<script type="text/javascript" src="scripts/backbone.poller.min.js"></script>
-
-<!-- Core -->
-<script type="text/javascript" src="js/models/config.js"></script>
-<script type="text/javascript" src="js/models/game.js"></script>
-<script type="text/javascript" src="js/models/stream.js"></script>
-<script type="text/javascript" src="js/models/player.js"></script>
-<script type="text/javascript" src="js/models/club.js"></script>
-<script type="text/javascript" src="js/models/version.js"></script>
-
-<script type="text/javascript" src="js/collections/games.js"></script>
-<script type="text/javascript" src="js/collections/players.js"></script>
-<script type="text/javascript" src="js/collections/clubs.js"></script>
-
-<!-- Views -->
-<script type="text/javascript" src="js/views/account.js"></script>
-<script type="text/javascript" src="js/views/club.js"></script>
-<script type="text/javascript" src="js/views/game.js"></script>
-<script type="text/javascript" src="js/views/gameadd.js"></script>
-<script type="text/javascript" src="js/views/gameend.js"></script>
-<script type="text/javascript" src="js/views/gamefollow.js"></script>
-<script type="text/javascript" src="js/views/gamelist.js"></script>
-<script type="text/javascript" src="js/views/index.js"></script>
-<script type="text/javascript" src="js/views/player.js"></script>
-<script type="text/javascript" src="js/views/playerfollow.js"></script>
-<script type="text/javascript" src="js/views/playerform.js"></script>
-<script type="text/javascript" src="js/views/playerlist.js"></script>
-<script type="text/javascript" src="js/views/playersignin.js"></script>
-<script type="text/javascript" src="js/views/index.js"></script>
-<script type="text/javascript" src="js/views/game.js"></script>
-<script type="text/javascript" src="js/tools.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
-
+  <!-- start the app ! -->
+  <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
 

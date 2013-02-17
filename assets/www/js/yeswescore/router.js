@@ -1,4 +1,6 @@
 (function (YesWeScore) {
+  "use strict";
+
   // overloading backbone close.
   Backbone.View.prototype.close = function () {
     this.off();

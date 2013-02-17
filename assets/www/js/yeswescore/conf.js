@@ -1,4 +1,6 @@
 (function (YesWeScore, undefined) {
+  "use strict";
+
   // FIXME:
   // Configuration is curently local.
   // Should be in local storage & using the bootstrap.

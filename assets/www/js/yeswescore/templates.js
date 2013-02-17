@@ -1,4 +1,6 @@
 (function (YesWeScore) {
+  "use strict";
+
   YesWeScore.Templates = {
     // Hash of preloaded templates for the app
     templates : {

@@ -1,5 +1,7 @@
-(function (YesWeScore) {
-  YesWeScore.Templates = {
+(function (Y) {
+  "use strict";
+
+  Y.Templates = {
     // Hash of preloaded templates for the app
     templates : {
       HTML: { /* name: "HTML" */ },
@@ -34,4 +36,4 @@
       return compiled[templateId];
     }
   };
-})(YesWeScore);
+})(Y);

@@ -29,9 +29,9 @@ var GameView = Backbone.View.extend({
     
     initialize:function() {
     	//FIXME : temps de rafrichissement selon batterie et selon forfait
-      this.gameViewTemplate = YesWeScore.Templates.get('gameViewTemplate');
-      this.gameViewScoreBoardTemplate = YesWeScore.Templates.get('gameViewScoreBoardTemplate');
-      this.gameViewCommentListTemplate = YesWeScore.Templates.get('gameViewCommentListTemplate');
+      this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
+      this.gameViewScoreBoardTemplate = Y.Templates.get('gameViewScoreBoardTemplate');
+      this.gameViewCommentListTemplate = Y.Templates.get('gameViewCommentListTemplate');
     	
     	
     	//Owner = JSON.parse(window.localStorage.getItem("Owner"));
@@ -85,7 +85,7 @@ var GameView = Backbone.View.extend({
     var options = {
 		  // default delay is 1000ms
       //FIXME : on passe sur 30 s car souci avec API
-		  delay: YesWeScore.Conf.get("game.refresh")
+		  delay: Y.Conf.get("game.refresh")
 		  //data: {id:this.id}
 		};
 

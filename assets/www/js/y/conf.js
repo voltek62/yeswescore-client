@@ -1,4 +1,6 @@
-(function (YesWeScore, undefined) {
+(function (Y, undefined) {
+  "use strict";
+
   // FIXME:
   // Configuration is curently local.
   // Should be in local storage & using the bootstrap.
@@ -6,20 +8,20 @@
 
   var Conf = {
     initEnv: function () {
-      YesWeScore.Env.CURRENT = YesWeScore.Env.PROD; // default behaviour
+      Y.Env.CURRENT = Y.Env.PROD; // default behaviour
       // #BEGIN_DEV
-      // YesWeScore.Env.CURRENT = YesWeScore.Env.DEV;  // overloaded in dev
+      // Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
       // #END_DEV
     },
 
     load: function (env) {
       assert(env === undefined ||
-             env === YesWeScore.Env.DEV ||
-             env === YesWeScore.Env.PROD);
+             env === Y.Env.DEV ||
+             env === Y.Env.PROD);
 
       // Paramétrage des variables dependantes d'un environnement
       switch (env) {
-        case YesWeScore.Env.DEV:
+        case Y.Env.DEV:
           // #BEGIN_DEV
           this.setNX("api.url.auth", "http://91.121.184.177:1024/v1/auth/");
           this.setNX("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
@@ -29,7 +31,7 @@
           this.setNX("package.version", "0.0.0.1");
           // #END_DEV
           break;
-        case YesWeScore.Env.PROD:
+        case Y.Env.PROD:
           this.setNX("api.url.auth", "http://api.yeswescore.com/v1/auth/");
           this.setNX("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
           this.setNX("api.url.games", "http://api.yeswescore.com/v1/games/");
@@ -120,6 +122,6 @@
   };
 
   // setting conf
-  YesWeScore.Conf = Conf;
-})(YesWeScore);
+  Y.Conf = Conf;
+})(Y);
 

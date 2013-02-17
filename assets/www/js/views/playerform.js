@@ -12,8 +12,8 @@ var PlayerFormView = Backbone.View.extend({
   clubs:null,
 
   initialize:function() {	
-    this.playerFormTemplate = YesWeScore.Templates.get('playerFormTemplate');
-    this.clubListAutoCompleteViewTemplate = YesWeScore.Templates.get('clubListAutoCompleteViewTemplate');
+    this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
+    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
     	
     //this.player = new Player({id:this.Owner.id});
     //this.player.fetch(); 

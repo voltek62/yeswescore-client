@@ -6,7 +6,7 @@ var PlayerSigninView = Backbone.View.extend({
   },
 
   initialize : function() {
-    this.playerSigninTemplate = YesWeScore.Templates.get('playerSigninTemplate');
+    this.playerSigninTemplate = Y.Templates.get('playerSigninTemplate');
     this.render();
     $.mobile.hidePageLoadingMsg();
   },

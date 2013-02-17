@@ -10,8 +10,8 @@ var GameListView = Backbone.View.extend({
   mode:'',
 
   initialize: function(data) {
-    this.gameListTemplate = YesWeScore.Templates.get('gameListTemplate');
-    this.gameListViewTemplate = YesWeScore.Templates.get('gameListViewTemplate');
+    this.gameListTemplate = Y.Templates.get('gameListTemplate');
+    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
     
     $.mobile.showPageLoadingMsg();
         

@@ -1,4 +1,6 @@
-(function (YesWeScore) {
+(function (Y) {
+  "use strict";
+
   // overloading backbone close.
   Backbone.View.prototype.close = function () {
     this.off();
@@ -138,5 +140,5 @@
     historyCount: 0
   });
 
-  YesWeScore.Router = new Router();
-})(YesWeScore);
+  Y.Router = new Router();
+})(Y);

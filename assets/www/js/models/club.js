@@ -1,6 +1,6 @@
 var ClubModel = Backbone.Model.extend({
 
-  urlRoot : YesWeScore.Conf.get("api.url.clubs"),
+  urlRoot : Y.Conf.get("api.url.clubs"),
 
   mode : '',
   

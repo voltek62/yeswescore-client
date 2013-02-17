@@ -6,7 +6,7 @@ var PlayerView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.playerViewTemplate = YesWeScore.Templates.get('playerViewTemplate');
+    this.playerViewTemplate = Y.Templates.get('playerViewTemplate');
     //this.follow = options.follow;
     console.log('init player view');
     

@@ -6,7 +6,7 @@ var GameEndView = Backbone.View.extend({
   },
     
   initialize:function() {
-    this.gameEndTemplate = YesWeScore.Templates.get('gameEndTemplate');
+    this.gameEndTemplate = Y.Templates.get('gameEndTemplate');
     //Owner = JSON.parse(window.localStorage.getItem("Owner"));
     this.players = new PlayersCollection("me");
     this.Owner = new PlayerModel(this.players.storage.findAll({local:true}));  

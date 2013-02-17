@@ -8,8 +8,8 @@ var PlayerListView = Backbone.View.extend({
   listview : "#listPlayersView",
 
   initialize : function() {
-    this.playerListViewTemplate = YesWeScore.Templates.get('playerListViewTemplate');
-    this.playerSearchTemplate = YesWeScore.Templates.get('playerSearchTemplate');
+    this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
+    this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
     $.mobile.showPageLoadingMsg();
 
     if (this.id !== 'null') {

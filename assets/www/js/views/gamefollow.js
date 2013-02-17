@@ -8,8 +8,8 @@ var GameFollowView = Backbone.View.extend({
   },
 
   initialize:function() {
-    this.indexViewTemplate = YesWeScore.Templates.get('indexViewTemplate');
-    this.gameListViewTemplate = YesWeScore.Templates.get('gameListViewTemplate');
+    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
+    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
         
     $.mobile.showPageLoadingMsg();
         

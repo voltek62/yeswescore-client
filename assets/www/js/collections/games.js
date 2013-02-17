@@ -20,7 +20,7 @@ var GamesCollection = Backbone.Collection.extend({
 		var model = this.get(id) || this.getByCid(id);
 		if (model) return model;
 		
-		var url = YesWeScore.Conf.get("api.url.games") + "/" + id;
+		var url = Y.Conf.get("api.url.games") + "/" + id;
 		return new this.model().fetch({url:url});
 	
 	},
@@ -29,17 +29,17 @@ var GamesCollection = Backbone.Collection.extend({
     console.log('mode de games',this.mode); 	
           
     if (this.mode === 'clubid') 
-      return YesWeScore.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
+      return Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
     else if (this.mode === 'club') 
-      return YesWeScore.Conf.get("api.url.games");
+      return Y.Conf.get("api.url.games");
     else if (this.mode === 'player') 
-      return YesWeScore.Conf.get("api.url.games") + "?q=" + this.query;
+      return Y.Conf.get("api.url.games") + "?q=" + this.query;
     else if (this.mode === 'me') {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a joué
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player possède (qu'il a créé)
-      return YesWeScore.Conf.get("api.url.players") + this.query + "/games/";
+      return Y.Conf.get("api.url.players") + this.query + "/games/";
     }
-    return YesWeScore.Conf.get("api.url.games");	
+    return Y.Conf.get("api.url.games");	
   },
   
   setMode:function(m,q) {

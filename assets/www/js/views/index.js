@@ -8,8 +8,8 @@ var IndexView = Backbone.View.extend({
   listview: "#listGamesView",
 
   initialize: function () {
-    this.indexViewTemplate = YesWeScore.Templates.get('indexViewTemplate');
-    this.gameListViewTemplate = YesWeScore.Templates.get('gameListViewTemplate');
+    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
+    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
 
     //we capture config from bootstrap
     //FIXME: put a timer

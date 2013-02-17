@@ -2,9 +2,15 @@ var StreamModel = Backbone.Model.extend({
 
   urlRoot : YesWeScore.Conf.get("api.url.games"),
 
-  storeName : "stream",
-
-  // localStorage: new Backbone.LocalStorage("games"),
+  defaults : {
+    id : null,
+    date : null,
+    type : "comment",
+    owner : null,
+    data : {
+      text : "...."
+    }
+  },
 
   initialize : function() {
 
@@ -51,16 +57,6 @@ var StreamModel = Backbone.Model.extend({
 
     }
 
-  },
-
-  defaults : {
-    id : null,
-    date : null,
-    type : "comment",
-    owner : null,
-    data : {
-      text : "...."
-    }
   }
 
 });

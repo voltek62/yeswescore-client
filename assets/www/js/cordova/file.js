@@ -117,7 +117,6 @@
     var resultat='';
     File.readJSON('object_json',function result(r){resultat=r});
     
-
     console.log('fileY test de lecture, on lit objet ',resultat.DateOfDay);
     
     

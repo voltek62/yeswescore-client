@@ -75,14 +75,14 @@
     
     setPermanent: function(key,value){
 
-      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, errorFile);
       
       function gotFS(fileSystem) {
-        fileSystem.root.getFile(YesWeScore.Conf.get("cordova.file"), {create: true, exclusive: false}, gotFileEntry, fail);
+        fileSystem.root.getFile(YesWeScore.Conf.get("cordova.file"), {create: true, exclusive: false}, gotFileEntry, errorFile);
       }
 
       function gotFileEntry(fileEntry) {
-          fileEntry.createWriter(gotFileWriter, fail);
+          fileEntry.createWriter(gotFileWriter, errorFile);
       }
 
       function gotFileWriter(writer){

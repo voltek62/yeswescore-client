@@ -4,7 +4,10 @@ $(document).ready(function () {
   Y.ready(function () {
     // YesWeScore is ready.
     console.log('YesWeScore is ready.');
-
   });
-});
 
+  Cordova.ready(function () {
+    // Cordova is ready
+    console.log('Cordova is ready.')
+  })
+});

@@ -42,7 +42,7 @@ var GameModel = Backbone.Model.extend({
       score : "0/0",
       court : "",
       surface : "",
-      tour : "",
+      tour : ""
     },
     updated_at : new Date()
   }  

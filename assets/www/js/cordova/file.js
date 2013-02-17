@@ -6,20 +6,31 @@
   // PERSISTENT is bugged in Ripple
   var File = {
       
-      readJSON: function(k) {
+      readJSON: function(k,result) {
         
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, File.errorFile);
         
         function gotFS(fileSystem) {
-          fileSystem.root.getFile(YesWeScore.Conf.get("cordova.file"), null, gotFileEntry, File.errorFile);
+          try {
+            fileSystem.root.getFile(YesWeScore.Conf.get("cordova.file"), null, gotFileEntry, File.errorFile);
+          }
+          catch(e) {result('');}            
         }
         
         function gotFileEntry(fileEntry) {
-          fileEntry.file(gotFile, File.errorFile);
+          
+          try {
+            fileEntry.file(gotFile, File.errorFile);
+          }
+          catch(e) {result('');}
+          
         }
 
         function gotFile(file){
-          readAsText(file);
+          try {
+            readAsText(file);
+          }
+          catch(e) {result('');}
         }
         
         function readAsText(file) {
@@ -32,10 +43,10 @@
                 
                 console.log('fileY obj '+k+' on a '+obj.k);
                 //FIXME: si OK on retourne objet
-
+                result(obj.k);    
                 
               }
-              catch(e) {console.log('Error parse fileY ',e);      
+              catch(e) {console.log('Error parse fileY ',e),result('');      
             }  
           };
           reader.readAsText(file);    
@@ -63,10 +74,15 @@
             
             console.log('fileY key: '+key+' value: '+value);
             
-            //FIXME: ancien contenu à copier
             var o = {}; 
             o[key] = value;
-            writer.write(JSON.stringify(o));    
+            var data = JSON.stringify(o);
+                        
+            //On enregistre dans les variables de confs
+            YesWeScore.Conf.setNX((YesWeScore.Conf.get("cordova.file"), data, 'json'));
+            
+            //FIXME: ancien contenu à copier
+            writer.write(data);   
         }
       },    
       
@@ -97,9 +113,13 @@
     Cordova.File = File;
     File.readJSON('object_json'); 
     File.writeJSON('object_json',{DateOfDay:new Date()});  
-    var test = File.readJSON('object_json');
     
-    console.log('fileY test de lecture, on lit objet ',test.DateOfDay);
+    var resultat='';
+    File.readJSON('object_json',function result(r){resultat=r});
+    
+
+    console.log('fileY test de lecture, on lit objet ',resultat.DateOfDay);
+    
     
   });
 })(Cordova);

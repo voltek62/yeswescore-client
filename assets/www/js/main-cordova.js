@@ -5,16 +5,24 @@ function onDeviceReady() {
 	
 	localStorage.clear();
 
-	navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
-	checkConnection();
+	//navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
+	//checkConnection();
 
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSuccess,
-			onError);
+	//TU
+  readPermanent('object_json');	
+	
+  setPermanent('object_json',{DateOfDay:new Date()});  
+	
+	//on lit un objet
+  readPermanent('object_json');
+  
+ 
 
 	// phone init code that manipulates the DOM...
 	// $.mobile.initializePage();
 }
 
+/*
 function onGeoSuccess(position) {
 
 	appConfig.latitude = position.coords.latitude;
@@ -23,105 +31,113 @@ function onGeoSuccess(position) {
 	console.log('GeoSuccess', appConfig);
 
 }
-
-function onError(position) {
-	console.log('GeoError');
-
-}
-
-// alert dialog dismissed
-function alertDismissed() {
-	// do something
-
-  /*navigator.splashscreen.hide();*/
-
-  // localStorage.clear(); // why ? should be avoided ?
-
-  // geolocalisation features are currently-disabled.
-  //  Will be re-enabled on next refactoring.
-  // navigator.geolocation.getCurrentPosition(onGeoSuccess, onError);
-  //checkConnection();
-  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSuccess, onError);
-  //phone init code that manipulates the DOM...
-  //$.mobile.initializePage();
-}
-/* FiXME: DiSaBlEd
-function onGeoSuccess(position) {
-  appConfig.latitude = position.coords.latitude;
-  appConfig.longitude = position.coords.longitude;
-  console.log('GeoSuccess',appConfig);
-}
-
-function onError(position) {
-  console.log('GeoError');
-}
 */
 
-// alert dialog dismissed
-function alertDismissed() {
-  // do something
+function onError(e) {
+	console.log(e);
 
 }
 
-// Show a custom alert
-//
-function showAlert() {
 
-	navigator.notification.alert('You are the winner!', // message
-	alertDismissed, // callback
-	'Game Over', // title
-	'Done' // buttonName
-	);
-}
-
-function checkConnection() {
-
-	var networkState = navigator.connection.type;
-
-	if (networkState === 'none')
-		appConfig.networkState = 'false';
-	else
-		appConfig.networkState = 'true';
-
-}
-
-function onFileSuccess(fileSystem) {
-	fileSystem.root.getFile("yeswescore.json", {
-		create : true,
-		exclusive : false
-	}, gotFileEntry, onError);
-}
-
-function gotFileEntry(fileEntry) {
-	fileEntry.createWriter(gotFileWriter, onError);
-}
-
-function gotFileWriter(writer) {
-	writer.write("test1,test2,test3");
-}
-
-
-
-/* FiXME: DiSaBlEd
-function checkConnection() {
-  var networkState = navigator.connection.type;
-
-  if (networkState==='none')
-    appConfig.networkState='false';
-  else
-    appConfig.networkState='true';
-}
-*/
-
-function onFileSuccess(fileSystem) {
-  fileSystem.root.getFile("yeswescore.csv", {create: true, exclusive: false }, gotFileEntry, onError);
-}
-
-function gotFileEntry(fileEntry) {
-  fileEntry.createWriter(gotFileWriter, onError);
-}
+function readPermanent(key) {
     
-function gotFileWriter(writer) {
-  writer.write("test1,test2,test3");
+  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+  
+  function gotFS(fileSystem) {
+    fileSystem.root.getFile(YesWeScore.Conf.get("cordova.file"), null, gotFileEntry, fail);
+  }
+  
+  function gotFileEntry(fileEntry) {
+    fileEntry.file(gotFile, fail);
+  }
+
+  function gotFile(file){
+    readAsText(file);
+  }
+  
+  function readAsText(file) {
+    var reader = new FileReader();
+    reader.onloadend = function(evt) {
+        console.log("fileY read success");
+        console.log("fileY read data : "+evt.target.result);
+        try {
+          var obj = JSON.parse(evt.target.result);
+          
+          console.log('fileY obj '+key+' on a '+obj.key);
+          
+          //FIXME: si OK on retourne objet
+          
+        }
+        catch(e) {console.log('Error parse fileY '+e);}      
+        
+    };
+    reader.readAsText(file);    
+    
+  }
+  
+  function fail(evt) {
+    var states = {};
+    states[FileError.NOT_FOUND_ERR] = 'FileError.NOT_FOUND_ERR';
+    states[FileError.SECURITY_ERR] = 'FileError.SECURITY_ERR';
+    states[FileError.ABORT_ERR] = 'FileError.ABORT_ERR';
+    states[FileError.NOT_READABLE_ERR] = 'FileError.NOT_READABLE_ERR';
+    states[FileError.ENCODING_ERR] = 'FileError.ENCODING_ERR';
+    states[FileError.NO_MODIFICATION_ALLOWED_ERR] = 'FileError.NO_MODIFICATION_ALLOWED_ERR';
+    states[FileError.INVALID_STATE_ERR] = 'FileError.INVALID_STATE_ERR';
+    states[FileError.SYNTAX_ERR] = 'FileError.SYNTAX_ERR';
+    states[FileError.INVALID_MODIFICATION_ERR] = 'FileError.INVALID_MODIFICATION_ERR';
+    states[FileError.QUOTA_EXCEEDED_ERR] = 'FileError.QUOTA_EXCEEDED_ERR';
+    states[FileError.TYPE_MISMATCH_ERR] = 'FileError.TYPE_MISMATCH_ERR';
+    states[FileError.PATH_EXISTS_ERR] = 'FileError.PATH_EXISTS_ERR';
+    
+    console.log('fileY: '+states[error.code]);
+  }  
+       
 }
 
+
+function setPermanent(key,value){
+
+  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+  
+  function gotFS(fileSystem) {
+    fileSystem.root.getFile(YesWeScore.Conf.get("cordova.file"), {create: true, exclusive: false}, gotFileEntry, fail);
+  }
+
+  function gotFileEntry(fileEntry) {
+      fileEntry.createWriter(gotFileWriter, fail);
+  }
+
+  function gotFileWriter(writer){
+      
+      writer.onwriteend = function(evt) {
+      console.log('fileY written', evt);
+      };
+      
+      console.log('fileY key: '+key+' value: '+value);
+      
+      //FIXME: ancien contenu à copier
+      
+      writer.write(JSON.stringify({key:value}));    
+  }
+  
+  function fail(error){ 
+    
+    var states = {};
+    states[FileError.NOT_FOUND_ERR] = 'FileError.NOT_FOUND_ERR';
+    states[FileError.SECURITY_ERR] = 'FileError.SECURITY_ERR';
+    states[FileError.ABORT_ERR] = 'FileError.ABORT_ERR';
+    states[FileError.NOT_READABLE_ERR] = 'FileError.NOT_READABLE_ERR';
+    states[FileError.ENCODING_ERR] = 'FileError.ENCODING_ERR';
+    states[FileError.NO_MODIFICATION_ALLOWED_ERR] = 'FileError.NO_MODIFICATION_ALLOWED_ERR';
+    states[FileError.INVALID_STATE_ERR] = 'FileError.INVALID_STATE_ERR';
+    states[FileError.SYNTAX_ERR] = 'FileError.SYNTAX_ERR';
+    states[FileError.INVALID_MODIFICATION_ERR] = 'FileError.INVALID_MODIFICATION_ERR';
+    states[FileError.QUOTA_EXCEEDED_ERR] = 'FileError.QUOTA_EXCEEDED_ERR';
+    states[FileError.TYPE_MISMATCH_ERR] = 'FileError.TYPE_MISMATCH_ERR';
+    states[FileError.PATH_EXISTS_ERR] = 'FileError.PATH_EXISTS_ERR';
+    
+    console.log('fileY: '+states[error.code]);
+  }
+  
+}

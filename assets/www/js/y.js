@@ -28,6 +28,9 @@
         // waiting for cordova to be ready
         callback();
       });
+      
+      
+      
     },
 
     // same as jquery ;)

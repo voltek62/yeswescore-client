@@ -20,14 +20,14 @@ var PlayersCollection = Backbone.Collection.extend({
 	  
   url:function() {
     console.log('url() : mode de Players',this.mode); 	
-    //console.log('url Players', YesWeScore.Conf.get("api.url.players")+'autocomplete/?q='+this.query); 	
+    //console.log('url Players', Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query); 	
           
     if (this.mode === 'club')
-      return YesWeScore.Conf.get("api.url.players")+'?club='+this.query;
+      return Y.Conf.get("api.url.players")+'?club='+this.query;
     else if (this.mode === 'search'  )
-      return YesWeScore.Conf.get("api.url.players")+'autocomplete/?q='+this.query;        
+      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query;        
     else	
-      return YesWeScore.Conf.get("api.url.players");
+      return Y.Conf.get("api.url.players");
   },
 	
 	/*

@@ -15,8 +15,8 @@ var GameAddView = Backbone.View.extend({
   listview2: "#team2_suggestions",
 
   initialize: function () {
-    this.playerListAutoCompleteViewTemplate = YesWeScore.Templates.get('playerListAutoCompleteViewTemplate');
-    this.gameAddTemplate = YesWeScore.Templates.get('gameAddTemplate');
+    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
+    this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
 
     //Owner = JSON.parse(window.localStorage.getItem("Owner"));
     this.players = new PlayersCollection('me');
@@ -68,7 +68,7 @@ var GameAddView = Backbone.View.extend({
 
     //this.usersCollection.fetch();
     /*
-    this.userCollection.fetch({ url: YesWeScore.Conf.get("api.url.players")+'97e2f09341b45294f3cd2699', success: function() {
+    this.userCollection.fetch({ url: Y.Conf.get("api.url.players")+'97e2f09341b45294f3cd2699', success: function() {
     console.log('usersCollection 2',this.userCollection);
     }});        */
     //Games.fetch();

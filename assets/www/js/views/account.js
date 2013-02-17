@@ -6,7 +6,7 @@ var AccountView = Backbone.View.extend({
   },
 
   initialize : function() {
-    this.accountViewTemplate = YesWeScore.Templates.get('accountViewTemplate');
+    this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
     // Owner = JSON.parse(window.localStorage.getItem("Owner"));
     this.players = new PlayersCollection("me");

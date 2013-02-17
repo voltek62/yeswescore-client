@@ -5,7 +5,7 @@ var GameModel = Backbone.Model.extend({
 
   // storeName : "game",
 
-  urlRoot : YesWeScore.Conf.get("api.url.games"),
+  urlRoot : Y.Conf.get("api.url.games"),
 
   initialize : function() {
 

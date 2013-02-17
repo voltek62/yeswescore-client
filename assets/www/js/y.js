@@ -25,7 +25,7 @@
         // start dispatching routes
         // @see http://backbonejs.org/#History-start
         Backbone.history.start();
-        // 
+        // waiting for cordova to be ready
         callback();
       });
     },
@@ -62,6 +62,7 @@
       };
     })()
   };
-  // exporting YesWeScore to global scope
+  // exporting YesWeScore to global scope, aliasing it to Y.
   global.YesWeScore = YesWeScore;
+  global.Y = YesWeScore;
 })(this);

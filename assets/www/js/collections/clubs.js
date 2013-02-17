@@ -20,9 +20,9 @@ var ClubsCollection = Backbone.Collection.extend({
   url : function() {
 
     if (this.mode === 'search')
-      return YesWeScore.Conf.get("api.url.clubs") + 'autocomplete/?q=' + this.query;
+      return Y.Conf.get("api.url.clubs") + 'autocomplete/?q=' + this.query;
     else
-      return YesWeScore.Conf.get("api.url.clubs");
+      return Y.Conf.get("api.url.clubs");
 
   },
 

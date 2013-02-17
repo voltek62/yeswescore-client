@@ -1,4 +1,4 @@
-(function (YesWeScore) {
+(function (Y) {
   "use strict";
 
   // overloading backbone close.
@@ -140,5 +140,5 @@
     historyCount: 0
   });
 
-  YesWeScore.Router = new Router();
-})(YesWeScore);
+  Y.Router = new Router();
+})(Y);

@@ -6,7 +6,7 @@ var ClubView = Backbone.View.extend({
   },
 
   initialize : function() {
-    this.clubViewTemplate = YesWeScore.Templates.get('clubViewTemplate');
+    this.clubViewTemplate = Y.Templates.get('clubViewTemplate');
 
     this.club = new ClubModel({
       id : this.id

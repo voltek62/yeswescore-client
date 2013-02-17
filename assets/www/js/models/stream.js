@@ -1,6 +1,6 @@
 var StreamModel = Backbone.Model.extend({
 
-  urlRoot : YesWeScore.Conf.get("api.url.games"),
+  urlRoot : Y.Conf.get("api.url.games"),
 
   defaults : {
     id : null,

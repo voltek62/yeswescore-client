@@ -1,8 +1,9 @@
 // MAIN ENTRY POINT
 $(document).ready(function () {
   // Document is ready => initializing YesWeScore
-  YesWeScore.ready(function () {
+  Y.ready(function () {
     // YesWeScore is ready.
+    console.log('YesWeScore is ready.')
   });
 });
 

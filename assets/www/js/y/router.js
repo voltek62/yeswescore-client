@@ -28,7 +28,8 @@
       //'players/follow/:id':                           'playerFollow',    
       //'players/nofollow/:id':                         'playerNoFollow',                                    
       'players/:id': 'player',
-      'clubs/:id': 'club',
+      'clubs/add': 'clubAdd',
+      'clubs/:id': 'club',      
       'account': 'account'
     },
 
@@ -52,6 +53,11 @@
       this.changePage(clubView);
     },
 
+    clubAdd: function (id) {
+      var clubAddView = new ClubAddView();
+      this.changePage(clubAddView);
+    },
+    
     index: function () {
       var indexView = new IndexView();
       this.changePage(indexView);

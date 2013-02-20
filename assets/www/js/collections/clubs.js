@@ -12,8 +12,6 @@ var ClubsCollection = Backbone.Collection.extend({
 
     if (param === 'follow')
       this.storage = new Offline.Storage('clubsfollow', this);
-    else
-      this.storage = new Offline.Storage('clubs', this);
 
   },
 
@@ -32,15 +30,7 @@ var ClubsCollection = Backbone.Collection.extend({
   },
 
   // FIXME : if exists in localStorage, don't request
-
   sync : function(method, model, options) {
-
-    /*
-     * var params = _.extend({ type: 'GET', dataType: 'json', url: model.url(),
-     * processData:false, }, options);
-     * 
-     * return $.ajax(params);
-     */
 
     return Backbone.sync(method, model, options);
 

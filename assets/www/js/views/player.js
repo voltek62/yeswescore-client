@@ -7,31 +7,25 @@ var PlayerView = Backbone.View.extend({
 
   initialize: function(options) {
     this.playerViewTemplate = Y.Templates.get('playerViewTemplate');
-    //this.follow = options.follow;
-    console.log('init player view');
-    
-    this.players = new PlayersCollection();
 
-    cache = this.players.storage.find({id:this.id});
-    this.player = new PlayerModel(cache);		
-		
-    console.log('Player',this.player.toJSON());
-    	
-    //this.player = new PlayerModel({id:this.id});
-    //this.player.fetch(); 
-        
+	//console.log('player init '+this.id);
+
+    this.player = new PlayerModel({id:this.id});
+    this.player.fetch(); 
+
+    //console.log('Player',this.player.toJSON());
+    
     // control if player id in playersfollow
     this.playersfollow = new PlayersCollection('follow');
 
     result = this.playersfollow.storage.find({id:this.id});
     if (result===null) 
-    this.follow = 'false';
+    	this.follow = 'false';
     else	
-    this.follow = 'true';
-	
-    this.render();
+    	this.follow = 'true';
+
     //change
-    //this.player.on( 'change', this.render, this );
+    this.player.on( 'change', this.render, this );
   },
 
   followPlayer: function() {
@@ -61,16 +55,9 @@ var PlayerView = Backbone.View.extend({
     this.$el.trigger('pagecreate');
   },    
 
-  /*
-  followPlayer:function() {
-    this.playersfollow = new PlayersCollection('follow');
-    this.playersfollow.create(this.player);
-    $('span.success').html('Vous suivez ce joueur').show();
-  },*/
-
   //render the content into div of view
   render: function(){
-    console.log('render player view ',this.player);
+    console.log('render player view ',this.player.toJSON());
     
     this.$el.html(this.playerViewTemplate({
       player:this.player.toJSON(),follow:this.follow

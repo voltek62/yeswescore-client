@@ -3,8 +3,21 @@
 <% } %> 
 <% for (var i = 0; i < games.length; i++) { game = games[i]; %>
 <li><a href="#games/<%= game.id %>" data-transition="slide">
-<%= game.location.city %> : <%= game.teams[0].players[0].name %> ( <%= game.teams[0].players[0].rank %> ) vs 
-<%= game.teams[1].players[0].name %> ( <%= game.teams[1].players[0].rank %> ) 
+<%= game.location.city %> : 
+<% 
+if (game.teams[0].players[0]!== undefined) { 
+	print(game.teams[0].players[0].name);
+	print('('+game.teams[0].players[0].rank+')');
+}
+%> 
+vs
+<% 
+if (game.teams[1].players[0]!== undefined) { 
+	print(game.teams[1].players[0].name);
+	print('('+game.teams[1].players[0].rank+')');
+}
+%> 
+ 
 <br /> Score : <%= game.options.score %>&nbsp;&nbsp;&nbsp;Sets : <%= game.options.sets %>&nbsp;&nbsp;&nbsp;Statut : <%= game.status %>
 </a></li>
 <% } %>

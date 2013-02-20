@@ -15,7 +15,7 @@ var PlayerListView = Backbone.View.extend({
     if (this.id !== 'null') {
       console.log('on demande les joueurs par club ' + this.id);
 
-      this.players = new Players();
+      this.players = new PlayersCollection();
       this.players.setMode('club', this.id);
       this.players.fetch();
       this.players.on('all', this.renderList, this);
@@ -28,15 +28,24 @@ var PlayerListView = Backbone.View.extend({
   search : function() {
     // FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
-
+    $(this.listview).empty();
+    
     this.players.setMode('search', q);
-    // PlayersSearch.fetch();
-    $(this.listview).html(playerListViewTemplate, {
-      players : this.players.toJSON(),
-      query : q
-    });
+    this.players.fetch();
+    
+	try {
+	    $(this.listview).html(this.playerListViewTemplate, {
+	      players : this.players.toJSON(),
+	      query : q
+	    });
+    }
+    catch(e) {
+    
+    }
+    
     $(this.listview).listview('refresh');
     // }
+    return this;
   },
 
   // render the content into div of view

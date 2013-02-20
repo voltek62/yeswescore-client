@@ -18,12 +18,11 @@ var GameAddView = Backbone.View.extend({
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
     this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
 
-    //Owner = JSON.parse(window.localStorage.getItem("Owner"));
-    this.players = new PlayersCollection('me');
+    this.Owner = JSON.parse(window.localStorage.getItem("Owner"));
+    //this.players = new PlayersCollection('me');
     //console.log('Owner',this.players.storage.findAll({local:true}));	   	
-    this.Owner = new PlayerModel(this.players.storage.findAll({ local: true }));
+    //this.Owner = new PlayerModel(this.players.storage.findAll({ local: true }));
 
-    console.log('Owner', this.Owner);
 
     this.render();
     $.mobile.hidePageLoadingMsg();
@@ -100,9 +99,9 @@ var GameAddView = Backbone.View.extend({
   },
 
   updateTeam1: function () {
-    $('#team1').val(Owner.name);
-    $('#rank1').val(Owner.rank);
-    $('#team1_id').val(Owner.id);
+    $('#team1').val(this.Owner.name);
+    $('#rank1').val(this.Owner.rank);
+    $('#team1_id').val(this.Owner.id);
   },
 
   updateListTeam1: function (event) {
@@ -236,8 +235,8 @@ var GameAddView = Backbone.View.extend({
     console.log('gameadd on envoie objet ', game);
 
     //On sauve dans Collections
-    games = new GamesCollection();
-    gamecache = games.create(game);
+    var games = new GamesCollection();
+    var gamecache = games.create(game);
 
     //Si connexion on envoie au serveur    
     //games.storage.sync.push(); // POST /api/dreams and PUT /api/dreams/:id

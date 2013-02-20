@@ -9,21 +9,9 @@ var GamesCollection = Backbone.Collection.extend({
 
 		if (param==='follow')
 			this.storage = new Offline.Storage('gamesfollow', this);		
-		else
-			//, keys:{parent_id:this}
-			this.storage = new Offline.Storage('games', this);
 
 	},
 	
-	getOrFetch:  function(id) {
-	
-		var model = this.get(id) || this.getByCid(id);
-		if (model) return model;
-		
-		var url = Y.Conf.get("api.url.games") + "/" + id;
-		return new this.model().fetch({url:url});
-	
-	},
 		  
   url:function() {
     console.log('mode de games',this.mode); 	

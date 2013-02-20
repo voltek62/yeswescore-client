@@ -26,29 +26,23 @@ var IndexView = Backbone.View.extend({
 
     //console.log('this.games in cache size ',this.games.length);
 
-    if (this.games.length > 0) {
-      $.mobile.hidePageLoadingMsg();
-      this.renderList();
-    } else {
-      this.games.on('all', this.renderList, this);
-    }
-
-
+    this.games.on('all', this.renderList, this);
+    
     //Controle si localStorage contient Owner
-    //var Owner = window.localStorage.getItem("Owner");
+    var Owner = window.localStorage.getItem("Owner");
 
-    var Owner;
-    if (Owner === undefined) {
+    if (Owner === null) {
       //alert('Pas de owner');
       //Creation user à la volée
-
+      console.log('Pas de Owner, on efface la cache . On crée le Ownner');
+        
       //debug si pas de Owner, on init le localStorage
       window.localStorage.clear();
 
-      //player = new PlayerModel();
-      //player.save();
-      players = new PlayersCollection('me');
-      players.create();
+      player = new PlayerModel();
+      player.save();
+      //players = new PlayersCollection('me');
+      //players.create();
     }
   },
 
@@ -75,6 +69,9 @@ var IndexView = Backbone.View.extend({
   },
 
   renderList: function (query) {
+  
+ 	//console.log('renderList games:',this.games.toJSON());
+  
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
     $(this.listview).listview('refresh');
     $.mobile.hidePageLoadingMsg();

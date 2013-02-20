@@ -23,6 +23,7 @@
       'players/club/:id': 'playerListByClub',
       'players/form': 'playerForm',
       'players/signin': 'playerSignin',
+      'players/forget': 'playerForget',      
       'players/follow': 'playerFollow',
       //'players/follow/:id':                           'playerFollow',    
       //'players/nofollow/:id':                         'playerNoFollow',                                    
@@ -88,6 +89,7 @@
     },
 
     player: function (id) {
+      //console.log('router ',id);
       var playerView = new PlayerView({ id: id, follow: '' });
       this.changePage(playerView);
     },
@@ -123,6 +125,11 @@
       this.changePage(playerSigninView);
     },
 
+    playerForget: function () {
+      var playerForgetView = new PlayerForgetView();
+      this.changePage(playerForgetView);
+    },
+
     setNextTransition: function (el) {
     },
 
@@ -131,7 +138,9 @@
         currentView.close();
       currentView = view;
       $.mobile.changePage(view.$el, {
+        allowSamePageTransition : true,
         transition: 'none',
+        showLoadMsg: false,
         changeHash: false,
         reverse: false
       });

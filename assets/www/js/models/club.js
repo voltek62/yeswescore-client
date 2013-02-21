@@ -40,7 +40,9 @@ var ClubModel = Backbone.Model.extend({
      * 
      * return $.ajax(params);
      */
-    if (method === 'create' && this.get('playerid') !== undefined) {
+    console.log("method Club "+method);
+    
+    if (method === 'create') {
 
 
       var object = {
@@ -56,7 +58,7 @@ var ClubModel = Backbone.Model.extend({
          
       };
 
-      console.log('tmp Club POST', JSON.stringify(object));
+      console.log('Create Club POST', JSON.stringify(object));
 
       return $.ajax({
         dataType : 'json',
@@ -66,7 +68,7 @@ var ClubModel = Backbone.Model.extend({
         success : function(result) {
           console.log('data result Club', result);
           
-          if (data.id !== null)
+          if (result.id !== null)
             $('span.success').html('Enregistrement OK ' + data.id).show();
           else
             $('span.success').html('Erreur').show();

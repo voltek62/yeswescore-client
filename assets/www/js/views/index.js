@@ -29,7 +29,7 @@ var IndexView = Backbone.View.extend({
     this.games.on('all', this.renderList, this);
     
     //Controle si localStorage contient Owner
-    var Owner = window.localStorage.getItem("Owner");
+    var Owner = window.localStorage.getItem("Y.Cache.Player");
 
 
     if (Owner === null) {
@@ -38,7 +38,7 @@ var IndexView = Backbone.View.extend({
       console.log('Pas de Owner, on efface la cache . On crée le Ownner');
         
       //debug si pas de Owner, on init le localStorage
-      window.localStorage.removeItem("Owner");
+      window.localStorage.removeItem("Y.Cache.Player");
 
       player = new PlayerModel();
       player.save();
@@ -48,7 +48,7 @@ var IndexView = Backbone.View.extend({
     else {
       Y.Geolocation.on("change", function (longitude, latitude) { 
         
-        var Owner = JSON.tryParse(window.localStorage.getItem("Owner"));
+        var Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
         //console.log("On mémorise la Geoloc OK pour playerid :"+Owner.id);
         
         //On sauve avec les coord actuels

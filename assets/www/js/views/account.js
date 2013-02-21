@@ -7,15 +7,11 @@ var AccountView = Backbone.View.extend({
 
   initialize : function() {
     
-    console.log('DEV Time init ',new Date().getTime());
-    
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
-
-    console.log('DEV Time init 2',new Date().getTime());
     
-    this.Owner = JSON.parse(window.localStorage.getItem("Owner"));
+    this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
 
-    console.log('DEV Time init 3',new Date().getTime());
+    console.log('DEV Time init',new Date().getTime());
     
     
     this.render();

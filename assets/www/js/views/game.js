@@ -36,7 +36,7 @@ var GameView = Backbone.View
         this.gameViewCommentListTemplate = Y.Templates
             .get('gameViewCommentListTemplate');
 
-        this.Owner = JSON.parse(window.localStorage.getItem("Owner"));
+        this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
 
         this.score = new GameModel({id : this.id});
         this.score.fetch();

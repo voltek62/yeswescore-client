@@ -61,6 +61,34 @@ var PlayerModel = Backbone.Model.extend({
     });
 
   },
+  
+  
+  newpass : function(mail) {
+    
+    console.log('On demande un newpass');
+
+    return $.ajax({
+      dataType : 'json',
+      url : Y.Conf.get("api.url.auth")+"resetPassword/",
+      type : 'POST',
+      data : {
+        email : {address : mail}
+      },
+      success : function(data) {
+
+        console.log('data result Reset Password', data);
+
+        // Display Results
+        // TODO : prevoir code erreur
+        
+        
+          $('span.success').html(' ' + data.message+' Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.').show();
+       
+        
+      }
+    });
+
+  },  
 
   sync : function(method, model, options) {
 

@@ -44,6 +44,11 @@ var IndexView = Backbone.View.extend({
       //players = new PlayersCollection('me');
       //players.create();
     }
+    
+    Y.Geolocation.on("change", function (longitude, latitude) { 
+      console.log("Geoloc OK "+longitude);
+    });
+    
   },
 
   search: function () {

@@ -21,5 +21,7 @@
   // registering geolocalisation only when cordova is ready.
   Cordova.ready(function () {
     Cordova.Geolocation = Geolocation;
+    
+    
   });
 })(Cordova);

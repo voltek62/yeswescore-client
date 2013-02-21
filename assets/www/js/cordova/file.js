@@ -110,6 +110,7 @@
   // registering geolocalisation only when cordova is ready.
   Cordova.ready(function () {
 
+    /*
     Cordova.File = File;
     File.readJSON('object_json'); 
     File.writeJSON('object_json',{DateOfDay:new Date()});  
@@ -118,7 +119,7 @@
     File.readJSON('object_json',function result(r){resultat=r});
     
     console.log('fileY test de lecture, on lit objet ',resultat.DateOfDay);
-    
+    */
     
   });
 })(Cordova);

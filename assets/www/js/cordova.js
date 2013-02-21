@@ -18,21 +18,33 @@
             // we are now "loading"
             status = "loading";
             var onDeviceReady = function () {
+              console.log('event: deviceready');
               // we are now "ready"
               status = "ready";
               _(callbacks).forEach(function (f) { f() });
             };
-            // #BEGIN_DEV
-            if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
-              // #END_DEV
-              document.addEventListener("deviceready", onDeviceReady, false);
-              // #BEGIN_DEV
-            } else {
-              // We cannot simulate "deviceready" event using standard API.
-              // So, we trigger cordova startup on chrome browser in dev after random time < 1s
-              setTimeout(function () { onDeviceReady() }, Math.round(Math.random()*1000));
+
+            // Windows Phone 8 cordova bug.
+            if (navigator.userAgent.match(/(IEMobile)/)) {
+              setTimeout(function () { onDeviceReady() }, 2000);
             }
-            // #END_DEV
+            else {
+              // #BEGIN_DEV
+              if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+                // #END_DEV
+                window.addEventListener("load", function () {
+                  console.log('window loaded')
+                  document.addEventListener("deviceready", function () { console.log('snif') }, false);
+                  document.addEventListener("deviceready", onDeviceReady, false);
+                }, false);
+                // #BEGIN_DEV
+              } else {
+                // We cannot simulate "deviceready" event using standard API.
+                // So, we trigger cordova startup on chrome browser in dev after random time < 1s
+                setTimeout(function () { onDeviceReady() }, Math.round(Math.random() * 1000));
+              }
+              // #END_DEV
+            }
             break;
           case "loading":
             // when Cordova is loading, we just stack the callbacks.

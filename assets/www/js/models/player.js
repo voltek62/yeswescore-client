@@ -17,6 +17,7 @@ var PlayerModel = Backbone.Model.extend({
       update : "",
       creation : new Date()
     },
+    language : window.navigator.language,
     location : {
       currentPos : [ 0, 0 ]
     },
@@ -34,7 +35,7 @@ var PlayerModel = Backbone.Model.extend({
       url : Y.Conf.get("api.url.auth"),
       type : 'POST',
       data : {
-        email : mail,
+        email : {address : mail},
         uncryptedPassword : password
       },
       success : function(data) {
@@ -60,6 +61,34 @@ var PlayerModel = Backbone.Model.extend({
     });
 
   },
+  
+  
+  newpass : function(mail) {
+    
+    console.log('On demande un newpass');
+
+    return $.ajax({
+      dataType : 'json',
+      url : Y.Conf.get("api.url.auth")+"resetPassword/",
+      type : 'POST',
+      data : {
+        email : {address : mail}
+      },
+      success : function(data) {
+
+        console.log('data result Reset Password', data);
+
+        // Display Results
+        // TODO : prevoir code erreur
+        
+        
+          $('span.success').html(' ' + data.message+' Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.').show();
+       
+        
+      }
+    });
+
+  },  
 
   sync : function(method, model, options) {
 
@@ -77,6 +106,10 @@ var PlayerModel = Backbone.Model.extend({
           rank : (this.get('rank') || ''),
           email : (this.get('email') || ''),
           uncryptedPassword : (this.get('password') || ''),
+          language : window.navigator.language,
+          location : {
+            currentPos : [ (this.get('latitude') || 0),(this.get('longitude') || 0), ]
+          },
           club : (this.get('club') || '')
         },
         success : function(data) {
@@ -114,8 +147,12 @@ var PlayerModel = Backbone.Model.extend({
         email : {address : (this.get('email') || '')},
         rank : (this.get('rank') || ''),
         idlicense : (this.get('idlicense') || ''),
+        language : window.navigator.language,
         games : [],
-        token : (this.get('token') || '')
+        token : (this.get('token') || ''),
+        location : {
+          currentPos : [ (this.get('latitude') || 0),(this.get('longitude') || 0), ]
+        },
       };
 
       // si mot de passe defini
@@ -129,7 +166,7 @@ var PlayerModel = Backbone.Model.extend({
         };
       }
 
-      //console.log('dataSend', dataSend);
+      console.log('Update Player', dataSend);
 
       return $.ajax({
         dataType : 'json',
@@ -140,7 +177,7 @@ var PlayerModel = Backbone.Model.extend({
         data : dataSend,
         success : function(data) {
 
-          console.log('Update Player', data);
+          console.log('Update Player Result', data);
 
           // Display Results //TODO : prevoir code erreur
           $('span.success').html('MAJ OK ' + data.id).show();

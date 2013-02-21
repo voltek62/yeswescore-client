@@ -6,10 +6,18 @@ var AccountView = Backbone.View.extend({
   },
 
   initialize : function() {
+    
+    console.log('DEV Time init ',new Date().getTime());
+    
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
+    console.log('DEV Time init 2',new Date().getTime());
+    
     this.Owner = JSON.parse(window.localStorage.getItem("Owner"));
 
+    console.log('DEV Time init 3',new Date().getTime());
+    
+    
     this.render();
   },
 
@@ -27,6 +35,8 @@ var AccountView = Backbone.View.extend({
 
   // render the content into div of view
   render : function() {
+    
+    console.log('DEV Time render Begin',new Date().getTime());
 
     $(this.el).html(this.accountViewTemplate({
       Owner : this.Owner
@@ -37,6 +47,9 @@ var AccountView = Backbone.View.extend({
     // this.$el.html(this.accountViewTemplate(),{Owner:Owner});
     // $.mobile.hidePageLoadingMsg();
     // this.$el.trigger('pagecreate');
+    
+    console.log('DEV Time render End',new Date().getTime());
+    
     return this;
   },
 

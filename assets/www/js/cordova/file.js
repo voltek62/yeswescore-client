@@ -29,13 +29,13 @@
           return "error " + msg + " " + i;
         }
       }
-    } catch (e) { return "exception in error handler " + msg + " " + e; }
+    } catch (e) { return "exception in error handler " + e; }
     return "unknown error " + msg;
   };
 
   var requestFileSystem = function (callback) {
     if (!window.requestFileSystem)
-      return callback("Can't access Cordova requestFileSystem");
+      return callback("fileY Can't access Cordova requestFileSystem");
     window.requestFileSystem(
       LocalFileSystem.PERSISTENT,
       0,
@@ -76,12 +76,13 @@
             var reader = new FileReader();
             reader.onloadend = function (evt) { callback(null, evt.target.result) };
             reader.onerror = function (evt) { callback("file reader error") };
-            reader.readAsDataURL(file);
+            reader.readAsText(file);
           },
           function error(evt) { callback(getErrorMessage(evt)) }
         );
       });
     },
+
 
     write: function (filename, data, callback) {
       getFileEntryFromRootDirectory(String(filename), { create: true, exclusive: false }, function (err, fileEntry) {
@@ -106,21 +107,24 @@
 
     // #BEGIN_DEV
     // test de l'ecriture
+    /*
     var now = new Date().getTime();
     console.log("DEV: test writing " + now + " in temp.text");
     File.write('temp.txt', now, function (err) {
       if (err)
         return console.log("error: " + err);
       // test de la lecture
-      console.log('ecriture dans temp.txt OK');
+      console.log('DEV ecriture dans temp.txt OK');
       File.read('temp.txt', function (err, data) {
         if (err)
           return console.log("erreor: " + err);
-        console.log('lecture dans temp.txt de ' + data);
+        console.log('DEV lecture dans temp.txt de ' + data);
         //
         assert(data === String(now));
       });
     });
+    */
     // #END_DEV
+
   });
 })(Cordova);

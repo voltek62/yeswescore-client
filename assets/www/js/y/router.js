@@ -140,16 +140,26 @@
     },
 
     changePage: function (view) {
-      if (currentView)
-        currentView.close();
-      currentView = view;
-      $.mobile.changePage(view.$el, {
-        allowSamePageTransition : true,
-        transition: 'none',
-        showLoadMsg: false,
-        changeHash: false,
-        reverse: false
-      });
+      
+      try {
+        if (currentView)
+          currentView.close();     
+        currentView = view;
+        
+        console.log('DEV ChangePage',new Date().getTime());
+        
+        $.mobile.changePage(view.$el, {
+          transition: 'none',
+          //showLoadMsg: false,
+          changeHash: false,
+          reverse: false
+        });     
+      }
+      catch(e) {
+        console.log('DEV ChangePage Error',e);
+      }
+      
+      
     },
 
     historyCount: 0

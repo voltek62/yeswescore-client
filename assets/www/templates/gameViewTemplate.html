@@ -1,13 +1,12 @@
 <div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true"
-		data-icon="back">Back</a>
+	<a href="#" data-transition="slide" data-reverse="true" data-icon="back">Back</a>
 	<h1>YesWeScore</h1>
 </div>
 <!-- /header -->
 
 <div data-role="content">
 
-	<div id="displayViewScoreBoard" data-role="listview"></div>
+	<div id="displayViewScoreBoard"></div>
 
 	<% if (game.owner === Owner.id) { %> <br /> <br />
 	<form id="frmScore">
@@ -43,11 +42,11 @@
 		</div>
 		<div class="ui-grid-a">
 			<div class="ui-block-a">
-
-				<% if (follow === 'true') { %> <a data-role="button"
-					id="followButton">Ne plus suivre</a> <% } else { %> <a
-					data-role="button" id="followButton">Suivre</a> <% } %>
-
+				<% if (follow === 'true') { %> 
+				<a data-role="button" id="followButton">Ne plus suivre</a> 
+				<% } else { %> 
+				<a data-role="button" id="followButton">Suivre</a> 
+				<% } %>
 			</div>
 			<div class="ui-block-b">
 				<a
@@ -72,7 +71,7 @@ $("#incomingMessages").append(
                );
  -->
 
-	<div id="incomingComment" data-role="listview" class="msgContainerDiv"></div>
+	<ul id="incomingComment" class="msgContainerDiv" data-role="listview"></ul>
 	<br />
 	<form id="frmAttachment" class="ui-body ui-body-b">
 
@@ -82,8 +81,7 @@ $("#incomingMessages").append(
 		</div>
 
 		<div data-role="fieldcontain">
-			<label for="attachment">Attachment:</label> <input type="file"
-				name="attachment" id="attachment" />
+			<label for="attachment">Attachment:</label> <input type="file" name="attachment" id="attachment" />
 		</div>
 
 		<fieldset class="ui-grid-a">
@@ -97,8 +95,6 @@ $("#incomingMessages").append(
 				<input type="submit" value="Envoyer" id="commentSendButton" />
 			</div>
 		</fieldset>
-
-
 
 	</form>
 	<% } %>

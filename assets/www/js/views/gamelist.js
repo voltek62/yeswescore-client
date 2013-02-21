@@ -33,9 +33,7 @@ var GameListView = Backbone.View.extend({
 
     this.render();
         
-    //this.games.on( 'all', this.renderList, this );
     this.games.on("all", this.renderList, this);
-    //this.games.findAll();
         
     //$.mobile.showPageLoadingMsg();
   },

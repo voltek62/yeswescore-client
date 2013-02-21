@@ -44,7 +44,7 @@
       }
 
       // Paramétrage des variables non dépendantes d'un environnement
-      this.setNX("game.refresh", 35000); // gameRefresh
+      this.setNX("game.refresh", 5000); // gameRefresh
       this.setNX("cordova.file", "Y.json"); // fichier stockage des variables permanentes
       this.setNX("storage.permanent.content", ""); // fichier stockage des variables permanentes      
       this.set("updated_at", new Date()); // updated_at

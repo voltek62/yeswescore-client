@@ -16,7 +16,7 @@ var PlayerSigninView = Backbone.View.extend({
     var password = $('#password').val();
 
     console.log('test authentification avec ' + email);
-    this.player = new Player();
+    this.player = new PlayerModel();
     this.player.login(email, password);
     return false;
   },

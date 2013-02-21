@@ -24,7 +24,7 @@ var StreamModel = Backbone.Model.extend({
   sync : function(method, model, options) {
 
     console.log('method Stream', method);
-    console.log('url', model.url() + (this.get('gameid') || '')
+    console.log('url', Y.Conf.get("api.url.games") + (this.get('gameid') || '')
         + '/stream/?playerid=' + (this.get('playerid') || '') + '&token='
         + (this.get('token') || ''));
 
@@ -32,7 +32,7 @@ var StreamModel = Backbone.Model.extend({
 
       return $.ajax({
         dataType : 'json',
-        url : model.url() + (this.get('gameid') || '') + '/stream/?playerid='
+        url : Y.Conf.get("api.url.games") + (this.get('gameid') || '') + '/stream/?playerid='
             + (this.get('playerid') || '') + '&token='
             + (this.get('token') || ''),
         type : 'POST',

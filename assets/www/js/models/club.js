@@ -40,7 +40,7 @@ var ClubModel = Backbone.Model.extend({
      * 
      * return $.ajax(params);
      */
-
+	model.url = Y.Conf.get("api.url.clubs")+this.id;
     return Backbone.sync(method, model, options);
 
   }

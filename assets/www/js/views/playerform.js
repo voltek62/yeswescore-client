@@ -14,23 +14,23 @@ var PlayerFormView = Backbone.View.extend({
   initialize:function() {	
     this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
+    
+    this.Owner = JSON.parse(window.localStorage.getItem("Owner"));
     	
-    //this.player = new Player({id:this.Owner.id});
-    //this.player.fetch(); 
+    this.player = new PlayerModel({id:this.Owner.id});
+    this.player.fetch(); 
     	
-    this.renderPlayer();
-    	
-    //this.player.on( 'change', this.renderPlayer, this );  	 	
+    this.player.on( 'change', this.renderPlayer, this );  	 	
     $.mobile.hidePageLoadingMsg();
   },
   
   updateList: function (event) {
     var q = $("#club").val();
 
-    console.log('updateList');	  
+    //console.log('updateList');	  
    	//Utiliser ClubListViewTemplate
     //$(this.listview).html('<li><a href="" data-transition="slide">Club 1</a></li>');    	
-    this.clubs = new Clubs();
+    this.clubs = new ClubsCollection();
     this.clubs.setMode('search',q);
     if (q.length>2) {
       this.clubs.fetch();
@@ -78,7 +78,7 @@ var PlayerFormView = Backbone.View.extend({
       , player = null;
            
 
-    player = new Player({
+    var player = new PlayerModel({
         name: name
       , nickname: nickname
       , password: password
@@ -94,7 +94,7 @@ var PlayerFormView = Backbone.View.extend({
     console.log('player form envoie ',player.toJSON());
 
     player.save();
-    //Backbone.Router.navigate('#players/add');
+   
     return false;
   },     
     
@@ -102,23 +102,20 @@ var PlayerFormView = Backbone.View.extend({
   //render the content into div of view
   renderPlayer: function(){
     	
-    Owner = JSON.parse(window.localStorage.getItem("Owner"));	
-    //console.log('Owner',Owner);
-      
     var dataDisplay = {
-	      name:Owner.name
-	    , nickname:Owner.nickname
-	    , email:Owner.email
-	    , rank:Owner.rank
-	    , password:Owner.password
-	    , idlicense:Owner.idlicense
-	    , playerid:Owner.id
-	    , token:Owner.token
+	      name:this.Owner.name
+	    , nickname:this.Owner.nickname
+	    , email:this.Owner.email
+	    , rank:this.Owner.rank
+	    , password:this.Owner.password
+	    , idlicense:this.Owner.idlicense
+	    , playerid:this.Owner.id
+	    , token:this.Owner.token
     };
       
-    if (Owner.club!== undefined) {    
-      dataDisplay.club = Owner.club.name;
-      dataDisplay.idclub = Owner.club.id;      	
+    if (this.Owner.club!== undefined) {    
+      dataDisplay.club = this.Owner.club.name;
+      dataDisplay.idclub = this.Owner.club.id;      	
     }
       
     //player:this.player.toJSON(),playerid:Owner.id,token:Owner.token	
@@ -129,6 +126,6 @@ var PlayerFormView = Backbone.View.extend({
 
   onClose: function(){
     this.undelegateEvents();
-    //this.player.off("change",this.renderPlayer,this); 
+    this.player.off("change",this.renderPlayer,this); 
   }
 });

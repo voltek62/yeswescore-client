@@ -13,55 +13,48 @@
 
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" value="Save" class="button">Save</button>
+				<button type="submit" value="Save" class="button">Cr&eacute;er la partie</button>
 			</div>
 		</div>
 
 		<div data-role="fieldcontain">
 			<fieldset data-role="controlgroup" id="click_myself">
 				<input type="checkbox" name="myself" id="myself" class="custom" />
-				<label for="myself">* Joueur 1 - S'il s'agit de vous, cochez
-					ici</label>
+				<label for="myself">* Joueur 1 - S'il s'agit de vous, cochez ici</label>
 			</fieldset>
 		</div>
 
 		<div class="control-group">
 			<div class="controls">
-				<input type="text" id="team1" name="team1" placeholder="Joueur 1"
-					class='input-xlarge' value="Vincent" /> <input type="text"
-					id="rank1" name="rank1" placeholder="Classement 1"
-					class='input-xlarge' value="15/5" />
+				<input type="text" id="team1" name="team1" placeholder="Joueur 1" class='input-xlarge' value="" /> 
+				<input type="text" id="rank1" name="rank1" placeholder="Classement 1" class='input-xlarge' value="" />
 				<ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
-				<input type='hidden' id='team1_id' class='input' value='' /> <span
-					class="team1_error label label-info hide"></span>
+				<input type='hidden' id='team1_id' class='input' value='' /> 
+				<span class="team1_error label label-info hide"></span>
 			</div>
 		</div>
 
 		<div data-role="fieldcontain">
 			<fieldset data-role="controlgroup">
-				<label for="autosearch">* Joueur 2 - Indiquez au moins 4
-					lettres</label>
+				<label for="autosearch">* Joueur 2 - Indiquez au moins 4 lettres</label>
 			</fieldset>
 		</div>
 
 		<div class="control-group">
 			<div class="controls">
-				<input type="text" id="team2" name="team2" placeholder="Joueur 2"
-					class='input-xlarge' value="Ludovic" /> <input type="text"
-					id="rank2" name="rank2" placeholder="Classement 2"
-					class='input-xlarge' value="15/3" />
+				<input type="text" id="team2" name="team2" placeholder="Joueur 2" class='input-xlarge' value="" /> 
+				<input type="text" id="rank2" name="rank2" placeholder="Classement 2" class='input-xlarge' value="" />
 				<ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
-				<input type='hidden' id='team2_id' class='input' value='' /> <span
-					class="team2_error label label-info hide"></span>
+				<input type='hidden' id='team2_id' class='input' value='' /> 
+				<span class="team2_error label label-info hide"></span>
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="city">* Ville</label>
 			<div class="controls">
-				<input type="text" id="city" name="city" placeholder="Ville"
-					class='input-xlarge' value="Coulogne" /> <span
-					class="city_error label label-info hide"></span>
+				<input type="text" id="city" name="city" placeholder="Ville" class='input-xlarge' value="" /> 
+				<span class="city_error label label-info hide"></span>
 			</div>
 		</div>
 
@@ -72,19 +65,14 @@
 			<div class="controls">
 				<select name="subtype" id="subtype">
 					<option value="A">A - Normal</option>
-					<option value="B">B - Traditionnel (3 sets à 6 jeux pt
-						décisif)</option>
+					<option value="B">B - Traditionnel (3 sets à 6 jeux pt décisif)</option>
 					<option value="C">C - 3 sets à 4 jeux - jeu décisif à 4/4</option>
-					<option value="D">D - 3 sets à 4 jeux - jeu décisif à 4/4
-						pt décisif</option>
+					<option value="D">D - 3 sets à 4 jeux - jeu décisif à 4/4 pt décisif</option>
 					<option value="E">E - 3 sets à 3 jeux - jeu décisif à 2/2</option>
-					<option value="F">F - 3 sets à 3 jeux - jeu décisif à 2/2
-						pt décisif</option>
+					<option value="F">F - 3 sets à 3 jeux - jeu décisif à 2/2 pt décisif</option>
 					<option value="G">G - 3 jeux décisifs</option>
-					<option value="H">H - 3 Sets à 4 jeux - jeu décisif à 3/3
-						pt décisif</option>
-					<option value="I">I - 3 sets à 5 jeux - jeu décisif à 4/4
-						pt décisif</option>
+					<option value="H">H - 3 Sets à 4 jeux - jeu décisif à 3/3 pt décisif</option>
+					<option value="I">I - 3 sets à 5 jeux - jeu décisif à 4/4 pt décisif</option>
 				</select>
 			</div>
 		</div>
@@ -174,9 +162,8 @@
 			</div>
 		</div>
 
-		<input type="hidden" id="playerid" value="<%= playerid %>"
-			class="input" /> <input type="hidden" id="token"
-			value="<%= token %>" class="input" />
+		<input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
+		<input type="hidden" id="token" value="<%= token %>" class="input" />
 
 	</form>
 

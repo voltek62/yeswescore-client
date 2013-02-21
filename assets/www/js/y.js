@@ -15,22 +15,21 @@
     },
 
     load: function (callback) {
+      var that = this;
       // init self configuration
-      this.Conf.initEnv();
-      this.Conf.load(this.Env.CURRENT);
-      // init router
-      this.Router.initialize();
-      // load the templates.
-      this.Templates.loadAsync(function () {
-        // start dispatching routes
-        // @see http://backbonejs.org/#History-start
-        Backbone.history.start();
-        // waiting for cordova to be ready
-        callback();
+      this.Conf.initEnv()
+               .load(this.Env.CURRENT, function onConfLoaded() {
+        // init router
+        that.Router.initialize();
+        // load the templates.
+        that.Templates.loadAsync(function () {
+          // start dispatching routes
+          // @see http://backbonejs.org/#History-start
+          Backbone.history.start();
+          // waiting for cordova to be ready
+          callback();
+        });
       });
-      
-      
-      
     },
 
     // same as jquery ;)

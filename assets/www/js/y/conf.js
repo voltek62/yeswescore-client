@@ -1,10 +1,45 @@
 (function (Y, undefined) {
   "use strict";
 
-  // FIXME:
-  // Configuration is curently local.
-  // Should be in local storage & using the bootstrap.
-  var container = {};
+  // permanent storage
+  var filename = "yws.json";
+
+  // DB: no need of any drivers
+  //  localStorage is supported on android / iOS
+  //  @see http://caniuse.com/#feat=namevalue-storage
+  //
+  // FIXME: utiliser une surcouche au localstorage qui gère le quota et 
+  //    une notion de date et priorité (#44910971)
+  var DB = {
+    // in local storage, all conf keys will be prefixed "Y.conf."
+    prefix: "Y.Conf.",
+
+    save: function (k, v) {
+      assert(typeof k === "string");
+      assert(typeof v === "string");
+
+      window.localStorage.setItem(this.prefix + k, v);
+    },
+
+    // @return value/null if not exist.
+    read: function (k) {
+      assert(typeof k === "string");
+
+      return window.localStorage.getItem(this.prefix + k);
+    },
+
+    remove: function (k) {
+      assert(typeof k === "string");
+
+      return window.localStorage.removeItem(k);
+    },
+
+    getKeys: function () {
+      return _.filter(_.keys(window.localStorage), function (k) {
+        return k.substr(0, this.prefix.length) == this.prefix;
+      }, this);
+    }
+  };
 
   var Conf = {
     initEnv: function () {
@@ -12,12 +47,16 @@
       // #BEGIN_DEV
       // Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
       // #END_DEV
+      return this; // chainable
     },
 
-    load: function (env) {
-      assert(env === undefined ||
-             env === Y.Env.DEV ||
+    load: function (env, callback) {
+      assert(env === Y.Env.DEV ||
              env === Y.Env.PROD);
+
+      // conf already loaded => we directly return
+      if (this.exist("_env") && this.get("_env") === env)
+        return callback();
 
       // Paramétrage des variables dependantes d'un environnement
       switch (env) {
@@ -45,19 +84,34 @@
 
       // Paramétrage des variables non dépendantes d'un environnement
       this.setNX("game.refresh", 5000); // gameRefresh
-      this.setNX("cordova.file", "Y.json"); // fichier stockage des variables permanentes
-      this.setNX("storage.permanent.content", ""); // fichier stockage des variables permanentes      
-      this.set("updated_at", new Date()); // updated_at
+      this.set("version", "1"); // might be usefull on update.
+
+      // loading permanent keys
+      //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
+      Cordova.ready(function () {
+        Cordova.File.read(filename, function (err, data) {
+          if (err)
+            return callback();
+          var k = [];
+          try { k = JSON.parse(data); } catch (e) { }
+          _.forEach(k, function (o) {
+            this.set(o.key, o.value, o.metadata);
+          });
+          callback();
+        });
+      });
     },
 
     // Read API
+    // @param string/regExp key
+    // @return [values]/value/undefined
     get: function (key) {
       assert(typeof key === "string" || key instanceof RegExp);
 
       if (typeof key === "string") {
-        if (typeof container[key] !== "undefined") {
+        if (DB.read(key)) {
           try {
-            return JSON.parse(container[key]).value;
+            return JSON.parse(DB.read(key)).value;
           } catch (e) { assert(false) }
         }
         return undefined;
@@ -68,24 +122,53 @@
       }, this);
     },
 
-    //
+    // @param string key
+    // @return object/undefined
     getMetadata: function (key) {
       assert(typeof key === "string");
 
-      if (typeof container[key] !== "undefined") {
+      if (DB.read(key)) {
         try {
-          return JSON.parse(container[key]).metadata;
+          return JSON.parse(DB.read(key)).metadata;
+        } catch (e) { }
+      }
+      return undefined;
+    },
+
+    // @param string key
+    // @return object/undefined
+    getRaw: function (key) {
+      assert(typeof key === "string");
+
+      if (DB.read(key)) {
+        try {
+          return JSON.parse(DB.read(key));
         } catch (e) { }
       }
       return undefined;
     },
 
     // Write API (inspired by http://redis.io)
-    set: function (key, value, metadata) {
+    set: function (key, value, metadata, callback) {
       assert(typeof key === "string");
       assert(typeof value !== "undefined");
 
-      container[key] = JSON.stringify({ value: value, metadata: metadata });
+      DB.save(key, JSON.stringify({ key: key, value: value, metadata: metadata }));
+
+      // permanent keys (cost a lot).
+      if (metadata && metadata.permanent) {
+        var permanentKeys = _.filter(DB.getKeys(), function (k) {
+          var metadata = this.getMetadata(k);
+          return metadata && metadata.permanent;
+        }, this);
+        var permanentObjs = _.map(permanentKeys, function (k) {
+          return this.getRaw(k);
+        }, this);
+        // saving when cordova is ready.
+        Cordova.ready(function () {
+          Cordova.File.write(filename, JSON.stringify(permanentObjs), callback);
+        });
+      }
     },
 
     // set if not exist.
@@ -100,7 +183,7 @@
     keys: function (r) {
       assert(r instanceof RegExp);
 
-      return _.filter(_.keys(container), function (key) {
+      return _.filter(DB.getKeys(), function (key) {
         return key.match(r);
       });
     },
@@ -108,11 +191,13 @@
     exist: function (key) {
       assert(typeof key === "string");
 
-      return typeof container[key] !== "undefined";
+      return DB.read(key) !== null;
     },
 
     unload: function () {
-      container = {};
+      _.forEach(DB.getKeys(), function (key) {
+        DB.remove(key);
+      });
     },
 
     reload: function () {

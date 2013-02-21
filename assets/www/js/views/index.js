@@ -49,7 +49,7 @@ var IndexView = Backbone.View.extend({
     else {
       Y.Geolocation.on("change", function (longitude, latitude) { 
         
-        var Owner = JSON.parse(window.localStorage.getItem("Owner"));
+        var Owner = JSON.tryParse(window.localStorage.getItem("Owner"));
         //console.log("On mémorise la Geoloc OK pour playerid :"+Owner.id);
         
         //On sauve avec les coord actuels

@@ -106,6 +106,10 @@ var PlayerModel = Backbone.Model.extend({
           rank : (this.get('rank') || ''),
           email : (this.get('email') || ''),
           uncryptedPassword : (this.get('password') || ''),
+          language : window.navigator.language,
+          location : {
+            currentPos : [ (this.get('latitude') || 0),(this.get('longitude') || 0), ]
+          },
           club : (this.get('club') || '')
         },
         success : function(data) {
@@ -143,8 +147,12 @@ var PlayerModel = Backbone.Model.extend({
         email : {address : (this.get('email') || '')},
         rank : (this.get('rank') || ''),
         idlicense : (this.get('idlicense') || ''),
+        language : window.navigator.language,
         games : [],
-        token : (this.get('token') || '')
+        token : (this.get('token') || ''),
+        location : {
+          currentPos : [ (this.get('latitude') || 0),(this.get('longitude') || 0), ]
+        },
       };
 
       // si mot de passe defini
@@ -158,7 +166,7 @@ var PlayerModel = Backbone.Model.extend({
         };
       }
 
-      //console.log('dataSend', dataSend);
+      console.log('Update Player', dataSend);
 
       return $.ajax({
         dataType : 'json',
@@ -169,7 +177,7 @@ var PlayerModel = Backbone.Model.extend({
         data : dataSend,
         success : function(data) {
 
-          console.log('Update Player', data);
+          console.log('Update Player Result', data);
 
           // Display Results //TODO : prevoir code erreur
           $('span.success').html('MAJ OK ' + data.id).show();

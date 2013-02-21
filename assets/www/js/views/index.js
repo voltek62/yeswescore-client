@@ -31,6 +31,8 @@ var IndexView = Backbone.View.extend({
     //Controle si localStorage contient Owner
     var Owner = window.localStorage.getItem("Owner");
 
+    //window.localStorage.clear();
+    
     if (Owner === null) {
       //alert('Pas de owner');
       //Creation user à la volée
@@ -44,10 +46,23 @@ var IndexView = Backbone.View.extend({
       //players = new PlayersCollection('me');
       //players.create();
     }
-    
-    Y.Geolocation.on("change", function (longitude, latitude) { 
-      console.log("Geoloc OK "+longitude);
-    });
+    else {
+      Y.Geolocation.on("change", function (longitude, latitude) { 
+        
+        var Owner = JSON.parse(window.localStorage.getItem("Owner"));
+        //console.log("On mémorise la Geoloc OK pour playerid :"+Owner.id);
+        
+        //On sauve avec les coord actuels
+        player = new PlayerModel({
+           latitude : latitude
+         , longitude : longitude
+         , playerid : Owner.id
+         , token : Owner.token
+        });
+        player.save();
+        
+      });
+    }
     
   },
 

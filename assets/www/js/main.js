@@ -9,5 +9,5 @@ $(document).ready(function () {
   Cordova.ready(function () {
     // Cordova is ready
     console.log('Cordova is ready.')
-  })
+  });
 });

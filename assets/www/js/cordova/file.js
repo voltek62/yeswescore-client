@@ -84,10 +84,7 @@
     },
 
     write: function (filename, data, callback) {
-      assert(typeof filename === "string");
-      assert(typeof data === "string");
-
-      getFileEntryFromRootDirectory(filename, { create: true, exclusive: false }, function (err, fileEntry) {
+      getFileEntryFromRootDirectory(String(filename), { create: true, exclusive: false }, function (err, fileEntry) {
         if (err)
           return callback(err);
         // write file.
@@ -95,7 +92,7 @@
           function success(writer) {
             writer.onwrite = function success(evt) { callback() };
             writer.onerror = function error(evt) { callback("file writer error") };
-            writer.write(data);
+            writer.write(String(data));
           },
           function error(evt) { callback(getErrorMessage(evt)) }
         );
@@ -110,18 +107,20 @@
     // #BEGIN_DEV
     // test de l'ecriture
     var now = new Date().getTime();
+    console.log("DEV: test writing " + now + " in temp.text");
     File.write('temp.txt', now, function (err) {
       if (err)
         return console.log("error: " + err);
       // test de la lecture
-      console.log('ecriture de ' + now + ' dans temp.txt');
+      console.log('ecriture dans temp.txt OK');
       File.read('temp.txt', function (err, data) {
         if (err)
           return console.log("erreor: " + err);
-        console.log('lecture de ' + data);
+        console.log('lecture dans temp.txt de ' + data);
         //
         assert(data === String(now));
       });
     });
+    // #END_DEV
   });
 })(Cordova);

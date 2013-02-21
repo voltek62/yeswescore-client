@@ -105,7 +105,6 @@ var PlayerFormView = Backbone.View.extend({
     var dataDisplay = {
 	      name:this.Owner.name
 	    , nickname:this.Owner.nickname
-	    , email:this.Owner.email
 	    , rank:this.Owner.rank
 	    , password:this.Owner.password
 	    , idlicense:this.Owner.idlicense
@@ -117,7 +116,11 @@ var PlayerFormView = Backbone.View.extend({
       dataDisplay.club = this.Owner.club.name;
       dataDisplay.idclub = this.Owner.club.id;      	
     }
-      
+    
+    if (this.Owner.email!== undefined) {    
+      dataDisplay.email = this.Owner.email.address;    
+    }
+    
     //player:this.player.toJSON(),playerid:Owner.id,token:Owner.token	
     this.$el.html(this.playerFormTemplate(dataDisplay));
     this.$el.trigger('pagecreate');

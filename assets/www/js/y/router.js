@@ -141,7 +141,7 @@
 
     changePage: function (view) {
       if (currentView)
-        currentView.close();
+        currentView.close();     
       currentView = view;
       $.mobile.changePage(view.$el, {
         allowSamePageTransition : true,

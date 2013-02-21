@@ -17,11 +17,34 @@
             callbacks.push(callback);
             // we are now "loading"
             status = "loading";
-            document.addEventListener("deviceready", function () {
-              // We are now ready.
+            var onDeviceReady = function () {
+              console.log('event: deviceready');
+              // we are now "ready"
               status = "ready";
               _(callbacks).forEach(function (f) { f() });
-            }, false);
+            };
+
+            // Windows Phone 8 cordova bug.
+            if (navigator.userAgent.match(/(IEMobile)/)) {
+              setTimeout(function () { onDeviceReady() }, 2000);
+            }
+            else {
+              // #BEGIN_DEV
+              if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+                // #END_DEV
+                window.addEventListener("load", function () {
+                  console.log('window loaded')
+                  document.addEventListener("deviceready", function () { console.log('snif') }, false);
+                  document.addEventListener("deviceready", onDeviceReady, false);
+                }, false);
+                // #BEGIN_DEV
+              } else {
+                // We cannot simulate "deviceready" event using standard API.
+                // So, we trigger cordova startup on chrome browser in dev after random time < 1s
+                setTimeout(function () { onDeviceReady() }, Math.round(Math.random() * 1000));
+              }
+              // #END_DEV
+            }
             break;
           case "loading":
             // when Cordova is loading, we just stack the callbacks.
@@ -36,7 +59,6 @@
         }
       };
     })()
-    
   };
   // exporting Cordova to global scope
   global.Cordova = Cordova;

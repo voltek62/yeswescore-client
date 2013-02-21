@@ -1,125 +1,130 @@
 (function (Cordova, undefined) {
   "use strict";
 
-  // wrapper around cordova file
+  // wrapper around cordova file api
   // TEMPORARY works in Ripple
   // PERSISTENT is bugged in Ripple
-  var File = {
-      
-      readJSON: function(k,result) {
-        
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, File.errorFile);
-        
-        function gotFS(fileSystem) {
-          try {
-            fileSystem.root.getFile(YesWeScore.Conf.get("cordova.file"), null, gotFileEntry, File.errorFile);
-          }
-          catch(e) {result('');}            
-        }
-        
-        function gotFileEntry(fileEntry) {
-          
-          try {
-            fileEntry.file(gotFile, File.errorFile);
-          }
-          catch(e) {result('');}
-          
-        }
+  //
+  // api:
+  // 
+  //  Cordova.File.Read("test.txt", function (err, text) {
+  //    if (err)
+  //      return console.log("error !");
+  //    console.log(text);
+  //  });
+  //
+  //  Cordova.File.Write("test.txt", "some text", function (err) {
+  //    if (err)
+  //      return console.log("error !");
+  //  });
+  //
 
-        function gotFile(file){
-          try {
-            readAsText(file);
-          }
-          catch(e) {result('');}
+  // FileError is the only parameter of any of the File API's error callbacks.
+  // @see http://docs.phonegap.com/en/2.4.0/cordova_file_file.md.html#FileError
+  var getErrorMessage = function (evt) {
+    try {
+      for (var errorCodeName in FileError) {
+        if (typeof FileError[errorCodeName] !== "function" &&
+            FileError[errorCodeName] === evt.target.error.code) {
+          return "error " + msg + " " + i;
         }
-        
-        function readAsText(file) {
-          var reader = new FileReader();
-          reader.onloadend = function(evt) {
-              console.log("fileY read success");
-              console.log("fileY read data : "+evt.target.result);
-              try {
-                var obj = evt.target.result;
-                
-                console.log('fileY obj '+k+' on a '+obj.k);
-                //FIXME: si OK on retourne objet
-                result(obj.k);    
-                
-              }
-              catch(e) {console.log('Error parse fileY ',e),result('');      
-            }  
-          };
-          reader.readAsText(file);    
-          
-        }          
-      },
-      
-      writeJSON: function(key,value){
-
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, File.errorFile);
-        
-        function gotFS(fileSystem) {
-          fileSystem.root.getFile(YesWeScore.Conf.get("cordova.file"), {create: true, exclusive: false}, gotFileEntry, File.errorFile);
-        }
-
-        function gotFileEntry(fileEntry) {
-            fileEntry.createWriter(gotFileWriter, File.errorFile);
-        }
-
-        function gotFileWriter(writer){
-            
-            writer.onwriteend = function(evt) {
-            console.log('fileY written', evt);
-            };
-            
-            console.log('fileY key: '+key+' value: '+value);
-            
-            var o = {}; 
-            o[key] = value;
-            var data = JSON.stringify(o);
-                        
-            //On enregistre dans les variables de confs
-            YesWeScore.Conf.setNX((YesWeScore.Conf.get("cordova.file"), data, 'json'));
-            
-            //FIXME: ancien contenu à copier
-            writer.write(data);   
-        }
-      },    
-      
-      errorFile: function(error) {
-        var states = {};
-        states[FileError.NOT_FOUND_ERR] = 'FileError.NOT_FOUND_ERR';
-        states[FileError.SECURITY_ERR] = 'FileError.SECURITY_ERR';
-        states[FileError.ABORT_ERR] = 'FileError.ABORT_ERR';
-        states[FileError.NOT_READABLE_ERR] = 'FileError.NOT_READABLE_ERR';
-        states[FileError.ENCODING_ERR] = 'FileError.ENCODING_ERR';
-        states[FileError.NO_MODIFICATION_ALLOWED_ERR] = 'FileError.NO_MODIFICATION_ALLOWED_ERR';
-        states[FileError.INVALID_STATE_ERR] = 'FileError.INVALID_STATE_ERR';
-        states[FileError.SYNTAX_ERR] = 'FileError.SYNTAX_ERR';
-        states[FileError.INVALID_MODIFICATION_ERR] = 'FileError.INVALID_MODIFICATION_ERR';
-        states[FileError.QUOTA_EXCEEDED_ERR] = 'FileError.QUOTA_EXCEEDED_ERR';
-        states[FileError.TYPE_MISMATCH_ERR] = 'FileError.TYPE_MISMATCH_ERR';
-        states[FileError.PATH_EXISTS_ERR] = 'FileError.PATH_EXISTS_ERR';
-        
-        console.log('fileY: '+states[error.code]);
-      }  
-      
-  
+      }
+    } catch (e) { return "exception in error handler " + e; }
+    return "unknown error " + msg;
   };
 
-  // registering geolocalisation only when cordova is ready.
-  Cordova.ready(function () {
+  var requestFileSystem = function (callback) {
+    if (!window.requestFileSystem)
+      return callback("fileY Can't access Cordova requestFileSystem");
+    window.requestFileSystem(
+      LocalFileSystem.PERSISTENT,
+      0,
+      function success(result) { callback(null, result) },
+      function error(evt) { callback(getErrorMessage(evt)) }
+    );
+  };
 
-    /*
+  var getFileEntryFromDirectory = function (directory, filename, options, callback) {
+    directory.getFile(
+      filename,
+      options,
+      function success(result) { callback(null, result); },
+      function error(evt) { callback(getErrorMessage(evt)) }
+    );
+  };
+
+  var getFileEntryFromRootDirectory = function (filename, options, callback) {
+    requestFileSystem(function (err, filesystem) {
+      if (err)
+        return callback(err);
+      getFileEntryFromDirectory(
+        filesystem.root,
+        filename,
+        options,
+        callback);
+    });
+  };
+
+  var File = {
+    read: function (filename, callback) {
+      getFileEntryFromRootDirectory(filename, null, function (err, fileEntry) {
+        if (err)
+          return callback(err);
+        // reading file.
+        fileEntry.file(
+          function success(file) {
+            var reader = new FileReader();
+            reader.onloadend = function (evt) { callback(null, evt.target.result) };
+            reader.onerror = function (evt) { callback("file reader error") };
+            reader.readAsText(file);
+          },
+          function error(evt) { callback(getErrorMessage(evt)) }
+        );
+      });
+    },
+
+
+    write: function (filename, data, callback) {
+      getFileEntryFromRootDirectory(String(filename), { create: true, exclusive: false }, function (err, fileEntry) {
+        if (err)
+          return callback(err);
+        // write file.
+        fileEntry.createWriter(
+          function success(writer) {
+            writer.onwrite = function success(evt) { callback() };
+            writer.onerror = function error(evt) { callback("file writer error") };
+            writer.write(String(data));
+          },
+          function error(evt) { callback(getErrorMessage(evt)) }
+        );
+      });
+    }
+  };
+
+  // registering file only when cordova is ready.
+  Cordova.ready(function () {
     Cordova.File = File;
-    File.readJSON('object_json'); 
-    File.writeJSON('object_json',{DateOfDay:new Date()});  
-    
-    var resultat='';
-    File.readJSON('object_json',function result(r){resultat=r});
-    
-    console.log('fileY test de lecture, on lit objet ',resultat.DateOfDay);
+
+    // #BEGIN_DEV
+    // test de l'ecriture
+    /*
+    var now = new Date().getTime();
+    console.log("DEV: test writing " + now + " in temp.text");
+    File.write('temp.txt', now, function (err) {
+      if (err)
+        return console.log("error: " + err);
+      // test de la lecture
+      console.log('DEV ecriture dans temp.txt OK');
+      File.read('temp.txt', function (err, data) {
+        if (err)
+          return console.log("erreor: " + err);
+        console.log('DEV lecture dans temp.txt de ' + data);
+        //
+        assert(data === String(now));
+      });
+    });
     */
-    
+    // #END_DEV
+
   });
 })(Cordova);

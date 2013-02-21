@@ -128,6 +128,9 @@ var PlayerModel = Backbone.Model.extend({
           if (data.token !== null) {
             data.password = '';
             window.localStorage.setItem("Owner", JSON.stringify(data));
+            
+            Y.Conf.set("playerid", data.id, { permanent: true })
+            
           } else
             console.log('Erreur Creation User par defaut');
         },

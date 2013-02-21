@@ -31,8 +31,7 @@ var IndexView = Backbone.View.extend({
     //Controle si localStorage contient Owner
     var Owner = window.localStorage.getItem("Owner");
 
-    //window.localStorage.clear();
-    
+
     if (Owner === null) {
       //alert('Pas de owner');
       //Creation user à la volée
@@ -60,6 +59,13 @@ var IndexView = Backbone.View.extend({
          , token : Owner.token
         });
         player.save();
+        
+        this.games = new GamesCollection();
+        this.games.setMode('geolocation','');
+        this.games.setPos(latitude,longitude);
+        this.games.fetch();
+        this.games.on('all', this.renderList, this);
+        
         
       });
     }

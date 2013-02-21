@@ -17,6 +17,7 @@ var PlayerModel = Backbone.Model.extend({
       update : "",
       creation : new Date()
     },
+    language : window.navigator.language,
     location : {
       currentPos : [ 0, 0 ]
     },
@@ -34,7 +35,7 @@ var PlayerModel = Backbone.Model.extend({
       url : Y.Conf.get("api.url.auth"),
       type : 'POST',
       data : {
-        email : mail,
+        email : {address : mail},
         uncryptedPassword : password
       },
       success : function(data) {

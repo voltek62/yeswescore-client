@@ -235,17 +235,17 @@ var GameAddView = Backbone.View.extend({
     console.log('gameadd on envoie objet ', game);
 
     //On sauve dans Collections
-    var games = new GamesCollection();
-    var gamecache = games.create(game);
+    var gameNew = new GameModel(game);
+    var gameCache = gameNew.save();
 
-    //Si connexion on envoie au serveur    
-    //games.storage.sync.push(); // POST /api/dreams and PUT /api/dreams/:id
+	//On stocke dans le localStorage
+    Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })
 
-    console.log('gamecache.id ', gamecache.id);
+    console.log('gamecache.id ', gameCache.id);
 
-    if (gamecache.id !== 'null') {
+    if (gamecache.id !== 'undefined') {
       //Backbone.Router.navigate("/#games/"+gamecache.id, true);
-      window.location.href = '#games/' + gamecache.id;
+      window.location.href = '#games/' + gameCache.id;
     }
     return false;
   },

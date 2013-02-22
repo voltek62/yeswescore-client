@@ -1,11 +1,7 @@
 (function (Cordova, undefined) {
   "use strict";
 
-  // wrapper around cordova file api
-  // TEMPORARY works in Ripple
-  // PERSISTENT is bugged in Ripple
-  //
-  // api:
+  // Api:
   // 
   //  Cordova.File.Read("test.txt", function (err, text) {
   //    if (err)
@@ -102,7 +98,7 @@
   };
 
   // registering file only when cordova is ready.
-  Cordova.ready(function () {
+  Cordova.deviceready(function () {
     Cordova.File = File;
 
     // #BEGIN_DEV

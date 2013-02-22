@@ -61,7 +61,7 @@ var GameModel = Backbone.Model.extend({
       if (this.get('team1_id') === '')
         team1_json = {
           name : this.get('team1'),
-          rank : 'NC'
+          rank : this.get('rank1')
         };
       else
         team1_json = {
@@ -71,7 +71,7 @@ var GameModel = Backbone.Model.extend({
       if (this.get('team2_id') === '')
         team2_json = {
           name : this.get('team2'),
-          rank : 'NC'
+          rank : this.get('rank2')
         };
       else
         team2_json = {
@@ -89,8 +89,8 @@ var GameModel = Backbone.Model.extend({
         options : {
           type : 'singles',
           subtype : (this.get('subtype') || 'A'),
-          sets : '',
-          score : '',
+          sets : '0/0',
+          score : '0/0',
           court : (this.get('court') || ''),
           surface : (this.get('surface') || ''),
           tour : (this.get('tour') || '')
@@ -98,7 +98,7 @@ var GameModel = Backbone.Model.extend({
         location : {
           country : (this.get('country') || ''),
           city : (this.get('city') || ''),
-          pos : [ appConfig.latitude, appConfig.longitude ]
+          pos : [ 0, 0 ]
         }
       };
 
@@ -113,7 +113,9 @@ var GameModel = Backbone.Model.extend({
         success : function(result) {
           console.log('data result Game', result);
           // FIXME : on redirige sur //si offline id , si online sid
-          window.location.href = '#games/' + result.id;
+    
+          //window.location.href = '#games/' + result.id;
+          Y.Router.navigate("/#games/"+result.id, true)
         },
         error : function(result) {
           // si erreur on stocke dans localstorage console.log('error

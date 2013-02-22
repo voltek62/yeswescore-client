@@ -151,7 +151,11 @@
       assert(typeof key === "string");
       assert(typeof value !== "undefined");
 
-      DB.save(key, JSON.stringify({ key: key, value: value, metadata: metadata }));
+      var obj = { key: key, value: value, metadata: metadata };
+      DB.save(key, JSON.stringify(obj));
+
+      // events
+      this.trigger("set", [obj]);
 
       // permanent keys (cost a lot).
       if (metadata && metadata.permanent) {
@@ -203,6 +207,9 @@
       this.load();
     }
   };
+
+  // using mixin
+  _.extend(Conf, Backbone.Events);
 
   // setting conf
   Y.Conf = Conf;

@@ -47,7 +47,7 @@ var PlayerModel = Backbone.Model.extend({
         if (data.id !== undefined) {
           $('span.success').html('Login OK ' + data.id).show();
 
-           window.localStorage.setItem("Owner",JSON.stringify(data));
+           window.localStorage.setItem("Y.Cache.Player",JSON.stringify(data));
 
            //players = new PlayersCollection('me');
            //players.create(data);
@@ -127,7 +127,10 @@ var PlayerModel = Backbone.Model.extend({
           // On fixe dans localStorage
           if (data.token !== null) {
             data.password = '';
-            window.localStorage.setItem("Owner", JSON.stringify(data));
+            window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
+            
+            Y.Conf.set("playerid", data.id, { permanent: true })
+            
           } else
             console.log('Erreur Creation User par defaut');
         },
@@ -186,8 +189,8 @@ var PlayerModel = Backbone.Model.extend({
 
             // On met à jour le local storage
 
-            window.localStorage.removeItem("Owner");
-            window.localStorage.setItem("Owner", JSON.stringify(data));
+            window.localStorage.removeItem("Y.Cache.Player");
+            window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
           }
         }
       });

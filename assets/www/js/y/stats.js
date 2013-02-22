@@ -122,6 +122,8 @@
          .fail(function () {
            // retry after 5 sec.
            setTimeout(function () {
+             // msg again in the stack
+             stack.unshift(msg);
              sending = false;
              Y.Stats.trySend();
            }, 3000);

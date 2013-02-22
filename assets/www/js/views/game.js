@@ -44,19 +44,18 @@ var GameView = Backbone.View
         //this.render();
         this.score.on("all",this.render,this);
 
-        
-        this.gamesfollow = new GamesCollection('follow');
-        result = this.gamesfollow.storage.find({
-          id : this.id
-        });
-
-        if (result === null)
-          this.follow = 'false';
+        var games = Y.Conf.get("owner.games.followed");
+        if (games !== undefined)
+        {
+          if (games.indexOf(this.id) === -1) {
+            this.follow = 'false';
+          }
+          else
+            this.follow = 'true';          
+        }
         else
-          this.follow = 'true';
-         
-        this.follow = 'false';
-
+          this.follow = 'false';
+        
         var options = {
           // default delay is 1000ms
           // FIXME : on passe sur 30 s car souci avec API
@@ -392,12 +391,21 @@ var GameView = Backbone.View
       followGame : function() {
 
         if (this.follow === 'true') {
-          this.gamesfollow = new GamesCollection('follow');
+          //this.gamesfollow = new GamesCollection('follow');
 
           console.log('On ne suit plus nofollow ' + this.id);
 
-          this.gamesfollow.storage.remove(this.scoreboard);
-
+          //this.gamesfollow.storage.remove(this.scoreboard);
+          var games = Y.Conf.get("owner.games.followed");
+          if (games !== undefined)
+          {
+            if (games.indexOf(this.id) === -1) {
+              //On retire l'elmt
+              games.splice(games.indexOf(this.id), 1);
+              Y.Conf.set("Owner.games.followed", games);
+            }
+          }
+          
           $('span.success').html('Vous ne suivez plus ce match').show();
           // $('#followPlayerButton').html('Suivre ce joueur');
           $("#followButton .ui-btn-text").text("Suivre");
@@ -407,15 +415,20 @@ var GameView = Backbone.View
         } else {
 
           //Via backbone.offline
-          this.gamesfollow = new GamesCollection('follow');
-          this.gamesfollow.create(this.scoreboard);
+          //this.gamesfollow = new GamesCollection('follow');
+          //this.gamesfollow.create(this.scoreboard);
           
           //Via localStorage
-          var games = Conf.get("owner.games.followed");
-          if (games.indexOf(newId) === -1) {
-            games.push(newId);
-            Conf.set("Owner.games.followed", games);
+          var games = Y.Conf.get("owner.games.followed");
+          if (games !== undefined)
+          {
+            if (games.indexOf(this.id) === -1) {
+              games.push(this.id);
+              Y.Conf.set("Owner.games.followed", games);
+            }
           }
+          else
+            Y.Conf.set("Owner.games.followed", [this.id]);
 
           $('span.success').html('Vous suivez ce joueur').show();
           // $('#followPlayerButton').html('Ne plus suivre ce joueur');

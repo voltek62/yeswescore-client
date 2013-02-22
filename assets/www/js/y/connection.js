@@ -10,11 +10,11 @@
     },
 
     isOnline: function () {
-      this.check();
+      this.update();
       return this.status === this.ONLINE;
     },
 
-    check: function () {
+    update: function () {
       if (Cordova.status !== "ready")
         return;
       var newStatus = Cordova.Connection.isOnline() ? this.ONLINE : this.OFFLINE;
@@ -29,7 +29,8 @@
   _.extend(Connection, Backbone.Events);
 
   // pooling cordova to auto-update connection status
-  setInterval(function () { Connection.check(); }, 1000);
+  setInterval(function () { Connection.update(); }, 1000);
 
+  // exporting to global scope
   Y.Connection = Connection;
 })(Y)

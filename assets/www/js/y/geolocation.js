@@ -1,40 +1,31 @@
-(function(Y, undefined) {
+(function (Y, undefined) {
   "use strict";
 
-  //wrapper around cordova geolocation
-  Y.Geolocation = {longitude:null,latitude:null};
+  var Geolocation = {
+    longitude: null,
+    latitude: null,
 
-  // ici setInterval
-  Cordova.ready(function () {
-    
-    setInterval(function () {
-       // code cordova
-      
-      if (Cordova.Geolocation !== undefined) {
-        // FIXME: si objet null, on regarde dans le localStorage
-        // Puis on reprend derniere position
-        // Cordova.Geolocation.latitude
-        Cordova.Geolocation.getCurrentPosition(function (coords) { 
-          
-        if (Y.Geolocation.longitude!==coords.longitude || Y.Geolocation.latitude!==coords.latitude) 
-        {  
-            Y.Geolocation.longitude = coords.longitude;
-            Y.Geolocation.latitude = coords.latitude;        
-            Y.Geolocation.trigger("change", [Y.Geolocation.latitude, Y.Geolocation.longitude]); 
+    update: function () {
+      if (Cordova.status !== "ready")
+        return;
+      // FIXME: treshold on "change" event ?
+      Cordova.Geolocation.getCurrentPosition(function (coords) {
+        if (Y.Geolocation.longitude !== coords.longitude ||
+            Y.Geolocation.latitude !== coords.latitude) {
+          Y.Geolocation.longitude = coords.longitude;
+          Y.Geolocation.latitude = coords.latitude;
+          Y.Geolocation.trigger("change", [Y.Geolocation.longitude, Y.Geolocation.latitude]);
         }
-          
-        });
-       
-        
-      } else
-        setInterval(getCurrentPosition, 5000);
-      
-    }, 5000);
-    
-  });
-  
-  
-})
+      });
+    }
+  };
 
-(Y);
-_.extend(Y.Geolocation, Backbone.Events);
+  // adding some mixin for events.
+  _.extend(Geolocation, Backbone.Events);
+
+  // pooling cordova to auto-update geoloc coordinates
+  setInterval(function () { Geolocation.update(); }, 5000);
+
+  // exporting to global scope
+  Y.Geolocation = Geolocation;
+})(Y);

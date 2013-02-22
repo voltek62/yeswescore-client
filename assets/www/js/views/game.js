@@ -410,6 +410,7 @@ var GameView = Backbone.View
           this.gamesfollow = new GamesCollection('follow');
           this.gamesfollow.create(this.scoreboard);
           
+          //Via localStorage
           var games = Conf.get("owner.games.followed");
           if (games.indexOf(newId) === -1) {
             games.push(newId);

@@ -247,6 +247,8 @@ var GameAddView = Backbone.View.extend({
       //Backbone.Router.navigate("/#games/"+gamecache.id, true);
       window.location.href = '#games/' + gameCache.id;
     }
+    
+    
     return false;
   },
 

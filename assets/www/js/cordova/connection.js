@@ -11,17 +11,19 @@
     },
 
     initialize: function () {
-      this.types.UNKNOWN = Connection.UNKNOWN;
-      this.types.ETHERNET = Connection.ETHERNET;
-      this.types.WIFI = Connection.WIFI;
-      this.types.CELL_2G = Connection.CELL_2G;
-      this.types.CELL_3G = Connection.CELL_3G;
-      this.types.CELL_4G = Connection.CELL_4G;
-      this.types.NONE = Connection.NONE;
+      this.types.UNKNOWN = Connection.UNKNOWN || "UNKNOWN";
+      this.types.ETHERNET = Connection.ETHERNET || "ETHERNET";
+      this.types.WIFI = Connection.WIFI || "WIFI";
+      this.types.CELL_2G = Connection.CELL_2G || "CELL_2G";
+      this.types.CELL_3G = Connection.CELL_3G || "CELL_3G";
+      this.types.CELL_4G = Connection.CELL_4G || "CELL_4G";
+      this.types.NONE = Connection.NONE || "NONE";
     },
 
     getType: function () {
-      return navigator.connection.type;
+      if (navigator.connection !== undefined)
+        return navigator.connection.type;
+      return this.types.UNKNOWN; // inside the browser...
     },
 
     isOnline: function () {
@@ -46,6 +48,7 @@
   };
 
   Cordova.deviceready(function () {
+    Connection.initialize();
     Cordova.Connection = Connection;
   });
 })(Cordova)

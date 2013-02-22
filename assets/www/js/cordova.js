@@ -5,7 +5,7 @@
   var status = "uninitialized" // uninitialized, loading, ready
     , ondevicereadyCallbacks = []
     , onreadyCallbacks = [];
-
+  
   var Cordova = {
     Geoloc: null,  // null until ready.
 

@@ -7,6 +7,8 @@ var PlayerFollowView = Backbone.View.extend({
 
   listview:"#listPlayersView",
 
+  pageName: "playerFollow",
+
   initialize:function() {
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');

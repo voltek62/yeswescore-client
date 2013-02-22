@@ -4,6 +4,8 @@ var GameEndView = Backbone.View.extend({
   events: {
     'submit form#frmEndGame':'endGame'
   },
+
+  pageName: "gameEnd",
     
   initialize:function() {
     this.gameEndTemplate = Y.Templates.get('gameEndTemplate');

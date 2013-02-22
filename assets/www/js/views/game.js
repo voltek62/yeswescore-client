@@ -1,5 +1,4 @@
-var GameView = Backbone.View
-    .extend({
+var GameView = Backbone.View.extend({
       el : "#index",
       
       displayViewScoreBoard : "#displayViewScoreBoard",
@@ -27,6 +26,7 @@ var GameView = Backbone.View
         'vclick #commentSendButton' : 'commentSend'
       },
 
+      pageName: "game",
 
       initialize : function() {
         // FIXME : temps de rafrichissement selon batterie et selon forfait

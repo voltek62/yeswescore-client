@@ -23,13 +23,13 @@
       'players/club/:id': 'playerListByClub',
       'players/form': 'playerForm',
       'players/signin': 'playerSignin',
-      'players/forget': 'playerForget',      
+      'players/forget': 'playerForget',
       'players/follow': 'playerFollow',
       //'players/follow/:id':                           'playerFollow',    
       //'players/nofollow/:id':                         'playerNoFollow',                                    
       'players/:id': 'player',
       'clubs/add': 'clubAdd',
-      'clubs/:id': 'club',      
+      'clubs/:id': 'club',
       'account': 'account'
     },
 
@@ -57,7 +57,7 @@
       var clubAddView = new ClubAddView();
       this.changePage(clubAddView);
     },
-    
+
     index: function () {
       var indexView = new IndexView();
       this.changePage(indexView);
@@ -140,26 +140,34 @@
     },
 
     changePage: function (view) {
-      
+
       try {
+        var previousPageName = "none";
+        var nextPageName = "unknown";
+
+        if (currentView && currentView.pageName)
+          previousPageName = currentView.pageName;
         if (currentView)
-          currentView.close();     
+          currentView.close();
         currentView = view;
-        
-        console.log('DEV ChangePage',new Date().getTime());
-        
+        if (view.pageName)
+          nextPageName = view.pageName;
+
+        Y.Stats.page(previousPageName, nextPageName);
+        console.log('DEV ChangePage', new Date().getTime());
+
         $.mobile.changePage(view.$el, {
           transition: 'none',
           //showLoadMsg: false,
           changeHash: false,
           reverse: false
-        });     
+        });
       }
-      catch(e) {
-        console.log('DEV ChangePage Error',e);
+      catch (e) {
+        console.log('DEV ChangePage Error', e);
       }
-      
-      
+
+
     },
 
     historyCount: 0

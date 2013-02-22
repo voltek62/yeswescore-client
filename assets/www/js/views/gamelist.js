@@ -6,7 +6,9 @@ var GameListView = Backbone.View.extend({
   },
 
   listview:"#listGamesView",
-    
+  
+  pageName: "gameList",
+
   mode:'',
 
   initialize: function(data) {

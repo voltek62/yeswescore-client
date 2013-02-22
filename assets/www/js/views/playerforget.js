@@ -5,6 +5,8 @@ var PlayerForgetView = Backbone.View.extend({
     'submit form#frmForgetPlayer' : 'forget'
   },
 
+  pageName: "playerForget",
+
   initialize : function() {
     this.playerForgetTemplate = Y.Templates.get('playerForgetTemplate');
     this.render();

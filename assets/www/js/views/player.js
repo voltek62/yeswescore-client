@@ -5,6 +5,8 @@ var PlayerView = Backbone.View.extend({
     'vclick #followPlayerButton': 'followPlayer'
   },
 
+  pageName: "player",
+
   initialize: function(options) {
     this.playerViewTemplate = Y.Templates.get('playerViewTemplate');
 

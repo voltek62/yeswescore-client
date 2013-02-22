@@ -5,6 +5,8 @@ var ClubView = Backbone.View.extend({
     'vclick #followButton' : 'follow'
   },
 
+  pageName: "club",
+
   initialize : function() {
     this.clubViewTemplate = Y.Templates.get('clubViewTemplate');
 

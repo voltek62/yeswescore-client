@@ -87,8 +87,10 @@ var GameView = Backbone.View
       },
 
       commentSend : function() {
-        var playerid = $('#playerid').val(), token = $('#token').val(), gameid = $(
-            '#gameid').val(), comment = $('#messageText').val();
+        var playerid = $('#playerid').val()
+        , token  = $('#token').val()
+        , gameid = $('#gameid').val()
+        , comment = $('#messageText').val();
 
         var stream = new StreamModel({
           type : "comment",
@@ -344,14 +346,15 @@ var GameView = Backbone.View
         if (this.score.toJSON().stream !== undefined) {
           
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
-            streams : this.score.toJSON().stream,
+            streams : this.score.toJSON().stream.reverse(),
             query : ' '
           }));
 
           $(this.incomingComment).listview('refresh',true);
         }
         
-        return this;
+        //return this;
+        return false;
       },
 
       render : function() {

@@ -32,8 +32,11 @@ var StreamModel = Backbone.Model.extend({
 
       return $.ajax({
         dataType : 'json',
-        url : Y.Conf.get("api.url.games") + (this.get('gameid') || '') + '/stream/?playerid='
-            + (this.get('playerid') || '') + '&token='
+        url : Y.Conf.get("api.url.games") 
+        	+ (this.get('gameid') || '') 
+        	+ '/stream/?playerid='
+            + (this.get('playerid') || '') 
+            + '&token='
             + (this.get('token') || ''),
         type : 'POST',
         data : {
@@ -53,6 +56,7 @@ var StreamModel = Backbone.Model.extend({
 
     } else {
 
+	  // http://api.yeswescore.com/v1/games/511d31971ad3857d0a0000f8/stream/
       return Backbone.sync(method, model, options);
 
     }

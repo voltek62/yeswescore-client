@@ -3,7 +3,7 @@
 <% } %> 
 <% for (var i = 0; i < streams.length; i++) { stream = streams[i]; %>
 <div class="message">
-	<%= stream.date %> : <span class="username"><%= (stream.owner ||'Anonymous') %></span> : <%= stream.data.text %>
+	<%= stream.dates.creation %> : <span class="username"><%= (stream.owner ||'Anonymous') %></span> : <%= stream.data.text %>
 </div>
 <br />
 <% } %>

@@ -2,22 +2,24 @@
 (function (global) {
   "use strict";
 
-  var status = "uninitialized" // uninitialized, loading, ready
-    , ondevicereadyCallbacks = []
+  var ondevicereadyCallbacks = []
     , onreadyCallbacks = [];
-  
+
   var Cordova = {
     Geoloc: null,  // null until ready.
 
+    status: "uninitialized", // uninitialized, loading, ready
+
     initialize: function () {
       // allready loaded.
-      if (status !== "uninitialized")
+      if (this.status !== "uninitialized")
         return;
       // we are now "loading"
-      status = "loading";
+      var that = this;
+      this.status = "loading";
       var onDeviceReady = function () {
         // we are now "ready"
-        status = "ready";
+        that.status = "ready";
         // first => oninitialized
         _(ondevicereadyCallbacks).forEach(function (f) { f() });
         // second => onready
@@ -46,7 +48,7 @@
     },
 
     deviceready: function (callback) {
-      switch (status) {
+      switch (this.status) {
         case "uninitialized":
           // when Cordova is uninitialized, we just stack the callbacks.
           ondevicereadyCallbacks.push(callback);
@@ -66,7 +68,7 @@
 
     // same as jquery ;)
     ready: function ready(callback) {
-      switch (status) {
+      switch (this.status) {
         case "uninitialized":
           // when Cordova is uninitialized, we just stack the callbacks.
           onreadyCallbacks.push(callback);

@@ -188,10 +188,12 @@ var PlayerModel = Backbone.Model.extend({
           if (data.id !== undefined) {
 
             // On met à jour le local storage
-
+			console.log('On stocke dans le localStorage');
             window.localStorage.removeItem("Y.Cache.Player");
             window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
           }
+          else
+			console.log('Erreur : On stocke pas dans le localStorage');          
         }
       });
       

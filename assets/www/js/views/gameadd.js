@@ -36,8 +36,8 @@ var GameAddView = Backbone.View.extend({
     selectedRank = $('#team1_choice:checked').next('label').next('label').text();
     //$('label[for=pre-payment]').text();
 
-    $('#team1').val(selectedName);
-    $('#rank1').val(selectedRank);
+    $('#team1').val($.trim(selectedName));
+    $('#rank1').val($.trim(selectedRank));
     $('#team1_id').val(selectedId);
     $('team1_error').html('');
 
@@ -53,8 +53,8 @@ var GameAddView = Backbone.View.extend({
     selectedRank = $('#team2_choice:checked').next('label').next('label').text();
     //$('label[for=pre-payment]').text();
 
-    $('#team2').val(selectedName);
-    $('#rank2').val(selectedRank);
+    $('#team2').val($.trim(selectedName));
+    $('#rank2').val($.trim(selectedRank));
     $('#team2_id').val(selectedId);
     $('team2_error').html('');
 
@@ -182,48 +182,24 @@ var GameAddView = Backbone.View.extend({
       $('span.team2_error').html('Vous devez indiquer le classement !').show();
       return false;
     }
-    //FIXME:si player existe pas on le cree à la volée        
-    /*
-    var game = {
-    team1:team1,
-    team2:team2,
-    team1_id:team1_id,
-    team2_id:team2_id,
-    city: city,
-    playerid: playerid,
-    court: court,
-    surface: surface,
-    subtype: subtype,
-    tour: tour,
-    token: token
-    };
-    */
 
     var game = {
-      sport: "tennis",
-      status: "ongoing",
-      location: { country: "", city: city, pos: [] },
-      teams: [
-        {
-          points: "",
-          players: [{ name: "A", rank: rank1}]
-        },
-        {
-          points: "",
-          players: [{ name: "B", rank: rank2}]
-        }
-      ],
-      options: {
-        subtype: "A",
-        sets: "0/0",
-        score: "0/0",
-        court: "",
-        surface: "",
-        tour: ""
-      },
-      updated_at: new Date()
+		team1 : $('#team1').val()
+      , rank1 : $('#rank1').val()
+      , team1_id : $('#team1_id').val()
+      , team2 : $('#team2').val()
+      , rank2 : $('#rank2').val()
+      , team2_id : $('#team2_id').val()
+      , city : $('#city').val()
+      , playerid : $('#playerid').val()
+      , token : $('#token').val()
+      , court : $('#court').val()
+      , surface : $('#surface').val()
+      , tour : $('#tour').val()
+      , subtype : $('#subtype').val()
     };
 
+	/*
     if (team1_id.length > 2)
       game.teams[0].players[0].id = team1_id;
     else
@@ -233,22 +209,25 @@ var GameAddView = Backbone.View.extend({
       game.teams[1].players[0].id = team2_id;
     else
       game.teams[1].players[0].name = team2;
-
+	*/
+	
     console.log('gameadd on envoie objet ', game);
 
     //On sauve dans Collections
-    var games = new GamesCollection();
-    var gamecache = games.create(game);
+    var gameNew = new GameModel(game);
+    var gameCache = gameNew.save();
 
-    //Si connexion on envoie au serveur    
-    //games.storage.sync.push(); // POST /api/dreams and PUT /api/dreams/:id
+	//On stocke dans le localStorage
+    //Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })
 
-    console.log('gamecache.id ', gamecache.id);
+    //console.log('gamecache.id ', gameCache.id);
 
-    if (gamecache.id !== 'null') {
+    //if (gamecache.id !== 'undefined') {
       //Backbone.Router.navigate("/#games/"+gamecache.id, true);
-      window.location.href = '#games/' + gamecache.id;
-    }
+      //window.location.href = '#games/' + gameCache.id;
+    //}
+    
+    
     return false;
   },
 

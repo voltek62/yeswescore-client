@@ -44,19 +44,18 @@ var GameView = Backbone.View.extend({
         //this.render();
         this.score.on("all",this.render,this);
 
-        
-        this.gamesfollow = new GamesCollection('follow');
-        result = this.gamesfollow.storage.find({
-          id : this.id
-        });
-
-        if (result === null)
-          this.follow = 'false';
+        var games = Y.Conf.get("owner.games.followed");
+        if (games !== undefined)
+        {
+          if (games.indexOf(this.id) === -1) {
+            this.follow = 'false';
+          }
+          else
+            this.follow = 'true';          
+        }
         else
-          this.follow = 'true';
-         
-        this.follow = 'false';
-
+          this.follow = 'false';
+        
         var options = {
           // default delay is 1000ms
           // FIXME : on passe sur 30 s car souci avec API
@@ -68,7 +67,7 @@ var GameView = Backbone.View.extend({
         
         poller = Backbone.Poller.get(this.score, options)
         poller.start();
-        poller.on('success', this.renderRefresh, this);
+        poller.on('success', this.getObjectUpdated, this);
         
         //this.score.on("all",this.renderRefresh,this);
         
@@ -88,8 +87,10 @@ var GameView = Backbone.View.extend({
       },
 
       commentSend : function() {
-        var playerid = $('#playerid').val(), token = $('#token').val(), gameid = $(
-            '#gameid').val(), comment = $('#messageText').val();
+        var playerid = $('#playerid').val()
+        , token  = $('#token').val()
+        , gameid = $('#gameid').val()
+        , comment = $('#messageText').val();
 
         var stream = new StreamModel({
           type : "comment",
@@ -322,48 +323,38 @@ var GameView = Backbone.View.extend({
         console.log('setPointError');
         this.setPoint(false);
       },
+      
+      
+      getObjectUpdated: function() {
+        this.score.on("all",this.renderRefresh,this);     
+      },
 
       // render the content into div of view
       renderRefresh : function() {
         
-        //$(this.displayViewScoreBoard).listview();
+        //console.log('renderRefresh');
         
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),
           Owner : this.Owner
         }));
-        
-        // FIXME: refresh div
+             
         
         $(this.displayViewScoreBoard).trigger('create');
-        $(this.displayViewScoreBoard).listview('refresh');
-
-        
-        // FIXME: convert date
-        /*
-         * var today = new Date(); var msg_time =
-         * today.getHours()+":"+(today.getMinutes()<10?'0':'')+today.getMinutes()+" - ";
-         */
 
         // if we have comments
-
-        
-        if (this.score.stream !== undefined) {
+        if (this.score.toJSON().stream !== undefined) {
           
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
-            //streams : this.score.stream.reverse(),
-            streams : this.score.stream.toJSON(),
+            streams : this.score.toJSON().stream.reverse(),
             query : ' '
           }));
 
-          $(this.incomingComment).listview();
-          $(this.incomingComment).trigger('create');
-          $(this.incomingComment).listview('refresh');
+          $(this.incomingComment).listview('refresh',true);
         }
         
-       
-        
-        return this;
+        //return this;
+        return false;
       },
 
       render : function() {
@@ -386,18 +377,28 @@ var GameView = Backbone.View.extend({
       },
 
       endGame : function() {
-        window.location.href = '#games/end/' + this.id;
+        //window.location.href = '#games/end/' + this.id;
+        Y.Router.navigate("/#games/end/"+this.id, true)
       },
 
       followGame : function() {
 
         if (this.follow === 'true') {
-          this.gamesfollow = new GamesCollection('follow');
+          //this.gamesfollow = new GamesCollection('follow');
 
           console.log('On ne suit plus nofollow ' + this.id);
 
-          this.gamesfollow.storage.remove(this.scoreboard);
-
+          //this.gamesfollow.storage.remove(this.scoreboard);
+          var games = Y.Conf.get("owner.games.followed");
+          if (games !== undefined)
+          {
+            if (games.indexOf(this.id) === -1) {
+              //On retire l'elmt
+              games.splice(games.indexOf(this.id), 1);
+              Y.Conf.set("Owner.games.followed", games);
+            }
+          }
+          
           $('span.success').html('Vous ne suivez plus ce match').show();
           // $('#followPlayerButton').html('Suivre ce joueur');
           $("#followButton .ui-btn-text").text("Suivre");
@@ -406,9 +407,21 @@ var GameView = Backbone.View.extend({
 
         } else {
 
-          this.gamesfollow = new GamesCollection('follow');
-
-          this.gamesfollow.create(this.scoreboard);
+          //Via backbone.offline
+          //this.gamesfollow = new GamesCollection('follow');
+          //this.gamesfollow.create(this.scoreboard);
+          
+          //Via localStorage
+          var games = Y.Conf.get("owner.games.followed");
+          if (games !== undefined)
+          {
+            if (games.indexOf(this.id) === -1) {
+              games.push(this.id);
+              Y.Conf.set("Owner.games.followed", games);
+            }
+          }
+          else
+            Y.Conf.set("Owner.games.followed", [this.id]);
 
           $('span.success').html('Vous suivez ce joueur').show();
           // $('#followPlayerButton').html('Ne plus suivre ce joueur');

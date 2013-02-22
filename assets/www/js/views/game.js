@@ -67,7 +67,7 @@ var GameView = Backbone.View
         
         poller = Backbone.Poller.get(this.score, options)
         poller.start();
-        poller.on('success', this.renderRefresh, this);
+        poller.on('success', this.getObjectUpdated, this);
         
         //this.score.on("all",this.renderRefresh,this);
         
@@ -321,46 +321,35 @@ var GameView = Backbone.View
         console.log('setPointError');
         this.setPoint(false);
       },
+      
+      
+      getObjectUpdated: function() {
+        this.score.on("all",this.renderRefresh,this);     
+      },
 
       // render the content into div of view
       renderRefresh : function() {
         
-        //$(this.displayViewScoreBoard).listview();
+        //console.log('renderRefresh');
         
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),
           Owner : this.Owner
         }));
-        
-        // FIXME: refresh div
+             
         
         $(this.displayViewScoreBoard).trigger('create');
-        $(this.displayViewScoreBoard).listview('refresh');
-
-        
-        // FIXME: convert date
-        /*
-         * var today = new Date(); var msg_time =
-         * today.getHours()+":"+(today.getMinutes()<10?'0':'')+today.getMinutes()+" - ";
-         */
 
         // if we have comments
-
-        
-        if (this.score.stream !== undefined) {
+        if (this.score.toJSON().stream !== undefined) {
           
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
-            //streams : this.score.stream.reverse(),
-            streams : this.score.stream.toJSON(),
+            streams : this.score.toJSON().stream,
             query : ' '
           }));
 
-          $(this.incomingComment).listview();
-          $(this.incomingComment).trigger('create');
-          $(this.incomingComment).listview('refresh');
+          $(this.incomingComment).listview('refresh',true);
         }
-        
-       
         
         return this;
       },
@@ -385,7 +374,8 @@ var GameView = Backbone.View
       },
 
       endGame : function() {
-        window.location.href = '#games/end/' + this.id;
+        //window.location.href = '#games/end/' + this.id;
+        Y.Router.navigate("/#games/end/"+this.id, true)
       },
 
       followGame : function() {

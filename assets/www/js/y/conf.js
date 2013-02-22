@@ -82,7 +82,8 @@
 
       // Paramétrage des variables non dépendantes d'un environnement
       this.setNX("game.refresh", 5000); // gameRefresh
-      this.set("pooling.geolocation", 1000);
+      this.set("pooling.geolocation", 5000);
+      this.set("pooling.connection", 1000);
       this.set("version", "1"); // might be usefull on update.
 
       // loading permanent keys

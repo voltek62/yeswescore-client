@@ -7,6 +7,8 @@ var IndexView = Backbone.View.extend({
 
   listview: "#listGamesView",
 
+  pageName: "index",
+
   initialize: function () {
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');

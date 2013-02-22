@@ -5,6 +5,7 @@ var ClubAddView = Backbone.View.extend({
     'submit form#frmAddClub': 'addClub'
   },
 
+  pageName: "clubAdd",
 
   initialize: function () {
 

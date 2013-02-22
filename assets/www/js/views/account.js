@@ -5,6 +5,8 @@ var AccountView = Backbone.View.extend({
     'vclick #debug' : 'debug'
   },
 
+  pageName: "account",
+
   initialize : function() {
     
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');

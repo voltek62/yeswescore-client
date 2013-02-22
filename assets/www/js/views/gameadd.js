@@ -11,6 +11,8 @@ var GameAddView = Backbone.View.extend({
     'click #team2_choice': 'displayTeam2'
   },
 
+  pageName: "gameAdd",
+
   listview1: "#team1_suggestions",
   listview2: "#team2_suggestions",
 

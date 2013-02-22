@@ -67,6 +67,7 @@
           this.setNX("api.url.games", "http://91.121.184.177:1024/v1/games/");
           this.setNX("api.url.players", "http://91.121.184.177:1024/v1/players/");
           this.setNX("api.url.clubs", "http://91.121.184.177:1024/v1/clubs/");
+          this.setNX("api.url.stats", "http://91.121.184.177:1024/v1/stats/");
           // #END_DEV
           break;
         case Y.Env.PROD:
@@ -75,6 +76,7 @@
           this.setNX("api.url.games", "http://api.yeswescore.com/v1/games/");
           this.setNX("api.url.players", "http://api.yeswescore.com/v1/players/");
           this.setNX("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
+          this.setNX("api.url.stats", "http://api.yeswescore.com/v1/stats/");
           break;
         default:
           break;

@@ -7,6 +7,8 @@ var GameFollowView = Backbone.View.extend({
     "keyup input#search-basic": "search"
   },
 
+  pageName: "gameFollow",
+
   initialize:function() {
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');

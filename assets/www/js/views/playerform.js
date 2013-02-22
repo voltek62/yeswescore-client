@@ -8,6 +8,8 @@ var PlayerFormView = Backbone.View.extend({
   },
   
   listview:"#suggestions",
+
+  pageName: "playerForm",
     
   clubs:null,
 

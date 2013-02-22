@@ -5,6 +5,8 @@ var PlayerSigninView = Backbone.View.extend({
     'submit form#frmSigninPlayer' : 'signin'
   },
 
+  pageName: "playerSignin",
+
   initialize : function() {
     this.playerSigninTemplate = Y.Templates.get('playerSigninTemplate');
     this.render();

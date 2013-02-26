@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns:gap="http://phonegap.com/ns/1.0"
     id="com.zenodus.client"
-    version="0.0.0.9"
+    version="0.0.1.2"
     xmlns="http://www.w3.org/ns/widgets" >
 
     <preference

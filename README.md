@@ -6,12 +6,15 @@ The JavaScript build phase depends on node.js and npm, to get these tools for yo
 
 Run the following commands in a command-line terminal in the projects root directory (where `grunt.js` is located):
 	
-	Installing the CLI
+	//Si déjà installé
+	npm uninstall -g grunt
+	//Install le client
 	npm install -g grunt-cli
+	//Install libs
+	npm install
+	//Install specifique module
+	npm install grunt-contrib-uglify --save-dev
 	
-    npm install grunt --save-dev
-	
-    npm run-script grunt
 
 This will compile the LESS, JavaScript, and HTML components and copy them to the www folder located in both the Android and iOS projects.
 

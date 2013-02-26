@@ -1,3 +1,7 @@
+/*
+ * PARTIE DU CODE QUI VA ELIMINER BEGIN DEV AND END DEV
+ * 
+ */
 module.exports = function( grunt ) {
     "use strict";
 
@@ -52,7 +56,7 @@ module.exports = function( grunt ) {
     grunt.registerTask("clean", function () {
         rimraf.sync("dist");
         rimraf.sync("android/assets/www");
-        //rimraf.sync("ios/www");
+        rimraf.sync("ios/www");
     });
 
 };

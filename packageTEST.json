@@ -1,0 +1,21 @@
+{
+    "name": "YesWeScore",
+    "version": "0.0.1",
+    "author": {
+        "name": "zeNodus"
+    },
+
+    "dependencies": {
+        "grunt": ">= 0.3.11",
+        "grunt-less": ">= 0.1.3",
+        "rimraf": ">= 2.0.2"
+    },
+
+    "scripts": {
+        "grunt": "grunt"
+    },
+
+    "engines": {
+        "node": ">= 0.4.0"
+    }
+}

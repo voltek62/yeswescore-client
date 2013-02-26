@@ -1,7 +1,10 @@
-index.html
+android/assets/www/*
+android/bin
+android/gen
+
+ios/www/*
+
+node_modules
+
 .project
 zipSource.bat
-bin
-
-gen
-

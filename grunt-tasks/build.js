@@ -52,7 +52,7 @@ module.exports = function( grunt ) {
     grunt.registerTask("clean", function () {
         rimraf.sync("dist");
         rimraf.sync("android/assets/www");
-        rimraf.sync("ios/www");
+        //rimraf.sync("ios/www");
     });
 
 };

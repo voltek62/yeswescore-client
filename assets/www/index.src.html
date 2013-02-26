@@ -9,29 +9,7 @@
 
   <!-- our css -->
   <link rel="stylesheet" href="styles/main.css">           
-         
-  <script type="text/javascript">
-    // cordova 2.4 patch
-    var prompt = function (strA, strB) { console.log("prompt: " + strB + strA); };
-    var assert = function () { };
-
-    // #BEGIN_DEV
-    // Windows Phone 8 wrapper : console.log() & window.error => visual studio output.
-    if (navigator.userAgent.match(/.*IEMobile.*/)) {
-      console.log = (function (c, f) {
-        return function (m) {
-          m = new Date().getTime() + ": " + m;
-          window.external.Notify(m);
-          f.call(c, m);
-        };
-      })(console, console.log);
-    }
-
-    // assertions
-    assert = function (t) { if (!t) throw "assert false" }
-    // #END_DEV
-  </script>
-     
+        
   <!-- Cordova is first -->
   <script type="text/javascript" src="js/external-libs/cordova-2.4.0.js"></script> 
   

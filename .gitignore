@@ -9,3 +9,7 @@ dist
 
 .project
 zipSource.bat
+.classpath
+.project
+ici.bat
+project.properties

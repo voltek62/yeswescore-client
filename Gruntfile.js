@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+  module.exports = function(grunt) {
 
   // External tasks.
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -36,8 +36,78 @@ module.exports = function(grunt) {
 					+'<body>\n'
 					+'<div id="index" data-role="page"></div>',
 		   footer : '</body>\n'
-					+'</html>'
-			  
+					+'</html>',
+		   headerbuild : '<!DOCTYPE html>\n'
+					+'<html>\n'
+					+'<head>\n'
+					+'<title>YesWeScore</title>\n'
+					+'<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />\n'
+					+'<meta charset="utf-8">\n'
+					+'<!-- Third party css -->\n' 
+  					+'<link rel="stylesheet" href="styles/jquery.mobile-1.2.0.min.css">\n'
+  					+'<!-- our css -->\n'
+  					+'<link rel="stylesheet" href="styles/main.css">\n'     
+  					+'<!-- Cordova is first -->\n'
+  					+'<!-- \n'
+  					+'<script type="text/javascript" src="js/external-libs/cordova-2.4.0.js"></script>\n' 
+  					+' -->\n'
+  					+'<script type="text/javascript" src="cordova.js"></script>\n' 
+  					+'<!-- 3rd party libraries & configuration -->\n'
+  					+'<script type="text/javascript" src="js/external-libs/jquery-1.8.2.min.js"></script>\n'  
+  					+'<!-- jquery config file is included after jquery (normal) -->\n'
+  					+'<script type="text/javascript" src="js/jq-config.js"></script>\n'
+  					+'<script type="text/javascript" src="js/helpers.js"></script>\n'  
+  					+'<script type="text/javascript" src="js/jqm-config.js"></script>\n'
+  					+'<script type="text/javascript" src="js/external-libs/jquery.mobile-1.2.0.min.js"></script>\n'
+  					+'<script type="text/javascript" src="js/external-libs/lodash.min.js"></script>\n'
+  					+'<script type="text/javascript" src="js/external-libs/backbone-min.js"></script>\n'
+  					+'<script type="text/javascript" src="js/external-libs/backbone.offline.js"></script>\n'
+  					+'<script type="text/javascript" src="js/external-libs/backbone.poller.min.js"></script>\n'
+  					+'<!-- our scripts -->\n'
+ 					+'<script type="text/javascript" src="js/cordova.js"></script>\n'
+  					+'<script type="text/javascript" src="js/cordova/connection.js"></script>\n'
+  					+'<script type="text/javascript" src="js/cordova/geolocation.js"></script>\n'
+  					+'<script type="text/javascript" src="js/cordova/file.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/y.js"></script>\n'
+  					+'<script type="text/javascript" src="js/y/conf.js"></script>\n'
+  					+'<script type="text/javascript" src="js/y/connection.js"></script>\n'
+ 					+'<script type="text/javascript" src="js/y/router.js"></script>\n'
+  					+'<script type="text/javascript" src="js/y/stats.js"></script>\n'
+  					+'<script type="text/javascript" src="js/y/templates.js"></script>\n'
+  					+'<script type="text/javascript" src="js/y/geolocation.js"></script>\n'   
+  					+'<!-- Core -->\n'
+  					+'<script type="text/javascript" src="js/models/game.js"></script>\n'
+  					+'<script type="text/javascript" src="js/models/stream.js"></script>\n'
+  					+'<script type="text/javascript" src="js/models/player.js"></script>\n'
+  					+'<script type="text/javascript" src="js/models/club.js"></script>\n'
+  					+'<script type="text/javascript" src="js/collections/games.js"></script>\n'
+  					+'<script type="text/javascript" src="js/collections/players.js"></script> \n'       
+  					+'<script type="text/javascript" src="js/collections/clubs.js"></script>\n'          
+  					+'<!-- Views -->\n'
+  					+'<script type="text/javascript" src="js/views/account.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/club.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/clubadd.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/game.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/gameadd.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/gameend.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/gamefollow.js"></script>\n'   
+  					+'<script type="text/javascript" src="js/views/gamelist.js"></script>\n'     
+  					+'<script type="text/javascript" src="js/views/index.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/player.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/playerfollow.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/playerform.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/playerlist.js"></script>\n' 
+  					+'<script type="text/javascript" src="js/views/playersignin.js"></script>\n'
+ 					+'<script type="text/javascript" src="js/views/playerforget.js"></script>\n'   
+  					+'<script type="text/javascript" src="js/views/index.js"></script>\n'
+  					+'<script type="text/javascript" src="js/views/game.js"></script>\n'					
+  					+'<!-- start the app ! -->\n'
+  					+'<script type="text/javascript" src="js/main.js"></script>\n'					
+					+'</head>\n'
+					+'<body>\n'
+					+'<div id="index" data-role="page"></div>',
+		   footerbuild : '</body>\n'
+					+'</html>',			  
         },
         jshint: {
           all: ['Gruntfile.js'
@@ -120,7 +190,14 @@ module.exports = function(grunt) {
             src : [  'dist/templates.html'],
             dest : 'dist/index.html'
           }, 		  
-          
+          dist_templatesbuild : {
+		    options: {
+				banner: '<%= meta.headerbuild %>\n\n',
+				footer: '\n\n<%= meta.footerbuild %>'
+			},
+            src : [  'dist/templates.html'],
+            dest : 'dist/index-build.html'
+          },          
         },   
         uglify : {
           build : {
@@ -218,6 +295,12 @@ module.exports = function(grunt) {
     grunt.file.copy('dist/index.html','src/build/index.html');
        
   });
+
+  grunt.registerTask('copy-iostest', function() {
+
+    grunt.file.copy('dist/index-build.html','src/index.html');
+       
+  });
   
   // Default task(s).
   grunt.registerTask('default', [ 'clean','template','concat','uglify','cssmin','copy-android' ]);
@@ -225,5 +308,6 @@ module.exports = function(grunt) {
   grunt.registerTask('wp8', [ 'clean','template','concat','uglify','cssmin','copy-wp8' ]);
   grunt.registerTask('ios', [ 'clean','template','concat','uglify','cssmin','copy-ios' ]);
   grunt.registerTask('web', [ 'clean','template','concat','copy-web']);
+  grunt.registerTask('iostest', [ 'clean','template','concat','copy-iostest']);
 
 };

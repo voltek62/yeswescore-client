@@ -51,4 +51,4 @@
     Connection.initialize();
     Cordova.Connection = Connection;
   });
-})(Cordova)
+})(Cordova);

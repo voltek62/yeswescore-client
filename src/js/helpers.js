@@ -6,3 +6,8 @@ JSON.tryParse = function(o) {
     return null;
   }
 };
+
+var assert = function () { };
+// #BEGIN_DEV
+assert = function (t) { if (!t) throw "assert false" }
+// #END_DEV

@@ -55,7 +55,7 @@ module.exports = function(grunt) {
                 ,'src/js/external-libs/jquery-1.8.2.min.js'
                 ,'src/js/jq-config.js'
                 ,'src/js/helpers.js'
-				,'src/js/jqm-config.js'
+				        ,'src/js/jqm-config.js'
                 ,'src/js/external-libs/jquery.mobile-1.2.0.min.js'
                 ,'src/js/external-libs/lodash.min.js'
                 ,'src/js/external-libs/backbone-min.js'
@@ -170,7 +170,7 @@ module.exports = function(grunt) {
           files : [ 'src/views/**/*.html'
                     ,'index.html' ],
           tasks : 'default'
-        },
+        }
         
         
         
@@ -190,7 +190,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('copy-wp8', function() {
 
-    grunt.file.copy('lib/cordova/cordova-2.4.0-wp8.js', 'android/assets/www/cordova.js');
+    grunt.file.copy('lib/cordova/cordova-2.4.0-wp8.js', 'wp8/www/cordova.js');
     grunt.file.copy('dist/app.js','wp8/www/app.js');
     grunt.file.copy('dist/app.min.js','wp8/www/app.min.js');
     grunt.file.copy('dist/style.css','wp8/www/styles.css');
@@ -201,12 +201,21 @@ module.exports = function(grunt) {
   
   grunt.registerTask('copy-ios', function() {
 
-    grunt.file.copy('lib/cordova/cordova-2.4.0-ios.js', 'android/assets/www/cordova.js');
+    grunt.file.copy('lib/cordova/cordova-2.4.0-ios.js', 'ios/www/cordova.js');
     grunt.file.copy('dist/app.js','ios/www/app.js');
     grunt.file.copy('dist/app.min.js','ios/www/app.min.js');
     grunt.file.copy('dist/style.css','ios/www/styles.css');
     grunt.file.copy('dist/style.min.css','ios/www/styles.min.css');    
     grunt.file.copy('dist/index.html','ios/www/index.html');
+       
+  });
+
+  grunt.registerTask('copy-web', function() {
+
+    grunt.file.copy('lib/cordova/cordova-2.4.0-blackberry.js', 'src/build/cordova.js');
+    grunt.file.copy('dist/app.js','src/build/app.js');
+    grunt.file.copy('dist/style.css','src/build/styles.css');
+    grunt.file.copy('dist/index.html','src/build/index.html');
        
   });
   
@@ -215,7 +224,6 @@ module.exports = function(grunt) {
   grunt.registerTask('nocommentdev', [ 'nocomment' ]);  
   grunt.registerTask('wp8', [ 'clean','template','concat','uglify','cssmin','copy-wp8' ]);
   grunt.registerTask('ios', [ 'clean','template','concat','uglify','cssmin','copy-ios' ]);
-  
-  
+  grunt.registerTask('web', [ 'clean','template','concat','copy-web']);
 
 };

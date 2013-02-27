@@ -33,4 +33,4 @@
 
   // exporting to global scope
   Y.Connection = Connection;
-})(Y)
+})(Y);

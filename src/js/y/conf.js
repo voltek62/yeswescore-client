@@ -172,7 +172,7 @@
         }, this);
         // saving when cordova is ready.
         Cordova.ready(function () {
-          Cordova.File.write(filename, JSON.stringify(permanentObjs), callback);
+          Cordova.File.write(filename, JSON.stringify(permanentObjs), callback || function () { });
         });
       }
     },

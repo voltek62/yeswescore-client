@@ -5,6 +5,7 @@ android/gen
 ios/www/*
 
 node_modules
+dist
 
 .project
 zipSource.bat

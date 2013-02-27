@@ -1,8 +1,4 @@
 module.exports = function(grunt) {
-  
-
-  
-  grunt.file.mkdir('dist/img');
 
   // External tasks.
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -26,7 +22,22 @@ module.exports = function(grunt) {
               + ' * Copyright (c) <%= grunt.template.today("yyyy") %> zeNodus'
               + ' *\n'
               + ' * Date: <%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %>\n'
-              + ' */'
+              + ' */',
+		  header : '<!DOCTYPE html>\n'
+					+'<html>\n'
+					+'<head>\n'
+					+'<title>YesWeScore</title>\n'
+					+'<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />\n'
+					+'<meta charset="utf-8">\n'
+					+'<script type="text/javascript" charset="utf-8" src="cordova.js"></script>\n'
+					+'<script type="text/javascript" charset="utf-8" src="app.js"></script>\n'
+					+'<link type="text/css" rel="stylesheet" href="styles.css" />\n'
+					+'</head>\n'
+					+'<body>\n'
+					+'<div id="index" data-role="page"></div>',
+		   footer : '</body>\n'
+					+'</html>'
+			  
         },
         jshint: {
           all: ['Gruntfile.js'
@@ -43,7 +54,8 @@ module.exports = function(grunt) {
                  // Order is important.
                 ,'src/js/external-libs/jquery-1.8.2.min.js'
                 ,'src/js/jq-config.js'
-                ,'src/js/helpers.js', 'src/js/jqm-config.js'
+                ,'src/js/helpers.js'
+				,'src/js/jqm-config.js'
                 ,'src/js/external-libs/jquery.mobile-1.2.0.min.js'
                 ,'src/js/external-libs/lodash.min.js'
                 ,'src/js/external-libs/backbone-min.js'
@@ -99,7 +111,15 @@ module.exports = function(grunt) {
                 'src/styles/main.css'
             ],
             dest : 'dist/style.css'
-          },          
+          },  
+          dist_templates : {
+		    options: {
+				banner: '<%= meta.header %>\n\n',
+				footer: '\n\n<%= meta.footer %>'
+			},
+            src : [  'dist/templates.html'],
+            dest : 'dist/index.html'
+          }, 		  
           
         },   
         uglify : {
@@ -115,27 +135,21 @@ module.exports = function(grunt) {
           }
         },
         
-        /*
+        
         template: {
           dev: {
             options: {
-              data: {
-                env: 'dev',
-                message: 'hello'
-              },
               wrap: {
-                banner: '<script type="text/ng-template" from="#{0}" to="#{1}"></script>',
+				//<script  id="accountViewTemplate" type="text/template">
+                banner: '<script type="text/template" id="#{0}">',
                 footer: '</script>',
-                inject: [{
-                    prop: 'src'
-                  }, {
-                    prop: 'dest',
-                    rem:  '/unwanted/path',
-                    repl: {
-                      ".wrongExtension": ".rightExtension"
-                  }
-                }]
-              },
+				inject: [{
+					prop: 'src',
+					rem:  'src/templates/',
+					repl: {".html": ""}
+				}]
+              }
+			  /*,
               minify: {
                 mode: 'html',
                 // Note that this is redundant, mode: 'html' does the same thing.
@@ -144,13 +158,13 @@ module.exports = function(grunt) {
                   lang: 'markup',
                   html: 'html-yes'
                 }
-              }
+              }*/
             },
-            files: 
-              'path/to/result.html': 'path/to/input.template',
-              'path/to/another.html': ['path/to/more/*.template', 'path/to/even/more/*.template'] // concatenates (individually wrapped) files
+            files: {
+              'dist/templates.html': ['src/templates/*.html']
+			}
           }
-        }*/
+        },
 
         watch : {
           files : [ 'src/views/**/*.html'
@@ -163,44 +177,45 @@ module.exports = function(grunt) {
         
       });
   
-  
-  grunt.registerTask('copy-index', function() {
-    
-    /*
-     grunt.registerMultiTask('multicss', 'Minify CSS files in a folder', function() {
-        grunt.file.expandFiles(this.data).forEach(function(file) {
-            var minified = grunt.helper("mincss", grunt.file.read(file));
-            grunt.file.write(file, minified);
-            grunt.log.writeln("Minified CSS "+file);
-        });
-    });
-     */
-
-    //grunt.template.process('<%= baz %>', {data: obj})
-    
-    //var helpers = require('grunt-lib-legacyhelpers').init(grunt);
-    //var result = helpers.concat(grunt.file.expandFiles(['src/templates/*.html']));
-    
-    //console.log(result);
-    
-    grunt.file.copy('index.html', 'dist/index.html');
-  });  
-  
   grunt.registerTask('copy-android', function() {
 
     grunt.file.copy('lib/cordova/cordova-2.4.0-android.js', 'android/assets/www/cordova.js');
     grunt.file.copy('dist/app.js','android/assets/www/app.js');
     grunt.file.copy('dist/app.min.js','android/assets/www/app.min.js');
     grunt.file.copy('dist/style.css','android/assets/www/styles.css');
-    grunt.file.copy('dist/style.css','android/assets/www/styles.min.css');    
+    grunt.file.copy('dist/style.min.css','android/assets/www/styles.min.css');    
     grunt.file.copy('dist/index.html','android/assets/www/index.html');
-    
-    
+       
   });
 
+  grunt.registerTask('copy-wp8', function() {
 
+    grunt.file.copy('lib/cordova/cordova-2.4.0-wp8.js', 'android/assets/www/cordova.js');
+    grunt.file.copy('dist/app.js','wp8/www/app.js');
+    grunt.file.copy('dist/app.min.js','wp8/www/app.min.js');
+    grunt.file.copy('dist/style.css','wp8/www/styles.css');
+    grunt.file.copy('dist/style.min.css','wp8/www/styles.min.css');    
+    grunt.file.copy('dist/index.html','wp8/www/index.html');
+       
+  });
+  
+  grunt.registerTask('copy-ios', function() {
+
+    grunt.file.copy('lib/cordova/cordova-2.4.0-ios.js', 'android/assets/www/cordova.js');
+    grunt.file.copy('dist/app.js','ios/www/app.js');
+    grunt.file.copy('dist/app.min.js','ios/www/app.min.js');
+    grunt.file.copy('dist/style.css','ios/www/styles.css');
+    grunt.file.copy('dist/style.min.css','ios/www/styles.min.css');    
+    grunt.file.copy('dist/index.html','ios/www/index.html');
+       
+  });
+  
   // Default task(s).
-  //'uglify','cssmin',
-  grunt.registerTask('default', [ 'clean','concat','uglify','cssmin','copy-index','copy-android' ]);
+  grunt.registerTask('default', [ 'clean','template','concat','uglify','cssmin','copy-android' ]);
+  grunt.registerTask('nocommentdev', [ 'nocomment' ]);  
+  grunt.registerTask('wp8', [ 'clean','template','concat','uglify','cssmin','copy-wp8' ]);
+  grunt.registerTask('ios', [ 'clean','template','concat','uglify','cssmin','copy-ios' ]);
+  
+  
 
 };

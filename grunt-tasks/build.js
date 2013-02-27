@@ -1,5 +1,5 @@
 /*
- * PARTIE DU CODE QUI VA ELIMINER BEGIN DEV AND END DEV
+ * PARTIE DU CODE QUI VA ELIMINER BEGIN DEV AND END DEV du code source
  * 
  */
 module.exports = function( grunt ) {
@@ -8,7 +8,7 @@ module.exports = function( grunt ) {
     var rimraf = require("rimraf");
 
     // Based on jQuery UI build.js
-    grunt.registerMultiTask( "copy", "Copy files to destination folder and replace @VERSION with pkg.version", function() {
+    grunt.registerMultiTask( "nocomment", "Copy files to destination folder and replace @VERSION with pkg.version", function() {
             function replaceVersion( source ) {
                 return source.replace( /@VERSION/g, grunt.config( "pkg.version" ) );
             }
@@ -57,6 +57,7 @@ module.exports = function( grunt ) {
         rimraf.sync("dist");
         rimraf.sync("android/assets/www");
         rimraf.sync("ios/www");
+        rimraf.sync("wp8/www");		
     });
 
 };

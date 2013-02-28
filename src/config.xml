@@ -47,6 +47,8 @@ ZENODUS
     <preference
         name="orientation"
         value="portrait" />
+    
+    <preference name="webviewbounce" value="false" />
 
     <!-- Device permissions -->
     <!--

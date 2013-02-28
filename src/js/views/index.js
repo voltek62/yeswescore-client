@@ -93,6 +93,9 @@ var IndexView = Backbone.View.extend({
     this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
     this.$el.trigger('pagecreate');
+    
+    new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#account', true);});
+    
     return this;
   },
 

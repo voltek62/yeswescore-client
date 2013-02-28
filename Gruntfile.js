@@ -68,7 +68,8 @@
  					+'<script type="text/javascript" src="js/y/router.js"></script>\n'
   					+'<script type="text/javascript" src="js/y/stats.js"></script>\n'
   					+'<script type="text/javascript" src="js/y/templates.js"></script>\n'
-  					+'<script type="text/javascript" src="js/y/geolocation.js"></script>\n'   
+  					+'<script type="text/javascript" src="js/y/geolocation.js"></script>\n'
+  				      +'<script type="text/javascript" src="js/y/click.js"></script>\n'   
   					+'<!-- Core -->\n'
   					+'<script type="text/javascript" src="js/models/game.js"></script>\n'
   					+'<script type="text/javascript" src="js/models/stream.js"></script>\n'
@@ -133,7 +134,8 @@
                 ,'src/js/y/router.js'
                 ,'src/js/y/stats.js'
                 ,'src/js/y/templates.js'
-                ,'src/js/y/geolocation.js'                   
+                ,'src/js/y/geolocation.js'    
+                ,'src/js/y/click.js'                
                 // Core
                 ,'src/js/models/game.js'
                 ,'src/js/models/stream.js'
@@ -272,11 +274,11 @@
 
     grunt.file.copy('lib/cordova/cordova-2.4.0-ios.js', 'ios/www/cordova.js');
     grunt.file.copy('dist/app.js','ios/www/app.js');
-    grunt.file.copy('dist/app.min.js','ios/www/app.min.js');
     grunt.file.copy('dist/style.css','ios/www/styles.css');
     grunt.file.copy('dist/style.min.css','ios/www/styles.min.css');    
     grunt.file.copy('dist/index.html','ios/www/index.html');
-       
+    grunt.file.copy('dist/app.min.js','ios/www/app.min.js');      
+
   });
 
   grunt.registerTask('copy-web', function() {

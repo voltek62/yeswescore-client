@@ -1,10 +1,9 @@
-<div data-role="header" data-theme="b" data-position="fixed">
-  <a href="#" data-transition="slide" data-reverse="true" data-icon="back">Back</a>
-  <h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 	
 	<a href="#games/me/<%= Owner.id %>" data-role="button" id="">Mes Matchs</a> 
 	<a href="#games/follow" data-role="button" id="">Matchs Suivis</a> 
@@ -37,13 +36,8 @@
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account" class="ui-btn-active ui-state-persist">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div>
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu active"><a id="mnuaccount" >Mon Compte</a></div>
+</footer>	

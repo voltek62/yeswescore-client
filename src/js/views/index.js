@@ -10,7 +10,7 @@ var IndexView = Backbone.View.extend({
   pageName: "index",
 
   initialize: function () {
-    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
+    //this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
 
     //we capture config from bootstrap
@@ -90,12 +90,14 @@ var IndexView = Backbone.View.extend({
   },
 
   render: function () {
-    this.$el.html(this.indexViewTemplate(), {});
+    //this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     
-    new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#account', true);});
-    
+    new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#', true);});
+    new Y.FastButton(document.querySelector("#mnudiffuse"), function () { Y.Router.navigate('#games/add', true);});
+    new Y.FastButton(document.querySelector("#mnuaccount"), function () { Y.Router.navigate('#account', true);});
+            
     return this;
   },
 
@@ -112,5 +114,6 @@ var IndexView = Backbone.View.extend({
   onClose: function () {
     this.undelegateEvents();
     this.games.off("all", this.renderList, this);
+    
   }
 });

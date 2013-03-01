@@ -34,19 +34,31 @@
 					+'<link type="text/css" rel="stylesheet" href="styles.css" />\n'
 					+'</head>\n'
 					+'<body>\n'
-					+'<div id="index" data-role="page"></div>',
+					+'<div id="index" data-role="page">\n'
+				      +'<header class="txtcenter">\n'
+				      +'<div class="yesTitle">Yes We Score</div></p>\n'
+				      +'</header>\n'
+				      +'<div class="content txtcenter">\n'
+				      +'	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />\n'
+				      +'	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>\n'
+				      +'</div>\n'
+				      +'<footer class="txtcenter">\n'
+				      +'<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>\n'
+				      +'<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>\n'
+				      +'<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>\n'
+				      +'</footer>\n'	
+				      +'</div>',
 		   footer : '</body>\n'
 					+'</html>',
 		   headerbuild : '<!DOCTYPE html>\n'
 					+'<html>\n'
 					+'<head>\n'
 					+'<title>YesWeScore</title>\n'
-					+'<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />\n'
+					+'<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />\n'
 					+'<meta charset="utf-8">\n'
 					+'<!-- Third party css -->\n' 
-  					+'<link rel="stylesheet" href="styles/jquery.mobile-1.2.0.min.css">\n'
   					+'<!-- our css -->\n'
-  					+'<link rel="stylesheet" href="styles/main.css">\n'     
+  				      +'<link rel="stylesheet" href="styles/main.css">\n'     
   					+'<!-- Cordova is first -->\n'
   					+'<script type="text/javascript" src="js/external-libs/cordova-2.4.0.js"></script>\n' 
   					+'<!-- 3rd party libraries & configuration -->\n'
@@ -100,7 +112,20 @@
   					+'<script type="text/javascript" src="js/main.js"></script>\n'					
 					+'</head>\n'
 					+'<body>\n'
-					+'<div id="index" data-role="page"></div>',
+					+'<div id="index" data-role="page">\n'
+				      +'<header class="txtcenter">\n'
+				      +'<div class="yesTitle">Yes We Score</div></p>\n'
+				      +'</header>\n'
+				      +'<div class="content txtcenter">\n'
+				      +'	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />\n'
+				      +'	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>\n'
+				      +'</div>\n'
+				      +'<footer class="txtcenter">\n'
+				      +'<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>\n'
+				      +'<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>\n'
+				      +'<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>\n'
+				      +'</footer>\n'	
+				      +'</div>',
 		   footerbuild : '</body>\n'
 					+'</html>',			  
         },
@@ -171,8 +196,10 @@
           dist_css : {
             src : [ '<%= meta.banner %>',
                  // Order is important.
-                'src/styles/jquery.mobile-1.2.0.min.css', 
-                'src/styles/main.css'
+                //'src/styles/knacss.css',
+                //'src/styles/knacss-garni.css',
+                //'src/styles/nav.css',
+                'src/styles/main.css', 
             ],
             dest : 'dist/style.css'
           },  

@@ -2,14 +2,11 @@
 <html>
 <head>
 <title>YesWeScore</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <meta charset="utf-8">
 <!-- Third party css -->
-<link rel="stylesheet" href="styles/knacss.css">
 <!-- our css -->
-<!--
 <link rel="stylesheet" href="styles/main.css">
--->
 <!-- Cordova is first -->
 <script type="text/javascript" src="js/external-libs/cordova-2.4.0.js"></script>
 <!-- 3rd party libraries & configuration -->
@@ -63,15 +60,27 @@
 <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-<div id="index" data-role="page"></div>
-
-<script type="text/template" id="accountViewTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-  <a href="#" data-transition="slide" data-reverse="true" data-icon="back">Back</a>
-  <h1>YesWeScore</h1>
+<div id="index" data-role="page">
+<header class="txtcenter">
+<div class="yesTitle">Yes We Score</div></p>
+</header>
+<div class="content txtcenter">
+	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />
+	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>
 </div>
-<!-- /header -->
+<footer class="txtcenter">
+<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer>
+</div>
 
-<div data-role="content">
+<script type="text/template" id="accountViewTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
+
+<div class="content txtcenter">
 	
 	<a href="#games/me/<%= Owner.id %>" data-role="button" id="">Mes Matchs</a> 
 	<a href="#games/follow" data-role="button" id="">Matchs Suivis</a> 
@@ -104,16 +113,11 @@
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account" class="ui-btn-active ui-state-persist">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu active"><a id="mnuaccount" >Mon Compte</a></div>
+</footer>	</script>
 <script type="text/template" id="clubAddTemplate"><div data-role="header" data-theme="b" data-position="fixed">
 	<a href="#" data-transition="slide" data-reverse="true"
 		data-icon="back"> Back</a>
@@ -121,7 +125,7 @@
 </div>
 <!-- /header -->
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<form id="frmAddClub" class="ui-body ui-body-b ui-corner-all">
 
@@ -160,16 +164,11 @@
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add" class="ui-btn-active ui-state-persist">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
 <script type="text/template" id="clubListAutoCompleteViewTemplate"><% if(clubs.length==0) { %>
 <li><p>Aucun resultat pour <%= query %></p></li>
 <% } %> <% for (var i = 0; i < clubs.length; i++) { club = clubs[i]; %>
@@ -197,14 +196,12 @@
 </a></li>
 <% } %>
 </script>
-<script type="text/template" id="clubViewTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true"
-		data-icon="back">Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<script type="text/template" id="clubViewTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 	<h3><%= club.name %></h3>
 	Sport : <%= club.sport %>&nbsp;&nbsp;&nbsp;&nbsp;City : <%=
 	club.location.city %><br /> FFTID : <%= club.fftid %> Site
@@ -217,24 +214,17 @@
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
-<script type="text/template" id="gameAddTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true"
-		data-icon="back"> Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
+<script type="text/template" id="gameAddTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<form id="frmAddGame" class="ui-body ui-body-b ui-corner-all">
 
@@ -400,24 +390,17 @@
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add" class="ui-btn-active ui-state-persist">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
-<script type="text/template" id="gameEndTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true"
-		data-icon="back"> Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu active" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
+<script type="text/template" id="gameEndTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<form id="frmEndGame" class="ui-body ui-body-b ui-corner-all">
 
@@ -458,24 +441,17 @@
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add" class="ui-btn-active ui-state-persist">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
-<script type="text/template" id="gameListTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true"
-		data-icon="back">Back</a>
-	<h1>YesWeScore </h1>
-</div>
-<!-- /header -->
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
+<script type="text/template" id="gameListTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<input type="search" name="search" id="search-basic" value=""
 		placeholder="Rechercher par nom, par club" /><br /> <br />
@@ -484,16 +460,11 @@
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#" class="ui-btn-active ui-state-persist">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
 <script type="text/template" id="gameListViewTemplate"><% if(games.length==0) { %>
 <li><p>Aucun resultat <%= query %></p></li>
 <% } %> 
@@ -518,14 +489,12 @@ if (game.teams[1].players[0]!== undefined) {
 </a></li>
 <% } %>
 </script>
-<script type="text/template" id="gamePrefTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true"
-		data-icon="back"> Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<script type="text/template" id="gamePrefTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<form id="frmGamePref" class="ui-body ui-body-b ui-corner-all">
 
@@ -544,16 +513,11 @@ if (game.teams[1].players[0]!== undefined) {
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add" class="ui-btn-active ui-state-persist">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
 <script type="text/template" id="gameViewCommentListTemplate"> <% if(streams.length==0) { %>
 <div class="message">Aucun commentaire</div>
 <% } %> 
@@ -790,13 +754,12 @@ if (game.options.score !== null ) {
 </form>
 <% //} %>
 </script>
-<script type="text/template" id="gameViewTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true" data-icon="back">Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<script type="text/template" id="gameViewTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<div id="displayViewScoreBoard"></div>
 
@@ -893,46 +856,20 @@ $("#incomingMessages").append(
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
-<script type="text/template" id="indexViewTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
+<script type="text/template" id="indexViewTemplate">
 
-<div data-role="content">
-	<input type="search" name="search" id="search-basic" value=""
-		placeholder="Rechercher par nom, par club" /><br /> <br />
-	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>
-</div>
+</script>
+<script type="text/template" id="playerForgetTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<!-- /content -->
-
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#account" class="ui-btn-active ui-state-persist" id="mnufollow">Suivre</a></li>
-			<li><a href="#games/add" id="mnudiffuse">Diffuser</a></li>
-			<li><a href="#account" id="mnuaccount">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
-<script type="text/template" id="playerForgetTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#players/signin" data-transition="slide" data-reverse="true" data-icon="back"> Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
-
-<div data-role="content">
+<div class="content txtcenter">
 
 	<form id="frmForgetPlayer" class="ui-body ui-body-b ui-corner-all">
 
@@ -968,23 +905,17 @@ $("#incomingMessages").append(
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account" class="ui-btn-active ui-state-persist">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
-<script type="text/template" id="playerFormTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#account" data-transition="slide" data-reverse="true" data-icon="back"> Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
+<script type="text/template" id="playerFormTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<form id="frmAddPlayer" class="ui-body ui-body-b ui-corner-all">
 
@@ -1084,16 +1015,11 @@ $("#incomingMessages").append(
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add" class="ui-btn-active ui-state-persist">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
 <script type="text/template" id="playerListAutoCompleteViewTemplate"><% if(players.length==0) { %>
 <li><p>Aucun resultat pour <%= query %></p></li>
 <% } %> 
@@ -1128,12 +1054,12 @@ players[i]; %>
 </a></li>
 <% } %>
 </script>
-<script type="text/template" id="playerSearchTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<script type="text/template" id="playerSearchTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<input type="search" name="search" id="search-basic" value=""
 		placeholder="Rechercher par nom, par club, par pseudo" /><br /> <br />
@@ -1142,23 +1068,17 @@ players[i]; %>
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
-<script type="text/template" id="playerSigninTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#account" data-transition="slide" data-reverse="true" data-icon="back"> Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
+<script type="text/template" id="playerSigninTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
 
-<div data-role="content">
+<div class="content txtcenter">
 
 	<form id="frmSigninPlayer" class="ui-body ui-body-b ui-corner-all">
 
@@ -1202,22 +1122,17 @@ players[i]; %>
 </div>
 <!-- /content -->
 
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account" class="ui-btn-active ui-state-persist">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
-<script type="text/template" id="playerViewTemplate"><div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true" data-icon="back">Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
-<div data-role="content">
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
+<script type="text/template" id="playerViewTemplate"><header class="txtcenter">
+	<a href="#">Back</a>
+	<div class="yesTitle">Yes We Score</div></p>
+</header>
+
+<div class="content txtcenter">
 <span class="success label label-info hide" style="color: red"></span>
 <h3><%= player.name %> alias <%= player.nickname %></h3>
 Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a><br /> Classement : <%= player.rank %><br /> 
@@ -1228,16 +1143,11 @@ Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'inf
 <% } %>
 </div>
 <!-- /content -->
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div></script>
+<footer class="txtcenter">
+<div class="buttonmnu"><a id="mnufollow" >Suivre</a></div>
+<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
+<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
+</footer></script>
 
 </body>
 </html>

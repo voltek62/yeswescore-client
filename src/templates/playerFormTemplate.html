@@ -1,5 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>YesWeScore</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta charset="utf-8">
+<!-- Third party css -->
+<!-- our css -->
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
 <header class="txtcenter">
-	<a href="#">Back</a>
+	<a href="#" class="button">Back</a>
 	<div class="yesTitle">Yes We Score</div></p>
 </header>
 
@@ -9,27 +21,33 @@
 
 		<span class="success label label-info hide" style="color: red"></span>
 
-		<div class="control-group">
-			<label class="control-label" for="name">Name *</label>
-			<div class="controls">
-				<input type="text" id="name" name="name" placeholder="Nom Complet" class='input-xlarge' value="<%= name %>" /> 
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label  class="ui-input-text" for="name">Name *</label>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="name" name="name" placeholder="Nom Complet" class='ui-input-text' value="<%= name %>" /> 
 				<span class="name_error label label-info hide"></span>
 			</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label" for="email">Mail *</label>
-			<div class="controls">
-				<input type="text" id="email" name="email" placeholder="Mail" class='input-xlarge' value="<%= email %>" /> 
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label  class="ui-input-text" for="email">Mail *</label>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="email" name="email" placeholder="Mail" class='ui-input-text' value="<%= email %>" /> 
 				<span class="email_error label label-info hide"></span>
 			</div>
 		</div>
 
 
-		<div class="control-group">
-			<label class="control-label" for="password">Password *</label>
-			<div class="controls">
-				<input type="text" id="password" name="password" placeholder="Password" class='input-xlarge' value="<%= password %>" />
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label  class="ui-input-text" for="password">Password *</label>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="password" name="password" placeholder="Password" class='ui-input-text' value="<%= password %>" />
 				<span class="password_error label label-info hide"></span>
 			</div>
 		</div>
@@ -37,7 +55,7 @@
 
 		<div class="control-group">
 			<div class="controls">
-				<button value="Save" class="button">Save</button>
+				<button value="Save" class="buttonform">Save</button>
 			</div>
 		</div>
 
@@ -48,48 +66,58 @@
 		</div>
 
 
-		<div class="control-group">
-			<label class="control-label" for="nickname">Nickname</label>
-			<div class="controls">
-				<input type="text" id="nickname" name="nickname" placeholder="Pseudo" class='input-xlarge' value="<%= nickname %>" />
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label  class="ui-input-text" for="nickname">Nickname</label>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="nickname" name="nickname" placeholder="Pseudo" class='ui-input-text' value="<%= nickname %>" />
 				<span class="nickname_error label label-info hide"></span>
 			</div>
 		</div>
 
 
 
-		<div class="control-group">
-			<label class="control-label" for="rank">Rank</label>
-			<div class="controls">
-				<input type="text" id="rank" name="rank" placeholder="Classement" class='input-xlarge' value="<%= rank %>" /> 
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label class="ui-input-text" for="rank">Rank</label>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="rank" name="rank" placeholder="Classement" class='ui-input-text' value="<%= rank %>" /> 
 				<span class="rank_error label label-info hide"></span>
 			</div>
 		</div>
 
 
 
-		<div class="control-group">
-			<label class="control-label" for="idlicense">ID de la licence</label>
-			<div class="controls">
-				<input type="text" id="idlicense" name="idlicense" placeholder="Identifiant de la licence" class='input-xlarge' value="<%= idlicense %>" /> 
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label  class="ui-input-text" for="idlicense">ID de la licence</label>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="idlicense" name="idlicense" placeholder="Identifiant de la licence" class='ui-input-text' value="<%= idlicense %>" /> 
 			<span class="idlicense_error label label-info hide"></span>
 			</div>
 		</div>
 
 		<!-- FIXME: Find club_id in Ajax -->
-		<div class="control-group">
-			<label class="control-label" for="club">Club</label>
-			<div class="controls">
-				<input type="text" id="club" name="club" placeholder="Nom du Club" class='input-xlarge' value="<%= club %>" />
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label  class="ui-input-text" for="club">Club</label>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="club" name="club" placeholder="Nom du Club" class='ui-input-text' value="<%= club %>" />
 				<ul id="suggestions" data-role="listview" data-inset="true"></ul>
                 <span class="club_error label label-info hide"></span>
 			</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label" for="clubid">ID du Club</label>
-			<div class="controls">
-				<input type="text" id="clubid" name="clubid" placeholder="Identifiant du Club" class='input-xlarge' value="<%= idclub %>" /> 
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label class="ui-input-text" for="clubid">ID du Club</label>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="clubid" name="clubid" placeholder="Identifiant du Club" class='ui-input-text' value="<%= idclub %>" /> 
 				<span class="clubid_error label label-info hide"></span>
 			</div>
 		</div>
@@ -98,7 +126,7 @@
 		<input type="hidden" id="token" value="<%= token %>" class="input" />
 
 	</form>
-
+	
 
 </div>
 <!-- /content -->
@@ -108,3 +136,6 @@
 <div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
 <div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
 </footer>
+
+</body>
+</html>

@@ -1,5 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>YesWeScore</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta charset="utf-8">
+<!-- Third party css -->
+<!-- our css -->
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
 <header class="txtcenter">
-	<a href="#">Back</a>
+	<a href="#" class="button">Back</a>
 	<div class="yesTitle">Yes We Score</div></p>
 </header>
 
@@ -11,7 +23,7 @@
 
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" value="Save" class="button">Cr&eacute;er la partie</button>
+				<button type="submit" value="Save" class="buttonform">Cr&eacute;er la partie</button>
 			</div>
 		</div>
 
@@ -23,13 +35,11 @@
 		</div>
 
 		<div class="control-group">
-			<div class="controls">
 				<input type="text" id="team1" name="team1" placeholder="Joueur 1" class='input-xlarge' value="" /> 
 				<input type="text" id="rank1" name="rank1" placeholder="Classement 1" class='input-xlarge' value="" />
 				<ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
 				<input type='hidden' id='team1_id' class='input' value='' /> 
 				<span class="team1_error label label-info hide"></span>
-			</div>
 		</div>
 
 		<div data-role="fieldcontain">
@@ -48,9 +58,11 @@
 			</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label" for="city">* Ville</label>
-			<div class="controls">
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label class="control-label" for="city">* Ville</label>
+			</div>
+			<div class="ui-block-b">
 				<input type="text" id="city" name="city" placeholder="Ville" class='input-xlarge' value="" /> 
 				<span class="city_error label label-info hide"></span>
 			</div>
@@ -58,9 +70,11 @@
 
 		<hr />
 
-		<div class="control-group">
-			<label for="subtype" class="select">Type</label>
-			<div class="controls">
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<label for="subtype" class="select">Type</label>
+			</div>
+			<div class="ui-block-b">
 				<select name="subtype" id="subtype">
 					<option value="A">A - Normal</option>
 					<option value="B">B - Traditionnel (3 sets à 6 jeux pt décisif)</option>
@@ -174,3 +188,6 @@
 <div class="buttonmnu active" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>
 <div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>
 </footer>
+
+</body>
+</html>

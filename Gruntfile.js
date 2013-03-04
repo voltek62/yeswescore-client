@@ -35,19 +35,19 @@
 					+'</head>\n'
 					+'<body>\n'
 					+'<div id="index" data-role="page">\n'
-				      +'<header class="txtcenter">\n'
-				      +'<div class="yesTitle">Yes We Score</div></p>\n'
-				      +'</header>\n'
-				      +'<div class="content txtcenter">\n'
-				      +'	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />\n'
-				      +'	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>\n'
-				      +'</div>\n'
-				      +'<footer class="txtcenter">\n'
-				      +'<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>\n'
-				      +'<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>\n'
-				      +'<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>\n'
-				      +'</footer>\n'	
-				      +'</div>',
+				    //  +'<header class="txtcenter">\n'
+				    //  +'<div class="yesTitle">Yes We Score</div></p>\n'
+				    //  +'</header>\n'
+				    //  +'<div class="content txtcenter">\n'
+				    //  +'	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />\n'
+				    //  +'	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>\n'
+				    //  +'</div>\n'
+				    //  +'<footer class="txtcenter">\n'
+				    //  +'<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>\n'
+				    //  +'<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>\n'
+				    //  +'<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>\n'
+				    //  +'</footer>\n'	
+				    +'</div>',
 		   footer : '</body>\n'
 					+'</html>',
 		   headerbuild : '<!DOCTYPE html>\n'
@@ -63,7 +63,7 @@
   					+'<script type="text/javascript" src="js/external-libs/cordova-2.4.0.js"></script>\n' 
   					+'<!-- 3rd party libraries & configuration -->\n'
   				      +'<script type="text/javascript" src="js/external-libs/zepto.js"></script>\n'  
-  				      +'<script type="text/javascript" src="js/external-libs/deferred.js"></script>\n'  
+  				    //+'<script type="text/javascript" src="js/external-libs/deferred.js"></script>\n'  
   					+'<script type="text/javascript" src="js/helpers.js"></script>\n'  
   					+'<script type="text/javascript" src="js/external-libs/lodash.min.js"></script>\n'
   					+'<script type="text/javascript" src="js/external-libs/backbone-min.js"></script>\n'
@@ -81,7 +81,7 @@
   					+'<script type="text/javascript" src="js/y/stats.js"></script>\n'
   					+'<script type="text/javascript" src="js/y/templates.js"></script>\n'
   					+'<script type="text/javascript" src="js/y/geolocation.js"></script>\n'
-  				      +'<script type="text/javascript" src="js/y/click.js"></script>\n'   
+  				    //+'<script type="text/javascript" src="js/y/click.js"></script>\n'   
   					+'<!-- Core -->\n'
   					+'<script type="text/javascript" src="js/models/game.js"></script>\n'
   					+'<script type="text/javascript" src="js/models/stream.js"></script>\n'
@@ -113,21 +113,24 @@
 					+'</head>\n'
 					+'<body>\n'
 					+'<div id="index" data-role="page">\n'
-				      +'<header class="txtcenter">\n'
-				      +'<div class="yesTitle">Yes We Score</div></p>\n'
-				      +'</header>\n'
-				      +'<div class="content txtcenter">\n'
-				      +'	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />\n'
-				      +'	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>\n'
-				      +'</div>\n'
-				      +'<footer class="txtcenter">\n'
-				      +'<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>\n'
-				      +'<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>\n'
-				      +'<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>\n'
-				      +'</footer>\n'	
+				    //  +'<header class="txtcenter">\n'
+				    //  +'<div class="yesTitle">Yes We Score</div></p>\n'
+				    //  +'</header>\n'
+				    //  +'<div class="content txtcenter">\n'
+				    //  +'	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />\n'
+				    //  +'	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>\n'
+				    //  +'</div>\n'
+				    //  +'<footer class="txtcenter">\n'
+				    //  +'<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>\n'
+				    //  +'<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>\n'
+				    //  +'<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>\n'
+				    //  +'</footer>\n'	
 				      +'</div>',
 		   footerbuild : '</body>\n'
-					+'</html>',			  
+					+'</html>',		
+
+					
+					
         },
         jshint: {
           all: ['Gruntfile.js'
@@ -144,7 +147,7 @@
                  // Order is important.
                 ,'src/js/helpers.js'
                 ,'src/js/external-libs/zepto.js'
-                ,'src/js/external-libs/deferred.js'
+                //,'src/js/external-libs/deferred.js'
                 ,'src/js/external-libs/lodash.min.js'
                 ,'src/js/external-libs/backbone-min.js'
                 ,'src/js/external-libs/backbone.offline.js'
@@ -160,7 +163,7 @@
                 ,'src/js/y/stats.js'
                 ,'src/js/y/templates.js'
                 ,'src/js/y/geolocation.js'    
-                ,'src/js/y/click.js'                
+                //,'src/js/y/click.js'                
                 // Core
                 ,'src/js/models/game.js'
                 ,'src/js/models/stream.js'
@@ -277,7 +280,7 @@
   
   grunt.registerTask('copy-android', function() {
 
-    grunt.file.copy('lib/cordova/cordova-2.4.0-android.js', 'android/assets/www/cordova.js');
+    grunt.file.copy('lib/cordova/cordova-2.5.0-android.js', 'android/assets/www/cordova.js');
     grunt.file.copy('dist/app.js','android/assets/www/app.js');
     grunt.file.copy('dist/app.min.js','android/assets/www/app.min.js');
     grunt.file.copy('dist/style.css','android/assets/www/styles.css');
@@ -288,7 +291,7 @@
 
   grunt.registerTask('copy-wp8', function() {
 
-    grunt.file.copy('lib/cordova/cordova-2.4.0-wp8.js', 'wp8/www/cordova.js');
+    grunt.file.copy('lib/cordova/cordova-2.5.0-wp8.js', 'wp8/www/cordova.js');
     grunt.file.copy('dist/app.js','wp8/www/app.js');
     grunt.file.copy('dist/app.min.js','wp8/www/app.min.js');
     grunt.file.copy('dist/style.css','wp8/www/styles.css');
@@ -299,7 +302,7 @@
   
   grunt.registerTask('copy-ios', function() {
 
-    grunt.file.copy('lib/cordova/cordova-2.4.0-ios.js', 'ios/www/cordova.js');
+    grunt.file.copy('lib/cordova/cordova-2.5.0-ios.js', 'ios/www/cordova.js');
     grunt.file.copy('dist/app.js','ios/www/app.js');
     grunt.file.copy('dist/style.css','ios/www/styles.css');
     grunt.file.copy('dist/style.min.css','ios/www/styles.min.css');    
@@ -310,14 +313,14 @@
 
   grunt.registerTask('copy-web', function() {
 
-    grunt.file.copy('lib/cordova/cordova-2.4.0-blackberry.js', 'src/build/cordova.js');
+    grunt.file.copy('lib/cordova/cordova-2.5.0-blackberry.js', 'src/build/cordova.js');
     grunt.file.copy('dist/app.js','src/build/app.js');
     grunt.file.copy('dist/style.css','src/build/styles.css');
     grunt.file.copy('dist/index.html','src/build/index.html');
        
   });
 
-  grunt.registerTask('copy-iostest', function() {
+  grunt.registerTask('copy-test', function() {
 
     grunt.file.copy('dist/index-build.html','src/index.html');
        
@@ -329,6 +332,6 @@
   grunt.registerTask('wp8', [ 'clean','template','concat','uglify','cssmin','copy-wp8' ]);
   grunt.registerTask('ios', [ 'clean','template','concat','uglify','cssmin','copy-ios' ]);
   grunt.registerTask('web', [ 'clean','template','concat','copy-web']);
-  grunt.registerTask('iostest', [ 'clean','template','concat','copy-iostest']);
+  grunt.registerTask('test', [ 'clean','template','concat','copy-test']);
 
 };

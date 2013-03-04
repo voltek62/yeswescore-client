@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Deployment AppPlatformVersion="7.1" xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment">
+  <App RuntimeType="Silverlight" Title="YesWeScore" Genre="apps.normal" Description="- Live score on Internet
+- Send your results to Facebook
+- Few different types of scoring plus custom option. 
+- Full scoreboard always visible" Author="ZENODUS" Publisher="ZENODUS" ProductID="{95ef7e76-5044-5336-a105-2c4ad1617bc7}" Version="0.0.1.0" xmlns="">
+    
+    <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_IDENTITY_DEVICE"/>
+      <Capability Name="ID_CAP_LOCATION"/>
+      <Capability Name="ID_CAP_NETWORKING"/>
+      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT"/>
+    </Capabilities>
+    
+    <Tasks>
+      <DefaultTask NavigationPage="MainPage.xaml" Name="_default"/>
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="Cordova_1._5._0_Starter1Token" TaskName="_default">
+        <TemplateType5>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
+          <Count>0</Count>
+          <Title>Cordova_1._5._0_Starter1</Title>
+        </TemplateType5>
+      </PrimaryToken>
+    </Tokens>
+  </App>
+</Deployment>
+
+<!-- WPSDK Version 7.1.7720.0 -->

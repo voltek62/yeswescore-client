@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="android/assets/www/js/|android/assets/www/js/collections/|android/assets/www/js/cordova/|android/assets/www/js/external-libs/|android/assets/www/js/models/|android/assets/www/js/views/|android/assets/www/js/y/|grunt-tasks/|lib/backbone/|lib/bootstrap/|lib/cordova/|lib/deferred/|lib/iscroll/|lib/underscore/|lib/zepto/|node_modules/|node_modules/grunt-contrib-uglify/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/bin/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/lib/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/crc32/bin/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/crc32/lib/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/crc32/test/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/deflate-js/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/deflate-js/bin/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/deflate-js/examples/|node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/deflate-js/lib/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/lib/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/example/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap/example/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap/test/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/test/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/test/_/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/build/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/lib/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/lib/source-map/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/node_modules/amdefine/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/test/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/test/source-map/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/test/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/test/compress/|node_modules/grunt-contrib-uglify/node_modules/uglify-js/tools/|node_modules/grunt-contrib-uglify/tasks/|node_modules/grunt-contrib-uglify/tasks/lib/|node_modules/grunt-contrib-uglify/test/|node_modules/grunt-contrib-uglify/test/fixtures/expected/|node_modules/grunt-contrib-uglify/test/fixtures/src/|node_modules/grunt-less/|node_modules/grunt-less/node_modules/less/benchmark/|node_modules/grunt-less/node_modules/less/build/|node_modules/grunt-less/node_modules/less/lib/less/|node_modules/grunt-less/node_modules/less/lib/less/tree/|node_modules/grunt-less/node_modules/less/node_modules/ycssmin/|node_modules/grunt-less/node_modules/less/node_modules/ycssmin/tests/|node_modules/grunt-less/node_modules/less/test/|node_modules/grunt-less/node_modules/less/test/browser/|node_modules/grunt-less/tasks/|node_modules/grunt-less/test/|node_modules/grunt/|node_modules/grunt/lib/|node_modules/grunt/lib/grunt/|node_modules/grunt/lib/util/|node_modules/grunt/node_modules/async/|node_modules/grunt/node_modules/async/lib/|node_modules/grunt/node_modules/coffee-script/lib/coffee-script/|node_modules/grunt/node_modules/colors/|node_modules/grunt/node_modules/dateformat/lib/|node_modules/grunt/node_modules/dateformat/test/|node_modules/grunt/node_modules/eventemitter2/|node_modules/grunt/node_modules/eventemitter2/lib/|node_modules/grunt/node_modules/eventemitter2/test/|node_modules/grunt/node_modules/eventemitter2/test/perf/|node_modules/grunt/node_modules/eventemitter2/test/simple/|node_modules/grunt/node_modules/eventemitter2/test/wildcardEvents/|node_modules/grunt/node_modules/findup-sync/|node_modules/grunt/node_modules/findup-sync/lib/|node_modules/grunt/node_modules/findup-sync/test/|node_modules/grunt/node_modules/glob/|node_modules/grunt/node_modules/glob/examples/|node_modules/grunt/node_modules/glob/node_modules/graceful-fs/|node_modules/grunt/node_modules/glob/node_modules/graceful-fs/test/|node_modules/grunt/node_modules/glob/node_modules/inherits/|node_modules/grunt/node_modules/glob/test/|node_modules/grunt/node_modules/hooker/|node_modules/grunt/node_modules/hooker/dist/|node_modules/grunt/node_modules/hooker/lib/|node_modules/grunt/node_modules/hooker/test/|node_modules/grunt/node_modules/iconv-lite/|node_modules/grunt/node_modules/iconv-lite/encodings/|node_modules/grunt/node_modules/iconv-lite/encodings/table/|node_modules/grunt/node_modules/iconv-lite/generation/|node_modules/grunt/node_modules/iconv-lite/test/|node_modules/grunt/node_modules/js-yaml/|node_modules/grunt/node_modules/js-yaml/bin/|node_modules/grunt/node_modules/js-yaml/examples/|node_modules/grunt/node_modules/js-yaml/lib/|node_modules/grunt/node_modules/js-yaml/lib/js-yaml/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/examples/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/action/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/action/append/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/action/store/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/argument/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/help/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/dist/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/lib/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore/vendor/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore/|node_modules/grunt/node_modules/js-yaml/node_modules/argparse/test/|node_modules/grunt/node_modules/js-yaml/test/|node_modules/grunt/node_modules/js-yaml/test/functional/|node_modules/grunt/node_modules/js-yaml/test/issues/|node_modules/grunt/node_modules/lodash/|node_modules/grunt/node_modules/lodash/build/|node_modules/grunt/node_modules/lodash/perf/|node_modules/grunt/node_modules/lodash/test/|node_modules/grunt/node_modules/lodash/vendor/benchmark.js/|node_modules/grunt/node_modules/lodash/vendor/platform.js/|node_modules/grunt/node_modules/lodash/vendor/qunit-clib/|node_modules/grunt/node_modules/lodash/vendor/qunit/qunit/|node_modules/grunt/node_modules/lodash/vendor/tar/|node_modules/grunt/node_modules/lodash/vendor/tar/lib/|node_modules/grunt/node_modules/lodash/vendor/tar/vendor/block-stream/|node_modules/grunt/node_modules/lodash/vendor/tar/vendor/fstream/|node_modules/grunt/node_modules/lodash/vendor/tar/vendor/fstream/lib/|node_modules/grunt/node_modules/lodash/vendor/tar/vendor/graceful-fs/|node_modules/grunt/node_modules/lodash/vendor/tar/vendor/inherits/|node_modules/grunt/node_modules/lodash/vendor/tar/vendor/mkdirp/|node_modules/grunt/node_modules/lodash/vendor/tar/vendor/rimraf/|node_modules/grunt/node_modules/lodash/vendor/underscore/|node_modules/grunt/node_modules/minimatch/|node_modules/grunt/node_modules/minimatch/node_modules/lru-cache/lib/|node_modules/grunt/node_modules/minimatch/node_modules/lru-cache/test/|node_modules/grunt/node_modules/minimatch/node_modules/sigmund/|node_modules/grunt/node_modules/minimatch/node_modules/sigmund/test/|node_modules/grunt/node_modules/minimatch/test/|node_modules/grunt/node_modules/nopt/bin/|node_modules/grunt/node_modules/nopt/examples/|node_modules/grunt/node_modules/nopt/lib/|node_modules/grunt/node_modules/nopt/node_modules/abbrev/lib/|node_modules/grunt/node_modules/rimraf/|node_modules/grunt/node_modules/rimraf/node_modules/graceful-fs/|node_modules/grunt/node_modules/rimraf/node_modules/graceful-fs/test/|node_modules/grunt/node_modules/rimraf/test/|node_modules/grunt/node_modules/underscore.string/dist/|node_modules/grunt/node_modules/underscore.string/lib/|node_modules/grunt/node_modules/underscore.string/test/|node_modules/grunt/node_modules/underscore.string/test/test_underscore/|node_modules/grunt/node_modules/underscore.string/test/test_underscore/vendor/|node_modules/grunt/node_modules/which/|node_modules/grunt/test/fixtures/|node_modules/grunt/test/fixtures/expand/js/|node_modules/grunt/test/fixtures/files/dist/|node_modules/grunt/test/fixtures/files/src/|node_modules/grunt/test/grunt/|node_modules/grunt/test/gruntfile/|node_modules/grunt/test/util/|node_modules/rimraf/|node_modules/rimraf/node_modules/graceful-fs/|node_modules/rimraf/node_modules/graceful-fs/test/|node_modules/rimraf/test/|src/js/|src/js/collections/|src/js/cordova/|src/js/external-libs/|src/js/models/|src/js/views/|src/js/y/" kind="src" path=""/>
+	<classpathentry excluding="cordova/|models/|external-libs/|y/|views/|collections/" kind="src" path="android/assets/www/js"/>
+	<classpathentry kind="src" path="android/assets/www/js/collections"/>
+	<classpathentry kind="src" path="android/assets/www/js/cordova"/>
+	<classpathentry kind="src" path="android/assets/www/js/external-libs"/>
+	<classpathentry kind="src" path="android/assets/www/js/models"/>
+	<classpathentry kind="src" path="android/assets/www/js/views"/>
+	<classpathentry kind="src" path="android/assets/www/js/y"/>
+	<classpathentry kind="src" path="grunt-tasks"/>
+	<classpathentry kind="src" path="lib/backbone"/>
+	<classpathentry kind="src" path="lib/bootstrap"/>
+	<classpathentry kind="src" path="lib/cordova"/>
+	<classpathentry kind="src" path="lib/deferred"/>
+	<classpathentry kind="src" path="lib/iscroll"/>
+	<classpathentry kind="src" path="lib/underscore"/>
+	<classpathentry kind="src" path="lib/zepto"/>
+	<classpathentry excluding="node_modules/nopt/node_modules/abbrev/lib/|node_modules/js-yaml/node_modules/argparse/|test/fixtures/expand/js/|node_modules/colors/|test/grunt/|node_modules/js-yaml/node_modules/argparse/lib/action/|node_modules/lodash/|node_modules/rimraf/node_modules/graceful-fs/|node_modules/hooker/dist/|node_modules/js-yaml/lib/js-yaml/|node_modules/lodash/vendor/tar/|test/fixtures/files/dist/|node_modules/js-yaml/test/functional/|node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/|node_modules/js-yaml/test/|node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/dist/|test/util/|node_modules/lodash/vendor/benchmark.js/|node_modules/lodash/vendor/tar/vendor/fstream/|node_modules/eventemitter2/test/|node_modules/hooker/|test/fixtures/|node_modules/findup-sync/lib/|test/fixtures/files/src/|node_modules/underscore.string/test/test_underscore/vendor/|node_modules/underscore.string/lib/|node_modules/lodash/test/|node_modules/rimraf/|node_modules/lodash/vendor/qunit-clib/|node_modules/nopt/lib/|node_modules/js-yaml/test/issues/|node_modules/dateformat/test/|node_modules/lodash/vendor/qunit/qunit/|node_modules/iconv-lite/|node_modules/lodash/vendor/tar/vendor/block-stream/|node_modules/iconv-lite/test/|node_modules/minimatch/node_modules/lru-cache/lib/|node_modules/coffee-script/lib/coffee-script/|node_modules/eventemitter2/|node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore/vendor/|node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore/|node_modules/nopt/bin/|node_modules/underscore.string/test/|node_modules/lodash/perf/|node_modules/js-yaml/bin/|node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/lib/|node_modules/js-yaml/examples/|node_modules/js-yaml/node_modules/argparse/node_modules/underscore/|node_modules/glob/|node_modules/glob/node_modules/graceful-fs/test/|node_modules/js-yaml/|node_modules/js-yaml/node_modules/argparse/examples/|node_modules/underscore.string/dist/|node_modules/lodash/vendor/tar/vendor/rimraf/|node_modules/minimatch/|node_modules/findup-sync/test/|node_modules/lodash/vendor/platform.js/|lib/grunt/|node_modules/lodash/vendor/tar/vendor/graceful-fs/|node_modules/iconv-lite/encodings/|node_modules/lodash/vendor/underscore/|node_modules/dateformat/lib/|node_modules/lodash/vendor/tar/vendor/mkdirp/|node_modules/eventemitter2/test/wildcardEvents/|node_modules/iconv-lite/encodings/table/|test/gruntfile/|lib/|lib/util/|node_modules/eventemitter2/test/perf/|node_modules/js-yaml/node_modules/argparse/lib/help/|node_modules/nopt/examples/|node_modules/async/|node_modules/underscore.string/test/test_underscore/|node_modules/hooker/lib/|node_modules/glob/examples/|node_modules/js-yaml/node_modules/argparse/lib/action/store/|node_modules/glob/test/|node_modules/lodash/vendor/tar/vendor/fstream/lib/|node_modules/minimatch/node_modules/lru-cache/test/|node_modules/js-yaml/node_modules/argparse/lib/|node_modules/iconv-lite/generation/|node_modules/glob/node_modules/graceful-fs/|node_modules/async/lib/|node_modules/hooker/test/|node_modules/which/|node_modules/glob/node_modules/inherits/|node_modules/js-yaml/lib/|node_modules/rimraf/node_modules/graceful-fs/test/|node_modules/js-yaml/node_modules/argparse/test/|node_modules/lodash/build/|node_modules/minimatch/node_modules/sigmund/|node_modules/js-yaml/node_modules/argparse/lib/action/append/|node_modules/lodash/vendor/tar/lib/|node_modules/eventemitter2/test/simple/|node_modules/lodash/vendor/tar/vendor/inherits/|node_modules/minimatch/node_modules/sigmund/test/|node_modules/findup-sync/|node_modules/js-yaml/node_modules/argparse/lib/argument/|node_modules/minimatch/test/|node_modules/rimraf/test/|node_modules/eventemitter2/lib/" kind="src" path="node_modules/grunt"/>
+	<classpathentry excluding="node_modules/gzip-js/node_modules/crc32/test/|node_modules/uglify-js/node_modules/source-map/|node_modules/uglify-js/lib/|node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap/test/|node_modules/gzip-js/node_modules/deflate-js/lib/|node_modules/uglify-js/node_modules/source-map/test/|node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap/example/|node_modules/uglify-js/node_modules/source-map/lib/|node_modules/gzip-js/node_modules/crc32/bin/|node_modules/uglify-js/node_modules/optimist/example/|tasks/|node_modules/uglify-js/node_modules/optimist/test/|node_modules/uglify-js/test/|node_modules/uglify-js/tools/|node_modules/gzip-js/node_modules/crc32/lib/|node_modules/gzip-js/node_modules/deflate-js/bin/|node_modules/gzip-js/bin/|node_modules/uglify-js/test/compress/|test/fixtures/src/|test/|node_modules/gzip-js/node_modules/deflate-js/|node_modules/uglify-js/node_modules/source-map/build/|node_modules/uglify-js/node_modules/source-map/test/source-map/|node_modules/uglify-js/node_modules/source-map/lib/source-map/|node_modules/uglify-js/node_modules/source-map/node_modules/amdefine/|test/fixtures/expected/|node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap/|tasks/lib/|node_modules/gzip-js/lib/|node_modules/uglify-js/node_modules/optimist/test/_/|node_modules/gzip-js/node_modules/deflate-js/examples/|node_modules/uglify-js/node_modules/optimist/" kind="src" path="node_modules/grunt-contrib-uglify"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/bin"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/crc32/bin"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/crc32/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/crc32/test"/>
+	<classpathentry excluding="lib/|bin/|examples/" kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/deflate-js"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/deflate-js/bin"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/deflate-js/examples"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/gzip-js/node_modules/deflate-js/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/lib"/>
+	<classpathentry excluding="node_modules/wordwrap/test/|node_modules/wordwrap/example/|example/|test/|node_modules/wordwrap/|test/_/" kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/example"/>
+	<classpathentry excluding="test/|example/" kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap/example"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/node_modules/wordwrap/test"/>
+	<classpathentry excluding="_/" kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/test"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/optimist/test/_"/>
+	<classpathentry excluding="test/|lib/|build/|test/source-map/|lib/source-map/|node_modules/amdefine/" kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/build"/>
+	<classpathentry excluding="source-map/" kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/lib/source-map"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/node_modules/amdefine"/>
+	<classpathentry excluding="source-map/" kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/test"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/test/source-map"/>
+	<classpathentry excluding="compress/" kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/test"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/test/compress"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/node_modules/uglify-js/tools"/>
+	<classpathentry excluding="lib/" kind="src" path="node_modules/grunt-contrib-uglify/tasks"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/tasks/lib"/>
+	<classpathentry excluding="fixtures/src/|fixtures/expected/" kind="src" path="node_modules/grunt-contrib-uglify/test"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/test/fixtures/expected"/>
+	<classpathentry kind="src" path="node_modules/grunt-contrib-uglify/test/fixtures/src"/>
+	<classpathentry excluding="node_modules/less/build/|node_modules/less/test/|tasks/|node_modules/less/test/browser/|node_modules/less/node_modules/ycssmin/tests/|node_modules/less/lib/less/|test/|node_modules/less/node_modules/ycssmin/|node_modules/less/lib/less/tree/|node_modules/less/benchmark/" kind="src" path="node_modules/grunt-less"/>
+	<classpathentry kind="src" path="node_modules/grunt-less/node_modules/less/benchmark"/>
+	<classpathentry kind="src" path="node_modules/grunt-less/node_modules/less/build"/>
+	<classpathentry excluding="tree/" kind="src" path="node_modules/grunt-less/node_modules/less/lib/less"/>
+	<classpathentry kind="src" path="node_modules/grunt-less/node_modules/less/lib/less/tree"/>
+	<classpathentry excluding="tests/" kind="src" path="node_modules/grunt-less/node_modules/less/node_modules/ycssmin"/>
+	<classpathentry kind="src" path="node_modules/grunt-less/node_modules/less/node_modules/ycssmin/tests"/>
+	<classpathentry excluding="browser/" kind="src" path="node_modules/grunt-less/node_modules/less/test"/>
+	<classpathentry kind="src" path="node_modules/grunt-less/node_modules/less/test/browser"/>
+	<classpathentry kind="src" path="node_modules/grunt-less/tasks"/>
+	<classpathentry kind="src" path="node_modules/grunt-less/test"/>
+	<classpathentry excluding="grunt/|util/" kind="src" path="node_modules/grunt/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/lib/grunt"/>
+	<classpathentry kind="src" path="node_modules/grunt/lib/util"/>
+	<classpathentry excluding="lib/" kind="src" path="node_modules/grunt/node_modules/async"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/async/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/coffee-script/lib/coffee-script"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/colors"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/dateformat/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/dateformat/test"/>
+	<classpathentry excluding="test/|test/wildcardEvents/|test/perf/|test/simple/|lib/" kind="src" path="node_modules/grunt/node_modules/eventemitter2"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/eventemitter2/lib"/>
+	<classpathentry excluding="wildcardEvents/|perf/|simple/" kind="src" path="node_modules/grunt/node_modules/eventemitter2/test"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/eventemitter2/test/perf"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/eventemitter2/test/simple"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/eventemitter2/test/wildcardEvents"/>
+	<classpathentry excluding="lib/|test/" kind="src" path="node_modules/grunt/node_modules/findup-sync"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/findup-sync/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/findup-sync/test"/>
+	<classpathentry excluding="node_modules/graceful-fs/test/|examples/|test/|node_modules/graceful-fs/|node_modules/inherits/" kind="src" path="node_modules/grunt/node_modules/glob"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/glob/examples"/>
+	<classpathentry excluding="test/" kind="src" path="node_modules/grunt/node_modules/glob/node_modules/graceful-fs"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/glob/node_modules/graceful-fs/test"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/glob/node_modules/inherits"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/glob/test"/>
+	<classpathentry excluding="dist/|lib/|test/" kind="src" path="node_modules/grunt/node_modules/hooker"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/hooker/dist"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/hooker/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/hooker/test"/>
+	<classpathentry excluding="test/|encodings/|encodings/table/|generation/" kind="src" path="node_modules/grunt/node_modules/iconv-lite"/>
+	<classpathentry excluding="table/" kind="src" path="node_modules/grunt/node_modules/iconv-lite/encodings"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/iconv-lite/encodings/table"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/iconv-lite/generation"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/iconv-lite/test"/>
+	<classpathentry excluding="node_modules/argparse/|node_modules/argparse/lib/action/|lib/js-yaml/|test/functional/|node_modules/argparse/node_modules/underscore.string/test/|test/|node_modules/argparse/node_modules/underscore.string/dist/|test/issues/|node_modules/argparse/node_modules/underscore.string/test/test_underscore/vendor/|node_modules/argparse/node_modules/underscore.string/test/test_underscore/|bin/|node_modules/argparse/node_modules/underscore.string/lib/|examples/|node_modules/argparse/node_modules/underscore/|node_modules/argparse/examples/|node_modules/argparse/lib/help/|node_modules/argparse/lib/action/store/|node_modules/argparse/lib/|lib/|node_modules/argparse/test/|node_modules/argparse/lib/action/append/|node_modules/argparse/lib/argument/" kind="src" path="node_modules/grunt/node_modules/js-yaml"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/bin"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/examples"/>
+	<classpathentry excluding="js-yaml/" kind="src" path="node_modules/grunt/node_modules/js-yaml/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/lib/js-yaml"/>
+	<classpathentry excluding="lib/action/|node_modules/underscore.string/test/|node_modules/underscore.string/dist/|node_modules/underscore.string/test/test_underscore/vendor/|node_modules/underscore.string/test/test_underscore/|node_modules/underscore.string/lib/|node_modules/underscore/|examples/|lib/help/|lib/action/store/|lib/|test/|lib/action/append/|lib/argument/" kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/examples"/>
+	<classpathentry excluding="action/|help/|action/store/|action/append/|argument/" kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib"/>
+	<classpathentry excluding="store/|append/" kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/action"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/action/append"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/action/store"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/argument"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/help"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/dist"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/lib"/>
+	<classpathentry excluding="test_underscore/vendor/|test_underscore/" kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test"/>
+	<classpathentry excluding="vendor/" kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore/vendor"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/node_modules/argparse/test"/>
+	<classpathentry excluding="functional/|issues/" kind="src" path="node_modules/grunt/node_modules/js-yaml/test"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/test/functional"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/js-yaml/test/issues"/>
+	<classpathentry excluding="vendor/tar/|vendor/benchmark.js/|vendor/tar/vendor/fstream/|test/|vendor/qunit-clib/|vendor/qunit/qunit/|vendor/tar/vendor/block-stream/|perf/|vendor/tar/vendor/rimraf/|vendor/platform.js/|vendor/tar/vendor/graceful-fs/|vendor/underscore/|vendor/tar/vendor/mkdirp/|vendor/tar/vendor/fstream/lib/|build/|vendor/tar/lib/|vendor/tar/vendor/inherits/" kind="src" path="node_modules/grunt/node_modules/lodash"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/build"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/perf"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/test"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/benchmark.js"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/platform.js"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/qunit-clib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/qunit/qunit"/>
+	<classpathentry excluding="vendor/fstream/|vendor/block-stream/|vendor/rimraf/|vendor/graceful-fs/|vendor/mkdirp/|vendor/fstream/lib/|lib/|vendor/inherits/" kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar/vendor/block-stream"/>
+	<classpathentry excluding="lib/" kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar/vendor/fstream"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar/vendor/fstream/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar/vendor/graceful-fs"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar/vendor/inherits"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar/vendor/mkdirp"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/tar/vendor/rimraf"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/lodash/vendor/underscore"/>
+	<classpathentry excluding="node_modules/lru-cache/lib/|node_modules/lru-cache/test/|node_modules/sigmund/|node_modules/sigmund/test/|test/" kind="src" path="node_modules/grunt/node_modules/minimatch"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/minimatch/node_modules/lru-cache/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/minimatch/node_modules/lru-cache/test"/>
+	<classpathentry excluding="test/" kind="src" path="node_modules/grunt/node_modules/minimatch/node_modules/sigmund"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/minimatch/node_modules/sigmund/test"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/minimatch/test"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/nopt/bin"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/nopt/examples"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/nopt/lib"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/nopt/node_modules/abbrev/lib"/>
+	<classpathentry excluding="node_modules/graceful-fs/|node_modules/graceful-fs/test/|test/" kind="src" path="node_modules/grunt/node_modules/rimraf"/>
+	<classpathentry excluding="test/" kind="src" path="node_modules/grunt/node_modules/rimraf/node_modules/graceful-fs"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/rimraf/node_modules/graceful-fs/test"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/rimraf/test"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/underscore.string/dist"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/underscore.string/lib"/>
+	<classpathentry excluding="test_underscore/vendor/|test_underscore/" kind="src" path="node_modules/grunt/node_modules/underscore.string/test"/>
+	<classpathentry excluding="vendor/" kind="src" path="node_modules/grunt/node_modules/underscore.string/test/test_underscore"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/underscore.string/test/test_underscore/vendor"/>
+	<classpathentry kind="src" path="node_modules/grunt/node_modules/which"/>
+	<classpathentry excluding="expand/js/|files/dist/|files/src/" kind="src" path="node_modules/grunt/test/fixtures"/>
+	<classpathentry kind="src" path="node_modules/grunt/test/fixtures/expand/js"/>
+	<classpathentry kind="src" path="node_modules/grunt/test/fixtures/files/dist"/>
+	<classpathentry kind="src" path="node_modules/grunt/test/fixtures/files/src"/>
+	<classpathentry kind="src" path="node_modules/grunt/test/grunt"/>
+	<classpathentry kind="src" path="node_modules/grunt/test/gruntfile"/>
+	<classpathentry kind="src" path="node_modules/grunt/test/util"/>
+	<classpathentry excluding="node_modules/graceful-fs/test/|node_modules/graceful-fs/|test/" kind="src" path="node_modules/rimraf"/>
+	<classpathentry excluding="test/" kind="src" path="node_modules/rimraf/node_modules/graceful-fs"/>
+	<classpathentry kind="src" path="node_modules/rimraf/node_modules/graceful-fs/test"/>
+	<classpathentry kind="src" path="node_modules/rimraf/test"/>
+	<classpathentry excluding="y/|cordova/|views/|external-libs/|collections/|models/" kind="src" path="src/js"/>
+	<classpathentry kind="src" path="src/js/collections"/>
+	<classpathentry kind="src" path="src/js/cordova"/>
+	<classpathentry kind="src" path="src/js/external-libs"/>
+	<classpathentry kind="src" path="src/js/models"/>
+	<classpathentry kind="src" path="src/js/views"/>
+	<classpathentry kind="src" path="src/js/y"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

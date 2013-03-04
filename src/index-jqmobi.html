@@ -8,14 +8,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="stylesheet" type="text/css" href="styles/icons.css" />
-        <link rel="stylesheet" type="text/css" href="styles/theme/jq.ui.css"/>
-         
-        <script type="text/javascript" charset="utf-8" src="js/external-libs/jq.mobi.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles/jq.ui.css"/>
         <!-- uncomment for apps 
+        <script type="text/javascript" charset="utf-8" src="js/external-libs/jq.mobi.js"></script> 
         <script type="text/javascript" charset="utf-8" src="js/external-libs/xhr.js"></script>   
         -->
         <script type="text/javascript" charset="utf-8" src="js/external-libs/jq.ui.js"></script>
 
+        <script type="text/javascript">
+             
+            var webRoot = "./";
+            $.ui.autoLaunch = false; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
+            /* This function runs when the body is loaded.*/
+            var init = function () {
+                    $.ui.backButtonText = "Back";// We override the back button text to always say "Back"
+                    window.setTimeout(function () {
+                        $.ui.launch(); 
+                    }, 1500);//We wait 1.5 seconds to call $.ui.launch after DOMContentLoaded fires
+                };
+            document.addEventListener("DOMContentLoaded", init, false);
+            $.ui.ready(function () {
+                //This function will get executed when $.ui.launch has completed
+            });
+ 
+          
+        </script>
     </head>
      
     <body>

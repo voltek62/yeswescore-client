@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <!--HTML5 doctype-->
-<html>
-     
+<html>     
     <head>
         <title>jqUi Starter</title>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -11,9 +10,6 @@
         <link rel="stylesheet" type="text/css" href="styles/theme/jq.ui.css"/>
          
         <script type="text/javascript" charset="utf-8" src="js/external-libs/jq.mobi.js"></script>
-        <!-- uncomment for apps 
-        <script type="text/javascript" charset="utf-8" src="js/external-libs/xhr.js"></script>   
-        -->
         <script type="text/javascript" charset="utf-8" src="js/external-libs/jq.ui.js"></script>
 
     </head>
@@ -22,26 +18,35 @@
         <div id="jQUi"> <!-- this is the main container div.  This way, you can have only part of your app use jqUi -->
             <!-- this is the header div at the top -->
             <div id="header">
-                <a href="javascript:$.ui.toggleSideMenu()" class="button" style="float:right">Toggle Nav</a>
+        		<a id="backButton" href="javascript:;" class="button" style="visibility: hidden; ">Back</a> 
+        		<h1 id="pageTitle">Yes We Score</h1>
             </div>
+            
             <div id="content">
                 <!-- here is where you can add your panels -->
-                <div title='Welcome' id="main" class="panel" selected="true">This is a basic skeleton jqUi sample</div>
+                <div title='Bienvenue' id="main" class="panel" selected="true">
+                
+                <!-- checkbox -->
+				<input type="checkbox" name="confirm" id="confirm" class="jq-ui-forms">  <label for="confirm">Do you agree to the terms?</label>
+				 
+				<!-- radio button-->
+				<input type="radio" name="gender" value='Male' id="Male" class="jq-ui-forms">  <label for="Male">Male</label>
+				<input type="radio" name="gender" value='Female' id="Female" class="jq-ui-forms">  <label for="Male">Female</label>
+				 
+				<!-- Toggle/Slider-->
+				<input type="checkbox" name="slider" id="slider" class="jq-ui-slider"> <label for="slider">Do you agree to the terms?</label>
+                
+                </div>
             </div>
+            
             <!-- bottom navbar. Add additional tabs here -->
             <div id="navbar">
                 <div class="horzRule"></div>
-                <a href="#main" id='navbar_home' class='icon home'>home</a>
+                <a href="#" id='navbar_home' class='icon home'>Suivre</a>
+                <a href="#games/add" id='navbar_gamesadd' class='icon star'>Diffuser</a>
+                <a href="#account" id='navbar_account' class='icon user'>Profil</a>
             </div>
-            <!-- this is the default left side nav menu.  If you do not want any, do not include these -->
-            <nav>
-                <div class='title'>Home</div>
-                <ul>
-                    <li class="icon home mini">
-                        <a href="#main">Selectors</a>
-                    </li>
-                </ul>
-            </nav>
+            
         </div>
     </body>
 </html>

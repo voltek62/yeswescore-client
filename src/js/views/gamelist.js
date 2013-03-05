@@ -70,7 +70,7 @@ var GameListView = Backbone.View.extend({
     
     $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(),query:' '}));
     $(this.listview).listview('refresh');
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
     return this;
   },
   

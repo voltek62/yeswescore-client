@@ -107,8 +107,8 @@ var IndexView = Backbone.View.extend({
  	//console.log('renderList games:',this.games.toJSON());
   
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
-    $(this.listview).listview('refresh');
-    $.mobile.hidePageLoadingMsg();
+    //$(this.listview).listview('refresh');
+    //$.mobile.hidePageLoadingMsg();
     return this;
   },
 

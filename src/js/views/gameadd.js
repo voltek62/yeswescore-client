@@ -27,7 +27,7 @@ var GameAddView = Backbone.View.extend({
 
 
     this.render();
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
   },
 
   displayTeam1: function (li) {

@@ -30,7 +30,7 @@ var ClubView = Backbone.View.extend({
       club : this.club.toJSON()
     }));
 
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
 
     // Trigger jquerymobile rendering
     // var thisel=this.$el;

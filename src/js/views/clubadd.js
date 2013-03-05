@@ -14,7 +14,7 @@ var ClubAddView = Backbone.View.extend({
     this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
 
     this.render();
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
   },
 
  

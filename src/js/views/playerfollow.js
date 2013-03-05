@@ -49,7 +49,7 @@ var PlayerFollowView = Backbone.View.extend({
   renderList: function(query) {
     $(this.listview).html(this.playerListViewTemplate({players:this.playersfollow.toJSON(), query:' '}));
     $(this.listview).listview('refresh');
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
     return this;
   },
 

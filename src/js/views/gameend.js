@@ -13,7 +13,7 @@ var GameEndView = Backbone.View.extend({
     //this.players = new PlayersCollection("me");
     //this.Owner = new PlayerModel(this.players.storage.findAll({local:true}));  
     this.render();
-    $.mobile.hidePageLoadingMsg(); 
+    //$.mobile.hidePageLoadingMsg(); 
   },
   
   endGame: function (event) {

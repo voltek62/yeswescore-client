@@ -1,3 +1,6 @@
+android/.externalToolBuilders
+android/.settings
+android/assets-jqmobi
 android/assets/www/*
 android/bin
 android/gen

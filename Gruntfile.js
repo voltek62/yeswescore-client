@@ -54,16 +54,19 @@
 					+'<html>\n'
 					+'<head>\n'
 					+'<title>YesWeScore</title>\n'
-					+'<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />\n'
-					+'<meta charset="utf-8">\n'
+					+'<meta http-equiv="Content-type" content="text/html; charset=utf-8">\n'
+					+'<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">\n'
+					+'<meta name="apple-mobile-web-app-capable" content="yes" />\n'
 					+'<!-- Third party css -->\n' 
   					+'<!-- our css -->\n'
-  				      +'<link rel="stylesheet" href="styles/main.css">\n'     
+  				    +'<link rel="stylesheet" href="styles/icons.css">\n'
+  				    +'<link rel="stylesheet" href="styles/theme/jq.ui.css">\n'					
   					+'<!-- Cordova is first -->\n'
   					+'<script type="text/javascript" src="js/external-libs/cordova-2.4.0.js"></script>\n' 
   					+'<!-- 3rd party libraries & configuration -->\n'
-  				      +'<script type="text/javascript" src="js/external-libs/zepto.js"></script>\n'  
+  				    +'<script type="text/javascript" src="js/external-libs/zepto.js"></script>\n'  
   				    //+'<script type="text/javascript" src="js/external-libs/deferred.js"></script>\n'  
+  					+'<script type="text/javascript" src="js/external-libs/jq.mobi.js"></script>\n'  					
   					+'<script type="text/javascript" src="js/helpers.js"></script>\n'  
   					+'<script type="text/javascript" src="js/external-libs/lodash.min.js"></script>\n'
   					+'<script type="text/javascript" src="js/external-libs/backbone-min.js"></script>\n'
@@ -111,23 +114,22 @@
   					+'<!-- start the app ! -->\n'
   					+'<script type="text/javascript" src="js/main.js"></script>\n'					
 					+'</head>\n'
-					+'<body>\n'
-					+'<div id="index" data-role="page">\n'
-				    //  +'<header class="txtcenter">\n'
-				    //  +'<div class="yesTitle">Yes We Score</div></p>\n'
-				    //  +'</header>\n'
-				    //  +'<div class="content txtcenter">\n'
-				    //  +'	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />\n'
-				    //  +'	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>\n'
-				    //  +'</div>\n'
-				    //  +'<footer class="txtcenter">\n'
-				    //  +'<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>\n'
-				    //  +'<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>\n'
-				    //  +'<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>\n'
-				    //  +'</footer>\n'	
-				      +'</div>',
-		   footerbuild : '</body>\n'
-					+'</html>',		
+					+'<body>\n'	
+					+'<div id="jQUi">\n'
+					+'<div id="header">\n'
+					+'	<a id="backButton" href="javascript:;" class="button" style="visibility: hidden; ">Back</a>\n'
+					+'	<h1 id="pageTitle">Yes We Score</h1>\n'
+					+'</div>\n'		
+					+'<div id="content"></div>\n',
+		   footerbuild : '<div id="navbar">\n'
+					+'		<div class="horzRule"></div>\n'
+					+'		<a href="#" id="navbar_home" class="icon home">Suivre</a>\n'
+					+'		<a href="#games/add" id="navbar_gamesadd" class="icon star">Diffuser</a>\n'
+					+'		<a href="#account" id="navbar_account" class="icon user">Profil</a>\n'
+					+'	</div>\n'
+					+'</div>\n'
+					+'</body>\n'
+					+'</html>',	
 
 					
 					
@@ -205,7 +207,7 @@
                 'src/styles/icons.css',
                 'src/styles/theme/jq.ui.css',				
             ],
-            dest : 'dist/style.css'
+            dest : 'dist/styles.css'
           },  
           dist_templates : {
 		    options: {
@@ -232,8 +234,8 @@
         },        
         cssmin: {
           my_target: {
-              src: 'dist/style.css',
-              dest: 'dist/style.min.css'
+              src: 'dist/styles.css',
+              dest: 'dist/styles.min.css'
           }
         },
         
@@ -284,8 +286,8 @@
     grunt.file.copy('lib/cordova/cordova-2.5.0-android.js', 'android/assets/www/cordova.js');
     grunt.file.copy('dist/app.js','android/assets/www/app.js');
     //grunt.file.copy('dist/app.min.js','android/assets/www/app.min.js');
-    grunt.file.copy('dist/style.css','android/assets/www/styles.css');
-    //grunt.file.copy('dist/style.min.css','android/assets/www/styles.min.css');    
+    grunt.file.copy('dist/styles.css','android/assets/www/styles.css');
+    //grunt.file.copy('dist/styles.min.css','android/assets/www/styles.min.css');    
     grunt.file.copy('dist/index.html','android/assets/www/index.html');
        
   });
@@ -295,8 +297,8 @@
     grunt.file.copy('lib/cordova/cordova-2.5.0-wp8.js', 'wp8/www/cordova.js');
     grunt.file.copy('dist/app.js','wp8/www/app.js');
     grunt.file.copy('dist/app.min.js','wp8/www/app.min.js');
-    grunt.file.copy('dist/style.css','wp8/www/styles.css');
-    grunt.file.copy('dist/style.min.css','wp8/www/styles.min.css');    
+    grunt.file.copy('dist/styles.css','wp8/www/styles.css');
+    grunt.file.copy('dist/styles.min.css','wp8/www/styles.min.css');    
     grunt.file.copy('dist/index.html','wp8/www/index.html');
        
   });
@@ -305,24 +307,27 @@
 
     grunt.file.copy('lib/cordova/cordova-2.5.0-ios.js', 'ios/www/cordova.js');
     grunt.file.copy('dist/app.js','ios/www/app.js');
-    grunt.file.copy('dist/style.css','ios/www/styles.css');
-    grunt.file.copy('dist/style.min.css','ios/www/styles.min.css');    
+    grunt.file.copy('dist/styles.css','ios/www/styles.css');
+    grunt.file.copy('dist/styles.min.css','ios/www/styles.min.css');    
     grunt.file.copy('dist/index.html','ios/www/index.html');
     grunt.file.copy('dist/app.min.js','ios/www/app.min.js');      
 
   });
 
   grunt.registerTask('copy-web', function() {
-
-    grunt.file.copy('lib/cordova/cordova-2.5.0-blackberry.js', 'src/build/cordova.js');
+    grunt.file.copy('lib/cordova/cordova-2.4.0-android.js', 'dist/cordova.js');
+    grunt.file.copy('lib/cordova/cordova-2.4.0-android.js', 'src/build/cordova.js');
     grunt.file.copy('dist/app.js','src/build/app.js');
-    grunt.file.copy('dist/style.css','src/build/styles.css');
+    grunt.file.copy('dist/styles.css','src/build/styles.css');
     grunt.file.copy('dist/index.html','src/build/index.html');
        
   });
 
   grunt.registerTask('copy-test', function() {
 
+    //grunt.file.copy('lib/cordova/cordova-2.4.0-android.js', 'dist/cordova.js');
+    //grunt.file.copy('dist/app.js','src/build/app.js');
+    //grunt.file.copy('dist/styles.css','src/build/styles.css');  
     grunt.file.copy('dist/index-build.html','src/index.html');
        
   });

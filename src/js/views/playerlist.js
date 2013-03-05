@@ -24,7 +24,7 @@ var PlayerListView = Backbone.View.extend({
     }
     this.render();
     // this.renderList();
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
   },
 
   search : function() {

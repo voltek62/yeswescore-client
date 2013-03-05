@@ -10,7 +10,7 @@ var PlayerForgetView = Backbone.View.extend({
   initialize : function() {
     this.playerForgetTemplate = Y.Templates.get('playerForgetTemplate');
     this.render();
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
   },
 
   forget : function(event) {

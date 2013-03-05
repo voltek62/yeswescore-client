@@ -23,7 +23,7 @@ var PlayerFormView = Backbone.View.extend({
     this.player.fetch(); 
     	
     this.player.on( 'change', this.renderPlayer, this );  	 	
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
   },
   
   updateList: function (event) {

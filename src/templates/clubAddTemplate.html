@@ -1,9 +1,9 @@
 
-	<form id="frmAddClub" class="ui-body ui-body-b ui-corner-all">
+	<form id="frmAddClub">
 
 		<span class="success label label-info hide" style="color: red"></span>
 
-		<button type="submit" value="Save" class="buttonform">Ajouter un club</button>
+		<button type="submit" value="Save" class="button">Ajouter un club</button>
 
 
 		<div class="ui-grid-a">
@@ -11,7 +11,7 @@
 				<label class="ui-input-text" for="name">* Nom</label>
 			</div>
 			<div class="ui-block-b">
-				<input type="text" id="name" name="name" placeholder="Nom du Club" class='ui-input-text' value="" /> 
+				<input type="text" id="name" name="name" placeholder="Nom du Club" class='jq-ui-forms' value="" /> 
 				<span class="name_error label label-info hide"></span>
 			</div>
 		</div>
@@ -21,14 +21,14 @@
 			<label class="ui-input-text " for="city">* Ville</label>
 			</div>
 			<div class="ui-block-b">
-				<input type="text" id="city" name="city" placeholder="Ville" class='ui-input-text' value="" /> 
+				<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms' value="" /> 
 				<span class="city_error label label-info hide"></span>
 			</div>
 		</div>
 
 
-		<input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
-		<input type="hidden" id="token" value="<%= token %>" class="input" />
+		<input type="hidden" id="playerid" value="<%= playerid %>"/> 
+		<input type="hidden" id="token" value="<%= token %>"/>
 
 	</form>
 

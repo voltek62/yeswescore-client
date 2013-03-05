@@ -366,7 +366,7 @@ var GameView = Backbone.View.extend({
           follow : this.follow
         }));
 
-        $.mobile.hidePageLoadingMsg();
+        //$.mobile.hidePageLoadingMsg();
         this.$el.trigger('pagecreate');
 
         return this;

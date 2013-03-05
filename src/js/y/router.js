@@ -38,9 +38,9 @@
       var that = this;
 
       //Global Transition handler
-      $("a").live("touch vclick", function (e) {
-        that.setNextTransition(this);
-      });
+      //$("a").live("touch vclick", function (e) {
+      //  that.setNextTransition(this);
+      //});
     },
 
     account: function () {

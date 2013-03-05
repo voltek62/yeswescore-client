@@ -1,5 +1,5 @@
 var PlayerSigninView = Backbone.View.extend({
-  el : "#index",
+  el : "#content",
 
   events: {
     'submit form#frmSigninPlayer' : 'signin'

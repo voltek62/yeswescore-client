@@ -1,5 +1,5 @@
 var GameFollowView = Backbone.View.extend({
-  el:"#index",
+  el:"#content",
 
   listview:"#listGamesView",
     

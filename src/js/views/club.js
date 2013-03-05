@@ -1,5 +1,5 @@
 var ClubView = Backbone.View.extend({
-  el : "#index",
+  el : "#content",
 
   events : {
     'vclick #followButton' : 'follow'

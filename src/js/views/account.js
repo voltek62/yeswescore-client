@@ -1,5 +1,5 @@
 var AccountView = Backbone.View.extend({
-  el : "#index",
+  el : "#content",
 
   events : {
     'vclick #debug' : 'debug'

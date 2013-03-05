@@ -1,9 +1,4 @@
-<header class="txtcenter">
-	<a href="#">Back</a>
-	<div class="yesTitle">Yes We Score</div></p>
-</header>
 
-<div class="content txtcenter">
 <span class="success label label-info hide" style="color: red"></span>
 <h3><%= player.name %> alias <%= player.nickname %></h3>
 Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a><br /> Classement : <%= player.rank %><br /> 
@@ -12,10 +7,3 @@ Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'inf
 <% } else { %> 
 <a data-role="button" id="followButton">Suivre ce joueur</a>
 <% } %>
-</div>
-<!-- /content -->
-<footer class="txtcenter">
-<div class="buttonmnu active"><a id="mnufollow" href="#">Suivre</a></div>
-<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" href="#games/add">Diffuser</a></div>
-<div class="buttonmnu"><a id="mnuaccount" href="#account">Mon Compte</a></div>
-</footer>

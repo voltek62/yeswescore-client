@@ -1,5 +1,5 @@
 var PlayerFollowView = Backbone.View.extend({
-  el:"#index",
+  el:"#content",
   
   events: {
     "keyup input#search-basic": "search"

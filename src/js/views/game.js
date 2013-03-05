@@ -1,5 +1,5 @@
 var GameView = Backbone.View.extend({
-      el : "#index",
+      el : "#content",
       
       displayViewScoreBoard : "#displayViewScoreBoard",
       // Flux des commentaires

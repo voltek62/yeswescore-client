@@ -27,28 +27,28 @@
 					+'<html>\n'
 					+'<head>\n'
 					+'<title>YesWeScore</title>\n'
-					+'<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />\n'
-					+'<meta charset="utf-8">\n'
+					+'<meta http-equiv="Content-type" content="text/html; charset=utf-8">\n'
+					+'<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">\n'
+					+'<meta name="apple-mobile-web-app-capable" content="yes" />\n'
 					+'<script type="text/javascript" charset="utf-8" src="cordova.js"></script>\n'
 					+'<script type="text/javascript" charset="utf-8" src="app.js"></script>\n'
 					+'<link type="text/css" rel="stylesheet" href="styles.css" />\n'
 					+'</head>\n'
-					+'<body>\n'
-					+'<div id="index" data-role="page">\n'
-				    //  +'<header class="txtcenter">\n'
-				    //  +'<div class="yesTitle">Yes We Score</div></p>\n'
-				    //  +'</header>\n'
-				    //  +'<div class="content txtcenter">\n'
-				    //  +'	<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />\n'
-				    //  +'	<ul id="listGamesView" data-role="listview" data-theme="c"></ul>\n'
-				    //  +'</div>\n'
-				    //  +'<footer class="txtcenter">\n'
-				    //  +'<div class="buttonmnu active"><a id="mnufollow" >Suivre</a></div>\n'
-				    //  +'<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" >Diffuser</a></div>\n'
-				    //  +'<div class="buttonmnu"><a id="mnuaccount" >Mon Compte</a></div>\n'
-				    //  +'</footer>\n'	
-				    +'</div>',
-		   footer : '</body>\n'
+					+'<body>\n'	
+					+'<div id="jQUi">\n'
+					+'<div id="header">\n'
+					+'	<a id="backButton" href="javascript:;" class="button" style="visibility: hidden; ">Back</a>\n'
+					+'	<h1 id="pageTitle">Yes We Score</h1>\n'
+					+'</div>\n'		
+					+'<div id="content"></div>\n',						
+		   footer : '<div id="navbar">\n'
+					+'		<div class="horzRule"></div>\n'
+					+'		<a href="#" id="navbar_home" class="icon home">Suivre</a>\n'
+					+'		<a href="#games/add" id="navbar_gamesadd" class="icon star">Diffuser</a>\n'
+					+'		<a href="#account" id="navbar_account" class="icon user">Profil</a>\n'
+					+'	</div>\n'
+					+'</div>\n'
+					+'</body>\n'
 					+'</html>',
 		   headerbuild : '<!DOCTYPE html>\n'
 					+'<html>\n'
@@ -146,7 +146,9 @@
             src : [ '<%= meta.banner %>'
                  // Order is important.
                 ,'src/js/helpers.js'
-                ,'src/js/external-libs/zepto.js'
+                ,'src/js/external-libs/zepto.js'		
+                ,'src/js/external-libs/jq.mobi.js'				
+                ,'src/js/external-libs/jq.ui.js'
                 //,'src/js/external-libs/deferred.js'
                 ,'src/js/external-libs/lodash.min.js'
                 ,'src/js/external-libs/backbone-min.js'
@@ -199,10 +201,9 @@
           dist_css : {
             src : [ '<%= meta.banner %>',
                  // Order is important.
-                //'src/styles/knacss.css',
-                //'src/styles/knacss-garni.css',
-                //'src/styles/nav.css',
-                'src/styles/main.css', 
+                //'src/styles/main.css',
+                'src/styles/icons.css',
+                'src/styles/theme/jq.ui.css',				
             ],
             dest : 'dist/style.css'
           },  
@@ -282,9 +283,9 @@
 
     grunt.file.copy('lib/cordova/cordova-2.5.0-android.js', 'android/assets/www/cordova.js');
     grunt.file.copy('dist/app.js','android/assets/www/app.js');
-    grunt.file.copy('dist/app.min.js','android/assets/www/app.min.js');
+    //grunt.file.copy('dist/app.min.js','android/assets/www/app.min.js');
     grunt.file.copy('dist/style.css','android/assets/www/styles.css');
-    grunt.file.copy('dist/style.min.css','android/assets/www/styles.min.css');    
+    //grunt.file.copy('dist/style.min.css','android/assets/www/styles.min.css');    
     grunt.file.copy('dist/index.html','android/assets/www/index.html');
        
   });
@@ -327,7 +328,8 @@
   });
   
   // Default task(s).
-  grunt.registerTask('default', [ 'clean','template','concat','uglify','cssmin','copy-android' ]);
+  // 'uglify','cssmin',
+  grunt.registerTask('default', [ 'clean','template','concat','copy-android' ]);
   grunt.registerTask('nocommentdev', [ 'nocomment' ]);  
   grunt.registerTask('wp8', [ 'clean','template','concat','uglify','cssmin','copy-wp8' ]);
   grunt.registerTask('ios', [ 'clean','template','concat','uglify','cssmin','copy-ios' ]);

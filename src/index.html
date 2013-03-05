@@ -23,27 +23,22 @@
             </div>
             
             <div id="content">
-                <!-- here is where you can add your panels -->
-                <div title='Bienvenue' id="main" class="panel" selected="true">
-                
-                <!-- checkbox -->
-				<input type="checkbox" name="confirm" id="confirm" class="jq-ui-forms">  <label for="confirm">Do you agree to the terms?</label>
-				 
-				<!-- radio button-->
-				<input type="radio" name="gender" value='Male' id="Male" class="jq-ui-forms">  <label for="Male">Male</label>
-				<input type="radio" name="gender" value='Female' id="Female" class="jq-ui-forms">  <label for="Male">Female</label>
-				 
-				<!-- Toggle/Slider-->
-				<input type="checkbox" name="slider" id="slider" class="jq-ui-slider"> <label for="slider">Do you agree to the terms?</label>
-                
+                <div title='Main' id="main" class="panel" selected="true">
+	                Main          
                 </div>
+                <div title='GameAdd' id="game-add" class="panel" selected="false">
+	                Game Add           
+                </div>
+                <div title='MonCompte' id="account" class="panel" selected="false">
+	                Mon compte         
+                </div>                                
             </div>
             
             <!-- bottom navbar. Add additional tabs here -->
             <div id="navbar">
                 <div class="horzRule"></div>
-                <a href="#" id='navbar_home' class='icon home'>Suivre</a>
-                <a href="#games/add" id='navbar_gamesadd' class='icon star'>Diffuser</a>
+                <a href="#main" id='navbar_home' class='icon home'>Suivre</a>
+                <a href="#game-add" id='navbar_gamesadd' class='icon star'>Diffuser</a>
                 <a href="#account" id='navbar_account' class='icon user'>Profil</a>
             </div>
             

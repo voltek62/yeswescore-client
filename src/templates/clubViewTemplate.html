@@ -1,23 +1,9 @@
-<header class="txtcenter">
-	<a href="#">Back</a>
-	<div class="yesTitle">Yes We Score</div></p>
-</header>
 
-<div class="content txtcenter">
 	<h3><%= club.name %></h3>
 	Sport : <%= club.sport %>&nbsp;&nbsp;&nbsp;&nbsp;City : <%=
 	club.location.city %><br /> FFTID : <%= club.fftid %> Site
-	:&nbsp;&nbsp;&nbsp;&nbsp;Facebook :<br /> <a
-		href="#players/club/<%= club.id %>" data-role="button" id="listPlayer">Liste
-		des joueurs</a> <a href="#games/club/<%= club.id %>" data-role="button"
-		id="lastResult">Dernier resultat</a> <a id="followButton"
-		data-role="button">Suivre</a>
+	:&nbsp;&nbsp;&nbsp;&nbsp;Facebook :<br /> 
+	<a href="#players/club/<%= club.id %>" data-role="button" id="listPlayer">Liste des joueurs</a> 
+	<a href="#games/club/<%= club.id %>" data-role="button"id="lastResult">Dernier resultat</a> 
+	<a id="followButton" data-role="button">Suivre</a>
 
-</div>
-<!-- /content -->
-
-<footer class="txtcenter">
-<div class="buttonmnu active"><a id="mnufollow" href="#">Suivre</a></div>
-<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" href="#games/add">Diffuser</a></div>
-<div class="buttonmnu"><a id="mnuaccount" href="#account">Mon Compte</a></div>
-</footer>

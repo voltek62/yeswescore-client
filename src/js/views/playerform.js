@@ -1,5 +1,5 @@
 var PlayerFormView = Backbone.View.extend({
-  el:"#index",
+  el:"#content",
     
   events: {
     'submit form#frmAddPlayer':'add',

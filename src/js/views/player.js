@@ -1,5 +1,5 @@
 var PlayerView = Backbone.View.extend({
-  el:"#index",
+  el:"#content",
 
   events: {
     'vclick #followPlayerButton': 'followPlayer'

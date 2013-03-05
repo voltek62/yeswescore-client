@@ -1,5 +1,5 @@
 var PlayerForgetView = Backbone.View.extend({
-  el : "#index",
+  el : "#content",
 
   events: {
     'submit form#frmForgetPlayer' : 'forget'

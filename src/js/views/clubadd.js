@@ -1,5 +1,5 @@
 var ClubAddView = Backbone.View.extend({
-  el: "#index",
+  el: "#content",
 
   events: {
     'submit form#frmAddClub': 'addClub'

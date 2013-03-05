@@ -1,46 +1,25 @@
-<header class="txtcenter">
-	<a href="#" class="button">Back</a>
-	<div class="yesTitle">Yes We Score</div></p>
-</header>
+<a href="#games/me/<%= Owner.id %>" class="button" id="">Mes Matchs</a> 
+<a href="#games/follow" class="button" id="">Matchs Suivis</a> 
+<a href="#players/follow" class="button" id="">Joueurs Suivis</a>   
+<% 
+   
+   if(Owner.club === undefined ) 
+       print ('<a href="#" class="button" id="" class="ui-disabled">Mon Club</a>'); 
+   else
+       print ('<a href="#clubs/'+Owner.club.id+'" class="button" id="">Mon Club</a>'); 
+%>
+<!-- 
+<a href="#" class="button" id="" class="ui-disabled">Mon Coach Sportif</a>
+-->
+<a href="#" class="button" id="" class="ui-disabled">Calcul Classement</a>
 
-<div class="return"></div>
+<p align="center">Vos donn&eacute;es sont enregistr&eacute;es en local. Pour les sauver, cliquez sur :</p>
+<!-- Parametres -->           
+<%
+  if (Owner.mail === '')
+    print ('<a href="#players/form" class="button" id="">Inscription</a>');
+  else
+    print ('<a href="#players/form" class="button" id="">Profil</a>');
+%>
+<a href="#players/signin" class="button" id="">Charger un autre compte</a> 
 
-<div class="content txtcenter">
-	
-	<a href="#games/me/<%= Owner.id %>" class="button" id="">Mes Matchs</a> 
-	<a href="#games/follow" class="button" id="">Matchs Suivis</a> 
-	<a href="#players/follow" class="button" id="">Joueurs Suivis</a>
-    
-    <% 
-    
-    if(Owner.club === undefined ) 
-        print ('<a href="#" class="button" id="" class="ui-disabled">Mon Club</a>'); 
-    else
-        print ('<a href="#clubs/'+Owner.club.id+'" class="button" id="">Mon Club</a>'); 
-    %>
-     <!-- 
-     <a href="#" class="button" id="" class="ui-disabled">Mon Coach Sportif</a>
-     -->
-    <a href="#" class="button" id="" class="ui-disabled">Calcul Classement</a>
-
-    <p align="center">Vos donn&eacute;es sont enregistr&eacute;es en local. Pour les sauver, cliquez sur :</p>
-    <!-- Parametres -->           
-    <%
-      if (Owner.mail === '')
-        print ('<a href="#players/form" class="button" id="">Inscription</a>');
-      else
-        print ('<a href="#players/form" class="button" id="">Profil</a>');
-      %>
-    <a href="#players/signin" class="button" id="">Charger un autre compte</a> 
-
-</div>
-<!-- /content -->
-
-<footer class="txtcenter">
-<div class="buttonmnu active"><a id="mnufollow" href="#">Suivre</a></div>
-<div class="buttonmnu" style="width:34%;"><a id="mnudiffuse" href="#games/add">Diffuser</a></div>
-<div class="buttonmnu"><a id="mnuaccount" href="#account">Mon Compte</a></div>
-</footer>	
-
-</body>
-</html>

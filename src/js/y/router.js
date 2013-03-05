@@ -9,6 +9,14 @@
   };
 
   var currentView = null;
+  
+  /* JQmobi
+  	$.mvc.addRoute("/foo",function(){
+   		var args=arguments;
+   		console.log("Foo",arguments);
+	});
+	
+	*/
 
   var Router = Backbone.Router.extend({
     routes: {

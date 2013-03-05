@@ -66,7 +66,8 @@
   					+'<!-- 3rd party libraries & configuration -->\n'
   				    +'<script type="text/javascript" src="js/external-libs/zepto.js"></script>\n'  
   				    //+'<script type="text/javascript" src="js/external-libs/deferred.js"></script>\n'  
-  					+'<script type="text/javascript" src="js/external-libs/jq.mobi.js"></script>\n'  					
+  					+'<script type="text/javascript" src="js/external-libs/jq.mobi.js"></script>\n' 
+ 					
   					+'<script type="text/javascript" src="js/helpers.js"></script>\n'  
   					+'<script type="text/javascript" src="js/external-libs/lodash.min.js"></script>\n'
   					+'<script type="text/javascript" src="js/external-libs/backbone-min.js"></script>\n'
@@ -150,7 +151,7 @@
                 ,'src/js/helpers.js'
                 ,'src/js/external-libs/zepto.js'		
                 ,'src/js/external-libs/jq.mobi.js'				
-                ,'src/js/external-libs/jq.ui.js'
+                //,'src/js/external-libs/jq.ui.js'
                 //,'src/js/external-libs/deferred.js'
                 ,'src/js/external-libs/lodash.min.js'
                 ,'src/js/external-libs/backbone-min.js'

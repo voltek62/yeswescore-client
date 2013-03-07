@@ -87,9 +87,15 @@ module.exports = function (grunt) {
       }
     },
     preprocess: {
+      js: {
+        // first, we preprocess app.js
+        src: 'dist/app.js',
+        options: { inline: true }
+      },
       html: {
-        src: 'dist/index.html' ,
-        options : { inline: true }
+        // then, we merge (@include) content in index.html.
+        src: 'dist/index.html',
+        options: { inline: true }
       }
     }
   });
@@ -121,11 +127,8 @@ module.exports = function (grunt) {
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['clean', 'template', 'concat', 'uglify', 'cssmin', 'copy-android']);
-  grunt.registerTask('nocommentdev', ['nocomment']);
-  grunt.registerTask('wp8', ['clean', 'template', 'concat', 'uglify', 'cssmin', 'copy-wp8']);
-  grunt.registerTask('ios', ['clean', 'template', 'concat', 'uglify', 'cssmin', 'copy-ios']);
-  grunt.registerTask('web', ['clean', 'template', 'concat', 'copy-web']);
-  grunt.registerTask('iostest', ['clean', 'template', 'concat', 'copy-iostest']);
-  grunt.registerTask('test', ['clean', 'template', 'concat', 'copy-cordova-wp8-to-dist', 'preprocess']);
+  grunt.registerTask('android', ['clean', 'copy-cordova-android-to-dist', 'template', 'concat', 'preprocess', 'to-android']);
+  grunt.registerTask('ios', ['clean', 'copy-cordova-ios-to-dist', 'template', 'concat', 'preprocess', 'to-ios']);
+  grunt.registerTask('wp8', ['clean', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'preprocess', 'to-wp8']);
+  grunt.registerTask('default', 'android');
 };

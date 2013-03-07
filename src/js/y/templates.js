@@ -21,8 +21,41 @@
         // optim: remove the script from the dom.
         node.parentNode.removeChild(node);
       });
-      // we have finished.
-      callback();
+      // @ifdef DEV
+      if (true) {
+        
+        // dev environment, loading template using $.get()
+        // pas trouvé mieux pour l'instant...
+        var templates = [
+          "accountView", "clubAdd", "clubListAutoCompleteView", "clubView", "gameAdd",
+          "gameEnd", "gameList", "gameListView", "gamePref", "gameViewCommentList",
+          "gameViewScoreBoard", "gameView", "indexView", "playerForget",
+          "playerForm", "playerListAutoCompleteView", "playerListView",
+          "playerSearch", "playerSignin", "playerView"
+        ];
+        var timeoutid = setTimeout(function () { throw "cannot load some template.. "; }, 2000);
+        var i = 0;
+        templates.forEach(function (template) {
+          $.get("templates/"+template+"Template.html", function (text) {
+            html[template+"Template"] = text;
+            i++;
+            if (i == templates.length)
+            {
+              clearTimeout(timeoutid);
+              callback();
+            }
+          });
+        });
+      } else {
+      // @endif
+
+        // production environment
+        // we have finished.
+        callback();
+
+      // @ifdef DEV
+      }
+      // @endif
     },
 
     // Get template by name from hash of preloaded templates

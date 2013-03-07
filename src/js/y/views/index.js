@@ -90,7 +90,6 @@ var IndexView = Backbone.View.extend({
   },
 
   render: function () {
-  
     this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
     this.$el.trigger('pagecreate');

@@ -23,7 +23,7 @@ module.exports = function (grunt) {
   var scripts = [], r;
   while ((r = re.exec(html)) !== null) {
     // excluding cordova file (to not be included twice)
-    if (r[1].indexOf("vendor/cordova") == -1)
+    if (r[0].indexOf("data-grunt-included=\"false\"") !== -1)
       scripts.push('src/' + r[1]); // ex: src/js/main.js
   }
   console.log(scripts);

@@ -25,7 +25,7 @@
         that.Templates.loadAsync(function () {
           // start dispatching routes
           // @see http://backbonejs.org/#History-start
-          Backbone.history.start();
+          Backbone.history.start({hashChange: false});
           // waiting for cordova to be ready
           callback();
         });

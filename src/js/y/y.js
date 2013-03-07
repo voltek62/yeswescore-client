@@ -16,6 +16,8 @@
 
     load: function (callback) {
       var that = this;
+      // initializing backbone.
+      Backbone.$ = $;
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
@@ -25,7 +27,7 @@
         that.Templates.loadAsync(function () {
           // start dispatching routes
           // @see http://backbonejs.org/#History-start
-          Backbone.history.start({hashChange: false});
+          Backbone.history.start();
           // waiting for cordova to be ready
           callback();
         });

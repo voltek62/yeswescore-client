@@ -16,7 +16,8 @@
     "grunt-contrib-copy": "~0.4.0",
     "grunt-contrib-watch": "~0.2.0",
     "grunt-lib-legacyhelpers": "~0.1.1",
-    "grunt-template-helper": "~0.1.5"
+    "grunt-template-helper": "~0.1.5",
+    "grunt-preprocess" : "~2.0.0"
   },
   "repository": {
     "type": "git",

@@ -14,5 +14,9 @@ dist
 zipSource.bat
 .classpath
 .project
-ici.bat
 project.properties
+
+src/build/
+platforms/ios/build/
+platforms/android/build/
+platforms/wp8/build/

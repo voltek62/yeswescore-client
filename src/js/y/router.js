@@ -9,14 +9,14 @@
   };
 
   var currentView = null;
-  
+
   /* JQmobi
-  	$.mvc.addRoute("/foo",function(){
-   		var args=arguments;
-   		console.log("Foo",arguments);
-	});
+  $.mvc.addRoute("/foo",function(){
+  var args=arguments;
+  console.log("Foo",arguments);
+  });
 	
-	*/
+  */
 
   var Router = Backbone.Router.extend({
     routes: {
@@ -164,12 +164,7 @@
         Y.Stats.page(previousPageName, nextPageName);
         console.log('DEV ChangePage', new Date().getTime());
 
-        $.mobile.changePage(view.$el, {
-          transition: 'none',
-          //showLoadMsg: false,
-          changeHash: false,
-          reverse: false
-        });
+        // FIXME: render of view should be here ?
       }
       catch (e) {
         console.log('DEV ChangePage Error', e);

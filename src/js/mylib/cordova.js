@@ -31,19 +31,19 @@
         setTimeout(function () { onDeviceReady() }, 2000);
       }
       else {
-        // #BEGIN_DEV
+        // @ifdef DEV
         if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
-          // #END_DEV
+        // @endif
           window.addEventListener("load", function () {
             document.addEventListener("deviceready", onDeviceReady, false);
           }, false);
-          // #BEGIN_DEV
+        // @ifdef DEV
         } else {
           // We cannot simulate "deviceready" event using standard API.
           // So, we trigger cordova startup on chrome browser in dev after random time < 1s
           setTimeout(function () { onDeviceReady() }, Math.round(Math.random() * 1000));
         }
-        // #END_DEV
+        // @endif
       }
     },
 

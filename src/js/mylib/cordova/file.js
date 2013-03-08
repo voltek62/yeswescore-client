@@ -100,27 +100,5 @@
   // registering file only when cordova is ready.
   Cordova.deviceready(function () {
     Cordova.File = File;
-
-    // #BEGIN_DEV
-    // test de l'ecriture
-    /*
-    var now = new Date().getTime();
-    console.log("DEV: test writing " + now + " in temp.text");
-    File.write('temp.txt', now, function (err) {
-      if (err)
-        return console.log("error: " + err);
-      // test de la lecture
-      console.log('DEV ecriture dans temp.txt OK');
-      File.read('temp.txt', function (err, data) {
-        if (err)
-          return console.log("erreor: " + err);
-        console.log('DEV lecture dans temp.txt de ' + data);
-        //
-        assert(data === String(now));
-      });
-    });
-    */
-    // #END_DEV
-
   });
 })(Cordova);

@@ -44,9 +44,9 @@
   var Conf = {
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
-      // #BEGIN_DEV
+      // @ifdef DEV
       // Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
-      // #END_DEV
+      // @endif
       return this; // chainable
     },
 
@@ -61,14 +61,14 @@
       // Paramétrage des variables dependantes d'un environnement
       switch (env) {
         case Y.Env.DEV:
-          // #BEGIN_DEV
+          // @ifdef DEV
           this.setNX("api.url.auth", "http://91.121.184.177:1024/v1/auth/");
           this.setNX("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
           this.setNX("api.url.games", "http://91.121.184.177:1024/v1/games/");
           this.setNX("api.url.players", "http://91.121.184.177:1024/v1/players/");
           this.setNX("api.url.clubs", "http://91.121.184.177:1024/v1/clubs/");
           this.setNX("api.url.stats", "http://91.121.184.177:1024/v1/stats/");
-          // #END_DEV
+          // @endif
           break;
         case Y.Env.PROD:
           this.setNX("api.url.auth", "http://api.yeswescore.com/v1/auth/");

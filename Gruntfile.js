@@ -18,15 +18,26 @@ module.exports = function (grunt) {
   var fs = require('fs');
   var html = fs.readFileSync(__dirname + '/src/index.html');
 
+  // FIXME: regexp are weak.
+  // FIXME: regexp doesn't prevent including commented scripts !
   // harvesting javascripts: <script (...) src="..."></script>
   var re = /<script.*src="([^"]+)">/gi;
   var scripts = [], r;
   while ((r = re.exec(html)) !== null) {
     // excluding cordova file (to not be included twice)
-    if (r[0].indexOf("data-grunt-included=\"false\"") !== -1)
+    if (r[0].indexOf("data-grunt-included=\"false\"") == -1)
       scripts.push('src/' + r[1]); // ex: src/js/main.js
   }
-  console.log(scripts);
+
+  // harvesting css: <link (...) href="styles/main.css"></link>
+  var css = [];
+  re = /<link.*href="([^"]+)">/gi;
+  while ((r = re.exec(html)) !== null) {
+    // excluding cordova file (to not be included twice)
+    if (r[0].indexOf("data-grunt-included=\"false\"") == -1)
+      css.push('src/' + r[1]); // ex: src/styles/main.css
+  }
+
   //
   // Project configuration
   //
@@ -66,7 +77,7 @@ module.exports = function (grunt) {
         dest: 'dist/app.js'
       },
       dist_css: {
-        src: ['src/styles/main.css'],
+        src: css,
         dest: 'dist/app.css'
       },
       dist_html: {

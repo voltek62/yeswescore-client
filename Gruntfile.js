@@ -130,7 +130,10 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) {
     grunt.registerTask('to-' + platform, function () {
-      grunt.file.copy('dist/index.html', 'platforms/' + platform + '/build/index.html');
+	  if (platform.indexOf('android')!=-1)
+		grunt.file.copy('dist/index.html', 'platforms/' + platform + '/assets/www/index.html');		
+	  else
+		grunt.file.copy('dist/index.html', 'platforms/' + platform + '/build/index.html');
     });
   });
 

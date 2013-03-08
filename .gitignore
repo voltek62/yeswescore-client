@@ -1,20 +1,6 @@
-android/.externalToolBuilders
-android/.settings
-android/assets-jqmobi
-android/assets/www/*
-android/bin
-android/gen
-
-ios/www/*
-
+.project
 node_modules
 dist
-
-.project
-zipSource.bat
-.classpath
-.project
-project.properties
 
 src/build/
 platforms/ios/build/

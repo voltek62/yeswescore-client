@@ -18,13 +18,13 @@
   <!-- Third party css -->
   <!-- our css -->
   <link rel="stylesheet" href="styles/main.css">
-  <!-- <link rel="stylesheet" href="styles/vendor/jqmobi/jq.ui.css"> -->
+  <link rel="stylesheet" href="styles/vendor/jqmobi/jq.ui.css">
   <!-- Cordova is first -->
   <script type="text/javascript" src="js/vendor/cordova/cordova-2.4.0.js" data-grunt-included="false"></script>
   <!-- 3rd party libraries & configuration -->
   <script type="text/javascript" src="js/vendor/jqmobi/jqmobi-1.2.js"></script>
   <!--
-  <script type="text/javascript" src="js/vendor/jqmobi/jqmobi-ui-1.2.js"></script>
+  <script type="text/javascript" src="js/vendor/jqmobi/jqmobi-ui-1.2.js" data-grunt-included="false"></script>
   <script type="text/javascript" src="js/vendor/jqmobi/jq.desktopBrowsers.js" data-grunt-included="false"></script>
   -->
   <script type="text/javascript" src="js/vendor/lodash/lodash.min.js"></script>
@@ -75,21 +75,26 @@
   <!-- @endif -->
 </head>
 <body>
-  <div id="index" data-role="page">
-    <header class="txtcenter">
-      <div class="yesTitle">Yes We Score</div>
-    </header>
-    <div id="content" class="content txtcenter">
-	    <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />
-	    <ul id="listGamesView" data-role="listview" data-theme="c"></ul>
-    </div>
-    <footer class="txtcenter">
-      <div class="buttonmnu active"><a href="#" id="mnufollow" >Suivre</a></div>
-      <div class="buttonmnu" style="width:34%;"><a href="#games/add" id="mnudiffuse" >Diffuser</a></div>
-      <div class="buttonmnu"><a href="#account" id="mnuaccount" >Mon Compte</a></div>
-    </footer>
+  <div id="jQUi"> <!-- this is the main container div.  This way, you can have only part of your app use jqUi -->
+      <!-- this is the header div at the top -->
+      <div id="header">
+      <a id="backButton" href="javascript:;" class="button" style="visibility: hidden; ">Back</a> 
+      <h1 id="pageTitle">Yes We Score</h1>
+      </div>
+            
+      <div id="content">
+          <!-- here is where you can add your panels -->
+          <div title='Welcome' id="main" class="panel" selected="true">This is a basic skeleton jqUi sample</div>
+      </div>
+            
+      <!-- bottom navbar. Add additional tabs here -->
+      <div id="navbar">
+          <div class="horzRule"></div>
+          <a href="#" id='navbar_home' class='icon home'>Suivre</a>
+          <a href="#games/add" id='navbar_gamesadd' class='icon star'>Diffuser</a>
+          <a href="#account" id='navbar_account' class='icon user'>Profil</a>
+      </div>    
   </div>
-
   <!-- @include templates.html -->
 </body>
 </html>

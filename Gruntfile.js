@@ -12,7 +12,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-template-helper');
   grunt.loadNpmTasks('grunt-preprocess');
 
-  grunt.loadTasks('grunt-tasks'); 
+  grunt.loadTasks('grunt-tasks');
 
   // FIXME: should be a grunt task ?
   // reading index.html

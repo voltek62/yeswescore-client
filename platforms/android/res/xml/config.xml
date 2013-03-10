@@ -47,6 +47,10 @@
 
     <plugins>
         <plugin
+            name="FacebookConnect"
+            value="org.apache.cordova.plugins.FacebookConnect" />
+            
+        <plugin
             name="App"
             value="org.apache.cordova.App" />
         <plugin

@@ -87,6 +87,8 @@
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", "1"); // might be usefull on update.
+      this.set("facebook.app.id","447718828610668");
+      
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]

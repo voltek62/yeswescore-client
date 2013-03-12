@@ -8092,7 +8092,110 @@ window.cordova = require('cordova');
 
 })();var PhoneGap = cordova;
 
-    /**
+    //
+//  FacebookConnect.js
+//
+// Created by Olivier Louvignes on 2012-06-25.
+//
+// Copyright 2012 Olivier Louvignes. All rights reserved.
+// MIT Licensed
+
+(function(cordova) {
+
+	function FacebookConnect() {}
+	var service = 'FacebookConnect';
+
+	FacebookConnect.prototype.initWithAppId = function(appId, callback) {
+		if(!appId) return false;
+
+		var _callback = function(result) {
+			//console.log('FacebookConnect.initWithAppId: %o', arguments);
+			if(typeof callback == 'function') callback.apply(null, arguments);
+		};
+
+		return cordova.exec(_callback, _callback, service, 'initWithAppId', [{appId: appId}]);
+
+	};
+
+	FacebookConnect.prototype.login = function(options, callback) {
+		if(!options) options = {};
+
+		var config = {
+			permissions: options.permissions || ['email'],
+			appId: options.appId || ''
+		};
+
+		var _callback = function(result) {
+			//console.log('FacebookConnect.login: %o', arguments);
+			if(typeof callback == 'function') callback.apply(null, arguments);
+		};
+
+		return cordova.exec(_callback, _callback, service, 'login', [config]);
+
+	};
+
+	/**
+	 * Make an asynchrous Facebook Graph API request.
+	 *
+	 * @param {String} path Is the path to the Graph API endpoint.
+	 * @param {Object} [options] Are optional key-value string pairs representing the API call parameters.
+	 * @param {String} [httpMethod] Is an optional HTTP method that defaults to GET.
+	 * @param {Function} [callback] Is an optional callback method that receives the results of the API call.
+	 */
+	FacebookConnect.prototype.requestWithGraphPath = function(path, options, httpMethod, callback) {
+		var method;
+
+		if(!path) path = "me";
+		if(typeof options === 'function') {
+			callback = options;
+			options = {};
+			httpMethod = undefined;
+		}
+		if (typeof httpMethod === 'function') {
+			callback = httpMethod;
+			httpMethod = undefined;
+		}
+		httpMethod = httpMethod || 'GET';
+
+		var _callback = function(result) {
+			//console.log('FacebookConnect.requestWithGraphPath: %o', arguments);
+			if(typeof callback == 'function') callback.apply(null, arguments);
+		};
+
+		return cordova.exec(_callback, _callback, service, 'requestWithGraphPath', [{path: path, options: options, httpMethod: httpMethod}]);
+
+	};
+
+	FacebookConnect.prototype.logout = function(callback) {
+
+		var _callback = function(logout) {
+			//console.log('FacebookConnect.logout: %o', arguments);
+			if(typeof callback == 'function') callback.apply(null, arguments);
+		};
+
+		return cordova.exec(_callback, _callback, service, 'logout', []);
+
+	};
+
+	FacebookConnect.prototype.dialog = function(method, options, callback) {
+
+		var _callback = function(result) {
+			//console.log('FacebookConnect.dialog: %o', arguments);
+			if(typeof callback == 'function') callback.apply(null, arguments);
+		};
+
+		return cordova.exec(_callback, _callback, service, 'dialog', [{method: method, params: options}]);
+
+	};
+
+	cordova.addConstructor(function() {
+		if(!window.plugins) window.plugins = {};
+		window.plugins.facebookConnect = new FacebookConnect();
+	});
+
+})(window.cordova || window.Cordova);
+
+/**
 * jqMobi is a query selector class for HTML5 mobile apps on a WebkitBrowser.
 * Since most mobile devices (Android, iOS, webOS) use a WebKit browser, you only need to target one browser.
 * We are able to increase the speed greatly by removing support for legacy desktop browsers and taking advantage of browser features, like native JSON parsing and querySelectorAll
@@ -12243,6 +12346,68 @@ var assert = function () { };
   // exporting Cordova to global scope
   global.Cordova = Cordova;
 })(this);
+            if (typeof String.prototype.startsWith != 'function') {
+                String.prototype.startsWith = function (str){
+                    return this.slice(0, str.length) == str;
+                };
+            }
+            
+            var iabRef = null;
+                        
+            function launchUrl() {
+                try {
+                    var url = document.getElementById("windowUrl").value;
+                    var target = getWindowName();
+                    var showLocationbar = document.getElementById("windowOptions").checked;
+                    
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        url = 'http://' + url;
+                    }
+                    
+                    iabRef = window.open(url, target, "location=" + (showLocationbar? "yes":"no"));
+                    iabRef.addEventListener('loadstart', onLoadStart);
+                    iabRef.addEventListener('loadstart', onLoadStop);
+                    iabRef.addEventListener('exit', onExit);
+                
+                } catch (e) {
+                    alert(e);
+                }
+            }
+            
+            function getWindowName()
+            {
+                var radioButtons = document.getElementsByName("windowName");
+                for (var i = 0; i < radioButtons.length; ++i) {
+                    if (radioButtons[i].checked) {
+                        return radioButtons[i].value;
+                    }
+                }
+            }
+            
+            function checkUrlLength() {
+                var txt = document.getElementById("windowUrl");
+                var btn = document.getElementById("launchButton");
+                
+                btn.disabled = (txt.value.length == 0);
+            }
+                        
+            function onLoadStart(event) {
+                alert(event.type + ' - ' + event.url);
+            }
+
+            function onLoadStop(event) {
+                alert(event.type + ' - ' + event.url);
+            }
+
+            function onExit(event) {
+                alert(event.type);
+                if (iabRef) {
+                    iabRef.removeEventListener('loadstart', onLoadStart);
+                    iabRef.removeEventListener('loadstart', onLoadStop);
+                    iabRef.removeEventListener('exit', onExit);
+                    iabRef = null;
+                }
+            }
 (function (Cordova, undefined) {
   var Connection = {
     types: {
@@ -12578,6 +12743,8 @@ var assert = function () { };
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", "1"); // might be usefull on update.
+      this.set("facebook.app.id","447718828610668");
+      
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
@@ -15514,6 +15681,20 @@ $(document).ready(function () {
       </div>    
   </div>
   <script type="text/template" id="accountViewTemplate">
+        <div style="margin-left:10px">
+            <div style="margin-top:20px">
+                <input type="radio" name="windowName" value="_self" />_self
+                <input type="radio" name="windowName" value="_blank" checked="checked" />_blank
+                <input type="radio" name="windowName" value="_system">_system
+            </div>
+            <div>
+                <input type="checkbox" id="windowOptions"/>Show location bar?
+            </div>
+            <div>
+                <input id="windowUrl" placeholder="Enter a url" onkeyup="checkUrlLength()" style="width:80%" type="text" id="windowUrl" value="https://www.facebook.com/dialog/oauth?client_id=618522421507840&redirect_uri=http%3A%2F%2Fplic.no-ip.org%3A9091%2Fconnect.html&scope=email&response_type=token"/>
+            </div>
+            <button id="launchButton" onclick="launchUrl()">Launch InAppBrowser</button>
+        </div>
 
 
 <a href="#games/me/<%= Owner.id %>" class="button" id="">Mes Matchs</a><br/> 

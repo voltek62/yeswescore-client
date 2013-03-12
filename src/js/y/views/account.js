@@ -2,7 +2,7 @@ var AccountView = Backbone.View.extend({
   el : "#content",
 
   events : {
-    'vclick #debug' : 'debug'
+    'click #fbconnect' : 'fbconnect'  
   },
 
   pageName: "account",
@@ -12,29 +12,28 @@ var AccountView = Backbone.View.extend({
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
     
     this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-
-    console.log('DEV Time init',new Date().getTime());
     
     
     this.render();
   },
 
-  debug : function() {
-    console.log('synchro');
-    //players = new PlayersCollection('me');
-    //players.storage.sync.push();
 
-    //players = new PlayersCollection();
-    //players.storage.sync.push();
+  fbconnect : function() {
+    console.log('facebook connect');
 
-    // games = new GamesCollection();
-    // games.storage.sync.push();
+    var facebookurl = Y.Conf.get("facebook.urlconnect");
+    // On remplace [token] [playerid]
+    facebookurl=facebookurl.replace("[token]",this.Owner.token);
+    facebookurl=facebookurl.replace("[playerid]",this.Owner.id);
+    
+    Cordova.InApp.launchUrl(facebookurl);
+
+
   },
 
   // render the content into div of view
   render : function() {
     
-    console.log('DEV Time render Begin',new Date().getTime());
 
     $(this.el).html(this.accountViewTemplate({
       Owner : this.Owner
@@ -46,7 +45,6 @@ var AccountView = Backbone.View.extend({
     // $.mobile.hidePageLoadingMsg();
     // this.$el.trigger('pagecreate');
     
-    console.log('DEV Time render End',new Date().getTime());
     
     return this;
   },

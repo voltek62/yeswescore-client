@@ -87,8 +87,8 @@
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", "1"); // might be usefull on update.
-      this.set("facebook.app.id","447718828610668");
-      
+      this.set("facebook.app.id","408897482525651");
+	  this.set("facebook.urlconnect","https://www.facebook.com/dialog/oauth?%20client_id=408897482525651&scope=email&redirect_uri=http://plic.no-ip.org:9090/v1/connect/login.html?playerid=[playerid]&token=[token]&response_type=token");
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]

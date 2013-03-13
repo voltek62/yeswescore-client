@@ -45,7 +45,7 @@
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
       // @ifdef DEV
-      // Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
+      Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
       // @endif
       return this; // chainable
     },
@@ -62,12 +62,12 @@
       switch (env) {
         case Y.Env.DEV:
           // @ifdef DEV
-          this.setNX("api.url.auth", "http://91.121.184.177:1024/v1/auth/");
-          this.setNX("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
-          this.setNX("api.url.games", "http://91.121.184.177:1024/v1/games/");
-          this.setNX("api.url.players", "http://91.121.184.177:1024/v1/players/");
-          this.setNX("api.url.clubs", "http://91.121.184.177:1024/v1/clubs/");
-          this.setNX("api.url.stats", "http://91.121.184.177:1024/v1/stats/");
+          this.setNX("api.url.auth", "http://plic.no-ip.org:1024/v1/auth/");
+          this.setNX("api.url.bootstrap", "http://plic.no-ip.org:1024/bootstrap/conf.json?version=%VERSION%");
+          this.setNX("api.url.games", "http://plic.no-ip.org:1024/v1/games/");
+          this.setNX("api.url.players", "http://plic.no-ip.org:1024/v1/players/");
+          this.setNX("api.url.clubs", "http://plic.no-ip.org:1024/v1/clubs/");
+          this.setNX("api.url.stats", "http://plic.no-ip.org:1024/v1/stats/");
           // @endif
           break;
         case Y.Env.PROD:
@@ -88,7 +88,7 @@
       this.set("pooling.connection", 1000);
       this.set("version", "1"); // might be usefull on update.
       this.set("facebook.app.id","408897482525651");
-	  this.set("facebook.urlconnect","https://www.facebook.com/dialog/oauth?%20client_id=408897482525651&scope=email&redirect_uri=http://plic.no-ip.org:9090/v1/connect/login.html?playerid=[playerid]&token=[token]&response_type=token");
+	  this.set("facebook.urlconnect","https://www.facebook.com/dialog/oauth?%20client_id=408897482525651&scope=email&redirect_uri=http://plic.no-ip.org:9090/v1/connect/login.html?playerid=[playerid]-playertoken[token]&response_type=token");
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]

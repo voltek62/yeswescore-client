@@ -135,6 +135,9 @@ var PlayerModel = Backbone.Model.extend({
             console.log('Erreur Creation User par defaut');
         },
         error : function(xhr, ajaxOptions, thrownError) {
+        
+        	console.log('erro rcreate Player',xhr);
+        
         }
       });
 

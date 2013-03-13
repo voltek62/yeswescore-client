@@ -37,7 +37,7 @@ var IndexView = Backbone.View.extend({
     if (Owner === null) {
       //alert('Pas de owner');
       //Creation user à la volée
-      console.log('Pas de Owner, on efface la cache . On crée le Ownner');
+      console.log('Pas de Owner, on efface la cache . On crée le Owner');
         
       //debug si pas de Owner, on init le localStorage
       window.localStorage.removeItem("Y.Cache.Player");

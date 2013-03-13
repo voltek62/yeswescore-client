@@ -347,10 +347,11 @@ var GameView = Backbone.View.extend({
           
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
             streams : this.score.toJSON().stream.reverse(),
+            Owner : this.Owner,
             query : ' '
           }));
 
-          $(this.incomingComment).listview('refresh',true);
+          //$(this.incomingComment).listview('refresh',true);
         }
         
         //return this;

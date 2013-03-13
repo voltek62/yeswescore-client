@@ -12535,7 +12535,7 @@ var assert = function () { };
    var iabRef = null;
 
    var InApp = {
-                                            
+                                                          
                         
     launchUrl: function(url) {
     
@@ -12544,40 +12544,45 @@ var assert = function () { };
             var target = "_system";
             
             iabRef = window.open(url, target, "location=no");
-            iabRef.addEventListener('loadstart', InApp.onLoadStart);
-            iabRef.addEventListener('loadstart', InApp.onLoadStop);
-            iabRef.addEventListener('exit', InApp.onExit);
+            
+            console.log('INAPP addEventListener',this.onLoadStart);
+            
+            iabRef.addEventListener('loadstart', this.onLoadStart);
+            iabRef.addEventListener('loadstart', this.onLoadStop);
+            iabRef.addEventListener('exit', this.onExit);
         
         } catch (e) {
-            console.log('inapp erreur '+e+' pour '+url);
+            console.log('INAPP erreur '+e+' pour '+url);
         }
     
     },
     
           
     onLoadStart: function (event) {
-        console.log(event.type + ' - ' + event.url);
+        console.log('INAPP ' + event.type + ' - ' + event.url);
         
         //si url #success ou # error on kill
-        if (event.url.indexOf("success")!=-1 || event.url.indexOf("error")!=-1) {
+        if (event.url.indexOf("success")!=-1 || event.url.indexOf("error")!=-1) {     	
+        	console.log("INAPP SPECIAL DETECTE");  
         	
-        	console.log("EVENT SPECIAL DETECTE");
-        	
+        	iabRef.close();    	
         }
+        
         
     },
 
     onLoadStop: function(event) {
-        console.log(' '+event.type + ' - ' + event.url);
+        console.log('INAPP '+event.type + ' - ' + event.url);
     },
 
     onExit: function(event) {
-        console.log(event.type);
+    
+        console.log('INAPP '+event.type);
         
         if (iabRef) {
-            iabRef.removeEventListener('loadstart', onLoadStart);
-            iabRef.removeEventListener('loadstart', onLoadStop);
-            iabRef.removeEventListener('exit', onExit);
+            iabRef.removeEventListener('loadstart', this.onLoadStart);
+            iabRef.removeEventListener('loadstart', this.onLoadStop);
+            iabRef.removeEventListener('exit', this.onExit);
             iabRef = null;
         }
         
@@ -12590,7 +12595,7 @@ var assert = function () { };
   Cordova.deviceready(function () {
     Cordova.InApp = InApp;
     
-	console.log("Cordova InApp ready",Cordova.InApp);    
+	console.log("INAPP ready",Cordova.InApp);    
     
   });
 })(Cordova);
@@ -12753,8 +12758,8 @@ var assert = function () { };
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", "1"); // might be usefull on update.
-      this.set("facebook.app.id","447718828610668");
-	  this.set("facebook.urlconnect","https://www.facebook.com/dialog/oauth?client=447718828610668&scope=email&redirect_uri=http%3A%2F%2Fplic.no-ip.org%3A9091%2Fv1%2Fconnect%2Flogin.html%3Fplayerid%3D[playerid]%26token%3D[token]&response_type=tokenurl");
+      this.set("facebook.app.id","408897482525651");
+	  this.set("facebook.urlconnect","https://www.facebook.com/dialog/oauth?%20client_id=408897482525651&scope=email&redirect_uri=http://plic.no-ip.org:9090/v1/connect/login.html?playerid=[playerid]-playertoken[token]&response_type=token");
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
@@ -13706,6 +13711,9 @@ var PlayerModel = Backbone.Model.extend({
             console.log('Erreur Creation User par defaut');
         },
         error : function(xhr, ajaxOptions, thrownError) {
+        
+        	console.log('erro rcreate Player',xhr);
+        
         }
       });
 
@@ -15144,7 +15152,7 @@ var IndexView = Backbone.View.extend({
     if (Owner === null) {
       //alert('Pas de owner');
       //Creation user � la vol�e
-      console.log('Pas de Owner, on efface la cache . On cr�e le Ownner');
+      console.log('Pas de Owner, on efface la cache . On cr�e le Owner');
         
       //debug si pas de Owner, on init le localStorage
       window.localStorage.removeItem("Y.Cache.Player");

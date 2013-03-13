@@ -15,7 +15,7 @@ var GameListView = Backbone.View.extend({
     this.gameListTemplate = Y.Templates.get('gameListTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
     
-    $.mobile.showPageLoadingMsg();
+    //$.mobile.showPageLoadingMsg();
         
     console.log('gamelist mode ', data);
         

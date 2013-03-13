@@ -4,7 +4,7 @@
 <% for (var i = 0; i < streams.length; i++) { stream = streams[i]; %>
 <div class="message">
 	<%= stream.dates.creation %> : <span class="username"><%= (stream.owner ||'Anonymous') %></span> : <%= stream.data.text %> 
-	<% if ( stream.owner === Owner.id ) { %> <a href="#" id="deleteComment<%= stream.id %>">Supprimer</a> <% } %>
+	<% if ( stream.owner === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>">Supprimer</span> <% } %>
 </div>
 <br />
 <% } %>

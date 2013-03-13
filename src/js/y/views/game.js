@@ -23,7 +23,8 @@ var GameView = Backbone.View.extend({
         'vclick #team2_set2_div' : 'setTeam2Set2',
         'vclick #team2_set3_div' : 'setTeam2Set3',
         'vclick #commentDeleteButton' : 'commentDelete',
-        'vclick #commentSendButton' : 'commentSend'
+        'vclick #commentSendButton' : 'commentSend',
+        'click .deleteComment' : 'deleteComment'      
       },
 
       pageName: "game",
@@ -84,6 +85,17 @@ var GameView = Backbone.View.extend({
           console.log('touche entrée envoie le commentaire');
           this.commentSend();
         }
+      },
+
+      deleteComment : function(e) {
+      
+        var elmt = $(e.currentTarget);
+  		var id = elmt.attr("id");
+  		
+  		//FIXME : On recupère le Owner.token et id pour etre sur que le comment lui appartient
+  		// si retour du serveur, on supprime
+      	console.log('On efface le comment '+id);
+      
       },
 
       commentSend : function() {

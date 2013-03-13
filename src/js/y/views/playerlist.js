@@ -12,7 +12,7 @@ var PlayerListView = Backbone.View.extend({
   initialize : function() {
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
-    $.mobile.showPageLoadingMsg();
+    //$.mobile.showPageLoadingMsg();
 
     if (this.id !== 'null') {
       console.log('on demande les joueurs par club ' + this.id);

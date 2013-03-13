@@ -10,8 +10,8 @@ var PlayersCollection = Backbone.Collection.extend({
 		
 		//console.log('Players mode '+param);
 		
-		if (param==='follow')
-			this.storage = new Offline.Storage('playersfollow', this);		
+		//if (param==='follow')
+		//	this.storage = new Offline.Storage('playersfollow', this);		
 
 	},
 	  

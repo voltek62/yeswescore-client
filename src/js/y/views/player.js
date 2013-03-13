@@ -18,13 +18,13 @@ var PlayerView = Backbone.View.extend({
     //console.log('Player',this.player.toJSON());
     
     // control if player id in playersfollow
-    this.playersfollow = new PlayersCollection('follow');
+    //this.playersfollow = new PlayersCollection('follow');
 
-    result = this.playersfollow.storage.find({id:this.id});
-    if (result===null) 
+    //result = this.playersfollow.storage.find({id:this.id});
+    //if (result===null) 
     	this.follow = 'false';
-    else	
-    	this.follow = 'true';
+    //else	
+    //	this.follow = 'true';
 
     //change
     this.player.on( 'change', this.render, this );

@@ -1,15 +1,12 @@
-android/assets/www/*
-android/bin
-android/gen
-
-ios/www/*
-
+.project
 node_modules
 dist
 
-.project
-zipSource.bat
-.classpath
-.project
-ici.bat
-project.properties
+src/build/
+platforms/ios/build/
+platforms/android/build/
+platforms/wp8/build/
+
+platforms/wp8/vs/Bin/
+platforms/wp8/vs/obj/
+platforms/wp8/vs/www/

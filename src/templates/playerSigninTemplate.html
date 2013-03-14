@@ -1,30 +1,21 @@
-<div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#account" data-transition="slide" data-reverse="true" data-icon="back"> Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
 
-<div data-role="content">
-
-	<form id="frmSigninPlayer" class="ui-body ui-body-b ui-corner-all">
+	<form id="frmSigninPlayer">
 
 		<span class="success label label-info hide" style="color: red"></span>
 
 		<div class="control-group">
 			<label class="control-label" for="pseudo">Email</label>
 			<div class="controls">
-				<input type="text" id="email" name="email" placeholder="Email"
-					class='input-xlarge' value="" /> <span
-					class="email_error label label-info hide"></span>
+				<input type="text" id="email" name="email" placeholder="Email" class='jq-ui-forms' value="" /> 
+				<span class="email_error label label-info hide"></span>
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="password">Mot de passe</label>
 			<div class="controls">
-				<input type="text" id="password" name="password"
-					placeholder="Mot de passe" class='input-xlarge' value="" /> <span
-					class="password_error label label-info hide"></span>
+				<input type="text" id="password" name="password" placeholder="Mot de passe" class='jq-ui-forms' value="" /> 
+				<span class="password_error label label-info hide"></span>
 			</div>
 		</div>
 
@@ -44,17 +35,3 @@
 		<a href="#players/forget" data-role="button">Mot de passe oubli&eacute;</a>
 	</div>
 
-
-</div>
-<!-- /content -->
-
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add">Diffuser</a></li>
-			<li><a href="#account" class="ui-btn-active ui-state-persist">Mon Compte</a></li>
-		</ul>
-	</div>
-	<!-- /navbar -->
-</div>

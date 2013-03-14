@@ -12279,6 +12279,59 @@ var assert = function () { };
     Cordova.File = File;
   });
 })(Cordova);
+ (function (Cordova, undefined) {
+   "use strict";
+
+   var iabRef = null;
+
+   var InApp = {
+     launchUrl: function (url) {
+
+       try {
+         // target : _blank, _self, _system
+         var target = "_blank";
+
+         iabRef = window.open(url, target, "location=no");
+
+         iabRef.addEventListener('loadstart', this.onLoadStart.bind(this));
+         iabRef.addEventListener('loadstop', this.onLoadStart.bind(this));
+         iabRef.addEventListener('exit', this.onLoadStart.bind(this));
+
+       } catch (e) {
+         console.log('INAPP erreur ' + e + ' pour ' + url);
+       }
+     },
+
+
+     onLoadStart: function (event) {
+       console.log('INAPP ' + event.type + ' - ' + event.url);
+
+       //si url #success ou # error on kill
+       if (event.url.indexOf("success") != -1 || event.url.indexOf("error") != -1) {
+         console.log("INAPP SPECIAL DETECTE");
+
+         iabRef.close();
+       }
+     },
+
+     onLoadStop: function (event) {
+       console.log('INAPP ' + event.type + ' - ' + event.url);
+     },
+
+     onExit: function (event) {
+       console.log('INAPP ' + event.type);
+     }
+   };
+
+   // registering geolocalisation only when cordova is ready.
+   Cordova.deviceready(function () {
+     Cordova.InApp = InApp;
+
+     console.log("INAPP ready", Cordova.InApp);
+
+   });
+ })(Cordova);
+
 // Global Object
 (function (global) {
   "use strict";
@@ -12431,6 +12484,8 @@ var assert = function () { };
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", "1"); // might be usefull on update.
+      this.set("facebook.app.id","408897482525651");
+	  this.set("facebook.urlconnect","https://www.facebook.com/dialog/oauth?%20client_id=408897482525651&scope=email&redirect_uri=http://plic.no-ip.org:9090/v1/connect/login.html?playerid=[playerid]-playertoken[token]&response_type=token");
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
@@ -13382,6 +13437,9 @@ var PlayerModel = Backbone.Model.extend({
             console.log('Erreur Creation User par defaut');
         },
         error : function(xhr, ajaxOptions, thrownError) {
+        
+        	console.log('erro rcreate Player',xhr);
+        
         }
       });
 
@@ -13652,8 +13710,8 @@ var PlayersCollection = Backbone.Collection.extend({
 		
 		//console.log('Players mode '+param);
 		
-		if (param==='follow')
-			this.storage = new Offline.Storage('playersfollow', this);		
+		//if (param==='follow')
+		//	this.storage = new Offline.Storage('playersfollow', this);		
 
 	},
 	  
@@ -13733,7 +13791,7 @@ var AccountView = Backbone.View.extend({
   el : "#content",
 
   events : {
-    'vclick #debug' : 'debug'
+    'click #fbconnect' : 'fbconnect'  
   },
 
   pageName: "account",
@@ -13743,29 +13801,28 @@ var AccountView = Backbone.View.extend({
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
     
     this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-
-    console.log('DEV Time init',new Date().getTime());
     
     
     this.render();
   },
 
-  debug : function() {
-    console.log('synchro');
-    //players = new PlayersCollection('me');
-    //players.storage.sync.push();
 
-    //players = new PlayersCollection();
-    //players.storage.sync.push();
+  fbconnect : function() {
+    console.log('facebook connect');
 
-    // games = new GamesCollection();
-    // games.storage.sync.push();
+    var facebookurl = Y.Conf.get("facebook.urlconnect");
+    // On remplace [token] [playerid]
+    facebookurl=facebookurl.replace("[token]",this.Owner.token);
+    facebookurl=facebookurl.replace("[playerid]",this.Owner.id);
+    
+    Cordova.InApp.launchUrl(facebookurl);
+
+
   },
 
   // render the content into div of view
   render : function() {
     
-    console.log('DEV Time render Begin',new Date().getTime());
 
     $(this.el).html(this.accountViewTemplate({
       Owner : this.Owner
@@ -13777,7 +13834,6 @@ var AccountView = Backbone.View.extend({
     // $.mobile.hidePageLoadingMsg();
     // this.$el.trigger('pagecreate');
     
-    console.log('DEV Time render End',new Date().getTime());
     
     return this;
   },
@@ -13914,7 +13970,8 @@ var GameView = Backbone.View.extend({
         'vclick #team2_set2_div' : 'setTeam2Set2',
         'vclick #team2_set3_div' : 'setTeam2Set3',
         'vclick #commentDeleteButton' : 'commentDelete',
-        'vclick #commentSendButton' : 'commentSend'
+        'vclick #commentSendButton' : 'commentSend',
+        'click .deleteComment' : 'deleteComment'      
       },
 
       pageName: "game",
@@ -13975,6 +14032,17 @@ var GameView = Backbone.View.extend({
           console.log('touche entr�e envoie le commentaire');
           this.commentSend();
         }
+      },
+
+      deleteComment : function(e) {
+      
+        var elmt = $(e.currentTarget);
+  		var id = elmt.attr("id");
+  		
+  		//FIXME : On recup�re le Owner.token et id pour etre sur que le comment lui appartient
+  		// si retour du serveur, on supprime
+      	console.log('On efface le comment '+id);
+      
       },
 
       commentSend : function() {
@@ -14238,10 +14306,11 @@ var GameView = Backbone.View.extend({
           
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
             streams : this.score.toJSON().stream.reverse(),
+            Owner : this.Owner,
             query : ' '
           }));
 
-          $(this.incomingComment).listview('refresh',true);
+          //$(this.incomingComment).listview('refresh',true);
         }
         
         //return this;
@@ -14647,7 +14716,7 @@ var GameFollowView = Backbone.View.extend({
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
         
-    $.mobile.showPageLoadingMsg();
+    //$.mobile.showPageLoadingMsg();
         
     this.games = new GamesCollection('follow');
     this.gamesfollow = new GamesCollection(this.games.storage.findAll({local:true}));
@@ -14719,7 +14788,7 @@ var GameListView = Backbone.View.extend({
     this.gameListTemplate = Y.Templates.get('gameListTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
     
-    $.mobile.showPageLoadingMsg();
+    //$.mobile.showPageLoadingMsg();
         
     console.log('gamelist mode ', data);
         
@@ -14822,7 +14891,7 @@ var IndexView = Backbone.View.extend({
     if (Owner === null) {
       //alert('Pas de owner');
       //Creation user � la vol�e
-      console.log('Pas de Owner, on efface la cache . On cr�e le Ownner');
+      console.log('Pas de Owner, on efface la cache . On cr�e le Owner');
         
       //debug si pas de Owner, on init le localStorage
       window.localStorage.removeItem("Y.Cache.Player");
@@ -14922,13 +14991,13 @@ var PlayerView = Backbone.View.extend({
     //console.log('Player',this.player.toJSON());
     
     // control if player id in playersfollow
-    this.playersfollow = new PlayersCollection('follow');
+    //this.playersfollow = new PlayersCollection('follow');
 
-    result = this.playersfollow.storage.find({id:this.id});
-    if (result===null) 
+    //result = this.playersfollow.storage.find({id:this.id});
+    //if (result===null) 
     	this.follow = 'false';
-    else	
-    	this.follow = 'true';
+    //else	
+    //	this.follow = 'true';
 
     //change
     this.player.on( 'change', this.render, this );
@@ -15189,7 +15258,7 @@ var PlayerListView = Backbone.View.extend({
   initialize : function() {
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
-    $.mobile.showPageLoadingMsg();
+    //$.mobile.showPageLoadingMsg();
 
     if (this.id !== 'null') {
       console.log('on demande les joueurs par club ' + this.id);
@@ -15339,6 +15408,8 @@ $(document).ready(function () {
     console.log('Cordova is ready.')
   });
 });
+
+
   </script>
 
   
@@ -15347,7 +15418,7 @@ $(document).ready(function () {
   <div id="jQUi"> <!-- this is the main container div.  This way, you can have only part of your app use jqUi -->
       <!-- this is the header div at the top -->
       <div id="header">
-      <a id="backButton" href="javascript:;" class="button" style="visibility: hidden; ">Back</a> 
+      <a id="backButton" href="javascript:;" class="button" style="visibility: hidden; ">&gt;</a> 
       <h1 id="pageTitle">Yes We Score</h1>
       </div>
             
@@ -15364,7 +15435,12 @@ $(document).ready(function () {
           <a href="#account" id='navbar_account' class='icon user'>Profil</a>
       </div>    
   </div>
-  <script type="text/template" id="accountViewTemplate"><a href="#games/me/<%= Owner.id %>" class="button" id="">Mes Matchs</a><br/> 
+  <script type="text/template" id="accountViewTemplate">
+<button class="button" id="fbconnect">Launch InAppBrowser</button>
+
+<br/>
+
+<a href="#games/me/<%= Owner.id %>" class="button" id="">Mes Matchs</a><br/> 
 <a href="#games/follow" class="button" id="">Matchs Suivis</a><br/> 
 <a href="#players/follow" class="button" id="">Joueurs Suivis</a><br/>   
 <% 
@@ -15693,7 +15769,9 @@ Score : <%= game.options.score %>&nbsp;&nbsp;&nbsp;Sets : <%= game.options.sets 
 <% } %> 
 <% for (var i = 0; i < streams.length; i++) { stream = streams[i]; %>
 <div class="message">
-	<%= stream.dates.creation %> : <span class="username"><%= (stream.owner ||'Anonymous') %></span> : <%= stream.data.text %>
+	<%= stream.dates.creation %> : <span class="username"><%= (stream.owner ||'Anonymous') %></span> : <%= stream.data.text %> 
+	<% if ( stream.owner === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
+	<% if ( stream.owner !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
 </div>
 <br />
 <% } %>

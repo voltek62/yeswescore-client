@@ -62,12 +62,21 @@
       switch (env) {
         case Y.Env.DEV:
           // @ifdef DEV
-          this.setNX("api.url.auth", "http://plic.no-ip.org:1024/v1/auth/");
-          this.setNX("api.url.bootstrap", "http://plic.no-ip.org:1024/bootstrap/conf.json?version=%VERSION%");
-          this.setNX("api.url.games", "http://plic.no-ip.org:1024/v1/games/");
-          this.setNX("api.url.players", "http://plic.no-ip.org:1024/v1/players/");
-          this.setNX("api.url.clubs", "http://plic.no-ip.org:1024/v1/clubs/");
-          this.setNX("api.url.stats", "http://plic.no-ip.org:1024/v1/stats/");
+
+          // marc
+          var apiBaseUrl = "http://plic.no-ip.org:22222";
+          var fbBaseUrl = "http://plic.no-ip.org:9091";
+          // vincent
+          // var apiBaseUrl = "http://plic.no-ip.org:1024";
+          // var fbBaseUrl = "http://plic.no-ip.org:9090";
+
+          this.setNX("api.url.auth", apiBaseUrl + "/v1/auth/");
+          this.setNX("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
+          this.setNX("api.url.games", apiBaseUrl + "/v1/games/");
+          this.setNX("api.url.players", apiBaseUrl + "/v1/players/");
+          this.setNX("api.url.clubs", apiBaseUrl + "/v1/clubs/");
+          this.setNX("api.url.stats", apiBaseUrl + "/v1/stats/");
+          this.setNX("fb.url.inappbrowser.login", fbBaseUrl + "/v1/inappbrowser/login.html?playerid=[player_id]&token=[token]");
           // @endif
           break;
         case Y.Env.PROD:
@@ -77,6 +86,7 @@
           this.setNX("api.url.players", "http://api.yeswescore.com/v1/players/");
           this.setNX("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
           this.setNX("api.url.stats", "http://api.yeswescore.com/v1/stats/");
+          this.setNX("fb.url.inappbrowser.login", "https://fb.yeswescore.com/v1/inappbrowser/login.html?playerid=[player_id]&token=[token]");
           break;
         default:
           break;
@@ -87,8 +97,8 @@
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", "1"); // might be usefull on update.
-      this.set("facebook.app.id","408897482525651");
-	  this.set("facebook.urlconnect","https://www.facebook.com/dialog/oauth?%20client_id=408897482525651&scope=email&redirect_uri=http://plic.no-ip.org:9090/v1/connect/login.html?playerid=[playerid]-playertoken[token]&response_type=token");
+      this.set("facebook.app.id", "408897482525651");
+      this.set("facebook.url.connect", "https://www.facebook.com/dialog/oauth?%20client_id=408897482525651&scope=email&redirect_uri=%redirect_uri%&response_type=token");
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]

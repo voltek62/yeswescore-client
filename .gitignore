@@ -6,3 +6,6 @@ src/build/
 platforms/ios/build/
 platforms/android/build/
 platforms/wp8/build/
+
+platforms/wp8/vs/Bin/
+platforms/wp8/vs/obj/

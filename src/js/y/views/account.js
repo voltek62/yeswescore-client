@@ -1,42 +1,34 @@
 var AccountView = Backbone.View.extend({
-  el : "#content",
+  el: "#content",
 
-  events : {
-    'click #fbconnect' : 'fbconnect'  
+  events: {
+    'click #fbconnect': 'fbconnect'
   },
 
   pageName: "account",
 
-  initialize : function() {
-    
+  initialize: function () {
+
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
-    
+
     this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-    
-    
+
+
     this.render();
   },
 
 
-  fbconnect : function() {
+  fbconnect: function () {
     console.log('facebook connect');
-
-    var facebookurl = Y.Conf.get("facebook.urlconnect");
-    // On remplace [token] [playerid]
-    facebookurl=facebookurl.replace("[token]",this.Owner.token);
-    facebookurl=facebookurl.replace("[playerid]",this.Owner.id);
-    
-    Cordova.InApp.launchUrl(facebookurl);
-
-
+    Y.Facebook.connect();
   },
 
   // render the content into div of view
-  render : function() {
-    
+  render: function () {
+
 
     $(this.el).html(this.accountViewTemplate({
-      Owner : this.Owner
+      Owner: this.Owner
     }));
 
     $(this.el).trigger('pagecreate');
@@ -44,12 +36,12 @@ var AccountView = Backbone.View.extend({
     // this.$el.html(this.accountViewTemplate(),{Owner:Owner});
     // $.mobile.hidePageLoadingMsg();
     // this.$el.trigger('pagecreate');
-    
-    
+
+
     return this;
   },
 
-  onClose : function() {
+  onClose: function () {
     this.undelegateEvents();
   }
 });

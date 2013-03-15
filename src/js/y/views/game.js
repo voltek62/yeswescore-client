@@ -360,6 +360,7 @@ var GameView = Backbone.View.extend({
         $(this.displayViewScoreBoard).trigger('create');
 
         // if we have comments
+        /* disable comment 
         if (this.score.toJSON().stream !== undefined) {
           
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
@@ -368,8 +369,8 @@ var GameView = Backbone.View.extend({
             query : ' '
           }));
 
-          //$(this.incomingComment).listview('refresh',true);
         }
+        */
         
         //return this;
         return false;

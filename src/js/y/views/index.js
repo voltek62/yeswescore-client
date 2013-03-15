@@ -24,54 +24,73 @@ var IndexView = Backbone.View.extend({
     //console.log('on pull');
     //this.games.storage.sync.pull();   
 
-    this.render();
+    this.$el.html("please wait, loading player");
+
+    Y.User.getPlayerAsync(function (err, player) {
+      if (err) {
+        // no player => creating player.
+        console.log('error reading player ', err);
+        // creating the player.
+        Y.User.createPlayerAsync(function (err, player) {
+          console.log('player created', player);
+          // rendering
+          this.render();
+        }.bind(this));
+        return;
+      }
+      // continue
+      this.render();
+    }.bind(this));
+
+    //this.render();
 
     //console.log('this.games in cache size ',this.games.length);
 
-    this.games.on('all', this.renderList, this);
-    
+    //this.games.on('all', this.renderList, this);
+
     //Controle si localStorage contient Owner
-    var Owner = window.localStorage.getItem("Y.Cache.Player");
+    //var Owner = window.localStorage.getItem("Y.Cache.Player");
 
-
+    /*
     if (Owner === null) {
-      //alert('Pas de owner');
-      //Creation user à la volée
-      console.log('Pas de Owner, on efface la cache . On crée le Owner');
+    //alert('Pas de owner');
+    //Creation user à la volée
+    console.log('Pas de Owner, on efface la cache . On crée le Owner');
         
-      //debug si pas de Owner, on init le localStorage
-      window.localStorage.removeItem("Y.Cache.Player");
+    //debug si pas de Owner, on init le localStorage
+    window.localStorage.removeItem("Y.Cache.Player");
 
-      player = new PlayerModel();
-      player.save();
-      //players = new PlayersCollection('me');
-      //players.create();
+    player = new PlayerModel();
+    player.save();
+    //players = new PlayersCollection('me');
+    //players.create();
     }
     else {
-      Y.Geolocation.on("change", function (longitude, latitude) { 
+    Y.Geolocation.on("change", function (pos) { 
         
-        var Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-        //console.log("On mémorise la Geoloc OK pour playerid :"+Owner.id);
+    var Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
+    //console.log("On mémorise la Geoloc OK pour playerid :"+Owner.id);
         
-        //On sauve avec les coord actuels
-        player = new PlayerModel({
-           latitude : latitude
-         , longitude : longitude
-         , playerid : Owner.id
-         , token : Owner.token
-        });
-        player.save();
+    //On sauve avec les coord actuels
+    player = new PlayerModel({
+    latitude : pos[1]
+    , longitude : pos[0]
+    , playerid : Owner.id
+    , token : Owner.token
+    });
+    player.save();
         
-        this.games = new GamesCollection();
-        this.games.setMode('geolocation','');
-        this.games.setPos(latitude,longitude);
-        this.games.fetch();
-        this.games.on('all', this.renderList, this);
+    this.games = new GamesCollection();
+    this.games.setMode('geolocation','');
+    this.games.setPos(pos);
+    this.games.fetch();
+    this.games.on('all', this.renderList, this);
         
         
-      });
+    });
     }
-    
+    */
+
   },
 
   search: function () {
@@ -93,18 +112,18 @@ var IndexView = Backbone.View.extend({
     this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
     this.$el.trigger('pagecreate');
-    
+
     //new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#', true);});
-   	//new Y.FastButton(document.querySelector("#mnudiffuse"), function () { Y.Router.navigate('#games/add', true);});
+    //new Y.FastButton(document.querySelector("#mnudiffuse"), function () { Y.Router.navigate('#games/add', true);});
     //new Y.FastButton(document.querySelector("#mnuaccount"), function () { Y.Router.navigate('#account', true);});
-            
+
     return this;
   },
 
   renderList: function (query) {
-  
- 	//console.log('renderList games:',this.games.toJSON());
-  
+
+    //console.log('renderList games:',this.games.toJSON());
+
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
     //$(this.listview).listview('refresh');
     //$.mobile.hidePageLoadingMsg();
@@ -114,6 +133,6 @@ var IndexView = Backbone.View.extend({
   onClose: function () {
     this.undelegateEvents();
     this.games.off("all", this.renderList, this);
-    
+
   }
 });

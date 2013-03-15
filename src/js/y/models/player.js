@@ -1,44 +1,44 @@
 var PlayerModel = Backbone.Model.extend({
-  urlRoot : Y.Conf.get("api.url.players"),
+  urlRoot: Y.Conf.get("api.url.players"),
 
-  mode : '',
+  mode: '',
 
-  defaults : {
-    name : "",
-    nickname : "",
-    rank : "NC",
-    type : "default",
-    games : [],
-    club : {
-      id : "",
-      name : ""
+  defaults: {
+    name: "",
+    nickname: "",
+    rank: "NC",
+    type: "default",
+    games: [],
+    club: {
+      id: "",
+      name: ""
     },
-    dates : {
-      update : "",
-      creation : new Date()
+    dates: {
+      update: "",
+      creation: new Date()
     },
-    language : window.navigator.language,
-    location : {
-      currentPos : [ 0, 0 ]
+    language: window.navigator.language,
+    location: {
+      currentPos: [0, 0]
     },
-    updated_at : new Date()
+    updated_at: new Date()
   },
 
-  initialize : function() {
+  initialize: function () {
 
   },
 
-  login : function(mail, password) {
+  login: function (mail, password) {
 
     return $.ajax({
-      dataType : 'json',
-      url : Y.Conf.get("api.url.auth"),
-      type : 'POST',
-      data : {
-        email : {address : mail},
-        uncryptedPassword : password
+      dataType: 'json',
+      url: Y.Conf.get("api.url.auth"),
+      type: 'POST',
+      data: {
+        email: { address: mail },
+        uncryptedPassword: password
       },
-      success : function(data) {
+      success: function (data) {
 
         console.log('data result Login', data);
 
@@ -47,10 +47,10 @@ var PlayerModel = Backbone.Model.extend({
         if (data.id !== undefined) {
           $('span.success').html('Login OK ' + data.id).show();
 
-           window.localStorage.setItem("Y.Cache.Player",JSON.stringify(data));
+          window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
 
-           //players = new PlayersCollection('me');
-           //players.create(data);
+          //players = new PlayersCollection('me');
+          //players.create(data);
 
         } else
           $('span.success').html('Erreur').show();
@@ -61,104 +61,83 @@ var PlayerModel = Backbone.Model.extend({
     });
 
   },
-  
-  
-  newpass : function(mail) {
-    
+
+  read: function () {
+
+
+  },
+
+  newpass: function (mail) {
+
     console.log('On demande un newpass');
 
     return $.ajax({
-      dataType : 'json',
-      url : Y.Conf.get("api.url.auth")+"resetPassword/",
-      type : 'POST',
-      data : {
-        email : {address : mail}
+      dataType: 'json',
+      url: Y.Conf.get("api.url.auth") + "resetPassword/",
+      type: 'POST',
+      data: {
+        email: { address: mail }
       },
-      success : function(data) {
+      success: function (data) {
 
         console.log('data result Reset Password', data);
 
         // Display Results
         // TODO : prevoir code erreur
-        
-        
-          $('span.success').html(' ' + data.message+' Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.').show();
-       
-        
+
+
+        $('span.success').html(' ' + data.message + ' Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.').show();
+
+
       }
     });
 
-  },  
+  },
 
-  sync : function(method, model, options) {
+  sync: function (method, model, options) {
 
-    console.log('Player sync:' + method + " playerid:"+this.get('playerid')+" id:"+this.id);
+    console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
 
-    if (method==='create' && this.get('playerid') === undefined) {
-
+    if (method === 'create' && this.get('playerid') === undefined) {
       return $.ajax({
-        dataType : 'json',
-        url : Y.Conf.get("api.url.players"),
-        type : 'POST',
-        data : {
-          nickname : (this.get('nickname') || ''),
-          name : (this.get('name') || ''),
-          rank : (this.get('rank') || ''),
-          email : (this.get('email') || ''),
-          uncryptedPassword : (this.get('password') || ''),
-          language : window.navigator.language,
-          location : {
-            currentPos : [ (this.get('latitude') || 0),(this.get('longitude') || 0), ]
+        dataType: 'json',
+        url: Y.Conf.get("api.url.players"),
+        type: 'POST',
+        data: {
+          language: window.navigator.language,
+          location: {
+            currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
           },
-          club : (this.get('club') || '')
+          club: (this.get('club') || '')
         },
-        success : function(data) {
-
-          console.log('Create Player', data);
-
-          // Display Results
-          // TODO : prevoir code erreur
-          if (data.id !== null)
-            $('span.success').html('Enregistrement OK ' + data.id).show();
-          else
-            $('span.success').html('Erreur').show();
-
-          // FIXME : recup id et token = player ok
-          // On fixe dans localStorage
-          if (data.token !== null) {
-            data.password = '';
-            window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
-            
-            Y.Conf.set("playerid", data.id, { permanent: true })
-            
-          } else
-            console.log('Erreur Creation User par defaut');
-        },
-        error : function(xhr, ajaxOptions, thrownError) {
-        
-        	console.log('erro rcreate Player',xhr);
-        
+        // WHYYYYY ?????
+        success: function (data) {
+          this.set(data);
+          if (options && options.success) {
+            options.success(model, this, options);
+          }
+        }.bind(this),
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
         }
       });
+    } else if (this.get('playerid') !== undefined) {
+      // Update
 
-    }
-    // Update
-    else if ( this.get('playerid') !== undefined ){
-
-		
       var dataSend = {
-        id : (this.get('playerid') || ''),
-        nickname : (this.get('nickname') || ''),
-        name : (this.get('name') || ''),
-        email : {address : (this.get('email') || '')},
-        rank : (this.get('rank') || ''),
-        idlicense : (this.get('idlicense') || ''),
-        language : window.navigator.language,
-        games : [],
-        token : (this.get('token') || ''),
-        location : {
-          currentPos : [ (this.get('latitude') || 0),(this.get('longitude') || 0), ]
-        },
+        id: (this.get('playerid') || ''),
+        nickname: (this.get('nickname') || ''),
+        name: (this.get('name') || ''),
+        email: { address: (this.get('email') || '') },
+        rank: (this.get('rank') || ''),
+        idlicense: (this.get('idlicense') || ''),
+        language: window.navigator.language,
+        games: [],
+        token: (this.get('token') || ''),
+        location: {
+          currentPos: [(this.get('latitude') || 0), (this.get('longitude') || 0), ]
+        }
       };
 
       // si mot de passe defini
@@ -168,47 +147,27 @@ var PlayerModel = Backbone.Model.extend({
       // si club non nul
       if (this.get('clubid') !== '') {
         dataSend.club = {
-          id : (this.get('clubid') || undefined)
+          id: (this.get('clubid') || undefined)
         };
       }
 
       console.log('Update Player', dataSend);
 
       return $.ajax({
-        dataType : 'json',
-        url : Y.Conf.get("api.url.players") + (this.get('playerid') || '')
+        dataType: 'json',
+        url: Y.Conf.get("api.url.players") + (this.get('playerid') || '')
             + '/?playerid=' + (this.get('playerid') || '') + '&token='
             + (this.get('token') || ''),
-        type : 'POST',
-        data : dataSend,
-        success : function(data) {
-
-          console.log('Update Player Result', data);
-
-          // Display Results //TODO : prevoir code erreur
-          $('span.success').html('MAJ OK ' + data.id).show();
-
-          if (data.id !== undefined) {
-
-            // On met à jour le local storage
-			console.log('On stocke dans le localStorage');
-            window.localStorage.removeItem("Y.Cache.Player");
-            window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
-          }
-          else
-			console.log('Erreur : On stocke pas dans le localStorage');          
-        }
+        type: 'POST',
+        data: dataSend
       });
-      
-      
-
     }
     else {
-    	model.url = Y.Conf.get("api.url.players")+this.id;
-	    console.log('model.url : ',model.url);
-	    
-	    return Backbone.sync(method, model, options);
-    
+      model.url = Y.Conf.get("api.url.players") + this.id;
+      console.log('model.url : ', model.url);
+
+      return Backbone.sync(method, model, options);
+
     }
 
 

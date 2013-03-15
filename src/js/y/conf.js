@@ -69,9 +69,11 @@
           // marc
           var apiBaseUrl = "http://plic.no-ip.org:22222";
           var fbBaseUrl = "http://plic.no-ip.org:9091";
+          var fbAppId = "618522421507840";
           // vincent
           // var apiBaseUrl = "http://plic.no-ip.org:1024";
           // var fbBaseUrl = "http://plic.no-ip.org:9090";
+          // var fbAppId = "408897482525651";
 
           this.setNX("api.url.auth", apiBaseUrl + "/v1/auth/");
           this.setNX("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
@@ -79,7 +81,9 @@
           this.setNX("api.url.players", apiBaseUrl + "/v1/players/");
           this.setNX("api.url.clubs", apiBaseUrl + "/v1/clubs/");
           this.setNX("api.url.stats", apiBaseUrl + "/v1/stats/");
-          this.setNX("fb.url.inappbrowser.login", fbBaseUrl + "/v1/inappbrowser/login.html?playerid=[player_id]&token=[token]");
+          this.setNX("fb.url.inappbrowser.redirect", fbBaseUrl + "/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
+          this.setNX("facebook.app.id", fbAppId);
+          this.setNX("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
           // @endif
           break;
         case Y.Env.PROD:
@@ -89,7 +93,9 @@
           this.setNX("api.url.players", "http://api.yeswescore.com/v1/players/");
           this.setNX("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
           this.setNX("api.url.stats", "http://api.yeswescore.com/v1/stats/");
-          this.setNX("fb.url.inappbrowser.login", "https://fb.yeswescore.com/v1/inappbrowser/login.html?playerid=[player_id]&token=[token]");
+          this.setNX("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
+          this.setNX("facebook.app.id", "447718828610668");
+          this.setNX("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
           break;
         default:
           break;

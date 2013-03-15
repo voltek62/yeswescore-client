@@ -48,15 +48,15 @@ var IndexView = Backbone.View.extend({
       //players.create();
     }
     else {
-      Y.Geolocation.on("change", function (longitude, latitude) { 
+      Y.Geolocation.on("change", function (pos) { 
         
         var Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
         //console.log("On mémorise la Geoloc OK pour playerid :"+Owner.id);
         
         //On sauve avec les coord actuels
         player = new PlayerModel({
-           latitude : latitude
-         , longitude : longitude
+           latitude : pos[1]
+         , longitude : pos[0]
          , playerid : Owner.id
          , token : Owner.token
         });
@@ -64,7 +64,7 @@ var IndexView = Backbone.View.extend({
         
         this.games = new GamesCollection();
         this.games.setMode('geolocation','');
-        this.games.setPos(latitude,longitude);
+        this.games.setPos(pos);
         this.games.fetch();
         this.games.on('all', this.renderList, this);
         

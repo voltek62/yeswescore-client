@@ -3,8 +3,7 @@ var GamesCollection = Backbone.Collection.extend({
 	model:GameModel, 
 	
 	mode:'default',
-	latitude:null,
-	longitude:null,
+	pos: null,
 	
 	initialize: function (param) {	
 		this.changeSort("city");		
@@ -29,8 +28,8 @@ var GamesCollection = Backbone.Collection.extend({
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player possède (qu'il a créé)
       return Y.Conf.get("api.url.players") + this.query + "/games/";
     }
-    else if (this.mode === 'geolocation' && this.latitude!==null && this.longitude!==null) { 
-      return Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.latitude+"&longitude="+this.longitude;
+    else if (this.mode === 'geolocation' && this.pos !==null) { 
+      return Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
     }
     return Y.Conf.get("api.url.games");	
   },
@@ -40,9 +39,8 @@ var GamesCollection = Backbone.Collection.extend({
     this.query=q;
   },
   
-  setPos:function(lat,long) {
-    this.latitude=lat;
-    this.longitude=long;
+  setPos:function(pos) {
+    this.pos = pos;
   },  
   
 	//FIXME : if exists in localStorage, don't request

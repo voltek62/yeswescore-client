@@ -54,8 +54,11 @@
       assert(env === Y.Env.DEV ||
              env === Y.Env.PROD);
 
+      var version = "1";
+
       // conf already loaded => we directly return
-      if (this.exist("_env") && this.get("_env") === env)
+      if (this.get("_env") === env &&
+          this.get('version') === version)
         return callback();
 
       // Paramétrage des variables dependantes d'un environnement

@@ -21,6 +21,7 @@ var PlayerModel = Backbone.Model.extend({
     location: {
       currentPos: [0, 0]
     },
+    token: "",
     updated_at: new Date()
   },
 

@@ -1,9 +1,9 @@
 // ALL USEFUL FCTS
-JSON.tryParse = function(o) {
+JSON.tryParse = function(o, undefined) {
   try {
     return JSON.parse(o);
   } catch (e) {
-    return null;
+    return undefined;
   }
 };
 

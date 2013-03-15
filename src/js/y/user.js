@@ -40,11 +40,11 @@
       });
       player.fetch({
         success: function () {
-          console.log('player successfully read', player);
-          // FIXME
-          //this.setPlayer(player);
+          // saving it in DB
+          DB.saveJSON("Player", player);
+          //
           callback(null, player);
-        }.bind(this)
+        } .bind(this)
       });
     },
 
@@ -60,6 +60,19 @@
       // saving playerid in file (permanent)
       Y.Conf.set(playerIdConfKey, player.id, { permanent: true });
       Y.Conf.set(playerTokenConfKey, player.token, { permanent: true });
+    },
+
+    createPlayerAsync: function (callback) {
+      player = new PlayerModel({});
+      player.save({}, {
+        success: function () {
+          // saving it.
+          this.setPlayer(player);
+          // answer
+          callback(null, player);
+        }.bind(this),
+        error: function (e) { callback(e); }
+      });
     }
   };
 

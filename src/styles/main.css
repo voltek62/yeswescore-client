@@ -243,7 +243,8 @@ input.jq-ui-forms {
 /**********************************************************
 	SCOREBOARD
 **********************************************************/
-.div_set {
+.div_set_scoreboard {
+	text-align: center;
     z-index:1;
 	color:#333;
 	display:inline-block;

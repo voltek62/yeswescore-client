@@ -4,42 +4,7 @@
   // permanent storage
   var filename = "yws.json";
 
-  // DB: no need of any drivers
-  //  localStorage is supported on android / iOS
-  //  @see http://caniuse.com/#feat=namevalue-storage
-  //
-  // FIXME: utiliser une surcouche au localstorage qui gère le quota et 
-  //    une notion de date et priorité (#44910971)
-  var DB = {
-    // in local storage, all conf keys will be prefixed "Y.conf."
-    prefix: "Y.Conf.",
-
-    save: function (k, v) {
-      assert(typeof k === "string");
-      assert(typeof v === "string");
-
-      window.localStorage.setItem(this.prefix + k, v);
-    },
-
-    // @return value/null if not exist.
-    read: function (k) {
-      assert(typeof k === "string");
-
-      return window.localStorage.getItem(this.prefix + k);
-    },
-
-    remove: function (k) {
-      assert(typeof k === "string");
-
-      return window.localStorage.removeItem(k);
-    },
-
-    getKeys: function () {
-      return _.filter(_.keys(window.localStorage), function (k) {
-        return k.substr(0, this.prefix.length) == this.prefix;
-      }, this);
-    }
-  };
+  var DB = new Y.DB("Y.Conf.");
 
   var Conf = {
     initEnv: function () {
@@ -105,20 +70,19 @@
       this.setNX("game.refresh", 5000); // gameRefresh
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
-      this.set("version", "1"); // might be usefull on update.
-      this.set("facebook.app.id", "408897482525651");
-      this.set("facebook.url.connect", "https://www.facebook.com/dialog/oauth?%20client_id=408897482525651&scope=email&redirect_uri=%redirect_uri%&response_type=token");
+      this.set("version", version); // will be usefull on update.
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
       Cordova.ready(function () {
         Cordova.File.read(filename, function (err, data) {
           if (err)
-            return callback();
+            return callback(); // FIXME
           var k = [];
           try { k = JSON.parse(data); } catch (e) { }
           _.forEach(k, function (o) {
-            this.set(o.key, o.value, o.metadata);
+            var obj = { key: o.key, value: o.value, metadata: o.metadata };
+            DB.saveJSON(key, obj);
           });
           callback();
         });
@@ -132,11 +96,9 @@
       assert(typeof key === "string" || key instanceof RegExp);
 
       if (typeof key === "string") {
-        if (DB.read(key)) {
-          try {
-            return JSON.parse(DB.read(key)).value;
-          } catch (e) { assert(false) }
-        }
+        var value = DB.readJSON(key);
+        if (value)
+          return value.value;
         return undefined;
       }
       // recursive call.
@@ -150,11 +112,9 @@
     getMetadata: function (key) {
       assert(typeof key === "string");
 
-      if (DB.read(key)) {
-        try {
-          return JSON.parse(DB.read(key)).metadata;
-        } catch (e) { }
-      }
+      var value = DB.readJSON(key);
+      if (value)
+        return value.metadata;
       return undefined;
     },
 
@@ -163,12 +123,7 @@
     getRaw: function (key) {
       assert(typeof key === "string");
 
-      if (DB.read(key)) {
-        try {
-          return JSON.parse(DB.read(key));
-        } catch (e) { }
-      }
-      return undefined;
+      return DB.readJSON(key);
     },
 
     // Write API (inspired by http://redis.io)
@@ -177,7 +132,7 @@
       assert(typeof value !== "undefined");
 
       var obj = { key: key, value: value, metadata: metadata };
-      DB.save(key, JSON.stringify(obj));
+      DB.saveJSON(key, obj);
 
       // events
       this.trigger("set", [obj]);

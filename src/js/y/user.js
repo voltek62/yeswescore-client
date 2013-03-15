@@ -50,16 +50,16 @@
 
     setPlayer: function (player) {
       assert(typeof player === "object");
-      assert(player.id !== undefined);
-      assert(player.token !== undefined);
+      assert(player.get('id') !== undefined);
+      assert(player.get('token') !== undefined);
 
       // saving in memory
       player = player;
       // saving in local storage for future session
       DB.saveJSON("Player", player);
       // saving playerid in file (permanent)
-      Y.Conf.set(playerIdConfKey, player.id, { permanent: true });
-      Y.Conf.set(playerTokenConfKey, player.token, { permanent: true });
+      Y.Conf.set(playerIdConfKey, player.get('id'), { permanent: true });
+      Y.Conf.set(playerTokenConfKey, player.get('token'), { permanent: true });
     },
 
     createPlayerAsync: function (callback) {

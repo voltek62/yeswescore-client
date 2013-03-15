@@ -35,18 +35,22 @@ var IndexView = Backbone.View.extend({
           console.log('player created', player);
           // rendering
           this.render();
+          this.games.on('all', this.renderList, this);
+              
         }.bind(this));
         return;
       }
       // continue
       this.render();
+      this.games.on('all', this.renderList, this);
+      
     }.bind(this));
 
     //this.render();
 
     //console.log('this.games in cache size ',this.games.length);
 
-    //this.games.on('all', this.renderList, this);
+
 
     //Controle si localStorage contient Owner
     //var Owner = window.localStorage.getItem("Y.Cache.Player");

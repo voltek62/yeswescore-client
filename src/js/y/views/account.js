@@ -13,7 +13,6 @@ var AccountView = Backbone.View.extend({
 
     this.Owner = Y.User.getPlayer();
 
-
     this.render();
   },
 

@@ -98,7 +98,7 @@ var GameModel = Backbone.Model.extend({
         location : {
           country : (this.get('country') || ''),
           city : (this.get('city') || ''),
-          pos : [ appConfig.latitude, appConfig.longitude ]
+          pos : [ appConfig.longitude, appConfig.latitude ]
         }
       };
 

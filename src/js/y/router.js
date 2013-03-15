@@ -43,12 +43,9 @@
 
 
     initialize: function (options) {
-      var that = this;
-
-      //Global Transition handler
-      //$("a").live("touch vclick", function (e) {
-      //  that.setNextTransition(this);
-      //});
+      jq.ui.customClickHandler = function (a) {
+        this.navigate(a.hash.substr(1), { trigger: true });
+      }.bind(this);
     },
 
     account: function () {

@@ -22,7 +22,7 @@
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
         // init router
-        that.Router.initialize();
+        that.Router.initialize({hashChange: false, pushState: false});
         // load the templates.
         that.Templates.loadAsync(function () {
           // start dispatching routes

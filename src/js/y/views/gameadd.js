@@ -19,15 +19,10 @@ var GameAddView = Backbone.View.extend({
   initialize: function () {
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
     this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
+      
+      this.Owner = Y.User.getPlayer();
+	  this.render();
 
-    this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-    //this.players = new PlayersCollection('me');
-    //console.log('Owner',this.players.storage.findAll({local:true}));	   	
-    //this.Owner = new PlayerModel(this.players.storage.findAll({ local: true }));
-
-
-    this.render();
-    //$.mobile.hidePageLoadingMsg();
   },
 
   displayTeam1: function (li) {

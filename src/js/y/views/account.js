@@ -11,8 +11,7 @@ var AccountView = Backbone.View.extend({
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
-    this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-
+    this.Owner = Y.User.getPlayer();
 
     this.render();
   },

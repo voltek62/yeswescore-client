@@ -21,6 +21,7 @@ var PlayerModel = Backbone.Model.extend({
     location: {
       currentPos: [0, 0]
     },
+    token: "",
     updated_at: new Date()
   },
 
@@ -40,6 +41,8 @@ var PlayerModel = Backbone.Model.extend({
       },
       success: function (data) {
 
+        throw "FIXME: do not call GUI & use Y.User.* api";
+        /*
         console.log('data result Login', data);
 
         // Display Results
@@ -47,7 +50,7 @@ var PlayerModel = Backbone.Model.extend({
         if (data.id !== undefined) {
           $('span.success').html('Login OK ' + data.id).show();
 
-          window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
+          //window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
 
           //players = new PlayersCollection('me');
           //players.create(data);
@@ -56,7 +59,7 @@ var PlayerModel = Backbone.Model.extend({
           $('span.success').html('Erreur').show();
 
         // FIXME : on redirige sur la page moncompte
-
+        */
       }
     });
 
@@ -116,7 +119,7 @@ var PlayerModel = Backbone.Model.extend({
           if (options && options.success) {
             options.success(model, data, options);
           }
-        }.bind(this),
+        } .bind(this),
         error: function (message) {
           if (options && options.error)
             options.error(message);

@@ -17,7 +17,7 @@ var PlayerFormView = Backbone.View.extend({
     this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
     
-    this.Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
+    this.Owner = Y.User.getPlayer();
     	
     this.player = new PlayerModel({id:this.Owner.id});
     this.player.fetch(); 

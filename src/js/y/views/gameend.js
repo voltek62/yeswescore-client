@@ -9,9 +9,9 @@ var GameEndView = Backbone.View.extend({
     
   initialize:function() {
     this.gameEndTemplate = Y.Templates.get('gameEndTemplate');
-    Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
+    //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
-    //this.Owner = new PlayerModel(this.players.storage.findAll({local:true}));  
+    this.Owner = Y.User.getPlayer();
     this.render();
     //$.mobile.hidePageLoadingMsg(); 
   },

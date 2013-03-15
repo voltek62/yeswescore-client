@@ -7,6 +7,22 @@
   var playerTokenConfKey = 'player.token';
 
   var User = {
+    // @return PlayerModel/null   Player
+    getPlayer: function () {
+      if (player)
+        return player;
+      var unserializedPlayer = DB.readJSON("Player");
+      if (unserializedPlayer) {
+        // fixme: another way of doing serialize/unserialize ?
+        player = new PlayerModel();
+        player.set(unserializedPlayer);
+        return player;
+      }
+      // FIXME: should we really do this...
+      // REDIRECT ON INDEX (to create a new player...)
+      return null;
+    },
+
     //
     // Workflow:
     //  - 1: search player in memory
@@ -21,8 +37,11 @@
         return;
       }
       // reading from localStorage (synchrone api)
-      player = DB.readJSON("Player");
-      if (player) {
+      var unserializedPlayer = DB.readJSON("Player");
+      if (unserializedPlayer) {
+        // fixme: another way of doing serialize/unserialize ?
+        player = new PlayerModel();
+        player.set(unserializedPlayer);
         callback(null, player);
         return;
       }
@@ -49,7 +68,7 @@
     },
 
     setPlayer: function (player) {
-      assert(typeof player === "object");
+      assert(player instanceof PlayerModel);
       assert(player.get('id') !== undefined);
       assert(player.get('token') !== undefined);
 
@@ -70,7 +89,7 @@
           this.setPlayer(player);
           // answer
           callback(null, player);
-        }.bind(this),
+        } .bind(this),
         error: function (e) { callback(e); }
       });
     }

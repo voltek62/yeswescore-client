@@ -10,7 +10,7 @@
 
     connect: function () {
       // FIXME: dependance avec le player.
-      var player = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
+      var player = Y.User.getPlayer();
       // build redirect url
       var redirectUri = Y.Conf.get("fb.url.inappbrowser.redirect")
                          .replace("[token]", player.token)

@@ -12,6 +12,9 @@ var IndexView = Backbone.View.extend({
   initialize: function () {
   
   
+  $.ui.setBackButtonVisibility(false);
+  $.ui.setTitle("LISTE DES MATCHES");
+  
   var options={ 
   verticalScroll:true, //vertical scrolling 
   horizontalScroll:false, //horizontal scrolling 

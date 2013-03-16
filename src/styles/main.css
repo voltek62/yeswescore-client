@@ -19,8 +19,13 @@ p {
   background-image:none;
   background-color:#000;
   height:43px;	
+  z-index:1000;
 }
 
+#header #backButton {
+  background-image:none;
+  background-color:#000;  	
+}	
 
 #header  h1 {
   margin-top:10px;

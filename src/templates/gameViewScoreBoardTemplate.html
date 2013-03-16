@@ -47,52 +47,52 @@ if (game.options.sets !== null ) {
   } 
 } 
 %>
-<div class="ui-body ui-body-a">
-    <div class="ui-grid-d">
-        <div class="ui-block-a" style="width: 50%;">
-            <a href="#players/<%= game.teams[0].players[0].id %>" data-role="text" style="color: yellow"> 
-            <%= game.teams[0].players[0].name %> - <%= game.teams[0].players[0].rank %> 
-            </a>
-            <div id="var_service1"></div>
-        </div>
-        <div class="ui-block-b" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_sets_div"><%= team1_sets %></div>
-        <div class="ui-block-c" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set1_div"><%= team1_set1 %></div>
-        <div class="ui-block-d" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set2_div"><%= team1_set2 %></div>
-        <div class="ui-block-e" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set3_div"><%= team1_set3 %></div>
-    </div>
-    <!-- /grid-a -->
-
-    <div class="ui-grid-d">
-        <div class="ui-block-a" style="width: 50%;">&nbsp;</div>
-        <div class="ui-block-b" style="width: 10%; text-align: center;">
-            <font style="white-space: normal; font-size: small">SETS</font>
-        </div>
-        <div class="ui-block-c" style="width: 10%; text-align: center;">
-            <font style="white-space: normal; font-size: small">1</font>
-        </div>
-        <div class="ui-block-d" style="width: 10%; text-align: center;">
-            <font style="width: 10%; white-space: normal; font-size: small">2</font>
-        </div>
-        <div class="ui-block-e" style="width: 10%; text-align: center;">
-            <font style="width: 10%; white-space: normal; font-size: small">3</font>
-        </div>
-    </div>
-
-    <div class="ui-grid-d">
-        <div class="ui-block-a" style="width: 50%;">
-            <a href="#players/<%= game.teams[1].players[0].id %>" data-role="text" style="color: yellow"> 
-                <%= game.teams[1].players[0].name %> - <%= game.teams[1].players[0].rank %> 
-             </a>
-            <div id="var_service2"></div>
-        </div>
-        <div class="ui-block-b" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_sets_div"><%= team2_sets %></div>
-        <div class="ui-block-c" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set1_div"><%= team2_set1 %></div>
-        <div class="ui-block-d" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set2_div"><%= team2_set2 %></div>
-        <div class="ui-block-e" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set3_div"><%= team2_set3 %></div>
-    </div>
-    <!-- /grid-a -->
+<div style="text-align:center;">
+<a href="#players/<%= game.teams[0].players[0].id %>" class="div_score_player"> 
+ <%= game.teams[0].players[0].name %>
+</a>
+<br/>
+<%
+ if (game.teams[0].players[0].club !== undefined) {  
+  print(' '+game.teams[0].players[0].club.name);  
+} 
+%>
+<%= game.teams[0].players[0].rank %>
 </div>
 
+<div class="ui-grid-c">
+    <div class="ui-block-a div_score_mini_legend">1</div>
+    <div class="ui-block-b div_score_mini_legend">2</div>
+    <div class="ui-block-c div_score_mini_legend">3</div>
+    <div class="ui-block-d div_score_mini_legend">sets</div>
+</div>
+
+<div class="ui-grid-c" style="padding:5px;">
+    <div class="ui-block-a div_score_button" id="team1_sets_div"><%= team1_set1 %></div>
+    <div class="ui-block-b div_score_button" id="team1_sets_div"><%= team1_set2 %></div>
+    <div class="ui-block-c div_score_button" id="team1_set1_div"><%= team1_set3 %></div>
+    <div class="ui-block-d div_score_button" id="team1_set2_div"><%= team1_sets %></div>
+</div>
+<!-- /grid-a -->
+
+<div class="ui-grid-c" style="margin:5px;">
+    <div class="ui-block-a div_score_button" id="team1_sets_div"><%= team2_set1 %></div>
+    <div class="ui-block-b div_score_button" id="team1_sets_div"><%= team2_set2 %></div>
+    <div class="ui-block-c div_score_button" id="team1_set1_div"><%= team2_set3 %></div>
+    <div class="ui-block-d div_score_button" id="team1_set2_div"><%= team2_sets %></div>
+</div>
+
+<div style="text-align:center;">
+<a href="#players/<%= game.teams[1].players[0].id %>" class="div_score_player"> 
+<%= game.teams[1].players[0].name %>
+ </a><br/>
+<% 
+ if (game.teams[1].players[0].club !== undefined) {  
+  print(' '+game.teams[1].players[0].club.name);  
+} 
+%>
+<%= game.teams[1].players[0].rank %>
+</div>
 
 <form>
     <input type="hidden" id="set_current" value="<%= set_current %>" /> 

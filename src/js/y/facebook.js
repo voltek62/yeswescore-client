@@ -13,8 +13,8 @@
       var player = Y.User.getPlayer();
       // build redirect url
       var redirectUri = Y.Conf.get("fb.url.inappbrowser.redirect")
-                         .replace("[token]", player.token)
-                         .replace("[playerid]", player.id);
+                         .replace("[token]", player.get('token'))
+                         .replace("[playerid]", player.get('id'));
       // build facebook oauth url
       var facebookOauthUrl = Y.Conf.get("facebook.url.oauth")
                               .replace("[fb_app_id]", Y.Conf.get("facebook.app.id"))

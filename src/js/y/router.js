@@ -43,9 +43,13 @@
 
 
     initialize: function (options) {
+    
+      var that = this; 
       jq.ui.customClickHandler = function (a) {
-        this.navigate(a.hash.substr(1), { trigger: true });
-      }.bind(this);
+        that.navigate(a.hash.substr(1), { trigger: true });
+      };
+      
+  
     },
 
     account: function () {

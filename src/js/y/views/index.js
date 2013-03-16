@@ -41,7 +41,9 @@ var IndexView = Backbone.View.extend({
     //this.games.storage.sync.pull();   
 
     this.$el.html("please wait, loading player");
-
+	
+	var that = this; 
+	
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
@@ -50,17 +52,17 @@ var IndexView = Backbone.View.extend({
         Y.User.createPlayerAsync(function (err, player) {
           console.log('player created', player);
           // rendering
-          this.render();
-          this.games.on('all', this.renderList, this);
+          that.render();
+          that.games.on('all', that.renderList, that);
               
-        }.bind(this));
+        });
         return;
       }
       // continue
-      this.render();
-      this.games.on('all', this.renderList, this);
+      that.render();
+      that.games.on('all', that.renderList, that);
       
-    }.bind(this));
+    });
 
     //this.render();
 

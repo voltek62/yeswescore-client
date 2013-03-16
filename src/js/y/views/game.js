@@ -48,9 +48,9 @@ var GameView = Backbone.View.extend({
             .get('gameViewCommentListTemplate');
 
 
-       Y.User.getPlayerAsync(function (err, player) {
+       
       
-        this.Owner = player;
+        this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
 
@@ -84,7 +84,7 @@ var GameView = Backbone.View.extend({
         
         //this.score.on("all",this.renderRefresh,this);
       
-    	}.bind(this));
+ 
 
  
       },

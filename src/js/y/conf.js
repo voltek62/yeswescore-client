@@ -71,6 +71,7 @@
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", version); // will be usefull on update.
+      
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]

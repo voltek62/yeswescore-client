@@ -30,6 +30,16 @@ var GameView = Backbone.View.extend({
       pageName: "game",
 
       initialize : function() {
+      
+      	$.ui.setBackButtonVisibility(true);
+      	$.ui.setTitle("MY GAME");
+      	
+      	//console.log($('#content'));
+      	//$.ui.addDivAndScroll($('#content'));
+      	//$.ui.addContentDiv('content');
+      	
+      	var scroller = $("#content").scroller();
+      	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
         this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
         this.gameViewScoreBoardTemplate = Y.Templates

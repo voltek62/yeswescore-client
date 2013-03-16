@@ -3905,6 +3905,7 @@ if (!HTMLElement.prototype.unwatch) {
             var jsScroll = false;
             var overflowStyle = tmp.style.overflow;
             var hasScroll = overflowStyle != 'hidden' && overflowStyle != 'visible';
+            //var hasScroll = true;
             
             container = container || this.content;
             //sets up scroll when required and not supported

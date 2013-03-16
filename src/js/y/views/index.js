@@ -10,8 +10,24 @@ var IndexView = Backbone.View.extend({
   pageName: "index",
 
   initialize: function () {
-    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
-    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+  
+  
+  var options={ 
+  verticalScroll:true, //vertical scrolling 
+  horizontalScroll:false, //horizontal scrolling 
+  scrollBars:true, //display scrollbars 
+  //vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
+  //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
+  refresh:true, //Adds 'Pull to refresh' at the top 
+  //refreshFunction:updateMessage //callback function to execute on pull to refresh 
+  }; 
+  
+  var scroller = $("#content").scroller(options);
+  
+
+  
+  this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
+  this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
 
     //we capture config from bootstrap
     //FIXME: put a timer

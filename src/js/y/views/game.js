@@ -39,7 +39,7 @@ var GameView = Backbone.View.extend({
       	//$.ui.addDivAndScroll($('#content'));
       	//$.ui.addContentDiv('content');
       	
-      	var scroller = $("#content").scroller();
+      	/*var scroller = $("#content").scroller();*/
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
         this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
@@ -79,11 +79,11 @@ var GameView = Backbone.View.extend({
 
         // FIXME: SI ONLINE
         
-        poller = Backbone.Poller.get(this.score, options)
-        poller.start();
-        poller.on('success', this.getObjectUpdated, this);
+        //poller = Backbone.Poller.get(this.score, options)
+        //poller.start();
+        //poller.on('success', this.getObjectUpdated, this);
         
-        //this.score.on("all",this.renderRefresh,this);
+        this.score.on("all",this.renderRefresh,this);
       
  
 

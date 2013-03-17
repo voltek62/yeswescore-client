@@ -1184,8 +1184,13 @@ p {
   background-image:none;
   background-color:#000;
   height:43px;	
+  z-index:1000;
 }
 
+#header #backButton {
+  background-image:none;
+  background-color:#000;  	
+}	
 
 #header  h1 {
   margin-top:10px;
@@ -1412,40 +1417,108 @@ input.jq-ui-forms {
 /**********************************************************
 	SCOREBOARD
 **********************************************************/
+
+#displayViewScoreBoard {
+  background-color:#45b1db;
+  width:90%;
+  margin:0 auto;
+}
+
 .div_set_scoreboard {
-	text-align: center;
-    z-index:1;
-	color:#000;
-	display:inline-block;
-	font-weight:bold;
-	font-size:14px;
-	line-height:24px;
-	position:relative;
-	text-align:center;
-	/*text-shadow:#fff 0 1px 0;*/
-	height:24px;
-	min-width:20px;
-	padding:2px;
-	/*margin-top:6px; margin-left:6px;*/
-	text-overflow:ellipsis; 
-	-webkit-border-radius:6px; border-radius:6px;
-	background-image:none; 
-	background:#e3e3e3;
+  text-align: center;
+  z-index:1;
+  color:#000;
+  display:inline-block;
+  font-weight:bold;
+  font-size:14px;
+  line-height:24px;
+  position:relative;
+  text-align:center;
+  /*text-shadow:#fff 0 1px 0;*/
+  height:24px;
+  min-width:20px;
+  padding:2px;
+  /*margin-top:6px; margin-left:6px;*/
+  text-overflow:ellipsis; 
+  -webkit-border-radius:6px; border-radius:6px;
+  background-image:none; 
+  background:#e3e3e3;
 }
 
 .div_set_grey {
-	color:#7C7C7E;
+  color:#7C7C7E;
 }
 
 .div_score_mini {
-	font-weight:normal;
-	font-size:10px;	
+  font-weight:normal;
+  font-size:10px;	
+}
+
+.div_score_mini_legend {
+  font-weight:normal;
+  font-size:10px;	
+  color:#fff;
+  text-align:center;
+}
+
+
+.div_score_player {
+  font-weight:bold;
+  font-size:16px;	
+  color:#000;
+  text-decoration:none;
 }
 
 .div_set {
-	font-weight:normal;
-	color:#000;		
+  font-weight:normal;
+  color:#000;		
 }
+
+.div_score_menu {
+  font-weight:normal;
+  font-size:11px;
+  border-right:1px;
+  border-style:dotted;	
+  text-align:center;
+  height:100%;
+}
+
+.div_score_menu_right {
+  font-weight:normal;
+  font-size:11px;
+  text-align:center;
+  height:100%;
+}
+
+#ifrmScore {
+  width:94%;
+  margin:0 auto;
+  background-color:#fff;	
+}
+
+.div_score_button {
+  text-align:center;
+  /*width:5px;*/
+  height:28px;	
+  color:#000;
+  /*padding:10px;
+  margin:10 auto;*/
+ /* margin:2px;*/
+  background-color:#fff;
+  font-size:20px;
+  font-weight:normal;
+  -webkit-border-radius:6px; border-radius:6px;   
+}
+
+.div_score_button_bottom {
+  font-weight:normal;
+  font-size:14px;	
+  text-align:center;
+  margin-top:10px;
+  background-color:#fff;
+  color:#fff;
+}
+
 
 
 
@@ -19389,7 +19462,8 @@ var GameView = Backbone.View.extend({
       initialize : function() {
       
       	$.ui.setBackButtonVisibility(true);
-      	$.ui.setTitle("MY GAME");
+      	$.ui.setBackButtonText("&lt;");
+      	$.ui.setTitle("GAME");
       	
       	//console.log($('#content'));
       	//$.ui.addDivAndScroll($('#content'));
@@ -20286,6 +20360,9 @@ var IndexView = Backbone.View.extend({
   initialize: function () {
   
   
+  $.ui.setBackButtonVisibility(false);
+  $.ui.setTitle("LISTE DES MATCHES");
+  
   var options={ 
   verticalScroll:true, //vertical scrolling 
   horizontalScroll:false, //horizontal scrolling 
@@ -20879,7 +20956,6 @@ $(document).ready(function () {
   <div id="jQUi"> <!-- this is the main container div.  This way, you can have only part of your app use jqUi -->
       <!-- this is the header div at the top -->
       <div id="header">
-      <a id="backButton" href="javascript:;" class="button" style="visibility: hidden; ">&lt;</a>
       <div id="pageLogo">&middot; YES WE SCORE &middot;</div>       
       <h1 id="pageTitle">ACCUEIL</h1>
       <div id="pageOnline"><img src="images/header-logo-on.png" height="21" width="25" /></div>
@@ -21263,6 +21339,7 @@ if (game.options.sets !== null ) {
 	<% 
 	if (game.teams[0].players[0]!== undefined) { 
 		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+    
 		print('<span class="div_score_mini">');
 		print(game.teams[0].players[0].rank);	
 		
@@ -21385,52 +21462,52 @@ if (game.options.sets !== null ) {
   } 
 } 
 %>
-<div class="ui-body ui-body-a">
-    <div class="ui-grid-d">
-        <div class="ui-block-a" style="width: 50%;">
-            <a href="#players/<%= game.teams[0].players[0].id %>" data-role="text" style="color: yellow"> 
-            <%= game.teams[0].players[0].name %> - <%= game.teams[0].players[0].rank %> 
-            </a>
-            <div id="var_service1"></div>
-        </div>
-        <div class="ui-block-b" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_sets_div"><%= team1_sets %></div>
-        <div class="ui-block-c" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set1_div"><%= team1_set1 %></div>
-        <div class="ui-block-d" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set2_div"><%= team1_set2 %></div>
-        <div class="ui-block-e" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set3_div"><%= team1_set3 %></div>
-    </div>
-    <!-- /grid-a -->
-
-    <div class="ui-grid-d">
-        <div class="ui-block-a" style="width: 50%;">&nbsp;</div>
-        <div class="ui-block-b" style="width: 10%; text-align: center;">
-            <font style="white-space: normal; font-size: small">SETS</font>
-        </div>
-        <div class="ui-block-c" style="width: 10%; text-align: center;">
-            <font style="white-space: normal; font-size: small">1</font>
-        </div>
-        <div class="ui-block-d" style="width: 10%; text-align: center;">
-            <font style="width: 10%; white-space: normal; font-size: small">2</font>
-        </div>
-        <div class="ui-block-e" style="width: 10%; text-align: center;">
-            <font style="width: 10%; white-space: normal; font-size: small">3</font>
-        </div>
-    </div>
-
-    <div class="ui-grid-d">
-        <div class="ui-block-a" style="width: 50%;">
-            <a href="#players/<%= game.teams[1].players[0].id %>" data-role="text" style="color: yellow"> 
-                <%= game.teams[1].players[0].name %> - <%= game.teams[1].players[0].rank %> 
-             </a>
-            <div id="var_service2"></div>
-        </div>
-        <div class="ui-block-b" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_sets_div"><%= team2_sets %></div>
-        <div class="ui-block-c" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set1_div"><%= team2_set1 %></div>
-        <div class="ui-block-d" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set2_div"><%= team2_set2 %></div>
-        <div class="ui-block-e" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set3_div"><%= team2_set3 %></div>
-    </div>
-    <!-- /grid-a -->
+<div style="text-align:center;">
+<a href="#players/<%= game.teams[0].players[0].id %>" class="div_score_player"> 
+ <%= game.teams[0].players[0].name %>
+</a>
+<br/>
+<%
+ if (game.teams[0].players[0].club !== undefined) {  
+  print(' '+game.teams[0].players[0].club.name);  
+} 
+%>
+<%= game.teams[0].players[0].rank %>
 </div>
 
+<div class="ui-grid-c">
+    <div class="ui-block-a div_score_mini_legend">1</div>
+    <div class="ui-block-b div_score_mini_legend">2</div>
+    <div class="ui-block-c div_score_mini_legend">3</div>
+    <div class="ui-block-d div_score_mini_legend">sets</div>
+</div>
+
+<div class="ui-grid-c" style="padding:5px;">
+    <div class="ui-block-a div_score_button" id="team1_sets_div"><%= team1_set1 %></div>
+    <div class="ui-block-b div_score_button" id="team1_sets_div"><%= team1_set2 %></div>
+    <div class="ui-block-c div_score_button" id="team1_set1_div"><%= team1_set3 %></div>
+    <div class="ui-block-d div_score_button" id="team1_set2_div"><%= team1_sets %></div>
+</div>
+<!-- /grid-a -->
+
+<div class="ui-grid-c" style="margin:5px;">
+    <div class="ui-block-a div_score_button" id="team1_sets_div"><%= team2_set1 %></div>
+    <div class="ui-block-b div_score_button" id="team1_sets_div"><%= team2_set2 %></div>
+    <div class="ui-block-c div_score_button" id="team1_set1_div"><%= team2_set3 %></div>
+    <div class="ui-block-d div_score_button" id="team1_set2_div"><%= team2_sets %></div>
+</div>
+
+<div style="text-align:center;">
+<a href="#players/<%= game.teams[1].players[0].id %>" class="div_score_player"> 
+<%= game.teams[1].players[0].name %>
+ </a><br/>
+<% 
+ if (game.teams[1].players[0].club !== undefined) {  
+  print(' '+game.teams[1].players[0].club.name);  
+} 
+%>
+<%= game.teams[1].players[0].rank %>
+</div>
 
 <form>
     <input type="hidden" id="set_current" value="<%= set_current %>" /> 
@@ -21562,99 +21639,61 @@ if (game.options.score !== null ) {
 </form>
 <% //} %>
 </script>
-<script type="text/template" id="gameViewTemplate">
-
-	<div id="displayViewScoreBoard"></div>
-
-	<% if (game.owner === Owner.id) { %> <br /> <br />
-	<form id="frmScore">
-		<!-- 
-<div class="ui-grid-a">
-	<div class="ui-block-a">
-		<h3 style="margin-top:20px;text-align:right;">Serveur : </h3>
-	</div>
-	<div class="ui-block-b">
-	
-		<fieldset data-role="controlgroup" data-type="horizontal">
-		        <input type="radio" name="team_selected" id="team1_selected" value="1" />
-		        <label for="team1_selected"><%= game.teams[0].players[0].name %></label>
-		        <input type="radio" name="team_selected" id="team2_selected" value="2" checked="checked"/>
-		        <label for="team2_selected"><%= game.teams[1].players[0].name %></label>
-		    </fieldset>
-	
-	</div>
+<script type="text/template" id="gameViewTemplate"><div class="ui-grid-d" style="height:50px;">
+  <div class="ui-block-a div_score_menu">
+  0:45:32
+  </div>
+  <div class="ui-block-b div_score_menu">
+  26/03/2013<br/>
+  16h30
+  </div>
+  <div class="ui-block-c div_score_menu">
+  Calais
+  </div>
+  <div class="ui-block-d div_score_menu">
+  Public
+  </div>
+  <div class="ui-block-e div_score_menu_right">
+  5
+  </div>
 </div>
 
-<div class="ui-grid-a">
-	<div class="ui-block-a"><a data-theme="g" id="setPointWinButton" data-role="button">Serveur Marque</a></div>
-	<div class="ui-block-b"><a data-theme="f" id="setPointErrorButton" data-role="button">Serveur Faute</a></div>
-</div>
- -->
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<a id="endButton" data-role="button">Terminer</a>
-			</div>
-			<div class="ui-block-b">
-				<a id="cancelButton" data-role="button">Annuler</a>
-			</div>
+<div id="displayViewScoreBoard"></div>
+
+<form id="frmScore">
+<% if (game.owner === Owner.id) { %>
+	<div class="ui-grid-b">
+		<div class="ui-block-a div_score_button_bottom">
+            <a id="optionButton">Options</a> 
 		</div>
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<% if (follow === 'true') { %> 
-				<a data-role="button" id="followButton">Ne plus suivre</a> 
-				<% } else { %> 
-				<a data-role="button" id="followButton">Suivre</a> 
-				<% } %>
-			</div>
-			<div class="ui-block-b">
-				<a
-					href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>"
-					data-role="button" target="_blank">Partager</a>
-			</div>
+        <div class="ui-block-b div_score_button_bottom">
+          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">Partager</a>
+        </div>        	
+		<div class="ui-block-c div_score_button_bottom">
+			<a id="endButton">Terminer</a>
 		</div>
+    </div>
+<% } else { %> 
+  <div class="ui-grid-b">
+    <div class="ui-block-a div_score_button_bottom">
+            <% if (follow === 'true') { %> 
+            <a id="followButton">Ne plus suivre</a> 
+            <% } else { %> 
+            <a id="followButton">Suivre</a> 
+            <% } %> 
+    </div>
+        <div class="ui-block-b div_score_button_bottom">
+          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">Partager</a>
+        </div>          
+    <div class="ui-block-c div_score_button_bottom">
+      <a id="endButton">Terminer</a>
+    </div>
+    </div>
+<% } %>
+</form>
 
-	</form>
-	<% } else { %> <br />
-	<!-- 
-
-$("#incomingMessages").append(
-                   "<div class='message'><span class='username'>" +
-                   (message.chatName || 'Anonymous') +
-                   "</span> : " +
-                   (message.text || ' ') +
-                   "</div>"
-               );
-               $("#incomingMessages").scrollTop(
-                   $("#incomingMessages")[0].scrollHeight
-               );
- -->
-
-	<ul id="incomingComment" class="msgContainerDiv" data-role="listview"></ul>
-	<br />
-	<form id="frmAttachment" class="ui-body ui-body-b">
-
-		<div data-role="fieldcontain">
-			<textarea name="messageText" id="messageText" style="width: 95%; height: 50px;" class="jq-ui-forms"></textarea>
-		</div>
-
-		<div data-role="fieldcontain">
-			<label for="attachment">Attachment:</label> <input type="file" name="attachment" id="attachment" />
-		</div>
-
-		<fieldset class="ui-grid-a">
-			<div class="ui-block-a">
-				<button data-theme="b" id="commentDeleteButton" class="button">Effacer</button>
-			</div>
-			<div class="ui-block-b">
-				<!--  
-			<button data-theme="b" id="chatSendButton" name="chatSendButton">Envoyer</button>
-			-->
-				<input type="submit" value="Envoyer" id="commentSendButton" />
-			</div>
-		</fieldset>
-
-	</form>
-	<% } %>
+<br/>
+COMMENTAIRES
 </script>
 <script type="text/template" id="indexViewTemplate"><div class="ui-grid-a" style="padding-top: 5px;">
   <div class="ui-block-a" style="width: 85%;padding-left:5px">

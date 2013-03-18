@@ -349,14 +349,39 @@ input.jq-ui-forms {
   -webkit-border-radius:6px; border-radius:6px;   
 }
 
-.div_score_button_bottom {
-  font-weight:normal;
-  font-size:14px;	
+.score_bottom {	
   text-align:center;
   margin-top:10px;
   background-color:#fff;
+}
+
+.button_bottom {
+  margin-left:auto;
+  margin-right:auto; 
+  padding-top:5px;
+  width:90px;	
+  height:44px;
+  z-index:1;
   color:#fff;
+  background-image:none; 
+  background-color:#45b1db;
+  font-size:14px;
+  font-weight:bold;
+  /*text-transform:uppercase;*/
+  -webkit-border-radius:22px; border-radius:22px;
 }
 
 
-
+.button_comment {
+  width:90%;
+  height:40px;
+  padding-top:10px;	
+  z-index:1;
+  color:#fff;
+  background-image:none; 
+  background-color:#40c68f;
+  font-size:16px;
+  font-weight:bold;
+  text-transform:uppercase;
+  -webkit-border-radius:0px; border-radius:0px;
+}

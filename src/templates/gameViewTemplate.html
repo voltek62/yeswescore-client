@@ -30,7 +30,7 @@
   Public
   </div>
   <div class="ui-block-e div_score_menu_right">
-  5
+  .
   </div>
 </div>
 
@@ -39,34 +39,39 @@
 <form id="frmScore">
 <% if (game.owner === Owner.id) { %>
 	<div class="ui-grid-b">
-		<div class="ui-block-a div_score_button_bottom">
-            <a id="optionButton">Options</a> 
+		<div class="ui-block-a score_bottom">
+            <a id="optionButton"><div class="button_bottom">Options match</div></a> 
 		</div>
-        <div class="ui-block-b div_score_button_bottom">
-          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">Partager</a>
+        <div class="ui-block-b score_bottom">
+          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">
+          <img src="./images/facebook.png" width="44" height="44" />
+          </a>
         </div>        	
-		<div class="ui-block-c div_score_button_bottom">
-			<a id="endButton">Terminer</a>
+		<div class="ui-block-c score_bottom">
+			<a id="endButton"><div class="button_bottom">Terminer match</div></a>
 		</div>
     </div>
 <% } else { %> 
   <div class="ui-grid-b">
-    <div class="ui-block-a div_score_button_bottom">
-            <% if (follow === 'true') { %> 
-            <a id="followButton">Ne plus suivre</a> 
-            <% } else { %> 
-            <a id="followButton">Suivre</a> 
-            <% } %> 
+    <div class="ui-block-a score_bottom">
+      <a id="followButton">
+      <div class="button_bottom">
+      <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre match<% } %> 
+      </div>
+      </a>
     </div>
-        <div class="ui-block-b div_score_button_bottom">
-          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">Partager</a>
-        </div>          
-    <div class="ui-block-c div_score_button_bottom">
-      <a id="endButton">Terminer</a>
+    <div class="ui-block-b score_bottom">
+          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">
+          <img src="./images/facebook.png" width="44" height="44" />
+          </a>
+    </div>          
+    <div class="ui-block-c score_bottom">
+      <a id="endButton"><div class="button_bottom">Terminer match</div></a>
     </div>
-    </div>
+ </div>
 <% } %>
 </form>
-
 <br/>
-COMMENTAIRES
+<div align="center">
+<a href="" style="text-decoration:none;"><div class="button_comment">COMMENTAIRES</div></a>
+</div>

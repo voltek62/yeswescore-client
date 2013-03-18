@@ -1476,7 +1476,7 @@ input.jq-ui-forms {
 
 .div_score_menu {
   font-weight:normal;
-  font-size:11px;
+  font-size:10px;
   border-right:1px;
   border-style:dotted;	
   text-align:center;
@@ -1496,17 +1496,21 @@ input.jq-ui-forms {
   background-color:#fff;	
 }
 
+
+
 .div_score_button {
   text-align:center;
   /*width:5px;*/
-  height:28px;	
+  margin-left:auto;
+  margin-right:auto; 
+  margin-top:5px;
+  padding-top:8px;
+  height:48px;	
+  width:48px;
   color:#000;
-  /*padding:10px;
-  margin:10 auto;*/
- /* margin:2px;*/
   background-color:#fff;
-  font-size:20px;
-  font-weight:normal;
+  font-size:28px;
+  font-weight:bold;
   -webkit-border-radius:6px; border-radius:6px;   
 }
 
@@ -19469,7 +19473,7 @@ var GameView = Backbone.View.extend({
       	//$.ui.addDivAndScroll($('#content'));
       	//$.ui.addContentDiv('content');
       	
-      	var scroller = $("#content").scroller();
+      	/*var scroller = $("#content").scroller();*/
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
         this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
@@ -19509,11 +19513,11 @@ var GameView = Backbone.View.extend({
 
         // FIXME: SI ONLINE
         
-        poller = Backbone.Poller.get(this.score, options)
-        poller.start();
-        poller.on('success', this.getObjectUpdated, this);
+        //poller = Backbone.Poller.get(this.score, options)
+        //poller.start();
+        //poller.on('success', this.getObjectUpdated, this);
         
-        //this.score.on("all",this.renderRefresh,this);
+        this.score.on("all",this.renderRefresh,this);
       
  
 
@@ -20971,9 +20975,9 @@ $(document).ready(function () {
       		<!-- 
           <div class="horzRule"></div>
            -->
-          <a href="#" id='navbar_home' class='icon home'>Suivre</a>
-          <a href="#games/add" id='navbar_gamesadd' class='icon star'>Diffuser</a>
-          <a href="#account" id='navbar_account' class='icon user'>Profil</a>
+          <a href="#" id="navbar_home" class="icon home">Suivre</a>
+          <a href="#games/add" id="navbar_gamesadd" class="icon star" data-transition="up">Diffuser</a>
+          <a href="#account" id="navbar_account" class="icon user">Profil</a>
       </div>    
   </div>
   <script type="text/template" id="accountViewTemplate">
@@ -21482,19 +21486,19 @@ if (game.options.sets !== null ) {
     <div class="ui-block-d div_score_mini_legend">sets</div>
 </div>
 
-<div class="ui-grid-c" style="padding:5px;">
-    <div class="ui-block-a div_score_button" id="team1_sets_div"><%= team1_set1 %></div>
-    <div class="ui-block-b div_score_button" id="team1_sets_div"><%= team1_set2 %></div>
-    <div class="ui-block-c div_score_button" id="team1_set1_div"><%= team1_set3 %></div>
-    <div class="ui-block-d div_score_button" id="team1_set2_div"><%= team1_sets %></div>
+<div class="ui-grid-c">
+    <div class="ui-block-a" id="team1_sets_div"><div class="div_score_button"><%= team1_set1 %></div></div>
+    <div class="ui-block-b" id="team1_sets_div"><div class="div_score_button"><%= team1_set2 %></div></div>
+    <div class="ui-block-c" id="team1_set1_div"><div class="div_score_button"><%= team1_set3 %></div></div>
+    <div class="ui-block-d" id="team1_set2_div"><div class="div_score_button"><%= team1_sets %></div></div>
 </div>
 <!-- /grid-a -->
 
-<div class="ui-grid-c" style="margin:5px;">
-    <div class="ui-block-a div_score_button" id="team1_sets_div"><%= team2_set1 %></div>
-    <div class="ui-block-b div_score_button" id="team1_sets_div"><%= team2_set2 %></div>
-    <div class="ui-block-c div_score_button" id="team1_set1_div"><%= team2_set3 %></div>
-    <div class="ui-block-d div_score_button" id="team1_set2_div"><%= team2_sets %></div>
+<div class="ui-grid-c">
+    <div class="ui-block-a" id="team1_sets_div"><div class="div_score_button"><%= team2_set1 %></div></div>
+    <div class="ui-block-b" id="team1_sets_div"><div class="div_score_button"><%= team2_set2 %></div></div>
+    <div class="ui-block-c" id="team1_set1_div"><div class="div_score_button"><%= team2_set3 %></div></div>
+    <div class="ui-block-d" id="team1_set2_div"><div class="div_score_button"><%= team2_sets %></div></div>
 </div>
 
 <div style="text-align:center;">
@@ -21639,7 +21643,24 @@ if (game.options.score !== null ) {
 </form>
 <% //} %>
 </script>
-<script type="text/template" id="gameViewTemplate"><div class="ui-grid-d" style="height:50px;">
+<script type="text/template" id="gameViewTemplate"><div class="ui-grid-d" style="height:22px;margin-top:4px;">
+  <div class="ui-block-a div_score_menu">
+    <img src="./images/chrono.png" width="15" height="20">
+  </div>
+  <div class="ui-block-b div_score_menu">
+    <img src="./images/calendar.png" width="17" height="20">
+  </div>
+  <div class="ui-block-c div_score_menu">
+    <img src="./images/house.png" width="21" height="20">
+  </div>
+  <div class="ui-block-d div_score_menu">
+    <img src="./images/eye.png" width="20" height="20">
+  </div>
+  <div class="ui-block-e div_score_menu_right">
+    <img src="./images/people.png" width="20" height="20">
+  </div>
+</div>
+<div class="ui-grid-d" style="height:30px;">
   <div class="ui-block-a div_score_menu">
   0:45:32
   </div>
@@ -21648,7 +21669,7 @@ if (game.options.score !== null ) {
   16h30
   </div>
   <div class="ui-block-c div_score_menu">
-  Calais
+  <%= game.location.city %>
   </div>
   <div class="ui-block-d div_score_menu">
   Public

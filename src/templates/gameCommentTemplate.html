@@ -50,45 +50,64 @@ if (game.options.sets !== null ) {
 
 %>
 
-
- <div class="ui-grid-d">
-     <div class="ui-block-a" style="width: 60%;">
-	<% 
-	if (game.teams[0].players[0]!== undefined) { 
-		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+ <div class="ui-grid-a">
+  <div class="ui-block-a" style="width: 25%;text-align:center;padding:5px;">
+  <img src="./images/chrono.png" width="15" height="20"><br/>
+  0:50:32
+  </div>
+  <div class="ui-block-b" style="width: 75%;">
+  
+     <div class="ui-grid-d">
+         <div class="ui-block-a" style="width: 60%;padding:5px;">
+    	<% 
+    	if (game.teams[0].players[0]!== undefined) { 
+    		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+        
     
-
-	}
-	%>         
+    	}
+    	%>         
+         </div>
+         <div class="ui-block-b" style="width: 10%;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
+         <div class="ui-block-c" style="width: 10%;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
+         <div class="ui-block-d" style="width: 10%;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
+         <div class="ui-block-e" style="width: 10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
      </div>
-     <div class="ui-block-b" style="width: 10%;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
-     <div class="ui-block-c" style="width: 10%;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
-     <div class="ui-block-d" style="width: 10%;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
-     <div class="ui-block-e" style="width: 10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
- </div>
-
- <div class="ui-grid-d">
-     <div class="ui-block-a" style="width: 60%;">
-	<% 
-	if (game.teams[1].players[0]!== undefined) { 
-		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
-			
-	}
-	%>         
+    
+     <div class="ui-grid-d">
+         <div class="ui-block-a" style="width: 60%;">
+    	<% 
+    	if (game.teams[1].players[0]!== undefined) { 
+    		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
+    			
+    	}
+    	%>         
+         </div>
+         <div class="ui-block-b" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
+         <div class="ui-block-c" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
+         <div class="ui-block-d" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
+         <div class="ui-block-e" style="width: 10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
      </div>
-     <div class="ui-block-b" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
-     <div class="ui-block-c" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
-     <div class="ui-block-d" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
-     <div class="ui-block-e" style="width: 10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
- </div>
- 
+  </div>
+</div>      
 
 
+<div class="bg-green">
 
-<form id="frmCommentGame" class="ui-body ui-body-b ui-corner-all">
-
-Comment 1<br/>
-Comment 2<br/>
-
+<form id="frmCommentGame">
+COMMENTAIRES (2)
+<br/><br/>
+<div class="list-comment">
+  <div class="comment">
+  Georges a dit &agrave; 16h45<br/>
+  blah blah blah blah blah blah blah
+  </div>
+  <div class="comment">
+  Sarah a dit &agrave; 16h48<br/>
+  blah blah blah blah blah blah blah
+  </div>
+</div>
+  
 
 </form>
+
+</div>

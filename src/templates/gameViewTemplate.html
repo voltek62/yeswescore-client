@@ -17,20 +17,31 @@
 </div>
 <div class="ui-grid-d" style="height:30px;">
   <div class="ui-block-a div_score_menu">
-  0:45:32
+  <span class="timer">0:45:32</span>
+  <% 
+  //si date de fin - terminé
+  //si en cours on affiche la différence de temps
+  %>
   </div>
   <div class="ui-block-b div_score_menu">
-  26/03/2013<br/>
-  16h30
+  <%
+  game.dates.startConvert = new Date(game.dates.start);
+  game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
+  game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+  %>
+  <b>
+  <%= game.dates.startDate  %><br/>
+  <%= game.dates.startTime %>
+  </b>
   </div>
   <div class="ui-block-c div_score_menu">
-  <%= game.location.city %>
+  <b><%= game.location.city %></b>
   </div>
   <div class="ui-block-d div_score_menu">
-  Public
+  <b>Public</b>
   </div>
   <div class="ui-block-e div_score_menu_right">
-  .
+  <b>.</b>
   </div>
 </div>
 

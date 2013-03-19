@@ -150,7 +150,8 @@ var GameModel = Backbone.Model.extend({
       
       //var params = _.extend({ type: 'GET', dataType: 'json', url: Y.Conf.get("api.url.games")+this.id, processData:false }, options); 
       //return $.ajax(params);
-      model.url = Y.Conf.get("api.url.games")+this.id+"?stream=true";
+      // +"?stream=true"
+      model.url = Y.Conf.get("api.url.games")+this.id;
 
       return Backbone.sync(method, model, options);
     }

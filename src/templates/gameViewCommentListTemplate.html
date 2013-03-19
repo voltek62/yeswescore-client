@@ -1,9 +1,10 @@
  <% if(streams.length==0) { %>
-<div class="message">Aucun commentaire</div>
+<div class="comment">Aucun commentaire</div>
 <% } %> 
 <% for (var i = 0; i < streams.length; i++) { stream = streams[i]; %>
-<div class="message">
-	<%= stream.dates.creation %> : <span class="username"><%= (stream.owner ||'Anonymous') %></span> : <%= stream.data.text %> 
+<div class="comment">
+	<%= stream.dates.creation %> : <div class="infocomment"><%= (stream.owner ||'Anonymous') %></div> 
+    <%= stream.data.text %> 
 	<% if ( stream.owner === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
 	<% if ( stream.owner !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
 </div>

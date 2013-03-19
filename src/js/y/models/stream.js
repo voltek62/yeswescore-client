@@ -24,11 +24,13 @@ var StreamModel = Backbone.Model.extend({
   sync : function(method, model, options) {
 
     console.log('method Stream', method);
-    console.log('url', Y.Conf.get("api.url.games") + (this.get('gameid') || '')
-        + '/stream/?playerid=' + (this.get('playerid') || '') + '&token='
-        + (this.get('token') || ''));
+
 
     if (method === 'update' || method === 'create') {
+    
+    console.log('url', Y.Conf.get("api.url.games") + (this.get('gameid') || '')
+        + '/stream/?playerid=' + (this.get('playerid') || '') + '&token='
+        + (this.get('token') || ''));    
 
       return $.ajax({
         dataType : 'json',
@@ -57,6 +59,9 @@ var StreamModel = Backbone.Model.extend({
     } else {
 
 	  // http://api.yeswescore.com/v1/games/511d31971ad3857d0a0000f8/stream/
+	  console.log('StreamModel default '+Y.Conf.get("api.url.games")+this.id+"/stream/");
+      model.url = Y.Conf.get("api.url.games")+this.id+"/stream/";
+	  
       return Backbone.sync(method, model, options);
 
     }

@@ -8,6 +8,7 @@ var AccountView = Backbone.View.extend({
   pageName: "account",
 
   initialize: function () {
+  
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 

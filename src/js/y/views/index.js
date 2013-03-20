@@ -21,7 +21,7 @@ var IndexView = Backbone.View.extend({
   scrollBars:true, //display scrollbars 
   //vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
   //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
-  refresh:true, //Adds 'Pull to refresh' at the top 
+  refresh:false, //Adds 'Pull to refresh' at the top 
   //refreshFunction:updateMessage //callback function to execute on pull to refresh 
   }; 
   
@@ -128,7 +128,7 @@ var IndexView = Backbone.View.extend({
     this.games.setMode('player', q);
     this.games.fetch();
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: q }));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     //}
     return this;
   },

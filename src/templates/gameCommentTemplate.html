@@ -107,10 +107,13 @@ COMMENTAIRES (X)
 </div>
 <br/>  
 <div class="textarea-border">
-<textarea rows="10" cols="40" class="textarea-comment" id="messageText"></textarea> 
- <a id="sendButton"><div class="button_comment_send">Envoyer</div></a>
+<textarea rows="10" cols="40" class="textarea-comment" id="messageText">super partie</textarea> 
+<div class="button_comment_send" id="sendComment">Envoyer</div>
  </div>
- 
+
+<input type="hidden" id="gameid" value="<%= game.id %>" />  
+<input type="hidden" id="playerid" value="<%= playerid %>" /> 
+<input type="hidden" id="token" value="<%= token %>" />
  
 </form>
 

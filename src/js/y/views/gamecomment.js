@@ -4,9 +4,8 @@ var GameCommentView = Backbone.View.extend({
   incomingComment : "#incomingComment",
 
   events: {
-        'vclick #commentDeleteButton' : 'commentDelete',
-        'vclick #commentSendButton' : 'commentSend',
-        'vclick .deleteComment' : 'deleteComment'   
+        'click #sendComment'  : 'sendComment',
+        'click .deleteComment': 'deleteComment'   
   },
 
   pageName: "gameComment",
@@ -21,6 +20,8 @@ var GameCommentView = Backbone.View.extend({
    
     this.Owner = Y.User.getPlayer();
 
+	//console.log("Owner",this.Owner.toJSON());
+	//console.log("Owner.token",this.Owner.toJSON().token);
     
    	this.score = new GameModel({id : this.id});
     this.score.fetch();
@@ -31,32 +32,25 @@ var GameCommentView = Backbone.View.extend({
     this.comment.fetch();
     
     var options = {
-          // default delay is 1000ms
-          // FIXME : on passe sur 30 s car souci avec API
           delay : Y.Conf.get("game.refresh")
-        // data: {id:this.id}
     };
     
-    poller = Backbone.Poller.get(this.comment, options)
-    poller.start();
-    poller.on('success', this.getObjectUpdated, this);
+    //poller = Backbone.Poller.get(this.comment, options)
+    //poller.start();
+    //poller.on('success', this.getObjectUpdated, this);
 
+	this.comment.on("all",this.renderRefresh,this);
 
   },
   
-  commentGame: function (event) {
-    var privateNote = $('#privateNote').val(),
-    fbNote = $('#fbNote').val();
-        
-    //Backbone.Router.navigate("/#games/"+game.id, true);
-    console.log("send comment ");
-    
-    return false;
-  },
   
   //render the content into div of view
   render: function(){
-	  this.$el.html(this.gameCommentTemplate({game : this.score.toJSON(),playerid:this.Owner.id, token:this.Owner.token}));
+    
+	  var token = this.Owner.toJSON().token;
+ 	  var playerid = this.Owner.id;
+  
+	  this.$el.html(this.gameCommentTemplate({game : this.score.toJSON(),playerid:this.Owner.id,token:token}));
 	  this.$el.trigger('pagecreate');
 	  return this;
   },
@@ -69,16 +63,17 @@ var GameCommentView = Backbone.View.extend({
       // render the content into div of view
   renderRefresh : function() {
         
+		//console.log('COMMENT',this.comment.toJSON());        
 
         // if we have comments
 
-        if (this.comment.toJSON().stream !== undefined) {
-          
+        if (this.comment.toJSON() !== undefined) {
+
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
-            streams : this.comment.toJSON().stream.reverse(),
-            Owner : this.Owner,
-            query : ' '
+            streams  : this.comment.toJSON()
           }));
+          
+          $(this.incomingComment).trigger('create');
 
         }
         
@@ -98,7 +93,10 @@ var GameCommentView = Backbone.View.extend({
       
   },
 
-  commentSend : function() {
+  sendComment : function() {
+  
+  	console.log('sendComment');
+  
     var playerid = $('#playerid').val()
     , token  = $('#token').val()
     , gameid = $('#gameid').val()
@@ -119,5 +117,8 @@ var GameCommentView = Backbone.View.extend({
 
   onClose: function(){
     this.undelegateEvents();
+    
+    poller.stop();
+    poller.off('success', this.renderRefresh, this);
   }
 });

@@ -21,10 +21,7 @@ var GameView = Backbone.View.extend({
         'vclick #team1_set3_div' : 'setTeam1Set3',
         'vclick #team2_set1_div' : 'setTeam2Set1',
         'vclick #team2_set2_div' : 'setTeam2Set2',
-        'vclick #team2_set3_div' : 'setTeam2Set3',
-        'vclick #commentDeleteButton' : 'commentDelete',
-        'vclick #commentSendButton' : 'commentSend',
-        'click .deleteComment' : 'deleteComment'      
+        'vclick #team2_set3_div' : 'setTeam2Set3'      
       },
 
       pageName: "game",
@@ -90,10 +87,7 @@ var GameView = Backbone.View.extend({
  
       },
 
-      commentDelete : function() {
-        // messageText
-        $('#messageText').value(' ');
-      },
+ 
 
       updateOnEnter : function(e) {
         if (e.keyCode == 13) {

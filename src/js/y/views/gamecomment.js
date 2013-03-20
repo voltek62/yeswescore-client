@@ -4,7 +4,9 @@ var GameCommentView = Backbone.View.extend({
   incomingComment : "#incomingComment",
 
   events: {
-    'submit form#frmCommentGame':'commentGame'
+        'vclick #commentDeleteButton' : 'commentDelete',
+        'vclick #commentSendButton' : 'commentSend',
+        'vclick .deleteComment' : 'deleteComment'   
   },
 
   pageName: "gameComment",
@@ -80,9 +82,40 @@ var GameCommentView = Backbone.View.extend({
 
         }
         
-        //return this;
+        //return this;+
         return false;
-  },  
+  }, 
+
+
+  deleteComment : function(e) {
+      
+    var elmt = $(e.currentTarget);
+  	var id = elmt.attr("id");
+  		
+  	//FIXME : On recupère le Owner.token et id pour etre sur que le comment lui appartient
+  	// si retour du serveur, on supprime
+    console.log('On efface le comment '+id);
+      
+  },
+
+  commentSend : function() {
+    var playerid = $('#playerid').val()
+    , token  = $('#token').val()
+    , gameid = $('#gameid').val()
+    , comment = $('#messageText').val();
+
+    var stream = new StreamModel({
+          type : "comment",
+          playerid : playerid,
+          token : token,
+          text : comment,
+          gameid : gameid
+    });
+    // console.log('stream',stream);
+    stream.save();
+
+    $('#messageText').val();
+  },
 
   onClose: function(){
     this.undelegateEvents();

@@ -1,29 +1,29 @@
-<form id="frmEndGame" class="ui-body ui-body-b ui-corner-all">
+<div class="bg-blue">
 
-	<div class="control-group">
-		<div class="controls">
-			<label>Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note priv&eacute; ( conseils, astuces ) ?</label>
-			<textarea id="privateNote" name="privateNote" class="jq-ui-forms"></textarea>
-			<span class="privateNote_error label label-info hide"></span>
-		</div>
+<form id="frmEndGame" class="form-center">
+
+
+	<div>
+		<label>Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note priv&eacute; ( conseils, astuces ) ?</label>
+		<textarea id="privateNote" name="privateNote" class="jq-ui-forms"></textarea>
+		<span class="privateNote_error label label-info hide"></span>
 	</div>
 
-	<div class="control-group">
-		<div class="controls">
-			<label>Vous pouvez indiquer le message qui sera diffus&eacute; sur FB ?</label>
-			<textarea id="fbNote" name="fbNote" class="jq-ui-forms"></textarea>
-			<span class="fbNote_error label label-info hide"></span>
-		</div>
+	<div>
+		<label>Vous pouvez indiquer le message qui sera diffus&eacute; sur FB ?</label>
+		<textarea id="fbNote" name="fbNote" class="jq-ui-forms"></textarea>
+		<span class="fbNote_error label label-info hide"></span>
 	</div>
 
 
-	<div class="control-group">
-		<div class="controls">
-			<button type="submit" value="Save" class="button">Save</button>
-		</div>
+	<div>
+		<button type="submit" value="Save" class="button">Save</button>
 	</div>
+
 
 	<input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
 	<input type="hidden" id="token" value="<%= token %>" class="input" />
 
 </form>
+
+</div>

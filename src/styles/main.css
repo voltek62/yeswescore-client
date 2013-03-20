@@ -81,12 +81,24 @@ p {
   -webkit-border-radius:0px; border-radius:0px;
 }
 
+.button-green {
+  width:300px;	
+  z-index:1;
+  color:#fff;
+  background-image:none; 
+  background-color:#40c68f;
+  font-size:16px;
+  font-weight:normal;
+  text-transform:uppercase;
+  -webkit-border-radius:0px; border-radius:0px;
+}
+
 /**********************************************************
 	UL > LI 
 **********************************************************/
 
 ul > li {
-	width:100%; height:90px;
+	width:100%; 
 	list-style:none;
 	background:#fff;
 	padding:5px;
@@ -105,6 +117,24 @@ ul > li > a {
 	padding-left:4px;
 }
 
+
+ul > li.player {
+	width:100%; 
+	list-style:none;
+	background:#fff;
+	padding:5px;
+	border-top:1px solid rgba(80,80,80,.5);
+	height:50px;
+} 
+
+ul > li.player > a {
+	width:100%; 
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:14px;
+	border-bottom:1px solid black;
+	color:#000;
+	line-height:20px;
+}
 
 /**********************************************************
 	CONTENT AREA

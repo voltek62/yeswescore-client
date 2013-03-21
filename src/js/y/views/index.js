@@ -15,6 +15,8 @@ var IndexView = Backbone.View.extend({
   $.ui.setBackButtonVisibility(false);
   $.ui.setTitle("LISTE DES MATCHES");
   
+
+  
   var options={ 
   verticalScroll:true, //vertical scrolling 
   horizontalScroll:false, //horizontal scrolling 
@@ -43,7 +45,9 @@ var IndexView = Backbone.View.extend({
     //console.log('on pull');
     //this.games.storage.sync.pull();   
 
-    this.$el.html("please wait, loading player");
+    //this.$el.html("please wait, loading player");
+    
+    $.ui.showMask('please wait, loading player');
 	
 	var that = this; 
 	
@@ -54,6 +58,9 @@ var IndexView = Backbone.View.extend({
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           console.log('player created', player);
+          
+          $.ui.hideMask();
+          
           // rendering
           that.render();
           that.games.on('all', that.renderList, that);
@@ -62,6 +69,8 @@ var IndexView = Backbone.View.extend({
         return;
       }
       // continue
+      $.ui.hideMask();
+      
       that.render();
       that.games.on('all', that.renderList, that);
       

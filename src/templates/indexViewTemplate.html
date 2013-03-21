@@ -3,7 +3,12 @@
     <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" class="jq-ui-forms" />
   </div>
   <div class="ui-block-b" style="width: 15%;padding-top: 6px;padding-right:5px;">
-    <img src="images/btn_filter.png" width="31" height="32">
+    <a href="javascript:$.ui.showModal('#modal1');"><img src="images/btn_filter.png" width="31" height="32"></a>
   </div>
 </div>
+<div id='modal1' style="display:none;">
+  <a href="#" class="button">Afficher par date</a><br/>
+  <a href="#" class="button">Afficher par club</a><br/>
+  <a href="#" class="button">Afficher par joueur</a>
+</div>       
 <ul id="listGamesView" class="ui-listview"></ul>

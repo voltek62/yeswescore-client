@@ -28,7 +28,7 @@
         // pas trouvé mieux pour l'instant...
         var templates = [
           "accountView", "clubAdd", "clubListAutoCompleteView", "clubView", "gameAdd",
-          "gameComment","gameEnd", "gameList", "gameListView", "gamePref", "gameViewCommentList",
+          "gameComment","gameEnd", "gameList", "gameListView", "gameViewCommentList",
           "gameViewScoreBoard", "gameView", "indexView", "playerForget",
           "playerForm", "playerListAutoCompleteView", "playerListView",
           "playerSearch", "playerSignin", "playerView"

@@ -21,6 +21,7 @@
   var Router = Backbone.Router.extend({
     routes: {
       '': 'index',
+      'sort/:id' : 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/follow': 'gameFollow',
@@ -68,12 +69,12 @@
       this.changePage(clubAddView);
     },
 
-    index: function () {
-      var indexView = new IndexView();
+    index: function (id) {
+      var indexView = new IndexView({ id: id });
       this.changePage(indexView);
     },
 
-
+    
     game: function (id) {
       var gameView = new GameView({ id: id });
       this.changePage(gameView);

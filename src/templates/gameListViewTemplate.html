@@ -69,7 +69,7 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
 </div>
 
  <div class="ui-grid-d">
-     <div class="ui-block-a" style="width: 60%;">
+     <div class="ui-block-a" style="width: 60%;text-overflow: ellipsis;">
 	<% 
 	if (game.teams[0].players[0]!== undefined) { 
 		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
@@ -95,7 +95,7 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
  </div>
 
  <div class="ui-grid-d">
-     <div class="ui-block-a" style="width: 60%;">
+     <div class="ui-block-a" style="width: 60%;text-overflow: ellipsis;">
 	<% 
 	if (game.teams[1].players[0]!== undefined) { 
 		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	

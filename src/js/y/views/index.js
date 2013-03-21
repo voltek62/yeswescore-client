@@ -2,7 +2,8 @@ var IndexView = Backbone.View.extend({
   el: "#content",
 
   events: {
-    "keyup input#search-basic": "search"
+    "keyup input#search-basic": "search",
+    "click #sendFilter":"sendFilter"
   },
 
   listview: "#listGamesView",
@@ -14,9 +15,9 @@ var IndexView = Backbone.View.extend({
   
   $.ui.setBackButtonVisibility(false);
   $.ui.setTitle("LISTE DES MATCHES");
-  
-
-  
+  $.ui.resetScrollers=true;
+   
+              
   var options={ 
   verticalScroll:true, //vertical scrolling 
   horizontalScroll:false, //horizontal scrolling 
@@ -28,9 +29,7 @@ var IndexView = Backbone.View.extend({
   }; 
   
   var scroller = $("#content").scroller(options);
-  
 
-  
   this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
   this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
 
@@ -40,13 +39,16 @@ var IndexView = Backbone.View.extend({
     //this.config.fetch();
 
     this.games = new GamesCollection();
+	if (this.id!=='') {
+		console.log('setSort',this.id);
+		this.games.setSort(this.id);	
+	}
+
     this.games.fetch();
-
-    //console.log('on pull');
-    //this.games.storage.sync.pull();   
-
-    //this.$el.html("please wait, loading player");
     
+    //console.log('this.id ',this.id);
+
+	
     $.ui.showMask('please wait, loading player');
 	
 	var that = this; 
@@ -64,6 +66,8 @@ var IndexView = Backbone.View.extend({
           // rendering
           that.render();
           that.games.on('all', that.renderList, that);
+          
+         
               
         });
         return;
@@ -74,43 +78,16 @@ var IndexView = Backbone.View.extend({
       that.render();
       that.games.on('all', that.renderList, that);
       
-    });
-
-    //this.render();
-
-    //console.log('this.games in cache size ',this.games.length);
-
-
-
-    //Controle si localStorage contient Owner
-    //var Owner = window.localStorage.getItem("Y.Cache.Player");
-
-    /*
-    if (Owner === null) {
-    //alert('Pas de owner');
-    //Creation user à la volée
-    console.log('Pas de Owner, on efface la cache . On crée le Owner');
-        
-    //debug si pas de Owner, on init le localStorage
-    window.localStorage.removeItem("Y.Cache.Player");
-
-    player = new PlayerModel();
-    player.save();
-    //players = new PlayersCollection('me');
-    //players.create();
-    }
-    else {
+    /* On charge les parties par Géolocalisation
+    
     Y.Geolocation.on("change", function (pos) { 
-        
-    var Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-    //console.log("On mémorise la Geoloc OK pour playerid :"+Owner.id);
         
     //On sauve avec les coord actuels
     player = new PlayerModel({
     latitude : pos[1]
     , longitude : pos[0]
-    , playerid : Owner.id
-    , token : Owner.token
+    , playerid : player.id
+    , token : player.token
     });
     player.save();
         
@@ -123,8 +100,22 @@ var IndexView = Backbone.View.extend({
         
     });
     }
-    */
+    */      
+      
+    });
+ 
 
+  },
+  
+  
+  
+  sendFilter: function () {
+  	//console.log("sendFilter");
+    $.ui.actionsheet('<a href="#sort/date" class="button">Afficher par Date</a>'
+    +' <a href="#sort/location" class="button">Afficher par Lieu</a>'
+    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
+    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>');
+    
   },
 
   search: function () {

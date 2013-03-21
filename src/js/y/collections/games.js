@@ -3,35 +3,56 @@ var GamesCollection = Backbone.Collection.extend({
 	model:GameModel, 
 	
 	mode:'default',
+	sortMode:'',
 	pos: null,
 	
 	initialize: function (param) {	
 		this.changeSort("city");		
 
-		if (param==='follow')
-			this.storage = new Offline.Storage('gamesfollow', this);		
+		//if (param==='follow')
+		//	this.storage = new Offline.Storage('gamesfollow', this);		
 
 	},
 	
 		  
   url:function() {
-    console.log('mode de games',this.mode); 	
-          
+    //console.log('mode de games',this.mode); 	
+    //console.log('sort de games',this.sortMode); 	
+        
+    var url='';
+    
     if (this.mode === 'clubid') 
-      return Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
+      url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
     else if (this.mode === 'club') 
-      return Y.Conf.get("api.url.games");
+      url =  Y.Conf.get("api.url.games");
     else if (this.mode === 'player') 
-      return Y.Conf.get("api.url.games") + "?q=" + this.query;
+      url = Y.Conf.get("api.url.games") + "?q=" + this.query;
     else if (this.mode === 'me') {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a joué
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player possède (qu'il a créé)
-      return Y.Conf.get("api.url.players") + this.query + "/games/";
+      url = Y.Conf.get("api.url.players") + this.query + "/games/";
     }
     else if (this.mode === 'geolocation' && this.pos !==null) { 
-      return Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
+      url =  Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
     }
-    return Y.Conf.get("api.url.games");	
+    url =  Y.Conf.get("api.url.games");	
+    
+    if (this.sortMode==='date')
+      url = url  + "?sort=-dates.start";   
+       		
+    if (this.sortMode==='location')
+      url = url  + "?sort=location.city";    	    
+    
+    //console.log('sortMode',this.sortMode);
+    console.log('URL',url);
+    console.log('sortMode',this.sortMode);
+        
+    return url;
+  },
+
+  setSort:function(s) {  	
+  	//console.log('On passe sortMode sur '+s);
+    this.sortMode=s;
   },
   
   setMode:function(m,q) {

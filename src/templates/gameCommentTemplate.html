@@ -1,0 +1,120 @@
+<% 
+
+team1_set1 = '&nbsp;'; 
+team1_set2 = '&nbsp;'; 
+team1_set3 = '&nbsp;';
+team2_set1 = '&nbsp;'; 
+team2_set2 = '&nbsp;'; 
+team2_set3 = '&nbsp;';
+set_current = 1; 
+team1_sets = '0'; 
+team2_sets = '0'; 
+
+if (game.options.score !== null ) { 
+  if(game.options.score.indexOf('/')!=-1) { 
+    scoreboard = game.options.score.split('/'); 
+    team1_sets = scoreboard[0]; 
+    team2_sets = scoreboard[1]; 
+    } 
+} 
+  
+if (game.options.sets !== null ) { 
+  if (game.options.sets.indexOf(';')!=-1) { 
+    scoreboard = game.options.sets.split(';'); 
+    
+    if (scoreboard.length==2 ||scoreboard.length==3) { 
+      scoreboard1 = scoreboard[0].split('/');
+      team1_set1 = scoreboard1[0]; 
+      team2_set1 = scoreboard1[1]; 
+      scoreboard2 = scoreboard[1].split('/'); 
+      team1_set2 = scoreboard2[0]; 
+      team2_set2 = scoreboard2[1]; 
+      set_current=2; 
+    } 
+    
+    if (scoreboard.length==3) { 
+      scoreboard3 = scoreboard[2].split('/'); 
+      team1_set3 = scoreboard3[0]; 
+      team2_set3 = scoreboard3[1]; set_current=3; 
+    } 
+  } 
+  // 1 set 
+  else { 
+    if (game.options.sets.indexOf('/')!=-1) { 
+      scoreboard1 = game.options.sets.split('/'); 
+      team1_set1 = scoreboard1[0]; 
+      team2_set1 = scoreboard1[1]; 
+    } 
+  } 
+} 
+
+%>
+
+ <div class="ui-grid-a">
+  <div class="ui-block-a" style="width: 25%;text-align:center;padding-top:5px;">
+  <img src="./images/chrono.png" width="15" height="20"><br/>
+  <span class="timer">0:50:32</span>
+  </div>
+  <div class="ui-block-b" style="width: 75%;border-left:dotted 1px;padding-top:3px;margin-bottom:3px;">
+  
+    <!-- 
+    style="padding-top:3px;margin-bottom:3px;"
+     -->
+     <div class="ui-grid-d" style="padding-left:5px;padding-top:7px;padding-bottom:3px;">
+         <div class="ui-block-a" style="width: 60%;border-bottom:dotted 1px;height:25px;">
+    	<% 
+    	if (game.teams[0].players[0]!== undefined) { 
+    		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+        
+    
+    	}
+    	%>         
+         </div>
+         <div class="ui-block-b" style="width: 10%;border-bottom:dotted 1px;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
+         <div class="ui-block-c" style="width: 10%;border-bottom:dotted 1px;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
+         <div class="ui-block-d" style="width: 10%;border-bottom:dotted 1px;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
+         <div class="ui-block-e" style="width: 10%;border-bottom:dotted 1px;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
+     </div>
+    
+    <!-- 
+    style="padding-bottom:3px;"
+     -->
+     <div class="ui-grid-d" style="padding-left:5px;padding-top:4px;">
+         <div class="ui-block-a" style="width:60%;height:24px;">
+    	<% 
+    	if (game.teams[1].players[0]!== undefined) { 
+    		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
+    			
+    	}
+    	%>         
+         </div>
+         <div class="ui-block-b" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
+         <div class="ui-block-c" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
+         <div class="ui-block-d" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
+         <div class="ui-block-e" style="width: 10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
+     </div>
+  </div>
+</div>      
+
+
+<div class="bg-green">
+
+<form id="frmCommentGame">
+COMMENTAIRES (X)
+<br/>
+<div class="list-comment">
+  <div id="incomingComment"></div>
+</div>
+<br/>  
+<div class="textarea-border">
+<textarea rows="10" cols="40" class="textarea-comment" id="messageText">super partie</textarea> 
+<div class="button_comment_send" id="sendComment">Envoyer</div>
+ </div>
+
+<input type="hidden" id="gameid" value="<%= game.id %>" />  
+<input type="hidden" id="playerid" value="<%= playerid %>" /> 
+<input type="hidden" id="token" value="<%= token %>" />
+ 
+</form>
+
+</div>

@@ -12,13 +12,16 @@ var IndexView = Backbone.View.extend({
   initialize: function () {
   
   
+  $.ui.setBackButtonVisibility(false);
+  $.ui.setTitle("LISTE DES MATCHES");
+  
   var options={ 
   verticalScroll:true, //vertical scrolling 
   horizontalScroll:false, //horizontal scrolling 
   scrollBars:true, //display scrollbars 
   //vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
   //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
-  refresh:true, //Adds 'Pull to refresh' at the top 
+  refresh:false, //Adds 'Pull to refresh' at the top 
   //refreshFunction:updateMessage //callback function to execute on pull to refresh 
   }; 
   
@@ -41,7 +44,9 @@ var IndexView = Backbone.View.extend({
     //this.games.storage.sync.pull();   
 
     this.$el.html("please wait, loading player");
-
+	
+	var that = this; 
+	
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
@@ -50,17 +55,17 @@ var IndexView = Backbone.View.extend({
         Y.User.createPlayerAsync(function (err, player) {
           console.log('player created', player);
           // rendering
-          this.render();
-          this.games.on('all', this.renderList, this);
+          that.render();
+          that.games.on('all', that.renderList, that);
               
-        }.bind(this));
+        });
         return;
       }
       // continue
-      this.render();
-      this.games.on('all', this.renderList, this);
+      that.render();
+      that.games.on('all', that.renderList, that);
       
-    }.bind(this));
+    });
 
     //this.render();
 
@@ -123,7 +128,7 @@ var IndexView = Backbone.View.extend({
     this.games.setMode('player', q);
     this.games.fetch();
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: q }));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     //}
     return this;
   },

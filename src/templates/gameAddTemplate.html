@@ -1,62 +1,56 @@
-<form id="frmAddGame">
+<div class="bg-blue">
+
+<form id="frmAddGame" class="form-center">
 
 	<span class="success label label-info hide" style="color: red"></span>
 
-	<div class="control-group">
-		<div class="controls">
-			<button type="submit" value="Save" class="button">Cr&eacute;er la partie</button>
+	
+		<div id="click_myself">
+				<input type="checkbox" name="myself" id="myself" />
+				<label for="myself">* Joueur 1 - S'il s'agit de vous, cochez ici</label>
 		</div>
-	</div>
 
-	<div data-role="fieldcontain">
-		<fieldset data-role="controlgroup" id="click_myself">
-			<input type="checkbox" name="myself" id="myself" class="jq-ui-forms" />
-			<label for="myself">* Joueur 1 - S'il s'agit de vous, cochez ici</label>
-		</fieldset>
-	</div>
-
-	<div class="control-group">
-			<input type="text" id="team1" name="team1" placeholder="Joueur 1" class='jq-ui-forms' value="" /> 
-			<input type="text" id="rank1" name="rank1" placeholder="Classement 1" class='jq-ui-forms' value="" />
-			<ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
-			<input type='hidden' id='team1_id' class='input' value='' /> 
-			<span class="team1_error label label-info hide"></span>
-	</div>
-
-	<div data-role="fieldcontain">
-		<fieldset data-role="controlgroup">
-			<label for="autosearch">* Joueur 2 - Indiquez au moins 4 lettres</label>
-		</fieldset>
-	</div>
-
-	<div class="control-group">
-		<div class="controls">
-			<input type="text" id="team2" name="team2" placeholder="Joueur 2" class='jq-ui-forms' value="" /> 
-			<input type="text" id="rank2" name="rank2" placeholder="Classement 2" class='jq-ui-forms' value="" />
-			<ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
-			<input type='hidden' id='team2_id' class='input' value='' /> 
-			<span class="team2_error label label-info hide"></span>
+		<div style="padding-top:10px">
+				<input type="text" id="team1" name="team1" placeholder="Joueur 1" class='jq-ui-forms-white' value="" />
 		</div>
-	</div>
+		<div style="padding-top:10px">
+				<input type="text" id="rank1" name="rank1" placeholder="Classement 1" class='jq-ui-forms-white' value="" />				
+		</div>
+		<div>				
+				<ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
+				<input type='hidden' id='team1_id' class='input' value='' /> 
+				<span class="team1_error label label-info hide"></span>
+		</div>
+	
+		<div style="padding-top:10px">
+				<label for="autosearch">* Joueur 2 - Indiquez au moins 4 lettres</label>
+		</div>
 
-	<div class="ui-grid-a">
-		<div class="ui-block-a">
+		<div style="padding-top:10px">
+				<input type="text" id="team2" name="team2" placeholder="Joueur 2" class='jq-ui-forms-white' value="" /> 
+		</div>
+		<div style="padding-top:10px">
+				<input type="text" id="rank2" name="rank2" placeholder="Classement 2" class='jq-ui-forms-white' value="" />
+		</div>
+		<div>
+				<ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
+				<input type='hidden' id='team2_id' class='input' value='' /> 
+				<span class="team2_error label label-info hide"></span>
+		</div>		
+
+		<div style="padding-top:10px">
 			<label class="control-label" for="city">* Ville</label>
 		</div>
-		<div class="ui-block-b">
-			<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms' value="" /> 
+		<div>
+			<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms-white' value="" /> 
 			<span class="city_error label label-info hide"></span>
 		</div>
-	</div>
 
-	<hr />
-
-	<div class="ui-grid-a">
-		<div class="ui-block-a">
+		<div style="padding-top:10px">
 			<label for="subtype" class="select">Type</label>
 		</div>
-		<div class="ui-block-b">
-			<select name="subtype" id="subtype" class="jq-ui-forms">
+		<div>
+			<select name="subtype" id="subtype" class="jq-ui-forms-white">
 				<option value="A">A - Normal</option>
 				<option value="B">B - Traditionnel (3 sets &agrave; 6 jeux pt d&eacute;cisif)</option>
 				<option value="C">C - 3 sets &agrave; 4 jeux - jeu décisif à 4/4</option>
@@ -68,12 +62,12 @@
 				<option value="I">I - 3 sets &agrave; 5 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
 			</select>
 		</div>
-	</div>
 
-	<div class="control-group">
-		<label for="court" class="select">Court</label>
-		<div class="controls">
-			<select name="court" id="court" class="jq-ui-forms">
+		<div style="padding-top:10px">
+			<label for="court" class="select">Court</label>
+		</div>
+		<div>
+			<select name="court" id="court" class="jq-ui-forms-white">
 				<option value="">Selection</option>
 				<option value="1">Terrain 1</option>
 				<option value="2">Terrain 2</option>
@@ -95,12 +89,12 @@
 				<option value="F">Terrain F</option>
 			</select>
 		</div>
-	</div>
 
-	<div class="control-group">
-		<label for="tour" class="select">Tour</label>
-		<div class="controls">
-			<select name="tour" id="tour" class="jq-ui-forms">
+		<div style="padding-top:10px">		
+			<label for="tour" class="select">Tour</label>
+		</div>
+		<div>		
+			<select name="tour" id="tour" class="jq-ui-forms-white">
 				<option value="">Selection</option>
 				<option value="">Poule</option>
 				<option value="">Consolante</option>
@@ -134,12 +128,12 @@
 				<option value="">Journ&eacute;e 10</option>
 			</select>
 		</div>
-	</div>
 
-	<div class="control-group">
-		<label for="surface" class="select">Format</label>
-		<div class="controls">
-			<select name="surface" id="surface" class="jq-ui-forms">
+		<div style="padding-top:10px">	
+			<label for="surface" class="select">Format</label>
+		</div>
+		<div>	
+			<select name="surface" id="surface" class="jq-ui-forms-white">
 				<option value="">Selection</option>
 				<option value="BP">B&eacute;ton poreux (quick) - BP</option>
 				<option value="EP">Enrob&eacute; poreux - EP</option>
@@ -153,9 +147,15 @@
 				<option value="TB">Terre-battue - TB</option>
 			</select>
 		</div>
-	</div>
+	
 
 	<input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
 	<input type="hidden" id="token" value="<%= token %>" class="input" />
+	
+	<br/>
+	
+	<button type="submit" value="Save" class="button">Cr&eacute;er la partie</button>
 
 </form>
+
+</div>

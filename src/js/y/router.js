@@ -25,6 +25,7 @@
       'games/add': 'gameAdd',
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
+      'games/comment/:id': 'gameComment',
       'games/club/:id': 'gameClub',
       'games/:id': 'game',
       'players/list': 'playerList',
@@ -43,9 +44,13 @@
 
 
     initialize: function (options) {
+    
+      var that = this; 
       jq.ui.customClickHandler = function (a) {
-        this.navigate(a.hash.substr(1), { trigger: true });
-      }.bind(this);
+        that.navigate(a.hash.substr(1), { trigger: true });
+      };
+      
+  
     },
 
     account: function () {
@@ -79,9 +84,14 @@
       this.changePage(gameAddView);
     },
 
-    gameEnd: function () {
-      var gameEndView = new GameEndView();
+    gameEnd: function (id) {
+      var gameEndView = new GameEndView({ id: id });
       this.changePage(gameEndView);
+    },
+
+    gameComment: function (id) {
+      var gameCommentView = new GameCommentView({ id: id });
+      this.changePage(gameCommentView);
     },
 
     gameFollow: function () {

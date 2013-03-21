@@ -21,10 +21,7 @@ var GameView = Backbone.View.extend({
         'vclick #team1_set3_div' : 'setTeam1Set3',
         'vclick #team2_set1_div' : 'setTeam2Set1',
         'vclick #team2_set2_div' : 'setTeam2Set2',
-        'vclick #team2_set3_div' : 'setTeam2Set3',
-        'vclick #commentDeleteButton' : 'commentDelete',
-        'vclick #commentSendButton' : 'commentSend',
-        'click .deleteComment' : 'deleteComment'      
+        'vclick #team2_set3_div' : 'setTeam2Set3'      
       },
 
       pageName: "game",
@@ -32,13 +29,14 @@ var GameView = Backbone.View.extend({
       initialize : function() {
       
       	$.ui.setBackButtonVisibility(true);
-      	$.ui.setTitle("MY GAME");
+      	$.ui.setBackButtonText("&lt;");
+      	$.ui.setTitle("GAME");
       	
       	//console.log($('#content'));
       	//$.ui.addDivAndScroll($('#content'));
       	//$.ui.addContentDiv('content');
       	
-      	var scroller = $("#content").scroller();
+      	/*var scroller = $("#content").scroller();*/
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
         this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
@@ -48,9 +46,9 @@ var GameView = Backbone.View.extend({
             .get('gameViewCommentListTemplate');
 
 
-       Y.User.getPlayerAsync(function (err, player) {
+       
       
-        this.Owner = player;
+        this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
 
@@ -78,21 +76,18 @@ var GameView = Backbone.View.extend({
 
         // FIXME: SI ONLINE
         
-        poller = Backbone.Poller.get(this.score, options)
-        poller.start();
-        poller.on('success', this.getObjectUpdated, this);
+        //poller = Backbone.Poller.get(this.score, options)
+        //poller.start();
+        //poller.on('success', this.getObjectUpdated, this);
         
-        //this.score.on("all",this.renderRefresh,this);
+        this.score.on("all",this.renderRefresh,this);
       
-    	}.bind(this));
+ 
 
  
       },
 
-      commentDelete : function() {
-        // messageText
-        $('#messageText').value(' ');
-      },
+ 
 
       updateOnEnter : function(e) {
         if (e.keyCode == 13) {

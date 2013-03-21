@@ -8,6 +8,10 @@ var ClubAddView = Backbone.View.extend({
   pageName: "clubAdd",
 
   initialize: function () {
+  
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("PARTAGER UNE PARTIE");
 
     this.clubAddTemplate = Y.Templates.get('clubAddTemplate');
 

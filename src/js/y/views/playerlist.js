@@ -10,6 +10,11 @@ var PlayerListView = Backbone.View.extend({
   pageName: "playerList",
 
   initialize : function() {
+  
+  	$.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("LISTE DES JOUEURS");
+  
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
     //$.mobile.showPageLoadingMsg();
@@ -64,7 +69,7 @@ var PlayerListView = Backbone.View.extend({
       players : this.players.toJSON(),
       query : ' '
     }));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     return this;
   },
 

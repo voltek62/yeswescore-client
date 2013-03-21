@@ -1,8 +1,19 @@
+<div class="bg-blue">
+
+<form class="form-center">
+
 <span class="success label label-info hide" style="color: red"></span>
+
 <h3><%= player.name %> alias <%= player.nickname %></h3>
-Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a><br /> Classement : <%= player.rank %><br /> 
+<br/>
+Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a>
+<br /> Classement : <%= player.rank %><br /> 
 <% if (follow === 'true') { %> 
 <a class="button" id="followButton">Ne plus suivre ce joueur</a> 
 <% } else { %> 
 <a class="button" id="followButton">Suivre ce joueur</a>
 <% } %>
+
+</form>
+
+</div>

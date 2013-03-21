@@ -1,34 +1,34 @@
+<div class="bg-blue">
 
-	<form id="frmAddClub">
+	<form id="frmAddClub" class="form-center">
 
 		<span class="success label label-info hide" style="color: red"></span>
 
-		<button type="submit" value="Save" class="button">Ajouter un club</button>
-
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label class="ui-input-text" for="name">* Nom</label>
-			</div>
-			<div class="ui-block-b">
+		<div>
+          <label class="ui-input-text" for="name">* Nom</label>
+		</div>
+		<div>
 				<input type="text" id="name" name="name" placeholder="Nom du Club" class='jq-ui-forms' value="" /> 
 				<span class="name_error label label-info hide"></span>
-			</div>
 		</div>
 
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-			<label class="ui-input-text " for="city">* Ville</label>
-			</div>
-			<div class="ui-block-b">
+		<div>
+          <label class="ui-input-text " for="city">* Ville</label>
+		</div>
+		<div>
 				<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms' value="" /> 
 				<span class="city_error label label-info hide"></span>
-			</div>
 		</div>
+
+        <br/>
+
+        <button type="submit" value="Save" class="button">Ajouter un club</button>
 
 
 		<input type="hidden" id="playerid" value="<%= playerid %>"/> 
 		<input type="hidden" id="token" value="<%= token %>"/>
 
 	</form>
+
+</div>
 

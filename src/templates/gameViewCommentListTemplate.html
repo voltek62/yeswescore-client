@@ -1,9 +1,20 @@
- <% if(streams.length==0) { %>
-<div class="message">Aucun commentaire</div>
+<%= streams.length %>
+<% if(streams.length==0) { %>
+<div class="comment">Aucun commentaire</div>
 <% } %> 
-<% for (var i = 0; i < streams.length; i++) { stream = streams[i]; %>
-<div class="message">
-	<%= stream.dates.creation %> : <span class="username"><%= (stream.owner ||'Anonymous') %></span> : <%= stream.data.text %>
+<% for (var i = 0; i < streams.length; i++) { stream = streams[i]; 
+
+stream.dates.startConvert = new Date(stream.dates.creation);
+stream.dates.startDate = stream.dates.startConvert.getDay()+' '+stream.dates.startConvert.getMonthName()+' '+stream.dates.startConvert.getFullYear();
+stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dates.startConvert.getMinutes();
+
+
+%>
+<div class="comment">
+	<%= stream.dates.startTime %> : <div class="infocomment"><%= (stream.owner.name ||'Anonymous') %></div> 
+    <%= stream.data.text %> 
+	<% if ( stream.owner === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
+	<% if ( stream.owner !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
 </div>
 <br />
 <% } %>

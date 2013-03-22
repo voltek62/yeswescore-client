@@ -10,13 +10,23 @@
 
   var currentView = null;
 
+  /* JQmobi
+  $.mvc.addRoute("/foo",function(){
+  var args=arguments;
+  console.log("Foo",arguments);
+  });
+	
+  */
+
   var Router = Backbone.Router.extend({
     routes: {
       '': 'index',
+      'sort/:id' : 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
+      'games/comment/:id': 'gameComment',
       'games/club/:id': 'gameClub',
       'games/:id': 'game',
       'players/list': 'playerList',
@@ -35,12 +45,13 @@
 
 
     initialize: function (options) {
-      var that = this;
-
-      //Global Transition handler
-      $("a").live("touch vclick", function (e) {
-        that.setNextTransition(this);
-      });
+    
+      var that = this; 
+      jq.ui.customClickHandler = function (a) {
+        that.navigate(a.hash.substr(1), { trigger: true });
+      };
+      
+  
     },
 
     account: function () {
@@ -58,12 +69,12 @@
       this.changePage(clubAddView);
     },
 
-    index: function () {
-      var indexView = new IndexView();
+    index: function (id) {
+      var indexView = new IndexView({ id: id });
       this.changePage(indexView);
     },
 
-
+    
     game: function (id) {
       var gameView = new GameView({ id: id });
       this.changePage(gameView);
@@ -74,9 +85,14 @@
       this.changePage(gameAddView);
     },
 
-    gameEnd: function () {
-      var gameEndView = new GameEndView();
+    gameEnd: function (id) {
+      var gameEndView = new GameEndView({ id: id });
       this.changePage(gameEndView);
+    },
+
+    gameComment: function (id) {
+      var gameCommentView = new GameCommentView({ id: id });
+      this.changePage(gameCommentView);
     },
 
     gameFollow: function () {
@@ -156,12 +172,7 @@
         Y.Stats.page(previousPageName, nextPageName);
         console.log('DEV ChangePage', new Date().getTime());
 
-        $.mobile.changePage(view.$el, {
-          transition: 'none',
-          //showLoadMsg: false,
-          changeHash: false,
-          reverse: false
-        });
+        // FIXME: render of view should be here ?
       }
       catch (e) {
         console.log('DEV ChangePage Error', e);

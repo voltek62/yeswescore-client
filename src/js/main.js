@@ -11,3 +11,4 @@ $(document).ready(function () {
     console.log('Cordova is ready.')
   });
 });
+

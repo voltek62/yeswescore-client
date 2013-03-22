@@ -1,58 +1,29 @@
-<div data-role="header" data-theme="b" data-position="fixed">
-	<a href="#" data-transition="slide" data-reverse="true"
-		data-icon="back"> Back</a>
-	<h1>YesWeScore</h1>
-</div>
-<!-- /header -->
+<div class="bg-blue">
 
-<div data-role="content">
-
-	<form id="frmEndGame" class="ui-body ui-body-b ui-corner-all">
+<form id="frmEndGame" class="form-center">
 
 
-		<div class="control-group">
-			<div class="controls">
-				<label>Vous allez terminer la partie.<br />Souhaitez-vous
-					ajouter une note priv&eacute; ( conseils, astuces ) ?
-				</label>
-				<textarea id="privateNote" name="privateNote"></textarea>
-				<span class="privateNote_error label label-info hide"></span>
-			</div>
-		</div>
-
-		<div class="control-group">
-			<div class="controls">
-				<label>Vous pouvez indiquer le message qui sera
-					diffus&eacute; sur FB ?</label>
-				<textarea id="fbNote" name="fbNote"></textarea>
-				<span class="fbNote_error label label-info hide"></span>
-			</div>
-		</div>
-
-
-		<div class="control-group">
-			<div class="controls">
-				<button type="submit" value="Save" class="button">Save</button>
-			</div>
-		</div>
-
-		<input type="hidden" id="playerid" value="<%= playerid %>"
-			class="input" /> <input type="hidden" id="token"
-			value="<%= token %>" class="input" />
-
-	</form>
-
-
-</div>
-<!-- /content -->
-
-<div data-role="footer" data-theme="b" data-position="fixed">
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#">Suivre</a></li>
-			<li><a href="#games/add" class="ui-btn-active ui-state-persist">Diffuser</a></li>
-			<li><a href="#account">Mon Compte</a></li>
-		</ul>
+	<div>
+		<label>Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note priv&eacute; ( conseils, astuces ) ?</label>
+		<textarea id="privateNote" name="privateNote" class="jq-ui-forms"></textarea>
+		<span class="privateNote_error label label-info hide"></span>
 	</div>
-	<!-- /navbar -->
+
+	<div>
+		<label>Vous pouvez indiquer le message qui sera diffus&eacute; sur FB ?</label>
+		<textarea id="fbNote" name="fbNote" class="jq-ui-forms"></textarea>
+		<span class="fbNote_error label label-info hide"></span>
+	</div>
+
+
+	<div>
+		<button type="submit" value="Save" class="button">Save</button>
+	</div>
+
+
+	<input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
+	<input type="hidden" id="token" value="<%= token %>" class="input" />
+
+</form>
+
 </div>

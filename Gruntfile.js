@@ -86,15 +86,16 @@ module.exports = function (grunt) {
         dest: 'dist/index.html'
       }
     },
-	copy: {
-	  images: {
-		files: [
-		  {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/',filter: 'isFile'},
-		  {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/build/images/',filter: 'isFile'},
-		  {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/',filter: 'isFile'}
-		]
-	  }
-	},	  
+    copy: {
+      images: {
+        files: [
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/build/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/web/build/images/',filter: 'isFile'}
+        ]
+      }
+    },  
     uglify: {
       build: {
         src: 'dist/app.js',

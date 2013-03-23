@@ -17,7 +17,6 @@ var StreamModel = Backbone.Model.extend({
   },
 
   comparator : function(item) {
-    // POSSIBLE MULTI FILTER [a,b,..]
     return -item.get("date").getTime();
   },
 
@@ -56,15 +55,7 @@ var StreamModel = Backbone.Model.extend({
         }
       });
 
-    } else {
-
-	  // http://api.yeswescore.com/v1/games/511d31971ad3857d0a0000f8/stream/
-	  console.log('StreamModel default '+Y.Conf.get("api.url.games")+this.id+"/stream/");
-      model.url = Y.Conf.get("api.url.games")+this.id+"/stream/";
-	  
-      return Backbone.sync(method, model, options);
-
-    }
+    } 
 
   }
 

@@ -5,15 +5,15 @@ var GameCommentView = Backbone.View.extend({
 
   events: {
         'click #sendComment'  : 'sendComment',
-        'click .deleteComment': 'deleteComment'   
+        'click .deleteComment': 'deleteComment',
+        'click .warnComment': 'warnComment'        
   },
 
   pageName: "gameComment",
     
   initialize:function() {
     this.gameCommentTemplate = Y.Templates.get('gameCommentTemplate');
-    this.gameViewCommentListTemplate = Y.Templates
-            .get('gameViewCommentListTemplate');
+    this.gameViewCommentListTemplate = Y.Templates.get('gameViewCommentListTemplate');
                
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
@@ -28,18 +28,18 @@ var GameCommentView = Backbone.View.extend({
     
     this.score.on("all",this.render,this);
 
-   	this.comment = new StreamModel({id : this.id});
-    this.comment.fetch();
+   	this.streams = new StreamsCollection({id : this.id});
+    this.streams.fetch();
     
     var options = {
           delay : Y.Conf.get("game.refresh")
     };
     
-    //poller = Backbone.Poller.get(this.comment, options)
-    //poller.start();
-    //poller.on('success', this.getObjectUpdated, this);
+    poller = Backbone.Poller.get(this.streams, options)
+    poller.start();
+    poller.on('success', this.getObjectUpdated, this);
 
-	this.comment.on("all",this.renderRefresh,this);
+	//this.streams.on("all",this.renderRefresh,this);
 
   },
   
@@ -57,21 +57,22 @@ var GameCommentView = Backbone.View.extend({
   
   
   getObjectUpdated: function() {
-        this.comment.on("all",this.renderRefresh,this);     
+        this.streams.on("all",this.renderRefresh,this);     
   },
 
       // render the content into div of view
   renderRefresh : function() {
         
-		//console.log('COMMENT',this.comment.toJSON());        
-
-        // if we have comments
-
-        if (this.comment.toJSON() !== undefined) {
-
+        if (this.streams.toJSON() !== undefined) {
+        
+		 //FIXME : gérer la date en temps écoulé
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
-            streams  : this.comment.toJSON()
+            streams  : this.streams.toJSON(),
+            Owner : this.Owner
           }));
+          
+          
+          //$(this.incomingComment).html('vincent '+JSON.stringify(this.streams.toJSON()));
           
           $(this.incomingComment).trigger('create');
 
@@ -90,6 +91,17 @@ var GameCommentView = Backbone.View.extend({
   	//FIXME : On recupère le Owner.token et id pour etre sur que le comment lui appartient
   	// si retour du serveur, on supprime
     console.log('On efface le comment '+id);
+      
+  },
+
+  warnComment : function(e) {
+      
+    var elmt = $(e.currentTarget);
+  	var id = elmt.attr("id");
+  		
+  	//FIXME : On recupère le Owner.token et id pour etre sur que le comment lui appartient
+  	// si retour du serveur, on supprime
+    console.log('On signale le comment '+id);
       
   },
 

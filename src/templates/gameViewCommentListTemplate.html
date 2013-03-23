@@ -1,4 +1,3 @@
-<%= streams.length %>
 <% if(streams.length==0) { %>
 <div class="comment">Aucun commentaire</div>
 <% } %> 
@@ -8,10 +7,9 @@ stream.dates.startConvert = new Date(stream.dates.creation);
 stream.dates.startDate = stream.dates.startConvert.getDay()+' '+stream.dates.startConvert.getMonthName()+' '+stream.dates.startConvert.getFullYear();
 stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dates.startConvert.getMinutes();
 
-
 %>
 <div class="comment">
-	<%= stream.dates.startTime %> : <div class="infocomment"><%= (stream.owner.name ||'Anonymous') %></div> 
+	<div class="infocomment"><%= (stream.owner.name ||'Anonymous') %> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
     <%= stream.data.text %> 
 	<% if ( stream.owner === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
 	<% if ( stream.owner !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	

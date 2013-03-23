@@ -1193,8 +1193,8 @@ p {
 }	
 
 #header  h1 {
-  margin-top:10px;
-  font-size:12px;
+  margin-top:6px;
+  font-size:15px;
   font-weight:bold;
   /*font-family: 'Open Sans';*/
   text-transform:uppercase;
@@ -1208,14 +1208,13 @@ p {
   text-align:center; 
   height:48px; 
   font-family: Helvetica, Arial, sans-serif;
-  font-weight:normal;
+  font-weight:bold;
   font-size:10px;
-  /*line-height:48px;*/
   text-align:center;
   text-overflow:ellipsis;
   white-space:nowrap;
   color:#45b1db;
-  margin-top:10px;
+  margin-top:6px;
 }
 
 .pageLogoPoint {
@@ -1247,12 +1246,24 @@ p {
   -webkit-border-radius:0px; border-radius:0px;
 }
 
+.button-green {
+  width:300px;	
+  z-index:1;
+  color:#fff;
+  background-image:none; 
+  background-color:#40c68f;
+  font-size:16px;
+  font-weight:normal;
+  text-transform:uppercase;
+  -webkit-border-radius:0px; border-radius:0px;
+}
+
 /**********************************************************
 	UL > LI 
 **********************************************************/
 
 ul > li {
-	width:100%; height:90px;
+	width:100%; 
 	list-style:none;
 	background:#fff;
 	padding:5px;
@@ -1271,6 +1282,24 @@ ul > li > a {
 	padding-left:4px;
 }
 
+
+ul > li.player {
+	width:100%; 
+	list-style:none;
+	background:#fff;
+	padding:5px;
+	border-top:1px solid rgba(80,80,80,.5);
+	height:50px;
+} 
+
+ul > li.player > a {
+	width:100%; 
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:14px;
+	border-bottom:1px solid black;
+	color:#000;
+	line-height:20px;
+}
 
 /**********************************************************
 	CONTENT AREA
@@ -1310,10 +1339,15 @@ ul > li > a {
 }
 
 #navbar a:active, #navbar a:focus, #navbar a:active:focus,  #navbar .selected{
-  /*background-image:none;*/ 
-  color:#45b1db;
+  background-image:none; 
+  color:#45b1db !important;
   font-weight:bold;
-  font-size:14px;
+  font-size:12px;
+  height:40px;
+  width:78px;
+  line-height:40px;
+  background-image:url(../images/footer_button_bottom.png);
+  text-transform:uppercase;
 }
 
 
@@ -1325,6 +1359,45 @@ ul > li > a {
 	FORM ELEMENTS
 **********************************************************/
 
+.bg-blue {
+  color:#fff;
+  background-image:none; 
+  background-color:#45b1db;   		
+  width:100%;
+  height:100%;
+  font-size:18px;	
+  padding:20px;
+  font-weight:bold;
+
+}
+
+.form-center {
+  margin-left:auto;
+  margin-right:auto;
+  width:250px;  
+}
+
+
+#jQUi label {
+  color: #fff;
+  font-weight: normal;
+  font-family:Open Sans;
+}
+
+.ui-input-text {
+  color:#fff;
+  font-weight:bold;  	
+}
+
+input.jq-ui-forms-white { 
+  color:#000;
+  background:#fff;
+  -webkit-border-radius:12px; border-radius:12px;
+  height:30px;
+  width:100%;	
+  padding-left:10px;
+}
+
 input.jq-ui-forms { 
 	color:#000;
 	background:#EDEDED;
@@ -1334,11 +1407,7 @@ input.jq-ui-forms {
 	width:95%;	
 }
 
-#jQUi label {
-  color: #000;
-  font-weight: normal;
-  font-family:Open Sans;
-}
+
 
 /**********************************************************
 	TABLE
@@ -1437,7 +1506,7 @@ input.jq-ui-forms {
   /*text-shadow:#fff 0 1px 0;*/
   height:24px;
   min-width:20px;
-  padding:2px;
+  /*padding:2px;*/
   /*margin-top:6px; margin-left:6px;*/
   text-overflow:ellipsis; 
   -webkit-border-radius:6px; border-radius:6px;
@@ -1514,17 +1583,119 @@ input.jq-ui-forms {
   -webkit-border-radius:6px; border-radius:6px;   
 }
 
-.div_score_button_bottom {
-  font-weight:normal;
-  font-size:14px;	
+.score_bottom {	
   text-align:center;
   margin-top:10px;
   background-color:#fff;
+}
+
+.button_bottom {
+  margin-left:auto;
+  margin-right:auto; 
+  padding-top:5px;
+  width:90px;	
+  height:44px;
+  z-index:1;
   color:#fff;
+  background-image:none; 
+  background-color:#45b1db;
+  font-size:14px;
+  font-weight:bold;
+  /*text-transform:uppercase;*/
+  -webkit-border-radius:22px; border-radius:22px;
 }
 
 
+.button_comment {
+  width:90%;
+  height:40px;
+  padding-top:10px;	
+  z-index:1;
+  color:#fff;
+  background-image:none; 
+  background-color:#40c68f;
+  font-size:16px;
+  font-weight:bold;
+  text-transform:uppercase;
+  -webkit-border-radius:0px; border-radius:0px;
+}
 
+.timer {
+  font-size:18px;
+  font-weight:bold;	
+}
+
+/**********************************************************
+	COMMENT
+**********************************************************/
+
+.bg-green {
+  color:#fff;
+  background-image:none; 
+  background-color:#40c68f;  
+  width:100%;
+  height:100%; 		
+  text-align:center;
+  font-size:18px;	
+  padding-top:10px;
+  font-weight:bold;
+}
+
+.list-comment {
+  background-color:#fff;
+  text-align:left; 
+  color:#000;
+  width:96%; 	
+  margin-left:auto;
+  margin-right:auto;
+  padding:5px;
+}
+
+.infocomment {
+  font-weight:bold;
+  font-size:13px;	
+}
+
+.comment {
+  font-weight:normal;
+  font-size:14px;	
+  border-top:0px;
+  border-right:0px;
+  border-left:0px;
+  border-bottom:1px;
+  border-style:dotted;
+  padding:10px;
+}
+
+.textarea-border {
+  width:96%;
+  margin-left:auto;
+  margin-right:auto; 
+  background-color:#fff;
+  padding:10px;
+}
+
+.textarea-comment {
+  width:100%;
+  height:100px;
+}
+
+#sendButton {
+	
+}
+
+.button_comment_send {
+  padding-top:12px;
+  width:90px;	
+  height:44px;
+  z-index:1;
+  color:#fff;
+  background-image:none; 
+  background-color:#40c68f;
+  font-size:14px;
+  font-weight:normal;  
+  -webkit-border-radius:22px; border-radius:22px;
+}
 
   </style>
   <script>
@@ -17381,6 +17552,28 @@ JSON.tryParse = function(o, undefined) {
   }
 };
 
+
+Date.prototype.getMonthName = function(lang) {
+    lang = lang && (lang in Date.locale) ? lang : 'fr';
+    return Date.locale[lang].month_names[this.getMonth()];
+};
+
+Date.prototype.getMonthNameShort = function(lang) {
+    lang = lang && (lang in Date.locale) ? lang : 'fr';
+    return Date.locale[lang].month_names_short[this.getMonth()];
+};
+
+Date.locale = {
+    fr: {
+       month_names: ['janvier', 'f&eacute;vrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'd&eacute;cembre'],
+       month_names_short: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    en: {
+       month_names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+       month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    }
+};
+
 var assert = function () { };
 
 // Global Object
@@ -18114,10 +18307,12 @@ var assert = function () { };
   var Router = Backbone.Router.extend({
     routes: {
       '': 'index',
+      'sort/:id' : 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
+      'games/comment/:id': 'gameComment',
       'games/club/:id': 'gameClub',
       'games/:id': 'game',
       'players/list': 'playerList',
@@ -18160,12 +18355,12 @@ var assert = function () { };
       this.changePage(clubAddView);
     },
 
-    index: function () {
-      var indexView = new IndexView();
+    index: function (id) {
+      var indexView = new IndexView({ id: id });
       this.changePage(indexView);
     },
 
-
+    
     game: function (id) {
       var gameView = new GameView({ id: id });
       this.changePage(gameView);
@@ -18176,9 +18371,14 @@ var assert = function () { };
       this.changePage(gameAddView);
     },
 
-    gameEnd: function () {
-      var gameEndView = new GameEndView();
+    gameEnd: function (id) {
+      var gameEndView = new GameEndView({ id: id });
       this.changePage(gameEndView);
+    },
+
+    gameComment: function (id) {
+      var gameCommentView = new GameCommentView({ id: id });
+      this.changePage(gameCommentView);
     },
 
     gameFollow: function () {
@@ -18761,7 +18961,8 @@ var GameModel = Backbone.Model.extend({
       
       //var params = _.extend({ type: 'GET', dataType: 'json', url: Y.Conf.get("api.url.games")+this.id, processData:false }, options); 
       //return $.ajax(params);
-      model.url = Y.Conf.get("api.url.games")+this.id+"?stream=true";
+      // +"?stream=true"
+      model.url = Y.Conf.get("api.url.games")+this.id;
 
       return Backbone.sync(method, model, options);
     }
@@ -18795,11 +18996,13 @@ var StreamModel = Backbone.Model.extend({
   sync : function(method, model, options) {
 
     console.log('method Stream', method);
-    console.log('url', Y.Conf.get("api.url.games") + (this.get('gameid') || '')
-        + '/stream/?playerid=' + (this.get('playerid') || '') + '&token='
-        + (this.get('token') || ''));
+
 
     if (method === 'update' || method === 'create') {
+    
+    console.log('url', Y.Conf.get("api.url.games") + (this.get('gameid') || '')
+        + '/stream/?playerid=' + (this.get('playerid') || '') + '&token='
+        + (this.get('token') || ''));    
 
       return $.ajax({
         dataType : 'json',
@@ -18828,6 +19031,9 @@ var StreamModel = Backbone.Model.extend({
     } else {
 
 	  // http://api.yeswescore.com/v1/games/511d31971ad3857d0a0000f8/stream/
+	  console.log('StreamModel default '+Y.Conf.get("api.url.games")+this.id+"/stream/");
+      model.url = Y.Conf.get("api.url.games")+this.id+"/stream/";
+	  
       return Backbone.sync(method, model, options);
 
     }
@@ -19111,35 +19317,56 @@ var GamesCollection = Backbone.Collection.extend({
 	model:GameModel, 
 	
 	mode:'default',
+	sortMode:'',
 	pos: null,
 	
 	initialize: function (param) {	
 		this.changeSort("city");		
 
-		if (param==='follow')
-			this.storage = new Offline.Storage('gamesfollow', this);		
+		//if (param==='follow')
+		//	this.storage = new Offline.Storage('gamesfollow', this);		
 
 	},
 	
 		  
   url:function() {
-    console.log('mode de games',this.mode); 	
-          
+    //console.log('mode de games',this.mode); 	
+    //console.log('sort de games',this.sortMode); 	
+        
+    var url='';
+    
     if (this.mode === 'clubid') 
-      return Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
+      url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
     else if (this.mode === 'club') 
-      return Y.Conf.get("api.url.games");
+      url =  Y.Conf.get("api.url.games");
     else if (this.mode === 'player') 
-      return Y.Conf.get("api.url.games") + "?q=" + this.query;
+      url = Y.Conf.get("api.url.games") + "?q=" + this.query;
     else if (this.mode === 'me') {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)
-      return Y.Conf.get("api.url.players") + this.query + "/games/";
+      url = Y.Conf.get("api.url.players") + this.query + "/games/";
     }
     else if (this.mode === 'geolocation' && this.pos !==null) { 
-      return Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
+      url =  Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
     }
-    return Y.Conf.get("api.url.games");	
+    url =  Y.Conf.get("api.url.games");	
+    
+    if (this.sortMode==='date')
+      url = url  + "?sort=-dates.start";   
+       		
+    if (this.sortMode==='location')
+      url = url  + "?sort=location.city";    	    
+    
+    //console.log('sortMode',this.sortMode);
+    console.log('URL',url);
+    console.log('sortMode',this.sortMode);
+        
+    return url;
+  },
+
+  setSort:function(s) {  	
+  	//console.log('On passe sortMode sur '+s);
+    this.sortMode=s;
   },
   
   setMode:function(m,q) {
@@ -19293,6 +19520,7 @@ var AccountView = Backbone.View.extend({
   pageName: "account",
 
   initialize: function () {
+  
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
@@ -19389,6 +19617,10 @@ var ClubAddView = Backbone.View.extend({
   pageName: "clubAdd",
 
   initialize: function () {
+  
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("PARTAGER UNE PARTIE");
 
     this.clubAddTemplate = Y.Templates.get('clubAddTemplate');
 
@@ -19455,10 +19687,7 @@ var GameView = Backbone.View.extend({
         'vclick #team1_set3_div' : 'setTeam1Set3',
         'vclick #team2_set1_div' : 'setTeam2Set1',
         'vclick #team2_set2_div' : 'setTeam2Set2',
-        'vclick #team2_set3_div' : 'setTeam2Set3',
-        'vclick #commentDeleteButton' : 'commentDelete',
-        'vclick #commentSendButton' : 'commentSend',
-        'click .deleteComment' : 'deleteComment'      
+        'vclick #team2_set3_div' : 'setTeam2Set3'      
       },
 
       pageName: "game",
@@ -19524,10 +19753,7 @@ var GameView = Backbone.View.extend({
  
       },
 
-      commentDelete : function() {
-        // messageText
-        $('#messageText').value(' ');
-      },
+ 
 
       updateOnEnter : function(e) {
         if (e.keyCode == 13) {
@@ -20199,6 +20425,130 @@ var GameEndView = Backbone.View.extend({
     this.undelegateEvents();
   }
 });
+var GameCommentView = Backbone.View.extend({
+  el:"#content",
+  
+  incomingComment : "#incomingComment",
+
+  events: {
+        'click #sendComment'  : 'sendComment',
+        'click .deleteComment': 'deleteComment'   
+  },
+
+  pageName: "gameComment",
+    
+  initialize:function() {
+    this.gameCommentTemplate = Y.Templates.get('gameCommentTemplate');
+    this.gameViewCommentListTemplate = Y.Templates
+            .get('gameViewCommentListTemplate');
+               
+    //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
+    //this.players = new PlayersCollection("me");
+   
+    this.Owner = Y.User.getPlayer();
+
+	//console.log("Owner",this.Owner.toJSON());
+	//console.log("Owner.token",this.Owner.toJSON().token);
+    
+   	this.score = new GameModel({id : this.id});
+    this.score.fetch();
+    
+    this.score.on("all",this.render,this);
+
+   	this.comment = new StreamModel({id : this.id});
+    this.comment.fetch();
+    
+    var options = {
+          delay : Y.Conf.get("game.refresh")
+    };
+    
+    //poller = Backbone.Poller.get(this.comment, options)
+    //poller.start();
+    //poller.on('success', this.getObjectUpdated, this);
+
+	this.comment.on("all",this.renderRefresh,this);
+
+  },
+  
+  
+  //render the content into div of view
+  render: function(){
+    
+	  var token = this.Owner.toJSON().token;
+ 	  var playerid = this.Owner.id;
+  
+	  this.$el.html(this.gameCommentTemplate({game : this.score.toJSON(),playerid:this.Owner.id,token:token}));
+	  this.$el.trigger('pagecreate');
+	  return this;
+  },
+  
+  
+  getObjectUpdated: function() {
+        this.comment.on("all",this.renderRefresh,this);     
+  },
+
+      // render the content into div of view
+  renderRefresh : function() {
+        
+		//console.log('COMMENT',this.comment.toJSON());        
+
+        // if we have comments
+
+        if (this.comment.toJSON() !== undefined) {
+
+          $(this.incomingComment).html(this.gameViewCommentListTemplate({
+            streams  : this.comment.toJSON()
+          }));
+          
+          $(this.incomingComment).trigger('create');
+
+        }
+        
+        //return this;+
+        return false;
+  }, 
+
+
+  deleteComment : function(e) {
+      
+    var elmt = $(e.currentTarget);
+  	var id = elmt.attr("id");
+  		
+  	//FIXME : On recup�re le Owner.token et id pour etre sur que le comment lui appartient
+  	// si retour du serveur, on supprime
+    console.log('On efface le comment '+id);
+      
+  },
+
+  sendComment : function() {
+  
+  	console.log('sendComment');
+  
+    var playerid = $('#playerid').val()
+    , token  = $('#token').val()
+    , gameid = $('#gameid').val()
+    , comment = $('#messageText').val();
+
+    var stream = new StreamModel({
+          type : "comment",
+          playerid : playerid,
+          token : token,
+          text : comment,
+          gameid : gameid
+    });
+    // console.log('stream',stream);
+    stream.save();
+
+    $('#messageText').val();
+  },
+
+  onClose: function(){
+    this.undelegateEvents();
+    
+    poller.stop();
+    poller.off('success', this.renderRefresh, this);
+  }
+});
 var GameFollowView = Backbone.View.extend({
   el:"#content",
 
@@ -20354,7 +20704,8 @@ var IndexView = Backbone.View.extend({
   el: "#content",
 
   events: {
-    "keyup input#search-basic": "search"
+    "keyup input#search-basic": "search",
+    "click #sendFilter":"sendFilter"
   },
 
   listview: "#listGamesView",
@@ -20366,21 +20717,21 @@ var IndexView = Backbone.View.extend({
   
   $.ui.setBackButtonVisibility(false);
   $.ui.setTitle("LISTE DES MATCHES");
-  
+  $.ui.resetScrollers=true;
+   
+              
   var options={ 
   verticalScroll:true, //vertical scrolling 
   horizontalScroll:false, //horizontal scrolling 
   scrollBars:true, //display scrollbars 
   //vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
   //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
-  refresh:true, //Adds 'Pull to refresh' at the top 
+  refresh:false, //Adds 'Pull to refresh' at the top 
   //refreshFunction:updateMessage //callback function to execute on pull to refresh 
   }; 
   
   var scroller = $("#content").scroller(options);
-  
 
-  
   this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
   this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
 
@@ -20390,12 +20741,17 @@ var IndexView = Backbone.View.extend({
     //this.config.fetch();
 
     this.games = new GamesCollection();
+	if (this.id!=='') {
+		console.log('setSort',this.id);
+		this.games.setSort(this.id);	
+	}
+
     this.games.fetch();
+    
+    //console.log('this.id ',this.id);
 
-    //console.log('on pull');
-    //this.games.storage.sync.pull();   
-
-    this.$el.html("please wait, loading player");
+	
+    $.ui.showMask('please wait, loading player');
 	
 	var that = this; 
 	
@@ -20406,54 +20762,34 @@ var IndexView = Backbone.View.extend({
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           console.log('player created', player);
+          
+          $.ui.hideMask();
+          
           // rendering
           that.render();
           that.games.on('all', that.renderList, that);
+          
+         
               
         });
         return;
       }
       // continue
+      $.ui.hideMask();
+      
       that.render();
       that.games.on('all', that.renderList, that);
       
-    });
-
-    //this.render();
-
-    //console.log('this.games in cache size ',this.games.length);
-
-
-
-    //Controle si localStorage contient Owner
-    //var Owner = window.localStorage.getItem("Y.Cache.Player");
-
-    /*
-    if (Owner === null) {
-    //alert('Pas de owner');
-    //Creation user � la vol�e
-    console.log('Pas de Owner, on efface la cache . On cr�e le Owner');
-        
-    //debug si pas de Owner, on init le localStorage
-    window.localStorage.removeItem("Y.Cache.Player");
-
-    player = new PlayerModel();
-    player.save();
-    //players = new PlayersCollection('me');
-    //players.create();
-    }
-    else {
+    /* On charge les parties par G�olocalisation
+    
     Y.Geolocation.on("change", function (pos) { 
-        
-    var Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-    //console.log("On m�morise la Geoloc OK pour playerid :"+Owner.id);
         
     //On sauve avec les coord actuels
     player = new PlayerModel({
     latitude : pos[1]
     , longitude : pos[0]
-    , playerid : Owner.id
-    , token : Owner.token
+    , playerid : player.id
+    , token : player.token
     });
     player.save();
         
@@ -20466,8 +20802,22 @@ var IndexView = Backbone.View.extend({
         
     });
     }
-    */
+    */      
+      
+    });
+ 
 
+  },
+  
+  
+  
+  sendFilter: function () {
+  	//console.log("sendFilter");
+    $.ui.actionsheet('<a href="#sort/date" class="button">Afficher par Date</a>'
+    +' <a href="#sort/location" class="button">Afficher par Lieu</a>'
+    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
+    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>');
+    
   },
 
   search: function () {
@@ -20480,7 +20830,7 @@ var IndexView = Backbone.View.extend({
     this.games.setMode('player', q);
     this.games.fetch();
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: q }));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     //}
     return this;
   },
@@ -20666,6 +21016,11 @@ var PlayerFormView = Backbone.View.extend({
   clubs:null,
 
   initialize:function() {	
+  
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("MODIFIER MON PROFIL");
+  
     this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
     
@@ -20798,6 +21153,11 @@ var PlayerListView = Backbone.View.extend({
   pageName: "playerList",
 
   initialize : function() {
+  
+  	$.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("LISTE DES JOUEURS");
+  
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
     //$.mobile.showPageLoadingMsg();
@@ -20852,7 +21212,7 @@ var PlayerListView = Backbone.View.extend({
       players : this.players.toJSON(),
       query : ' '
     }));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     return this;
   },
 
@@ -20965,7 +21325,7 @@ $(document).ready(function () {
       <div id="pageOnline"><img src="images/header-logo-on.png" height="21" width="25" /></div>
       </div>
             
-      <div id="content">
+      <div id="content" style="width: 100%;height: 100%; overflow: auto;">
           <!-- here is where you can add your panels -->
 
       </div>
@@ -20975,12 +21335,29 @@ $(document).ready(function () {
       		<!-- 
           <div class="horzRule"></div>
            -->
-          <a href="#" id="navbar_home" class="icon home">Suivre</a>
-          <a href="#games/add" id="navbar_gamesadd" class="icon star" data-transition="up">Diffuser</a>
-          <a href="#account" id="navbar_account" class="icon user">Profil</a>
-      </div>    
+          <a href="#" id="navbar_home">Suivre</a>
+          <a href="#games/add" id="navbar_gamesadd" data-transition="up">Diffuser</a>
+          <a href="#account" id="navbar_account">Profil</a>
+      </div>
+      <!-- 
+      <nav>
+      <div class='title'>Filtres</div>
+       <ul>
+              <li class="icon home mini">
+                  <a href="#">Afficher par date</a>
+              </li>
+              <li class="icon home mini">
+                  <a href="#">Afficher par club</a>
+              </li>
+              <li class="icon home mini">
+                  <a href="#">Afficher par joueur</a>
+              </li>                                        
+          </ul>
+      </nav> 
+       --> 
   </div>
-  <script type="text/template" id="accountViewTemplate">
+  <script type="text/template" id="accountViewTemplate"><div align="center">
+
 <button class="button" id="fbconnect">Launch InAppBrowser</button>
 
 <br/>
@@ -20995,12 +21372,13 @@ $(document).ready(function () {
    else
        print ('<a href="#clubs/'+Owner.club.id+'" class="button" id="">Mon Club</a><br/>'); 
 %>
-<!-- 
-<a href="#" class="button" id="" class="ui-disabled">Mon Coach Sportif</a><br/>
--->
-<a href="#" class="button" id="" class="ui-disabled">Calcul Classement</a><br/>
+
+<br/>
 
 <p align="center">Vos donn&eacute;es sont enregistr&eacute;es en local. Pour les sauver, cliquez sur :</p>
+
+<br/>
+
 <!-- Parametres -->           
 <%
   if (Owner.mail === '')
@@ -21010,40 +21388,41 @@ $(document).ready(function () {
 %>
 <a href="#players/signin" class="button" id="">Charger un autre compte</a><br/> 
 
+</div>
 </script>
-<script type="text/template" id="clubAddTemplate">
-	<form id="frmAddClub">
+<script type="text/template" id="clubAddTemplate"><div class="bg-blue">
+
+	<form id="frmAddClub" class="form-center">
 
 		<span class="success label label-info hide" style="color: red"></span>
 
-		<button type="submit" value="Save" class="button">Ajouter un club</button>
-
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label class="ui-input-text" for="name">* Nom</label>
-			</div>
-			<div class="ui-block-b">
+		<div>
+          <label class="ui-input-text" for="name">* Nom</label>
+		</div>
+		<div>
 				<input type="text" id="name" name="name" placeholder="Nom du Club" class='jq-ui-forms' value="" /> 
 				<span class="name_error label label-info hide"></span>
-			</div>
 		</div>
 
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-			<label class="ui-input-text " for="city">* Ville</label>
-			</div>
-			<div class="ui-block-b">
+		<div>
+          <label class="ui-input-text " for="city">* Ville</label>
+		</div>
+		<div>
 				<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms' value="" /> 
 				<span class="city_error label label-info hide"></span>
-			</div>
 		</div>
+
+        <br/>
+
+        <button type="submit" value="Save" class="button">Ajouter un club</button>
 
 
 		<input type="hidden" id="playerid" value=""/> 
 		<input type="hidden" id="token" value=""/>
 
 	</form>
+
+</div>
 
 </script>
 <script type="text/template" id="clubListAutoCompleteViewTemplate"><% if(clubs.length==0) { %>
@@ -21071,72 +21450,78 @@ $(document).ready(function () {
 <li><a> <%= club.name %> : <%= club.city %> : <%= club.id %> <br /></a></li>
 <% } %>
 </script>
-<script type="text/template" id="clubViewTemplate"><h3><%= club.name %></h3>
-Sport : <%= club.sport %>&nbsp;&nbsp;&nbsp;&nbsp;City : <%= club.location.city %><br /> FFTID : <%= club.fftid %> Site :&nbsp;&nbsp;&nbsp;&nbsp;Facebook :<br /> 
-<a href="#players/club/<%= club.id %>" class="button" id="listPlayer">Liste des joueurs</a> 
-<a href="#games/club/<%= club.id %>" class="button" id="lastResult">Dernier resultat</a> 
+<script type="text/template" id="clubViewTemplate"><div class="bg-blue">
+
+<form class="form-center">
+
+<h3><%= club.name %></h3>
+<br/>
+Sport : <%= club.sport %><br/>
+Ville : <%= club.location.city %><br /> 
+FFTID : <%= club.fftid %><br/> 
+Site :<br/>
+Facebook :<br /> 
+<br/>
+<a href="#players/club/<%= club.id %>" class="button" id="listPlayer">Liste des joueurs</a><br/> 
+<a href="#games/club/<%= club.id %>" class="button" id="lastResult">Dernier resultat</a> <br/>
 <a id="followButton" class="button">Suivre</a>
 
-</script>
-<script type="text/template" id="gameAddTemplate"><form id="frmAddGame">
+</form>
+
+</div></script>
+<script type="text/template" id="gameAddTemplate"><div class="bg-blue">
+
+<form id="frmAddGame" class="form-center">
 
 	<span class="success label label-info hide" style="color: red"></span>
 
-	<div class="control-group">
-		<div class="controls">
-			<button type="submit" value="Save" class="button">Cr&eacute;er la partie</button>
+	
+		<div id="click_myself">
+				<input type="checkbox" name="myself" id="myself" />
+				<label for="myself">* Joueur 1 - S'il s'agit de vous, cochez ici</label>
 		</div>
-	</div>
 
-	<div data-role="fieldcontain">
-		<fieldset data-role="controlgroup" id="click_myself">
-			<input type="checkbox" name="myself" id="myself" class="jq-ui-forms" />
-			<label for="myself">* Joueur 1 - S'il s'agit de vous, cochez ici</label>
-		</fieldset>
-	</div>
-
-	<div class="control-group">
-			<input type="text" id="team1" name="team1" placeholder="Joueur 1" class='jq-ui-forms' value="" /> 
-			<input type="text" id="rank1" name="rank1" placeholder="Classement 1" class='jq-ui-forms' value="" />
-			<ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
-			<input type='hidden' id='team1_id' class='input' value='' /> 
-			<span class="team1_error label label-info hide"></span>
-	</div>
-
-	<div data-role="fieldcontain">
-		<fieldset data-role="controlgroup">
-			<label for="autosearch">* Joueur 2 - Indiquez au moins 4 lettres</label>
-		</fieldset>
-	</div>
-
-	<div class="control-group">
-		<div class="controls">
-			<input type="text" id="team2" name="team2" placeholder="Joueur 2" class='jq-ui-forms' value="" /> 
-			<input type="text" id="rank2" name="rank2" placeholder="Classement 2" class='jq-ui-forms' value="" />
-			<ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
-			<input type='hidden' id='team2_id' class='input' value='' /> 
-			<span class="team2_error label label-info hide"></span>
+		<div style="padding-top:10px">
+				<input type="text" id="team1" name="team1" placeholder="Joueur 1" class='jq-ui-forms-white' value="" />
 		</div>
-	</div>
+		<div style="padding-top:10px">
+				<input type="text" id="rank1" name="rank1" placeholder="Classement 1" class='jq-ui-forms-white' value="" />				
+		</div>
+		<div>				
+				<ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
+				<input type='hidden' id='team1_id' class='input' value='' /> 
+				<span class="team1_error label label-info hide"></span>
+		</div>
+	
+		<div style="padding-top:10px">
+				<label for="autosearch">* Joueur 2 - Indiquez au moins 4 lettres</label>
+		</div>
 
-	<div class="ui-grid-a">
-		<div class="ui-block-a">
+		<div style="padding-top:10px">
+				<input type="text" id="team2" name="team2" placeholder="Joueur 2" class='jq-ui-forms-white' value="" /> 
+		</div>
+		<div style="padding-top:10px">
+				<input type="text" id="rank2" name="rank2" placeholder="Classement 2" class='jq-ui-forms-white' value="" />
+		</div>
+		<div>
+				<ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
+				<input type='hidden' id='team2_id' class='input' value='' /> 
+				<span class="team2_error label label-info hide"></span>
+		</div>		
+
+		<div style="padding-top:10px">
 			<label class="control-label" for="city">* Ville</label>
 		</div>
-		<div class="ui-block-b">
-			<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms' value="" /> 
+		<div>
+			<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms-white' value="" /> 
 			<span class="city_error label label-info hide"></span>
 		</div>
-	</div>
 
-	<hr />
-
-	<div class="ui-grid-a">
-		<div class="ui-block-a">
+		<div style="padding-top:10px">
 			<label for="subtype" class="select">Type</label>
 		</div>
-		<div class="ui-block-b">
-			<select name="subtype" id="subtype" class="jq-ui-forms">
+		<div>
+			<select name="subtype" id="subtype" class="jq-ui-forms-white">
 				<option value="A">A - Normal</option>
 				<option value="B">B - Traditionnel (3 sets &agrave; 6 jeux pt d&eacute;cisif)</option>
 				<option value="C">C - 3 sets &agrave; 4 jeux - jeu décisif à 4/4</option>
@@ -21148,12 +21533,12 @@ Sport : <%= club.sport %>&nbsp;&nbsp;&nbsp;&nbsp;City : <%= club.location.city %
 				<option value="I">I - 3 sets &agrave; 5 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
 			</select>
 		</div>
-	</div>
 
-	<div class="control-group">
-		<label for="court" class="select">Court</label>
-		<div class="controls">
-			<select name="court" id="court" class="jq-ui-forms">
+		<div style="padding-top:10px">
+			<label for="court" class="select">Court</label>
+		</div>
+		<div>
+			<select name="court" id="court" class="jq-ui-forms-white">
 				<option value="">Selection</option>
 				<option value="1">Terrain 1</option>
 				<option value="2">Terrain 2</option>
@@ -21175,12 +21560,12 @@ Sport : <%= club.sport %>&nbsp;&nbsp;&nbsp;&nbsp;City : <%= club.location.city %
 				<option value="F">Terrain F</option>
 			</select>
 		</div>
-	</div>
 
-	<div class="control-group">
-		<label for="tour" class="select">Tour</label>
-		<div class="controls">
-			<select name="tour" id="tour" class="jq-ui-forms">
+		<div style="padding-top:10px">		
+			<label for="tour" class="select">Tour</label>
+		</div>
+		<div>		
+			<select name="tour" id="tour" class="jq-ui-forms-white">
 				<option value="">Selection</option>
 				<option value="">Poule</option>
 				<option value="">Consolante</option>
@@ -21214,12 +21599,12 @@ Sport : <%= club.sport %>&nbsp;&nbsp;&nbsp;&nbsp;City : <%= club.location.city %
 				<option value="">Journ&eacute;e 10</option>
 			</select>
 		</div>
-	</div>
 
-	<div class="control-group">
-		<label for="surface" class="select">Format</label>
-		<div class="controls">
-			<select name="surface" id="surface" class="jq-ui-forms">
+		<div style="padding-top:10px">	
+			<label for="surface" class="select">Format</label>
+		</div>
+		<div>	
+			<select name="surface" id="surface" class="jq-ui-forms-white">
 				<option value="">Selection</option>
 				<option value="BP">B&eacute;ton poreux (quick) - BP</option>
 				<option value="EP">Enrob&eacute; poreux - EP</option>
@@ -21233,45 +21618,177 @@ Sport : <%= club.sport %>&nbsp;&nbsp;&nbsp;&nbsp;City : <%= club.location.city %
 				<option value="TB">Terre-battue - TB</option>
 			</select>
 		</div>
-	</div>
+	
 
 	<input type="hidden" id="playerid" value="" class="input" /> 
 	<input type="hidden" id="token" value="" class="input" />
+	
+	<br/>
+	
+	<button type="submit" value="Save" class="button">Cr&eacute;er la partie</button>
 
-</form></script>
-<script type="text/template" id="gameEndTemplate"><form id="frmEndGame" class="ui-body ui-body-b ui-corner-all">
+</form>
 
-	<div class="control-group">
-		<div class="controls">
-			<label>Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note priv&eacute; ( conseils, astuces ) ?</label>
-			<textarea id="privateNote" name="privateNote" class="jq-ui-forms"></textarea>
-			<span class="privateNote_error label label-info hide"></span>
-		</div>
+</div></script>
+<script type="text/template" id="gameCommentTemplate"><% 
+
+team1_set1 = '&nbsp;'; 
+team1_set2 = '&nbsp;'; 
+team1_set3 = '&nbsp;';
+team2_set1 = '&nbsp;'; 
+team2_set2 = '&nbsp;'; 
+team2_set3 = '&nbsp;';
+set_current = 1; 
+team1_sets = '0'; 
+team2_sets = '0'; 
+
+if (game.options.score !== null ) { 
+  if(game.options.score.indexOf('/')!=-1) { 
+    scoreboard = game.options.score.split('/'); 
+    team1_sets = scoreboard[0]; 
+    team2_sets = scoreboard[1]; 
+    } 
+} 
+  
+if (game.options.sets !== null ) { 
+  if (game.options.sets.indexOf(';')!=-1) { 
+    scoreboard = game.options.sets.split(';'); 
+    
+    if (scoreboard.length==2 ||scoreboard.length==3) { 
+      scoreboard1 = scoreboard[0].split('/');
+      team1_set1 = scoreboard1[0]; 
+      team2_set1 = scoreboard1[1]; 
+      scoreboard2 = scoreboard[1].split('/'); 
+      team1_set2 = scoreboard2[0]; 
+      team2_set2 = scoreboard2[1]; 
+      set_current=2; 
+    } 
+    
+    if (scoreboard.length==3) { 
+      scoreboard3 = scoreboard[2].split('/'); 
+      team1_set3 = scoreboard3[0]; 
+      team2_set3 = scoreboard3[1]; set_current=3; 
+    } 
+  } 
+  // 1 set 
+  else { 
+    if (game.options.sets.indexOf('/')!=-1) { 
+      scoreboard1 = game.options.sets.split('/'); 
+      team1_set1 = scoreboard1[0]; 
+      team2_set1 = scoreboard1[1]; 
+    } 
+  } 
+} 
+
+%>
+
+ <div class="ui-grid-a">
+  <div class="ui-block-a" style="width: 25%;text-align:center;padding-top:5px;">
+  <img src="./images/chrono.png" width="15" height="20"><br/>
+  <span class="timer">0:50:32</span>
+  </div>
+  <div class="ui-block-b" style="width: 75%;border-left:dotted 1px;padding-top:3px;margin-bottom:3px;">
+  
+    <!-- 
+    style="padding-top:3px;margin-bottom:3px;"
+     -->
+     <div class="ui-grid-d" style="padding-left:5px;padding-top:7px;padding-bottom:3px;">
+         <div class="ui-block-a" style="width: 60%;border-bottom:dotted 1px;height:25px;">
+    	<% 
+    	if (game.teams[0].players[0]!== undefined) { 
+    		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+        
+    
+    	}
+    	%>         
+         </div>
+         <div class="ui-block-b" style="width: 10%;border-bottom:dotted 1px;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
+         <div class="ui-block-c" style="width: 10%;border-bottom:dotted 1px;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
+         <div class="ui-block-d" style="width: 10%;border-bottom:dotted 1px;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
+         <div class="ui-block-e" style="width: 10%;border-bottom:dotted 1px;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
+     </div>
+    
+    <!-- 
+    style="padding-bottom:3px;"
+     -->
+     <div class="ui-grid-d" style="padding-left:5px;padding-top:4px;">
+         <div class="ui-block-a" style="width:60%;height:24px;">
+    	<% 
+    	if (game.teams[1].players[0]!== undefined) { 
+    		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
+    			
+    	}
+    	%>         
+         </div>
+         <div class="ui-block-b" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
+         <div class="ui-block-c" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
+         <div class="ui-block-d" style="width: 10%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
+         <div class="ui-block-e" style="width: 10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
+     </div>
+  </div>
+</div>      
+
+
+<div class="bg-green">
+
+<form id="frmCommentGame">
+COMMENTAIRES (X)
+<br/>
+<div class="list-comment">
+  <div id="incomingComment"></div>
+</div>
+<br/>  
+<div class="textarea-border">
+<textarea rows="10" cols="40" class="textarea-comment" id="messageText">super partie</textarea> 
+<div class="button_comment_send" id="sendComment">Envoyer</div>
+ </div>
+
+<input type="hidden" id="gameid" value="<%= game.id %>" />  
+<input type="hidden" id="playerid" value="<%= playerid %>" /> 
+<input type="hidden" id="token" value="<%= token %>" />
+ 
+</form>
+
+</div></script>
+<script type="text/template" id="gameEndTemplate"><div class="bg-blue">
+
+<form id="frmEndGame" class="form-center">
+
+
+	<div>
+		<label>Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note priv&eacute; ( conseils, astuces ) ?</label>
+		<textarea id="privateNote" name="privateNote" class="jq-ui-forms"></textarea>
+		<span class="privateNote_error label label-info hide"></span>
 	</div>
 
-	<div class="control-group">
-		<div class="controls">
-			<label>Vous pouvez indiquer le message qui sera diffus&eacute; sur FB ?</label>
-			<textarea id="fbNote" name="fbNote" class="jq-ui-forms"></textarea>
-			<span class="fbNote_error label label-info hide"></span>
-		</div>
+	<div>
+		<label>Vous pouvez indiquer le message qui sera diffus&eacute; sur FB ?</label>
+		<textarea id="fbNote" name="fbNote" class="jq-ui-forms"></textarea>
+		<span class="fbNote_error label label-info hide"></span>
 	</div>
 
 
-	<div class="control-group">
-		<div class="controls">
-			<button type="submit" value="Save" class="button">Save</button>
-		</div>
+	<div>
+		<button type="submit" value="Save" class="button">Save</button>
 	</div>
+
 
 	<input type="hidden" id="playerid" value="" class="input" /> 
 	<input type="hidden" id="token" value="" class="input" />
 
 </form>
-</script>
-<script type="text/template" id="gameListTemplate"><input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" /><br /> <br />
-<ul id="listGamesView" data-role="listview" data-theme="c"></ul>
 
+</div>
+</script>
+<script type="text/template" id="gameListTemplate"><div class="ui-grid-a" style="padding-top: 5px;">
+  <div class="ui-block-a" style="width: 85%;padding-left:5px">
+    <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" class="jq-ui-forms" />
+  </div>
+  <div class="ui-block-b" style="width: 15%;padding-top: 6px;padding-right:5px;">
+    <img src="images/btn_filter.png" width="31" height="32">
+  </div>
+</div>
+<ul id="listGamesView" class="ui-listview"></ul>
 </script>
 <script type="text/template" id="gameListViewTemplate"><% if(games.length==0) { %>
 <li><p>Aucun resultat <%= query %></p></li>
@@ -21326,12 +21843,17 @@ if (game.options.sets !== null ) {
   } 
 } 
 
+
+game.dates.startConvert = new Date(game.dates.start);
+game.dates.startDate = game.dates.startConvert.getDay()+' '+game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();
+game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.startConvert.getMinutes();
+
 %>
 <li>
 
 <div class="ui-grid-a"  style="color:#45B1DB;font-weight:bold;padding-bottom:8px;">
 	<div class="ui-block-a" style="width: 80%; text-align: left;">
-	<a href="#games/<%= game.id %>" style="color:#45B1DB;font-weight:bold;">Date  - <%= game.location.city %></a>
+	<a href="#games/<%= game.id %>" style="color:#45B1DB;font-weight:bold;"> <%= game.dates.startDate %> - <%= game.location.city %></a>
 	</div>
 	<div class="ui-block-b" style="width: 20%; text-align: right;">
 	<%= game.status %>
@@ -21339,7 +21861,7 @@ if (game.options.sets !== null ) {
 </div>
 
  <div class="ui-grid-d">
-     <div class="ui-block-a" style="width: 60%;">
+     <div class="ui-block-a" style="width: 60%;text-overflow: ellipsis;">
 	<% 
 	if (game.teams[0].players[0]!== undefined) { 
 		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
@@ -21365,7 +21887,7 @@ if (game.options.sets !== null ) {
  </div>
 
  <div class="ui-grid-d">
-     <div class="ui-block-a" style="width: 60%;">
+     <div class="ui-block-a" style="width: 60%;text-overflow: ellipsis;">
 	<% 
 	if (game.teams[1].players[0]!== undefined) { 
 		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
@@ -21392,25 +21914,21 @@ if (game.options.sets !== null ) {
 </li>
 <% } %>
 </script>
-<script type="text/template" id="gamePrefTemplate"><form id="frmGamePref">
-
-	<ul data-role="listview" data-filter="true">
-		<li><a href="#games/add?team2=Vincent&id=131313">Vincent Terrasi</a></li>
-		<li><a href="#games/add?team2=Ludovic&id=113232132">Ludovic</a></li>
-	</ul>
-
-	<input type='hidden' id='playerid' value='' class='input' /> <input
-		type='hidden' id='token' value='' class='input' />
-
-</form>
-
-</script>
-<script type="text/template" id="gameViewCommentListTemplate"> <% if(streams.length==0) { %>
-<div class="message">Aucun commentaire</div>
+<script type="text/template" id="gameViewCommentListTemplate"><%= streams.length %>
+<% if(streams.length==0) { %>
+<div class="comment">Aucun commentaire</div>
 <% } %> 
-<% for (var i = 0; i < streams.length; i++) { stream = streams[i]; %>
-<div class="message">
-	<%= stream.dates.creation %> : <span class="username"><%= (stream.owner ||'Anonymous') %></span> : <%= stream.data.text %> 
+<% for (var i = 0; i < streams.length; i++) { stream = streams[i]; 
+
+stream.dates.startConvert = new Date(stream.dates.creation);
+stream.dates.startDate = stream.dates.startConvert.getDay()+' '+stream.dates.startConvert.getMonthName()+' '+stream.dates.startConvert.getFullYear();
+stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dates.startConvert.getMinutes();
+
+
+%>
+<div class="comment">
+	<%= stream.dates.startTime %> : <div class="infocomment"><%= (stream.owner.name ||'Anonymous') %></div> 
+    <%= stream.data.text %> 
 	<% if ( stream.owner === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
 	<% if ( stream.owner !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
 </div>
@@ -21466,7 +21984,7 @@ if (game.options.sets !== null ) {
   } 
 } 
 %>
-<div style="text-align:center;">
+<div style="text-align:center;padding-top:10px;">
 <a href="#players/<%= game.teams[0].players[0].id %>" class="div_score_player"> 
  <%= game.teams[0].players[0].name %>
 </a>
@@ -21501,7 +22019,7 @@ if (game.options.sets !== null ) {
     <div class="ui-block-d" id="team1_set2_div"><div class="div_score_button"><%= team2_sets %></div></div>
 </div>
 
-<div style="text-align:center;">
+<div style="text-align:center;padding-top:10px;padding-bottom:10px;">
 <a href="#players/<%= game.teams[1].players[0].id %>" class="div_score_player"> 
 <%= game.teams[1].players[0].name %>
  </a><br/>
@@ -21529,120 +22047,6 @@ if (game.options.sets !== null ) {
     <input type="hidden" id="playerid" value="<%= Owner.id %>" /> 
     <input type="hidden" id="token" value="<%= Owner.token %>" />
 </form></script>
-<script type="text/template" id="gameViewScoreBoardTemplateGOOD"><% 
-team1_set1 = '&nbsp;'; 
-team1_set2 = '&nbsp;'; 
-team1_set3 = '&nbsp;';
-team2_set1 = '&nbsp;'; 
-team2_set2 = '&nbsp;'; 
-team2_set3 = '&nbsp;';
-set_current = 1; 
-team1_sets = '0'; 
-team2_sets = '0'; 
-
-if (game.options.score !== null ) { 
-  if(game.options.score.indexOf('/')!=-1) { 
-    scoreboard = game.options.score.split('/'); 
-    team1_sets = scoreboard[0]; 
-    team2_sets = scoreboard[1]; } 
-  } 
-  
-  if (game.options.sets !== null ) { 
-    if (game.options.sets.indexOf(';')!=-1) { 
-      scoreboard = game.options.sets.split(';'); 
-      
-      if (scoreboard.length==2 ||scoreboard.length==3) { 
-        scoreboard1 = scoreboard[0].split('/');
-        team1_set1 = scoreboard1[0]; 
-        team2_set1 = scoreboard1[1]; 
-        scoreboard2 = scoreboard[1].split('/'); 
-        team1_set2 = scoreboard2[0]; 
-        team2_set2 = scoreboard2[1]; 
-        set_current=2; 
-      } 
-      
-      if (scoreboard.length==3) { 
-        scoreboard3 = scoreboard[2].split('/'); 
-        team1_set3 = scoreboard3[0]; 
-        team2_set3 = scoreboard3[1]; set_current=3; 
-      } 
-    } 
-    // 1 set 
-    else { 
-      if (game.options.sets.indexOf('/')!=-1) { 
-        scoreboard1 = game.options.sets.split('/'); 
-        team1_set1 = scoreboard1[0]; 
-        team2_set1 = scoreboard1[1]; 
-      } 
-    } 
-  } 
-%>
-
-<div class="ui-body ui-body-a">
-	<div class="ui-grid-d">
-		<div class="ui-block-a" style="width: 50%;">
-			<a href="#players/<%= game.teams[0].players[0].id %>" data-role="text" style="color: yellow"> 
-			<%= game.teams[0].players[0].name %> - <%= game.teams[0].players[0].rank %> </a>
-			<div id="var_service1"></div>
-		</div>
-		<div class="ui-block-b" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_sets_div"><%= team1_sets %></div>
-		<div class="ui-block-c" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set1_div"><%= team1_set1 %></div>
-		<div class="ui-block-d" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set2_div"><%= team1_set2 %></div>
-		<div class="ui-block-e" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team1_set3_div"><%= team1_set3 %></div>
-	</div>
-	<!-- /grid-a -->
-
-	<div class="ui-grid-d">
-		<div class="ui-block-a" style="width: 50%;">&nbsp;</div>
-		<div class="ui-block-b" style="width: 10%; text-align: center;">
-			<font style="white-space: normal; font-size: small">SETS</font>
-		</div>
-		<div class="ui-block-c" style="width: 10%; text-align: center;">
-			<font style="white-space: normal; font-size: small">1</font>
-		</div>
-		<div class="ui-block-d" style="width: 10%; text-align: center;">
-			<font style="width: 10%; white-space: normal; font-size: small">2</font>
-		</div>
-		<div class="ui-block-e" style="width: 10%; text-align: center;">
-			<font style="width: 10%; white-space: normal; font-size: small">3</font>
-		</div>
-	</div>
-
-	<div class="ui-grid-d">
-		<div class="ui-block-a" style="width: 50%;">
-			<a href="#players/<%= game.teams[1].players[0].id %>"
-				data-role="text" style="color: yellow"> 
-				<%= game.teams[1].players[0].name %> - <%= game.teams[1].players[0].rank %> </a>
-			<div id="var_service2"></div>
-		</div>
-		<div class="ui-block-b" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_sets_div"><%= team2_sets %></div>
-		<div class="ui-block-c" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set1_div"><%= team2_set1 %></div>
-		<div class="ui-block-d" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set2_div"><%= team2_set2 %></div>
-		<div class="ui-block-e" style="width: 10%; text-align: center; border: 1px solid #FFF" id="team2_set3_div"><%= team2_set3 %></div>
-	</div>
-	<!-- /grid-a -->
-</div>
-
-<% //if (game.owner === Owner.id) //{ %>
-<form>
-	<input type="hidden" id="set_current" value="<%= set_current %>" /> 
-	<input type="hidden" id="gameid" value="<%= game.id %>" /> 
-	<input type="hidden" id="team1_id" value="<%= game.teams[0].players[0].id %>" />
-	<input type="hidden" id="team1_points" value="<%= game.teams[0].points %>" /> 
-	<input type="hidden" id="team1_set1" value="<%= team1_set1 %>" /> 
-	<input type="hidden" id="team1_set2" value="<%= team1_set2 %>" /> 
-	<input type="hidden" id="team1_set3" value="<%= team1_set3 %>" /> 
-	<input type="hidden" id="team2_id" value="<%= game.teams[1].players[0].id %>" /> 
-	<input type="hidden" id="team2_points" value="<%= game.teams[1].points %>" />
-	<input type="hidden" id="team2_set1" value="<%= team2_set1 %>" /> 
-	<input type="hidden" id="team2_set2" value="<%= team2_set2 %>" /> 
-	<input type="hidden" id="team2_set3" value="<%= team2_set3 %>" />
-	<!--  BUG je prend owner 993a8c9ab5713eb0ba4e70b1 et token 3135411 de la partie 64ff2998c7520d7ef9cf07d8 -->
-	<input type="hidden" id="playerid" value="<%= Owner.id %>" /> 
-	<input type="hidden" id="token" value="<%= Owner.token %>" />
-</form>
-<% //} %>
-</script>
 <script type="text/template" id="gameViewTemplate"><div class="ui-grid-d" style="height:22px;margin-top:4px;">
   <div class="ui-block-a div_score_menu">
     <img src="./images/chrono.png" width="15" height="20">
@@ -21662,20 +22066,31 @@ if (game.options.score !== null ) {
 </div>
 <div class="ui-grid-d" style="height:30px;">
   <div class="ui-block-a div_score_menu">
-  0:45:32
+  <span class="timer">0:45:32</span>
+  <% 
+  //si date de fin - termin�
+  //si en cours on affiche la diff�rence de temps
+  %>
   </div>
   <div class="ui-block-b div_score_menu">
-  26/03/2013<br/>
-  16h30
+  <%
+  game.dates.startConvert = new Date(game.dates.start);
+  game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
+  game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+  %>
+  <b>
+  <%= game.dates.startDate  %><br/>
+  <%= game.dates.startTime %>
+  </b>
   </div>
   <div class="ui-block-c div_score_menu">
-  <%= game.location.city %>
+  <b><%= game.location.city %></b>
   </div>
   <div class="ui-block-d div_score_menu">
-  Public
+  <b>Public</b>
   </div>
   <div class="ui-block-e div_score_menu_right">
-  5
+  <b>.</b>
   </div>
 </div>
 
@@ -21684,186 +22099,169 @@ if (game.options.score !== null ) {
 <form id="frmScore">
 <% if (game.owner === Owner.id) { %>
 	<div class="ui-grid-b">
-		<div class="ui-block-a div_score_button_bottom">
-            <a id="optionButton">Options</a> 
+		<div class="ui-block-a score_bottom">
+            <a id="optionButton"><div class="button_bottom">Options match</div></a> 
 		</div>
-        <div class="ui-block-b div_score_button_bottom">
-          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">Partager</a>
+        <div class="ui-block-b score_bottom">
+          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">
+          <img src="./images/facebook.png" width="44" height="44" />
+          </a>
         </div>        	
-		<div class="ui-block-c div_score_button_bottom">
-			<a id="endButton">Terminer</a>
+		<div class="ui-block-c score_bottom">
+			<a id="endButton"><div class="button_bottom">Terminer match</div></a>
 		</div>
     </div>
 <% } else { %> 
   <div class="ui-grid-b">
-    <div class="ui-block-a div_score_button_bottom">
-            <% if (follow === 'true') { %> 
-            <a id="followButton">Ne plus suivre</a> 
-            <% } else { %> 
-            <a id="followButton">Suivre</a> 
-            <% } %> 
+    <div class="ui-block-a score_bottom">
+      <a id="followButton">
+      <div class="button_bottom">
+      <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre match<% } %> 
+      </div>
+      </a>
     </div>
-        <div class="ui-block-b div_score_button_bottom">
-          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">Partager</a>
-        </div>          
-    <div class="ui-block-c div_score_button_bottom">
-      <a id="endButton">Terminer</a>
+    <div class="ui-block-b score_bottom">
+          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">
+          <img src="./images/facebook.png" width="44" height="44" />
+          </a>
+    </div>          
+    <div class="ui-block-c score_bottom">
+      <a id="endButton"><div class="button_bottom">Terminer match</div></a>
     </div>
-    </div>
+ </div>
 <% } %>
 </form>
-
 <br/>
-COMMENTAIRES
+<div align="center">
+<a href="#games/comment/<%= game.id %>" style="text-decoration:none;"><div class="button_comment">COMMENTAIRES</div></a>
+</div>
 </script>
 <script type="text/template" id="indexViewTemplate"><div class="ui-grid-a" style="padding-top: 5px;">
   <div class="ui-block-a" style="width: 85%;padding-left:5px">
     <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" class="jq-ui-forms" />
   </div>
-  <div class="ui-block-b" style="width: 15%;padding-top: 6px;padding-right:5px;">
+  <div class="ui-block-b" style="width: 15%;padding-top: 6px;padding-right:5px;" id="sendFilter">
     <img src="images/btn_filter.png" width="31" height="32">
   </div>
-</div>
+</div>   
 <ul id="listGamesView" class="ui-listview"></ul></script>
-<script type="text/template" id="playerForgetTemplate"><form id="frmForgetPlayer" class="ui-body ui-body-b ui-corner-all">
+<script type="text/template" id="playerForgetTemplate"><div class="bg-blue">
+
+<form id="frmForgetPlayer" class="form-center">
 
 	<span class="success label label-info hide" style="color: red"></span>
 
-	<div class="control-group">
+	<div>
 		<label class="control-label" for="pseudo">Email</label>
-		<div class="controls">
-			<input type="text" id="email" name="email" placeholder="Email" class='jq-ui-forms' value="" /> 
-			<span class="email_error label label-info hide"></span>
-		</div>
+	</div>
+	<div>
+		<input type="text" id="email" name="email" placeholder="Email" class='jq-ui-forms-white' value="" /> 
+		<span class="email_error label label-info hide"></span>
 	</div>
 
 
-	<div class="control-group">
-		<div class="controls">
-			<button type="submit" value="Save" class="button">Demande de mot de passe</button>
-		</div>
+	<div>
+		<button type="submit" value="Save" class="button">Demande de mot de passe</button>
 	</div>
 
 
 </form>
 
-<hr />
+<br/>
 
 <div align="center">
 	<a href="#players/form" class="button">S'enregistrer</a>
 	<a href="#players/forget" class="button">Mot de passe oubli&eacute;</a>
 </div>
 
+</div>
+
 </script>
-<script type="text/template" id="playerFormTemplate">	<form id="frmAddPlayer">
+<script type="text/template" id="playerFormTemplate">
+<div class="bg-blue">
 
-		<span class="success label label-info hide" style="color: red"></span>
+	<form id="frmAddPlayer" class="form-center">
 
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label  class="ui-input-text" for="name">Name *</label>
-			</div>
-			<div class="ui-block-b">
-				<input type="text" id="name" name="name" placeholder="Nom Complet" class='jq-ui-forms' value="" /> 
-				<span class="name_error label label-info hide"></span>
-			</div>
+		<span class="success label label-info hide" style="color:red"></span>
+
+		<div>
+			<label  class="ui-input-text" for="name">Nom *</label>
 		</div>
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label  class="ui-input-text" for="email">Mail *</label>
-			</div>
-			<div class="ui-block-b">
-				<input type="text" id="email" name="email" placeholder="Mail" class='jq-ui-forms' value="" /> 
-				<span class="email_error label label-info hide"></span>
-			</div>
+		<div>
+			<input type="text" id="name" name="name" placeholder="Nom Complet" class='jq-ui-forms-white' value="" /> 
+			<span class="name_error label label-info hide"></span>
 		</div>
-
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label  class="ui-input-text" for="password">Password *</label>
-			</div>
-			<div class="ui-block-b">
-				<input type="text" id="password" name="password" placeholder="Password" class='jq-ui-forms' value="" />
-				<span class="password_error label label-info hide"></span>
-			</div>
+		<div style="padding-top:10px">
+			<label  class="ui-input-text" for="email">Mail *</label>
 		</div>
-
-
-		<div class="control-group">
-			<div class="controls">
-				<button value="Save" class="button">Save</button>
-			</div>
+		<div>
+			<input type="text" id="email" name="email" placeholder="Mail" class='jq-ui-forms-white' value="" /> 
+			<span class="email_error label label-info hide"></span>
 		</div>
-
-
-		<hr />
-		<div class="control-group">
-			<label class="control-label" for="info">Les options suivantes ne sont pas obligatoires</label>
+		<div style="padding-top:10px">
+			<label  class="ui-input-text" for="password">Mot de passe *</label>
 		</div>
-
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label  class="ui-input-text" for="nickname">Nickname</label>
-			</div>
-			<div class="ui-block-b">
-				<input type="text" id="nickname" name="nickname" placeholder="Pseudo" class='jq-ui-forms' value="" />
-				<span class="nickname_error label label-info hide"></span>
-			</div>
+		<div>
+			<input type="text" id="password" name="password" placeholder="Password" class='jq-ui-forms-white' value="" />
+			<span class="password_error label label-info hide"></span>
 		</div>
-
-
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label class="ui-input-text" for="rank">Rank</label>
-			</div>
-			<div class="ui-block-b">
-				<input type="text" id="rank" name="rank" placeholder="Classement" class='jq-ui-forms' value="" /> 
-				<span class="rank_error label label-info hide"></span>
-			</div>
+		<div style="padding-top:10px">
+			<label class="control-label" for="info">Les options suivantes ne sont pas obligatoires:</label>		
 		</div>
-
-
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label  class="ui-input-text" for="idlicense">ID de la licence</label>
-			</div>
-			<div class="ui-block-b">
-				<input type="text" id="idlicense" name="idlicense" placeholder="Identifiant de la licence" class='jq-ui-forms' value="" /> 
+		<div>
+			<label  class="ui-input-text" for="nickname">Pseudo</label>
+		</div>
+		<div>
+			<input type="text" id="nickname" name="nickname" placeholder="Pseudo" class='jq-ui-forms-white' value="" />
+			<span class="nickname_error label label-info hide"></span>
+		</div>
+		<div style="padding-top:10px">
+			<label class="ui-input-text" for="rank">Classement</label>
+		</div>
+		<div>
+			<input type="text" id="rank" name="rank" placeholder="Classement" class='jq-ui-forms-white' value="" /> 
+			<span class="rank_error label label-info hide"></span>
+		</div>
+		<div style="padding-top:10px">
+			<label  class="ui-input-text" for="idlicense">ID de la licence</label>
+		</div>
+		<div>
+			<input type="text" id="idlicense" name="idlicense" placeholder="Identifiant de la licence" class='jq-ui-forms-white' value="" /> 
 			<span class="idlicense_error label label-info hide"></span>
-			</div>
 		</div>
-
 		<!-- FIXME: Find club_id in Ajax -->
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label  class="ui-input-text" for="club">Club</label>
-			</div>
-			<div class="ui-block-b">
-				<input type="text" id="club" name="club" placeholder="Nom du Club" class='jq-ui-forms' value="" />
-				<ul id="suggestions" data-role="listview" data-inset="true"></ul>
-                <span class="club_error label label-info hide"></span>
-			</div>
+		<div style="padding-top:10px">
+			<label class="ui-input-text" for="club">Club</label>
 		</div>
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<label class="ui-input-text" for="clubid">ID du Club</label>
-			</div>
-			<div class="ui-block-b">
-				<input type="text" id="clubid" name="clubid" placeholder="Identifiant du Club" class='jq-ui-forms' value="" /> 
-				<span class="clubid_error label label-info hide"></span>
-			</div>
+		<div>
+			<input type="text" id="club" name="club" placeholder="Nom du Club" class='jq-ui-forms-white' value="" />
+			<ul id="suggestions" data-role="listview" data-inset="true"></ul>
+               <span class="club_error label label-info hide"></span>
 		</div>
+		<div style="padding-top:10px">
+			<label class="ui-input-text" for="clubid">ID du Club</label>
+		</div>
+		<div>
+			<input type="text" id="clubid" name="clubid" placeholder="Identifiant du Club" class='jq-ui-forms-white' value="" /> 
+			<span class="clubid_error label label-info hide"></span>
+		</div>
+		
 
 		<input type="hidden" id="playerid" value="" class="input" /> 
 		<input type="hidden" id="token" value="" class="input" />
 
+
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<button value="Save" class="button">Enregistrer</button>
+			</div>
+		</div>
+		
+
 	</form>
+	
+</div>
+
 	</script>
 <script type="text/template" id="playerListAutoCompleteViewTemplate"><% if(players.length==0) { %>
 <li><p>Aucun resultat pour <%= query %></p></li>
@@ -21890,65 +22288,84 @@ COMMENTAIRES
 <% } %>
 </script>
 <script type="text/template" id="playerListViewTemplate"><% if(players.length==0) { %>
-<li><p>Aucun resultat pour <%= query %></p></li>
+<li class="player"><p>Aucun resultat pour <%= query %></p></li>
 <% } %> <% for (var i = 0; i < players.length; i++) { player =
 players[i]; %>
-<li><a href="#players/<%= player.id %>" data-transition="slide">
-<%= player.name %> : <%= player.rank %> : <%= player.nickname %> : <%= player.club.name %> <br />
+<li class="player"><a href="#players/<%= player.id %>">
+<%= player.name %> : <%= player.rank %><br/>
+<%= player.nickname %> : <%= player.club.name %> <br />
 </a></li>
 <% } %>
 </script>
-<script type="text/template" id="playerSearchTemplate">
-<input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club, par pseudo" /><br /> <br />
+<script type="text/template" id="playerSearchTemplate"><div class="ui-grid-a" style="padding-top: 5px;">
+  <div class="ui-block-a" style="width: 85%;padding-left:5px">
+    <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club, par pseudo" class="jq-ui-forms" />
+  </div>
+  <div class="ui-block-b" style="width: 15%;padding-top: 6px;padding-right:5px;">
+    <img src="images/btn_filter.png" width="31" height="32">
+  </div>
+</div>
 <ul id="listPlayersView" data-role="listview" data-theme="c"></ul>
 
 </script>
-<script type="text/template" id="playerSigninTemplate">
-	<form id="frmSigninPlayer">
+<script type="text/template" id="playerSigninTemplate"><div class="bg-blue">
+
+	<form id="frmSigninPlayer" class="form-center">
 
 		<span class="success label label-info hide" style="color: red"></span>
 
 		<div class="control-group">
 			<label class="control-label" for="pseudo">Email</label>
-			<div class="controls">
-				<input type="text" id="email" name="email" placeholder="Email" class='jq-ui-forms' value="" /> 
+		</div>
+		
+		<div>
+				<input type="text" id="email" name="email" placeholder="Email" class="jq-ui-forms-white" value="" /> 
 				<span class="email_error label label-info hide"></span>
-			</div>
 		</div>
 
-		<div class="control-group">
+		<div>
 			<label class="control-label" for="password">Mot de passe</label>
-			<div class="controls">
-				<input type="text" id="password" name="password" placeholder="Mot de passe" class='jq-ui-forms' value="" /> 
+		</div>
+		<div class="controls">
+				<input type="text" id="password" name="password" placeholder="Mot de passe" class="jq-ui-forms-white" value="" /> 
 				<span class="password_error label label-info hide"></span>
-			</div>
+		</div>
+		
+
+		<div class="controls">
+			<button type="submit" value="Save" class="button">Connecter</button>
 		</div>
 
-		<div class="control-group">
-			<div class="controls">
-				<button type="submit" value="Save" class="button">Connecter</button>
-			</div>
-		</div>
 
 
 	</form>
 
-	<hr />
+	<br/>
 
 	<div align="center">
 		<a href="#players/form" data-role="button">S'enregistrer</a>
 		<a href="#players/forget" data-role="button">Mot de passe oubli&eacute;</a>
 	</div>
 
-</script>
-<script type="text/template" id="playerViewTemplate"><span class="success label label-info hide" style="color: red"></span>
+</div></script>
+<script type="text/template" id="playerViewTemplate"><div class="bg-blue">
+
+<form class="form-center">
+
+<span class="success label label-info hide" style="color: red"></span>
+
 <h3><%= player.name %> alias <%= player.nickname %></h3>
-Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a><br /> Classement : <%= player.rank %><br /> 
+<br/>
+Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a>
+<br /> Classement : <%= player.rank %><br /> 
 <% if (follow === 'true') { %> 
 <a class="button" id="followButton">Ne plus suivre ce joueur</a> 
 <% } else { %> 
 <a class="button" id="followButton">Suivre ce joueur</a>
 <% } %>
-</script>
+
+</form>
+
+</div></script>
 </body>
 </html>

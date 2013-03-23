@@ -95,9 +95,22 @@ var GameCommentView = Backbone.View.extend({
     var elmt = $(e.currentTarget);
   	var id = elmt.attr("id");
   		
-  	//FIXME : On recupère le Owner.token et id pour etre sur que le comment lui appartient
-  	// si retour du serveur, on supprime
-    console.log('On efface le comment '+id);
+    
+    $.ajax({
+        dataType : 'json',
+        url : Y.Conf.get("api.url.games")
+        + this.gameid 
+        + '/stream/'
+        + id 
+        + '/?playerid='+this.Owner.id
+        +'&token='+this.Owner.toJSON().token
+        +'&_method=delete',
+        
+        type : 'POST',
+        success : function(result) {
+          //console.log('data Warn', result);
+        }
+      });    
       
   },
 
@@ -106,9 +119,16 @@ var GameCommentView = Backbone.View.extend({
     var elmt = $(e.currentTarget);
   	var id = elmt.attr("id");
   		
-  	//FIXME : On recupère le Owner.token et id pour etre sur que le comment lui appartient
-  	// si retour du serveur, on supprime
-    console.log('On signale le comment '+id);
+    
+    $.ajax({
+        dataType : 'json',
+        url : Y.Conf.get("api.url.reports.games")+ this.gameid + '/stream/'+ id + '/',
+        type : 'POST',
+        success : function(result) {
+          //console.log('data Warn', result);
+        }
+      });
+    
       
   },
 

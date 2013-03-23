@@ -1,5 +1,6 @@
 var GameCommentView = Backbone.View.extend({
   el:"#content",
+  gameid:'',
   
   incomingComment : "#incomingComment",
 
@@ -27,6 +28,7 @@ var GameCommentView = Backbone.View.extend({
 
 	//console.log("Owner",this.Owner.toJSON());
 	//console.log("Owner.token",this.Owner.toJSON().token);
+    this.gameid=this.id;
     
    	this.score = new GameModel({id : this.id});
     this.score.fetch();

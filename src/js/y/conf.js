@@ -46,6 +46,10 @@
           this.setNX("api.url.players", apiBaseUrl + "/v1/players/");
           this.setNX("api.url.clubs", apiBaseUrl + "/v1/clubs/");
           this.setNX("api.url.stats", apiBaseUrl + "/v1/stats/");
+          this.setNX("api.url.reports", apiBaseUrl + "/v1/reports/");    
+          this.setNX("api.url.reports.games", apiBaseUrl + "/v1/reports/games/");
+          this.setNX("api.url.reports.players", apiBaseUrl + "/v1/reports/players/");
+          this.setNX("api.url.reports.clubs", apiBaseUrl + "/v1/reports/clubs/");                                       
           this.setNX("fb.url.inappbrowser.redirect", fbBaseUrl + "/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
           this.setNX("facebook.app.id", fbAppId);
           this.setNX("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
@@ -58,6 +62,10 @@
           this.setNX("api.url.players", "http://api.yeswescore.com/v1/players/");
           this.setNX("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
           this.setNX("api.url.stats", "http://api.yeswescore.com/v1/stats/");
+          this.setNX("api.url.reports", apiBaseUrl + "/v1/reports/");    
+          this.setNX("api.url.reports.games", apiBaseUrl + "/v1/reports/games/");
+          this.setNX("api.url.reports.players", apiBaseUrl + "/v1/reports/players/");
+          this.setNX("api.url.reports.clubs", apiBaseUrl + "/v1/reports/clubs/");           
           this.setNX("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
           this.setNX("facebook.app.id", "447718828610668");
           this.setNX("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");

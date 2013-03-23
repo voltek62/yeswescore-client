@@ -112,6 +112,8 @@ var GameCommentView = Backbone.View.extend({
         }
       });    
       
+      //$('#2 .c:eq(1)').html("<p>Hello</p>");
+      $("#comment"+id).remove();
   },
 
   warnComment : function(e) {
@@ -152,6 +154,9 @@ var GameCommentView = Backbone.View.extend({
     stream.save();
 
     $('#messageText').val();
+    
+    this.renderRefresh();
+    
   },
 
   onClose: function(){

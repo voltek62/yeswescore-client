@@ -12,8 +12,9 @@ stream.dates.startDate = stream.dates.startConvert.getDay()+' '+stream.dates.sta
 stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dates.startConvert.getMinutes();
 
 %>
-<div class="comment" id="<%= stream.id %>">
-	<div class="infocomment"><%= (stream.owner.name ||'Anonymous') %> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
+<div class="comment" id="comment<%= stream.id %>">
+	<div class="infocomment">
+    <%= (stream.owner.name ||'Anonymous') %> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
     <%= stream.data.text %> 
 	<% if ( stream.owner.id === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
 	<% if ( stream.owner.id !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	

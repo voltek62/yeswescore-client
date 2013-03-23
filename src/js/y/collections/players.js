@@ -8,11 +8,6 @@ var PlayersCollection = Backbone.Collection.extend({
 	initialize: function (param) {
 		this.changeSort("name");
 		
-		//console.log('Players mode '+param);
-		
-		//if (param==='follow')
-		//	this.storage = new Offline.Storage('playersfollow', this);		
-
 	},
 	  
   url:function() {

@@ -20,7 +20,7 @@ var GameAddView = Backbone.View.extend({
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
     this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
       
-      this.Owner = Y.User.getPlayer();
+      this.Owner = Y.User.getPlayer().toJSON();
 	  this.render();
 
   },
@@ -39,7 +39,7 @@ var GameAddView = Backbone.View.extend({
     //console.log('selected '+selectedId+' '+selectedName);
 
     $(this.listview1).html('');
-    $(this.listview1).listview('refresh');
+    //$(this.listview1).listview('refresh');
   },
 
   displayTeam2: function (li) {
@@ -56,36 +56,25 @@ var GameAddView = Backbone.View.extend({
     //console.log('selected '+selectedId+' '+selectedName);
 
     $(this.listview2).html('');
-    $(this.listview2).listview('refresh');
+    //$(this.listview2).listview('refresh');
   },
 
-  fetchCollection: function () {
-    if (this.collectionFetched) return;
 
-    //this.usersCollection.fetch();
-    /*
-    this.userCollection.fetch({ url: Y.Conf.get("api.url.players")+'97e2f09341b45294f3cd2699', success: function() {
-    console.log('usersCollection 2',this.userCollection);
-    }});        */
-    //Games.fetch();
-
-    this.collectionFetched = true;
-  },
 
   changeTeam1: function () {
     if ($('#myself').attr('checked') !== undefined) {
       console.log($('#myself').attr('checked'));
 
       //Si Owner.name == : On update objet Player
-      if (Owner.name === '') {
-        player = new Player({
-          id: Owner.id,
-          token: Owner.token,
-          name: Owner.name,
-          nickname: Owner.nickname,
-          password: Owner.password,
-          rank: Owner.rank,
-          club: Owner.club
+      if (this.Owner.name === '') {
+        player = new PlayerModel({
+          id: this.Owner.id,
+          token: this.Owner.token,
+          name: this.Owner.name,
+          nickname: this.Owner.nickname,
+          password: this.Owner.password,
+          rank: this.Owner.rank,
+          club: this.Owner.club
         });
 
         console.log('Player gameadd', player)
@@ -102,8 +91,13 @@ var GameAddView = Backbone.View.extend({
   },
 
   updateListTeam1: function (event) {
+  	
+  	console.log('updateListTeam1');
+  
     if ($('#myself').attr('checked') === undefined) {
       var q = $("#team1").val();
+
+	  console.log('updateListTeam1 1');
 
       this.playersTeam1 = new PlayersCollection();
       this.playersTeam1.setMode('search', q);
@@ -136,7 +130,7 @@ var GameAddView = Backbone.View.extend({
   renderListTeam2: function () {
     var q = $("#team2").val();
     $(this.listview2).html(this.playerListAutoCompleteViewTemplate({ players: this.playersTeam2.toJSON(), query: q, select: 2 }));
-    $(this.listview2).listview('refresh');
+    //$(this.listview2).listview('refresh');
   },
 
   addGame: function (event) {

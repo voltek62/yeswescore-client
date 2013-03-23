@@ -531,3 +531,7 @@ input.jq-ui-forms {
   font-weight:normal;  
   -webkit-border-radius:22px; border-radius:22px;
 }
+
+.label-info {
+	color:red;
+}

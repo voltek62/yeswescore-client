@@ -86,15 +86,16 @@ module.exports = function (grunt) {
         dest: 'dist/index.html'
       }
     },
-	copy: {
-	  images: {
-		files: [
-		  {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/',filter: 'isFile'},
-		  {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/build/images/',filter: 'isFile'},
-		  {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/',filter: 'isFile'}
-		]
-	  }
-	},	  
+    copy: {
+      images: {
+        files: [
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/build/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/web/build/images/',filter: 'isFile'}
+        ]
+      }
+    },  
     uglify: {
       build: {
         src: 'dist/app.js',
@@ -121,7 +122,7 @@ module.exports = function (grunt) {
     }
   });
 
-  var platforms = ["android", "ios", "wp8"];
+  var platforms = ["android", "ios", "wp8", "web"];
 
   //
   // registering grunt copy-cordova-android-to-dist, copy-cordova-ios-to-dist, ...
@@ -139,10 +140,10 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) {
     grunt.registerTask('to-' + platform, function () {
-	  if (platform.indexOf('android')!=-1)
-		grunt.file.copy('dist/index.html', 'platforms/' + platform + '/assets/www/index.html');		
-	  else
-		grunt.file.copy('dist/index.html', 'platforms/' + platform + '/build/index.html');
+    if (platform.indexOf('android')!=-1)
+      grunt.file.copy('dist/index.html', 'platforms/' + platform + '/assets/www/index.html');		
+    else
+      grunt.file.copy('dist/index.html', 'platforms/' + platform + '/build/index.html');
     });
   });
 
@@ -154,5 +155,6 @@ module.exports = function (grunt) {
   grunt.registerTask('android', ['clean', 'copy-cordova-android-to-dist', 'template', 'concat', 'copy', 'preprocess', 'to-android']);
   grunt.registerTask('ios', ['clean', 'copy-cordova-ios-to-dist', 'template', 'concat', 'preprocess', 'to-ios']);
   grunt.registerTask('wp8', ['clean', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'preprocess', 'to-wp8']);
+  grunt.registerTask('web', ['clean', 'copy-cordova-web-to-dist', 'template', 'concat', 'copy', 'preprocess', 'to-web']);
   grunt.registerTask('default', 'android');
 };

@@ -78,6 +78,15 @@
   <script type="text/javascript" src="js/y/views/playerforget.js"></script>
   <script type="text/javascript" src="js/y/views/index.js"></script>
   <script type="text/javascript" src="js/y/views/game.js"></script>
+  
+  <!--
+      Unit test hack
+      - 404 in dev environment
+      - not included in prod environment (ios, android, wp8 & web)
+      - exist in static UT server (@see yeswescore-client/platforms/ut/static/server.js)
+  -->
+  <script type="text/javascript" src="ut.js" data-grunt-included="false"></script>
+  
   <!-- start the app ! -->
   <script type="text/javascript" src="js/main.js"></script>
   <!-- @endif -->

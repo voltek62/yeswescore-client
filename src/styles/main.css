@@ -29,10 +29,11 @@ p {
 **********************************************************/
 
 #jQUi > #header {
+  position: absolute;
   background-image:none;
   background-color:#000;
-  height:43px;	
-  z-index:10000;
+  height:43px;
+  z-index: 10000;
 }
 
 #header #backButton {

@@ -46,7 +46,7 @@
           setTimeout(callback, 10);
           break;
         default:
-          throw "error";
+          throw "error - unknown status (1) "+this.status;
       }
     },
 
@@ -66,7 +66,7 @@
           setTimeout(callback, 10);
           break;
         default:
-          throw "error";
+          throw "error - unknown status (2) "+this.status;
       }
     }
   };

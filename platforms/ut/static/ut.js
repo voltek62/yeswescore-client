@@ -8,4 +8,4 @@ Y.Conf.set("api.url.players", [API_BASE_URL] + "/v1/players/");
 Y.Conf.set("api.url.clubs", [API_BASE_URL] + "/v1/clubs/");
 Y.Conf.set("api.url.stats", [API_BASE_URL] + "/v1/stats/");
 Y.Conf.set("fb.url.inappbrowser.redirect", [FB_BASE_URL] + "/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
-Y.Conf.set("ut", true);
+Y.Conf.set("ut", 42);

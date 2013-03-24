@@ -1164,6 +1164,19 @@ color:white;
 
 }
 /**********************************************************
+	WP8 specifics.
+**********************************************************/
+
+@media screen and (orientation: portrait) {
+    @-ms-viewport {
+        width: 320px;
+        user-zoom: fixed;
+        max-zoom: 1;
+        min-zoom: 1;
+    }
+}
+
+/**********************************************************
 	GENERAL UI ELEMENTS
 **********************************************************/
 
@@ -1184,12 +1197,13 @@ p {
   background-image:none;
   background-color:#000;
   height:43px;	
-  z-index:10000;
+  z-index:1000;
 }
 
 #header #backButton {
   background-image:none;
   background-color:#000;  	
+  z-index:1000;
 }	
 
 #header  h1 {
@@ -1198,6 +1212,7 @@ p {
   font-weight:bold;
   /*font-family: 'Open Sans';*/
   text-transform:uppercase;
+  z-index:1000;
 }
 
 #header  div#pageLogo {
@@ -1215,11 +1230,13 @@ p {
   white-space:nowrap;
   color:#45b1db;
   margin-top:6px;
+  z-index:1000;
 }
 
 .pageLogoPoint {
   font-size:18px;
   font-weight:bold;	
+  z-index:1000;
 }
 
 #header  div#pageOnline {
@@ -1228,6 +1245,7 @@ p {
   right:0px;	
   padding:0px 20px;
   margin-top:12px;
+  z-index:1000;
 }
 
 /**********************************************************
@@ -1312,8 +1330,7 @@ ul > li.player > a {
   bottom:40px;  
   z-index:180;
   width:100%;
-  height:100%;
-  overflow-y:auto;
+  height:3000px;
   overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
   -webkit-backface-visibility: hidden;
@@ -1715,6 +1732,8 @@ input.jq-ui-forms {
 	SCROLLBAR
 **********************************************************/
 .scrollBarV { opacity:.8 !important}
+.scrollBar{background:white;}
+.jqmscrollBar {background:white !important;}
 
 
   </style>
@@ -17624,17 +17643,9 @@ var assert = function () { };
         _(onreadyCallbacks).forEach(function (f) { f() });
       };
 
-      // Windows Phone 8 cordova bug.
-      if (navigator.userAgent.match(/(IEMobile)/)) {
-        setTimeout(function () { onDeviceReady() }, 2000);
-      }
-      else {
-        
-          window.addEventListener("load", function () {
-            document.addEventListener("deviceready", onDeviceReady, false);
-          }, false);
-        
-      }
+      window.addEventListener("load", function () {
+        document.addEventListener("deviceready", onDeviceReady, false);
+      }, false);
     },
 
     deviceready: function (callback) {
@@ -18112,7 +18123,6 @@ var assert = function () { };
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", version); // will be usefull on update.
-      
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
@@ -18132,6 +18142,18 @@ var assert = function () { };
       
       //init jqui
       $.ui.resetScrollers=false;
+
+	   var init = function(){
+		   $.ui.backButtonText="Back";  
+		   window.setTimeout(function(){$.ui.launch();},1500);
+	       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
+	    };
+	    document.addEventListener("DOMContentLoaded",init,false);  
+		$.ui.ready(function(){
+	
+			//$.ui.enableDragMenu();
+		});      
+      
       
    	  var onDeviceReady=function(){
 		AppMobi.device.setRotateOrientation("portrait");
@@ -20841,7 +20863,7 @@ var IndexView = Backbone.View.extend({
   
     var myScroller;
     
-
+	$.ui.ready(function(){
 	  myScroller=$("#content").scroller();//Fetch the scroller from cache
 	  //Since this is a jqUi scroller, we could also do
 	  // myScroller=$.ui.scrollingDivs['webslider'];
@@ -20862,7 +20884,7 @@ var IndexView = Backbone.View.extend({
 		   	
       $("#content").css("overflow","auto");
 		    
-
+	});  
   
   $.ui.setBackButtonVisibility(false);
   $.ui.setTitle("LISTE DES MATCHES");
@@ -21462,10 +21484,8 @@ $(document).ready(function () {
       <div id="pageOnline"><img src="images/header-logo-on.png" height="21" width="25" /></div>
       </div>
             
-      <div id="content">
-      
+      <div id="content">     
           <!-- here is where you can add your panels -->
-
       </div>
             
       <!-- bottom navbar. Add additional tabs here -->
@@ -21968,8 +21988,9 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
 <li>
 
 <div class="ui-grid-a"  style="color:#45B1DB;font-weight:bold;padding-bottom:8px;">
-	<div class="ui-block-a" style="width: 80%; text-align: left;">
-	<a href="#games/<%= game.id %>" style="color:#45B1DB;font-weight:bold;"> <%= game.dates.startDate %> - <%= game.location.city %></a>
+	<div class="ui-block-a" style="width: 80%;text-align:left;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;">
+	<a href="#games/<%= game.id %>" style="color:#45B1DB;font-weight:bold;"> 
+    <%= game.dates.startDate %> - <%= game.location.city %></a>
 	</div>
 	<div class="ui-block-b" style="width: 20%; text-align: right;">
 	<%= game.status %>
@@ -21977,7 +21998,7 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
 </div>
 
  <div class="ui-grid-d">
-     <div class="ui-block-a" style="width: 60%;text-overflow: ellipsis;">
+     <div class="ui-block-a" style="width:60%;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;">
 	<% 
 	if (game.teams[0].players[0]!== undefined) { 
 		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
@@ -22003,7 +22024,7 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
  </div>
 
  <div class="ui-grid-d">
-     <div class="ui-block-a" style="width: 60%;text-overflow: ellipsis;">
+     <div class="ui-block-a" style="width:60%;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;">
 	<% 
 	if (game.teams[1].players[0]!== undefined) { 
 		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	

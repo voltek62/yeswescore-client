@@ -32,12 +32,13 @@ p {
   background-image:none;
   background-color:#000;
   height:43px;	
-  z-index:10000;
+  z-index:1000;
 }
 
 #header #backButton {
   background-image:none;
   background-color:#000;  	
+  z-index:1000;
 }	
 
 #header  h1 {
@@ -46,6 +47,7 @@ p {
   font-weight:bold;
   /*font-family: 'Open Sans';*/
   text-transform:uppercase;
+  z-index:1000;
 }
 
 #header  div#pageLogo {
@@ -63,11 +65,13 @@ p {
   white-space:nowrap;
   color:#45b1db;
   margin-top:6px;
+  z-index:1000;
 }
 
 .pageLogoPoint {
   font-size:18px;
   font-weight:bold;	
+  z-index:1000;
 }
 
 #header  div#pageOnline {
@@ -76,6 +80,7 @@ p {
   right:0px;	
   padding:0px 20px;
   margin-top:12px;
+  z-index:1000;
 }
 
 /**********************************************************
@@ -160,8 +165,7 @@ ul > li.player > a {
   bottom:40px;  
   z-index:180;
   width:100%;
-  height:100%;
-  overflow-y:auto;
+  height:3000px;
   overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
   -webkit-backface-visibility: hidden;

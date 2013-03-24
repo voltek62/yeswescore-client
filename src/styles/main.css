@@ -159,15 +159,15 @@ ul > li.player > a {
 #content{
   background-color:#fff;
   top:48px;
-  bottom:40px;  
+  bottom: initial !important;
   z-index:180;
   width:100%;
-  overflow:visible;
   /* disabled yet */
   /*-webkit-overflow-scrolling:touch;
     -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000;  
     */
+  padding-bottom: 100px;
 }
 
 .panel {

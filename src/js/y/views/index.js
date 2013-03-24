@@ -3,7 +3,7 @@ var IndexView = Backbone.View.extend({
 
   events: {
     "keyup input#search-basic": "search",
-    "click #sendFilter":"sendFilter"
+    "click #sendFilter": "sendFilter"
   },
 
   listview: "#listGamesView",
@@ -11,52 +11,50 @@ var IndexView = Backbone.View.extend({
   pageName: "index",
 
   initialize: function () {
-  
-  /*
-  var options={ 
-  	verticalScroll:true, //vertical scrolling 
+
+    /*
+    var options={ 
+    verticalScroll:true, //vertical scrolling 
     horizontalScroll:false, //horizontal scrolling 
     scrollBars:true, //display scrollbars 
     vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
     //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
     refresh:false, //Adds 'Pull to refresh' at the top 
     //refreshFunction:updateMessage //callback function to execute on pull to refresh 
-  }; */
-  
-  //$("#content").scroller();
-  
-    var myScroller;
-    
-	$.ui.ready(function(){
-	  myScroller=$("#content").scroller();//Fetch the scroller from cache
-	  //Since this is a jqUi scroller, we could also do
-	  // myScroller=$.ui.scrollingDivs['webslider'];
-	  myScroller.addInfinite();
-	  //myScroller.addPullToRefresh();
-	  
-	  $.bind(myScroller, 'scrollend',function()
-	  {
-			console.log("scroll end");
-	  });
-	  
-	  $.bind(myScroller, 'scrollstart',function()
-		{
-		console.log("scroll start");
-	 }); 
+    }; */
 
-	  myScroller.enable();
+    //$("#content").scroller();
+
+    var myScroller;
+
+    $.ui.ready(function () {
+      myScroller=$("#content").scroller();//Fetch the scroller from cache
+      //Since this is a jqUi scroller, we could also do
+      // myScroller=$.ui.scrollingDivs['webslider'];
+      myScroller.addInfinite();
+      //myScroller.addPullToRefresh();
+	  
+      $.bind(myScroller, 'scrollend',function()
+      {
+      console.log("scroll end");
+      });
+	  
+      $.bind(myScroller, 'scrollstart',function()
+      {
+      console.log("scroll start");
+      }); 
+
+      myScroller.enable();
 		   	
       //$("#content").css("overflow","auto");
-		    
-	});  
-  
-  $.ui.setBackButtonVisibility(false);
-  $.ui.setTitle("LISTE DES MATCHES");
-  //$.ui.resetScrollers=true;
-   
+    });
 
-  this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
-  this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+    $.ui.setBackButtonVisibility(false);
+    $.ui.setTitle("LISTE DES MATCHES");
+    //$.ui.resetScrollers=true;
+
+    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
+    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
 
     //we capture config from bootstrap
     //FIXME: put a timer
@@ -64,20 +62,20 @@ var IndexView = Backbone.View.extend({
     //this.config.fetch();
 
     this.games = new GamesCollection();
-	if (this.id!=='') {
-		console.log('setSort',this.id);
-		this.games.setSort(this.id);	
-	}
+    if (this.id !== '') {
+      console.log('setSort', this.id);
+      this.games.setSort(this.id);
+    }
 
     this.games.fetch();
-    
+
     //console.log('this.id ',this.id);
 
-	
+
     $.ui.showMask('please wait, loading player');
-	
-	var that = this; 
-	
+
+    var that = this;
+
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
@@ -85,62 +83,62 @@ var IndexView = Backbone.View.extend({
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           console.log('player created', player);
-          
+
           $.ui.hideMask();
-          
+
           // rendering
           that.render();
           that.games.on('all', that.renderList, that);
-          
-         
-              
+
+
+
         });
         return;
       }
       // continue
       $.ui.hideMask();
-      
+
       that.render();
       that.games.on('all', that.renderList, that);
-      
-    /* On charge les parties par Géolocalisation
+
+      /* On charge les parties par Géolocalisation
     
-    Y.Geolocation.on("change", function (pos) { 
+      Y.Geolocation.on("change", function (pos) { 
         
-    //On sauve avec les coord actuels
-    player = new PlayerModel({
-    latitude : pos[1]
-    , longitude : pos[0]
-    , playerid : player.id
-    , token : player.token
+      //On sauve avec les coord actuels
+      player = new PlayerModel({
+      latitude : pos[1]
+      , longitude : pos[0]
+      , playerid : player.id
+      , token : player.token
+      });
+      player.save();
+        
+      this.games = new GamesCollection();
+      this.games.setMode('geolocation','');
+      this.games.setPos(pos);
+      this.games.fetch();
+      this.games.on('all', this.renderList, this);
+        
+        
+      });
+      }
+      */
+
     });
-    player.save();
-        
-    this.games = new GamesCollection();
-    this.games.setMode('geolocation','');
-    this.games.setPos(pos);
-    this.games.fetch();
-    this.games.on('all', this.renderList, this);
-        
-        
-    });
-    }
-    */      
-      
-    });
- 
+
 
   },
-  
-  
-  
+
+
+
   sendFilter: function () {
-  	//console.log("sendFilter");
+    //console.log("sendFilter");
     $.ui.actionsheet('<a href="#sort/date" class="button">Afficher par Date</a>'
-    +' <a href="#sort/location" class="button">Afficher par Lieu</a>'
-    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
-    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>');
-    
+    + ' <a href="#sort/location" class="button">Afficher par Lieu</a>'
+    + ' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
+    + ' <a href="#sort/finished" class="button">Afficher Matchs finis</a>');
+
   },
 
   search: function () {

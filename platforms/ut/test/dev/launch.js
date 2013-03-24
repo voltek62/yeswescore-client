@@ -9,9 +9,17 @@ var port = parseInt(system.env.YESWESCORE_PORT, 10);
 var baseUrl = "http://localhost:"+utPort+"/";
 
 casper.start(baseUrl, function() {
-  console.log('started');
-  var UT = this.evaluate(function () { return window.UT; });
-  console.log("UT = " + UT);
+  // we are outside webkit.
+  var UT = this.evaluateAsync(function (done) {
+    // we are inside webkit.
+    Y.ready(function () {
+      done(Y.Conf.get('ut'));
+    });
+  }, function (doooh) {
+    // we are back
+    console.log("doooh="+doooh); // should be 42
+  });
+
 });
 
 casper.then(function() {

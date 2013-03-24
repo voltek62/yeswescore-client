@@ -100,8 +100,7 @@ phonegapdesktop.internal = {
 			var touchEvent = document.createEvent("HTMLEvents");
 			touchEvent.touches = [{
 				pageX : mouseArgs.pageX,
-				pageY : mouseArgs.pageY,
-        target: mouseArgs.currentTarget // FIXME: might not be the good target.
+				pageY : mouseArgs.pageY
 			}];
 			touchEvent.initEvent(eventName, true, true);
 			try {

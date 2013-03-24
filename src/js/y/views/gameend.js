@@ -35,7 +35,7 @@ var GameEndView = Backbone.View.extend({
   //render the content into div of view
   render: function(){
 	  this.$el.html(this.gameEndTemplate({playerid:Owner.id, token:Owner.token}));
-	  this.$el.trigger('pagecreate');
+	  //this.$el.trigger('pagecreate');
 	  return this;
   },
 

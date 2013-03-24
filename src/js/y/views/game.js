@@ -392,7 +392,7 @@ var GameView = Backbone.View.extend({
         }));
 
         //$.mobile.hidePageLoadingMsg();
-        this.$el.trigger('pagecreate');
+        //this.$el.trigger('pagecreate');
 
         return this;
       },
@@ -456,7 +456,7 @@ var GameView = Backbone.View.extend({
 
         }
 
-        this.$el.trigger('pagecreate');
+        //this.$el.trigger('pagecreate');
 
       },
 

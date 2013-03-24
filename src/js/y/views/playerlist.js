@@ -61,7 +61,7 @@ var PlayerListView = Backbone.View.extend({
   render : function() {
     this.$el.html(this.playerSearchTemplate({}));
     // Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     // return to enable chained calls
     return this;
   },

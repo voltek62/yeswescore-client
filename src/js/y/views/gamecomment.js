@@ -60,7 +60,7 @@ var GameCommentView = Backbone.View.extend({
  	  var playerid = this.Owner.id;
   
 	  this.$el.html(this.gameCommentTemplate({game : this.score.toJSON(),playerid:this.Owner.id,token:token}));
-	  this.$el.trigger('pagecreate');
+	  //this.$el.trigger('pagecreate');
 	  return this;
   },
   

@@ -34,7 +34,7 @@ var PlayerForgetView = Backbone.View.extend({
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerForgetTemplate({}));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 

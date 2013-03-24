@@ -132,7 +132,7 @@ var PlayerFormView = Backbone.View.extend({
     
     //player:this.player.toJSON(),playerid:Owner.id,token:Owner.token	
     this.$el.html(this.playerFormTemplate(dataDisplay));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 

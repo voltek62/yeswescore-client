@@ -61,7 +61,7 @@ var PlayerView = Backbone.View.extend({
 	    this.follow = 'true';
     }
 		
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
   },    
 
   //render the content into div of view
@@ -72,7 +72,7 @@ var PlayerView = Backbone.View.extend({
       player:this.player.toJSON(),follow:this.follow
     }));
     //$.mobile.hidePageLoadingMsg();
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 

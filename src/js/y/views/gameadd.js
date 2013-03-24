@@ -230,7 +230,7 @@ var GameAddView = Backbone.View.extend({
   //render the content into div of view
   render: function () {
     this.$el.html(this.gameAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 

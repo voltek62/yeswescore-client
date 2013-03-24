@@ -12,23 +12,48 @@ var IndexView = Backbone.View.extend({
 
   initialize: function () {
   
+  /*
+  var options={ 
+  	verticalScroll:true, //vertical scrolling 
+    horizontalScroll:false, //horizontal scrolling 
+    scrollBars:true, //display scrollbars 
+    vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
+    //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
+    refresh:false, //Adds 'Pull to refresh' at the top 
+    //refreshFunction:updateMessage //callback function to execute on pull to refresh 
+  }; */
+  
+  //$("#content").scroller();
+  
+    var myScroller;
+    
+	$.ui.ready(function(){
+	  myScroller=$("#content").scroller();//Fetch the scroller from cache
+	  //Since this is a jqUi scroller, we could also do
+	  // myScroller=$.ui.scrollingDivs['webslider'];
+	  myScroller.addInfinite();
+	  //myScroller.addPullToRefresh();
+	  
+	  $.bind(myScroller, 'scrollend',function()
+	  {
+			console.log("scroll end");
+	  });
+	  
+	  $.bind(myScroller, 'scrollstart',function()
+		{
+		console.log("scroll start");
+	 }); 
+
+	  myScroller.enable();
+		   	
+      $("#content").css("overflow","auto");
+		    
+	});  
   
   $.ui.setBackButtonVisibility(false);
   $.ui.setTitle("LISTE DES MATCHES");
-  $.ui.resetScrollers=true;
+  //$.ui.resetScrollers=true;
    
-              
-  var options={ 
-  verticalScroll:true, //vertical scrolling 
-  horizontalScroll:false, //horizontal scrolling 
-  scrollBars:true, //display scrollbars 
-  //vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
-  //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
-  refresh:false, //Adds 'Pull to refresh' at the top 
-  //refreshFunction:updateMessage //callback function to execute on pull to refresh 
-  }; 
-  
-  var scroller = $("#content").scroller(options);
 
   this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
   this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');

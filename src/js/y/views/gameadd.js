@@ -39,7 +39,7 @@ var GameAddView = Backbone.View.extend({
     //console.log('selected '+selectedId+' '+selectedName);
 
     $(this.listview1).html('');
-    //$(this.listview1).listview('refresh');
+    //&$(this.listview1).listview('refresh');
   },
 
   displayTeam2: function (li) {

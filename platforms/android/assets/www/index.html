@@ -1184,7 +1184,7 @@ p {
   background-image:none;
   background-color:#000;
   height:43px;	
-  z-index:1000;
+  z-index:10000;
 }
 
 #header #backButton {
@@ -1307,7 +1307,17 @@ ul > li.player > a {
 
 #content{
   background-color:#fff;	
-  bottom:40px;
+  position:absolute;  
+  top:48px;
+  bottom:40px;  
+  z-index:180;
+  width:100%;
+  height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;	
 }
 
 .panel {
@@ -1696,6 +1706,16 @@ input.jq-ui-forms {
   font-weight:normal;  
   -webkit-border-radius:22px; border-radius:22px;
 }
+
+.label-info {
+	color:red;
+}
+
+/**********************************************************
+	SCROLLBAR
+**********************************************************/
+.scrollBarV { opacity:.8 !important}
+
 
   </style>
   <script>
@@ -18075,6 +18095,10 @@ var assert = function () { };
           this.setNX("api.url.players", "http://api.yeswescore.com/v1/players/");
           this.setNX("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
           this.setNX("api.url.stats", "http://api.yeswescore.com/v1/stats/");
+          this.setNX("api.url.reports", "http://api.yeswescore.com/v1/report/");    
+          this.setNX("api.url.reports.games", "http://api.yeswescore.com/v1/report/games/");
+          this.setNX("api.url.reports.players", "http://api.yeswescore.com/v1/report/players/");
+          this.setNX("api.url.reports.clubs", "http://api.yeswescore.com/v1/report/clubs/");           
           this.setNX("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
           this.setNX("facebook.app.id", "447718828610668");
           this.setNX("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
@@ -18105,6 +18129,33 @@ var assert = function () { };
           callback();
         });
       });
+      
+      //init jqui
+      $.ui.resetScrollers=false;
+      
+   	  var onDeviceReady=function(){
+		AppMobi.device.setRotateOrientation("portrait");
+        AppMobi.device.setAutoRotate(false);
+		//webRoot=AppMobi.webRoot+"kitchensink/";
+	    //hide splash screen
+	    AppMobi.device.hideSplashScreen();	
+	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
+      };      
+      document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
+	  
+	  function showHide(obj,objToHide){
+		var el=$("#"+objToHide)[0];
+		
+		if(obj.className=="expanded"){
+			obj.className="collapsed";
+		}
+		else{
+			obj.className="expanded";
+		}
+		$(el).toggle();
+		
+	  }      
+      
     },
 
     // Read API
@@ -18989,7 +19040,6 @@ var StreamModel = Backbone.Model.extend({
   },
 
   comparator : function(item) {
-    // POSSIBLE MULTI FILTER [a,b,..]
     return -item.get("date").getTime();
   },
 
@@ -19028,15 +19078,7 @@ var StreamModel = Backbone.Model.extend({
         }
       });
 
-    } else {
-
-	  // http://api.yeswescore.com/v1/games/511d31971ad3857d0a0000f8/stream/
-	  console.log('StreamModel default '+Y.Conf.get("api.url.games")+this.id+"/stream/");
-      model.url = Y.Conf.get("api.url.games")+this.id+"/stream/";
-	  
-      return Backbone.sync(method, model, options);
-
-    }
+    } 
 
   }
 
@@ -19431,11 +19473,6 @@ var PlayersCollection = Backbone.Collection.extend({
 	initialize: function (param) {
 		this.changeSort("name");
 		
-		//console.log('Players mode '+param);
-		
-		//if (param==='follow')
-		//	this.storage = new Offline.Storage('playersfollow', this);		
-
 	},
 	  
   url:function() {
@@ -19508,6 +19545,43 @@ var ClubsCollection = Backbone.Collection.extend({
 
   },
 
+});
+
+var StreamsCollection = Backbone.Collection.extend({
+  model: StreamModel, 
+  		
+  mode: 'default',
+  gameid:'', 
+  	
+  query: '',
+ 	
+  initialize: function (param) {
+  		this.changeSort("date");
+  				
+  		console.log('constructeur avec ',param);
+		this.gameid = param.id;
+  },
+	  
+  url:function() {
+     
+     // http://api.yeswescore.com/v1/games/511d31971ad3857d0a0000f8/stream/
+	console.log('StreamModel default '+Y.Conf.get("api.url.games")+this.gameid+"/stream/");
+    return Y.Conf.get("api.url.games")+this.gameid+"/stream/";
+     
+  },
+	
+  comparator: function (property) {
+    return selectedStrategy.apply(Game.get(property));
+  },
+    
+  strategies: {
+      date: function (item) { return [item.get("dates.creation")]; }
+  },
+    
+  changeSort: function (sortProperty) {
+      this.comparator = this.strategies[sortProperty];
+  }
+	
 });
 
 var AccountView = Backbone.View.extend({
@@ -20167,7 +20241,7 @@ var GameAddView = Backbone.View.extend({
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
     this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
       
-      this.Owner = Y.User.getPlayer();
+      this.Owner = Y.User.getPlayer().toJSON();
 	  this.render();
 
   },
@@ -20186,7 +20260,7 @@ var GameAddView = Backbone.View.extend({
     //console.log('selected '+selectedId+' '+selectedName);
 
     $(this.listview1).html('');
-    $(this.listview1).listview('refresh');
+    //&$(this.listview1).listview('refresh');
   },
 
   displayTeam2: function (li) {
@@ -20203,36 +20277,25 @@ var GameAddView = Backbone.View.extend({
     //console.log('selected '+selectedId+' '+selectedName);
 
     $(this.listview2).html('');
-    $(this.listview2).listview('refresh');
+    //$(this.listview2).listview('refresh');
   },
 
-  fetchCollection: function () {
-    if (this.collectionFetched) return;
 
-    //this.usersCollection.fetch();
-    /*
-    this.userCollection.fetch({ url: Y.Conf.get("api.url.players")+'97e2f09341b45294f3cd2699', success: function() {
-    console.log('usersCollection 2',this.userCollection);
-    }});        */
-    //Games.fetch();
-
-    this.collectionFetched = true;
-  },
 
   changeTeam1: function () {
     if ($('#myself').attr('checked') !== undefined) {
       console.log($('#myself').attr('checked'));
 
       //Si Owner.name == : On update objet Player
-      if (Owner.name === '') {
-        player = new Player({
-          id: Owner.id,
-          token: Owner.token,
-          name: Owner.name,
-          nickname: Owner.nickname,
-          password: Owner.password,
-          rank: Owner.rank,
-          club: Owner.club
+      if (this.Owner.name === '') {
+        player = new PlayerModel({
+          id: this.Owner.id,
+          token: this.Owner.token,
+          name: this.Owner.name,
+          nickname: this.Owner.nickname,
+          password: this.Owner.password,
+          rank: this.Owner.rank,
+          club: this.Owner.club
         });
 
         console.log('Player gameadd', player)
@@ -20249,8 +20312,13 @@ var GameAddView = Backbone.View.extend({
   },
 
   updateListTeam1: function (event) {
+  	
+  	console.log('updateListTeam1');
+  
     if ($('#myself').attr('checked') === undefined) {
       var q = $("#team1").val();
+
+	  console.log('updateListTeam1 1');
 
       this.playersTeam1 = new PlayersCollection();
       this.playersTeam1.setMode('search', q);
@@ -20283,7 +20351,7 @@ var GameAddView = Backbone.View.extend({
   renderListTeam2: function () {
     var q = $("#team2").val();
     $(this.listview2).html(this.playerListAutoCompleteViewTemplate({ players: this.playersTeam2.toJSON(), query: q, select: 2 }));
-    $(this.listview2).listview('refresh');
+    //$(this.listview2).listview('refresh');
   },
 
   addGame: function (event) {
@@ -20427,20 +20495,26 @@ var GameEndView = Backbone.View.extend({
 });
 var GameCommentView = Backbone.View.extend({
   el:"#content",
+  gameid:'',
   
   incomingComment : "#incomingComment",
 
   events: {
         'click #sendComment'  : 'sendComment',
-        'click .deleteComment': 'deleteComment'   
+        'click .deleteComment': 'deleteComment',
+        'click .warnComment': 'warnComment'        
   },
 
   pageName: "gameComment",
     
   initialize:function() {
+  
+     $.ui.setBackButtonVisibility(true);
+     $.ui.setBackButtonText("&lt;");
+     $.ui.setTitle("COMMENTAIRES");
+  
     this.gameCommentTemplate = Y.Templates.get('gameCommentTemplate');
-    this.gameViewCommentListTemplate = Y.Templates
-            .get('gameViewCommentListTemplate');
+    this.gameViewCommentListTemplate = Y.Templates.get('gameViewCommentListTemplate');
                
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
@@ -20449,24 +20523,25 @@ var GameCommentView = Backbone.View.extend({
 
 	//console.log("Owner",this.Owner.toJSON());
 	//console.log("Owner.token",this.Owner.toJSON().token);
+    this.gameid=this.id;
     
    	this.score = new GameModel({id : this.id});
     this.score.fetch();
     
     this.score.on("all",this.render,this);
 
-   	this.comment = new StreamModel({id : this.id});
-    this.comment.fetch();
+   	this.streams = new StreamsCollection({id : this.id});
+    this.streams.fetch();
     
     var options = {
           delay : Y.Conf.get("game.refresh")
     };
     
-    //poller = Backbone.Poller.get(this.comment, options)
-    //poller.start();
-    //poller.on('success', this.getObjectUpdated, this);
+    poller = Backbone.Poller.get(this.streams, options)
+    poller.start();
+    poller.on('success', this.getObjectUpdated, this);
 
-	this.comment.on("all",this.renderRefresh,this);
+	//this.streams.on("all",this.renderRefresh,this);
 
   },
   
@@ -20484,21 +20559,22 @@ var GameCommentView = Backbone.View.extend({
   
   
   getObjectUpdated: function() {
-        this.comment.on("all",this.renderRefresh,this);     
+        this.streams.on("all",this.renderRefresh,this);     
   },
 
       // render the content into div of view
   renderRefresh : function() {
         
-		//console.log('COMMENT',this.comment.toJSON());        
-
-        // if we have comments
-
-        if (this.comment.toJSON() !== undefined) {
-
+        if (this.streams.toJSON() !== undefined) {
+        
+		 //FIXME : g�rer la date en temps �coul�
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
-            streams  : this.comment.toJSON()
+            streams  : this.streams.toJSON(),
+            Owner : this.Owner
           }));
+          
+          
+          //$(this.incomingComment).html('vincent '+JSON.stringify(this.streams.toJSON()));
           
           $(this.incomingComment).trigger('create');
 
@@ -20514,9 +20590,42 @@ var GameCommentView = Backbone.View.extend({
     var elmt = $(e.currentTarget);
   	var id = elmt.attr("id");
   		
-  	//FIXME : On recup�re le Owner.token et id pour etre sur que le comment lui appartient
-  	// si retour du serveur, on supprime
-    console.log('On efface le comment '+id);
+    
+    $.ajax({
+        dataType : 'json',
+        url : Y.Conf.get("api.url.games")
+        + this.gameid 
+        + '/stream/'
+        + id 
+        + '/?playerid='+this.Owner.id
+        +'&token='+this.Owner.toJSON().token
+        +'&_method=delete',
+        
+        type : 'POST',
+        success : function(result) {
+          //console.log('data Warn', result);
+        }
+      });    
+      
+      //$('#2 .c:eq(1)').html("<p>Hello</p>");
+      $("#comment"+id).remove();
+  },
+
+  warnComment : function(e) {
+      
+    var elmt = $(e.currentTarget);
+  	var id = elmt.attr("id");
+  		
+    
+    $.ajax({
+        dataType : 'json',
+        url : Y.Conf.get("api.url.reports.games")+ this.gameid + '/stream/'+ id + '/',
+        type : 'POST',
+        success : function(result) {
+          //console.log('data Warn', result);
+        }
+      });
+    
       
   },
 
@@ -20540,6 +20649,9 @@ var GameCommentView = Backbone.View.extend({
     stream.save();
 
     $('#messageText').val();
+    
+    this.renderRefresh();
+    
   },
 
   onClose: function(){
@@ -20714,23 +20826,48 @@ var IndexView = Backbone.View.extend({
 
   initialize: function () {
   
+  /*
+  var options={ 
+  	verticalScroll:true, //vertical scrolling 
+    horizontalScroll:false, //horizontal scrolling 
+    scrollBars:true, //display scrollbars 
+    vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
+    //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
+    refresh:false, //Adds 'Pull to refresh' at the top 
+    //refreshFunction:updateMessage //callback function to execute on pull to refresh 
+  }; */
+  
+  //$("#content").scroller();
+  
+    var myScroller;
+    
+
+	  myScroller=$("#content").scroller();//Fetch the scroller from cache
+	  //Since this is a jqUi scroller, we could also do
+	  // myScroller=$.ui.scrollingDivs['webslider'];
+	  myScroller.addInfinite();
+	  //myScroller.addPullToRefresh();
+	  
+	  $.bind(myScroller, 'scrollend',function()
+	  {
+			console.log("scroll end");
+	  });
+	  
+	  $.bind(myScroller, 'scrollstart',function()
+		{
+		console.log("scroll start");
+	 }); 
+
+	  myScroller.enable();
+		   	
+      $("#content").css("overflow","auto");
+		    
+
   
   $.ui.setBackButtonVisibility(false);
   $.ui.setTitle("LISTE DES MATCHES");
-  $.ui.resetScrollers=true;
+  //$.ui.resetScrollers=true;
    
-              
-  var options={ 
-  verticalScroll:true, //vertical scrolling 
-  horizontalScroll:false, //horizontal scrolling 
-  scrollBars:true, //display scrollbars 
-  //vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
-  //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
-  refresh:false, //Adds 'Pull to refresh' at the top 
-  //refreshFunction:updateMessage //callback function to execute on pull to refresh 
-  }; 
-  
-  var scroller = $("#content").scroller(options);
 
   this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
   this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
@@ -21325,36 +21462,19 @@ $(document).ready(function () {
       <div id="pageOnline"><img src="images/header-logo-on.png" height="21" width="25" /></div>
       </div>
             
-      <div id="content" style="width: 100%;height: 100%; overflow: auto;">
+      <div id="content">
+      
           <!-- here is where you can add your panels -->
 
       </div>
             
       <!-- bottom navbar. Add additional tabs here -->
       <div id="navbar">
-      		<!-- 
-          <div class="horzRule"></div>
-           -->
           <a href="#" id="navbar_home">Suivre</a>
           <a href="#games/add" id="navbar_gamesadd" data-transition="up">Diffuser</a>
           <a href="#account" id="navbar_account">Profil</a>
       </div>
-      <!-- 
-      <nav>
-      <div class='title'>Filtres</div>
-       <ul>
-              <li class="icon home mini">
-                  <a href="#">Afficher par date</a>
-              </li>
-              <li class="icon home mini">
-                  <a href="#">Afficher par club</a>
-              </li>
-              <li class="icon home mini">
-                  <a href="#">Afficher par joueur</a>
-              </li>                                        
-          </ul>
-      </nav> 
-       --> 
+
   </div>
   <script type="text/template" id="accountViewTemplate"><div align="center">
 
@@ -21473,7 +21593,7 @@ Facebook :<br />
 
 <form id="frmAddGame" class="form-center">
 
-	<span class="success label label-info hide" style="color: red"></span>
+	<span class="success label label-info hide"></span>
 
 	
 		<div id="click_myself">
@@ -21732,14 +21852,10 @@ if (game.options.sets !== null ) {
 <div class="bg-green">
 
 <form id="frmCommentGame">
-COMMENTAIRES (X)
-<br/>
-<div class="list-comment">
-  <div id="incomingComment"></div>
-</div>
+<div id="incomingComment"></div>
 <br/>  
 <div class="textarea-border">
-<textarea rows="10" cols="40" class="textarea-comment" id="messageText">super partie</textarea> 
+<textarea rows="10" cols="40" class="textarea-comment" id="messageText"></textarea> 
 <div class="button_comment_send" id="sendComment">Envoyer</div>
  </div>
 
@@ -21914,26 +22030,30 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
 </li>
 <% } %>
 </script>
-<script type="text/template" id="gameViewCommentListTemplate"><%= streams.length %>
+<script type="text/template" id="gameViewCommentListTemplate">COMMENTAIRES (<%= streams.length %>)
+<br/>
+<div class="list-comment">
 <% if(streams.length==0) { %>
 <div class="comment">Aucun commentaire</div>
 <% } %> 
+
 <% for (var i = 0; i < streams.length; i++) { stream = streams[i]; 
 
 stream.dates.startConvert = new Date(stream.dates.creation);
 stream.dates.startDate = stream.dates.startConvert.getDay()+' '+stream.dates.startConvert.getMonthName()+' '+stream.dates.startConvert.getFullYear();
 stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dates.startConvert.getMinutes();
 
-
 %>
-<div class="comment">
-	<%= stream.dates.startTime %> : <div class="infocomment"><%= (stream.owner.name ||'Anonymous') %></div> 
+<div class="comment" id="comment<%= stream.id %>">
+	<div class="infocomment">
+    <%= (stream.owner.name ||'Anonymous') %> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
     <%= stream.data.text %> 
-	<% if ( stream.owner === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
-	<% if ( stream.owner !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
+	<% if ( stream.owner.id === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
+	<% if ( stream.owner.id !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
 </div>
 <br />
 <% } %>
+</div>
 </script>
 <script type="text/template" id="gameViewScoreBoardTemplate"><% 
 team1_set1 = '&nbsp;'; 
@@ -22264,23 +22384,16 @@ if (game.options.sets !== null ) {
 
 	</script>
 <script type="text/template" id="playerListAutoCompleteViewTemplate"><% if(players.length==0) { %>
-<li><p>Aucun resultat pour <%= query %></p></li>
+<li class="player"><p>Aucun resultat pour <%= query %></p></li>
 <% } %> 
 <% for (var i = 0; i < players.length; i++) { player = players[i]; %>
 
-<li title="<% if (player!==undefined) print(player.id); %>">
+<li class="player" title="<% if (player!==undefined) print(player.id); %>">
 
-	<fieldset data-role="controlgroup" data-type="horizontal">
-		<input type="checkbox" name="team<%= select %>_choice"
-			value="<% if (player!==undefined) print(player.id); %>"
-			id="team<%= select %>_choice" class="custom" /> <label
-			for="team<%= select %>_name">
-			<% if (player!==undefined) print(player.name); %></label> 
-			<label for="team<%= select %>_rank">
-			<% if (player!==undefined) print(player.rank); %></label> 
-			<label for="team<%= select %>_club">
-			<% if (player!==undefined) if (player.club!==undefined) print(player.club.name); %></label>
-	</fieldset>
+<input type="checkbox" name="team<%= select %>_choice" value="<% if (player!==undefined) print(player.id); %>" id="team<%= select %>_choice" class="custom" /> 
+<label for="team<%= select %>_name"><% if (player!==undefined) print(player.name); %></label> 
+<label for="team<%= select %>_rank"><% if (player!==undefined) print(player.rank); %></label> 
+<label for="team<%= select %>_club"><% if (player!==undefined) if (player.club!==undefined) print(player.club.name); %></label>
 
 </li>
 <% if (i>5) break; } if (players.length>5) { %>

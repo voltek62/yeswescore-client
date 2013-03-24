@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
   // cordova version (used in cordova-2.4.0.js)
-  var cordovaVersion = "2.4.0";
+  var cordovaVersion = "2.5.0";
 
   // External tasks.
   grunt.loadNpmTasks('grunt-contrib-copy');

@@ -6,7 +6,7 @@ cd $BASEDIR;
 # are we in dev or in prod.
 if [ "$NODE_ENV" = "PROD" ]
 then
-  echo "you are in prod environment, you cannot launch tests"
+  echo "you are in prod environment, you cannot launch this static server"
   exit 1
 fi
 
@@ -22,14 +22,10 @@ then
   export YESWESCORE_UT_PORT=$utport
   export YESWESCORE_FACEBOOK_PORT=$fbport
   export YESWESCORE_PORT=$port
-  casperjs --disable-we-security $1
-  if [ $? -ne 0 ]
-  then
-    echo ""
-    echo "( usage: ./test.sh test/dev/launch.js )"
-  fi
+  node static/server.js
 else
   echo "  Please create .port file containing port number "
   echo "  Exemple:  echo \"4000\" > .port "
   exit;
 fi
+  

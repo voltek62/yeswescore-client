@@ -26,25 +26,9 @@
         _(onreadyCallbacks).forEach(function (f) { f() });
       };
 
-      // Windows Phone 8 cordova bug.
-      if (navigator.userAgent.match(/(IEMobile)/)) {
-        setTimeout(function () { onDeviceReady() }, 2000);
-      }
-      else {
-        // @ifdef DEV
-        if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
-        // @endif
-          window.addEventListener("load", function () {
-            document.addEventListener("deviceready", onDeviceReady, false);
-          }, false);
-        // @ifdef DEV
-        } else {
-          // We cannot simulate "deviceready" event using standard API.
-          // So, we trigger cordova startup on chrome browser in dev after random time < 1s
-          setTimeout(function () { onDeviceReady() }, Math.round(Math.random() * 1000));
-        }
-        // @endif
-      }
+      window.addEventListener("load", function () {
+        document.addEventListener("deviceready", onDeviceReady, false);
+      }, false);
     },
 
     deviceready: function (callback) {

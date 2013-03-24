@@ -10,6 +10,13 @@ var PlayerFollowView = Backbone.View.extend({
   pageName: "playerFollow",
 
   initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("JOUEURS SUIVIS");	    
+  
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
 

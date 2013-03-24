@@ -8,6 +8,13 @@ var PlayerView = Backbone.View.extend({
   pageName: "player",
 
   initialize: function(options) {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("JOUEUR");	    
+  
     this.playerViewTemplate = Y.Templates.get('playerViewTemplate');
 
 	//console.log('player init '+this.id);

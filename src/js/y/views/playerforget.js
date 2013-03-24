@@ -8,6 +8,13 @@ var PlayerForgetView = Backbone.View.extend({
   pageName: "playerForget",
 
   initialize : function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("MOT DE PASSE OUBLIE");	    
+  
     this.playerForgetTemplate = Y.Templates.get('playerForgetTemplate');
     this.render();
     //$.mobile.hidePageLoadingMsg();

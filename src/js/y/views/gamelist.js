@@ -12,6 +12,13 @@ var GameListView = Backbone.View.extend({
   mode:'',
 
   initialize: function(data) {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("LISTE DES PARTIES");	    
+  
     this.gameListTemplate = Y.Templates.get('gameListTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
     

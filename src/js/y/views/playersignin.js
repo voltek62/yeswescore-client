@@ -8,6 +8,13 @@ var PlayerSigninView = Backbone.View.extend({
   pageName: "playerSignin",
 
   initialize : function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("CONNEXION");	    
+  
     this.playerSigninTemplate = Y.Templates.get('playerSigninTemplate');
     this.render();
     //$.mobile.hidePageLoadingMsg();

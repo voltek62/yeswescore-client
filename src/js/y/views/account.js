@@ -8,7 +8,12 @@ var AccountView = Backbone.View.extend({
   pageName: "account",
 
   initialize: function () {
-  
+
+	$.ui.scrollToTop('#content');  
+	
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("MON COMPTE");	
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
@@ -31,7 +36,7 @@ var AccountView = Backbone.View.extend({
       Owner: this.Owner
     }));
 
-    $(this.el).trigger('pagecreate');
+    //$(this.el).trigger('pagecreate');
 
     // this.$el.html(this.accountViewTemplate(),{Owner:Owner});
     // $.mobile.hidePageLoadingMsg();

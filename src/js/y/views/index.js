@@ -11,6 +11,8 @@ var IndexView = Backbone.View.extend({
   pageName: "index",
 
   initialize: function () {
+  
+    $.ui.scrollToTop('#content'); 
 
     /*
     var options={ 
@@ -159,7 +161,7 @@ var IndexView = Backbone.View.extend({
   render: function () {
     this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
 
     //new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#', true);});
     //new Y.FastButton(document.querySelector("#mnudiffuse"), function () { Y.Router.navigate('#games/add', true);});

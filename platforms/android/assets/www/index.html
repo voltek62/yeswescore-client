@@ -1182,6 +1182,7 @@ color:white;
 
 body {
   color:#000;
+  background-color: white;
 }
 
 p {
@@ -1194,6 +1195,7 @@ p {
 **********************************************************/
 
 #jQUi > #header {
+  position: absolute;
   background-image:none;
   background-color:#000;
   height:43px;	
@@ -1216,7 +1218,6 @@ p {
 }
 
 #header  div#pageLogo {
-  position:absolute;
   overflow:hidden;
   width:100%;
   z-index:1;
@@ -1239,13 +1240,11 @@ p {
   z-index:1000;
 }
 
-#header  div#pageOnline {
+#pageOnline {
   display:block;
   position:absolute;
-  right:0px;	
-  padding:0px 20px;
-  margin-top:12px;
-  z-index:1000;
+  top: 10px;
+  right: 10px;
 }
 
 /**********************************************************
@@ -1324,17 +1323,17 @@ ul > li.player > a {
 **********************************************************/
 
 #content{
-  background-color:#fff;	
-  position:absolute;  
+  background-color:#fff;
   top:48px;
-  bottom:40px;  
+  bottom: initial !important;
   z-index:180;
   width:100%;
-  height:3000px;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  -webkit-backface-visibility: hidden;
-  -webkit-perspective: 1000;	
+  /* disabled yet */
+  /*-webkit-overflow-scrolling:touch;
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;  
+    */
+  padding-bottom: 100px;
 }
 
 .panel {
@@ -19633,7 +19632,7 @@ var AccountView = Backbone.View.extend({
 
   // render the content into div of view
   render: function () {
-
+    $.ui.setTitle("MON COMPTE");
 
     $(this.el).html(this.accountViewTemplate({
       Owner: this.Owner
@@ -20839,7 +20838,7 @@ var IndexView = Backbone.View.extend({
 
   events: {
     "keyup input#search-basic": "search",
-    "click #sendFilter":"sendFilter"
+    "click #sendFilter": "sendFilter"
   },
 
   listview: "#listGamesView",
@@ -20847,52 +20846,50 @@ var IndexView = Backbone.View.extend({
   pageName: "index",
 
   initialize: function () {
-  
-  /*
-  var options={ 
-  	verticalScroll:true, //vertical scrolling 
+
+    /*
+    var options={ 
+    verticalScroll:true, //vertical scrolling 
     horizontalScroll:false, //horizontal scrolling 
     scrollBars:true, //display scrollbars 
     vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
     //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
     refresh:false, //Adds 'Pull to refresh' at the top 
     //refreshFunction:updateMessage //callback function to execute on pull to refresh 
-  }; */
-  
-  //$("#content").scroller();
-  
+    }; */
+
+    //$("#content").scroller();
+
     var myScroller;
-    
-	$.ui.ready(function(){
-	  myScroller=$("#content").scroller();//Fetch the scroller from cache
-	  //Since this is a jqUi scroller, we could also do
-	  // myScroller=$.ui.scrollingDivs['webslider'];
-	  myScroller.addInfinite();
-	  //myScroller.addPullToRefresh();
-	  
-	  $.bind(myScroller, 'scrollend',function()
-	  {
-			console.log("scroll end");
-	  });
-	  
-	  $.bind(myScroller, 'scrollstart',function()
-		{
-		console.log("scroll start");
-	 }); 
 
-	  myScroller.enable();
+    $.ui.ready(function () {
+      myScroller=$("#content").scroller();//Fetch the scroller from cache
+      //Since this is a jqUi scroller, we could also do
+      // myScroller=$.ui.scrollingDivs['webslider'];
+      myScroller.addInfinite();
+      //myScroller.addPullToRefresh();
+	  
+      $.bind(myScroller, 'scrollend',function()
+      {
+      console.log("scroll end");
+      });
+	  
+      $.bind(myScroller, 'scrollstart',function()
+      {
+      console.log("scroll start");
+      }); 
+
+      myScroller.enable();
 		   	
-      $("#content").css("overflow","auto");
-		    
-	});  
-  
-  $.ui.setBackButtonVisibility(false);
-  $.ui.setTitle("LISTE DES MATCHES");
-  //$.ui.resetScrollers=true;
-   
+      //$("#content").css("overflow","auto");
+    });
 
-  this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
-  this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+    $.ui.setBackButtonVisibility(false);
+    $.ui.setTitle("LISTE DES MATCHES");
+    //$.ui.resetScrollers=true;
+
+    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
+    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
 
     //we capture config from bootstrap
     //FIXME: put a timer
@@ -20900,20 +20897,20 @@ var IndexView = Backbone.View.extend({
     //this.config.fetch();
 
     this.games = new GamesCollection();
-	if (this.id!=='') {
-		console.log('setSort',this.id);
-		this.games.setSort(this.id);	
-	}
+    if (this.id !== '') {
+      console.log('setSort', this.id);
+      this.games.setSort(this.id);
+    }
 
     this.games.fetch();
-    
+
     //console.log('this.id ',this.id);
 
-	
+
     $.ui.showMask('please wait, loading player');
-	
-	var that = this; 
-	
+
+    var that = this;
+
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
@@ -20921,62 +20918,62 @@ var IndexView = Backbone.View.extend({
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           console.log('player created', player);
-          
+
           $.ui.hideMask();
-          
+
           // rendering
           that.render();
           that.games.on('all', that.renderList, that);
-          
-         
-              
+
+
+
         });
         return;
       }
       // continue
       $.ui.hideMask();
-      
+
       that.render();
       that.games.on('all', that.renderList, that);
-      
-    /* On charge les parties par G�olocalisation
+
+      /* On charge les parties par G�olocalisation
     
-    Y.Geolocation.on("change", function (pos) { 
+      Y.Geolocation.on("change", function (pos) { 
         
-    //On sauve avec les coord actuels
-    player = new PlayerModel({
-    latitude : pos[1]
-    , longitude : pos[0]
-    , playerid : player.id
-    , token : player.token
+      //On sauve avec les coord actuels
+      player = new PlayerModel({
+      latitude : pos[1]
+      , longitude : pos[0]
+      , playerid : player.id
+      , token : player.token
+      });
+      player.save();
+        
+      this.games = new GamesCollection();
+      this.games.setMode('geolocation','');
+      this.games.setPos(pos);
+      this.games.fetch();
+      this.games.on('all', this.renderList, this);
+        
+        
+      });
+      }
+      */
+
     });
-    player.save();
-        
-    this.games = new GamesCollection();
-    this.games.setMode('geolocation','');
-    this.games.setPos(pos);
-    this.games.fetch();
-    this.games.on('all', this.renderList, this);
-        
-        
-    });
-    }
-    */      
-      
-    });
- 
+
 
   },
-  
-  
-  
+
+
+
   sendFilter: function () {
-  	//console.log("sendFilter");
+    //console.log("sendFilter");
     $.ui.actionsheet('<a href="#sort/date" class="button">Afficher par Date</a>'
-    +' <a href="#sort/location" class="button">Afficher par Lieu</a>'
-    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
-    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>');
-    
+    + ' <a href="#sort/location" class="button">Afficher par Lieu</a>'
+    + ' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
+    + ' <a href="#sort/finished" class="button">Afficher Matchs finis</a>');
+
   },
 
   search: function () {
@@ -21476,25 +21473,23 @@ $(document).ready(function () {
   
 </head>
 <body>
-  <div id="jQUi"> <!-- this is the main container div.  This way, you can have only part of your app use jqUi -->
-      <!-- this is the header div at the top -->
-      <div id="header">
-      <div id="pageLogo">&middot; YES WE SCORE &middot;</div>       
-      <h1 id="pageTitle">ACCUEIL</h1>
-      <div id="pageOnline"><img src="images/header-logo-on.png" height="21" width="25" /></div>
-      </div>
+  <div id="jQUi" data-footer="none"> <!-- this is the main container div.  This way, you can have only part of your app use jqUi -->
+    <!-- this is the header div at the top -->
+    <div id="header">
+      <div id="pageLogo">&middot; YES WE SCORE &middot;</div>
+      <img id="pageOnline" src="images/header-logo-on.png" alt="online/offline" height="21" width="25" />
+    </div>
             
-      <div id="content">     
-          <!-- here is where you can add your panels -->
-      </div>
+    <div id="content">     
+      <!-- here is where you can add your panels -->
+    </div>
             
-      <!-- bottom navbar. Add additional tabs here -->
-      <div id="navbar">
-          <a href="#" id="navbar_home">Suivre</a>
-          <a href="#games/add" id="navbar_gamesadd" data-transition="up">Diffuser</a>
-          <a href="#account" id="navbar_account">Profil</a>
-      </div>
-
+    <!-- bottom navbar. Add additional tabs here -->
+    <div id="navbar">
+      <a href="#" id="navbar_home">Suivre</a>
+      <a href="#games/add" id="navbar_gamesadd" data-transition="up">Diffuser</a>
+      <a href="#account" id="navbar_account">Profil</a>
+    </div>
   </div>
   <script type="text/template" id="accountViewTemplate"><div align="center">
 

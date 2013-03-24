@@ -10,6 +10,13 @@ var GameFollowView = Backbone.View.extend({
   pageName: "gameFollow",
 
   initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("LISTE DES PARTIES SUIVIS");	    
+  
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
         

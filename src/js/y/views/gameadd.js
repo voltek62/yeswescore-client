@@ -17,6 +17,13 @@ var GameAddView = Backbone.View.extend({
   listview2: "#team2_suggestions",
 
   initialize: function () {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("AJOUTER UNE PARTIE");	    
+  
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
     this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
       

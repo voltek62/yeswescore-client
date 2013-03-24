@@ -14,6 +14,8 @@ var GameCommentView = Backbone.View.extend({
     
   initialize:function() {
   
+     $.ui.scrollToTop('#content'); 
+  
      $.ui.setBackButtonVisibility(true);
      $.ui.setBackButtonText("&lt;");
      $.ui.setTitle("COMMENTAIRES");

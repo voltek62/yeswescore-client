@@ -13,7 +13,9 @@ var PlayerFormView = Backbone.View.extend({
     
   clubs:null,
 
-  initialize:function() {	
+  initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 	
   
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");

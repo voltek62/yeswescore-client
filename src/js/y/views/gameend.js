@@ -8,6 +8,13 @@ var GameEndView = Backbone.View.extend({
   pageName: "gameEnd",
     
   initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("TERMINER LA PARTIE");	    
+  
     this.gameEndTemplate = Y.Templates.get('gameEndTemplate');
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");

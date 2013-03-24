@@ -46,7 +46,7 @@ var IndexView = Backbone.View.extend({
 
 	  myScroller.enable();
 		   	
-      $("#content").css("overflow","auto");
+      //$("#content").css("overflow","auto");
 		    
 	});  
   

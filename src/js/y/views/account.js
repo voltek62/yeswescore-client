@@ -25,7 +25,7 @@ var AccountView = Backbone.View.extend({
 
   // render the content into div of view
   render: function () {
-
+    $.ui.setTitle("MON COMPTE");
 
     $(this.el).html(this.accountViewTemplate({
       Owner: this.Owner

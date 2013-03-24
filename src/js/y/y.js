@@ -8,6 +8,8 @@
     Router: null,   // @see yws/router.js
     Templates: null, // @see yws/tempates.js
 
+    status: "uninitialized",  // uninitialized, loading, loaded
+
     Env: {
       DEV: "DEV",
       PROD: "PROD",
@@ -21,34 +23,34 @@
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
-        // init router
-        that.Router.initialize({hashChange: false, pushState: false});
-        // load the templates.
-        that.Templates.loadAsync(function () {
-          // start dispatching routes
-          // @see http://backbonejs.org/#History-start
-          Backbone.history.start();
-          // waiting for cordova to be ready
-          callback();
-        });
-      });
+                 // init router
+                 that.Router.initialize({ hashChange: false, pushState: false });
+                 // load the templates.
+                 that.Templates.loadAsync(function () {
+                   // start dispatching routes
+                   // @see http://backbonejs.org/#History-start
+                   Backbone.history.start();
+                   // waiting for cordova to be ready
+                   callback();
+                 });
+               });
     },
 
     // same as jquery ;)
     ready: (function () {
-      var status = "uninitialized"  // uninitialized, loading, loaded
-        , callbacks = [];
+      var callbacks = [];
 
       return function ready(callback) {
-        switch (status) {
+        var that = this;
+        switch (this.status) {
           case "uninitialized":
             // when YesWeScore is uninitialized, we just stack the callbacks.
             callbacks.push(callback);
             // we are now "loading"
-            status = "loading";
+            this.status = "loading";
             this.load(function () {
               // We are now ready.
-              status = "ready";
+              that.status = "ready";
               _(callbacks).forEach(function (f) { f() });
             });
             break;

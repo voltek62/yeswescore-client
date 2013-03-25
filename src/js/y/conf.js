@@ -96,7 +96,9 @@
         });
       });
       
+      //////////////////////////////
       //init jqui
+      //////////////////////////////
       $.ui.resetScrollers=false;
 	    
       var myScroller;

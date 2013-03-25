@@ -29,7 +29,6 @@ var IndexView = Backbone.View.extend({
 
     this.games = new GamesCollection();
     if (this.id !== '') {
-      console.log('setSort', this.id);
       this.games.setSort(this.id);
     }
 
@@ -53,9 +52,8 @@ var IndexView = Backbone.View.extend({
           $.ui.hideMask();
 
           // rendering
-          that.render();
-          that.games.on('all', that.renderList, that);
-
+      	  that.render();
+      	  that.games.on('all', that.renderList, that);
 
 
         });
@@ -64,32 +62,37 @@ var IndexView = Backbone.View.extend({
       // continue
       $.ui.hideMask();
 
+
       that.render();
       that.games.on('all', that.renderList, that);
-
-      /* On charge les parties par Géolocalisation
-    
+ 
+ 	  /* GEOLOCALISATION */
       Y.Geolocation.on("change", function (pos) { 
+          
+          this.Owner = Y.User.getPlayer();
+	      // On sauve le player avec les coord actuels
+	      player = new PlayerModel({
+	      latitude : pos[1]
+	      , longitude : pos[0]
+	      , playerid : this.Owner.id
+	      , token : this.Owner.token
+	      });
+	      player.save();
+	        
+	      /* On charge les parties par Géolocalisation*/
+	      /* A TESTER */
+	      /*
+	      this.games = new GamesCollection();
+	      this.games.setMode('geolocation','');
+	      this.games.setPos(pos);
+	      this.games.fetch();
+	      this.games.on('all', this.renderList, this);
+       	  */
         
-      //On sauve avec les coord actuels
-      player = new PlayerModel({
-      latitude : pos[1]
-      , longitude : pos[0]
-      , playerid : player.id
-      , token : player.token
       });
-      player.save();
-        
-      this.games = new GamesCollection();
-      this.games.setMode('geolocation','');
-      this.games.setPos(pos);
-      this.games.fetch();
-      this.games.on('all', this.renderList, this);
-        
-        
-      });
-      }
-      */
+      
+      
+      
 
     });
 

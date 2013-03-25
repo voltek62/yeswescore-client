@@ -67,9 +67,10 @@ var IndexView = Backbone.View.extend({
       that.games.on('all', that.renderList, that);
  
  	  /* GEOLOCALISATION */
+ 	  /*
       Y.Geolocation.on("change", function (pos) { 
           
-          this.Owner = Y.User.getPlayer();
+          this.Owner = Y.User.getPlayer().toJSON();
 	      // On sauve le player avec les coord actuels
 	      player = new PlayerModel({
 	      latitude : pos[1]
@@ -79,18 +80,16 @@ var IndexView = Backbone.View.extend({
 	      });
 	      player.save();
 	        
-	      /* On charge les parties par Géolocalisation*/
-	      /* A TESTER */
-	      /*
+	      // On charge les parties par Géolocalisation
 	      this.games = new GamesCollection();
 	      this.games.setMode('geolocation','');
 	      this.games.setPos(pos);
 	      this.games.fetch();
 	      this.games.on('all', this.renderList, this);
-       	  */
+       	  
         
       });
-      
+      */
       
       
 

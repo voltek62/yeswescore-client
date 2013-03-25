@@ -18139,65 +18139,33 @@ var assert = function () { };
         });
       });
       
+      //////////////////////////////
       //init jqui
+      //////////////////////////////
+      /*
       $.ui.resetScrollers=false;
+	    
+      var myScroller;
+    
+	  $.ui.ready(function(){
 
-	   var init = function(){
-		   $.ui.backButtonText="Back";  
-		   //window.setTimeout(function(){$.ui.launch();},1500);
-	       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
-	    };
-	    document.addEventListener("DOMContentLoaded",init,false);  
-	    
-	    var myScroller;
-	    
-		$.ui.ready(function(){
-	
-			//$.ui.enableDragMenu();
-	      myScroller=$("#content").scroller();//Fetch the scroller from cache
-	      myScroller.addInfinite();
-	      //myScroller.addPullToRefresh();
-		  
-	      $.bind(myScroller, 'scrollend',function()
-	      {
-	      console.log("scroll end");
-	      });
-		  
-	      $.bind(myScroller, 'scrollstart',function()
-	      {
-	      console.log("scroll start");
-	      }); 
-	
-	      myScroller.enable();
-			   	
-	      //$("#content").css("overflow","auto");		
-			
-			
-		});      
+       myScroller=$("#content").scroller();//Fetch the scroller from cache
+       myScroller.addInfinite();
+       myScroller.enable();
+       $("#content").css("overflow","auto");
+		
+	 });      
       
       
    	  var onDeviceReady=function(){
 		AppMobi.device.setRotateOrientation("portrait");
         AppMobi.device.setAutoRotate(false);
-		//webRoot=AppMobi.webRoot+"kitchensink/";
 	    //hide splash screen
-	    AppMobi.device.hideSplashScreen();	
-	    //$.ui.blockPageScroll(); //block the page from scrolling at the header/footer
+	    //AppMobi.device.hideSplashScreen();	
+	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
       };      
       document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	  
-	  function showHide(obj,objToHide){
-		var el=$("#"+objToHide)[0];
-		
-		if(obj.className=="expanded"){
-			obj.className="collapsed";
-		}
-		else{
-			obj.className="expanded";
-		}
-		$(el).toggle();
-		
-	  }      
+	   */ 
       
     },
 
@@ -18429,6 +18397,8 @@ var assert = function () { };
       var that = this; 
       jq.ui.customClickHandler = function (a) {
         that.navigate(a.hash.substr(1), { trigger: true });
+        
+        return true;
       };
       
   
@@ -19443,8 +19413,8 @@ var GamesCollection = Backbone.Collection.extend({
       url = url  + "?sort=location.city";    	    
     
     //console.log('sortMode',this.sortMode);
-    console.log('URL',url);
-    console.log('sortMode',this.sortMode);
+    //console.log('URL',url);
+    //console.log('sortMode',this.sortMode);
         
     return url;
   },
@@ -20919,7 +20889,9 @@ var IndexView = Backbone.View.extend({
     $.ui.scrollToTop('#content'); 
     $.ui.setBackButtonVisibility(false);
     $.ui.setTitle("LISTE DES MATCHES");
+    //$.ui.resetScrollers=true;
  
+
 
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
@@ -20931,7 +20903,6 @@ var IndexView = Backbone.View.extend({
 
     this.games = new GamesCollection();
     if (this.id !== '') {
-      console.log('setSort', this.id);
       this.games.setSort(this.id);
     }
 
@@ -20955,9 +20926,8 @@ var IndexView = Backbone.View.extend({
           $.ui.hideMask();
 
           // rendering
-          that.render();
-          that.games.on('all', that.renderList, that);
-
+      	  that.render();
+      	  that.games.on('all', that.renderList, that);
 
 
         });
@@ -20966,32 +20936,37 @@ var IndexView = Backbone.View.extend({
       // continue
       $.ui.hideMask();
 
+
       that.render();
       that.games.on('all', that.renderList, that);
-
-      /* On charge les parties par G�olocalisation
-    
+ 
+ 	  /* GEOLOCALISATION */
       Y.Geolocation.on("change", function (pos) { 
+          
+          this.Owner = Y.User.getPlayer().toJSON();
+	      // On sauve le player avec les coord actuels
+	      player = new PlayerModel({
+	      latitude : pos[1]
+	      , longitude : pos[0]
+	      , playerid : this.Owner.id
+	      , token : this.Owner.token
+	      });
+	      player.save();
+	        
+	      /* On charge les parties par G�olocalisation*/
+	      /* A TESTER */
+	      /*
+	      this.games = new GamesCollection();
+	      this.games.setMode('geolocation','');
+	      this.games.setPos(pos);
+	      this.games.fetch();
+	      this.games.on('all', this.renderList, this);
+       	  */
         
-      //On sauve avec les coord actuels
-      player = new PlayerModel({
-      latitude : pos[1]
-      , longitude : pos[0]
-      , playerid : player.id
-      , token : player.token
       });
-      player.save();
-        
-      this.games = new GamesCollection();
-      this.games.setMode('geolocation','');
-      this.games.setPos(pos);
-      this.games.fetch();
-      this.games.on('all', this.renderList, this);
-        
-        
-      });
-      }
-      */
+      
+      
+      
 
     });
 

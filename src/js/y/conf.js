@@ -99,6 +99,7 @@
       //////////////////////////////
       //init jqui
       //////////////////////////////
+      /*
       $.ui.resetScrollers=false;
 	    
       var myScroller;
@@ -121,7 +122,7 @@
 	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
       };      
       document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	      
+	   */ 
       
     },
 

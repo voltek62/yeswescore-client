@@ -18,6 +18,7 @@ var PlayerFormView = Backbone.View.extend({
     $.ui.scrollToTop('#content'); 	
     
     //si input cliqué, on cache le footer
+    scrollTop();
     $.ui.removeFooterMenu();
   
     $.ui.setBackButtonVisibility(true);

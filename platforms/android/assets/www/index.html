@@ -1334,6 +1334,7 @@ ul > li.player > a {
     -webkit-perspective: 1000;  
     */
   padding-bottom: 100px;
+ 
 }
 
 .panel {
@@ -18142,7 +18143,7 @@ var assert = function () { };
       //////////////////////////////
       //init jqui
       //////////////////////////////
-      /*
+   
       $.ui.resetScrollers=false;
 	    
       var myScroller;
@@ -18156,7 +18157,7 @@ var assert = function () { };
 		
 	 });      
       
-      
+      /*
    	  var onDeviceReady=function(){
 		AppMobi.device.setRotateOrientation("portrait");
         AppMobi.device.setAutoRotate(false);
@@ -18165,7 +18166,7 @@ var assert = function () { };
 	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
       };      
       document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	   */ 
+	   */
       
     },
 
@@ -20941,6 +20942,7 @@ var IndexView = Backbone.View.extend({
       that.games.on('all', that.renderList, that);
  
  	  /* GEOLOCALISATION */
+ 	  /*
       Y.Geolocation.on("change", function (pos) { 
           
           this.Owner = Y.User.getPlayer().toJSON();
@@ -20953,18 +20955,16 @@ var IndexView = Backbone.View.extend({
 	      });
 	      player.save();
 	        
-	      /* On charge les parties par G�olocalisation*/
-	      /* A TESTER */
-	      /*
+	      // On charge les parties par G�olocalisation
 	      this.games = new GamesCollection();
 	      this.games.setMode('geolocation','');
 	      this.games.setPos(pos);
 	      this.games.fetch();
 	      this.games.on('all', this.renderList, this);
-       	  */
+       	  
         
       });
-      
+      */
       
       
 
@@ -21519,10 +21519,12 @@ $(document).ready(function () {
       <div id="pageLogo">&middot; YES WE SCORE &middot;</div>
       <img id="pageOnline" src="images/header-logo-on.png" alt="online/offline" height="21" width="25" />
     </div>
-            
-    <div id="content">     
-      <!-- here is where you can add your panels -->
-    </div>
+          
+       
+      <div id="content">     
+        <!-- here is where you can add your panels -->
+      </div>
+   
             
     <!-- bottom navbar. Add additional tabs here -->
     <div id="navbar">
@@ -22292,7 +22294,7 @@ if (game.options.sets !== null ) {
     <div class="ui-block-a score_bottom">
       <a id="followButton">
       <div class="button_bottom">
-      <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre match<% } %> 
+      <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre&nbsp;&nbsp; match<% } %> 
       </div>
       </a>
     </div>

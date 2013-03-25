@@ -99,7 +99,7 @@
       //////////////////////////////
       //init jqui
       //////////////////////////////
-      /*
+   
       $.ui.resetScrollers=false;
 	    
       var myScroller;
@@ -113,7 +113,7 @@
 		
 	 });      
       
-      
+      /*
    	  var onDeviceReady=function(){
 		AppMobi.device.setRotateOrientation("portrait");
         AppMobi.device.setAutoRotate(false);
@@ -122,7 +122,7 @@
 	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
       };      
       document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	   */ 
+	   */
       
     },
 

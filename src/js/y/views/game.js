@@ -140,6 +140,7 @@ var GameView = Backbone.View.extend({
       },
 
       setTeam1Set1 : function() {
+        console.log('setTeam1Set1');
         this.setTeamSet($('#team1_set1'), $('#team1_set1_div'));
       },
 

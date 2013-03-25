@@ -18144,13 +18144,35 @@ var assert = function () { };
 
 	   var init = function(){
 		   $.ui.backButtonText="Back";  
-		   window.setTimeout(function(){$.ui.launch();},1500);
+		   //window.setTimeout(function(){$.ui.launch();},1500);
 	       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
 	    };
 	    document.addEventListener("DOMContentLoaded",init,false);  
+	    
+	    var myScroller;
+	    
 		$.ui.ready(function(){
 	
 			//$.ui.enableDragMenu();
+	      myScroller=$("#content").scroller();//Fetch the scroller from cache
+	      myScroller.addInfinite();
+	      //myScroller.addPullToRefresh();
+		  
+	      $.bind(myScroller, 'scrollend',function()
+	      {
+	      console.log("scroll end");
+	      });
+		  
+	      $.bind(myScroller, 'scrollstart',function()
+	      {
+	      console.log("scroll start");
+	      }); 
+	
+	      myScroller.enable();
+			   	
+	      //$("#content").css("overflow","auto");		
+			
+			
 		});      
       
       
@@ -18160,7 +18182,7 @@ var assert = function () { };
 		//webRoot=AppMobi.webRoot+"kitchensink/";
 	    //hide splash screen
 	    AppMobi.device.hideSplashScreen();	
-	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
+	    //$.ui.blockPageScroll(); //block the page from scrolling at the header/footer
       };      
       document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
 	  
@@ -19615,7 +19637,12 @@ var AccountView = Backbone.View.extend({
   pageName: "account",
 
   initialize: function () {
-  
+
+	$.ui.scrollToTop('#content');  
+	
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("MON COMPTE");	
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
@@ -19638,7 +19665,7 @@ var AccountView = Backbone.View.extend({
       Owner: this.Owner
     }));
 
-    $(this.el).trigger('pagecreate');
+    //$(this.el).trigger('pagecreate');
 
     // this.$el.html(this.accountViewTemplate(),{Owner:Owner});
     // $.mobile.hidePageLoadingMsg();
@@ -19662,6 +19689,13 @@ var ClubView = Backbone.View.extend({
   pageName: "club",
 
   initialize : function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("CLUB");	    
+  
     this.clubViewTemplate = Y.Templates.get('clubViewTemplate');
 
     this.club = new ClubModel({
@@ -19692,7 +19726,7 @@ var ClubView = Backbone.View.extend({
     // thisel.trigger('pagecreate');
     // });
     // return to enable chained calls
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 
@@ -19713,9 +19747,11 @@ var ClubAddView = Backbone.View.extend({
 
   initialize: function () {
   
+    $.ui.scrollToTop('#content'); 
+  
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("PARTAGER UNE PARTIE");
+    $.ui.setTitle("AJOUTER UN CLUB");
 
     this.clubAddTemplate = Y.Templates.get('clubAddTemplate');
 
@@ -19749,7 +19785,7 @@ var ClubAddView = Backbone.View.extend({
   //render the content into div of view
   render: function () {
     this.$el.html(this.clubAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 
@@ -19788,6 +19824,8 @@ var GameView = Backbone.View.extend({
       pageName: "game",
 
       initialize : function() {
+      
+        $.ui.scrollToTop('#content');
       
       	$.ui.setBackButtonVisibility(true);
       	$.ui.setBackButtonText("&lt;");
@@ -19899,6 +19937,7 @@ var GameView = Backbone.View.extend({
       },
 
       setTeam1Set1 : function() {
+        console.log('setTeam1Set1');
         this.setTeamSet($('#team1_set1'), $('#team1_set1_div'));
       },
 
@@ -20151,7 +20190,7 @@ var GameView = Backbone.View.extend({
         }));
 
         //$.mobile.hidePageLoadingMsg();
-        this.$el.trigger('pagecreate');
+        //this.$el.trigger('pagecreate');
 
         return this;
       },
@@ -20215,7 +20254,7 @@ var GameView = Backbone.View.extend({
 
         }
 
-        this.$el.trigger('pagecreate');
+        //this.$el.trigger('pagecreate');
 
       },
 
@@ -20259,6 +20298,13 @@ var GameAddView = Backbone.View.extend({
   listview2: "#team2_suggestions",
 
   initialize: function () {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("AJOUTER UNE PARTIE");	    
+  
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
     this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
       
@@ -20465,7 +20511,7 @@ var GameAddView = Backbone.View.extend({
   //render the content into div of view
   render: function () {
     this.$el.html(this.gameAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 
@@ -20486,6 +20532,13 @@ var GameEndView = Backbone.View.extend({
   pageName: "gameEnd",
     
   initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("TERMINER LA PARTIE");	    
+  
     this.gameEndTemplate = Y.Templates.get('gameEndTemplate');
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
@@ -20506,7 +20559,7 @@ var GameEndView = Backbone.View.extend({
   //render the content into div of view
   render: function(){
 	  this.$el.html(this.gameEndTemplate({playerid:Owner.id, token:Owner.token}));
-	  this.$el.trigger('pagecreate');
+	  //this.$el.trigger('pagecreate');
 	  return this;
   },
 
@@ -20529,6 +20582,8 @@ var GameCommentView = Backbone.View.extend({
   pageName: "gameComment",
     
   initialize:function() {
+  
+     $.ui.scrollToTop('#content'); 
   
      $.ui.setBackButtonVisibility(true);
      $.ui.setBackButtonText("&lt;");
@@ -20574,7 +20629,7 @@ var GameCommentView = Backbone.View.extend({
  	  var playerid = this.Owner.id;
   
 	  this.$el.html(this.gameCommentTemplate({game : this.score.toJSON(),playerid:this.Owner.id,token:token}));
-	  this.$el.trigger('pagecreate');
+	  //this.$el.trigger('pagecreate');
 	  return this;
   },
   
@@ -20694,6 +20749,13 @@ var GameFollowView = Backbone.View.extend({
   pageName: "gameFollow",
 
   initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("LISTE DES PARTIES SUIVIS");	    
+  
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
         
@@ -20731,7 +20793,7 @@ var GameFollowView = Backbone.View.extend({
   render: function(){
     this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
       
     //return to enable chained calls
     return this;
@@ -20766,6 +20828,13 @@ var GameListView = Backbone.View.extend({
   mode:'',
 
   initialize: function(data) {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("LISTE DES PARTIES");	    
+  
     this.gameListTemplate = Y.Templates.get('gameListTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
     
@@ -20814,7 +20883,7 @@ var GameListView = Backbone.View.extend({
   render: function(){
     this.$el.html(this.gameListTemplate({mode:this.mode}));
     //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     //return to enable chained calls
     return this;
   },
@@ -20846,47 +20915,11 @@ var IndexView = Backbone.View.extend({
   pageName: "index",
 
   initialize: function () {
-
-    /*
-    var options={ 
-    verticalScroll:true, //vertical scrolling 
-    horizontalScroll:false, //horizontal scrolling 
-    scrollBars:true, //display scrollbars 
-    vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
-    //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
-    refresh:false, //Adds 'Pull to refresh' at the top 
-    //refreshFunction:updateMessage //callback function to execute on pull to refresh 
-    }; */
-
-    //$("#content").scroller();
-
-    var myScroller;
-
-    $.ui.ready(function () {
-      myScroller=$("#content").scroller();//Fetch the scroller from cache
-      //Since this is a jqUi scroller, we could also do
-      // myScroller=$.ui.scrollingDivs['webslider'];
-      myScroller.addInfinite();
-      //myScroller.addPullToRefresh();
-	  
-      $.bind(myScroller, 'scrollend',function()
-      {
-      console.log("scroll end");
-      });
-	  
-      $.bind(myScroller, 'scrollstart',function()
-      {
-      console.log("scroll start");
-      }); 
-
-      myScroller.enable();
-		   	
-      //$("#content").css("overflow","auto");
-    });
-
+  
+    $.ui.scrollToTop('#content'); 
     $.ui.setBackButtonVisibility(false);
     $.ui.setTitle("LISTE DES MATCHES");
-    //$.ui.resetScrollers=true;
+ 
 
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
@@ -20994,7 +21027,7 @@ var IndexView = Backbone.View.extend({
   render: function () {
     this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
 
     //new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#', true);});
     //new Y.FastButton(document.querySelector("#mnudiffuse"), function () { Y.Router.navigate('#games/add', true);});
@@ -21029,6 +21062,13 @@ var PlayerView = Backbone.View.extend({
   pageName: "player",
 
   initialize: function(options) {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("JOUEUR");	    
+  
     this.playerViewTemplate = Y.Templates.get('playerViewTemplate');
 
 	//console.log('player init '+this.id);
@@ -21075,7 +21115,7 @@ var PlayerView = Backbone.View.extend({
 	    this.follow = 'true';
     }
 		
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
   },    
 
   //render the content into div of view
@@ -21086,7 +21126,7 @@ var PlayerView = Backbone.View.extend({
       player:this.player.toJSON(),follow:this.follow
     }));
     //$.mobile.hidePageLoadingMsg();
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 
@@ -21108,6 +21148,13 @@ var PlayerFollowView = Backbone.View.extend({
   pageName: "playerFollow",
 
   initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("JOUEURS SUIVIS");	    
+  
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
 
@@ -21139,7 +21186,7 @@ var PlayerFollowView = Backbone.View.extend({
   render: function(){
     this.$el.html(this.playerSearchTemplate({}));
     //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     //return to enable chained calls
     return this;
   },
@@ -21171,7 +21218,9 @@ var PlayerFormView = Backbone.View.extend({
     
   clubs:null,
 
-  initialize:function() {	
+  initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 	
   
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
@@ -21288,7 +21337,7 @@ var PlayerFormView = Backbone.View.extend({
     
     //player:this.player.toJSON(),playerid:Owner.id,token:Owner.token	
     this.$el.html(this.playerFormTemplate(dataDisplay));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 
@@ -21309,6 +21358,8 @@ var PlayerListView = Backbone.View.extend({
   pageName: "playerList",
 
   initialize : function() {
+  
+    $.ui.scrollToTop('#content'); 
   
   	$.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
@@ -21358,7 +21409,7 @@ var PlayerListView = Backbone.View.extend({
   render : function() {
     this.$el.html(this.playerSearchTemplate({}));
     // Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     // return to enable chained calls
     return this;
   },
@@ -21388,6 +21439,13 @@ var PlayerSigninView = Backbone.View.extend({
   pageName: "playerSignin",
 
   initialize : function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("CONNEXION");	    
+  
     this.playerSigninTemplate = Y.Templates.get('playerSigninTemplate');
     this.render();
     //$.mobile.hidePageLoadingMsg();
@@ -21406,7 +21464,7 @@ var PlayerSigninView = Backbone.View.extend({
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerSigninTemplate({}));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 
@@ -21425,6 +21483,13 @@ var PlayerForgetView = Backbone.View.extend({
   pageName: "playerForget",
 
   initialize : function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("MOT DE PASSE OUBLIE");	    
+  
     this.playerForgetTemplate = Y.Templates.get('playerForgetTemplate');
     this.render();
     //$.mobile.hidePageLoadingMsg();
@@ -21444,7 +21509,7 @@ var PlayerForgetView = Backbone.View.extend({
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerForgetTemplate({}));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 
@@ -22141,18 +22206,18 @@ if (game.options.sets !== null ) {
 </div>
 
 <div class="ui-grid-c">
-    <div class="ui-block-a" id="team1_sets_div"><div class="div_score_button"><%= team1_set1 %></div></div>
-    <div class="ui-block-b" id="team1_sets_div"><div class="div_score_button"><%= team1_set2 %></div></div>
-    <div class="ui-block-c" id="team1_set1_div"><div class="div_score_button"><%= team1_set3 %></div></div>
-    <div class="ui-block-d" id="team1_set2_div"><div class="div_score_button"><%= team1_sets %></div></div>
+    <div class="ui-block-a" id="team1_set1_div"><div class="div_score_button"><%= team1_set1 %></div></div>
+    <div class="ui-block-b" id="team1_set2_div"><div class="div_score_button"><%= team1_set2 %></div></div>
+    <div class="ui-block-c" id="team1_set3_div"><div class="div_score_button"><%= team1_set3 %></div></div>
+    <div class="ui-block-d" id="team1_sets_div"><div class="div_score_button"><%= team1_sets %></div></div>
 </div>
 <!-- /grid-a -->
 
 <div class="ui-grid-c">
-    <div class="ui-block-a" id="team1_sets_div"><div class="div_score_button"><%= team2_set1 %></div></div>
-    <div class="ui-block-b" id="team1_sets_div"><div class="div_score_button"><%= team2_set2 %></div></div>
-    <div class="ui-block-c" id="team1_set1_div"><div class="div_score_button"><%= team2_set3 %></div></div>
-    <div class="ui-block-d" id="team1_set2_div"><div class="div_score_button"><%= team2_sets %></div></div>
+    <div class="ui-block-a" id="team2_set1_div"><div class="div_score_button"><%= team2_set1 %></div></div>
+    <div class="ui-block-b" id="team2_set2_div"><div class="div_score_button"><%= team2_set2 %></div></div>
+    <div class="ui-block-c" id="team2_set3_div"><div class="div_score_button"><%= team2_set3 %></div></div>
+    <div class="ui-block-d" id="team2_sets_div"><div class="div_score_button"><%= team2_sets %></div></div>
 </div>
 
 <div style="text-align:center;padding-top:10px;padding-bottom:10px;">

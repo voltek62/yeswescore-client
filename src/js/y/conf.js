@@ -98,41 +98,28 @@
       
       //init jqui
       $.ui.resetScrollers=false;
+	    
+      var myScroller;
+    
+	  $.ui.ready(function(){
 
-	   var init = function(){
-		   $.ui.backButtonText="Back";  
-		   window.setTimeout(function(){$.ui.launch();},1500);
-	       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
-	    };
-	    document.addEventListener("DOMContentLoaded",init,false);  
-		$.ui.ready(function(){
-	
-			//$.ui.enableDragMenu();
-		});      
+       myScroller=$("#content").scroller();//Fetch the scroller from cache
+       myScroller.addInfinite();
+       myScroller.enable();
+       $("#content").css("overflow","auto");
+		
+	 });      
       
       
    	  var onDeviceReady=function(){
 		AppMobi.device.setRotateOrientation("portrait");
         AppMobi.device.setAutoRotate(false);
-		//webRoot=AppMobi.webRoot+"kitchensink/";
 	    //hide splash screen
-	    AppMobi.device.hideSplashScreen();	
+	    //AppMobi.device.hideSplashScreen();	
 	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
       };      
       document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	  
-	  function showHide(obj,objToHide){
-		var el=$("#"+objToHide)[0];
-		
-		if(obj.className=="expanded"){
-			obj.className="collapsed";
-		}
-		else{
-			obj.className="expanded";
-		}
-		$(el).toggle();
-		
-	  }      
+	      
       
     },
 

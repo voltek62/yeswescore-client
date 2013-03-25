@@ -49,6 +49,8 @@
       var that = this; 
       jq.ui.customClickHandler = function (a) {
         that.navigate(a.hash.substr(1), { trigger: true });
+        
+        return true;
       };
       
   

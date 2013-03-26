@@ -7,6 +7,7 @@ var ClubAddView = Backbone.View.extend({
   },
 
   pageName: "clubAdd",
+  pageHash : "clubs/add",
 
   initialize: function () {
   

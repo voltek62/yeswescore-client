@@ -6,6 +6,7 @@ var PlayerView = Backbone.View.extend({
   },
 
   pageName: "player",
+  pageHash : "players/",
 
   initialize: function(options) {
   

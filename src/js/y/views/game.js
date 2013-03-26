@@ -25,6 +25,7 @@ var GameView = Backbone.View.extend({
       },
 
       pageName: "game",
+      pageHash : "games/",
 
       initialize : function() {
       

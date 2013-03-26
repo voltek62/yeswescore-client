@@ -8,6 +8,7 @@ var PlayerListView = Backbone.View.extend({
   listview : "#listPlayersView",
 
   pageName: "playerList",
+  pageHash : "players/list", 
 
   initialize : function() {
   

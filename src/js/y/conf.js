@@ -96,6 +96,14 @@
         });
       });
       
+    /* Init JQmobi */  
+    var init = function(){
+	   
+	   window.setTimeout(function(){$.ui.launch();},1500);
+       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
+    };
+    document.addEventListener("DOMContentLoaded",init,false);       
+      
       
     },
 

@@ -8,6 +8,7 @@ var PlayerFollowView = Backbone.View.extend({
   listview:"#listPlayersView",
 
   pageName: "playerFollow",
+  pageHash : "players/follow",
 
   initialize:function() {
   

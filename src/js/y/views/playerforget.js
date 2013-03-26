@@ -7,7 +7,8 @@ var PlayerForgetView = Backbone.View.extend({
   },
 
   pageName: "playerForget",
-
+  pageHash : "players/forget",
+  
   initialize : function() {
   
     $.ui.setBackButtonVisibility(true);

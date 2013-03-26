@@ -6,6 +6,8 @@ var AccountView = Backbone.View.extend({
   },
 
   pageName: "account",
+  pageHash : "account", 
+  
 
   initialize: function () {
 

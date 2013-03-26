@@ -6,7 +6,8 @@ var ClubView = Backbone.View.extend({
   },
 
   pageName: "club",
-
+  pageHash : "clubs/",
+  
   initialize : function() {
   
     $.ui.scrollToTop('#content'); 

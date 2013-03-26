@@ -13,6 +13,7 @@ var GameAddView = Backbone.View.extend({
   },
 
   pageName: "gameAdd",
+  pageHash : "games/add",  
 
   listview1: "#team1_suggestions",
   listview2: "#team2_suggestions",

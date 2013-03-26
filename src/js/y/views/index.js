@@ -9,6 +9,7 @@ var IndexView = Backbone.View.extend({
   listview: "#listGamesView",
 
   pageName: "index",
+  pageHash : "",  
   
   initialize: function () {
   

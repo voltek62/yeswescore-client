@@ -17613,6 +17613,12 @@ Date.locale = {
     }
 };
 
+var scrollTop = function () {
+	setTimeout(function () {
+		document.body.scrollTop = 0;
+	}, 0);
+}
+
 var assert = function () { };
 
 // Global Object
@@ -19711,7 +19717,8 @@ var ClubAddView = Backbone.View.extend({
   el: "#content",
 
   events: {
-    'submit form#frmAddClub': 'addClub'
+    'submit form#frmAddClub': 'addClub',
+    'click input' :'hideFooter'
   },
 
   pageName: "clubAdd",
@@ -19732,9 +19739,16 @@ var ClubAddView = Backbone.View.extend({
     //$.mobile.hidePageLoadingMsg();
   },
 
- 
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },   
 
   addClub: function (event) {
+  
+  
+    $.ui.toggleNavMenu(true);
 
     console.log('add Club');
     
@@ -20260,7 +20274,8 @@ var GameAddView = Backbone.View.extend({
     'keyup #team1': 'updateListTeam1',
     'keyup #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
-    'click #team2_choice': 'displayTeam2'
+    'click #team2_choice': 'displayTeam2',
+    'click input' :'hideFooter' 
   },
 
   pageName: "gameAdd",
@@ -20283,6 +20298,12 @@ var GameAddView = Backbone.View.extend({
 	  this.render();
 
   },
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },    
 
   displayTeam1: function (li) {
     selectedId = $('#team1_choice:checked').val();
@@ -20393,6 +20414,9 @@ var GameAddView = Backbone.View.extend({
   },
 
   addGame: function (event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var team1 = $('#team1').val()
       , rank1 = $('#rank1').val()
       , team1_id = $('#team1_id').val()
@@ -21184,7 +21208,8 @@ var PlayerFormView = Backbone.View.extend({
   events: {
     'submit form#frmAddPlayer':'add',
     'keyup #club': 'updateList',
-    'click #club_choice' : 'displayClub'
+    'click #club_choice' : 'displayClub',
+    'click input' :'hideFooter'   
   },
   
   listview:"#suggestions",
@@ -21192,11 +21217,13 @@ var PlayerFormView = Backbone.View.extend({
   pageName: "playerForm",
     
   clubs:null,
+     
 
   initialize:function() {
   
-    $.ui.scrollToTop('#content'); 	
-  
+    //si input cliqu�, on cache le footer
+    scrollTop();
+      
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("MODIFIER MON PROFIL");
@@ -21210,8 +21237,20 @@ var PlayerFormView = Backbone.View.extend({
     this.player.fetch(); 
     	
     this.player.on( 'change', this.renderPlayer, this );  	 	
-    //$.mobile.hidePageLoadingMsg();
+
   },
+  
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },  
+  
+  showFooter:function() {
+  	console.log('showFooter');
+  	//$.ui.toggleNavMenu(true);
+  },   
   
   updateList: function (event) {
     var q = $("#club").val();
@@ -21254,6 +21293,9 @@ var PlayerFormView = Backbone.View.extend({
   },
       
   add: function (event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var name = $('#name').val()
       , nickname = $('#nickname').val()
       , password = $('#password').val()
@@ -21408,7 +21450,8 @@ var PlayerSigninView = Backbone.View.extend({
   el : "#content",
 
   events: {
-    'submit form#frmSigninPlayer' : 'signin'
+    'submit form#frmSigninPlayer' : 'signin',
+    'click input' :'hideFooter'
   },
 
   pageName: "playerSignin",
@@ -21425,8 +21468,17 @@ var PlayerSigninView = Backbone.View.extend({
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },    
 
   signin : function(event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var email = $('#email').val();
     var password = $('#password').val();
 
@@ -21452,7 +21504,8 @@ var PlayerForgetView = Backbone.View.extend({
   el : "#content",
 
   events: {
-    'submit form#frmForgetPlayer' : 'forget'
+    'submit form#frmForgetPlayer' : 'forget',
+    'click input' :'hideFooter'
   },
 
   pageName: "playerForget",
@@ -21469,8 +21522,17 @@ var PlayerForgetView = Backbone.View.extend({
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },    
 
   forget : function(event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var email = $('#email').val();
 
     console.log('test mot de passe oublie avec ' + email);

@@ -32,7 +32,7 @@ var GameView = Backbone.View.extend({
 
       
       	$.ui.setBackButtonVisibility(true);
-      	$.ui.setBackButtonText("&lt;");
+      	$.ui.setBackButtonText("RETOUR-----");
       	$.ui.setTitle("GAME");
       	
       	

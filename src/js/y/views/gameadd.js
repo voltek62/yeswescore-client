@@ -8,7 +8,8 @@ var GameAddView = Backbone.View.extend({
     'keyup #team1': 'updateListTeam1',
     'keyup #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
-    'click #team2_choice': 'displayTeam2'
+    'click #team2_choice': 'displayTeam2',
+    'click input' :'hideFooter' 
   },
 
   pageName: "gameAdd",
@@ -31,6 +32,12 @@ var GameAddView = Backbone.View.extend({
 	  this.render();
 
   },
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },    
 
   displayTeam1: function (li) {
     selectedId = $('#team1_choice:checked').val();
@@ -141,6 +148,9 @@ var GameAddView = Backbone.View.extend({
   },
 
   addGame: function (event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var team1 = $('#team1').val()
       , rank1 = $('#rank1').val()
       , team1_id = $('#team1_id').val()

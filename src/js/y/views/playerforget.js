@@ -2,7 +2,8 @@ var PlayerForgetView = Backbone.View.extend({
   el : "#content",
 
   events: {
-    'submit form#frmForgetPlayer' : 'forget'
+    'submit form#frmForgetPlayer' : 'forget',
+    'click input' :'hideFooter'
   },
 
   pageName: "playerForget",
@@ -19,8 +20,17 @@ var PlayerForgetView = Backbone.View.extend({
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },    
 
   forget : function(event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var email = $('#email').val();
 
     console.log('test mot de passe oublie avec ' + email);

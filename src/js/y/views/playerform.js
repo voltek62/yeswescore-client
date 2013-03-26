@@ -4,7 +4,8 @@ var PlayerFormView = Backbone.View.extend({
   events: {
     'submit form#frmAddPlayer':'add',
     'keyup #club': 'updateList',
-    'click #club_choice' : 'displayClub'
+    'click #club_choice' : 'displayClub',
+    'click input' :'hideFooter'   
   },
   
   listview:"#suggestions",
@@ -12,15 +13,13 @@ var PlayerFormView = Backbone.View.extend({
   pageName: "playerForm",
     
   clubs:null,
+     
 
   initialize:function() {
   
-    $.ui.scrollToTop('#content'); 	
-    
     //si input cliqué, on cache le footer
     scrollTop();
-    $.ui.removeFooterMenu();
-  
+      
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("MODIFIER MON PROFIL");
@@ -34,8 +33,20 @@ var PlayerFormView = Backbone.View.extend({
     this.player.fetch(); 
     	
     this.player.on( 'change', this.renderPlayer, this );  	 	
-    //$.mobile.hidePageLoadingMsg();
+
   },
+  
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },  
+  
+  showFooter:function() {
+  	console.log('showFooter');
+  	//$.ui.toggleNavMenu(true);
+  },   
   
   updateList: function (event) {
     var q = $("#club").val();
@@ -78,6 +89,9 @@ var PlayerFormView = Backbone.View.extend({
   },
       
   add: function (event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var name = $('#name').val()
       , nickname = $('#nickname').val()
       , password = $('#password').val()

@@ -2,7 +2,8 @@ var ClubAddView = Backbone.View.extend({
   el: "#content",
 
   events: {
-    'submit form#frmAddClub': 'addClub'
+    'submit form#frmAddClub': 'addClub',
+    'click input' :'hideFooter'
   },
 
   pageName: "clubAdd",
@@ -23,9 +24,16 @@ var ClubAddView = Backbone.View.extend({
     //$.mobile.hidePageLoadingMsg();
   },
 
- 
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },   
 
   addClub: function (event) {
+  
+  
+    $.ui.toggleNavMenu(true);
 
     console.log('add Club');
     

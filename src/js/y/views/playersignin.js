@@ -2,7 +2,8 @@ var PlayerSigninView = Backbone.View.extend({
   el : "#content",
 
   events: {
-    'submit form#frmSigninPlayer' : 'signin'
+    'submit form#frmSigninPlayer' : 'signin',
+    'click input' :'hideFooter'
   },
 
   pageName: "playerSignin",
@@ -19,8 +20,17 @@ var PlayerSigninView = Backbone.View.extend({
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	//$.ui.toggleNavMenu();
+  	$.ui.removeFooterMenu();
+  },    
 
   signin : function(event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var email = $('#email').val();
     var password = $('#password').val();
 

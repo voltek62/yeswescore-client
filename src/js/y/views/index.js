@@ -150,7 +150,8 @@ var IndexView = Backbone.View.extend({
   onClose: function () {
     this.undelegateEvents();
     this.games.off("all", this.renderList, this);
-    this.myScroller.clearInfinite();
+    
+    //this.myScroller.clearInfinite();
     this.myScroller.disable();
 
   }

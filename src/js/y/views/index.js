@@ -9,10 +9,19 @@ var IndexView = Backbone.View.extend({
   listview: "#listGamesView",
 
   pageName: "index",
-
+  myScroller:null,
+  
   initialize: function () {
   
-    $.ui.scrollToTop('#content'); 
+	$.ui.ready(function(){
+       this.myScroller=$("#content").scroller();//Fetch the scroller from cache
+       //this.myScroller.addInfinite();
+       //this.myScroller.enable();
+       //$("#content").css("overflow","auto");
+		
+	 });      
+    
+    
     $.ui.setBackButtonVisibility(false);
     $.ui.setTitle("LISTE DES MATCHES");
     //$.ui.resetScrollers=true;
@@ -126,29 +135,23 @@ var IndexView = Backbone.View.extend({
 
   render: function () {
     this.$el.html(this.indexViewTemplate(), {});
-    //Trigger jquerymobile rendering
-    //this.$el.trigger('pagecreate');
-
-    //new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#', true);});
-    //new Y.FastButton(document.querySelector("#mnudiffuse"), function () { Y.Router.navigate('#games/add', true);});
-    //new Y.FastButton(document.querySelector("#mnuaccount"), function () { Y.Router.navigate('#account', true);});
 
     return this;
   },
 
   renderList: function (query) {
 
-    //console.log('renderList games:',this.games.toJSON());
 
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
-    //$(this.listview).listview('refresh');
-    //$.mobile.hidePageLoadingMsg();
+
     return this;
   },
 
   onClose: function () {
     this.undelegateEvents();
     this.games.off("all", this.renderList, this);
+    this.myScroller.clearInfinite();
+    this.myScroller.disable();
 
   }
 });

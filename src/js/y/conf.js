@@ -96,33 +96,6 @@
         });
       });
       
-      //////////////////////////////
-      //init jqui
-      //////////////////////////////
-   
-      $.ui.resetScrollers=false;
-	    
-      var myScroller;
-    
-	  $.ui.ready(function(){
-
-       myScroller=$("#content").scroller();//Fetch the scroller from cache
-       myScroller.addInfinite();
-       myScroller.enable();
-       $("#content").css("overflow","auto");
-		
-	 });      
-      
-      /*
-   	  var onDeviceReady=function(){
-		AppMobi.device.setRotateOrientation("portrait");
-        AppMobi.device.setAutoRotate(false);
-	    //hide splash screen
-	    //AppMobi.device.hideSplashScreen();	
-	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
-      };      
-      document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	   */
       
     },
 

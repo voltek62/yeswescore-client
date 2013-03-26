@@ -87,7 +87,7 @@ p {
 **********************************************************/
 
 .button {
-  width:200px;	
+  width:90%;	
   z-index:1;
   color:#fff;
   background-image:none; 
@@ -99,7 +99,7 @@ p {
 }
 
 .button-green {
-  width:200px;	
+  width:90%;	
   z-index:1;
   color:#fff;
   background-image:none; 

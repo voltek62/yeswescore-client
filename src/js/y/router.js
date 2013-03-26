@@ -175,10 +175,9 @@
         console.log('DEV ChangePage', new Date().getTime());
         
         //On repasse le scroll en haut
-        console.log('scrollTop');
-
-		var scrollTop = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;	
-		scrollTop = 0;
+        //console.log('scrollTop');
+		//var scrollTop = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;	
+		//scrollTop = 0;
 
         // FIXME: render of view should be here ?
       }

@@ -1252,7 +1252,7 @@ p {
 **********************************************************/
 
 .button {
-  width:300px;	
+  width:90%;	
   z-index:1;
   color:#fff;
   background-image:none; 
@@ -1264,7 +1264,7 @@ p {
 }
 
 .button-green {
-  width:300px;	
+  width:90%;	
   z-index:1;
   color:#fff;
   background-image:none; 
@@ -1333,7 +1333,7 @@ ul > li.player > a {
     -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000;  
     */
-  padding-bottom: 100px;
+  /*padding-bottom: 100px;*/
  
 }
 
@@ -17614,8 +17614,9 @@ Date.locale = {
 };
 
 var scrollTop = function () {
-	setTimeout(function () {
-		document.body.scrollTop = 0;
+	setTimeout(function () {	
+		var scrollTop = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;	
+		scrollTop = 0;
 	}, 0);
 }
 
@@ -18146,33 +18147,6 @@ var assert = function () { };
         });
       });
       
-      //////////////////////////////
-      //init jqui
-      //////////////////////////////
-   
-      $.ui.resetScrollers=false;
-	    
-      var myScroller;
-    
-	  $.ui.ready(function(){
-
-       myScroller=$("#content").scroller();//Fetch the scroller from cache
-       myScroller.addInfinite();
-       myScroller.enable();
-       $("#content").css("overflow","auto");
-		
-	 });      
-      
-      /*
-   	  var onDeviceReady=function(){
-		AppMobi.device.setRotateOrientation("portrait");
-        AppMobi.device.setAutoRotate(false);
-	    //hide splash screen
-	    //AppMobi.device.hideSplashScreen();	
-	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
-      };      
-      document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	   */
       
     },
 
@@ -18528,7 +18502,15 @@ var assert = function () { };
 
         Y.Stats.page(previousPageName, nextPageName);
         console.log('DEV ChangePage', new Date().getTime());
+        
+		//Par defaut , pas de scroll	
+		$.feat.nativeTouchScroll = true;
+		$("#content").css("overflow","hidden");
+		$("#content").css("height","100%");
 
+
+		console.log('contant',$("#content"));
+		
         // FIXME: render of view should be here ?
       }
       catch (e) {
@@ -19725,8 +19707,6 @@ var ClubAddView = Backbone.View.extend({
 
   initialize: function () {
   
-    $.ui.scrollToTop('#content'); 
-  
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("AJOUTER UN CLUB");
@@ -19741,14 +19721,14 @@ var ClubAddView = Backbone.View.extend({
 
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },   
 
   addClub: function (event) {
   
-  
-    $.ui.toggleNavMenu(true);
+    jq("#navbar").show();
+    jq("#content").css("bottom", "48px");
+    $.ui.showNavMenu = true;
 
     console.log('add Club');
     
@@ -19810,17 +19790,13 @@ var GameView = Backbone.View.extend({
 
       initialize : function() {
       
-        $.ui.scrollToTop('#content');
+        //$.ui.scrollToTop('#content');
+
       
       	$.ui.setBackButtonVisibility(true);
       	$.ui.setBackButtonText("&lt;");
       	$.ui.setTitle("GAME");
       	
-      	//console.log($('#content'));
-      	//$.ui.addDivAndScroll($('#content'));
-      	//$.ui.addContentDiv('content');
-      	
-      	/*var scroller = $("#content").scroller();*/
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
         this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
@@ -20301,8 +20277,7 @@ var GameAddView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },    
 
   displayTeam1: function (li) {
@@ -20908,10 +20883,24 @@ var IndexView = Backbone.View.extend({
   listview: "#listGamesView",
 
   pageName: "index",
-
+  myScroller:null,
+  
   initialize: function () {
   
-    $.ui.scrollToTop('#content'); 
+
+	$.ui.ready(function(){
+       this.myScroller=$("#content").scroller();//Fetch the scroller from cache
+       //this.myScroller.addInfinite();
+       //this.myScroller.enable();
+       $("#content").css("overflow","auto");
+		
+	 });      
+     //On repasse le scroll en haut
+     console.log('scrollTop');
+	 var scrollTop = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;	
+	 scrollTop = 0;
+    
+    
     $.ui.setBackButtonVisibility(false);
     $.ui.setTitle("LISTE DES MATCHES");
     //$.ui.resetScrollers=true;
@@ -21025,30 +21014,26 @@ var IndexView = Backbone.View.extend({
 
   render: function () {
     this.$el.html(this.indexViewTemplate(), {});
-    //Trigger jquerymobile rendering
-    //this.$el.trigger('pagecreate');
-
-    //new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#', true);});
-    //new Y.FastButton(document.querySelector("#mnudiffuse"), function () { Y.Router.navigate('#games/add', true);});
-    //new Y.FastButton(document.querySelector("#mnuaccount"), function () { Y.Router.navigate('#account', true);});
 
     return this;
   },
 
   renderList: function (query) {
 
-    //console.log('renderList games:',this.games.toJSON());
 
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
-    //$(this.listview).listview('refresh');
-    //$.mobile.hidePageLoadingMsg();
+
     return this;
   },
 
   onClose: function () {
     this.undelegateEvents();
     this.games.off("all", this.renderList, this);
-
+    
+    //this.myScroller.clearInfinite();
+    this.myScroller.disable();
+	
+	
   }
 });
 var PlayerView = Backbone.View.extend({
@@ -21220,10 +21205,7 @@ var PlayerFormView = Backbone.View.extend({
      
 
   initialize:function() {
-  
-    //si input cliqu�, on cache le footer
-    scrollTop();
-      
+        
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("MODIFIER MON PROFIL");
@@ -21243,8 +21225,7 @@ var PlayerFormView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },  
   
   showFooter:function() {
@@ -21458,8 +21439,6 @@ var PlayerSigninView = Backbone.View.extend({
 
   initialize : function() {
   
-    $.ui.scrollToTop('#content'); 
-    
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("CONNEXION");	    
@@ -21471,8 +21450,7 @@ var PlayerSigninView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },    
 
   signin : function(event) {
@@ -21512,8 +21490,6 @@ var PlayerForgetView = Backbone.View.extend({
 
   initialize : function() {
   
-    $.ui.scrollToTop('#content'); 
-    
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("MOT DE PASSE OUBLIE");	    
@@ -21525,8 +21501,7 @@ var PlayerForgetView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },    
 
   forget : function(event) {
@@ -22080,7 +22055,8 @@ if (game.options.sets !== null ) {
 
 
 game.dates.startConvert = new Date(game.dates.start);
-game.dates.startDate = game.dates.startConvert.getDay()+' '+game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();
+//game.dates.startConvert.getDay()+' '+
+game.dates.startDate = game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();
 game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.startConvert.getMinutes();
 
 %>

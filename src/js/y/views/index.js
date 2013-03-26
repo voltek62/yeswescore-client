@@ -9,18 +9,9 @@ var IndexView = Backbone.View.extend({
   listview: "#listGamesView",
 
   pageName: "index",
-  myScroller:null,
   
   initialize: function () {
   
-	$.ui.ready(function(){
-       this.myScroller=$("#content").scroller();//Fetch the scroller from cache
-       //this.myScroller.addInfinite();
-       //this.myScroller.enable();
-       //$("#content").css("overflow","auto");
-		
-	 });      
-    
     
     $.ui.setBackButtonVisibility(false);
     $.ui.setTitle("LISTE DES MATCHES");
@@ -151,8 +142,6 @@ var IndexView = Backbone.View.extend({
     this.undelegateEvents();
     this.games.off("all", this.renderList, this);
     
-    //this.myScroller.clearInfinite();
-    this.myScroller.disable();
-
+	
   }
 });

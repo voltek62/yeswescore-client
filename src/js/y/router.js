@@ -17,6 +17,7 @@
   });
 	
   */
+  var scroller = null;
 
   var Router = Backbone.Router.extend({
     routes: {
@@ -59,99 +60,118 @@
     account: function () {
       var accountView = new AccountView();
       this.changePage(accountView);
+      scroller.lock();
     },
 
     club: function (id) {
       var clubView = new ClubView({ id: id });
       this.changePage(clubView);
+      scroller.lock();
     },
 
     clubAdd: function (id) {
       var clubAddView = new ClubAddView();
       this.changePage(clubAddView);
+      scroller.lock();
     },
 
     index: function (id) {
       var indexView = new IndexView({ id: id });
       this.changePage(indexView);
+      scroller.unlock();
     },
 
     
     game: function (id) {
       var gameView = new GameView({ id: id });
       this.changePage(gameView);
+      scroller.lock();
     },
 
     gameAdd: function () {
       var gameAddView = new GameAddView();
       this.changePage(gameAddView);
+      scroller.lock();
     },
 
     gameEnd: function (id) {
       var gameEndView = new GameEndView({ id: id });
       this.changePage(gameEndView);
+      scroller.lock();
     },
 
     gameComment: function (id) {
       var gameCommentView = new GameCommentView({ id: id });
       this.changePage(gameCommentView);
+      scroller.lock();
     },
 
     gameFollow: function () {
       var gameFollowView = new GameFollowView();
       this.changePage(gameFollowView);
+      scroller.lock();
     },
 
     gameMe: function (id) {
       var gameListView = new GameListView({ mode: 'me', id: id });
       this.changePage(gameListView);
+      scroller.lock();
     },
 
     gameClub: function (id) {
       var gameListView = new GameListView({ mode: 'club', clubid: id });
       this.changePage(gameListView);
+      scroller.lock();
     },
 
     player: function (id) {
       //console.log('router ',id);
       var playerView = new PlayerView({ id: id, follow: '' });
       this.changePage(playerView);
+      scroller.lock();
     },
 
 
     playerFollow: function (id) {
       var playerFollowView = new PlayerFollowView();
       this.changePage(playerFollowView);
+      scroller.lock();
     },
 
     playerNoFollow: function (id) {
       var playerView = new PlayerView({ id: id, follow: 'false' });
       this.changePage(playerView);
+      scroller.lock();
     },
 
     playerForm: function () {
       var playerFormView = new PlayerFormView();
       this.changePage(playerFormView);
+      scroller.lock();
     },
 
     playerList: function () {
       var playerListView = new PlayerListView();
       this.changePage(playerListView);
+      scroller.unlock();
     },
 
     playerListByClub: function (id) {
       var playerListView = new PlayerListView({ id: id });
       this.changePage(playerListView);
+      scroller.unlock();
     },
 
     playerSignin: function () {
       var playerSigninView = new PlayerSigninView();
       this.changePage(playerSigninView);
+      scroller.lock();
     },
 
     playerForget: function () {
       var playerForgetView = new PlayerForgetView();
       this.changePage(playerForgetView);
+      scroller.lock();
     },
 
     setNextTransition: function (el) {
@@ -174,11 +194,20 @@
         Y.Stats.page(previousPageName, nextPageName);
         console.log('DEV ChangePage', new Date().getTime());
         
-        //On repasse le scroll en haut
-        //console.log('scrollTop');
-		//var scrollTop = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;	
-		//scrollTop = 0;
+		//Par defaut , pas de scroll	
+		//$.feat.nativeTouchScroll = true;
+		$.ui.ready(function(){
+	       scroller=$("#content").scroller();//Fetch the scroller from cache
+	       //scroller.addInfinite();
+	       //scroller.enable();
+	       //$("#content").css("overflow","auto");
+		   scroller.scrollToTop();	
+		 });      
+	
+	    
 
+
+		
         // FIXME: render of view should be here ?
       }
       catch (e) {

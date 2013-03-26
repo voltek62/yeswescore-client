@@ -87,7 +87,7 @@ p {
 **********************************************************/
 
 .button {
-  width:300px;	
+  width:200px;	
   z-index:1;
   color:#fff;
   background-image:none; 
@@ -99,7 +99,7 @@ p {
 }
 
 .button-green {
-  width:300px;	
+  width:200px;	
   z-index:1;
   color:#fff;
   background-image:none; 
@@ -168,7 +168,7 @@ ul > li.player > a {
     -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000;  
     */
-  padding-bottom: 100px;
+  /*padding-bottom: 100px;*/
  
 }
 

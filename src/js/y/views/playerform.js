@@ -16,10 +16,7 @@ var PlayerFormView = Backbone.View.extend({
      
 
   initialize:function() {
-  
-    //si input cliqué, on cache le footer
-    scrollTop();
-      
+        
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("MODIFIER MON PROFIL");
@@ -39,8 +36,7 @@ var PlayerFormView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },  
   
   showFooter:function() {

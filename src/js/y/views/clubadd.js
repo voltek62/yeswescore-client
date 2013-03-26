@@ -26,14 +26,14 @@ var ClubAddView = Backbone.View.extend({
 
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },   
 
   addClub: function (event) {
   
-  
-    $.ui.toggleNavMenu(true);
+    jq("#navbar").show();
+    jq("#content").css("bottom", "48px");
+    $.ui.showNavMenu = true;
 
     console.log('add Club');
     

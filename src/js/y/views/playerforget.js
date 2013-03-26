@@ -23,8 +23,7 @@ var PlayerForgetView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },    
 
   forget : function(event) {

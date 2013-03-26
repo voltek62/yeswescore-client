@@ -30,8 +30,9 @@ Date.locale = {
 };
 
 var scrollTop = function () {
-	setTimeout(function () {
-		document.body.scrollTop = 0;
+	setTimeout(function () {	
+		var scrollTop = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;	
+		scrollTop = 0;
 	}, 0);
 }
 

@@ -23,8 +23,7 @@ var PlayerSigninView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },    
 
   signin : function(event) {

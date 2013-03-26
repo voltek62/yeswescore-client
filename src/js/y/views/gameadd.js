@@ -35,8 +35,7 @@ var GameAddView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	//$.ui.toggleNavMenu();
-  	$.ui.removeFooterMenu();
+  	$.ui.toggleNavMenu(false);
   },    
 
   displayTeam1: function (li) {

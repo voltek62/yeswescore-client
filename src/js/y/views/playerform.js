@@ -17,7 +17,7 @@ var PlayerFormView = Backbone.View.extend({
      
 
   initialize:function() {
-        
+          
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("MODIFIER MON PROFIL");
@@ -26,7 +26,8 @@ var PlayerFormView = Backbone.View.extend({
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
     
     this.Owner = Y.User.getPlayer();
-    	
+    this.pageHash += this.Owner.id; 
+        	
     this.player = new PlayerModel({id:this.Owner.id});
     this.player.fetch(); 
     	

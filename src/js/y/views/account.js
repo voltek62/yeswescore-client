@@ -10,11 +10,7 @@ var AccountView = Backbone.View.extend({
   
 
   initialize: function () {
-
-	$.ui.scrollToTop('#content');  
-	
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
+  
     $.ui.setTitle("MON COMPTE");	
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');

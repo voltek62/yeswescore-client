@@ -15,7 +15,7 @@ var GameCommentView = Backbone.View.extend({
     
   initialize:function() {
   
-     $.ui.scrollToTop('#content'); 
+    this.pageHash += this.id; 
   
      $.ui.setBackButtonVisibility(true);
      $.ui.setBackButtonText("RETOUR------");

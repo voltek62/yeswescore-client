@@ -9,7 +9,7 @@ var IndexView = Backbone.View.extend({
   listview: "#listGamesView",
 
   pageName: "index",
-  pageHash : "",  
+  pageHash : "index",  
   
   initialize: function () {
   
@@ -18,7 +18,6 @@ var IndexView = Backbone.View.extend({
     $.ui.setTitle("LISTE DES MATCHES");
     //$.ui.resetScrollers=true;
  
-
 
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');

@@ -30,10 +30,12 @@ var GameView = Backbone.View.extend({
       initialize : function() {
       
         //$.ui.scrollToTop('#content');
-
+		//On met à jour le pageHash
+        this.pageHash += this.id; 
+      
       
       	$.ui.setBackButtonVisibility(true);
-      	$.ui.setBackButtonText("RETOUR-----");
+    	$.ui.setBackButtonText("&lt;");
       	$.ui.setTitle("GAME");
       	
       	
@@ -46,7 +48,6 @@ var GameView = Backbone.View.extend({
 
 
        
-      
         this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
         this.score.fetch();

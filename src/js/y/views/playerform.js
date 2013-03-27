@@ -20,7 +20,7 @@ var PlayerFormView = Backbone.View.extend({
           
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("MODIFIER MON PROFIL");
+    $.ui.setTitle("MON PROFIL");
   
     this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');

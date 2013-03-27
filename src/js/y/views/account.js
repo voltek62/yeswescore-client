@@ -11,7 +11,7 @@ var AccountView = Backbone.View.extend({
 
   initialize: function () {
   
-    $.ui.setTitle("MON COMPTE");	
+    $.ui.setTitle("PROFIL");	
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 

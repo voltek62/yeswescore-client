@@ -1,9 +1,6 @@
 var AccountView = Backbone.View.extend({
   el: "#content",
 
-  events: {
-    'click #fbconnect': 'fbconnect'
-  },
 
   pageName: "account",
   pageHash : "account", 

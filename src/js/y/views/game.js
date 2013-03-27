@@ -7,11 +7,12 @@ var GameView = Backbone.View.extend({
       incomingComment : "#incomingComment",      
       
       events : {
+        'click #fbconnect' : 'fbconnect',
         'vclick #setPlusSetButton' : 'setPlusSet',
         'vclick #setMinusSetButton' : 'setMinusSet',
         'vclick #setPointWinButton' : 'setPointWin',
         'vclick #setPointErrorButton' : 'setPointError',
-        'vclick #endButton' : 'endGame',
+        'click #endButton' : 'endGame',
         'vclick #followButton' : 'followGame',
         'vclick #cancelButton' : 'cancelGame',
         'submit #frmAttachment' : 'submitAttachment',
@@ -36,7 +37,7 @@ var GameView = Backbone.View.extend({
       
       	$.ui.setBackButtonVisibility(true);
     	$.ui.setBackButtonText("&lt;");
-      	$.ui.setTitle("GAME");
+      	$.ui.setTitle("MATCH");
       	
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
@@ -87,8 +88,12 @@ var GameView = Backbone.View.extend({
  
       },
 
- 
 
+	  fbconnect: function () {
+	    console.log('facebook connect');
+	    Y.Facebook.connect();
+	  },
+ 
       updateOnEnter : function(e) {
         if (e.keyCode == 13) {
           console.log('touche entrée envoie le commentaire');

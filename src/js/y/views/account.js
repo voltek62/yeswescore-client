@@ -21,11 +21,6 @@ var AccountView = Backbone.View.extend({
   },
 
 
-  fbconnect: function () {
-    console.log('facebook connect');
-    Y.Facebook.connect();
-  },
-
   // render the content into div of view
   render: function () {
     $.ui.setTitle("MON COMPTE");

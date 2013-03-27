@@ -54,6 +54,27 @@
         that.navigate(a.hash.substr(1), { trigger: true });
         return true;
       };
+
+	  /* On redefinit goBack */      
+      jq.ui.goBack = function() {
+      
+      		console.log('new goBack');
+		
+ 			if (jq.ui.history.length > 0) {
+                var that = jq.ui;
+                var tmpEl = jq.ui.history.pop();
+                //$.asap(
+                
+                //function() {
+                    //that.loadContent(tmpEl.target + "", 0, 1, tmpEl.transition);
+                    //that.transitionType = tmpEl.transition;
+                    //document.location.hash=tmpEl.target;
+                    that.updateHash(tmpEl.target);
+                //for Android 4.0.x, we must touchLayer.hideAdressBar()
+            //    });
+            }		
+
+	  };
       
       //Par defaut , pas de scroll	
 	  //$.feat.nativeTouchScroll = true;
@@ -223,9 +244,9 @@
           previousPageHash = currentView.pageHash;  
         }
         
-        if (currentView) {
-          currentView.close();
-        }
+        //if (currentView) {
+       //   currentView.close();
+        //}
         
         currentView = view;
         
@@ -243,12 +264,13 @@
         Y.Stats.page(previousPageName, nextPageName);
         console.log('DEV ChangePage', new Date().getTime());
         
+        //FIX ME : goback launch loadContent ( disabled )
         if (previousPageHash==='none') {
           $.ui.clearHistory();
-      	  $.ui.pushHistory("", nextPageHash, "slide", "");
+      	  $.ui.pushHistory("", nextPageHash, "", "");
         }
         else
-          $.ui.pushHistory(previousPageHash, nextPageHash, "slide", "");
+          $.ui.pushHistory(previousPageHash, nextPageHash, "", "");
         
 		
         // FIXME: render of view should be here ?

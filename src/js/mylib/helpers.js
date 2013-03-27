@@ -36,6 +36,8 @@ var scrollTop = function () {
 	}, 0);
 }
 
+
+
 var assert = function () { };
 // @ifdef DEV
 assert = function (t) { if (!t) throw "assert false" };

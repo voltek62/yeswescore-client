@@ -18155,14 +18155,13 @@ var assert = function () { };
         });
       });
       
-    /* Init JQmobi */  
-    var init = function(){
-	   
+    /* Init JQmobi */
+    /*  
+    var init = function(){	   
 	   window.setTimeout(function(){$.ui.launch();},1500);
-       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
     };
     document.addEventListener("DOMContentLoaded",init,false);       
-      
+      */
       
     },
 
@@ -18402,6 +18401,11 @@ var assert = function () { };
         	that.navigate(a.hash.substr(1), { trigger: true });
         return true;
       };
+      
+      jq.ui.topClickScroll = function() {
+      
+      	console.log('overload topClickScroll in router.js');
+      };
 
 	  /* overload goBack */      
       jq.ui.goBack = function() {
@@ -18417,14 +18421,14 @@ var assert = function () { };
 	  };
       
       //Par defaut , pas de scroll	
-	  //$.feat.nativeTouchScroll = true;
+	  $.feat.nativeTouchScroll = true;
 	  $.ui.ready(function(){
 	     scroller=$("#content").scroller();//Fetch the scroller from cache
 	     //scroller.addInfinite();
 	     //scroller.enable();
 	     //$("#content").css("overflow","auto");
 		 //$("#content").css("height","100%");
-		 scroller.scrollToTop();	
+		 //scroller.scrollToTop();	
 	  });      
   
     },
@@ -18432,28 +18436,28 @@ var assert = function () { };
     account: function () {
       var accountView = new AccountView();
       this.changePage(accountView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     club: function (id) {
       var clubView = new ClubView({ id: id });
       this.changePage(clubView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     clubAdd: function (id) {
       var clubAddView = new ClubAddView();
       this.changePage(clubAddView);
-      scroller.scrollToTop();
+      //scroller.scrollToTop();
       scroller.unlock();
     },
 
     index: function (id) {
       var indexView = new IndexView({ id: id });     
       this.changePage(indexView);
-      scroller.scrollToTop();      
+      //scroller.scrollToTop();      
       scroller.unlock();
     },
 
@@ -18461,49 +18465,49 @@ var assert = function () { };
     game: function (id) {
       var gameView = new GameView({ id: id });
       this.changePage(gameView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     gameAdd: function () {
       var gameAddView = new GameAddView();
       this.changePage(gameAddView);
-      scroller.scrollToTop();
+      //scroller.scrollToTop();
       scroller.unlock();
     },
 
     gameEnd: function (id) {
       var gameEndView = new GameEndView({ id: id });
       this.changePage(gameEndView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     gameComment: function (id) {
       var gameCommentView = new GameCommentView({ id: id });
       this.changePage(gameCommentView);  
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     gameFollow: function () {
       var gameFollowView = new GameFollowView();
       this.changePage(gameFollowView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     gameMe: function (id) {
       var gameListView = new GameListView({ mode: 'me', id: id });
       this.changePage(gameListView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     gameClub: function (id) {
       var gameListView = new GameListView({ mode: 'club', clubid: id });
       this.changePage(gameListView);
-      scroller.scrollToTop();
+      //scroller.scrollToTop();
       scroller.unlock();
     },
 
@@ -18511,58 +18515,58 @@ var assert = function () { };
       //console.log('router ',id);
       var playerView = new PlayerView({ id: id, follow: '' });
       this.changePage(playerView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
 
     playerFollow: function (id) {
       var playerFollowView = new PlayerFollowView();
       this.changePage(playerFollowView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     playerNoFollow: function (id) {
       var playerView = new PlayerView({ id: id, follow: 'false' });
       this.changePage(playerView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     playerForm: function () {
       var playerFormView = new PlayerFormView();
       this.changePage(playerFormView);
-      scroller.scrollToTop();
+      //scroller.scrollToTop();
       scroller.unlock();
     },
 
     playerList: function () {
       var playerListView = new PlayerListView();
       this.changePage(playerListView);
-      scroller.scrollToTop();
+      //scroller.scrollToTop();
       scroller.unlock();
     },
 
     playerListByClub: function (id) {
       var playerListView = new PlayerListView({ id: id });
       this.changePage(playerListView);
-      scroller.scrollToTop();
+      //scroller.scrollToTop();
       scroller.unlock();
     },
 
     playerSignin: function () {
       var playerSigninView = new PlayerSigninView();
       this.changePage(playerSigninView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     playerForget: function () {
       var playerForgetView = new PlayerForgetView();
       this.changePage(playerForgetView);
-      scroller.scrollToTop();
-      scroller.lock();
+      //scroller.scrollToTop();
+      //scroller.lock();
     },
 
     setNextTransition: function (el) {

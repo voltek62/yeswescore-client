@@ -8,11 +8,11 @@ var PlayerFollowView = Backbone.View.extend({
   listview:"#listPlayersView",
 
   pageName: "playerFollow",
-  pageHash : "players/follow",
+  pageHash : "#players/follow",
 
   initialize:function() {
   
-    $.ui.scrollToTop('#content'); 
+    this.pageHash += this.id; 
     
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");

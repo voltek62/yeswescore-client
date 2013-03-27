@@ -7,7 +7,7 @@ var PlayerSigninView = Backbone.View.extend({
   },
 
   pageName: "playerSignin",
-  pageHash : "players/signin", 
+  pageHash : "#players/signin", 
 
   initialize : function() {
   

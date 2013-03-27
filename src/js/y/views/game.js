@@ -26,7 +26,7 @@ var GameView = Backbone.View.extend({
       },
 
       pageName: "game",
-      pageHash : "games/",
+      pageHash : "#games/",
 
       initialize : function() {
       
@@ -407,7 +407,8 @@ var GameView = Backbone.View.extend({
 
       endGame : function() {
         //window.location.href = '#games/end/' + this.id;
-        Y.Router.navigate("/#games/end/"+this.id, true)
+        Y.Router.navigate("/games/end/"+this.id,{trigger:true})
+        //Y.Router.gameEnd(this.id);
       },
 
       followGame : function() {

@@ -6,11 +6,11 @@ var PlayerView = Backbone.View.extend({
   },
 
   pageName: "player",
-  pageHash : "players/",
+  pageHash : "#players/",
 
   initialize: function(options) {
   
-    $.ui.scrollToTop('#content'); 
+    this.pageHash += this.id; 
     
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");

@@ -3361,7 +3361,7 @@ if (!HTMLElement.prototype.unwatch) {
                 //$.asap(
                 
                 //function() {
-                    that.loadContent(tmpEl.target + "", 0, 1, tmpEl.transition);
+                    //that.loadContent(tmpEl.target + "", 0, 1, tmpEl.transition);
                     that.transitionType = tmpEl.transition;
                     //document.location.hash=tmpEl.target;
                     that.updateHash(tmpEl.target);

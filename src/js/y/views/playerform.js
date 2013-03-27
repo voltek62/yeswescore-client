@@ -11,7 +11,7 @@ var PlayerFormView = Backbone.View.extend({
   listview:"#suggestions",
 
   pageName: "playerForm",
-  pageHash : "players/",  
+  pageHash : "#players/",  
     
   clubs:null,
      

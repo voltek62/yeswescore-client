@@ -8,7 +8,7 @@ var GameFollowView = Backbone.View.extend({
   },
 
   pageName: "gameFollow",
-  pageHash : "games/follow",
+  pageHash : "#games/follow",
 
   initialize:function() {
   

@@ -6,7 +6,7 @@ var GameEndView = Backbone.View.extend({
   },
 
   pageName: "gameEnd",
-  pageHash : "#games/end/",
+  pageHash : "games/end/",
     
   initialize:function() {
   

@@ -7,7 +7,7 @@ var PlayerForgetView = Backbone.View.extend({
   },
 
   pageName: "playerForget",
-  pageHash : "#players/forget",
+  pageHash : "players/forget",
   
   initialize : function() {
   

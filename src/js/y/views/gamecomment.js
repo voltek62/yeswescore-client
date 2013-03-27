@@ -11,7 +11,7 @@ var GameCommentView = Backbone.View.extend({
   },
 
   pageName: "gameComment",
-  pageHash : "#games/comment/",
+  pageHash : "games/comment/",
     
   initialize:function() {
   

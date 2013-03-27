@@ -50,30 +50,23 @@
     
       var that = this; 
             
+      /* overload click */      
       jq.ui.customClickHandler = function (a) {
+        console.log('customClickHandler on redirige vers ',a.hash.substr(1));      
         that.navigate(a.hash.substr(1), { trigger: true });
         return true;
       };
 
-	  /* On redefinit goBack */      
+	  /* overload goBack */      
       jq.ui.goBack = function() {
-      
       		console.log('new goBack');
 		
- 			if (jq.ui.history.length > 0) {
-                var that = jq.ui;
-                var tmpEl = jq.ui.history.pop();
-                //$.asap(
+ 			if (jq.ui.history.length > 0) {      
+                var tmpEl = jq.ui.history.pop();              
+                console.log('updateHash on redirige vers ',jq.ui.history.pop().target);
+                that.navigate(tmpEl.target, { trigger: true });
                 
-                //function() {
-                    //that.loadContent(tmpEl.target + "", 0, 1, tmpEl.transition);
-                    //that.transitionType = tmpEl.transition;
-                    //document.location.hash=tmpEl.target;
-                    that.updateHash(tmpEl.target);
-                //for Android 4.0.x, we must touchLayer.hideAdressBar()
-            //    });
             }		
-
 	  };
       
       //Par defaut , pas de scroll	
@@ -244,9 +237,9 @@
           previousPageHash = currentView.pageHash;  
         }
         
-        //if (currentView) {
-       //   currentView.close();
-        //}
+        if (currentView) {
+          currentView.close();
+        }
         
         currentView = view;
         

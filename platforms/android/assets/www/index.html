@@ -1199,7 +1199,7 @@ p {
   background-image:none;
   background-color:#000;
   height:43px;	
-  z-index:1000;
+  z-index:500;
 }
 
 #header #backButton {
@@ -1214,7 +1214,7 @@ p {
   font-weight:bold;
   /*font-family: 'Open Sans';*/
   text-transform:uppercase;
-  z-index:1000;
+  z-index:500;
 }
 
 #header  div#pageLogo {
@@ -1231,13 +1231,13 @@ p {
   white-space:nowrap;
   color:#45b1db;
   margin-top:6px;
-  z-index:1000;
+  z-index:500;
 }
 
 .pageLogoPoint {
   font-size:18px;
   font-weight:bold;	
-  z-index:1000;
+  z-index:500;
 }
 
 #pageOnline {
@@ -1250,6 +1250,10 @@ p {
 /**********************************************************
 	BUTTON STYLES
 **********************************************************/
+
+.ui-disabled {
+  z-index: 1;
+}
 
 .button {
   width:90%;	
@@ -1401,7 +1405,7 @@ ul > li.player > a {
 .form-center {
   margin-left:auto;
   margin-right:auto;
-  width:250px;  
+  width:90%;  
 }
 
 
@@ -14181,6 +14185,7 @@ if (!HTMLElement.prototype.unwatch) {
                 target: previousPage,
                 transition: transition
             });
+            
             //push into the browser history
             try {
                 window.history.pushState(newPage, newPage, startPath + '#' + newPage + hashExtras);
@@ -14200,6 +14205,7 @@ if (!HTMLElement.prototype.unwatch) {
          * @title $.ui.updateHash(newHash)
          */
         updateHash: function(newHash) {
+        
             newHash = newHash.indexOf('#') == -1 ? '#' + newHash : newHash; //force having the # in the begginning as a standard
             previousTarget = newHash;
             
@@ -17620,6 +17626,8 @@ var scrollTop = function () {
 	}, 0);
 }
 
+
+
 var assert = function () { };
 
 // Global Object
@@ -18147,6 +18155,14 @@ var assert = function () { };
         });
       });
       
+    /* Init JQmobi */  
+    var init = function(){
+	   
+	   window.setTimeout(function(){$.ui.launch();},1500);
+       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
+    };
+    document.addEventListener("DOMContentLoaded",init,false);       
+      
       
     },
 
@@ -18351,6 +18367,7 @@ var assert = function () { };
   var Router = Backbone.Router.extend({
     routes: {
       '': 'index',
+      'index': 'index',
       'sort/:id' : 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
@@ -18377,36 +18394,66 @@ var assert = function () { };
     initialize: function (options) {
     
       var that = this; 
+            
+      /* overload click */      
       jq.ui.customClickHandler = function (a) {
-        that.navigate(a.hash.substr(1), { trigger: true });
-        
+        //console.log('customClickHandler contient ',a.id);      
+        if (a.id !== 'backButton')
+        	that.navigate(a.hash.substr(1), { trigger: true });
         return true;
       };
+
+	  /* overload goBack */      
+      jq.ui.goBack = function() {
+      	//console.log('new goBack');		
+ 		if (jq.ui.history.length > 0) {    
+ 		  
+          var tmpEl = jq.ui.history.pop();  
+          
+          //tmpEl.hash = "#"+tmpEl.target;
+          //jq.ui.customClickHandler(tmpEl);
+          that.navigate(tmpEl.target, { trigger: true });           
+        }		
+	  };
       
+      //Par defaut , pas de scroll	
+	  //$.feat.nativeTouchScroll = true;
+	  $.ui.ready(function(){
+	     scroller=$("#content").scroller();//Fetch the scroller from cache
+	     //scroller.addInfinite();
+	     //scroller.enable();
+	     //$("#content").css("overflow","auto");
+		 //$("#content").css("height","100%");
+		 scroller.scrollToTop();	
+	  });      
   
     },
 
     account: function () {
       var accountView = new AccountView();
       this.changePage(accountView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     club: function (id) {
       var clubView = new ClubView({ id: id });
       this.changePage(clubView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     clubAdd: function (id) {
       var clubAddView = new ClubAddView();
       this.changePage(clubAddView);
-      scroller.lock();
+      scroller.scrollToTop();
+      scroller.unlock();
     },
 
     index: function (id) {
-      var indexView = new IndexView({ id: id });
+      var indexView = new IndexView({ id: id });     
       this.changePage(indexView);
+      scroller.scrollToTop();      
       scroller.unlock();
     },
 
@@ -18414,49 +18461,57 @@ var assert = function () { };
     game: function (id) {
       var gameView = new GameView({ id: id });
       this.changePage(gameView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     gameAdd: function () {
       var gameAddView = new GameAddView();
       this.changePage(gameAddView);
-      scroller.lock();
+      scroller.scrollToTop();
+      scroller.unlock();
     },
 
     gameEnd: function (id) {
       var gameEndView = new GameEndView({ id: id });
       this.changePage(gameEndView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     gameComment: function (id) {
       var gameCommentView = new GameCommentView({ id: id });
-      this.changePage(gameCommentView);
+      this.changePage(gameCommentView);  
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     gameFollow: function () {
       var gameFollowView = new GameFollowView();
       this.changePage(gameFollowView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     gameMe: function (id) {
       var gameListView = new GameListView({ mode: 'me', id: id });
       this.changePage(gameListView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     gameClub: function (id) {
       var gameListView = new GameListView({ mode: 'club', clubid: id });
       this.changePage(gameListView);
-      scroller.lock();
+      scroller.scrollToTop();
+      scroller.unlock();
     },
 
     player: function (id) {
       //console.log('router ',id);
       var playerView = new PlayerView({ id: id, follow: '' });
       this.changePage(playerView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
@@ -18464,42 +18519,49 @@ var assert = function () { };
     playerFollow: function (id) {
       var playerFollowView = new PlayerFollowView();
       this.changePage(playerFollowView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     playerNoFollow: function (id) {
       var playerView = new PlayerView({ id: id, follow: 'false' });
       this.changePage(playerView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     playerForm: function () {
       var playerFormView = new PlayerFormView();
       this.changePage(playerFormView);
-      scroller.lock();
+      scroller.scrollToTop();
+      scroller.unlock();
     },
 
     playerList: function () {
       var playerListView = new PlayerListView();
       this.changePage(playerListView);
+      scroller.scrollToTop();
       scroller.unlock();
     },
 
     playerListByClub: function (id) {
       var playerListView = new PlayerListView({ id: id });
       this.changePage(playerListView);
+      scroller.scrollToTop();
       scroller.unlock();
     },
 
     playerSignin: function () {
       var playerSigninView = new PlayerSigninView();
       this.changePage(playerSigninView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
     playerForget: function () {
       var playerForgetView = new PlayerForgetView();
       this.changePage(playerForgetView);
+      scroller.scrollToTop();
       scroller.lock();
     },
 
@@ -18512,35 +18574,50 @@ var assert = function () { };
         var previousPageName = "none";
         var nextPageName = "unknown";
 
-        if (currentView && currentView.pageName)
-          previousPageName = currentView.pageName;
-        if (currentView)
+        var previousPageHash = "none";
+        var nextPageHash = "unknown";
+
+        if (currentView && currentView.pageName) {
+          previousPageName = currentView.pageName;        
+        }
+        
+        if (currentView && currentView.pageHash) {
+          previousPageHash = currentView.pageHash;  
+        }
+        
+        if (currentView) {
           currentView.close();
+        }
+        
         currentView = view;
-        if (view.pageName)
-          nextPageName = view.pageName;
+        
+        if (view.pageName) {
+          nextPageName = view.pageName;        
+        }
+        
+        if (view.pageHash) {
+          nextPageHash = view.pageHash;
+        }  
+          
+        //console.log('view pageHash',view.pageHash);
+        //console.log('currentView pageHash',currentView.pageHash);
 
         Y.Stats.page(previousPageName, nextPageName);
-        console.log('DEV ChangePage', new Date().getTime());
+        //console.log('DEV ChangePage', new Date().getTime());
         
-		//Par defaut , pas de scroll	
-		//$.feat.nativeTouchScroll = true;
-		$.ui.ready(function(){
-	       scroller=$("#content").scroller();//Fetch the scroller from cache
-	       //scroller.addInfinite();
-	       //scroller.enable();
-	       //$("#content").css("overflow","auto");
-		   scroller.scrollToTop();	
-		 });      
-	
-	    
-
-
+        //FIX ME : goback launch loadContent ( disabled )
+        if (previousPageHash==='none') {
+          $.ui.clearHistory();
+      	  $.ui.pushHistory("", nextPageHash, "", "");
+        }
+        else
+          $.ui.pushHistory(previousPageHash, nextPageHash, "", "");
+        
 		
         // FIXME: render of view should be here ?
       }
       catch (e) {
-        console.log('DEV ChangePage Error', e);
+        //console.log('DEV ChangePage Error', e);
       }
 
 
@@ -18939,7 +19016,7 @@ var GameModel = Backbone.Model.extend({
 
   sync : function(method, model, options) {
 
-    console.log('method sync Model Game', method);
+    //console.log('method sync Model Game', method);
 
     if (method === 'create' && this.get('playerid') !== undefined) {
 
@@ -18992,7 +19069,7 @@ var GameModel = Backbone.Model.extend({
         }
       };
 
-      console.log('tmp Game POST', JSON.stringify(object));
+      //console.log('tmp Game POST', JSON.stringify(object));
 
       return $.ajax({
         dataType : 'json',
@@ -19036,7 +19113,7 @@ var GameModel = Backbone.Model.extend({
     } else {
       
       
-      console.log('GameModel default '+Y.Conf.get("api.url.games")+this.id);
+      //console.log('GameModel default '+Y.Conf.get("api.url.games")+this.id);
       
       //var params = _.extend({ type: 'GET', dataType: 'json', url: Y.Conf.get("api.url.games")+this.id, processData:false }, options); 
       //return $.ajax(params);
@@ -19213,7 +19290,7 @@ var PlayerModel = Backbone.Model.extend({
 
   sync: function (method, model, options) {
 
-    console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
+    //console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
 
     if (method === 'create' && this.get('playerid') === undefined) {
       return $.ajax({
@@ -19281,7 +19358,7 @@ var PlayerModel = Backbone.Model.extend({
     }
     else {
       model.url = Y.Conf.get("api.url.players") + this.id;
-      console.log('model.url : ', model.url);
+      //console.log('model.url : ', model.url);
 
       return Backbone.sync(method, model, options);
 
@@ -19615,19 +19692,14 @@ var StreamsCollection = Backbone.Collection.extend({
 var AccountView = Backbone.View.extend({
   el: "#content",
 
-  events: {
-    'click #fbconnect': 'fbconnect'
-  },
 
   pageName: "account",
+  pageHash : "account", 
+  
 
   initialize: function () {
-
-	$.ui.scrollToTop('#content');  
-	
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("MON COMPTE");	
+  
+    $.ui.setTitle("PROFIL");	
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
@@ -19636,11 +19708,6 @@ var AccountView = Backbone.View.extend({
     this.render();
   },
 
-
-  fbconnect: function () {
-    console.log('facebook connect');
-    Y.Facebook.connect();
-  },
 
   // render the content into div of view
   render: function () {
@@ -19672,7 +19739,8 @@ var ClubView = Backbone.View.extend({
   },
 
   pageName: "club",
-
+  pageHash : "clubs/",
+  
   initialize : function() {
   
     $.ui.scrollToTop('#content'); 
@@ -19730,6 +19798,7 @@ var ClubAddView = Backbone.View.extend({
   },
 
   pageName: "clubAdd",
+  pageHash : "clubs/add",
 
   initialize: function () {
   
@@ -19795,11 +19864,12 @@ var GameView = Backbone.View.extend({
       incomingComment : "#incomingComment",      
       
       events : {
+        'click #fbconnect' : 'fbconnect',
         'vclick #setPlusSetButton' : 'setPlusSet',
         'vclick #setMinusSetButton' : 'setMinusSet',
         'vclick #setPointWinButton' : 'setPointWin',
         'vclick #setPointErrorButton' : 'setPointError',
-        'vclick #endButton' : 'endGame',
+        'click #endButton' : 'endGame',
         'vclick #followButton' : 'followGame',
         'vclick #cancelButton' : 'cancelGame',
         'submit #frmAttachment' : 'submitAttachment',
@@ -19813,15 +19883,18 @@ var GameView = Backbone.View.extend({
       },
 
       pageName: "game",
+      pageHash : "games/",
 
       initialize : function() {
       
         //$.ui.scrollToTop('#content');
-
+		//On met � jour le pageHash
+        this.pageHash += this.id; 
+      
       
       	$.ui.setBackButtonVisibility(true);
-      	$.ui.setBackButtonText("&lt;");
-      	$.ui.setTitle("GAME");
+    	$.ui.setBackButtonText("&lt;");
+      	$.ui.setTitle("MATCH");
       	
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
@@ -19833,7 +19906,6 @@ var GameView = Backbone.View.extend({
 
 
        
-      
         this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
@@ -19873,8 +19945,12 @@ var GameView = Backbone.View.extend({
  
       },
 
- 
 
+	  fbconnect: function () {
+	    console.log('facebook connect');
+	    Y.Facebook.connect();
+	  },
+ 
       updateOnEnter : function(e) {
         if (e.keyCode == 13) {
           console.log('touche entr�e envoie le commentaire');
@@ -20188,7 +20264,8 @@ var GameView = Backbone.View.extend({
 
       endGame : function() {
         //window.location.href = '#games/end/' + this.id;
-        Y.Router.navigate("/#games/end/"+this.id, true)
+        Y.Router.navigate("/games/end/"+this.id,{trigger:true})
+        //Y.Router.gameEnd(this.id);
       },
 
       followGame : function() {
@@ -20281,6 +20358,7 @@ var GameAddView = Backbone.View.extend({
   },
 
   pageName: "gameAdd",
+  pageHash : "games/add",  
 
   listview1: "#team1_suggestions",
   listview2: "#team2_suggestions",
@@ -20289,8 +20367,6 @@ var GameAddView = Backbone.View.extend({
   
     $.ui.scrollToTop('#content'); 
     
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
     $.ui.setTitle("AJOUTER UNE PARTIE");	    
   
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
@@ -20526,6 +20602,7 @@ var GameEndView = Backbone.View.extend({
   },
 
   pageName: "gameEnd",
+  pageHash : "games/end/",
     
   initialize:function() {
   
@@ -20538,7 +20615,7 @@ var GameEndView = Backbone.View.extend({
     this.gameEndTemplate = Y.Templates.get('gameEndTemplate');
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
-    this.Owner = Y.User.getPlayer();
+    this.Owner = Y.User.getPlayer().toJSON();
     this.render();
     //$.mobile.hidePageLoadingMsg(); 
   },
@@ -20554,7 +20631,7 @@ var GameEndView = Backbone.View.extend({
   
   //render the content into div of view
   render: function(){
-	  this.$el.html(this.gameEndTemplate({playerid:Owner.id, token:Owner.token}));
+	  this.$el.html(this.gameEndTemplate({playerid:this.Owner.id, token:this.Owner.token}));
 	  //this.$el.trigger('pagecreate');
 	  return this;
   },
@@ -20569,17 +20646,19 @@ var GameCommentView = Backbone.View.extend({
   
   incomingComment : "#incomingComment",
 
+  pageName: "gameComment",
+  pageHash : "games/comment/",
+
   events: {
         'click #sendComment'  : 'sendComment',
         'click .deleteComment': 'deleteComment',
         'click .warnComment': 'warnComment'        
   },
 
-  pageName: "gameComment",
     
   initialize:function() {
   
-     $.ui.scrollToTop('#content'); 
+    this.pageHash += this.id; 
   
      $.ui.setBackButtonVisibility(true);
      $.ui.setBackButtonText("&lt;");
@@ -20602,6 +20681,7 @@ var GameCommentView = Backbone.View.extend({
     
     this.score.on("all",this.render,this);
 
+	/*
    	this.streams = new StreamsCollection({id : this.id});
     this.streams.fetch();
     
@@ -20612,6 +20692,7 @@ var GameCommentView = Backbone.View.extend({
     poller = Backbone.Poller.get(this.streams, options)
     poller.start();
     poller.on('success', this.getObjectUpdated, this);
+	*/
 
 	//this.streams.on("all",this.renderRefresh,this);
 
@@ -20729,8 +20810,8 @@ var GameCommentView = Backbone.View.extend({
   onClose: function(){
     this.undelegateEvents();
     
-    poller.stop();
-    poller.off('success', this.renderRefresh, this);
+    //poller.stop();
+    //poller.off('success', this.renderRefresh, this);
   }
 });
 var GameFollowView = Backbone.View.extend({
@@ -20743,6 +20824,7 @@ var GameFollowView = Backbone.View.extend({
   },
 
   pageName: "gameFollow",
+  pageHash : "games/follow",
 
   initialize:function() {
   
@@ -20820,6 +20902,7 @@ var GameListView = Backbone.View.extend({
   listview:"#listGamesView",
   
   pageName: "gameList",
+  pageHash : "index",
 
   mode:'',
 
@@ -20870,7 +20953,7 @@ var GameListView = Backbone.View.extend({
     this.games.setMode('player',q);
     this.games.fetch();          
     $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(),query:q}));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     //}
     return this;
   },
@@ -20888,7 +20971,7 @@ var GameListView = Backbone.View.extend({
     console.log('renderList');
     
     $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(),query:' '}));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     //$.mobile.hidePageLoadingMsg();
     return this;
   },
@@ -20909,6 +20992,7 @@ var IndexView = Backbone.View.extend({
   listview: "#listGamesView",
 
   pageName: "index",
+  pageHash : "index",  
   
   initialize: function () {
   
@@ -20917,7 +21001,6 @@ var IndexView = Backbone.View.extend({
     $.ui.setTitle("LISTE DES MATCHES");
     //$.ui.resetScrollers=true;
  
-
 
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
@@ -21053,10 +21136,11 @@ var PlayerView = Backbone.View.extend({
   },
 
   pageName: "player",
+  pageHash : "players/",
 
   initialize: function(options) {
   
-    $.ui.scrollToTop('#content'); 
+    this.pageHash += this.id; 
     
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
@@ -21139,10 +21223,11 @@ var PlayerFollowView = Backbone.View.extend({
   listview:"#listPlayersView",
 
   pageName: "playerFollow",
+  pageHash : "players/follow",
 
   initialize:function() {
   
-    $.ui.scrollToTop('#content'); 
+    this.pageHash += this.id; 
     
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
@@ -21209,21 +21294,23 @@ var PlayerFormView = Backbone.View.extend({
   listview:"#suggestions",
 
   pageName: "playerForm",
+  pageHash : "players/form",  
     
   clubs:null,
      
 
   initialize:function() {
-        
+          
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("MODIFIER MON PROFIL");
+    $.ui.setTitle("MON PROFIL");
   
     this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
     
     this.Owner = Y.User.getPlayer();
-    	
+    //this.pageHash += this.Owner.id; 
+        	
     this.player = new PlayerModel({id:this.Owner.id});
     this.player.fetch(); 
     	
@@ -21363,6 +21450,7 @@ var PlayerListView = Backbone.View.extend({
   listview : "#listPlayersView",
 
   pageName: "playerList",
+  pageHash : "players/list", 
 
   initialize : function() {
   
@@ -21445,6 +21533,7 @@ var PlayerSigninView = Backbone.View.extend({
   },
 
   pageName: "playerSignin",
+  pageHash : "players/signin", 
 
   initialize : function() {
   
@@ -21496,7 +21585,8 @@ var PlayerForgetView = Backbone.View.extend({
   },
 
   pageName: "playerForget",
-
+  pageHash : "players/forget",
+  
   initialize : function() {
   
     $.ui.setBackButtonVisibility(true);
@@ -21576,14 +21666,10 @@ $(document).ready(function () {
     <div id="navbar">
       <a href="#" id="navbar_home">Suivre</a>
       <a href="#games/add" id="navbar_gamesadd" data-transition="up">Diffuser</a>
-      <a href="#account" id="navbar_account">Profil</a>
+      <a href="#account" id="navbar_account">Compte</a>
     </div>
   </div>
   <script type="text/template" id="accountViewTemplate"><div align="center">
-
-<button class="button" id="fbconnect">Launch InAppBrowser</button>
-
-<br/>
 
 <a href="#games/me/<%= Owner.id %>" class="button" id="">Mes Matchs</a><br/> 
 <a href="#games/follow" class="button" id="">Matchs Suivis</a><br/> 
@@ -21591,7 +21677,7 @@ $(document).ready(function () {
 <% 
    
    if(Owner.club === undefined ) 
-       print ('<a href="#" class="button" id="" class="ui-disabled">Mon Club</a><br/>'); 
+       print ('<a href="#" class="button" id="" class="ui-disabled" disabled>Mon Club</a><br/>'); 
    else
        print ('<a href="#clubs/'+Owner.club.id+'" class="button" id="">Mon Club</a><br/>'); 
 %>
@@ -21607,7 +21693,7 @@ $(document).ready(function () {
   if (Owner.mail === '')
     print ('<a href="#players/form" class="button" id="">Inscription</a><br/>');
   else
-    print ('<a href="#players/form" class="button" id="">Profil</a><br/>');
+    print ('<a href="#players/form" class="button" id="">Modifier mon profil</a><br/>');
 %>
 <a href="#players/signin" class="button" id="">Charger un autre compte</a><br/> 
 
@@ -21697,39 +21783,36 @@ Facebook :<br />
 <form id="frmAddGame" class="form-center">
 
 	<span class="success label label-info hide"></span>
-
 	
-		<div id="click_myself">
-				<input type="checkbox" name="myself" id="myself" />
-				<label for="myself">* Joueur 1 - S'il s'agit de vous, cochez ici</label>
-		</div>
-
-		<div style="padding-top:10px">
+		<div class="ui-grid-a" style="padding-top:10px">
+			<div class="ui-block-a">
 				<input type="text" id="team1" name="team1" placeholder="Joueur 1" class='jq-ui-forms-white' value="" />
+				<span style="display:block;float:left;"><label for="myself" style="font-size:12px;">* Joueur 1 - S'il s'agit de vous, cochez ici</label><input type="checkbox" name="myself" id="myself" /></span>
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="rank1" name="rank1" placeholder="Classement" class='jq-ui-forms-white' value="" />
+			</div>
 		</div>
-		<div style="padding-top:10px">
-				<input type="text" id="rank1" name="rank1" placeholder="Classement 1" class='jq-ui-forms-white' value="" />				
-		</div>
+		
 		<div>				
-				<ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
-				<input type='hidden' id='team1_id' class='input' value='' /> 
-				<span class="team1_error label label-info hide"></span>
+			<ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
+			<input type='hidden' id='team1_id' class='input' value='' /> 
+			<span class="team1_error label label-info hide"></span>
 		</div>
 	
-		<div style="padding-top:10px">
-				<label for="autosearch">* Joueur 2 - Indiquez au moins 4 lettres</label>
+		<div class="ui-grid-a" style="padding-top:10px">
+			<div class="ui-block-a">
+				<input type="text" id="team2" name="team2" placeholder="Joueur 2" class='jq-ui-forms-white' value="" />
+			</div>
+			<div class="ui-block-b">
+				<input type="text" id="rank2" name="rank2" placeholder="Classement" class='jq-ui-forms-white' value="" />
+			</div>
 		</div>
-
-		<div style="padding-top:10px">
-				<input type="text" id="team2" name="team2" placeholder="Joueur 2" class='jq-ui-forms-white' value="" /> 
-		</div>
-		<div style="padding-top:10px">
-				<input type="text" id="rank2" name="rank2" placeholder="Classement 2" class='jq-ui-forms-white' value="" />
-		</div>
+		
 		<div>
-				<ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
-				<input type='hidden' id='team2_id' class='input' value='' /> 
-				<span class="team2_error label label-info hide"></span>
+			<ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
+			<input type='hidden' id='team2_id' class='input' value='' /> 
+			<span class="team2_error label label-info hide"></span>
 		</div>		
 
 		<div style="padding-top:10px">
@@ -21740,6 +21823,7 @@ Facebook :<br />
 			<span class="city_error label label-info hide"></span>
 		</div>
 
+		<!-- 
 		<div style="padding-top:10px">
 			<label for="subtype" class="select">Type</label>
 		</div>
@@ -21756,75 +21840,77 @@ Facebook :<br />
 				<option value="I">I - 3 sets &agrave; 5 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
 			</select>
 		</div>
-
-		<div style="padding-top:10px">
-			<label for="court" class="select">Court</label>
-		</div>
-		<div>
-			<select name="court" id="court" class="jq-ui-forms-white">
-				<option value="">Selection</option>
-				<option value="1">Terrain 1</option>
-				<option value="2">Terrain 2</option>
-				<option value="3">Terrain 3</option>
-				<option value="4">Terrain 4</option>
-				<option value="5">Terrain 5</option>
-				<option value="6">Terrain 6</option>
-				<option value="7">Terrain 7</option>
-				<option value="8">Terrain 8</option>
-				<option value="9">Terrain 9</option>
-				<option value="10">Terrain 10</option>
-				<option value="11">Terrain 11</option>
-				<option value="">---</option>
-				<option value="A">Terrain A</option>
-				<option value="B">Terrain B</option>
-				<option value="C">Terrain C</option>
-				<option value="D">Terrain D</option>
-				<option value="E">Terrain E</option>
-				<option value="F">Terrain F</option>
-			</select>
-		</div>
-
-		<div style="padding-top:10px">		
-			<label for="tour" class="select">Tour</label>
-		</div>
-		<div>		
-			<select name="tour" id="tour" class="jq-ui-forms-white">
-				<option value="">Selection</option>
-				<option value="">Poule</option>
-				<option value="">Consolante</option>
-				<option value="">1er tour</option>
-				<option value="">2e tour</option>
-				<option value="">3e tour</option>
-				<option value="">4e tour</option>
-				<option value="">5e tour</option>
-				<option value="">6e tour</option>
-				<option value="">7e tour</option>
-				<option value="">8e tour</option>
-				<option value="">9e tour</option>
-				<option value="">1/256 finale</option>
-				<option value="">1/128 finale</option>
-				<option value="">1/64 finale</option>
-				<option value="">1/32 finale</option>
-				<option value="">1/16 finale</option>
-				<option value="">1/8 finale</option>
-				<option value="">1/4 finale</option>
-				<option value="">1/2 finale</option>
-				<option value="">Finale</option>
-				<option value="">Journ&eacute;e 1</option>
-				<option value="">Journ&eacute;e 2</option>
-				<option value="">Journ&eacute;e 3</option>
-				<option value="">Journ&eacute;e 4</option>
-				<option value="">Journ&eacute;e 5</option>
-				<option value="">Journ&eacute;e 6</option>
-				<option value="">Journ&eacute;e 7</option>
-				<option value="">Journ&eacute;e 8</option>
-				<option value="">Journ&eacute;e 9</option>
-				<option value="">Journ&eacute;e 10</option>
-			</select>
+		 -->
+		
+		<div class="ui-grid-a" style="padding-top:10px">
+			<div class="ui-block-a">
+				<label class="select">Court</label>
+			</div>
+			<div class="ui-block-b">
+				<label class="select">Tour</label>
+			</div>
+			<div class="ui-block-a">
+				<select name="court" id="court" class="jq-ui-forms-white">
+					<option value="">Selection</option>
+					<option value="1">Terrain 1</option>
+					<option value="2">Terrain 2</option>
+					<option value="3">Terrain 3</option>
+					<option value="4">Terrain 4</option>
+					<option value="5">Terrain 5</option>
+					<option value="6">Terrain 6</option>
+					<option value="7">Terrain 7</option>
+					<option value="8">Terrain 8</option>
+					<option value="9">Terrain 9</option>
+					<option value="10">Terrain 10</option>
+					<option value="11">Terrain 11</option>
+					<option value="">---</option>
+					<option value="A">Terrain A</option>
+					<option value="B">Terrain B</option>
+					<option value="C">Terrain C</option>
+					<option value="D">Terrain D</option>
+					<option value="E">Terrain E</option>
+					<option value="F">Terrain F</option>
+				</select>
+			</div>
+			<div class="ui-block-b">
+				<select name="tour" id="tour" class="jq-ui-forms-white">
+					<option value="">Selection</option>
+					<option value="">Poule</option>
+					<option value="">Consolante</option>
+					<option value="">1er tour</option>
+					<option value="">2e tour</option>
+					<option value="">3e tour</option>
+					<option value="">4e tour</option>
+					<option value="">5e tour</option>
+					<option value="">6e tour</option>
+					<option value="">7e tour</option>
+					<option value="">8e tour</option>
+					<option value="">9e tour</option>
+					<option value="">1/256 finale</option>
+					<option value="">1/128 finale</option>
+					<option value="">1/64 finale</option>
+					<option value="">1/32 finale</option>
+					<option value="">1/16 finale</option>
+					<option value="">1/8 finale</option>
+					<option value="">1/4 finale</option>
+					<option value="">1/2 finale</option>
+					<option value="">Finale</option>
+					<option value="">Journ&eacute;e 1</option>
+					<option value="">Journ&eacute;e 2</option>
+					<option value="">Journ&eacute;e 3</option>
+					<option value="">Journ&eacute;e 4</option>
+					<option value="">Journ&eacute;e 5</option>
+					<option value="">Journ&eacute;e 6</option>
+					<option value="">Journ&eacute;e 7</option>
+					<option value="">Journ&eacute;e 8</option>
+					<option value="">Journ&eacute;e 9</option>
+					<option value="">Journ&eacute;e 10</option>
+				</select>
+			</div>
 		</div>
 
 		<div style="padding-top:10px">	
-			<label for="surface" class="select">Format</label>
+			<label for="surface" class="select">Surface</label>
 		</div>
 		<div>	
 			<select name="surface" id="surface" class="jq-ui-forms-white">
@@ -22327,10 +22413,8 @@ if (game.options.sets !== null ) {
 		<div class="ui-block-a score_bottom">
             <a id="optionButton"><div class="button_bottom">Options match</div></a> 
 		</div>
-        <div class="ui-block-b score_bottom">
-          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">
-          <img src="./images/facebook.png" width="44" height="44" />
-          </a>
+        <div class="ui-block-b score_bottom" id="facebook">
+            <img src="./images/facebook.png" width="44" height="44" />
         </div>        	
 		<div class="ui-block-c score_bottom">
 			<a id="endButton"><div class="button_bottom">Terminer match</div></a>
@@ -22345,10 +22429,8 @@ if (game.options.sets !== null ) {
       </div>
       </a>
     </div>
-    <div class="ui-block-b score_bottom">
-          <a href="http://www.facebook.com/share.php?u=https://apps.facebook.com/447718828610668/game/<%= game.id %>" target="_blank">
+    <div class="ui-block-b score_bottom" id="facebook">
           <img src="./images/facebook.png" width="44" height="44" />
-          </a>
     </div>          
     <div class="ui-block-c score_bottom">
       <a id="endButton"><div class="button_bottom">Terminer match</div></a>
@@ -22395,8 +22477,7 @@ if (game.options.sets !== null ) {
 <br/>
 
 <div align="center">
-	<a href="#players/form" class="button">S'enregistrer</a>
-	<a href="#players/forget" class="button">Mot de passe oubli&eacute;</a>
+	<a href="#players/form" class="ui-input-text">S'enregistrer</a>
 </div>
 
 </div>
@@ -22476,11 +22557,9 @@ if (game.options.sets !== null ) {
 		<input type="hidden" id="token" value="" class="input" />
 
 
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<button value="Save" class="button">Enregistrer</button>
-			</div>
-		</div>
+	<br/>
+	
+	<button type="submit" value="Save" class="button">Enregistrer</button>
 		
 
 	</form>
@@ -22558,11 +22637,12 @@ players[i]; %>
 
 	</form>
 
-	<br/>
+	<br/><br/>
 
 	<div align="center">
-		<a href="#players/form" data-role="button">S'enregistrer</a>
-		<a href="#players/forget" data-role="button">Mot de passe oubli&eacute;</a>
+		<a href="#players/form" class="ui-input-text">S'enregistrer</a>
+		<br/>
+		<a href="#players/forget" class="ui-input-text">Mot de passe oubli&eacute;</a>
 	</div>
 
 </div></script>

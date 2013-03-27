@@ -78,7 +78,7 @@
 	     //scroller.addInfinite();
 	     //scroller.enable();
 	     //$("#content").css("overflow","auto");
-		 $("#content").css("height","100%");
+		 //$("#content").css("height","100%");
 		 scroller.scrollToTop();	
 	  });      
   
@@ -102,7 +102,7 @@
       var clubAddView = new ClubAddView();
       this.changePage(clubAddView);
       scroller.scrollToTop();
-      scroller.lock();
+      scroller.unlock();
     },
 
     index: function (id) {
@@ -124,7 +124,7 @@
       var gameAddView = new GameAddView();
       this.changePage(gameAddView);
       scroller.scrollToTop();
-      scroller.lock();
+      scroller.unlock();
     },
 
     gameEnd: function (id) {
@@ -159,7 +159,7 @@
       var gameListView = new GameListView({ mode: 'club', clubid: id });
       this.changePage(gameListView);
       scroller.scrollToTop();
-      scroller.lock();
+      scroller.unlock();
     },
 
     player: function (id) {
@@ -189,7 +189,7 @@
       var playerFormView = new PlayerFormView();
       this.changePage(playerFormView);
       scroller.scrollToTop();
-      scroller.lock();
+      scroller.unlock();
     },
 
     playerList: function () {

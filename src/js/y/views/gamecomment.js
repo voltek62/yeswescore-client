@@ -4,14 +4,15 @@ var GameCommentView = Backbone.View.extend({
   
   incomingComment : "#incomingComment",
 
+  pageName: "gameComment",
+  pageHash : "games/comment/",
+
   events: {
         'click #sendComment'  : 'sendComment',
         'click .deleteComment': 'deleteComment',
         'click .warnComment': 'warnComment'        
   },
 
-  pageName: "gameComment",
-  pageHash : "games/comment/",
     
   initialize:function() {
   
@@ -167,7 +168,7 @@ var GameCommentView = Backbone.View.extend({
   onClose: function(){
     this.undelegateEvents();
     
-    poller.stop();
-    poller.off('success', this.renderRefresh, this);
+    //poller.stop();
+    //poller.off('success', this.renderRefresh, this);
   }
 });

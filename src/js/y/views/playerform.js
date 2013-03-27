@@ -11,7 +11,7 @@ var PlayerFormView = Backbone.View.extend({
   listview:"#suggestions",
 
   pageName: "playerForm",
-  pageHash : "players/",  
+  pageHash : "players/form",  
     
   clubs:null,
      
@@ -26,7 +26,7 @@ var PlayerFormView = Backbone.View.extend({
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
     
     this.Owner = Y.User.getPlayer();
-    this.pageHash += this.Owner.id; 
+    //this.pageHash += this.Owner.id; 
         	
     this.player = new PlayerModel({id:this.Owner.id});
     this.player.fetch(); 

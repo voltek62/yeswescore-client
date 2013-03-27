@@ -52,21 +52,23 @@
             
       /* overload click */      
       jq.ui.customClickHandler = function (a) {
-        console.log('customClickHandler on redirige vers ',a.hash.substr(1));      
-        that.navigate(a.hash.substr(1), { trigger: true });
+        //console.log('customClickHandler contient ',a.id);      
+        if (a.id !== 'backButton')
+        	that.navigate(a.hash.substr(1), { trigger: true });
         return true;
       };
 
 	  /* overload goBack */      
       jq.ui.goBack = function() {
-      		console.log('new goBack');
-		
- 			if (jq.ui.history.length > 0) {      
-                var tmpEl = jq.ui.history.pop();              
-                console.log('updateHash on redirige vers ',jq.ui.history.pop().target);
-                that.navigate(tmpEl.target, { trigger: true });
-                
-            }		
+      	//console.log('new goBack');		
+ 		if (jq.ui.history.length > 0) {    
+ 		  
+          var tmpEl = jq.ui.history.pop();  
+          
+          //tmpEl.hash = "#"+tmpEl.target;
+          //jq.ui.customClickHandler(tmpEl);
+          that.navigate(tmpEl.target, { trigger: true });           
+        }		
 	  };
       
       //Par defaut , pas de scroll	
@@ -76,6 +78,7 @@
 	     //scroller.addInfinite();
 	     //scroller.enable();
 	     //$("#content").css("overflow","auto");
+		 $("#content").css("height","100%");
 		 scroller.scrollToTop();	
 	  });      
   
@@ -255,7 +258,7 @@
         //console.log('currentView pageHash',currentView.pageHash);
 
         Y.Stats.page(previousPageName, nextPageName);
-        console.log('DEV ChangePage', new Date().getTime());
+        //console.log('DEV ChangePage', new Date().getTime());
         
         //FIX ME : goback launch loadContent ( disabled )
         if (previousPageHash==='none') {
@@ -269,7 +272,7 @@
         // FIXME: render of view should be here ?
       }
       catch (e) {
-        console.log('DEV ChangePage Error', e);
+        //console.log('DEV ChangePage Error', e);
       }
 
 

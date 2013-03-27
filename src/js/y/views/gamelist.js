@@ -59,7 +59,7 @@ var GameListView = Backbone.View.extend({
     this.games.setMode('player',q);
     this.games.fetch();          
     $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(),query:q}));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     //}
     return this;
   },
@@ -77,7 +77,7 @@ var GameListView = Backbone.View.extend({
     console.log('renderList');
     
     $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(),query:' '}));
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
     //$.mobile.hidePageLoadingMsg();
     return this;
   },

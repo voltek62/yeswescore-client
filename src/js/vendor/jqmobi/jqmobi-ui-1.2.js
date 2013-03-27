@@ -3392,14 +3392,10 @@ if (!HTMLElement.prototype.unwatch) {
          */
         pushHistory: function(previousPage, newPage, transition, hashExtras) {
             //push into local history
-            console.log('pushHistory  previousPage:'+previousPage+' newPage:'+newPage);
-            
             this.history.push({
                 target: previousPage,
                 transition: transition
             });
-            
-            console.log("history[]",this.history.toJSON());
             
             //push into the browser history
             try {

@@ -1,14 +1,14 @@
 var AccountView = Backbone.View.extend({
   el: "#content",
 
-  events: {
-    'click #fbconnect': 'fbconnect'
-  },
 
   pageName: "account",
+  pageHash : "account", 
+  
 
   initialize: function () {
   
+    $.ui.setTitle("PROFIL");	
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
@@ -18,11 +18,6 @@ var AccountView = Backbone.View.extend({
   },
 
 
-  fbconnect: function () {
-    console.log('facebook connect');
-    Y.Facebook.connect();
-  },
-
   // render the content into div of view
   render: function () {
     $.ui.setTitle("MON COMPTE");
@@ -31,7 +26,7 @@ var AccountView = Backbone.View.extend({
       Owner: this.Owner
     }));
 
-    $(this.el).trigger('pagecreate');
+    //$(this.el).trigger('pagecreate');
 
     // this.$el.html(this.accountViewTemplate(),{Owner:Owner});
     // $.mobile.hidePageLoadingMsg();

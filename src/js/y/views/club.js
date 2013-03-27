@@ -6,8 +6,16 @@ var ClubView = Backbone.View.extend({
   },
 
   pageName: "club",
-
+  pageHash : "clubs/",
+  
   initialize : function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("CLUB");	    
+  
     this.clubViewTemplate = Y.Templates.get('clubViewTemplate');
 
     this.club = new ClubModel({
@@ -38,7 +46,7 @@ var ClubView = Backbone.View.extend({
     // thisel.trigger('pagecreate');
     // });
     // return to enable chained calls
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 

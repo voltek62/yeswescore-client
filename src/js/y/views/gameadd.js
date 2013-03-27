@@ -8,15 +8,22 @@ var GameAddView = Backbone.View.extend({
     'keyup #team1': 'updateListTeam1',
     'keyup #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
-    'click #team2_choice': 'displayTeam2'
+    'click #team2_choice': 'displayTeam2',
+    'click input' :'hideFooter' 
   },
 
   pageName: "gameAdd",
+  pageHash : "games/add",  
 
   listview1: "#team1_suggestions",
   listview2: "#team2_suggestions",
 
   initialize: function () {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setTitle("AJOUTER UNE PARTIE");	    
+  
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
     this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
       
@@ -24,6 +31,11 @@ var GameAddView = Backbone.View.extend({
 	  this.render();
 
   },
+  
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	$.ui.toggleNavMenu(false);
+  },    
 
   displayTeam1: function (li) {
     selectedId = $('#team1_choice:checked').val();
@@ -134,6 +146,9 @@ var GameAddView = Backbone.View.extend({
   },
 
   addGame: function (event) {
+  
+    $.ui.toggleNavMenu(true);
+  
     var team1 = $('#team1').val()
       , rank1 = $('#rank1').val()
       , team1_id = $('#team1_id').val()
@@ -223,7 +238,7 @@ var GameAddView = Backbone.View.extend({
   //render the content into div of view
   render: function () {
     this.$el.html(this.gameAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 

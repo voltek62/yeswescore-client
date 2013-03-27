@@ -17,10 +17,12 @@
   });
 	
   */
+  var scroller = null;
 
   var Router = Backbone.Router.extend({
     routes: {
       '': 'index',
+      'index': 'index',
       'sort/:id' : 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
@@ -47,109 +49,175 @@
     initialize: function (options) {
     
       var that = this; 
+            
+      /* overload click */      
       jq.ui.customClickHandler = function (a) {
-        that.navigate(a.hash.substr(1), { trigger: true });
+        //console.log('customClickHandler contient ',a.id);      
+        if (a.id !== 'backButton')
+        	that.navigate(a.hash.substr(1), { trigger: true });
+        return true;
       };
+
+	  /* overload goBack */      
+      jq.ui.goBack = function() {
+      	//console.log('new goBack');		
+ 		if (jq.ui.history.length > 0) {    
+ 		  
+          var tmpEl = jq.ui.history.pop();  
+          
+          //tmpEl.hash = "#"+tmpEl.target;
+          //jq.ui.customClickHandler(tmpEl);
+          that.navigate(tmpEl.target, { trigger: true });           
+        }		
+	  };
       
+      //Par defaut , pas de scroll	
+	  //$.feat.nativeTouchScroll = true;
+	  $.ui.ready(function(){
+	     scroller=$("#content").scroller();//Fetch the scroller from cache
+	     //scroller.addInfinite();
+	     //scroller.enable();
+	     //$("#content").css("overflow","auto");
+		 $("#content").css("height","100%");
+		 scroller.scrollToTop();	
+	  });      
   
     },
 
     account: function () {
       var accountView = new AccountView();
       this.changePage(accountView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     club: function (id) {
       var clubView = new ClubView({ id: id });
       this.changePage(clubView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     clubAdd: function (id) {
       var clubAddView = new ClubAddView();
       this.changePage(clubAddView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     index: function (id) {
-      var indexView = new IndexView({ id: id });
+      var indexView = new IndexView({ id: id });     
       this.changePage(indexView);
+      scroller.scrollToTop();      
+      scroller.unlock();
     },
 
     
     game: function (id) {
       var gameView = new GameView({ id: id });
       this.changePage(gameView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     gameAdd: function () {
       var gameAddView = new GameAddView();
       this.changePage(gameAddView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     gameEnd: function (id) {
       var gameEndView = new GameEndView({ id: id });
       this.changePage(gameEndView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     gameComment: function (id) {
       var gameCommentView = new GameCommentView({ id: id });
-      this.changePage(gameCommentView);
+      this.changePage(gameCommentView);  
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     gameFollow: function () {
       var gameFollowView = new GameFollowView();
       this.changePage(gameFollowView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     gameMe: function (id) {
       var gameListView = new GameListView({ mode: 'me', id: id });
       this.changePage(gameListView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     gameClub: function (id) {
       var gameListView = new GameListView({ mode: 'club', clubid: id });
       this.changePage(gameListView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     player: function (id) {
       //console.log('router ',id);
       var playerView = new PlayerView({ id: id, follow: '' });
       this.changePage(playerView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
 
     playerFollow: function (id) {
       var playerFollowView = new PlayerFollowView();
       this.changePage(playerFollowView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     playerNoFollow: function (id) {
       var playerView = new PlayerView({ id: id, follow: 'false' });
       this.changePage(playerView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     playerForm: function () {
       var playerFormView = new PlayerFormView();
       this.changePage(playerFormView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     playerList: function () {
       var playerListView = new PlayerListView();
       this.changePage(playerListView);
+      scroller.scrollToTop();
+      scroller.unlock();
     },
 
     playerListByClub: function (id) {
       var playerListView = new PlayerListView({ id: id });
       this.changePage(playerListView);
+      scroller.scrollToTop();
+      scroller.unlock();
     },
 
     playerSignin: function () {
       var playerSigninView = new PlayerSigninView();
       this.changePage(playerSigninView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     playerForget: function () {
       var playerForgetView = new PlayerForgetView();
       this.changePage(playerForgetView);
+      scroller.scrollToTop();
+      scroller.lock();
     },
 
     setNextTransition: function (el) {
@@ -161,21 +229,50 @@
         var previousPageName = "none";
         var nextPageName = "unknown";
 
-        if (currentView && currentView.pageName)
-          previousPageName = currentView.pageName;
-        if (currentView)
+        var previousPageHash = "none";
+        var nextPageHash = "unknown";
+
+        if (currentView && currentView.pageName) {
+          previousPageName = currentView.pageName;        
+        }
+        
+        if (currentView && currentView.pageHash) {
+          previousPageHash = currentView.pageHash;  
+        }
+        
+        if (currentView) {
           currentView.close();
+        }
+        
         currentView = view;
-        if (view.pageName)
-          nextPageName = view.pageName;
+        
+        if (view.pageName) {
+          nextPageName = view.pageName;        
+        }
+        
+        if (view.pageHash) {
+          nextPageHash = view.pageHash;
+        }  
+          
+        //console.log('view pageHash',view.pageHash);
+        //console.log('currentView pageHash',currentView.pageHash);
 
         Y.Stats.page(previousPageName, nextPageName);
-        console.log('DEV ChangePage', new Date().getTime());
-
+        //console.log('DEV ChangePage', new Date().getTime());
+        
+        //FIX ME : goback launch loadContent ( disabled )
+        if (previousPageHash==='none') {
+          $.ui.clearHistory();
+      	  $.ui.pushHistory("", nextPageHash, "", "");
+        }
+        else
+          $.ui.pushHistory(previousPageHash, nextPageHash, "", "");
+        
+		
         // FIXME: render of view should be here ?
       }
       catch (e) {
-        console.log('DEV ChangePage Error', e);
+        //console.log('DEV ChangePage Error', e);
       }
 
 

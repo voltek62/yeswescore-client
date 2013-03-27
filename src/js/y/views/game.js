@@ -7,11 +7,12 @@ var GameView = Backbone.View.extend({
       incomingComment : "#incomingComment",      
       
       events : {
+        'click #fbconnect' : 'fbconnect',
         'vclick #setPlusSetButton' : 'setPlusSet',
         'vclick #setMinusSetButton' : 'setMinusSet',
         'vclick #setPointWinButton' : 'setPointWin',
         'vclick #setPointErrorButton' : 'setPointError',
-        'vclick #endButton' : 'endGame',
+        'click #endButton' : 'endGame',
         'vclick #followButton' : 'followGame',
         'vclick #cancelButton' : 'cancelGame',
         'submit #frmAttachment' : 'submitAttachment',
@@ -25,18 +26,19 @@ var GameView = Backbone.View.extend({
       },
 
       pageName: "game",
+      pageHash : "games/",
 
       initialize : function() {
       
+        //$.ui.scrollToTop('#content');
+		//On met à jour le pageHash
+        this.pageHash += this.id; 
+      
+      
       	$.ui.setBackButtonVisibility(true);
-      	$.ui.setBackButtonText("&lt;");
-      	$.ui.setTitle("GAME");
+    	$.ui.setBackButtonText("&lt;");
+      	$.ui.setTitle("MATCH");
       	
-      	//console.log($('#content'));
-      	//$.ui.addDivAndScroll($('#content'));
-      	//$.ui.addContentDiv('content');
-      	
-      	/*var scroller = $("#content").scroller();*/
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
         this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
@@ -47,7 +49,6 @@ var GameView = Backbone.View.extend({
 
 
        
-      
         this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
@@ -87,8 +88,12 @@ var GameView = Backbone.View.extend({
  
       },
 
- 
 
+	  fbconnect: function () {
+	    console.log('facebook connect');
+	    Y.Facebook.connect();
+	  },
+ 
       updateOnEnter : function(e) {
         if (e.keyCode == 13) {
           console.log('touche entrée envoie le commentaire');
@@ -138,6 +143,7 @@ var GameView = Backbone.View.extend({
       },
 
       setTeam1Set1 : function() {
+        console.log('setTeam1Set1');
         this.setTeamSet($('#team1_set1'), $('#team1_set1_div'));
       },
 
@@ -390,7 +396,7 @@ var GameView = Backbone.View.extend({
         }));
 
         //$.mobile.hidePageLoadingMsg();
-        this.$el.trigger('pagecreate');
+        //this.$el.trigger('pagecreate');
 
         return this;
       },
@@ -401,7 +407,8 @@ var GameView = Backbone.View.extend({
 
       endGame : function() {
         //window.location.href = '#games/end/' + this.id;
-        Y.Router.navigate("/#games/end/"+this.id, true)
+        Y.Router.navigate("/games/end/"+this.id,{trigger:true})
+        //Y.Router.gameEnd(this.id);
       },
 
       followGame : function() {
@@ -454,7 +461,7 @@ var GameView = Backbone.View.extend({
 
         }
 
-        this.$el.trigger('pagecreate');
+        //this.$el.trigger('pagecreate');
 
       },
 

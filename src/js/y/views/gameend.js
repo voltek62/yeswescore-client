@@ -6,12 +6,20 @@ var GameEndView = Backbone.View.extend({
   },
 
   pageName: "gameEnd",
+  pageHash : "games/end/",
     
   initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("TERMINER LA PARTIE");	    
+  
     this.gameEndTemplate = Y.Templates.get('gameEndTemplate');
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
-    this.Owner = Y.User.getPlayer();
+    this.Owner = Y.User.getPlayer().toJSON();
     this.render();
     //$.mobile.hidePageLoadingMsg(); 
   },
@@ -27,8 +35,8 @@ var GameEndView = Backbone.View.extend({
   
   //render the content into div of view
   render: function(){
-	  this.$el.html(this.gameEndTemplate({playerid:Owner.id, token:Owner.token}));
-	  this.$el.trigger('pagecreate');
+	  this.$el.html(this.gameEndTemplate({playerid:this.Owner.id, token:this.Owner.token}));
+	  //this.$el.trigger('pagecreate');
 	  return this;
   },
 

@@ -34,7 +34,7 @@ p {
   background-image:none;
   background-color:#000;
   height:43px;	
-  z-index:1000;
+  z-index:500;
 }
 
 #header #backButton {
@@ -49,7 +49,7 @@ p {
   font-weight:bold;
   /*font-family: 'Open Sans';*/
   text-transform:uppercase;
-  z-index:1000;
+  z-index:500;
 }
 
 #header  div#pageLogo {
@@ -66,13 +66,13 @@ p {
   white-space:nowrap;
   color:#45b1db;
   margin-top:6px;
-  z-index:1000;
+  z-index:500;
 }
 
 .pageLogoPoint {
   font-size:18px;
   font-weight:bold;	
-  z-index:1000;
+  z-index:500;
 }
 
 #pageOnline {
@@ -86,8 +86,12 @@ p {
 	BUTTON STYLES
 **********************************************************/
 
+.ui-disabled {
+  z-index: 1;
+}
+
 .button {
-  width:300px;	
+  width:90%;	
   z-index:1;
   color:#fff;
   background-image:none; 
@@ -99,7 +103,7 @@ p {
 }
 
 .button-green {
-  width:300px;	
+  width:90%;	
   z-index:1;
   color:#fff;
   background-image:none; 
@@ -168,7 +172,8 @@ ul > li.player > a {
     -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000;  
     */
-  padding-bottom: 100px;
+  /*padding-bottom: 100px;*/
+ 
 }
 
 .panel {
@@ -235,7 +240,7 @@ ul > li.player > a {
 .form-center {
   margin-left:auto;
   margin-right:auto;
-  width:250px;  
+  width:90%;  
 }
 
 

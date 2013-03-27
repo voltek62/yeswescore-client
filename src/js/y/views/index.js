@@ -9,49 +9,15 @@ var IndexView = Backbone.View.extend({
   listview: "#listGamesView",
 
   pageName: "index",
-
+  pageHash : "index",  
+  
   initialize: function () {
-
-    /*
-    var options={ 
-    verticalScroll:true, //vertical scrolling 
-    horizontalScroll:false, //horizontal scrolling 
-    scrollBars:true, //display scrollbars 
-    vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar 
-    //hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar 
-    refresh:false, //Adds 'Pull to refresh' at the top 
-    //refreshFunction:updateMessage //callback function to execute on pull to refresh 
-    }; */
-
-    //$("#content").scroller();
-
-    var myScroller;
-
-    $.ui.ready(function () {
-      myScroller=$("#content").scroller();//Fetch the scroller from cache
-      //Since this is a jqUi scroller, we could also do
-      // myScroller=$.ui.scrollingDivs['webslider'];
-      myScroller.addInfinite();
-      //myScroller.addPullToRefresh();
-	  
-      $.bind(myScroller, 'scrollend',function()
-      {
-      console.log("scroll end");
-      });
-	  
-      $.bind(myScroller, 'scrollstart',function()
-      {
-      console.log("scroll start");
-      }); 
-
-      myScroller.enable();
-		   	
-      //$("#content").css("overflow","auto");
-    });
-
+  
+    
     $.ui.setBackButtonVisibility(false);
     $.ui.setTitle("LISTE DES MATCHES");
     //$.ui.resetScrollers=true;
+ 
 
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
@@ -63,7 +29,6 @@ var IndexView = Backbone.View.extend({
 
     this.games = new GamesCollection();
     if (this.id !== '') {
-      console.log('setSort', this.id);
       this.games.setSort(this.id);
     }
 
@@ -87,9 +52,8 @@ var IndexView = Backbone.View.extend({
           $.ui.hideMask();
 
           // rendering
-          that.render();
-          that.games.on('all', that.renderList, that);
-
+      	  that.render();
+      	  that.games.on('all', that.renderList, that);
 
 
         });
@@ -98,32 +62,36 @@ var IndexView = Backbone.View.extend({
       // continue
       $.ui.hideMask();
 
+
       that.render();
       that.games.on('all', that.renderList, that);
-
-      /* On charge les parties par Géolocalisation
-    
+ 
+ 	  /* GEOLOCALISATION */
+ 	  /*
       Y.Geolocation.on("change", function (pos) { 
+          
+          this.Owner = Y.User.getPlayer().toJSON();
+	      // On sauve le player avec les coord actuels
+	      player = new PlayerModel({
+	      latitude : pos[1]
+	      , longitude : pos[0]
+	      , playerid : this.Owner.id
+	      , token : this.Owner.token
+	      });
+	      player.save();
+	        
+	      // On charge les parties par Géolocalisation
+	      this.games = new GamesCollection();
+	      this.games.setMode('geolocation','');
+	      this.games.setPos(pos);
+	      this.games.fetch();
+	      this.games.on('all', this.renderList, this);
+       	  
         
-      //On sauve avec les coord actuels
-      player = new PlayerModel({
-      latitude : pos[1]
-      , longitude : pos[0]
-      , playerid : player.id
-      , token : player.token
       });
-      player.save();
-        
-      this.games = new GamesCollection();
-      this.games.setMode('geolocation','');
-      this.games.setPos(pos);
-      this.games.fetch();
-      this.games.on('all', this.renderList, this);
-        
-        
-      });
-      }
       */
+      
+      
 
     });
 
@@ -158,29 +126,22 @@ var IndexView = Backbone.View.extend({
 
   render: function () {
     this.$el.html(this.indexViewTemplate(), {});
-    //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
-
-    //new Y.FastButton(document.querySelector("#mnufollow"), function () { Y.Router.navigate('#', true);});
-    //new Y.FastButton(document.querySelector("#mnudiffuse"), function () { Y.Router.navigate('#games/add', true);});
-    //new Y.FastButton(document.querySelector("#mnuaccount"), function () { Y.Router.navigate('#account', true);});
 
     return this;
   },
 
   renderList: function (query) {
 
-    //console.log('renderList games:',this.games.toJSON());
 
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
-    //$(this.listview).listview('refresh');
-    //$.mobile.hidePageLoadingMsg();
+
     return this;
   },
 
   onClose: function () {
     this.undelegateEvents();
     this.games.off("all", this.renderList, this);
-
+    
+	
   }
 });

@@ -29,6 +29,15 @@ Date.locale = {
     }
 };
 
+var scrollTop = function () {
+	setTimeout(function () {	
+		var scrollTop = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;	
+		scrollTop = 0;
+	}, 0);
+}
+
+
+
 var assert = function () { };
 // @ifdef DEV
 assert = function (t) { if (!t) throw "assert false" };

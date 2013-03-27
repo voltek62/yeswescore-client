@@ -96,43 +96,14 @@
         });
       });
       
-      //init jqui
-      $.ui.resetScrollers=false;
-
-	   var init = function(){
-		   $.ui.backButtonText="Back";  
-		   window.setTimeout(function(){$.ui.launch();},1500);
-	       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
-	    };
-	    document.addEventListener("DOMContentLoaded",init,false);  
-		$.ui.ready(function(){
-	
-			//$.ui.enableDragMenu();
-		});      
+    /* Init JQmobi */  
+    var init = function(){
+	   
+	   window.setTimeout(function(){$.ui.launch();},1500);
+       //$.ui.removeFooterMenu(); This would remove the bottom nav menu
+    };
+    document.addEventListener("DOMContentLoaded",init,false);       
       
-      
-   	  var onDeviceReady=function(){
-		AppMobi.device.setRotateOrientation("portrait");
-        AppMobi.device.setAutoRotate(false);
-		//webRoot=AppMobi.webRoot+"kitchensink/";
-	    //hide splash screen
-	    AppMobi.device.hideSplashScreen();	
-	    $.ui.blockPageScroll(); //block the page from scrolling at the header/footer
-      };      
-      document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	  
-	  function showHide(obj,objToHide){
-		var el=$("#"+objToHide)[0];
-		
-		if(obj.className=="expanded"){
-			obj.className="collapsed";
-		}
-		else{
-			obj.className="expanded";
-		}
-		$(el).toggle();
-		
-	  }      
       
     },
 

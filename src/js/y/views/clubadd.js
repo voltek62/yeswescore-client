@@ -2,16 +2,18 @@ var ClubAddView = Backbone.View.extend({
   el: "#content",
 
   events: {
-    'submit form#frmAddClub': 'addClub'
+    'submit form#frmAddClub': 'addClub',
+    'click input' :'hideFooter'
   },
 
   pageName: "clubAdd",
+  pageHash : "clubs/add",
 
   initialize: function () {
   
     $.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("PARTAGER UNE PARTIE");
+    $.ui.setTitle("AJOUTER UN CLUB");
 
     this.clubAddTemplate = Y.Templates.get('clubAddTemplate');
 
@@ -21,9 +23,16 @@ var ClubAddView = Backbone.View.extend({
     //$.mobile.hidePageLoadingMsg();
   },
 
- 
+  hideFooter:function() {
+  	console.log('hideFooter');
+  	$.ui.toggleNavMenu(false);
+  },   
 
   addClub: function (event) {
+  
+    jq("#navbar").show();
+    jq("#content").css("bottom", "48px");
+    $.ui.showNavMenu = true;
 
     console.log('add Club');
     
@@ -45,7 +54,7 @@ var ClubAddView = Backbone.View.extend({
   //render the content into div of view
   render: function () {
     this.$el.html(this.clubAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     return this;
   },
 

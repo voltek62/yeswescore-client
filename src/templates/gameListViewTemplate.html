@@ -53,7 +53,8 @@ if (game.options.sets !== null ) {
 
 
 game.dates.startConvert = new Date(game.dates.start);
-game.dates.startDate = game.dates.startConvert.getDay()+' '+game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();
+//game.dates.startConvert.getDay()+' '+
+game.dates.startDate = game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();
 game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.startConvert.getMinutes();
 
 %>

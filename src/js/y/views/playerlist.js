@@ -8,8 +8,11 @@ var PlayerListView = Backbone.View.extend({
   listview : "#listPlayersView",
 
   pageName: "playerList",
+  pageHash : "players/list", 
 
   initialize : function() {
+  
+    $.ui.scrollToTop('#content'); 
   
   	$.ui.setBackButtonVisibility(true);
     $.ui.setBackButtonText("&lt;");
@@ -59,7 +62,7 @@ var PlayerListView = Backbone.View.extend({
   render : function() {
     this.$el.html(this.playerSearchTemplate({}));
     // Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     // return to enable chained calls
     return this;
   },

@@ -3396,6 +3396,7 @@ if (!HTMLElement.prototype.unwatch) {
                 target: previousPage,
                 transition: transition
             });
+            
             //push into the browser history
             try {
                 window.history.pushState(newPage, newPage, startPath + '#' + newPage + hashExtras);
@@ -3415,6 +3416,7 @@ if (!HTMLElement.prototype.unwatch) {
          * @title $.ui.updateHash(newHash)
          */
         updateHash: function(newHash) {
+        
             newHash = newHash.indexOf('#') == -1 ? '#' + newHash : newHash; //force having the # in the begginning as a standard
             previousTarget = newHash;
             

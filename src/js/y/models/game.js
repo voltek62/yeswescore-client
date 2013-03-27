@@ -49,7 +49,7 @@ var GameModel = Backbone.Model.extend({
 
   sync : function(method, model, options) {
 
-    console.log('method sync Model Game', method);
+    //console.log('method sync Model Game', method);
 
     if (method === 'create' && this.get('playerid') !== undefined) {
 
@@ -102,7 +102,7 @@ var GameModel = Backbone.Model.extend({
         }
       };
 
-      console.log('tmp Game POST', JSON.stringify(object));
+      //console.log('tmp Game POST', JSON.stringify(object));
 
       return $.ajax({
         dataType : 'json',
@@ -146,7 +146,7 @@ var GameModel = Backbone.Model.extend({
     } else {
       
       
-      console.log('GameModel default '+Y.Conf.get("api.url.games")+this.id);
+      //console.log('GameModel default '+Y.Conf.get("api.url.games")+this.id);
       
       //var params = _.extend({ type: 'GET', dataType: 'json', url: Y.Conf.get("api.url.games")+this.id, processData:false }, options); 
       //return $.ajax(params);

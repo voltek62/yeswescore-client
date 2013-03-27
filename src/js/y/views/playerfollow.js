@@ -8,8 +8,16 @@ var PlayerFollowView = Backbone.View.extend({
   listview:"#listPlayersView",
 
   pageName: "playerFollow",
+  pageHash : "players/follow",
 
   initialize:function() {
+  
+    this.pageHash += this.id; 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("JOUEURS SUIVIS");	    
+  
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
 
@@ -41,7 +49,7 @@ var PlayerFollowView = Backbone.View.extend({
   render: function(){
     this.$el.html(this.playerSearchTemplate({}));
     //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
     //return to enable chained calls
     return this;
   },

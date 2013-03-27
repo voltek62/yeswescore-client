@@ -8,8 +8,16 @@ var GameFollowView = Backbone.View.extend({
   },
 
   pageName: "gameFollow",
+  pageHash : "games/follow",
 
   initialize:function() {
+  
+    $.ui.scrollToTop('#content'); 
+    
+    $.ui.setBackButtonVisibility(true);
+    $.ui.setBackButtonText("&lt;");
+    $.ui.setTitle("LISTE DES PARTIES SUIVIS");	    
+  
     this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
     this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
         
@@ -47,7 +55,7 @@ var GameFollowView = Backbone.View.extend({
   render: function(){
     this.$el.html(this.indexViewTemplate(), {});
     //Trigger jquerymobile rendering
-    this.$el.trigger('pagecreate');
+    //this.$el.trigger('pagecreate');
       
     //return to enable chained calls
     return this;

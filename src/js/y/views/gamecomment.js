@@ -39,7 +39,7 @@ var GameCommentView = Backbone.View.extend({
     
     this.score.on("all",this.render,this);
 
-	/*
+	
    	this.streams = new StreamsCollection({id : this.id});
     this.streams.fetch();
     
@@ -50,7 +50,7 @@ var GameCommentView = Backbone.View.extend({
     poller = Backbone.Poller.get(this.streams, options)
     poller.start();
     poller.on('success', this.getObjectUpdated, this);
-	*/
+	
 
 	//this.streams.on("all",this.renderRefresh,this);
 
@@ -168,7 +168,7 @@ var GameCommentView = Backbone.View.extend({
   onClose: function(){
     this.undelegateEvents();
     
-    //poller.stop();
-    //poller.off('success', this.renderRefresh, this);
+    poller.stop();
+    poller.off('success', this.renderRefresh, this);
   }
 });

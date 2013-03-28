@@ -10,15 +10,6 @@
 
   var currentView = null;
 
-  /* JQmobi
-  $.mvc.addRoute("/foo",function(){
-  var args=arguments;
-  console.log("Foo",arguments);
-  });
-	
-  */
-  var scroller = null;
-
   var Router = Backbone.Router.extend({
     routes: {
       '': 'index',
@@ -47,7 +38,7 @@
 
 
     initialize: function (options) {
-      
+
     },
 
     account: function () {
@@ -88,7 +79,7 @@
 
     gameComment: function (id) {
       var gameCommentView = new GameCommentView({ id: id });
-      this.changePage(gameCommentView);
+      this.changePage(gameCommentView);  
     },
 
     gameFollow: function () {
@@ -107,7 +98,6 @@
     },
 
     player: function (id) {
-      //console.log('router ',id);
       var playerView = new PlayerView({ id: id, follow: '' });
       this.changePage(playerView);
     },

@@ -90,7 +90,7 @@ module.exports = function (grunt) {
       images: {
         files: [
           {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/',filter: 'isFile'},
-          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/build/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/www/images/',filter: 'isFile'},
           {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/',filter: 'isFile'},
           {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/web/build/images/',filter: 'isFile'}
         ]
@@ -141,7 +141,9 @@ module.exports = function (grunt) {
   platforms.forEach(function (platform) {
     grunt.registerTask('to-' + platform, function () {
     if (platform.indexOf('android')!=-1)
-      grunt.file.copy('dist/index.html', 'platforms/' + platform + '/assets/www/index.html');		
+      grunt.file.copy('dist/index.html', 'platforms/' + platform + '/assets/www/index.html');
+    else if (platform.indexOf('ios')!=-1)
+      grunt.file.copy('dist/index.html', 'platforms/' + platform + '/www/index.html');	
     else
       grunt.file.copy('dist/index.html', 'platforms/' + platform + '/build/index.html');
     });

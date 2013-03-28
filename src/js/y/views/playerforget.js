@@ -11,9 +11,9 @@ var PlayerForgetView = Backbone.View.extend({
   
   initialize : function() {
   
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("MOT DE PASSE OUBLIE");	    
+    //$.ui.setBackButtonVisibility(true);
+    //$.ui.setBackButtonText("&lt;");
+    //$.ui.setTitle("MOT DE PASSE OUBLIE");	    
   
     this.playerForgetTemplate = Y.Templates.get('playerForgetTemplate');
     this.render();
@@ -22,12 +22,12 @@ var PlayerForgetView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	$.ui.toggleNavMenu(false);
+  	//$.ui.toggleNavMenu(false);
   },    
 
   forget : function(event) {
   
-    $.ui.toggleNavMenu(true);
+    //$.ui.toggleNavMenu(true);
   
     var email = $('#email').val();
 

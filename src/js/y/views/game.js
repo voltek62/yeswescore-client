@@ -35,9 +35,10 @@ var GameView = Backbone.View.extend({
         this.pageHash += this.id; 
       
       
-      	$.ui.setBackButtonVisibility(true);
+      	/*$.ui.setBackButtonVisibility(true);
     	$.ui.setBackButtonText("&lt;");
       	$.ui.setTitle("MATCH");
+        */
       	
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait

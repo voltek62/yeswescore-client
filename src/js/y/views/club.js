@@ -10,11 +10,11 @@ var ClubView = Backbone.View.extend({
   
   initialize : function() {
   
-    $.ui.scrollToTop('#content'); 
+    //$.ui.scrollToTop('#content'); 
     
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("CLUB");	    
+    //$.ui.setBackButtonVisibility(true);
+    //$.ui.setBackButtonText("&lt;");
+    //$.ui.setTitle("CLUB");	    
   
     this.clubViewTemplate = Y.Templates.get('clubViewTemplate');
 

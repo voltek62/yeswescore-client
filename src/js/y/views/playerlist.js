@@ -12,11 +12,11 @@ var PlayerListView = Backbone.View.extend({
 
   initialize : function() {
   
-    $.ui.scrollToTop('#content'); 
+    //$.ui.scrollToTop('#content'); 
   
-  	$.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("LISTE DES JOUEURS");
+  	//$.ui.setBackButtonVisibility(true);
+    //$.ui.setBackButtonText("&lt;");
+    //$.ui.setTitle("LISTE DES JOUEURS");
   
     this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
     this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');

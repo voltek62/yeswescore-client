@@ -11,9 +11,9 @@ var PlayerSigninView = Backbone.View.extend({
 
   initialize : function() {
   
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("CONNEXION");	    
+    //$.ui.setBackButtonVisibility(true);
+    //$.ui.setBackButtonText("&lt;");
+    //$.ui.setTitle("CONNEXION");	    
   
     this.playerSigninTemplate = Y.Templates.get('playerSigninTemplate');
     this.render();
@@ -22,12 +22,12 @@ var PlayerSigninView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	$.ui.toggleNavMenu(false);
+  	//$.ui.toggleNavMenu(false);
   },    
 
   signin : function(event) {
   
-    $.ui.toggleNavMenu(true);
+    //$.ui.toggleNavMenu(true);
   
     var email = $('#email').val();
     var password = $('#password').val();

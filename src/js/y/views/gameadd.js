@@ -20,9 +20,9 @@ var GameAddView = Backbone.View.extend({
 
   initialize: function () {
   
-    $.ui.scrollToTop('#content'); 
+    //$.ui.scrollToTop('#content'); 
     
-    $.ui.setTitle("AJOUTER UNE PARTIE");	    
+    //$.ui.setTitle("AJOUTER UNE PARTIE");	    
   
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
     this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
@@ -34,7 +34,7 @@ var GameAddView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	$.ui.toggleNavMenu(false);
+  	//$.ui.toggleNavMenu(false);
   },    
 
   displayTeam1: function (li) {
@@ -147,7 +147,7 @@ var GameAddView = Backbone.View.extend({
 
   addGame: function (event) {
   
-    $.ui.toggleNavMenu(true);
+    //$.ui.toggleNavMenu(true);
   
     var team1 = $('#team1').val()
       , rank1 = $('#rank1').val()

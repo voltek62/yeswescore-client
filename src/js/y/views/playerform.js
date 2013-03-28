@@ -18,9 +18,9 @@ var PlayerFormView = Backbone.View.extend({
 
   initialize:function() {
           
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("MON PROFIL");
+    //$.ui.setBackButtonVisibility(true);
+    //$.ui.setBackButtonText("&lt;");
+    //$.ui.setTitle("MON PROFIL");
   
     this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
@@ -38,12 +38,12 @@ var PlayerFormView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	$.ui.toggleNavMenu(false);
+  	//$.ui.toggleNavMenu(false);
   },  
   
   showFooter:function() {
   	console.log('showFooter');
-  	//$.ui.toggleNavMenu(true);
+  	////$.ui.toggleNavMenu(true);
   },   
   
   updateList: function (event) {
@@ -88,7 +88,7 @@ var PlayerFormView = Backbone.View.extend({
       
   add: function (event) {
   
-    $.ui.toggleNavMenu(true);
+    //$.ui.toggleNavMenu(true);
   
     var name = $('#name').val()
       , nickname = $('#nickname').val()

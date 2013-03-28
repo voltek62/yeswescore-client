@@ -14,8 +14,8 @@ var IndexView = Backbone.View.extend({
   initialize: function () {
   
     
-    $.ui.setBackButtonVisibility(false);
-    $.ui.setTitle("LISTE DES MATCHES");
+    ////$.ui.setBackButtonVisibility(false);
+    //$.ui.setTitle("LISTE DES MATCHES");
     //$.ui.resetScrollers=true;
  
 
@@ -37,7 +37,7 @@ var IndexView = Backbone.View.extend({
     //console.log('this.id ',this.id);
 
 
-    $.ui.showMask('please wait, loading player');
+    // $.ui.showMask('please wait, loading player');
 
     var that = this;
 
@@ -49,7 +49,7 @@ var IndexView = Backbone.View.extend({
         Y.User.createPlayerAsync(function (err, player) {
           console.log('player created', player);
 
-          $.ui.hideMask();
+          // $.ui.hideMask();
 
           // rendering
       	  that.render();
@@ -60,7 +60,7 @@ var IndexView = Backbone.View.extend({
         return;
       }
       // continue
-      $.ui.hideMask();
+      // $.ui.hideMask();
 
 
       that.render();
@@ -102,11 +102,11 @@ var IndexView = Backbone.View.extend({
 
   sendFilter: function () {
     //console.log("sendFilter");
-    $.ui.actionsheet('<a href="#sort/date" class="button">Afficher par Date</a>'
+    /*$.ui.actionsheet('<a href="#sort/date" class="button">Afficher par Date</a>'
     + ' <a href="#sort/location" class="button">Afficher par Lieu</a>'
     + ' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
     + ' <a href="#sort/finished" class="button">Afficher Matchs finis</a>');
-
+    */
   },
 
   search: function () {

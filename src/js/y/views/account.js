@@ -8,7 +8,7 @@ var AccountView = Backbone.View.extend({
 
   initialize: function () {
   
-    $.ui.setTitle("PROFIL");	
+    // $.ui.setTitle("PROFIL");	
 
     this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
 
@@ -20,7 +20,7 @@ var AccountView = Backbone.View.extend({
 
   // render the content into div of view
   render: function () {
-    $.ui.setTitle("MON COMPTE");
+    // $.ui.setTitle("MON COMPTE");
 
     $(this.el).html(this.accountViewTemplate({
       Owner: this.Owner

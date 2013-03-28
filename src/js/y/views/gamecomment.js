@@ -18,9 +18,9 @@ var GameCommentView = Backbone.View.extend({
   
     this.pageHash += this.id; 
   
-     $.ui.setBackButtonVisibility(true);
-     $.ui.setBackButtonText("&lt;");
-     $.ui.setTitle("COMMENTAIRES");
+     //$.ui.setBackButtonVisibility(true);
+     //$.ui.setBackButtonText("&lt;");
+     //$.ui.setTitle("COMMENTAIRES");
   
     this.gameCommentTemplate = Y.Templates.get('gameCommentTemplate');
     this.gameViewCommentListTemplate = Y.Templates.get('gameViewCommentListTemplate');

@@ -94,6 +94,14 @@ module.exports = function (grunt) {
           {expand: true, flatten: true, src: ['src/images/*', 'src/styles/images/*'], dest: 'platforms/wp8/build/images/',filter: 'isFile'},
           {expand: true, flatten: true, src: ['src/images/*', 'src/styles/images/*'], dest: 'platforms/web/build/images/',filter: 'isFile'}
         ]
+      },
+      fonts: {
+        files: [
+          {expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/android/assets/www/styles/webfonts/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/ios/www/styles/webfonts/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/wp8/build/styles/webfonts/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/web/build/styles/webfonts/',filter: 'isFile'}
+        ]
       }
     },  
     uglify: {

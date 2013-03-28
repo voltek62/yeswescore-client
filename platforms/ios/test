@@ -1,0 +1,2 @@
+unlink www
+ln -s ~/Documents/yeswescore-client/ios/www

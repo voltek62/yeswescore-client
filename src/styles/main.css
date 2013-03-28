@@ -1,3 +1,26 @@
+/*
+  web fonts
+*/
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(/styles/webfonts/opensans-400.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(/styles/webfonts/opensans-700.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(/styles/webfonts/opensans-800.woff) format('woff');
+}
+
+
 /**********************************************************
 	WP8 specifics.
 **********************************************************/
@@ -60,10 +83,11 @@ p {
 #header .logo {
   position: absolute;
   
-  top: 10px;
+  top: 8px;
   width:100%;
   
-  font-family: Helvetica, Arial, sans-serif;
+  /*font-family: Helvetica, Arial, sans-serif;*/
+  font-family: 'Open Sans', sans-serif;
   font-weight:bolder;
   font-size:9px;
   text-align:center;
@@ -75,11 +99,12 @@ p {
 #header .title {
   position: absolute;
   
-  top: 23px;
+  top: 20px;
   width: 100%;
   
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: bold;
+  /*font-family: Helvetica, Arial, sans-serif;*/
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
   font-size:12px;
   text-overflow:ellipsis;
   white-space:nowrap;

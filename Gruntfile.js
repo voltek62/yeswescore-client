@@ -89,10 +89,10 @@ module.exports = function (grunt) {
     copy: {
       images: {
         files: [
-          {expand: true, flatten: true, src: ['src/images/*', 'src/styles/images/*'], dest: 'platforms/android/assets/www/images/',filter: 'isFile'},
-          {expand: true, flatten: true, src: ['src/images/*', 'src/styles/images/*'], dest: 'platforms/ios/www/images/',filter: 'isFile'},
-          {expand: true, flatten: true, src: ['src/images/*', 'src/styles/images/*'], dest: 'platforms/wp8/build/images/',filter: 'isFile'},
-          {expand: true, flatten: true, src: ['src/images/*', 'src/styles/images/*'], dest: 'platforms/web/build/images/',filter: 'isFile'}
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/www/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/',filter: 'isFile'},
+          {expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/web/build/images/',filter: 'isFile'}
         ]
       },
       fonts: {

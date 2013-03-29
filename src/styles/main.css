@@ -20,6 +20,22 @@
   src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(/styles/webfonts/opensans-800.woff) format('woff');
 }
 
+/**
+  JQ mobi
+  */
+input.jq-ui-forms { 
+
+	display:block;
+	width:65%;
+	margin-top:4px; margin-bottom:12px;
+	padding:8px;
+	border:solid 1px #999;
+	outline:0;
+	color:#fff;
+	background:#595D61;
+	-webkit-border-radius:6px; border-radius:6px;
+	-webkit-box-shadow:inset 2px 2px 6px rgba(0,0,0,.5); box-shadow:inset 2px 2px 6px rgba(0,0,0,.5);
+} /* These properties combine to create the look of the input fields. */
 
 /**********************************************************
 	WP8 specifics.
@@ -27,7 +43,10 @@
 
 @media screen and (orientation: portrait) {
     @-ms-viewport {
-        width: 320px;
+        width: 320px; /* should be device-width
+                         but there is a bug in ie10 (puts screen resolution, not css resolution)
+                         @see http://timkadlec.com/2013/01/windows-phone-8-and-device-width/
+                      */
         user-zoom: fixed;
         max-zoom: 1;
         min-zoom: 1;
@@ -120,6 +139,114 @@ p {
 }
 
 /**********************************************************
+	NAV BAR
+**********************************************************/
+
+/*
+  navbar height is 42 :)
+*/
+#navbar {
+  z-index: 11;
+  height:42px;
+  position: fixed;
+  bottom: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+  overflow: visible;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+#navbar > div {
+  position: relative;
+  display: inline-block;
+  width: 33%; /* navbar splitted in 3 */
+  height: 42px;
+  bottom: 0px;
+  overflow: visible;
+  text-align: center;
+}
+
+/* background button design: rounded + trapeze */
+#navbar .background.rounded {
+  position: absolute;
+  left: 50%;
+  margin-left: -35px;
+  
+  width: 75px;
+  height:43px;
+  
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  
+  background-color: #19171c;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+#navbar .background.trapeze {
+  position: absolute;
+  top:10px;
+  left: 50%;
+  margin-left: -40px;
+  
+  width: 85px;
+  height:33px;
+  
+  border-bottom:33px solid #19171c;
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+#navbar a {
+  position: absolute;
+
+  left: 50%;
+  
+  width: 75px;
+  height: 43px;
+  margin-left: -35px;
+  
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  font-size:12px;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height:14px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+/*
+#navbar a:active, #navbar a:focus, #navbar a:active:focus,  #navbar .selected{
+  background-image:none; 
+  color:#45b1db !important;
+  font-weight:bold;
+  font-size:12px;
+  height:40px;
+  width:78px;
+  line-height:40px;
+  text-transform:uppercase;
+}
+
+
+#navbar a:not(:last-of-type) {
+  border-right:0px;
+}*/
+
+/**********************************************************
 	BUTTON STYLES
 **********************************************************/
 
@@ -156,8 +283,10 @@ p {
 /**********************************************************
 	UL > LI 
 **********************************************************/
+ul {
+  padding: 0;
+}
 
-/*
 ul > li {
 	width:100%; 
 	list-style:none;
@@ -194,7 +323,6 @@ ul > li.player > a {
 	color:#000;
 	line-height:20px;
 }
-  */
 
 /**********************************************************
 	CONTENT AREA
@@ -209,57 +337,6 @@ ul > li.player > a {
 .panel {
   
 }
-
-
-/**********************************************************
-	TOOL BAR
-**********************************************************/
-
-#navbar {
-  z-index: 11;
-  background-image:none;
-  height:40px;	
-  box-shadow:none;
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-}
-
-#navbar a {
-  position: relative;
-  display: inline-block;
-  height:40px;
-  width: 33%;
-  
-  background-image:url(images/footer_button_bottom.png);
-  background-position:center bottom;
-  background-repeat: no-repeat;
-  
-  color:#fff;
-  text-align: center;
-  text-transform:uppercase;
-  font-weight:bold;
-  font-size:12px;
-  text-decoration:none;
-}
-
-/*
-#navbar a:active, #navbar a:focus, #navbar a:active:focus,  #navbar .selected{
-  background-image:none; 
-  color:#45b1db !important;
-  font-weight:bold;
-  font-size:12px;
-  height:40px;
-  width:78px;
-  line-height:40px;
-  background-image:url(images/footer_button_bottom.png);
-  text-transform:uppercase;
-}
-
-
-#navbar a:not(:last-of-type) {
-  border-right:0px;
-}*/
 
 /**********************************************************
 	FORM ELEMENTS
@@ -316,7 +393,6 @@ input.jq-ui-forms {
 /**********************************************************
 	TABLE
 **********************************************************/
-/*
 .ui-grid-a,.ui-grid-b,.ui-grid-c,.ui-grid-d {
 	overflow: hidden
 }
@@ -386,7 +462,6 @@ input.jq-ui-forms {
 .ui-grid-d .ui-block-a {
 	clear: left
 }
-*/
 
 /**********************************************************
 	SCOREBOARD

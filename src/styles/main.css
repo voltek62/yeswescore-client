@@ -19,23 +19,28 @@
   font-weight: 800;
   src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(/styles/webfonts/opensans-800.woff) format('woff');
 }
+@font-face {
+  font-family: 'Sosa';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Sosa'), local('Sosa'), url(/styles/webfonts/sosa-regular.woff) format('woff');
+}
 
-/**
-  JQ mobi
-  */
-input.jq-ui-forms { 
 
+
+/**********************************************************
+  mylib
+**********************************************************/
+input.mylib-forms { 
 	display:block;
-	width:65%;
-	margin-top:4px; margin-bottom:12px;
-	padding:8px;
-	border:solid 1px #999;
+	padding:2px;
+	border:solid 1px #ededed;
 	outline:0;
 	color:#fff;
-	background:#595D61;
-	-webkit-border-radius:6px; border-radius:6px;
-	-webkit-box-shadow:inset 2px 2px 6px rgba(0,0,0,.5); box-shadow:inset 2px 2px 6px rgba(0,0,0,.5);
-} /* These properties combine to create the look of the input fields. */
+	background:#ededed;
+	-webkit-border-radius:10px; border-radius:10px;
+  -webkit-appearance:none;
+}
 
 /**********************************************************
 	WP8 specifics.
@@ -280,21 +285,63 @@ p {
 }
   */
 
+/***
+  pictos
+  */
+.button-filter {
+  position: relative;
+  height:30px;
+  width:30px;
+  border-radius: 30px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  background:#46b1db;
+}
+
+.button-filter .oval {
+  position: absolute;
+  height:3px;
+  width:14px;
+  left: 8px;
+  border-radius: 7px / 3px;
+  -moz-border-radius:7px / 3px;
+  -webkit-border-radius: 7px / 3px;
+  background:white;
+}
+.button-filter .oval:nth-child(1) {
+  top: 8px;
+}
+.button-filter .oval:nth-child(2) {
+  top: 14px;
+}
+.button-filter .oval:nth-child(3) {
+  top: 20px;
+}
+
+.button-search {
+  font-family: 'Sosa', sans-serif;
+  font-size: 20px;
+  color: #5e5e5e;
+}
+
 /**********************************************************
 	UL > LI 
 **********************************************************/
 ul {
   padding: 0;
+  margin: 0;
 }
 
 ul > li {
 	width:100%; 
 	list-style:none;
 	background:#fff;
-	padding:5px;
-	border-top:1px solid rgba(80,80,80,.5);
+	border-top:1px solid #8c8c8e;
 	height:100px;
-} 
+}
+ul > li:first-child {
+  border-top:2px solid #c5c5c5;
+}
 
 ul > li > a {
 	width:100%; 
@@ -330,8 +377,16 @@ ul > li.player > a {
 
 #content{
   z-index: 5;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 44px; /* #header */
+  padding-bottom: 42px; /* #navbar */
+  padding-left: 13px;
+  padding-right: 13px;
+  
+  width: 100%;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 }
 
 .panel {
@@ -467,7 +522,6 @@ input.jq-ui-forms {
 	SCOREBOARD
 **********************************************************/
 
-/*
 #displayViewScoreBoard {
   background-color:#45b1db;
   width:90%;
@@ -600,7 +654,6 @@ input.jq-ui-forms {
   font-size:18px;
   font-weight:bold;	
 }
-*/
 
 /**********************************************************
 	COMMENT

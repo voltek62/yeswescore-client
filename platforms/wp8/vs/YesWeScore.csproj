@@ -151,7 +151,6 @@
     <Content Include="www\images\chrono.png" />
     <Content Include="www\images\eye.png" />
     <Content Include="www\images\facebook.png" />
-    <Content Include="www\images\footer_button_bottom.png" />
     <Content Include="www\images\header-logo-on.png" />
     <Content Include="www\images\house.png" />
     <Content Include="www\images\people.png" />

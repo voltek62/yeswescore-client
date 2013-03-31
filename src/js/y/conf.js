@@ -10,7 +10,7 @@
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
       // @ifdef DEV
-      //Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
+      Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
       // @endif
       return this; // chainable
     },
@@ -30,7 +30,6 @@
       switch (env) {
         case Y.Env.DEV:
           // @ifdef DEV
-
           // marc
           var apiBaseUrl = "http://plic.no-ip.org:22222";
           var fbBaseUrl = "http://plic.no-ip.org:9091";
@@ -40,42 +39,42 @@
           // var fbBaseUrl = "http://plic.no-ip.org:9090";
           // var fbAppId = "408897482525651";
 
-          this.setNX("api.url.auth", apiBaseUrl + "/v1/auth/");
-          this.setNX("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
-          this.setNX("api.url.games", apiBaseUrl + "/v1/games/");
-          this.setNX("api.url.players", apiBaseUrl + "/v1/players/");
-          this.setNX("api.url.clubs", apiBaseUrl + "/v1/clubs/");
-          this.setNX("api.url.stats", apiBaseUrl + "/v1/stats/");
-          this.setNX("api.url.reports", apiBaseUrl + "/v1/report/");    
-          this.setNX("api.url.reports.games", apiBaseUrl + "/v1/report/games/");
-          this.setNX("api.url.reports.players", apiBaseUrl + "/v1/report/players/");
-          this.setNX("api.url.reports.clubs", apiBaseUrl + "/v1/report/clubs/");                                       
-          this.setNX("fb.url.inappbrowser.redirect", fbBaseUrl + "/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
-          this.setNX("facebook.app.id", fbAppId);
-          this.setNX("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
+          this.set("api.url.auth", apiBaseUrl + "/v1/auth/");
+          this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
+          this.set("api.url.games", apiBaseUrl + "/v1/games/");
+          this.set("api.url.players", apiBaseUrl + "/v1/players/");
+          this.set("api.url.clubs", apiBaseUrl + "/v1/clubs/");
+          this.set("api.url.stats", apiBaseUrl + "/v1/stats/");
+          this.set("api.url.reports", apiBaseUrl + "/v1/report/");
+          this.set("api.url.reports.games", apiBaseUrl + "/v1/report/games/");
+          this.set("api.url.reports.players", apiBaseUrl + "/v1/report/players/");
+          this.set("api.url.reports.clubs", apiBaseUrl + "/v1/report/clubs/");
+          this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
+          this.set("facebook.app.id", fbAppId);
+          this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
           // @endif
           break;
         case Y.Env.PROD:
-          this.setNX("api.url.auth", "http://api.yeswescore.com/v1/auth/");
-          this.setNX("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
-          this.setNX("api.url.games", "http://api.yeswescore.com/v1/games/");
-          this.setNX("api.url.players", "http://api.yeswescore.com/v1/players/");
-          this.setNX("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
-          this.setNX("api.url.stats", "http://api.yeswescore.com/v1/stats/");
-          this.setNX("api.url.reports", "http://api.yeswescore.com/v1/report/");    
-          this.setNX("api.url.reports.games", "http://api.yeswescore.com/v1/report/games/");
-          this.setNX("api.url.reports.players", "http://api.yeswescore.com/v1/report/players/");
-          this.setNX("api.url.reports.clubs", "http://api.yeswescore.com/v1/report/clubs/");           
-          this.setNX("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
-          this.setNX("facebook.app.id", "447718828610668");
-          this.setNX("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
+          this.set("api.url.auth", "http://api.yeswescore.com/v1/auth/");
+          this.set("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
+          this.set("api.url.games", "http://api.yeswescore.com/v1/games/");
+          this.set("api.url.players", "http://api.yeswescore.com/v1/players/");
+          this.set("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
+          this.set("api.url.stats", "http://api.yeswescore.com/v1/stats/");
+          this.set("api.url.reports", "http://api.yeswescore.com/v1/report/");
+          this.set("api.url.reports.games", "http://api.yeswescore.com/v1/report/games/");
+          this.set("api.url.reports.players", "http://api.yeswescore.com/v1/report/players/");
+          this.set("api.url.reports.clubs", "http://api.yeswescore.com/v1/report/clubs/");
+          this.set("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
+          this.set("facebook.app.id", "447718828610668");
+          this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
           break;
         default:
           break;
       }
 
       // Paramétrage des variables non dépendantes d'un environnement
-      this.setNX("game.refresh", 5000); // gameRefresh
+      this.set("game.refresh", 5000); // gameRefresh
       this.set("pooling.geolocation", 5000);
       this.set("pooling.connection", 1000);
       this.set("version", version); // will be usefull on update.

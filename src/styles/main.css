@@ -5,25 +5,25 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(/styles/webfonts/opensans-400.woff) format('woff');
+  src: url(/styles/webfonts/opensans-400.woff) format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(/styles/webfonts/opensans-700.woff) format('woff');
+  src: url(/styles/webfonts/opensans-700.woff) format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(/styles/webfonts/opensans-800.woff) format('woff');
+  src: url(/styles/webfonts/opensans-800.woff) format('woff');
 }
 @font-face {
   font-family: 'Sosa';
   font-style: normal;
   font-weight: normal;
-  src: local('Sosa'), local('Sosa'), url(/styles/webfonts/sosa-regular.woff) format('woff');
+  src: url(/styles/webfonts/sosa-regular.woff) format('woff');
 }
 
 
@@ -98,7 +98,7 @@ p {
   width:0;
   height:0;
   
-  border-right:12px solid white;
+  border-right:11px solid white;
   border-top:11px solid transparent;
   border-bottom:11px solid transparent;
 }
@@ -452,6 +452,7 @@ input.jq-ui-forms {
 }
 
 .ui-block-a,.ui-block-b,.ui-block-c,.ui-block-d,.ui-block-e {
+  position: relative;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -528,17 +529,22 @@ input.jq-ui-forms {
 }
 
 .div_set_scoreboard {
+  position:absolute;
+  right: 0px;
+  
   text-align: center;
   z-index:1;
   color:#000;
   display:inline-block;
+  
+  font-family: Open Sans;
   font-weight:bold;
   font-size:14px;
-  line-height:24px;
-  position:relative;
+  line-height:20px;
+
   text-align:center;
-  height:24px;
-  min-width:20px;
+  height:20px;
+  width:18px;
   text-overflow:ellipsis; 
   -webkit-border-radius:6px; border-radius:6px;
   background-image:none; 
@@ -652,6 +658,57 @@ input.jq-ui-forms {
 .timer {
   font-size:18px;
   font-weight:bold;	
+}
+
+/**********************************************************
+	Templates
+**********************************************************/
+
+#listGamesView a {
+  display:block; /* text-overflow: ... can only apply on block elements */
+  
+  padding-right: 10px;
+  
+  color: #44b1da;
+  text-decoration: none;
+  font-family: Open Sans;
+  font-size: 12px;
+  font-weight: bold;
+  
+  /* trunk text */
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+#listGamesView li {
+  height:87px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+#listGamesView .game-status {
+  color: #44b1da;
+  font-family: Open Sans;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: right;
+}
+
+#listGamesView .game-player {
+  font-family: Open Sans;
+  font-size: 12px;
+  
+  line-height: 10px;
+  
+  /* trunk text */
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
 }
 
 /**********************************************************

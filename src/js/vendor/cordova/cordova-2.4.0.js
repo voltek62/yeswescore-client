@@ -118,6 +118,9 @@ phonegapdesktop.internal = {
 		var node = this.debugdata[nodeName];
 		var inSequence = true;
 
+    if (!node)
+      return null;
+
 		if(Object.prototype.toString.call(node[element]) === '[object Array]') {
 			// Pick an element from the array
 			if(node.arraySequence != undefined) {

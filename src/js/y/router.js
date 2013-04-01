@@ -8,13 +8,13 @@
       this.onClose();
   };
 
-  var currentView = null;
-
   var Router = Backbone.Router.extend({
+    currentView: null,
+
     routes: {
       '': 'index',
       'index': 'index',
-      'sort/:id' : 'index',
+      'sort/:id': 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/follow': 'gameFollow',
@@ -36,152 +36,160 @@
       'account': 'account'
     },
 
-
     initialize: function (options) {
 
     },
 
+    /*
+    * @param Y.Views.*  view 
+    * @param object     params 
+    * @return function returning a view object.
+    */
+    createViewFactory: function (view, params) {
+      return function () {
+        return new view(params);
+      };
+    },
+
     account: function () {
-      var accountView = new Y.Views.Account();
-      this.changePage(accountView);
+      this.changePage(this.createViewFactory(Y.Views.Account));
     },
 
     club: function (id) {
-      var clubView = new Y.Views.Club({ id: id });
-      this.changePage(clubView);
+      this.changePage(this.createViewFactory(Y.Views.Club, { id: id }));
     },
 
     clubAdd: function (id) {
-      var clubAddView = new Y.Views.ClubAdd();
-      this.changePage(clubAddView);
+      this.changePage(this.createViewFactory(Y.Views.ClubAdd));
     },
 
     index: function (id) {
-      var indexView = new Y.Views.Index({ id: id });     
-      this.changePage(indexView);
+      this.changePage(this.createViewFactory(Y.Views.Index, { id: id }));
     },
 
-    
     game: function (id) {
-      var gameView = new Y.Views.Game({ id: id });
-      this.changePage(gameView);
+      this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
     },
 
     gameAdd: function () {
-      var gameAddView = new Y.Views.GameAdd();
-      this.changePage(gameAddView);
+      this.changePage(this.createViewFactory(Y.Views.GameAdd));
     },
 
     gameEnd: function (id) {
-      var gameEndView = new Y.Views.GameEnd({ id: id });
-      this.changePage(gameEndView);
+      this.changePage(this.createViewFactory(Y.Views.GameEnd, { id: id }));
     },
 
     gameComment: function (id) {
-      var gameCommentView = new Y.Views.GameComment({ id: id });
-      this.changePage(gameCommentView);  
+      this.changePage(this.createViewFactory(Y.Views.GameComment, { id: id }));
     },
 
     gameFollow: function () {
-      var gameFollowView = new Y.Views.GameFollow();
-      this.changePage(gameFollowView);
+      this.changePage(this.createViewFactory(Y.Views.GameFollow));
     },
 
     gameMe: function (id) {
-      var gameListView = new Y.Views.GameList({ mode: 'me', id: id });
-      this.changePage(gameListView);
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'me', id: id }));
     },
 
     gameClub: function (id) {
-      var gameListView = new Y.Views.GameList({ mode: 'club', clubid: id });
-      this.changePage(gameListView);
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'club', clubid: id }));
     },
 
     player: function (id) {
-      var playerView = new Y.Views.Player({ id: id, follow: '' });
-      this.changePage(playerView);
+      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
     },
 
-
     playerFollow: function (id) {
-      var playerFollowView = new Y.Views.PlayerFollow();
-      this.changePage(playerFollowView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerFollow));
     },
 
     playerNoFollow: function (id) {
-      var playerView = new Y.Views.Player({ id: id, follow: 'false' });
-      this.changePage(playerView);
+      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: 'false' }));
     },
 
     playerForm: function () {
-      var playerFormView = new Y.Views.PlayerForm();
-      this.changePage(playerFormView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm));
     },
 
     playerList: function () {
-      var playerListView = new Y.Views.PlayerList();
-      this.changePage(playerListView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerList));
     },
 
     playerListByClub: function (id) {
-      var playerListView = new Y.Views.PlayerList({ id: id });
-      this.changePage(playerListView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerList, { id: id }));
     },
 
     playerSignin: function () {
-      var playerSigninView = new Y.Views.PlayerSignin();
-      this.changePage(playerSigninView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerSignin));
     },
 
     playerForget: function () {
-      var playerForgetView = new Y.Views.PlayerForget();
-      this.changePage(playerForgetView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerForget));
     },
 
-    setNextTransition: function (el) {
-    },
+    /*
+    * you can change page passing a function:
+    *    this.changePage(function () { return new Y.Views.Account() });
+    *
+    * @param function  viewFactory    function returning a view
+    */
+    changePage: function (viewFactory) {
+      assert(typeof viewFactory === "function");
 
-    changePage: function (view) {
+      var previousPageName = "none"
+        , previousPageHash = "none"
+        , nextPageName = "unknown"
+        , nextPageHash = "unknown"
+        , view = null;
 
+      // previous page name, page hash
+      if (this.currentView && this.currentView.pageName)
+        previousPageName = this.currentView.pageName;
+      if (this.currentView && this.currentView.pageHash)
+        previousPageHash = this.currentView.pageHash;
+
+      // event
       try {
-        var previousPageName = "none";
-        var nextPageName = "unknown";
+        this.trigger('beforePageChanged', previousPageName, previousPageHash);
+      } catch (e) {
+        assert(false);
+      };
 
-        var previousPageHash = "none";
-        var nextPageHash = "unknown";
+      // creating view
+      try {
+        view = viewFactory();
+      } catch (e) {
+        assert(false);
+      };
 
-        if (currentView && currentView.pageName) {
-          previousPageName = currentView.pageName;        
-        }
-        
-        if (currentView && currentView.pageHash) {
-          previousPageHash = currentView.pageHash;  
-        }
-        
-        if (currentView) {
-          currentView.close();
-        }
-        
-        currentView = view;
-        
-        if (view.pageName) {
-          nextPageName = view.pageName;        
-        }
-        
-        if (view.pageHash) {
-          nextPageHash = view.pageHash;
-        }  
-        
-        Y.Stats.page(previousPageName, nextPageName);
-      }
-      catch (e) {
-        //console.log('DEV ChangePage Error', e);
-      }
+      // closing current view (still in the DOM)
+      try {
+        if (this.currentView)
+          this.currentView.close();
+      } catch (e) {
+        assert(false);
+      };
 
+      // next page name, page hash
+      if (view && view.pageName)
+        nextPageName = view.pageName;
+      if (view && view.pageHash)
+        nextPageHash = view.pageHash;
 
-    },
+      // acting the change in Router.currentView & Y.GUI.content
+      this.currentView = view;
+      Y.GUI.content = view;
 
-    historyCount: 0
+      // event
+      try {
+        this.trigger('pageChanged', nextPageName, nextPageHash);
+      } catch (e) {
+        assert(false);
+      };
+
+      // stats.
+      Y.Stats.page(previousPageName, nextPageName);
+    }
   });
 
   Y.Router = new Router();

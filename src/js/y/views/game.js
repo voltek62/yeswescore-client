@@ -479,8 +479,8 @@ Y.Views.Game = Backbone.View.extend({
         //this.score.off("all",this.renderRefresh,this);
         
         // FIXME:remettre
-        poller.stop();
-        poller.off('success', this.renderRefresh, this);
+        //poller.stop();
+        //poller.off('success', this.renderRefresh, this);
 
         // FIXME:
         // poller.off('complete', this.render, this);

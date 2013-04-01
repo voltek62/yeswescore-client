@@ -9,6 +9,12 @@
     Templates: null, // @see y/tempates.js
     Views: {},       // @see y/views/*
 
+    GUI: {
+      header: null,  // singleton view #header
+      content: null, // singleton current view (center)
+      navbar: null   // singleton view #navbar
+    },
+
     status: "uninitialized",  // uninitialized, loading, loaded
 
     Env: {
@@ -37,6 +43,11 @@
                  that.Router.initialize({ hashChange: false, pushState: false });
                  // load the templates.
                  that.Templates.loadAsync(function () {
+                   // init GUI singleton
+                   that.GUI.header = new Y.Views.Header();
+                   that.GUI.content = null; // will be overwrite by the router.
+                   that.GUI.navbar = null;  // unused yet.
+
                    // start dispatching routes
                    // @see http://backbonejs.org/#History-start
                    Backbone.history.start();

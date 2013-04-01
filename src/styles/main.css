@@ -1,5 +1,6 @@
 /*
   web fonts
+  to be tested under Android/iOS.
 */
 @font-face {
   font-family: 'Open Sans';
@@ -19,13 +20,17 @@
   font-weight: 800;
   src: url(/styles/webfonts/opensans-800.woff) format('woff');
 }
+/* 
+ disabled: bug on WP8
+ @see http://stackoverflow.com/questions/14575208/using-css-font-face-in-a-phonegap-windows-phone-8-app
+ maybe bug on android / iOS.
 @font-face {
   font-family: 'Sosa';
   font-style: normal;
   font-weight: normal;
   src: url(/styles/webfonts/sosa-regular.woff) format('woff');
 }
-
+*/
 
 
 /**********************************************************
@@ -84,6 +89,7 @@ p {
   left: 0px;
   width: 100%;
   height: 44px;
+  z-index: 10; /* above content z-index=5 */
   
   color: #FFF;
   background-color:#19171c;
@@ -318,9 +324,15 @@ p {
 }
 
 .button-search {
-  font-family: 'Sosa', sans-serif;
+  /*font-family: 'Sosa', sans-serif;
   font-size: 20px;
   color: #5e5e5e;
+  */
+  width:  17px;
+  height: 17px;
+  background-image: url(/images/ico-magnifier-glass.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 /**********************************************************

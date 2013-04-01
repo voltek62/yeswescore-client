@@ -165,7 +165,6 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="www\sosa-regular.woff" />
     <None Include="www\styles\webfonts\opensans-400.woff" />
     <None Include="www\styles\webfonts\opensans-700.woff" />
     <None Include="www\styles\webfonts\opensans-800.woff" />

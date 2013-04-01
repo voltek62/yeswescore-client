@@ -107,6 +107,8 @@ p {
   border-right:11px solid white;
   border-top:11px solid transparent;
   border-bottom:11px solid transparent;
+  
+  z-index: 1000;
 }
 
 #header .logo {

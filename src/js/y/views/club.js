@@ -1,4 +1,4 @@
-var ClubView = Backbone.View.extend({
+Y.Views.Club = Backbone.View.extend({
   el : "#content",
 
   events : {
@@ -16,7 +16,7 @@ var ClubView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("CLUB");	    
   
-    this.clubViewTemplate = Y.Templates.get('clubViewTemplate');
+    this.clubViewTemplate = Y.Templates.get('club');
 
     this.club = new ClubModel({
       id : this.id

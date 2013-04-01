@@ -4,9 +4,10 @@
 
   var YesWeScore = {
     lang: "fr",
-    Conf: null,     // @see yws/conf.js
-    Router: null,   // @see yws/router.js
-    Templates: null, // @see yws/tempates.js
+    Conf: null,      // @see y/conf.js
+    Router: null,    // @see y/router.js
+    Templates: null, // @see y/tempates.js
+    Views: {},       // @see y/views/*
 
     status: "uninitialized",  // uninitialized, loading, loaded
 

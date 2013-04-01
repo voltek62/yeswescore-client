@@ -1,4 +1,4 @@
-var ClubAddView = Backbone.View.extend({
+Y.Views.ClubAdd = Backbone.View.extend({
   el: "#content",
 
   events: {
@@ -15,7 +15,7 @@ var ClubAddView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("AJOUTER UN CLUB");
 
-    this.clubAddTemplate = Y.Templates.get('clubAddTemplate');
+    this.clubAddTemplate = Y.Templates.get('clubAdd');
 
     this.Owner = Y.User.getPlayer();
 

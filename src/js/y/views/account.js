@@ -1,16 +1,13 @@
-var AccountView = Backbone.View.extend({
+Y.Views.Account = Backbone.View.extend({
   el: "#content",
-
 
   pageName: "account",
   pageHash : "account", 
   
-
   initialize: function () {
-  
     // $.ui.setTitle("PROFIL");	
 
-    this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
+    this.accountViewTemplate = Y.Templates.get('account');
 
     this.Owner = Y.User.getPlayer();
 

@@ -1,4 +1,4 @@
-var PlayerListView = Backbone.View.extend({
+Y.Views.PlayerList = Backbone.View.extend({
   el : "#content",
 
   events : {
@@ -18,8 +18,8 @@ var PlayerListView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("LISTE DES JOUEURS");
   
-    this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
-    this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
+    this.playerListViewTemplate = Y.Templates.get('playerList');
+    this.playerSearchTemplate = Y.Templates.get('playerSearch');
     //$.mobile.showPageLoadingMsg();
 
     if (this.id !== 'null') {

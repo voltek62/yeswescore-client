@@ -1,4 +1,4 @@
-var PlayerFormView = Backbone.View.extend({
+Y.Views.PlayerForm = Backbone.View.extend({
   el:"#content",
     
   events: {
@@ -22,8 +22,8 @@ var PlayerFormView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("MON PROFIL");
   
-    this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
-    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
+    this.playerFormTemplate = Y.Templates.get('playerForm');
+    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
     this.Owner = Y.User.getPlayer();
     //this.pageHash += this.Owner.id; 

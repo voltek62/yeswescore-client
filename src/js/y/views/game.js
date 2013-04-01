@@ -1,4 +1,4 @@
-var GameView = Backbone.View.extend({
+Y.Views.Game = Backbone.View.extend({
       el : "#content",
       
       displayViewScoreBoard : "#displayViewScoreBoard",
@@ -42,11 +42,11 @@ var GameView = Backbone.View.extend({
       	
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
-        this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
+        this.gameViewTemplate = Y.Templates.get('game');
         this.gameViewScoreBoardTemplate = Y.Templates
-            .get('gameViewScoreBoardTemplate');
+            .get('gameScoreBoard');
         this.gameViewCommentListTemplate = Y.Templates
-            .get('gameViewCommentListTemplate');
+            .get('gameCommentList');
 
 
        

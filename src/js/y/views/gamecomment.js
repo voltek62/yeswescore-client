@@ -1,4 +1,4 @@
-var GameCommentView = Backbone.View.extend({
+Y.Views.GameComment = Backbone.View.extend({
   el:"#content",
   gameid:'',
   
@@ -22,8 +22,8 @@ var GameCommentView = Backbone.View.extend({
      //$.ui.setBackButtonText("&lt;");
      //$.ui.setTitle("COMMENTAIRES");
   
-    this.gameCommentTemplate = Y.Templates.get('gameCommentTemplate');
-    this.gameViewCommentListTemplate = Y.Templates.get('gameViewCommentListTemplate');
+    this.gameCommentTemplate = Y.Templates.get('gameComment');
+    this.gameViewCommentListTemplate = Y.Templates.get('gameCommentList');
                
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");

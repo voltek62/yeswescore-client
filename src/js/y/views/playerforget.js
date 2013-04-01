@@ -1,4 +1,4 @@
-var PlayerForgetView = Backbone.View.extend({
+Y.Views.PlayerForget = Backbone.View.extend({
   el : "#content",
 
   events: {
@@ -15,7 +15,7 @@ var PlayerForgetView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("MOT DE PASSE OUBLIE");	    
   
-    this.playerForgetTemplate = Y.Templates.get('playerForgetTemplate');
+    this.playerForgetTemplate = Y.Templates.get('playerForget');
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },

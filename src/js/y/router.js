@@ -42,99 +42,99 @@
     },
 
     account: function () {
-      var accountView = new AccountView();
+      var accountView = new Y.Views.Account();
       this.changePage(accountView);
     },
 
     club: function (id) {
-      var clubView = new ClubView({ id: id });
+      var clubView = new Y.Views.Club({ id: id });
       this.changePage(clubView);
     },
 
     clubAdd: function (id) {
-      var clubAddView = new ClubAddView();
+      var clubAddView = new Y.Views.ClubAdd();
       this.changePage(clubAddView);
     },
 
     index: function (id) {
-      var indexView = new IndexView({ id: id });     
+      var indexView = new Y.Views.Index({ id: id });     
       this.changePage(indexView);
     },
 
     
     game: function (id) {
-      var gameView = new GameView({ id: id });
+      var gameView = new Y.Views.Game({ id: id });
       this.changePage(gameView);
     },
 
     gameAdd: function () {
-      var gameAddView = new GameAddView();
+      var gameAddView = new Y.Views.GameAdd();
       this.changePage(gameAddView);
     },
 
     gameEnd: function (id) {
-      var gameEndView = new GameEndView({ id: id });
+      var gameEndView = new Y.Views.GameEnd({ id: id });
       this.changePage(gameEndView);
     },
 
     gameComment: function (id) {
-      var gameCommentView = new GameCommentView({ id: id });
+      var gameCommentView = new Y.Views.GameComment({ id: id });
       this.changePage(gameCommentView);  
     },
 
     gameFollow: function () {
-      var gameFollowView = new GameFollowView();
+      var gameFollowView = new Y.Views.GameFollow();
       this.changePage(gameFollowView);
     },
 
     gameMe: function (id) {
-      var gameListView = new GameListView({ mode: 'me', id: id });
+      var gameListView = new Y.Views.GameList({ mode: 'me', id: id });
       this.changePage(gameListView);
     },
 
     gameClub: function (id) {
-      var gameListView = new GameListView({ mode: 'club', clubid: id });
+      var gameListView = new Y.Views.GameList({ mode: 'club', clubid: id });
       this.changePage(gameListView);
     },
 
     player: function (id) {
-      var playerView = new PlayerView({ id: id, follow: '' });
+      var playerView = new Y.Views.Player({ id: id, follow: '' });
       this.changePage(playerView);
     },
 
 
     playerFollow: function (id) {
-      var playerFollowView = new PlayerFollowView();
+      var playerFollowView = new Y.Views.PlayerFollow();
       this.changePage(playerFollowView);
     },
 
     playerNoFollow: function (id) {
-      var playerView = new PlayerView({ id: id, follow: 'false' });
+      var playerView = new Y.Views.Player({ id: id, follow: 'false' });
       this.changePage(playerView);
     },
 
     playerForm: function () {
-      var playerFormView = new PlayerFormView();
+      var playerFormView = new Y.Views.PlayerForm();
       this.changePage(playerFormView);
     },
 
     playerList: function () {
-      var playerListView = new PlayerListView();
+      var playerListView = new Y.Views.PlayerList();
       this.changePage(playerListView);
     },
 
     playerListByClub: function (id) {
-      var playerListView = new PlayerListView({ id: id });
+      var playerListView = new Y.Views.PlayerList({ id: id });
       this.changePage(playerListView);
     },
 
     playerSignin: function () {
-      var playerSigninView = new PlayerSigninView();
+      var playerSigninView = new Y.Views.PlayerSignin();
       this.changePage(playerSigninView);
     },
 
     playerForget: function () {
-      var playerForgetView = new PlayerForgetView();
+      var playerForgetView = new Y.Views.PlayerForget();
       this.changePage(playerForgetView);
     },
 

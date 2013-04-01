@@ -1,4 +1,4 @@
-var IndexView = Backbone.View.extend({
+Y.Views.Index = Backbone.View.extend({
   el: "#content",
 
   events: {
@@ -19,8 +19,8 @@ var IndexView = Backbone.View.extend({
     //$.ui.resetScrollers=true;
  
 
-    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
-    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+    this.indexViewTemplate = Y.Templates.get('index');
+    this.gameListViewTemplate = Y.Templates.get('gameListView');
 
     //we capture config from bootstrap
     //FIXME: put a timer

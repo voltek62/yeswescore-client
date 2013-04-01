@@ -40,7 +40,7 @@
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
                  // init router
-                 that.Router.initialize({ hashChange: false, pushState: false });
+                 that.Router.initialize();
                  // load the templates.
                  that.Templates.loadAsync(function () {
                    // init GUI singleton
@@ -57,6 +57,7 @@
                });
     },
 
+    // FIXME: should be initialized only when document is ready.
     // same as jquery ;)
     ready: (function () {
       var callbacks = [];

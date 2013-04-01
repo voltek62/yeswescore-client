@@ -9,6 +9,8 @@
   };
 
   var Router = Backbone.Router.extend({
+    history: [ /* { pageName: ..., pageHash: ... } */ ],
+
     currentView: null,
 
     routes: {

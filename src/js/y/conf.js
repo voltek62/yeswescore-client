@@ -9,9 +9,9 @@
   var Conf = {
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
-      // @ifdef DEV
+      /*@ifdef DEV*/
       Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
-      // @endif
+      /*@endif*/
       return this; // chainable
     },
 
@@ -29,7 +29,7 @@
       // Paramétrage des variables dependantes d'un environnement
       switch (env) {
         case Y.Env.DEV:
-          // @ifdef DEV
+          /*@ifdef DEV*/
           // marc
           var apiBaseUrl = "http://plic.no-ip.org:22222";
           var fbBaseUrl = "http://plic.no-ip.org:9091";
@@ -52,7 +52,7 @@
           this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
           this.set("facebook.app.id", fbAppId);
           this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
-          // @endif
+          /*@endif*/
           break;
         case Y.Env.PROD:
           this.set("api.url.auth", "http://api.yeswescore.com/v1/auth/");

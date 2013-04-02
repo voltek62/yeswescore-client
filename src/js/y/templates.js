@@ -21,7 +21,7 @@
         // optim: remove the script from the dom.
         node.parentNode.removeChild(node);
       });
-      // @ifdef DEV
+      /*@ifndef CONCAT*/
       if (true) {
         
         // dev environment, loading template using $.get()
@@ -47,15 +47,15 @@
           });
         });
       } else {
-      // @endif
+      /*@endif*/
 
         // production environment
         // we have finished.
         callback();
 
-      // @ifdef DEV
+      /*@ifndef CONCAT*/
       }
-      // @endif
+      /*@endif*/
     },
 
     // Get template by name from hash of preloaded templates

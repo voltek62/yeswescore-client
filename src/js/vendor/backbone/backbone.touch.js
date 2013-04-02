@@ -1,9 +1,7 @@
 //     Backbone.touch.js 0.2
+
 //     (c) 2012 Raymond Julin, Keyteq AS
 //     Backbone.touch may be freely distributed under the MIT license.
-//
-// Grabbed from github (master) on 01/04/2013.
-//
 (function (factory) {
 
     "use strict";
@@ -33,7 +31,8 @@
 
         touchPrevents : true,
 
-        isTouch : 'ontouchstart' in document && !('callPhantom' in window),
+        isTouch : ('ontouchstart' in document && !('callPhantom' in window)) ||
+                  window.navigator.msPointerEnabled,
 
         // Drop in replacement for Backbone.View#delegateEvent
         // Enables better touch support
@@ -50,14 +49,19 @@
                 if (!method) throw new Error('Method "' + events[key] + '" does not exist');
                 var match = key.match(delegateEventSplitter);
                 var eventName = match[1], selector = match[2];
-                var boundHandler = _.bind(this._touchHandler,this);
                 method = _.bind(method, this);
+                // zepto & jqmobi don't support jquery 3rd parameter [data] in $el.on(...)
+                var that = this;
+                var boundHandler = function (e) {
+                     that._touchHandler(e, {method:method});
+                };
                 if (this.isTouch && eventName === 'click') {
+                     if (window.navigator.msPointerEnabled) {
+                        this.$el.on('MSPointerDown' + suffix, selector, boundHandler);
+                        this.$el.on('MSPointerUp' + suffix, selector, boundHandler);
+                    }
                     this.$el.on('touchstart' + suffix, selector, boundHandler);
-                    this.$el.on('touchend' + suffix, selector,
-                        {method:method},
-                        boundHandler
-                    );
+                    this.$el.on('touchend' + suffix, selector, boundHandler);
                 }
                 else {
                     eventName += suffix;
@@ -79,7 +83,23 @@
         // The `touchPrevents` toggle decides if Backbone.touch
         // will stop propagation and prevent default
         // for *button* and *a* elements
-        _touchHandler : function(e) {
+        _touchHandler : function(e, data) {
+            if (window.navigator.msPointerEnabled) { // ie10.
+                switch (e.type) {
+                    case 'MSPointerUp':
+                        if (this.touchPrevents) {
+                            var tagName = e.currentTarget.tagName;
+                            if (tagName === 'BUTTON' ||
+                                tagName === 'A') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        }
+                        data.method(e);
+                        break;
+                }
+                return;
+            }
             if (!('changedTouches' in e.originalEvent)) return;
             var touch = e.originalEvent.changedTouches[0];
             var x = touch.clientX;
@@ -103,7 +123,7 @@
                                 e.stopPropagation();
                             }
                         }
-                        e.data.method(e);
+                        data.method(e);
                     }
                     break;
             }
@@ -111,4 +131,3 @@
     });
     return Backbone;
 }));
-

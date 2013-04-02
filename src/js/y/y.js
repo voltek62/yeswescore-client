@@ -46,7 +46,7 @@
                    // init GUI singleton
                    that.GUI.header = new Y.Views.Header();
                    that.GUI.content = null; // will be overwrite by the router.
-                   that.GUI.navbar = null;  // unused yet.
+                   that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
 
                    // start dispatching routes
                    // @see http://backbonejs.org/#History-start

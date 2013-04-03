@@ -45,6 +45,6 @@ function goBack(){
 }
 
 var assert = function () { };
-// @ifdef DEV
+/*@ifdef DEV*/
 assert = function (t) { if (!t) throw "assert false" };
-// @endif
+/*@endif*/

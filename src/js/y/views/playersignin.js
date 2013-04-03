@@ -1,4 +1,4 @@
-var PlayerSigninView = Backbone.View.extend({
+Y.Views.PlayerSignin = Backbone.View.extend({
   el : "#content",
 
   events: {
@@ -15,7 +15,7 @@ var PlayerSigninView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("CONNEXION");	    
   
-    this.playerSigninTemplate = Y.Templates.get('playerSigninTemplate');
+    this.playerSigninTemplate = Y.Templates.get('playerSignin');
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },

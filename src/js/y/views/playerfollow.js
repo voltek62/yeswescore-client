@@ -1,4 +1,4 @@
-var PlayerFollowView = Backbone.View.extend({
+Y.Views.PlayerFollow = Backbone.View.extend({
   el:"#content",
   
   events: {
@@ -18,8 +18,8 @@ var PlayerFollowView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("JOUEURS SUIVIS");	    
   
-    this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
-    this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
+    this.playerListViewTemplate = Y.Templates.get('playerListView');
+    this.playerSearchTemplate = Y.Templates.get('playerSearch');
 
     $.mobile.showPageLoadingMsg();
 

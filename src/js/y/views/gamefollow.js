@@ -1,4 +1,4 @@
-var GameFollowView = Backbone.View.extend({
+Y.Views.GameFollow = Backbone.View.extend({
   el:"#content",
 
   listview:"#listGamesView",
@@ -18,8 +18,8 @@ var GameFollowView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("LISTE DES PARTIES SUIVIS");	    
   
-    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
-    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+    this.indexViewTemplate = Y.Templates.get('index');
+    this.gameListViewTemplate = Y.Templates.get('gameListView');
         
     //$.mobile.showPageLoadingMsg();
         

@@ -14,7 +14,7 @@
     <!-- @include app.js -->
   </script>
 
-  <!-- @ifdef DEV -->
+  <!-- @ifndef CONCAT -->
   <!-- Third party css -->
   <!-- our css -->
   <link rel="stylesheet" href="styles/main.css">
@@ -25,6 +25,7 @@
   <script type="text/javascript" src="js/vendor/lodash/lodash.min.js"></script>
   <script type="text/javascript" src="js/vendor/backbone/backbone.js"></script>
   <script type="text/javascript" src="js/vendor/backbone/backbone.poller.min.js"></script>
+  <script type="text/javascript" src="js/vendor/backbone/backbone.touch.js"></script>
   <!-- our libs -->
   <script type="text/javascript" src="js/mylib/helpers.js"></script>
   <script type="text/javascript" src="js/mylib/cordova.js"></script>
@@ -63,6 +64,7 @@
   <script type="text/javascript" src="js/y/views/gamecomment.js"></script>  
   <script type="text/javascript" src="js/y/views/gamefollow.js"></script>
   <script type="text/javascript" src="js/y/views/gamelist.js"></script>
+  <script type="text/javascript" src="js/y/views/header.js"></script>
   <script type="text/javascript" src="js/y/views/index.js"></script>
   <script type="text/javascript" src="js/y/views/player.js"></script>
   <script type="text/javascript" src="js/y/views/playerfollow.js"></script>

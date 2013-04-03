@@ -4,9 +4,16 @@
 
   var YesWeScore = {
     lang: "fr",
-    Conf: null,     // @see yws/conf.js
-    Router: null,   // @see yws/router.js
-    Templates: null, // @see yws/tempates.js
+    Conf: null,      // @see y/conf.js
+    Router: null,    // @see y/router.js
+    Templates: null, // @see y/tempates.js
+    Views: {},       // @see y/views/*
+
+    GUI: {
+      header: null,  // singleton view #header
+      content: null, // singleton current view (center)
+      navbar: null   // singleton view #navbar
+    },
 
     status: "uninitialized",  // uninitialized, loading, loaded
 
@@ -20,7 +27,7 @@
       var that = this;
       // initializing backbone.
       Backbone.$ = $;
-      // @ifdef DEV
+      /*@ifdef CORS*/
       // forcing cors in dev environment.
       var bbsync = Backbone.sync;
       Backbone.sync = function (f, m, o) {
@@ -28,14 +35,19 @@
         o.crossDomain = true;
         return bbsync(f, m, o);
       };
-      // @endif
+      /*@endif*/
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
                  // init router
-                 that.Router.initialize({ hashChange: false, pushState: false });
+                 that.Router.initialize();
                  // load the templates.
                  that.Templates.loadAsync(function () {
+                   // init GUI singleton
+                   that.GUI.header = new Y.Views.Header();
+                   that.GUI.content = null; // will be overwrite by the router.
+                   that.GUI.navbar = null;  // unused yet.
+
                    // start dispatching routes
                    // @see http://backbonejs.org/#History-start
                    Backbone.history.start();
@@ -45,6 +57,7 @@
                });
     },
 
+    // FIXME: should be initialized only when document is ready.
     // same as jquery ;)
     ready: (function () {
       var callbacks = [];

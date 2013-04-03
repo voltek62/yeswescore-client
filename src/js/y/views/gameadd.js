@@ -1,4 +1,4 @@
-var GameAddView = Backbone.View.extend({
+Y.Views.GameAdd = Backbone.View.extend({
   el: "#content",
 
   events: {
@@ -24,8 +24,8 @@ var GameAddView = Backbone.View.extend({
     
     //$.ui.setTitle("AJOUTER UNE PARTIE");	    
   
-    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
-    this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
+    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');
+    this.gameAddTemplate = Y.Templates.get('gameAdd');
       
       this.Owner = Y.User.getPlayer().toJSON();
 	  this.render();

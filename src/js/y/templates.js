@@ -21,23 +21,23 @@
         // optim: remove the script from the dom.
         node.parentNode.removeChild(node);
       });
-      // @ifdef DEV
+      /*@ifndef CONCAT*/
       if (true) {
         
         // dev environment, loading template using $.get()
         // pas trouvé mieux pour l'instant...
         var templates = [
-          "accountView", "clubAdd", "clubListAutoCompleteView", "clubView", "gameAdd",
-          "gameComment","gameEnd", "gameList", "gameListView", "gameViewCommentList",
-          "gameViewScoreBoard", "gameView", "indexView", "playerForget",
-          "playerForm", "playerListAutoCompleteView", "playerListView",
-          "playerSearch", "playerSignin", "playerView"
+          "account", "clubAdd", "clubListAutoComplete", "club", "clubList", "clubListAutoComplete", 
+          "gameAdd", "gameComment","gameEnd", "gameList", "gameListView", "gameCommentList",
+          "gameScoreBoard", "game", "index", "playerForget",
+          "playerForm", "playerListAutoComplete", "playerList",
+          "playerSearch", "playerSignin", "player"
         ];
         var timeoutid = setTimeout(function () { throw "cannot load some template.. "; }, 2000);
         var i = 0;
         templates.forEach(function (template) {
-          $.get("templates/"+template+"Template.html", function (text) {
-            html[template+"Template"] = text;
+          $.get("templates/"+template+".html", function (text) {
+            html[template] = text;
             i++;
             if (i == templates.length)
             {
@@ -47,15 +47,15 @@
           });
         });
       } else {
-      // @endif
+      /*@endif*/
 
         // production environment
         // we have finished.
         callback();
 
-      // @ifdef DEV
+      /*@ifndef CONCAT*/
       }
-      // @endif
+      /*@endif*/
     },
 
     // Get template by name from hash of preloaded templates

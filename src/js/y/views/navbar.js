@@ -2,9 +2,9 @@ Y.Views.Navbar = Backbone.View.extend({
   el: "#navbar",
 
   events: {
-    'click #navbar a[href="#"]': "goToGames",
-    'click #navbar a[href="#games/add"]': "goToGamesAdd",
-    'click #navbar a[href="#account"]': "goToAccount"
+    'click a[href="#"]': "goToGames",
+    'click a[href="#games/add"]': "goToGamesAdd",
+    'click a[href="#account"]': "goToAccount"
   },
 
   initialize: function () {

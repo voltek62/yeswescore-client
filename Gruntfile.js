@@ -168,7 +168,8 @@ module.exports = function (grunt) {
     context.DEV = true;
   });
   grunt.registerTask('context-prod', function () {
-    // no CORS, no DEV.
+    // no CORS, no DEV, but cordova=yes.
+    context.CORDOVA = true;
   });
   grunt.registerTask('myconcat', 'my concat', function () {
     context.CONCAT = true;

@@ -884,12 +884,12 @@ input.jq-ui-forms {
 .scoreBoard .score-grid .ui-grid-c .ui-block-b,
 .scoreBoard .score-grid .ui-grid-c .ui-block-c,
 .scoreBoard .score-grid .ui-grid-c .ui-block-e {
-	width: 23%;
+	width: 24%;
 	margin-right: -.5px
 }
 
 .scoreBoard .score-grid .ui-grid-c .ui-block-d{
-	width: 8%;
+	width: 4%;
 	margin-right: -.5px
 }
 
@@ -903,14 +903,14 @@ input.jq-ui-forms {
 .scoreBoard .score-grid .separator {
   position: absolute;
   top: 15px;
-  left: 71%;
-  height: 100px;
+  left: 73%;
+  height: 96px;
   border-right: 2px dotted #ddf1f8;
 }
 
 .scoreBoard .score-grid .score {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   
   margin-left:auto;
   margin-right:auto; 
@@ -925,7 +925,7 @@ input.jq-ui-forms {
   font-family: Open Sans;
   font-size:28px;
   font-weight:800;
-  -webkit-border-radius:6px; border-radius:6px;
+  -webkit-border-radius:10px; border-radius:10px;
   
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
@@ -956,6 +956,70 @@ input.jq-ui-forms {
   text-align:center;
   margin-top:5px;
   background-color:#fff;
+}
+
+.button-commentaires {
+  position: absolute;
+  
+  left: 0px;
+  width: 100%;
+  bottom: 0px;
+  height: 87px;
+}
+
+.button-commentaires .background.rounded {
+  position: absolute;
+  
+  left: 12px;
+  right: 12px;
+  height:87px;
+  
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  
+  background-color: #41c68f;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.button-commentaires .background.trapeze {
+  position: absolute;
+  top:15px;
+  left: 0%;
+  
+  width: 100%;
+  height:33px;
+  
+  border-bottom:72px solid #41c68f;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.button-commentaires a {
+  position: absolute;
+    
+  width: 100%;
+  
+  top: 13px;
+  
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  font-size:14px;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  line-height:14px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 }
 
 /**********************************************************

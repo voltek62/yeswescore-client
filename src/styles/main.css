@@ -536,11 +536,7 @@ input.jq-ui-forms {
 	SCOREBOARD
 **********************************************************/
 
-#displayViewScoreBoard {
-  background-color:#45b1db;
-  width:90%;
-  margin:0 auto;
-}
+
 
 .div_set_scoreboard {
   position:absolute;
@@ -594,49 +590,10 @@ input.jq-ui-forms {
   color:#000;		
 }
 
-.div_score_menu {
-  font-weight:normal;
-  font-size:10px;
-  border-right:1px;
-  border-style:dotted;	
-  text-align:center;
-  height:100%;
-}
-
-.div_score_menu_right {
-  font-weight:normal;
-  font-size:11px;
-  text-align:center;
-  height:100%;
-}
-
 #ifrmScore {
   width:94%;
   margin:0 auto;
   background-color:#fff;	
-}
-
-
-
-.div_score_button {
-  text-align:center;
-  margin-left:auto;
-  margin-right:auto; 
-  margin-top:5px;
-  padding-top:8px;
-  height:48px;	
-  width:48px;
-  color:#000;
-  background-color:#fff;
-  font-size:28px;
-  font-weight:bold;
-  -webkit-border-radius:6px; border-radius:6px;   
-}
-
-.score_bottom {	
-  text-align:center;
-  margin-top:10px;
-  background-color:#fff;
 }
 
 .button_bottom {
@@ -667,11 +624,6 @@ input.jq-ui-forms {
   font-weight:bold;
   text-transform:uppercase;
   -webkit-border-radius:0px; border-radius:0px;
-}
-
-.timer {
-  font-size:18px;
-  font-weight:bold;	
 }
 
 /**********************************************************
@@ -826,6 +778,184 @@ input.jq-ui-forms {
 
 .account a:last-child {
   margin-bottom: 10px;
+}
+
+/* game.html */
+.game {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.game .infobar {
+  height:53px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.game .infobar .header > div {
+  padding-top: 5px;
+  border-right:1px dotted #adadad;
+  text-align:center;
+  height: 25px;
+    
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+.game .infobar .header > div:last-child {
+  border-right: none;
+}
+.game .infobar .text {
+  margin-top: 1px; /* just for dashed border :p */
+}
+.game .infobar .text > div {
+  border-right:1px dotted #adadad;
+  text-align:center;
+  
+  font-size: 8px;
+  font-family: Open Sans;
+  
+  height: 28px;
+    
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+.game .infobar .text > div:last-child {
+  border-right: none;
+}
+
+.game .infobar .text .timer {
+  font-size:14px;
+  font-family: Open Sans;
+  font-weight:bold;	
+}
+
+.scoreBoard {
+  background-color:#45b1db;
+  border-left: 1px solid #a3d7ed;
+  border-right: 1px solid #d0ebf6;
+  border-bottom: 1px solid #d0ebf6;
+  
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-bottom: 10px;
+    
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.scoreBoard .playerInfos {
+  text-align: center;
+}
+.scoreBoard .playerInfos .player-name {
+  display: block;
+  color: #000;
+  font-family: Open Sans;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 16px;  
+}
+.scoreBoard .playerInfos .other{
+  line-height: 10px;
+}
+.scoreBoard .playerInfos .club {
+  font-family: Open Sans;
+  font-size: 10px;
+}
+.scoreBoard .playerInfos .player-rank {
+  font-family: Open Sans;
+  font-size: 10px;
+}
+
+.scoreBoard .score-grid {
+  position: relative;
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 13px;
+}
+
+.scoreBoard .score-grid .ui-grid-c .ui-block-a,
+.scoreBoard .score-grid .ui-grid-c .ui-block-b,
+.scoreBoard .score-grid .ui-grid-c .ui-block-c,
+.scoreBoard .score-grid .ui-grid-c .ui-block-e {
+	width: 23%;
+	margin-right: -.5px
+}
+
+.scoreBoard .score-grid .ui-grid-c .ui-block-d{
+	width: 8%;
+	margin-right: -.5px
+}
+
+.scoreBoard .score-grid .legend {
+  color: white;
+  font-family: Open Sans;
+  font-size: 10px;
+  text-align: center;
+}
+
+.scoreBoard .score-grid .separator {
+  position: absolute;
+  top: 15px;
+  left: 71%;
+  height: 100px;
+  border-right: 2px dotted #ddf1f8;
+}
+
+.scoreBoard .score-grid .score {
+  width: 48px;
+  height: 48px;
+  
+  margin-left:auto;
+  margin-right:auto; 
+  
+  line-height: 48px;
+  text-align:center;
+  
+  color: #000;
+  background-color: white;
+  border: 1px solid 75c4e2;
+  
+  font-family: Open Sans;
+  font-size:28px;
+  font-weight:800;
+  -webkit-border-radius:6px; border-radius:6px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.scoreBoard .score-grid .score.ongoing {
+  color: #7b7c7e;
+}
+
+.scoreBoard .score-grid .score.sets {
+  font-weight: normal;
+}
+
+.scoreBoard .scoreButton {
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto; 
+  margin-top:5px;
+  padding-top:8px;
+  height:48px;	
+  width:48px;
+  color:#000;
+  background-color:#fff;
+}
+
+.score_bottom {	
+  text-align:center;
+  margin-top:5px;
+  background-color:#fff;
 }
 
 /**********************************************************

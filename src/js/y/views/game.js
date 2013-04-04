@@ -1,7 +1,7 @@
 Y.Views.Game = Backbone.View.extend({
       el : "#content",
       
-      displayViewScoreBoard : "#displayViewScoreBoard",
+      displayViewScoreBoard : "#scoreBoard",
       // Flux des commentaires
       // FIXME: sort by priority
       incomingComment : "#incomingComment",      

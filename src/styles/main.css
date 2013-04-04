@@ -6,19 +6,19 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(/styles/webfonts/opensans-400.woff) format('woff');
+  src: url(/styles/webfonts/opensans-400.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: url(/styles/webfonts/opensans-700.woff) format('woff');
+  src: url(/styles/webfonts/opensans-700.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: url(/styles/webfonts/opensans-800.woff) format('woff');
+  src: url(/styles/webfonts/opensans-800.ttf) format('truetype');
 }
 /* 
  disabled: bug on WP8

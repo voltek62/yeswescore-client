@@ -15,19 +15,32 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(styles/webfonts/opensans-400.ttf) format('truetype');
+  src:
+    /*ifndef CORDOVA*/
+    url(/styles/webfonts/opensans-400.ttf) format('truetype'),
+    /*endif*/
+    url(styles/webfonts/opensans-400.ttf) format('truetype');
+
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: url(styles/webfonts/opensans-700.ttf) format('truetype');
+  src:
+    /*ifndef CORDOVA*/
+    url(/styles/webfonts/opensans-700.ttf) format('truetype'),
+    /*endif*/
+    url(styles/webfonts/opensans-700.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: url(styles/webfonts/opensans-800.ttf) format('truetype');
+  src: 
+    /*ifndef CORDOVA*/
+    url(/styles/webfonts/opensans-800.ttf) format('truetype'),
+    /*endif*/
+    url(styles/webfonts/opensans-800.ttf) format('truetype');
 }
 /* 
  disabled: bug on WP8
@@ -341,8 +354,13 @@ p {
   color: #5e5e5e;
   */
   width:  17px;
-  height: 17px;
+  height: 17px;  
+ /* hack cordova */
   background-image: url(images/ico-magnifier-glass.jpg);
+  /*ifndef CORDOVA*/
+  background-image: url(/images/ico-magnifier-glass.jpg);
+  /*endif*/
+  
   background-size: 100%;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -15171,6 +15189,7 @@ Y.Views.Index = Backbone.View.extend({
 
   events: {
     "keyup input#search-basic": "search",
+    "click li": "goToGame",    
     "click #sendFilter": "sendFilter"
   },
 
@@ -15263,6 +15282,13 @@ Y.Views.Index = Backbone.View.extend({
   },
 
 
+  goToGame: function (elmt) { 
+    console.log('goToGame',elmt.currentTarget.id); 
+    
+    var route = elmt.currentTarget.id;
+    Y.Router.navigate(route, {trigger: true}); 
+  
+  },
 
   sendFilter: function () {
     //console.log("sendFilter");
@@ -16480,12 +16506,11 @@ game.dates.startDate = game.dates.startConvert.getMonthName()+' '+game.dates.sta
 game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.startConvert.getMinutes();
 
 %>
-<li>
+<li id="#games/<%= game.id %>">
 
 <div class="ui-grid-a">
-	<div class="ui-block-a" style="width: 80%;">
-	<a href="#games/<%= game.id %>"> 
-    <%= game.dates.startDate %> - <%= game.location.city %></a>
+	<div class="ui-block-a" style="width: 80%;"> 
+    <%= game.dates.startDate %> - <%= game.location.city %>
 	</div>
 	<div class="ui-block-b game-status" style="width: 20%;">
 	<%= game.status %>

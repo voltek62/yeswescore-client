@@ -346,10 +346,11 @@ p {
   */
   width:  17px;
   height: 17px;  
-  /*ifdef DEV*/
+ /* hack cordova */
+  background-image: url(images/ico-magnifier-glass.jpg);
+  /*ifndef CORDOVA*/
   background-image: url(/images/ico-magnifier-glass.jpg);
   /*endif*/
-  background-image: url(images/ico-magnifier-glass.jpg);
   
   background-size: 100%;
   background-repeat: no-repeat;

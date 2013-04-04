@@ -833,6 +833,58 @@ input.jq-ui-forms {
   font-weight:bold;	
 }
 
+.game .socialbar {
+  width: 100%;
+  height: 44px;
+  padding: 0;
+  padding-top: 5px;
+}
+.game .socialbar .ui-grid-b {
+  height: 100%;
+}
+
+.game .socialbar .button {
+  display: table;
+  height: 100%;
+  
+  vertical-align: middle;
+  text-align: center;
+  
+  background-color: #46b1dd;
+  -webkit-border-radius: 20px; border-radius: 20px;
+  border: 1px solid #74c5e3;
+}
+
+.game .socialbar .share {
+  text-align: center;
+}
+
+.game .socialbar .button a {
+  display: table-cell;
+  
+  vertical-align: middle;
+  
+  font-size: 12px;
+  font-family: Open Sans;
+  font-weight: 700;
+  
+  color: white;
+}
+
+.game .facebook {
+  width: 42px;
+  height: 42px;
+  margin: auto;
+  -webkit-border-radius: 22px; border-radius: 22px;
+  background-color: #46b1dd;
+  border: 1px solid #74c5e3;
+}
+.game .facebook img {
+  position: relative;
+  top: 9px;
+  left: 15px;
+}
+
 .scoreBoard {
   background-color:#45b1db;
   border-left: 1px solid #a3d7ed;
@@ -843,7 +895,7 @@ input.jq-ui-forms {
   padding-top: 10px;
   padding-right: 15px;
   padding-bottom: 10px;
-    
+  
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
   box-sizing:        border-box;
@@ -949,12 +1001,6 @@ input.jq-ui-forms {
   height:48px;	
   width:48px;
   color:#000;
-  background-color:#fff;
-}
-
-.score_bottom {	
-  text-align:center;
-  margin-top:5px;
   background-color:#fff;
 }
 

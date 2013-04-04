@@ -67,30 +67,28 @@
   <div class="socialbar">
     <% if (game.owner === Owner.id) { %>
 	    <div class="ui-grid-b">
-		    <div class="ui-block-a score_bottom">
-          <a id="optionButton"><div class="button_bottom">Options match</div></a> 
+		    <div class="ui-block-a button">
+          <a id="optionButton">Options match</a> 
 		    </div>
-            <div class="ui-block-b score_bottom" id="facebook">
-                <img src="./images/facebook.png" width="44" height="44" />
-            </div>        	
-		    <div class="ui-block-c score_bottom">
-			    <a id="endButton"><div class="button_bottom">Terminer match</div></a>
-		    </div>
+        <div id="facebook" class="ui-block-b share">
+          <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
         </div>
+		    <div class="ui-block-c button">
+			    <a id="endButton">Terminer match</a>
+		    </div>
+      </div>
     <% } else { %> 
       <div class="ui-grid-b">
-        <div class="ui-block-a score_bottom">
+        <div class="ui-block-a button">
           <a id="followButton">
-          <div class="button_bottom">
-          <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre&nbsp;&nbsp; match<% } %> 
-          </div>
+            <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre match<% } %> 
           </a>
         </div>
-        <div class="ui-block-b score_bottom" id="facebook">
-              <img src="./images/facebook.png" width="44" height="44" />
+        <div id="facebook" class="ui-block-b">
+          <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
         </div>          
-        <div class="ui-block-c score_bottom">
-          <a id="endButton"><div class="button_bottom">Terminer match</div></a>
+        <div class="ui-block-c button">
+          <a id="endButton">Terminer match</a>
         </div>
      </div>
     <% } %>

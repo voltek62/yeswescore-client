@@ -1,4 +1,4 @@
-Y.Views.GameList = Backbone.View.extend({
+Y.Views.GameSearch = Backbone.View.extend({
   el:"#content",
     
   events: {
@@ -7,7 +7,7 @@ Y.Views.GameList = Backbone.View.extend({
 
   listview:"#listGamesView",
   
-  pageName: "gameList",
+  pageName: "gameSearch",
   pageHash : "index",
 
   mode:'',
@@ -20,7 +20,7 @@ Y.Views.GameList = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("LISTE DES PARTIES");	    
   
-    this.gameListTemplate = Y.Templates.get('gameList');
+    //this.gameSearchTemplate = Y.Templates.get('gameSearch');
     this.gameListViewTemplate = Y.Templates.get('gameListView');
     
     //$.mobile.showPageLoadingMsg();

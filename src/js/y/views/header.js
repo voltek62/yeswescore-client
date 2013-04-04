@@ -21,6 +21,13 @@ Y.Views.Header = Backbone.View.extend({
   },
   render: function () { },
 
+  // @param string title
+  // @return void.
+  title: function (title) { 
+    if (typeof title === "string")
+      this.$el(".title").text(title);
+  },
+
   showBack: function () { },
   hideBack: function () { },
 

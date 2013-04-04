@@ -7,7 +7,7 @@
   font-style: normal;
   font-weight: 400;
   src:
-    /*ifdef DEV*/
+    /*ifndef CORDOVA*/
     url(/styles/webfonts/opensans-400.ttf) format('truetype'),
     /*endif*/
     url(styles/webfonts/opensans-400.ttf) format('truetype');
@@ -18,7 +18,7 @@
   font-style: normal;
   font-weight: 700;
   src:
-    /*ifdef DEV*/
+    /*ifndef CORDOVA*/
     url(/styles/webfonts/opensans-700.ttf) format('truetype'),
     /*endif*/
     url(styles/webfonts/opensans-700.ttf) format('truetype');
@@ -28,7 +28,7 @@
   font-style: normal;
   font-weight: 800;
   src: 
-    /*ifdef DEV*/
+    /*ifndef CORDOVA*/
     url(/styles/webfonts/opensans-800.ttf) format('truetype'),
     /*endif*/
     url(styles/webfonts/opensans-800.ttf) format('truetype');

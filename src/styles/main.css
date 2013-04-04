@@ -146,7 +146,7 @@ p {
 #header .connectionStatus {
   position:absolute;
 
-  top: 13px;
+  top: 15px;
   right: 13px;
 }
 
@@ -394,8 +394,8 @@ ul > li.player > a {
   z-index: 5;
   padding-top: 44px; /* #header */
   padding-bottom: 42px; /* #navbar */
-  padding-left: 13px;
-  padding-right: 13px;
+  padding-left: 10px;
+  padding-right: 10px;
   
   width: 100%;
   
@@ -538,11 +538,7 @@ input.jq-ui-forms {
 	SCOREBOARD
 **********************************************************/
 
-#displayViewScoreBoard {
-  background-color:#45b1db;
-  width:90%;
-  margin:0 auto;
-}
+
 
 .div_set_scoreboard {
   position:absolute;
@@ -596,49 +592,10 @@ input.jq-ui-forms {
   color:#000;		
 }
 
-.div_score_menu {
-  font-weight:normal;
-  font-size:10px;
-  border-right:1px;
-  border-style:dotted;	
-  text-align:center;
-  height:100%;
-}
-
-.div_score_menu_right {
-  font-weight:normal;
-  font-size:11px;
-  text-align:center;
-  height:100%;
-}
-
 #ifrmScore {
   width:94%;
   margin:0 auto;
   background-color:#fff;	
-}
-
-
-
-.div_score_button {
-  text-align:center;
-  margin-left:auto;
-  margin-right:auto; 
-  margin-top:5px;
-  padding-top:8px;
-  height:48px;	
-  width:48px;
-  color:#000;
-  background-color:#fff;
-  font-size:28px;
-  font-weight:bold;
-  -webkit-border-radius:6px; border-radius:6px;   
-}
-
-.score_bottom {	
-  text-align:center;
-  margin-top:10px;
-  background-color:#fff;
 }
 
 .button_bottom {
@@ -671,11 +628,6 @@ input.jq-ui-forms {
   -webkit-border-radius:0px; border-radius:0px;
 }
 
-.timer {
-  font-size:18px;
-  font-weight:bold;	
-}
-
 /**********************************************************
 	Templates
 **********************************************************/
@@ -683,6 +635,12 @@ input.jq-ui-forms {
 /*
   indexViewTemplate.html
 */
+.indexViewTemplate {
+  padding: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
 /* layout grille */
 .indexViewTemplate > .ui-grid-a {
   width: 100%;
@@ -773,6 +731,343 @@ input.jq-ui-forms {
   text-overflow:ellipsis;
   white-space:nowrap;
   overflow:hidden;
+}
+
+/* account.html */
+.account {
+  padding: 0;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.account a {
+  display: block;
+  
+  width: 100%;
+  height: 50px;
+  
+  margin-top: 10px;
+  
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: Open Sans;
+  font-weight: 700;
+  
+  line-height: 50px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  
+  color: white;
+  background-color: #46b1db;
+  border-top: 1px solid #d0ebf6;
+  border-left: 1px solid #a3d7ed;
+  border-bottom: 1px solid #74c5e3;
+  border-right: 1px solid #74c5e3;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.account a.warning {
+  background-color: #ff6868;
+  border: 1px solid #ff6868;
+  /*font-size: 10px;
+  line-height: 12px;
+  white-space: normal;*/
+}
+
+.account a:last-child {
+  margin-bottom: 10px;
+}
+
+/* game.html */
+.game {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.game .infobar {
+  height:53px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.game .infobar .header > div {
+  padding-top: 5px;
+  border-right:1px dotted #adadad;
+  text-align:center;
+  height: 25px;
+    
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+.game .infobar .header > div:last-child {
+  border-right: none;
+}
+.game .infobar .text {
+  margin-top: 1px; /* just for dashed border :p */
+}
+.game .infobar .text > div {
+  border-right:1px dotted #adadad;
+  text-align:center;
+  
+  font-size: 8px;
+  font-family: Open Sans;
+  
+  height: 28px;
+    
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+.game .infobar .text > div:last-child {
+  border-right: none;
+}
+
+.game .infobar .text .timer {
+  font-size:14px;
+  font-family: Open Sans;
+  font-weight:bold;	
+}
+
+.game .socialbar {
+  width: 100%;
+  height: 44px;
+  padding: 0;
+  padding-top: 5px;
+}
+.game .socialbar .ui-grid-b {
+  height: 100%;
+}
+
+.game .socialbar .button {
+  display: table;
+  height: 100%;
+  
+  vertical-align: middle;
+  text-align: center;
+  
+  background-color: #46b1dd;
+  -webkit-border-radius: 20px; border-radius: 20px;
+  border: 1px solid #74c5e3;
+}
+
+.game .socialbar .share {
+  text-align: center;
+}
+
+.game .socialbar .button a {
+  display: table-cell;
+  
+  vertical-align: middle;
+  
+  font-size: 12px;
+  font-family: Open Sans;
+  font-weight: 700;
+  
+  color: white;
+}
+
+.game .facebook {
+  width: 42px;
+  height: 42px;
+  margin: auto;
+  -webkit-border-radius: 22px; border-radius: 22px;
+  background-color: #46b1dd;
+  border: 1px solid #74c5e3;
+}
+.game .facebook img {
+  position: relative;
+  top: 9px;
+  left: 15px;
+}
+
+.scoreBoard {
+  background-color:#45b1db;
+  border-left: 1px solid #a3d7ed;
+  border-right: 1px solid #d0ebf6;
+  border-bottom: 1px solid #d0ebf6;
+  
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-bottom: 10px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.scoreBoard .playerInfos {
+  text-align: center;
+}
+.scoreBoard .playerInfos .player-name {
+  display: block;
+  color: #000;
+  font-family: Open Sans;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 16px;  
+}
+.scoreBoard .playerInfos .other{
+  line-height: 10px;
+}
+.scoreBoard .playerInfos .club {
+  font-family: Open Sans;
+  font-size: 10px;
+}
+.scoreBoard .playerInfos .player-rank {
+  font-family: Open Sans;
+  font-size: 10px;
+}
+
+.scoreBoard .score-grid {
+  position: relative;
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 13px;
+}
+
+.scoreBoard .score-grid .ui-grid-c .ui-block-a,
+.scoreBoard .score-grid .ui-grid-c .ui-block-b,
+.scoreBoard .score-grid .ui-grid-c .ui-block-c,
+.scoreBoard .score-grid .ui-grid-c .ui-block-e {
+	width: 24%;
+	margin-right: -.5px
+}
+
+.scoreBoard .score-grid .ui-grid-c .ui-block-d{
+	width: 4%;
+	margin-right: -.5px
+}
+
+.scoreBoard .score-grid .legend {
+  color: white;
+  font-family: Open Sans;
+  font-size: 10px;
+  text-align: center;
+}
+
+.scoreBoard .score-grid .separator {
+  position: absolute;
+  top: 15px;
+  left: 73%;
+  height: 96px;
+  border-right: 2px dotted #ddf1f8;
+}
+
+.scoreBoard .score-grid .score {
+  width: 46px;
+  height: 46px;
+  
+  margin-left:auto;
+  margin-right:auto; 
+  
+  line-height: 48px;
+  text-align:center;
+  
+  color: #000;
+  background-color: white;
+  border: 1px solid 75c4e2;
+  
+  font-family: Open Sans;
+  font-size:28px;
+  font-weight:800;
+  -webkit-border-radius:10px; border-radius:10px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.scoreBoard .score-grid .score.ongoing {
+  color: #7b7c7e;
+}
+
+.scoreBoard .score-grid .score.sets {
+  font-weight: normal;
+}
+
+.scoreBoard .scoreButton {
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto; 
+  margin-top:5px;
+  padding-top:8px;
+  height:48px;	
+  width:48px;
+  color:#000;
+  background-color:#fff;
+}
+
+.button-commentaires {
+  position: absolute;
+  
+  left: 0px;
+  width: 100%;
+  bottom: 0px;
+  height: 87px;
+}
+
+.button-commentaires .background.rounded {
+  position: absolute;
+  
+  left: 12px;
+  right: 12px;
+  height:87px;
+  
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  
+  background-color: #41c68f;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.button-commentaires .background.trapeze {
+  position: absolute;
+  top:15px;
+  left: 0%;
+  
+  width: 100%;
+  height:33px;
+  
+  border-bottom:72px solid #41c68f;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.button-commentaires a {
+  position: absolute;
+    
+  width: 100%;
+  
+  top: 13px;
+  
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  font-size:14px;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  line-height:14px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 }
 
 /**********************************************************

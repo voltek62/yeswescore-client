@@ -155,7 +155,7 @@ p {
 #header .connectionStatus {
   position:absolute;
 
-  top: 13px;
+  top: 15px;
   right: 13px;
 }
 
@@ -403,8 +403,8 @@ ul > li.player > a {
   z-index: 5;
   padding-top: 44px; /* #header */
   padding-bottom: 42px; /* #navbar */
-  padding-left: 13px;
-  padding-right: 13px;
+  padding-left: 10px;
+  padding-right: 10px;
   
   width: 100%;
   
@@ -547,11 +547,7 @@ input.jq-ui-forms {
 	SCOREBOARD
 **********************************************************/
 
-#displayViewScoreBoard {
-  background-color:#45b1db;
-  width:90%;
-  margin:0 auto;
-}
+
 
 .div_set_scoreboard {
   position:absolute;
@@ -569,7 +565,7 @@ input.jq-ui-forms {
 
   text-align:center;
   height:20px;
-  width:18px;
+  width:19px;
   text-overflow:ellipsis; 
   -webkit-border-radius:6px; border-radius:6px;
   background-image:none; 
@@ -605,49 +601,10 @@ input.jq-ui-forms {
   color:#000;		
 }
 
-.div_score_menu {
-  font-weight:normal;
-  font-size:10px;
-  border-right:1px;
-  border-style:dotted;	
-  text-align:center;
-  height:100%;
-}
-
-.div_score_menu_right {
-  font-weight:normal;
-  font-size:11px;
-  text-align:center;
-  height:100%;
-}
-
 #ifrmScore {
   width:94%;
   margin:0 auto;
   background-color:#fff;	
-}
-
-
-
-.div_score_button {
-  text-align:center;
-  margin-left:auto;
-  margin-right:auto; 
-  margin-top:5px;
-  padding-top:8px;
-  height:48px;	
-  width:48px;
-  color:#000;
-  background-color:#fff;
-  font-size:28px;
-  font-weight:bold;
-  -webkit-border-radius:6px; border-radius:6px;   
-}
-
-.score_bottom {	
-  text-align:center;
-  margin-top:10px;
-  background-color:#fff;
 }
 
 .button_bottom {
@@ -680,11 +637,6 @@ input.jq-ui-forms {
   -webkit-border-radius:0px; border-radius:0px;
 }
 
-.timer {
-  font-size:18px;
-  font-weight:bold;	
-}
-
 /**********************************************************
 	Templates
 **********************************************************/
@@ -692,6 +644,12 @@ input.jq-ui-forms {
 /*
   indexViewTemplate.html
 */
+.indexViewTemplate {
+  padding: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
 /* layout grille */
 .indexViewTemplate > .ui-grid-a {
   width: 100%;
@@ -782,6 +740,343 @@ input.jq-ui-forms {
   text-overflow:ellipsis;
   white-space:nowrap;
   overflow:hidden;
+}
+
+/* account.html */
+.account {
+  padding: 0;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.account a {
+  display: block;
+  
+  width: 100%;
+  height: 50px;
+  
+  margin-top: 10px;
+  
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: Open Sans;
+  font-weight: 700;
+  
+  line-height: 50px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  
+  color: white;
+  background-color: #46b1db;
+  border-top: 1px solid #d0ebf6;
+  border-left: 1px solid #a3d7ed;
+  border-bottom: 1px solid #74c5e3;
+  border-right: 1px solid #74c5e3;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.account a.warning {
+  background-color: #ff6868;
+  border: 1px solid #ff6868;
+  /*font-size: 10px;
+  line-height: 12px;
+  white-space: normal;*/
+}
+
+.account a:last-child {
+  margin-bottom: 10px;
+}
+
+/* game.html */
+.game {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.game .infobar {
+  height:53px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.game .infobar .header > div {
+  padding-top: 5px;
+  border-right:1px dotted #adadad;
+  text-align:center;
+  height: 25px;
+    
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+.game .infobar .header > div:last-child {
+  border-right: none;
+}
+.game .infobar .text {
+  margin-top: 1px; /* just for dashed border :p */
+}
+.game .infobar .text > div {
+  border-right:1px dotted #adadad;
+  text-align:center;
+  
+  font-size: 8px;
+  font-family: Open Sans;
+  
+  height: 28px;
+    
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+.game .infobar .text > div:last-child {
+  border-right: none;
+}
+
+.game .infobar .text .timer {
+  font-size:14px;
+  font-family: Open Sans;
+  font-weight:bold;	
+}
+
+.game .socialbar {
+  width: 100%;
+  height: 44px;
+  padding: 0;
+  padding-top: 5px;
+}
+.game .socialbar .ui-grid-b {
+  height: 100%;
+}
+
+.game .socialbar .button {
+  display: table;
+  height: 100%;
+  
+  vertical-align: middle;
+  text-align: center;
+  
+  background-color: #46b1dd;
+  -webkit-border-radius: 20px; border-radius: 20px;
+  border: 1px solid #74c5e3;
+}
+
+.game .socialbar .share {
+  text-align: center;
+}
+
+.game .socialbar .button a {
+  display: table-cell;
+  
+  vertical-align: middle;
+  
+  font-size: 12px;
+  font-family: Open Sans;
+  font-weight: 700;
+  
+  color: white;
+}
+
+.game .facebook {
+  width: 42px;
+  height: 42px;
+  margin: auto;
+  -webkit-border-radius: 22px; border-radius: 22px;
+  background-color: #46b1dd;
+  border: 1px solid #74c5e3;
+}
+.game .facebook img {
+  position: relative;
+  top: 9px;
+  left: 15px;
+}
+
+.scoreBoard {
+  background-color:#45b1db;
+  border-left: 1px solid #a3d7ed;
+  border-right: 1px solid #d0ebf6;
+  border-bottom: 1px solid #d0ebf6;
+  
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-bottom: 10px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.scoreBoard .playerInfos {
+  text-align: center;
+}
+.scoreBoard .playerInfos .player-name {
+  display: block;
+  color: #000;
+  font-family: Open Sans;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 16px;  
+}
+.scoreBoard .playerInfos .other{
+  line-height: 10px;
+}
+.scoreBoard .playerInfos .club {
+  font-family: Open Sans;
+  font-size: 10px;
+}
+.scoreBoard .playerInfos .player-rank {
+  font-family: Open Sans;
+  font-size: 10px;
+}
+
+.scoreBoard .score-grid {
+  position: relative;
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 13px;
+}
+
+.scoreBoard .score-grid .ui-grid-c .ui-block-a,
+.scoreBoard .score-grid .ui-grid-c .ui-block-b,
+.scoreBoard .score-grid .ui-grid-c .ui-block-c,
+.scoreBoard .score-grid .ui-grid-c .ui-block-e {
+	width: 24%;
+	margin-right: -.5px
+}
+
+.scoreBoard .score-grid .ui-grid-c .ui-block-d{
+	width: 4%;
+	margin-right: -.5px
+}
+
+.scoreBoard .score-grid .legend {
+  color: white;
+  font-family: Open Sans;
+  font-size: 10px;
+  text-align: center;
+}
+
+.scoreBoard .score-grid .separator {
+  position: absolute;
+  top: 15px;
+  left: 73%;
+  height: 96px;
+  border-right: 2px dotted #ddf1f8;
+}
+
+.scoreBoard .score-grid .score {
+  width: 46px;
+  height: 46px;
+  
+  margin-left:auto;
+  margin-right:auto; 
+  
+  line-height: 48px;
+  text-align:center;
+  
+  color: #000;
+  background-color: white;
+  border: 1px solid 75c4e2;
+  
+  font-family: Open Sans;
+  font-size:28px;
+  font-weight:800;
+  -webkit-border-radius:10px; border-radius:10px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.scoreBoard .score-grid .score.ongoing {
+  color: #7b7c7e;
+}
+
+.scoreBoard .score-grid .score.sets {
+  font-weight: normal;
+}
+
+.scoreBoard .scoreButton {
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto; 
+  margin-top:5px;
+  padding-top:8px;
+  height:48px;	
+  width:48px;
+  color:#000;
+  background-color:#fff;
+}
+
+.button-commentaires {
+  position: absolute;
+  
+  left: 0px;
+  width: 100%;
+  bottom: 0px;
+  height: 87px;
+}
+
+.button-commentaires .background.rounded {
+  position: absolute;
+  
+  left: 12px;
+  right: 12px;
+  height:87px;
+  
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  
+  background-color: #41c68f;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.button-commentaires .background.trapeze {
+  position: absolute;
+  top:15px;
+  left: 0%;
+  
+  width: 100%;
+  height:33px;
+  
+  border-bottom:72px solid #41c68f;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.button-commentaires a {
+  position: absolute;
+    
+  width: 100%;
+  
+  top: 13px;
+  
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  font-size:14px;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  line-height:14px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 }
 
 /**********************************************************
@@ -11379,6 +11674,140 @@ Backbone Poller 0.2.1
 https://github.com/uzikilon/backbone-poller
 Backbone Poller may be freely distributed under the MIT license.
 */(function(e,t){"use strict";function u(e){return n.find(o,function(t){return t.model===e})}function f(e,t){this.model=e,this.set(t)}function l(e){if(e.active()!==!0){e.stop({silent:!0});return}var t=n.extend({data:e.options.data},{success:function(){e.trigger("success",e.model),e.options.condition(e.model)!==!0?(e.stop({silent:!0}),e.trigger("complete",e.model)):e.timeoutId=n.delay(l,e.options.delay,e)},error:function(){e.stop({silent:!0}),e.trigger("error",e.model)}});e.trigger("fetch",e.model),e.xhr=e.model.fetch(t)}var n=e._,r=e.Backbone,i={delay:1e3,condition:function(){return!0}},s=["start","stop","fetch","success","error","complete"],o=[],a={get:function(e,t){var n=u(e);return n?n.set(t):(n=new f(e,t),o.push(n)),t&&t.autostart===!0&&n.start({silent:!0}),n},getPoller:function(){return window.console&&window.console.warn("getPoller() is depreacted, Use Backbone.Poller.get()"),this.get.apply(this,arguments)},size:function(){return o.length},reset:function(){while(o.length)o.pop().stop()}};n.extend(f.prototype,r.Events,{set:function(e){return this.off(),this.options=n.extend({},i,e||{}),n.each(s,function(e){var t=this.options[e];n.isFunction(t)&&this.on(e,t,this)},this),this.model instanceof r.Model&&this.model.on("destroy",this.stop,this),this.stop({silent:!0})},start:function(e){return this.active()||(e=e||{},e.silent||this.trigger("start",this.model),this.options.active=!0,l(this)),this},stop:function(e){return e=e||{},e.silent||this.trigger("stop",this.model),this.options.active=!1,this.xhr&&n.isFunction(this.xhr.abort)&&this.xhr.abort(),this.xhr=null,clearTimeout(this.timeoutId),this.timeoutId=null,this},active:function(){return this.options.active===!0}}),window.PollingManager=a,r.Poller=a})(this);
+//     Backbone.touch.js 0.2
+
+//     (c) 2012 Raymond Julin, Keyteq AS
+//     Backbone.touch may be freely distributed under the MIT license.
+(function (factory) {
+
+    "use strict";
+
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['underscore', 'backbone'], factory);
+    } else {
+        // Browser globals
+        factory(_, Backbone);
+    }
+}(function (_, Backbone) {
+
+    "use strict";
+
+    // The `getValue` and `delegateEventSplitter` is copied from 
+    // Backbones source, unfortunately these are not available
+    // in any form from Backbone itself
+    var getValue = function(object, prop) {
+        if (!(object && object[prop])) return null;
+        return _.isFunction(object[prop]) ? object[prop]() : object[prop];
+    };
+    var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+
+    _.extend(Backbone.View.prototype, {
+        _touching : false,
+
+        touchPrevents : true,
+
+        isTouch : ('ontouchstart' in document && !('callPhantom' in window)) ||
+                  window.navigator.msPointerEnabled,
+
+        // Drop in replacement for Backbone.View#delegateEvent
+        // Enables better touch support
+        // 
+        // If the users device is touch enabled it replace any `click`
+        // event with listening for touch(start|move|end) in order to
+        // quickly trigger touch taps
+        delegateEvents: function(events) {
+            if (!(events || (events = getValue(this, 'events')))) return;
+            this.undelegateEvents();
+            var suffix = '.delegateEvents' + this.cid;
+            _(events).each(function(method, key) {
+                if (!_.isFunction(method)) method = this[events[key]];
+                if (!method) throw new Error('Method "' + events[key] + '" does not exist');
+                var match = key.match(delegateEventSplitter);
+                var eventName = match[1], selector = match[2];
+                method = _.bind(method, this);
+                // zepto & jqmobi don't support jquery 3rd parameter [data] in $el.on(...)
+                var that = this;
+                var boundHandler = function (e) {
+                     that._touchHandler(e, {method:method});
+                };
+                if (this.isTouch && eventName === 'click') {
+                     if (window.navigator.msPointerEnabled) {
+                        this.$el.on('MSPointerDown' + suffix, selector, boundHandler);
+                        this.$el.on('MSPointerUp' + suffix, selector, boundHandler);
+                    }
+                    this.$el.on('touchstart' + suffix, selector, boundHandler);
+                    this.$el.on('touchend' + suffix, selector, boundHandler);
+                }
+                else {
+                    eventName += suffix;
+                    if (selector === '') {
+                        this.$el.bind(eventName, method);
+                    } else {
+                        this.$el.on(eventName, selector, method);
+                    }
+                }
+            }, this);
+        },
+
+        // At the first touchstart we register touchevents as ongoing
+        // and as soon as a touch move happens we set touching to false,
+        // thus implying that a fastclick will not happen when
+        // touchend occurs. If no touchmove happened
+        // inbetween touchstart and touchend we trigger the event
+        //
+        // The `touchPrevents` toggle decides if Backbone.touch
+        // will stop propagation and prevent default
+        // for *button* and *a* elements
+        _touchHandler : function(e, data) {
+            if (window.navigator.msPointerEnabled) { // ie10.
+                switch (e.type) {
+                    case 'MSPointerUp':
+                        if (this.touchPrevents) {
+                            var tagName = e.currentTarget.tagName;
+                            if (tagName === 'BUTTON' ||
+                                tagName === 'A') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        }
+                        data.method(e);
+                        break;
+                }
+                return;
+            }
+            if (!('changedTouches' in e.originalEvent)) return;
+            var touch = e.originalEvent.changedTouches[0];
+            var x = touch.clientX;
+            var y = touch.clientY;
+            switch (e.type) {
+                case 'touchstart':
+                    this._touching = [x, y];
+                    break;
+                case 'touchend':
+                    var oldX = this._touching[0];
+                    var oldY = this._touching[1];
+                    var threshold = 10;
+                    if (x < (oldX + threshold) && x > (oldX - threshold) &&
+                        y < (oldY + threshold) && y > (oldY - threshold)) {
+                        this._touching = false;
+                        if (this.touchPrevents) {
+                            var tagName = e.currentTarget.tagName;
+                            if (tagName === 'BUTTON' ||
+                                tagName === 'A') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        }
+                        data.method(e);
+                    }
+                    break;
+            }
+        }
+    });
+    return Backbone;
+}));
+
 // ALL USEFUL FCTS
 JSON.tryParse = function(o, undefined) {
   try {
@@ -11426,6 +11855,7 @@ function goBack(){
 }
 
 var assert = function () { };
+
 
 // Global Object
 (function (global) {
@@ -11754,9 +12184,16 @@ var assert = function () { };
 
   var YesWeScore = {
     lang: "fr",
-    Conf: null,     // @see yws/conf.js
-    Router: null,   // @see yws/router.js
-    Templates: null, // @see yws/tempates.js
+    Conf: null,      // @see y/conf.js
+    Router: null,    // @see y/router.js
+    Templates: null, // @see y/tempates.js
+    Views: {},       // @see y/views/*
+
+    GUI: {
+      header: null,  // singleton view #header
+      content: null, // singleton current view (center)
+      navbar: null   // singleton view #navbar
+    },
 
     status: "uninitialized",  // uninitialized, loading, loaded
 
@@ -11775,9 +12212,14 @@ var assert = function () { };
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
                  // init router
-                 that.Router.initialize({ hashChange: false, pushState: false });
+                 that.Router.initialize();
                  // load the templates.
                  that.Templates.loadAsync(function () {
+                   // init GUI singleton
+                   that.GUI.header = new Y.Views.Header();
+                   that.GUI.content = null; // will be overwrite by the router.
+                   that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
+
                    // start dispatching routes
                    // @see http://backbonejs.org/#History-start
                    Backbone.history.start();
@@ -11787,6 +12229,7 @@ var assert = function () { };
                });
     },
 
+    // FIXME: should be initialized only when document is ready.
     // same as jquery ;)
     ready: (function () {
       var callbacks = [];
@@ -12143,13 +12586,15 @@ var assert = function () { };
       this.onClose();
   };
 
-  var currentView = null;
-
   var Router = Backbone.Router.extend({
+    history: [ /* { pageName: ..., pageHash: ... } */ ],
+
+    currentView: null,
+
     routes: {
       '': 'index',
       'index': 'index',
-      'sort/:id' : 'index',
+      'sort/:id': 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/follow': 'gameFollow',
@@ -12171,152 +12616,160 @@ var assert = function () { };
       'account': 'account'
     },
 
-
     initialize: function (options) {
 
     },
 
+    /*
+    * @param Y.Views.*  view 
+    * @param object     params 
+    * @return function returning a view object.
+    */
+    createViewFactory: function (view, params) {
+      return function () {
+        return new view(params);
+      };
+    },
+
     account: function () {
-      var accountView = new AccountView();
-      this.changePage(accountView);
+      this.changePage(this.createViewFactory(Y.Views.Account));
     },
 
     club: function (id) {
-      var clubView = new ClubView({ id: id });
-      this.changePage(clubView);
+      this.changePage(this.createViewFactory(Y.Views.Club, { id: id }));
     },
 
     clubAdd: function (id) {
-      var clubAddView = new ClubAddView();
-      this.changePage(clubAddView);
+      this.changePage(this.createViewFactory(Y.Views.ClubAdd));
     },
 
     index: function (id) {
-      var indexView = new IndexView({ id: id });     
-      this.changePage(indexView);
+      this.changePage(this.createViewFactory(Y.Views.Index, { id: id }));
     },
 
-    
     game: function (id) {
-      var gameView = new GameView({ id: id });
-      this.changePage(gameView);
+      this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
     },
 
     gameAdd: function () {
-      var gameAddView = new GameAddView();
-      this.changePage(gameAddView);
+      this.changePage(this.createViewFactory(Y.Views.GameAdd));
     },
 
     gameEnd: function (id) {
-      var gameEndView = new GameEndView({ id: id });
-      this.changePage(gameEndView);
+      this.changePage(this.createViewFactory(Y.Views.GameEnd, { id: id }));
     },
 
     gameComment: function (id) {
-      var gameCommentView = new GameCommentView({ id: id });
-      this.changePage(gameCommentView);  
+      this.changePage(this.createViewFactory(Y.Views.GameComment, { id: id }));
     },
 
     gameFollow: function () {
-      var gameFollowView = new GameFollowView();
-      this.changePage(gameFollowView);
+      this.changePage(this.createViewFactory(Y.Views.GameFollow));
     },
 
     gameMe: function (id) {
-      var gameListView = new GameListView({ mode: 'me', id: id });
-      this.changePage(gameListView);
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'me', id: id }));
     },
 
     gameClub: function (id) {
-      var gameListView = new GameListView({ mode: 'club', clubid: id });
-      this.changePage(gameListView);
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'club', clubid: id }));
     },
 
     player: function (id) {
-      var playerView = new PlayerView({ id: id, follow: '' });
-      this.changePage(playerView);
+      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
     },
 
-
     playerFollow: function (id) {
-      var playerFollowView = new PlayerFollowView();
-      this.changePage(playerFollowView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerFollow));
     },
 
     playerNoFollow: function (id) {
-      var playerView = new PlayerView({ id: id, follow: 'false' });
-      this.changePage(playerView);
+      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: 'false' }));
     },
 
     playerForm: function () {
-      var playerFormView = new PlayerFormView();
-      this.changePage(playerFormView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm));
     },
 
     playerList: function () {
-      var playerListView = new PlayerListView();
-      this.changePage(playerListView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerList));
     },
 
     playerListByClub: function (id) {
-      var playerListView = new PlayerListView({ id: id });
-      this.changePage(playerListView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerList, { id: id }));
     },
 
     playerSignin: function () {
-      var playerSigninView = new PlayerSigninView();
-      this.changePage(playerSigninView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerSignin));
     },
 
     playerForget: function () {
-      var playerForgetView = new PlayerForgetView();
-      this.changePage(playerForgetView);
+      this.changePage(this.createViewFactory(Y.Views.PlayerForget));
     },
 
-    setNextTransition: function (el) {
-    },
+    /*
+    * you can change page passing a function:
+    *    this.changePage(function () { return new Y.Views.Account() });
+    *
+    * @param function  viewFactory    function returning a view
+    */
+    changePage: function (viewFactory) {
+      assert(typeof viewFactory === "function");
 
-    changePage: function (view) {
+      var previousPageName = "none"
+        , previousPageHash = "none"
+        , nextPageName = "unknown"
+        , nextPageHash = "unknown"
+        , view = null;
 
+      // previous page name, page hash
+      if (this.currentView && this.currentView.pageName)
+        previousPageName = this.currentView.pageName;
+      if (this.currentView && this.currentView.pageHash)
+        previousPageHash = this.currentView.pageHash;
+
+      // event
       try {
-        var previousPageName = "none";
-        var nextPageName = "unknown";
+        this.trigger('beforePageChanged', previousPageName, previousPageHash);
+      } catch (e) {
+        assert(false);
+      };
 
-        var previousPageHash = "none";
-        var nextPageHash = "unknown";
+      // creating view
+      try {
+        view = viewFactory();
+      } catch (e) {
+        assert(false);
+      };
 
-        if (currentView && currentView.pageName) {
-          previousPageName = currentView.pageName;        
-        }
-        
-        if (currentView && currentView.pageHash) {
-          previousPageHash = currentView.pageHash;  
-        }
-        
-        if (currentView) {
-          currentView.close();
-        }
-        
-        currentView = view;
-        
-        if (view.pageName) {
-          nextPageName = view.pageName;        
-        }
-        
-        if (view.pageHash) {
-          nextPageHash = view.pageHash;
-        }  
-        
-        Y.Stats.page(previousPageName, nextPageName);
-      }
-      catch (e) {
-        //console.log('DEV ChangePage Error', e);
-      }
+      // closing current view (still in the DOM)
+      try {
+        if (this.currentView)
+          this.currentView.close();
+      } catch (e) {
+        assert(false);
+      };
 
+      // next page name, page hash
+      if (view && view.pageName)
+        nextPageName = view.pageName;
+      if (view && view.pageHash)
+        nextPageHash = view.pageHash;
 
-    },
+      // acting the change in Router.currentView & Y.GUI.content
+      this.currentView = view;
+      Y.GUI.content = view;
 
-    historyCount: 0
+      // event
+      try {
+        this.trigger('pageChanged', nextPageName, nextPageHash);
+      } catch (e) {
+        assert(false);
+      };
+
+      // stats.
+      Y.Stats.page(previousPageName, nextPageName);
+    }
   });
 
   Y.Router = new Router();
@@ -13383,19 +13836,16 @@ var StreamsCollection = Backbone.Collection.extend({
 	
 });
 
-var AccountView = Backbone.View.extend({
+Y.Views.Account = Backbone.View.extend({
   el: "#content",
-
 
   pageName: "account",
   pageHash : "account", 
   
-
   initialize: function () {
-  
     // $.ui.setTitle("PROFIL");	
 
-    this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
+    this.accountViewTemplate = Y.Templates.get('account');
 
     this.Owner = Y.User.getPlayer();
 
@@ -13425,7 +13875,7 @@ var AccountView = Backbone.View.extend({
     this.undelegateEvents();
   }
 });
-var ClubView = Backbone.View.extend({
+Y.Views.Club = Backbone.View.extend({
   el : "#content",
 
   events : {
@@ -13443,7 +13893,7 @@ var ClubView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("CLUB");	    
   
-    this.clubViewTemplate = Y.Templates.get('clubViewTemplate');
+    this.clubViewTemplate = Y.Templates.get('club');
 
     this.club = new ClubModel({
       id : this.id
@@ -13483,7 +13933,7 @@ var ClubView = Backbone.View.extend({
     // this.$el.off('pagebeforeshow');
   }
 });
-var ClubAddView = Backbone.View.extend({
+Y.Views.ClubAdd = Backbone.View.extend({
   el: "#content",
 
   events: {
@@ -13500,7 +13950,7 @@ var ClubAddView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("AJOUTER UN CLUB");
 
-    this.clubAddTemplate = Y.Templates.get('clubAddTemplate');
+    this.clubAddTemplate = Y.Templates.get('clubAdd');
 
     this.Owner = Y.User.getPlayer();
 
@@ -13549,10 +13999,10 @@ var ClubAddView = Backbone.View.extend({
 
   }
 });
-var GameView = Backbone.View.extend({
+Y.Views.Game = Backbone.View.extend({
       el : "#content",
       
-      displayViewScoreBoard : "#displayViewScoreBoard",
+      displayViewScoreBoard : "#scoreBoard",
       // Flux des commentaires
       // FIXME: sort by priority
       incomingComment : "#incomingComment",      
@@ -13593,11 +14043,11 @@ var GameView = Backbone.View.extend({
       	
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
-        this.gameViewTemplate = Y.Templates.get('gameViewTemplate');
+        this.gameViewTemplate = Y.Templates.get('game');
         this.gameViewScoreBoardTemplate = Y.Templates
-            .get('gameViewScoreBoardTemplate');
+            .get('gameScoreBoard');
         this.gameViewCommentListTemplate = Y.Templates
-            .get('gameViewCommentListTemplate');
+            .get('gameCommentList');
 
 
        
@@ -14030,15 +14480,15 @@ var GameView = Backbone.View.extend({
         //this.score.off("all",this.renderRefresh,this);
         
         // FIXME:remettre
-        poller.stop();
-        poller.off('success', this.renderRefresh, this);
+        //poller.stop();
+        //poller.off('success', this.renderRefresh, this);
 
         // FIXME:
         // poller.off('complete', this.render, this);
         // this.$el.off('pagebeforeshow');
       }
     });
-var GameAddView = Backbone.View.extend({
+Y.Views.GameAdd = Backbone.View.extend({
   el: "#content",
 
   events: {
@@ -14064,8 +14514,8 @@ var GameAddView = Backbone.View.extend({
     
     //$.ui.setTitle("AJOUTER UNE PARTIE");	    
   
-    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
-    this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
+    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');
+    this.gameAddTemplate = Y.Templates.get('gameAdd');
       
       this.Owner = Y.User.getPlayer().toJSON();
 	  this.render();
@@ -14289,7 +14739,7 @@ var GameAddView = Backbone.View.extend({
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
   }
 });
-var GameEndView = Backbone.View.extend({
+Y.Views.GameEnd = Backbone.View.extend({
   el:"#content",
 
   events: {
@@ -14307,7 +14757,7 @@ var GameEndView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("TERMINER LA PARTIE");	    
   
-    this.gameEndTemplate = Y.Templates.get('gameEndTemplate');
+    this.gameEndTemplate = Y.Templates.get('gameEnd');
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
     this.Owner = Y.User.getPlayer().toJSON();
@@ -14335,7 +14785,7 @@ var GameEndView = Backbone.View.extend({
     this.undelegateEvents();
   }
 });
-var GameCommentView = Backbone.View.extend({
+Y.Views.GameComment = Backbone.View.extend({
   el:"#content",
   gameid:'',
   
@@ -14359,8 +14809,8 @@ var GameCommentView = Backbone.View.extend({
      //$.ui.setBackButtonText("&lt;");
      //$.ui.setTitle("COMMENTAIRES");
   
-    this.gameCommentTemplate = Y.Templates.get('gameCommentTemplate');
-    this.gameViewCommentListTemplate = Y.Templates.get('gameViewCommentListTemplate');
+    this.gameCommentTemplate = Y.Templates.get('gameComment');
+    this.gameViewCommentListTemplate = Y.Templates.get('gameCommentList');
                
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
@@ -14509,7 +14959,7 @@ var GameCommentView = Backbone.View.extend({
     //poller.off('success', this.renderRefresh, this);
   }
 });
-var GameFollowView = Backbone.View.extend({
+Y.Views.GameFollow = Backbone.View.extend({
   el:"#content",
 
   listview:"#listGamesView",
@@ -14529,8 +14979,8 @@ var GameFollowView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("LISTE DES PARTIES SUIVIS");	    
   
-    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
-    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+    this.indexViewTemplate = Y.Templates.get('index');
+    this.gameListViewTemplate = Y.Templates.get('gameListView');
         
     //$.mobile.showPageLoadingMsg();
         
@@ -14587,7 +15037,7 @@ var GameFollowView = Backbone.View.extend({
   }
 });
 
-var GameListView = Backbone.View.extend({
+Y.Views.GameList = Backbone.View.extend({
   el:"#content",
     
   events: {
@@ -14609,8 +15059,8 @@ var GameListView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("LISTE DES PARTIES");	    
   
-    this.gameListTemplate = Y.Templates.get('gameListTemplate');
-    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+    this.gameListTemplate = Y.Templates.get('gameList');
+    this.gameListViewTemplate = Y.Templates.get('gameListView');
     
     //$.mobile.showPageLoadingMsg();
         
@@ -14676,7 +15126,36 @@ var GameListView = Backbone.View.extend({
     this.games.off("all",this.renderList,this);
   }
 });
-var IndexView = Backbone.View.extend({
+Y.Views.Header = Backbone.View.extend({
+  el: "#header",
+
+  initialize: function () {
+    // on s'abonne au router, pour detecter des changement de pages.
+    Y.Router.on("pageChanged", function () {
+      // gestion du bouton back / prev.
+      /*
+      FIXME: comment gérer correctement l'historique ...
+
+      console.log('HEADER: history length ' + window.history.length);
+      if (window.history.length > 0)
+        document.querySelector("#header .backButton").style.display = "block";
+      else
+        document.querySelector("#header .backButton").style.display = "none";
+      */
+    });
+
+    // on s'abonne a la classe de connexion pour signifier les changements
+
+  },
+  render: function () { },
+
+  showBack: function () { },
+  hideBack: function () { },
+
+  showConnected: function () { },
+  hideConnected: function () { }
+});
+Y.Views.Index = Backbone.View.extend({
   el: "#content",
 
   events: {
@@ -14697,8 +15176,8 @@ var IndexView = Backbone.View.extend({
     //$.ui.resetScrollers=true;
  
 
-    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
-    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+    this.indexViewTemplate = Y.Templates.get('index');
+    this.gameListViewTemplate = Y.Templates.get('gameListView');
 
     //we capture config from bootstrap
     //FIXME: put a timer
@@ -14823,7 +15302,25 @@ var IndexView = Backbone.View.extend({
 	
   }
 });
-var PlayerView = Backbone.View.extend({
+Y.Views.Navbar = Backbone.View.extend({
+  el: "#navbar",
+
+  events: {
+    'click a[href="#"]': "goToGames",
+    'click a[href="#games/add"]': "goToGamesAdd",
+    'click a[href="#account"]': "goToAccount"
+  },
+
+  initialize: function () {
+    // nothing yet
+  },
+  render: function () { },
+
+  goToGames: function () { console.log('goToGames'); Y.Router.navigate("", {trigger: true}); },
+  goToGamesAdd: function () { console.log('goToGamesAdd'); Y.Router.navigate("games/add", {trigger: true}); },
+  goToAccount: function () { console.log('goToAccount'); Y.Router.navigate("account", {trigger: true}); }
+});
+Y.Views.Player = Backbone.View.extend({
   el:"#content",
 
   events: {
@@ -14841,7 +15338,7 @@ var PlayerView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("JOUEUR");	    
   
-    this.playerViewTemplate = Y.Templates.get('playerViewTemplate');
+    this.playerViewTemplate = Y.Templates.get('playerView');
 
 	//console.log('player init '+this.id);
 
@@ -14908,7 +15405,7 @@ var PlayerView = Backbone.View.extend({
     //this.$el.off('pagebeforeshow'); 
   }
 });
-var PlayerFollowView = Backbone.View.extend({
+Y.Views.PlayerFollow = Backbone.View.extend({
   el:"#content",
   
   events: {
@@ -14928,8 +15425,8 @@ var PlayerFollowView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("JOUEURS SUIVIS");	    
   
-    this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
-    this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
+    this.playerListViewTemplate = Y.Templates.get('playerListView');
+    this.playerSearchTemplate = Y.Templates.get('playerSearch');
 
     $.mobile.showPageLoadingMsg();
 
@@ -14976,7 +15473,7 @@ var PlayerFollowView = Backbone.View.extend({
     //this.players.off("all",this.renderList,this);   
   }
 });
-var PlayerFormView = Backbone.View.extend({
+Y.Views.PlayerForm = Backbone.View.extend({
   el:"#content",
     
   events: {
@@ -15000,8 +15497,8 @@ var PlayerFormView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("MON PROFIL");
   
-    this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
-    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
+    this.playerFormTemplate = Y.Templates.get('playerForm');
+    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
     this.Owner = Y.User.getPlayer();
     //this.pageHash += this.Owner.id; 
@@ -15135,7 +15632,7 @@ var PlayerFormView = Backbone.View.extend({
     this.player.off("change",this.renderPlayer,this); 
   }
 });
-var PlayerListView = Backbone.View.extend({
+Y.Views.PlayerList = Backbone.View.extend({
   el : "#content",
 
   events : {
@@ -15155,8 +15652,8 @@ var PlayerListView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("LISTE DES JOUEURS");
   
-    this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
-    this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
+    this.playerListViewTemplate = Y.Templates.get('playerList');
+    this.playerSearchTemplate = Y.Templates.get('playerSearch');
     //$.mobile.showPageLoadingMsg();
 
     if (this.id !== 'null') {
@@ -15219,7 +15716,7 @@ var PlayerListView = Backbone.View.extend({
   }
 });
 
-var PlayerSigninView = Backbone.View.extend({
+Y.Views.PlayerSignin = Backbone.View.extend({
   el : "#content",
 
   events: {
@@ -15236,7 +15733,7 @@ var PlayerSigninView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("CONNEXION");	    
   
-    this.playerSigninTemplate = Y.Templates.get('playerSigninTemplate');
+    this.playerSigninTemplate = Y.Templates.get('playerSignin');
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },
@@ -15271,7 +15768,7 @@ var PlayerSigninView = Backbone.View.extend({
   }
 });
 
-var PlayerForgetView = Backbone.View.extend({
+Y.Views.PlayerForget = Backbone.View.extend({
   el : "#content",
 
   events: {
@@ -15288,7 +15785,7 @@ var PlayerForgetView = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("MOT DE PASSE OUBLIE");	    
   
-    this.playerForgetTemplate = Y.Templates.get('playerForgetTemplate');
+    this.playerForgetTemplate = Y.Templates.get('playerForget');
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },
@@ -15349,7 +15846,7 @@ $(document).ready(function () {
     <div class="backButton"><a href="#" onClick="goBack();">ICI</a></div>
     <div class="logo">&middot; YES WE SCORE &middot;</div>
     <div class="title">HISTORIQUE MATCHES</div>
-    <img class="connectionStatus" src="images/header-logo-on.png" alt="online/offline" height="21" width="25" />
+    <img class="connectionStatus" src="images/header-logo-on.png" alt="online/offline" width="23" height="17"  />
   </div>
           
        
@@ -15376,37 +15873,50 @@ $(document).ready(function () {
       <a href="#account" style="padding-top:8px;">Mon compte</a>
     </div>
   </div>
-  <script type="text/template" id="accountViewTemplate"><div align="center">
-
-<a href="#games/me/<%= Owner.id %>" class="button" id="">Mes Matchs</a><br/> 
-<a href="#games/follow" class="button" id="">Matchs Suivis</a><br/> 
-<a href="#players/follow" class="button" id="">Joueurs Suivis</a><br/>   
-<% 
+  <script type="text/template" id="account"><div class="account">
+  <a href="#games/me/<%= Owner.id %>" class="button" id="">Mes Matchs</a>
+  <a href="#games/follow" class="button" id="">Matchs Suivis</a>
+  <a href="#players/follow" class="button" id="">Joueurs Suivis</a>
+  <% 
    
-   if(Owner.club === undefined ) 
-       print ('<a href="#" class="button" id="" class="ui-disabled" disabled>Mon Club</a><br/>'); 
-   else
-       print ('<a href="#clubs/'+Owner.club.id+'" class="button" id="">Mon Club</a><br/>'); 
-%>
+     if(Owner.club === undefined ) 
+         print ('<a href="#" class="button" id="" class="ui-disabled" disabled>Mon Club</a>'); 
+     else
+         print ('<a href="#clubs/'+Owner.club.id+'" class="button" id="">Mon Club</a>'); 
+  %>
 
-<br/>
+  <a class="warning">Enregistrez-vous</a>
 
-<p align="center">Vos donn&eacute;es sont enregistr&eacute;es en local. Pour les sauver, cliquez sur :</p>
-
-<br/>
-
-<!-- Parametres -->           
-<%
-  if (Owner.mail === '')
-    print ('<a href="#players/form" class="button" id="">Inscription</a><br/>');
-  else
-    print ('<a href="#players/form" class="button" id="">Modifier mon profil</a><br/>');
-%>
-<a href="#players/signin" class="button" id="">Charger un autre compte</a><br/> 
-
+  <!-- Parametres -->           
+  <%
+    if (Owner.mail === '')
+      print ('<a href="#players/form" class="button" id="">Inscription</a>');
+    else
+      print ('<a href="#players/form" class="button" id="">Modifier mon profil</a>');
+  %>
+  <a href="#players/signin" class="button" id="">Charger un autre compte</a>
 </div>
 </script>
-<script type="text/template" id="clubAddTemplate"><div class="bg-blue">
+<script type="text/template" id="club"><div class="bg-blue">
+
+<form class="form-center">
+
+<h3><%= club.name %></h3>
+<br/>
+Sport : <%= club.sport %><br/>
+Ville : <%= club.location.city %><br /> 
+FFTID : <%= club.fftid %><br/> 
+Site :<br/>
+Facebook :<br /> 
+<br/>
+<a href="#players/club/<%= club.id %>" class="button" id="listPlayer">Liste des joueurs</a><br/> 
+<a href="#games/club/<%= club.id %>" class="button" id="lastResult">Dernier resultat</a> <br/>
+<a id="followButton" class="button">Suivre</a>
+
+</form>
+
+</div></script>
+<script type="text/template" id="clubAdd"><div class="bg-blue">
 
 	<form id="frmAddClub" class="form-center">
 
@@ -15441,7 +15951,13 @@ $(document).ready(function () {
 </div>
 
 </script>
-<script type="text/template" id="clubListAutoCompleteViewTemplate"><% if(clubs.length==0) { %>
+<script type="text/template" id="clubList"><% if(clubs.length==0) { %>
+<li><p>Aucun club <%= query %></p></li>
+<% } %> <% for (var i = 0; i < clubs.length; i++) { clubs = clubs[i]; %>
+<li><a> <%= club.name %> : <%= club.city %> : <%= club.id %> <br /></a></li>
+<% } %>
+</script>
+<script type="text/template" id="clubListAutoComplete"><% if(clubs.length==0) { %>
 <li><p>Aucun resultat pour <%= query %></p></li>
 <% } %> <% for (var i = 0; i < clubs.length; i++) { club = clubs[i]; %>
 
@@ -15460,32 +15976,112 @@ $(document).ready(function () {
 <li>... ( <%= clubs.length %> resultats)</li>
 <% } %>
 </script>
-<script type="text/template" id="clubListViewTemplate"><% if(clubs.length==0) { %>
-<li><p>Aucun club <%= query %></p></li>
-<% } %> <% for (var i = 0; i < clubs.length; i++) { clubs = clubs[i]; %>
-<li><a> <%= club.name %> : <%= club.city %> : <%= club.id %> <br /></a></li>
-<% } %>
-</script>
-<script type="text/template" id="clubViewTemplate"><div class="bg-blue">
+<script type="text/template" id="game"><div class="game">
 
-<form class="form-center">
+  <!--
+    INFO BAR
+  -->
+  <div class="infobar">
+    <!-- icons -->
+    <div class="ui-grid-d header">
+      <div class="ui-block-a">
+        <img src="./images/chrono.png" width="15" height="19" style="margin-top:1px;">
+      </div>
+      <div class="ui-block-b">
+        <img src="./images/calendar.png" width="17" height="20">
+      </div>
+      <div class="ui-block-c">
+        <img src="./images/house.png" width="21" height="19">
+      </div>
+      <div class="ui-block-d">
+        <img src="./images/eye.png" width="20" height="12" style="margin-top:4px;">
+      </div>
+      <div class="ui-block-e">
+        <img src="./images/people.png" width="24" height="15" style="margin-top:4px;">
+      </div>
+    </div>
+    <!-- infos -->
+    <div class="ui-grid-d text" >
+      <div class="ui-block-a">
+        <span class="timer">0:45:32</span>
+        <% 
+        //si date de fin - termin�
+        //si en cours on affiche la diff�rence de temps
+        %>
+      </div>
+      <div class="ui-block-b">
+      <%
+      game.dates.startConvert = new Date(game.dates.start);
+      game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
+      game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+      %>
+      <b>
+      <%= game.dates.startDate  %><br/>
+      <%= game.dates.startTime %>
+      </b>
+      </div>
+      <div class="ui-block-c">
+      <b><%= game.location.city %></b>
+      </div>
+      <div class="ui-block-d">
+      <b>Public</b>
+      </div>
+      <div class="ui-block-e ">
+      <b>.</b>
+      </div>
+    </div>
+  </div>
 
-<h3><%= club.name %></h3>
-<br/>
-Sport : <%= club.sport %><br/>
-Ville : <%= club.location.city %><br /> 
-FFTID : <%= club.fftid %><br/> 
-Site :<br/>
-Facebook :<br /> 
-<br/>
-<a href="#players/club/<%= club.id %>" class="button" id="listPlayer">Liste des joueurs</a><br/> 
-<a href="#games/club/<%= club.id %>" class="button" id="lastResult">Dernier resultat</a> <br/>
-<a id="followButton" class="button">Suivre</a>
+  <!--
+    SCOREBOARD
+  -->
+  <div id="scoreBoard">
+  
+  </div>
 
-</form>
-
+  <!--
+    SOCIAL BAR
+  -->
+  <div class="socialbar">
+    <% if (game.owner === Owner.id) { %>
+	    <div class="ui-grid-b">
+		    <div class="ui-block-a button">
+          <a id="optionButton">Options match</a> 
+		    </div>
+        <div id="facebook" class="ui-block-b share">
+          <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
+        </div>
+		    <div class="ui-block-c button">
+			    <a id="endButton">Terminer match</a>
+		    </div>
+      </div>
+    <% } else { %> 
+      <div class="ui-grid-b">
+        <div class="ui-block-a button">
+          <a id="followButton">
+            <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre match<% } %> 
+          </a>
+        </div>
+        <div id="facebook" class="ui-block-b">
+          <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
+        </div>          
+        <div class="ui-block-c button">
+          <a id="endButton">Terminer match</a>
+        </div>
+     </div>
+    <% } %>
+    <br/>
+  </div>
+</div>
+<!--
+  COMMENT BUTTON
+-->
+<div class="button-commentaires">
+  <div class="background rounded"></div>
+  <div class="background trapeze"></div>
+  <a href="#games/comment/<%= game.id %>">COMMENTAIRES</a>
 </div></script>
-<script type="text/template" id="gameAddTemplate"><div class="bg-blue">
+<script type="text/template" id="gameAdd"><div class="bg-blue">
 
 <form id="frmAddGame" class="form-center">
 
@@ -15646,7 +16242,7 @@ Facebook :<br />
 </form>
 
 </div></script>
-<script type="text/template" id="gameCommentTemplate"><% 
+<script type="text/template" id="gameComment"><% 
 
 team1_set1 = '&nbsp;'; 
 team1_set2 = '&nbsp;'; 
@@ -15762,7 +16358,32 @@ if (game.options.sets !== null ) {
 </form>
 
 </div></script>
-<script type="text/template" id="gameEndTemplate"><div class="bg-blue">
+<script type="text/template" id="gameCommentList">COMMENTAIRES (<%= streams.length %>)
+<br/>
+<div class="list-comment">
+<% if(streams.length==0) { %>
+<div class="comment">Aucun commentaire</div>
+<% } %> 
+
+<% for (var i = 0; i < streams.length; i++) { stream = streams[i]; 
+
+stream.dates.startConvert = new Date(stream.dates.creation);
+stream.dates.startDate = stream.dates.startConvert.getDay()+' '+stream.dates.startConvert.getMonthName()+' '+stream.dates.startConvert.getFullYear();
+stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dates.startConvert.getMinutes();
+
+%>
+<div class="comment" id="comment<%= stream.id %>">
+	<div class="infocomment">
+    <%= (stream.owner.name ||'Anonymous') %> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
+    <%= stream.data.text %> 
+	<% if ( stream.owner.id === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
+	<% if ( stream.owner.id !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
+</div>
+<br />
+<% } %>
+</div>
+</script>
+<script type="text/template" id="gameEnd"><div class="bg-blue">
 
 <form id="frmEndGame" class="form-center">
 
@@ -15792,7 +16413,7 @@ if (game.options.sets !== null ) {
 
 </div>
 </script>
-<script type="text/template" id="gameListTemplate"><div class="ui-grid-a" style="padding-top: 5px;">
+<script type="text/template" id="gameList"><div class="ui-grid-a" style="padding-top: 5px;">
   <div class="ui-block-a" style="width: 85%;padding-left:5px">
     <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" class="jq-ui-forms" />
   </div>
@@ -15802,7 +16423,7 @@ if (game.options.sets !== null ) {
 </div>
 <ul id="listGamesView" class="ui-listview"></ul>
 </script>
-<script type="text/template" id="gameListViewTemplate"><% if(games.length==0) { %>
+<script type="text/template" id="gameListView"><% if(games.length==0) { %>
 <li><p>Aucun resultat <%= query %></p></li>
 <% } %> 
 <% for (var i = 0; i < games.length; i++) { game = games[i]; 
@@ -15875,7 +16496,7 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
 </div>
 
  <div class="ui-grid-d" style="margin-top:5px">
-     <div class="ui-block-a game-player" style="width:62%;">
+     <div class="ui-block-a game-player" style="width:63%;">
 	<% 
 	if (game.teams[0].players[0]!== undefined) { 
 		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
@@ -15897,11 +16518,11 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
      <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
      <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
      <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
-     <div class="ui-block-e" style="width:11%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
+     <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
  </div>
 
  <div class="ui-grid-d" style="margin-top:5px">
-     <div class="ui-block-a game-player" style="width:62%;">
+     <div class="ui-block-a game-player" style="width:63%;">
 	<% 
 	if (game.teams[1].players[0]!== undefined) { 
 		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
@@ -15922,235 +16543,144 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
      <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
      <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
      <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
-     <div class="ui-block-e" style="width:11%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
+     <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
  </div>
  
 </li>
 <% } %>
 </script>
-<script type="text/template" id="gameViewCommentListTemplate">COMMENTAIRES (<%= streams.length %>)
-<br/>
-<div class="list-comment">
-<% if(streams.length==0) { %>
-<div class="comment">Aucun commentaire</div>
-<% } %> 
-
-<% for (var i = 0; i < streams.length; i++) { stream = streams[i]; 
-
-stream.dates.startConvert = new Date(stream.dates.creation);
-stream.dates.startDate = stream.dates.startConvert.getDay()+' '+stream.dates.startConvert.getMonthName()+' '+stream.dates.startConvert.getFullYear();
-stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dates.startConvert.getMinutes();
-
-%>
-<div class="comment" id="comment<%= stream.id %>">
-	<div class="infocomment">
-    <%= (stream.owner.name ||'Anonymous') %> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
-    <%= stream.data.text %> 
-	<% if ( stream.owner.id === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
-	<% if ( stream.owner.id !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
-</div>
-<br />
-<% } %>
-</div>
-</script>
-<script type="text/template" id="gameViewScoreBoardTemplate"><% 
-team1_set1 = '&nbsp;'; 
-team1_set2 = '&nbsp;'; 
-team1_set3 = '&nbsp;';
-team2_set1 = '&nbsp;'; 
-team2_set2 = '&nbsp;'; 
-team2_set3 = '&nbsp;';
-set_current = 1; 
-team1_sets = '0'; 
-team2_sets = '0'; 
-
-if (game.options.score !== null ) { 
-  if(game.options.score.indexOf('/')!=-1) { 
-    scoreboard = game.options.score.split('/'); 
-    team1_sets = scoreboard[0]; 
-    team2_sets = scoreboard[1]; 
-    } 
-} 
-  
-if (game.options.sets !== null ) { 
-  if (game.options.sets.indexOf(';')!=-1) { 
-    scoreboard = game.options.sets.split(';'); 
-    
-    if (scoreboard.length==2 ||scoreboard.length==3) { 
-      scoreboard1 = scoreboard[0].split('/');
-      team1_set1 = scoreboard1[0]; 
-      team2_set1 = scoreboard1[1]; 
-      scoreboard2 = scoreboard[1].split('/'); 
-      team1_set2 = scoreboard2[0]; 
-      team2_set2 = scoreboard2[1]; 
-      set_current=2; 
-    } 
-    
-    if (scoreboard.length==3) { 
-      scoreboard3 = scoreboard[2].split('/'); 
-      team1_set3 = scoreboard3[0]; 
-      team2_set3 = scoreboard3[1]; set_current=3; 
-    } 
-  } 
-  // 1 set 
-  else { 
-    if (game.options.sets.indexOf('/')!=-1) { 
-      scoreboard1 = game.options.sets.split('/'); 
-      team1_set1 = scoreboard1[0]; 
-      team2_set1 = scoreboard1[1]; 
-    } 
-  } 
-} 
-%>
-<div style="text-align:center;padding-top:10px;">
-<a href="#players/<%= game.teams[0].players[0].id %>" class="div_score_player"> 
- <%= game.teams[0].players[0].name %>
-</a>
-<br/>
-<%
- if (game.teams[0].players[0].club !== undefined) {  
-  print(' '+game.teams[0].players[0].club.name);  
-} 
-%>
-<%= game.teams[0].players[0].rank %>
-</div>
-
-<div class="ui-grid-c">
-    <div class="ui-block-a div_score_mini_legend">1</div>
-    <div class="ui-block-b div_score_mini_legend">2</div>
-    <div class="ui-block-c div_score_mini_legend">3</div>
-    <div class="ui-block-d div_score_mini_legend">sets</div>
-</div>
-
-<div class="ui-grid-c">
-    <div class="ui-block-a" id="team1_set1_div"><div class="div_score_button"><%= team1_set1 %></div></div>
-    <div class="ui-block-b" id="team1_set2_div"><div class="div_score_button"><%= team1_set2 %></div></div>
-    <div class="ui-block-c" id="team1_set3_div"><div class="div_score_button"><%= team1_set3 %></div></div>
-    <div class="ui-block-d" id="team1_sets_div"><div class="div_score_button"><%= team1_sets %></div></div>
-</div>
-<!-- /grid-a -->
-
-<div class="ui-grid-c">
-    <div class="ui-block-a" id="team2_set1_div"><div class="div_score_button"><%= team2_set1 %></div></div>
-    <div class="ui-block-b" id="team2_set2_div"><div class="div_score_button"><%= team2_set2 %></div></div>
-    <div class="ui-block-c" id="team2_set3_div"><div class="div_score_button"><%= team2_set3 %></div></div>
-    <div class="ui-block-d" id="team2_sets_div"><div class="div_score_button"><%= team2_sets %></div></div>
-</div>
-
-<div style="text-align:center;padding-top:10px;padding-bottom:10px;">
-<a href="#players/<%= game.teams[1].players[0].id %>" class="div_score_player"> 
-<%= game.teams[1].players[0].name %>
- </a><br/>
-<% 
- if (game.teams[1].players[0].club !== undefined) {  
-  print(' '+game.teams[1].players[0].club.name);  
-} 
-%>
-<%= game.teams[1].players[0].rank %>
-</div>
-
-<form>
-    <input type="hidden" id="set_current" value="<%= set_current %>" /> 
-    <input type="hidden" id="gameid" value="<%= game.id %>" /> 
-    <input type="hidden" id="team1_id" value="<%= game.teams[0].players[0].id %>" />
-    <input type="hidden" id="team1_points" value="<%= game.teams[0].points %>" /> 
-    <input type="hidden" id="team1_set1" value="<%= team1_set1 %>" /> 
-    <input type="hidden" id="team1_set2" value="<%= team1_set2 %>" /> 
-    <input type="hidden" id="team1_set3" value="<%= team1_set3 %>" /> 
-    <input type="hidden" id="team2_id" value="<%= game.teams[1].players[0].id %>" /> 
-    <input type="hidden" id="team2_points" value="<%= game.teams[1].points %>" />
-    <input type="hidden" id="team2_set1" value="<%= team2_set1 %>" /> 
-    <input type="hidden" id="team2_set2" value="<%= team2_set2 %>" /> 
-    <input type="hidden" id="team2_set3" value="<%= team2_set3 %>" />
-    <input type="hidden" id="playerid" value="<%= Owner.id %>" /> 
-    <input type="hidden" id="token" value="<%= Owner.token %>" />
-</form></script>
-<script type="text/template" id="gameViewTemplate"><div class="ui-grid-d" style="height:22px;margin-top:4px;">
-  <div class="ui-block-a div_score_menu">
-    <img src="./images/chrono.png" width="15" height="20">
-  </div>
-  <div class="ui-block-b div_score_menu">
-    <img src="./images/calendar.png" width="17" height="20">
-  </div>
-  <div class="ui-block-c div_score_menu">
-    <img src="./images/house.png" width="21" height="20">
-  </div>
-  <div class="ui-block-d div_score_menu">
-    <img src="./images/eye.png" width="20" height="20">
-  </div>
-  <div class="ui-block-e div_score_menu_right">
-    <img src="./images/people.png" width="20" height="20">
-  </div>
-</div>
-<div class="ui-grid-d" style="height:30px;">
-  <div class="ui-block-a div_score_menu">
-  <span class="timer">0:45:32</span>
+<script type="text/template" id="gameScoreBoard"><div class="scoreBoard">
   <% 
-  //si date de fin - termin�
-  //si en cours on affiche la diff�rence de temps
-  %>
-  </div>
-  <div class="ui-block-b div_score_menu">
-  <%
-  game.dates.startConvert = new Date(game.dates.start);
-  game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
-  game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
-  %>
-  <b>
-  <%= game.dates.startDate  %><br/>
-  <%= game.dates.startTime %>
-  </b>
-  </div>
-  <div class="ui-block-c div_score_menu">
-  <b><%= game.location.city %></b>
-  </div>
-  <div class="ui-block-d div_score_menu">
-  <b>Public</b>
-  </div>
-  <div class="ui-block-e div_score_menu_right">
-  <b>.</b>
-  </div>
-</div>
+  team1_set1 = '&nbsp;'; 
+  team1_set2 = '&nbsp;'; 
+  team1_set3 = '&nbsp;';
+  team2_set1 = '&nbsp;'; 
+  team2_set2 = '&nbsp;'; 
+  team2_set3 = '&nbsp;';
+  set_current = 1; 
+  team1_sets = '0'; 
+  team2_sets = '0'; 
 
-<div id="displayViewScoreBoard"></div>
+  if (game.options.score !== null ) { 
+    if(game.options.score.indexOf('/')!=-1) { 
+      scoreboard = game.options.score.split('/'); 
+      team1_sets = scoreboard[0]; 
+      team2_sets = scoreboard[1]; 
+      } 
+  } 
+  
+  if (game.options.sets !== null ) { 
+    if (game.options.sets.indexOf(';')!=-1) { 
+      scoreboard = game.options.sets.split(';'); 
+    
+      if (scoreboard.length==2 ||scoreboard.length==3) { 
+        scoreboard1 = scoreboard[0].split('/');
+        team1_set1 = scoreboard1[0]; 
+        team2_set1 = scoreboard1[1]; 
+        scoreboard2 = scoreboard[1].split('/'); 
+        team1_set2 = scoreboard2[0]; 
+        team2_set2 = scoreboard2[1]; 
+        set_current=2; 
+      } 
+    
+      if (scoreboard.length==3) { 
+        scoreboard3 = scoreboard[2].split('/'); 
+        team1_set3 = scoreboard3[0]; 
+        team2_set3 = scoreboard3[1]; set_current=3; 
+      } 
+    } 
+    // 1 set 
+    else { 
+      if (game.options.sets.indexOf('/')!=-1) { 
+        scoreboard1 = game.options.sets.split('/'); 
+        team1_set1 = scoreboard1[0]; 
+        team2_set1 = scoreboard1[1]; 
+      } 
+    } 
+  } 
+  %>
+  <div class="playerInfos">
+    <a href="#players/<%= game.teams[0].players[0].id %>" class="player-name"> 
+      <%= game.teams[0].players[0].name %>
+    </a>
+    <div class="other">
+      <span class="club">
+        <%
+         if (game.teams[0].players[0].club !== undefined) {  
+           print(' '+game.teams[0].players[0].club.name);  
+         } 
+        %>
+      </span>
+      <span class="player-rank">
+        <%= game.teams[0].players[0].rank %>
+      </span>
+    </div>
+  </div>
 
-<form id="frmScore">
-<% if (game.owner === Owner.id) { %>
-	<div class="ui-grid-b">
-		<div class="ui-block-a score_bottom">
-            <a id="optionButton"><div class="button_bottom">Options match</div></a> 
-		</div>
-        <div class="ui-block-b score_bottom" id="facebook">
-            <img src="./images/facebook.png" width="44" height="44" />
-        </div>        	
-		<div class="ui-block-c score_bottom">
-			<a id="endButton"><div class="button_bottom">Terminer match</div></a>
-		</div>
+  <div class="score-grid">
+    <div class="ui-grid-c">
+        <div class="ui-block-a legend">1</div>
+        <div class="ui-block-b legend">2</div>
+        <div class="ui-block-c legend">3</div>
+        <div class="ui-block-d legend"></div>
+        <div class="ui-block-e legend">sets</div>
     </div>
-<% } else { %> 
-  <div class="ui-grid-b">
-    <div class="ui-block-a score_bottom">
-      <a id="followButton">
-      <div class="button_bottom">
-      <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre&nbsp;&nbsp; match<% } %> 
-      </div>
-      </a>
+
+    <div class="ui-grid-c">
+        <div class="ui-block-a" id="team1_set1_div"><div class="score"><%= team1_set1 %></div></div>
+        <div class="ui-block-b" id="team1_set2_div"><div class="score ongoing"><%= team1_set2 %></div></div>
+        <div class="ui-block-c" id="team1_set3_div"><div class="score"><%= team1_set3 %></div></div>
+        <div class="ui-block-d"></div>
+        <div class="ui-block-e" id="team1_sets_div"><div class="score sets"><%= team1_sets %></div></div>
     </div>
-    <div class="ui-block-b score_bottom" id="facebook">
-          <img src="./images/facebook.png" width="44" height="44" />
-    </div>          
-    <div class="ui-block-c score_bottom">
-      <a id="endButton"><div class="button_bottom">Terminer match</div></a>
+    <!-- /grid-a -->
+
+    <div class="ui-grid-c" style="margin-top:6px;">
+        <div class="ui-block-a" id="team2_set1_div"><div class="score"><%= team2_set1 %></div></div>
+        <div class="ui-block-b" id="team2_set2_div"><div class="score ongoing"><%= team2_set2 %></div></div>
+        <div class="ui-block-c" id="team2_set3_div"><div class="score"><%= team2_set3 %></div></div>
+        <div class="ui-block-d"></div>
+        <div class="ui-block-e" id="team2_sets_div"><div class="score sets"><%= team2_sets %></div></div>
     </div>
- </div>
-<% } %>
-</form>
-<br/>
-<div align="center">
-<a href="#games/comment/<%= game.id %>" style="text-decoration:none;"><div class="button_comment">COMMENTAIRES</div></a>
-</div>
-</script>
-<script type="text/template" id="indexViewTemplate"><div class="indexViewTemplate">
+    <div class="separator"></div>
+  </div>
+
+  <div class="playerInfos">
+    <a href="#players/<%= game.teams[1].players[0].id %>" class="player-name"> 
+      <%= game.teams[1].players[0].name %>
+    </a>
+    <div class="other">
+      <span class="club">
+      <% 
+        if (game.teams[1].players[0].club !== undefined) {  
+          print(' '+game.teams[1].players[0].club.name);  
+        } 
+      %>
+      </span>
+      <span class="player-rank">
+        <%= game.teams[1].players[0].rank %>
+      </span>
+    </div>
+  </div>
+
+  <form>
+      <input type="hidden" id="set_current" value="<%= set_current %>" /> 
+      <input type="hidden" id="gameid" value="<%= game.id %>" /> 
+      <input type="hidden" id="team1_id" value="<%= game.teams[0].players[0].id %>" />
+      <input type="hidden" id="team1_points" value="<%= game.teams[0].points %>" /> 
+      <input type="hidden" id="team1_set1" value="<%= team1_set1 %>" /> 
+      <input type="hidden" id="team1_set2" value="<%= team1_set2 %>" /> 
+      <input type="hidden" id="team1_set3" value="<%= team1_set3 %>" /> 
+      <input type="hidden" id="team2_id" value="<%= game.teams[1].players[0].id %>" /> 
+      <input type="hidden" id="team2_points" value="<%= game.teams[1].points %>" />
+      <input type="hidden" id="team2_set1" value="<%= team2_set1 %>" /> 
+      <input type="hidden" id="team2_set2" value="<%= team2_set2 %>" /> 
+      <input type="hidden" id="team2_set3" value="<%= team2_set3 %>" />
+      <input type="hidden" id="playerid" value="<%= Owner.id %>" /> 
+      <input type="hidden" id="token" value="<%= Owner.token %>" />
+  </form>
+</div></script>
+<script type="text/template" id="index"><div class="indexViewTemplate">
   <div class="ui-grid-a" style="">
     <div class="ui-block-a" style="">
       <div class="input-search-background">
@@ -16168,7 +16698,26 @@ if (game.options.sets !== null ) {
   </div>
   <ul id="listGamesView" class="ui-listview"></ul>
 <div></script>
-<script type="text/template" id="playerForgetTemplate"><div class="bg-blue">
+<script type="text/template" id="player"><div class="bg-blue">
+
+<form class="form-center">
+
+<span class="success label label-info hide" style="color: red"></span>
+
+<h3><%= player.name %> alias <%= player.nickname %></h3>
+<br/>
+Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a>
+<br /> Classement : <%= player.rank %><br /> 
+<% if (follow === 'true') { %> 
+<a class="button" id="followButton">Ne plus suivre ce joueur</a> 
+<% } else { %> 
+<a class="button" id="followButton">Suivre ce joueur</a>
+<% } %>
+
+</form>
+
+</div></script>
+<script type="text/template" id="playerForget"><div class="bg-blue">
 
 <form id="frmForgetPlayer" class="form-center">
 
@@ -16199,7 +16748,7 @@ if (game.options.sets !== null ) {
 </div>
 
 </script>
-<script type="text/template" id="playerFormTemplate">
+<script type="text/template" id="playerForm">
 <div class="bg-blue">
 
 	<form id="frmAddPlayer" class="form-center">
@@ -16283,7 +16832,17 @@ if (game.options.sets !== null ) {
 </div>
 
 	</script>
-<script type="text/template" id="playerListAutoCompleteViewTemplate"><% if(players.length==0) { %>
+<script type="text/template" id="playerList"><% if(players.length==0) { %>
+<li class="player"><p>Aucun resultat pour <%= query %></p></li>
+<% } %> <% for (var i = 0; i < players.length; i++) { player =
+players[i]; %>
+<li class="player"><a href="#players/<%= player.id %>">
+<%= player.name %> : <%= player.rank %><br/>
+<%= player.nickname %> : <%= player.club.name %> <br />
+</a></li>
+<% } %>
+</script>
+<script type="text/template" id="playerListAutoComplete"><% if(players.length==0) { %>
 <li class="player"><p>Aucun resultat pour <%= query %></p></li>
 <% } %> 
 <% for (var i = 0; i < players.length; i++) { player = players[i]; %>
@@ -16300,17 +16859,7 @@ if (game.options.sets !== null ) {
 <li>... ( <%= players.length %> resultats)</li>
 <% } %>
 </script>
-<script type="text/template" id="playerListViewTemplate"><% if(players.length==0) { %>
-<li class="player"><p>Aucun resultat pour <%= query %></p></li>
-<% } %> <% for (var i = 0; i < players.length; i++) { player =
-players[i]; %>
-<li class="player"><a href="#players/<%= player.id %>">
-<%= player.name %> : <%= player.rank %><br/>
-<%= player.nickname %> : <%= player.club.name %> <br />
-</a></li>
-<% } %>
-</script>
-<script type="text/template" id="playerSearchTemplate"><div class="ui-grid-a" style="padding-top: 5px;">
+<script type="text/template" id="playerSearch"><div class="ui-grid-a" style="padding-top: 5px;">
   <div class="ui-block-a" style="width: 85%;padding-left:5px">
     <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club, par pseudo" class="jq-ui-forms" />
   </div>
@@ -16321,7 +16870,7 @@ players[i]; %>
 <ul id="listPlayersView" data-role="listview" data-theme="c"></ul>
 
 </script>
-<script type="text/template" id="playerSigninTemplate"><div class="bg-blue">
+<script type="text/template" id="playerSignin"><div class="bg-blue">
 
 	<form id="frmSigninPlayer" class="form-center">
 
@@ -16360,25 +16909,6 @@ players[i]; %>
 		<br/>
 		<a href="#players/forget" class="ui-input-text">Mot de passe oubli&eacute;</a>
 	</div>
-
-</div></script>
-<script type="text/template" id="playerViewTemplate"><div class="bg-blue">
-
-<form class="form-center">
-
-<span class="success label label-info hide" style="color: red"></span>
-
-<h3><%= player.name %> alias <%= player.nickname %></h3>
-<br/>
-Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a>
-<br /> Classement : <%= player.rank %><br /> 
-<% if (follow === 'true') { %> 
-<a class="button" id="followButton">Ne plus suivre ce joueur</a> 
-<% } else { %> 
-<a class="button" id="followButton">Suivre ce joueur</a>
-<% } %>
-
-</form>
 
 </div></script>
 </body>

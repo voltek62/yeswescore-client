@@ -6,19 +6,19 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(/styles/webfonts/opensans-400.ttf) format('truetype');
+  src: url(styles/webfonts/opensans-400.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: url(/styles/webfonts/opensans-700.ttf) format('truetype');
+  src: url(styles/webfonts/opensans-700.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: url(/styles/webfonts/opensans-800.ttf) format('truetype');
+  src: url(styles/webfonts/opensans-800.ttf) format('truetype');
 }
 /* 
  disabled: bug on WP8
@@ -333,7 +333,7 @@ p {
   */
   width:  17px;
   height: 17px;
-  background-image: url(/images/ico-magnifier-glass.jpg);
+  background-image: url(images/ico-magnifier-glass.jpg);
   background-size: 100%;
   background-repeat: no-repeat;
   cursor: pointer;

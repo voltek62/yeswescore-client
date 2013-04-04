@@ -15,19 +15,19 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(/styles/webfonts/opensans-400.woff) format('woff');
+  src: url(styles/webfonts/opensans-400.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: url(/styles/webfonts/opensans-700.woff) format('woff');
+  src: url(styles/webfonts/opensans-700.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: url(/styles/webfonts/opensans-800.woff) format('woff');
+  src: url(styles/webfonts/opensans-800.ttf) format('truetype');
 }
 /* 
  disabled: bug on WP8
@@ -342,7 +342,7 @@ p {
   */
   width:  17px;
   height: 17px;
-  background-image: url(/images/ico-magnifier-glass.jpg);
+  background-image: url(images/ico-magnifier-glass.jpg);
   background-size: 100%;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -880,6 +880,10 @@ input.jq-ui-forms {
   font-weight: 700;
   
   color: white;
+  
+  /* hack, pour monter legerement le texte */
+  top: -2px;
+  position: relative;
 }
 
 .game .facebook {
@@ -978,7 +982,7 @@ input.jq-ui-forms {
   margin-left:auto;
   margin-right:auto; 
   
-  line-height: 48px;
+  line-height: 45px; /* default should be 48 */
   text-align:center;
   
   color: #000;
@@ -15037,7 +15041,7 @@ Y.Views.GameFollow = Backbone.View.extend({
   }
 });
 
-Y.Views.GameList = Backbone.View.extend({
+Y.Views.GameSearch = Backbone.View.extend({
   el:"#content",
     
   events: {
@@ -15046,7 +15050,7 @@ Y.Views.GameList = Backbone.View.extend({
 
   listview:"#listGamesView",
   
-  pageName: "gameList",
+  pageName: "gameSearch",
   pageHash : "index",
 
   mode:'',
@@ -15059,7 +15063,7 @@ Y.Views.GameList = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("LISTE DES PARTIES");	    
   
-    this.gameListTemplate = Y.Templates.get('gameList');
+    //this.gameSearchTemplate = Y.Templates.get('gameSearch');
     this.gameListViewTemplate = Y.Templates.get('gameListView');
     
     //$.mobile.showPageLoadingMsg();
@@ -15149,6 +15153,13 @@ Y.Views.Header = Backbone.View.extend({
   },
   render: function () { },
 
+  // @param string title
+  // @return void.
+  title: function (title) { 
+    if (typeof title === "string")
+      this.$(".title").text(title);
+  },
+
   showBack: function () { },
   hideBack: function () { },
 
@@ -15169,13 +15180,9 @@ Y.Views.Index = Backbone.View.extend({
   pageHash : "index",  
   
   initialize: function () {
-  
-    
-    ////$.ui.setBackButtonVisibility(false);
-    //$.ui.setTitle("LISTE DES MATCHES");
-    //$.ui.resetScrollers=true;
- 
+    Y.GUI.header.title("LISTE DES MATCHES");
 
+    //
     this.indexViewTemplate = Y.Templates.get('index');
     this.gameListViewTemplate = Y.Templates.get('gameListView');
 
@@ -15338,7 +15345,7 @@ Y.Views.Player = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("JOUEUR");	    
   
-    this.playerViewTemplate = Y.Templates.get('playerView');
+    this.playerViewTemplate = Y.Templates.get('player');
 
 	//console.log('player init '+this.id);
 
@@ -16413,16 +16420,6 @@ stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dat
 
 </div>
 </script>
-<script type="text/template" id="gameList"><div class="ui-grid-a" style="padding-top: 5px;">
-  <div class="ui-block-a" style="width: 85%;padding-left:5px">
-    <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" class="jq-ui-forms" />
-  </div>
-  <div class="ui-block-b" style="width: 15%;padding-top: 6px;padding-right:5px;">
-    <img src="images/btn_filter.png" width="31" height="32">
-  </div>
-</div>
-<ul id="listGamesView" class="ui-listview"></ul>
-</script>
 <script type="text/template" id="gameListView"><% if(games.length==0) { %>
 <li><p>Aucun resultat <%= query %></p></li>
 <% } %> 
@@ -16680,6 +16677,16 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
       <input type="hidden" id="token" value="<%= Owner.token %>" />
   </form>
 </div></script>
+<script type="text/template" id="gameSearch"><div class="ui-grid-a" style="padding-top: 5px;">
+  <div class="ui-block-a" style="width: 85%;padding-left:5px">
+    <input type="search" name="search" id="search-basic" value="" placeholder="Rechercher par nom, par club" class="jq-ui-forms" />
+  </div>
+  <div class="ui-block-b" style="width: 15%;padding-top: 6px;padding-right:5px;">
+    <img src="images/btn_filter.png" width="31" height="32">
+  </div>
+</div>
+<ul id="listGamesView" class="ui-listview"></ul>
+</script>
 <script type="text/template" id="index"><div class="indexViewTemplate">
   <div class="ui-grid-a" style="">
     <div class="ui-block-a" style="">

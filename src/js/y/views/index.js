@@ -12,13 +12,9 @@ Y.Views.Index = Backbone.View.extend({
   pageHash : "index",  
   
   initialize: function () {
-  
-    
-    ////$.ui.setBackButtonVisibility(false);
-    //$.ui.setTitle("LISTE DES MATCHES");
-    //$.ui.resetScrollers=true;
- 
+    Y.GUI.header.title("LISTE DES MATCHES");
 
+    //
     this.indexViewTemplate = Y.Templates.get('index');
     this.gameListViewTemplate = Y.Templates.get('gameListView');
 

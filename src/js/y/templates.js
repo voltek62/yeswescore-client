@@ -28,7 +28,7 @@
         // pas trouvé mieux pour l'instant...
         var templates = [
           "account", "clubAdd", "clubListAutoComplete", "club", "clubList", "clubListAutoComplete", 
-          "gameAdd", "gameComment","gameEnd", "gameList", "gameListView", "gameCommentList",
+          "gameAdd", "gameComment","gameEnd", "gameSearch", "gameListView", "gameCommentList",
           "gameScoreBoard", "game", "index", "playerForget",
           "playerForm", "playerListAutoComplete", "playerList",
           "playerSearch", "playerSignin", "player"
@@ -36,6 +36,7 @@
         var timeoutid = setTimeout(function () { throw "cannot load some template.. "; }, 2000);
         var i = 0;
         templates.forEach(function (template) {
+          console.log('harvesting template ' + "templates/"+template+".html");
           $.get("templates/"+template+".html", function (text) {
             html[template] = text;
             i++;

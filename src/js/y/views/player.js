@@ -16,7 +16,7 @@ Y.Views.Player = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("JOUEUR");	    
   
-    this.playerViewTemplate = Y.Templates.get('playerView');
+    this.playerViewTemplate = Y.Templates.get('player');
 
 	//console.log('player init '+this.id);
 

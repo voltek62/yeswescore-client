@@ -6,19 +6,34 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(/styles/webfonts/opensans-400.ttf) format('truetype');
+  
+  src:
+    /*ifdef DEV*/
+    url(/styles/webfonts/opensans-400.ttf) format('truetype'),
+    /*endif*/
+    url(styles/webfonts/opensans-400.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: url(/styles/webfonts/opensans-700.ttf) format('truetype');
+  
+  src:
+    /*ifdef DEV*/
+    url(/styles/webfonts/opensans-700.ttf) format('truetype'),
+    /*endif*/
+    url(styles/webfonts/opensans-700.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: url(/styles/webfonts/opensans-800.ttf) format('truetype');
+  
+  src: 
+    /*ifdef DEV*/
+    url(/styles/webfonts/opensans-800.ttf) format('truetype'),
+    /*endif*/
+    url(styles/webfonts/opensans-800.ttf) format('truetype');
 }
 /* 
  disabled: bug on WP8

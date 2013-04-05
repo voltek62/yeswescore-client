@@ -38,12 +38,15 @@ module.exports = function( grunt ) {
           regexps.forEach(function (r) {
             var m, stripped = [];
             while (m = r.exec(filecontent)) {
-              if (!process.env[m[1]]) { // key doesn't exist in env or is false/null/..
+              if (!process.env[m[1]] ||
+                   process.env[m[1]] == "false" ||
+                   process.env[m[1]] == "0") { // key doesn't exist in env or is "false" or "0"
                 grunt.log.writeln("#ifdef "+m[1]+" => false");
                 grunt.log.writeln("stripping \n"+m[2]);
                 stripped.push(process.env[0])
               } else {
-                grunt.log.writeln("#ifdef "+m[1]+" => true");
+                grunt.log.writeln("#ifdef "+m[1]+" => true ");
+                console.log(process.env[m[1]] + ' typeof ' + typeof process.env[m[1]]);
               }
             }
             stripped.forEach(function (s) {
@@ -92,7 +95,7 @@ module.exports = function( grunt ) {
           }
 
           // Write the destination file.
-          grunt.file.write(f.dest[i], filecontent);
+          grunt.file.write(f.dest[i], result);
         });
       });
     });

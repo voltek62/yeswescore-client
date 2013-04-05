@@ -1049,7 +1049,12 @@ input.jq-ui-forms {
   left: 0px;
   width: 100%;
   bottom: 0px;
-  height: 87px;
+  height: 67px; /* default = 87*/
+  
+  overflow: hidden;
+  
+  -webkit-transition: all 1s ease 0s;
+  transition: all 1s ease 0s;
 }
 
 .button-commentaires .background.rounded {

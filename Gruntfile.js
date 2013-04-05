@@ -10,7 +10,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-css');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-template-helper');
-  grunt.loadNpmTasks('grunt-preprocess');
 
   grunt.loadTasks('grunt-tasks');
 
@@ -117,17 +116,16 @@ module.exports = function (grunt) {
         dest: 'dist/app.min.css'
       }
     },
-    preprocess: {
-      options: { context: context },
-      js: {
-        // first, we preprocess app.js
-        src: 'dist/app.js',
-        options: { inline: true }
-      },
-      html: {
-        // then, we merge (@include) content in index.html.
-        src: 'dist/index.html',
-        options: { inline: true }
+    ifdef: {
+      files: {
+        src: [ "dist/app.css", "dist/app.js" ],
+        dest: [ "dist/app-transformed.css", "dist/app.js" ]
+      }
+    },
+    include: {
+      files: {
+        src: [ "dist/index.html" ],
+        dest: [ "dist/index.html" ]
       }
     }
   });
@@ -166,6 +164,7 @@ module.exports = function (grunt) {
   grunt.registerTask('context-web', function () {
     context.CORS = true;
     context.DEV = true;
+    context.NOCORDOVA = true;
   });
   grunt.registerTask('context-prod', function () {
     // no CORS, no DEV, but cordova=yes.
@@ -176,11 +175,10 @@ module.exports = function (grunt) {
     grunt.task.run('concat');
   });
 
-
   // Default task(s).
-  grunt.registerTask('android', ['clean', 'context-prod', 'copy-cordova-android-to-dist', 'template', 'myconcat', 'copy', 'preprocess', 'to-android']);
-  grunt.registerTask('ios', ['clean', 'context-prod', 'copy-cordova-ios-to-dist', 'template', 'myconcat', 'preprocess', 'to-ios']);
-  grunt.registerTask('wp8', ['clean', 'context-prod', 'copy-cordova-wp8-to-dist', 'template', 'myconcat', 'copy', 'preprocess', 'to-wp8']);
-  grunt.registerTask('web', ['clean', 'context-web', 'copy-cordova-web-to-dist', 'template', 'myconcat', 'copy', 'preprocess', 'to-web']);
+  grunt.registerTask('android', ['clean', 'context-prod', 'copy-cordova-android-to-dist', 'template', 'myconcat', 'copy', 'ifdef', 'include', 'to-android']);
+  grunt.registerTask('ios', ['clean', 'context-prod', 'copy-cordova-ios-to-dist', 'template', 'myconcat', 'ifdef', 'include', 'to-ios']);
+  grunt.registerTask('wp8', ['clean', 'context-prod', 'copy-cordova-wp8-to-dist', 'template', 'myconcat', 'copy', 'ifdef', 'include', 'to-wp8']);
+  grunt.registerTask('web', ['clean', 'context-web', 'copy-cordova-web-to-dist', 'template', 'myconcat', 'copy', 'ifdef', 'include', 'to-web']);
   grunt.registerTask('default', 'android');
 };

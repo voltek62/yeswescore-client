@@ -27,7 +27,7 @@
       var that = this;
       // initializing backbone.
       Backbone.$ = $;
-      /*@ifdef CORS*/
+      /*#ifdef CORS*/
       // forcing cors in dev environment.
       var bbsync = Backbone.sync;
       Backbone.sync = function (f, m, o) {
@@ -35,7 +35,7 @@
         o.crossDomain = true;
         return bbsync(f, m, o);
       };
-      /*@endif*/
+      /*#endif*/
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {

@@ -152,6 +152,7 @@
     <Content Include="www\images\facebook.png" />
     <Content Include="www\images\header-logo-on.png" />
     <Content Include="www\images\house.png" />
+    <Content Include="www\images\ico-magnifier-glass.jpg" />
     <Content Include="www\images\people.png" />
     <Content Include="www\images\pixel.jpg" />
     <Content Include="www\index.html">

@@ -33,9 +33,16 @@
       </div>
       <div class="ui-block-b">
       <%
-      game.dates.startConvert = new Date(game.dates.start);
-      game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
-      game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+      if (game.dates) {
+        game.dates.startConvert = new Date(game.dates.start);
+        game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
+        game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+      } else {
+         game.dates = {
+           startDate : '',
+           startTime : ''
+         };
+      }
       %>
       <b>
       <%= game.dates.startDate  %><br/>

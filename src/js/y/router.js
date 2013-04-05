@@ -157,13 +157,6 @@
         assert(false);
       };
 
-      // creating view
-      try {
-        view = viewFactory();
-      } catch (e) {
-        assert(false);
-      };
-
       // closing current view (still in the DOM)
       try {
         if (this.currentView)
@@ -171,6 +164,18 @@
       } catch (e) {
         assert(false);
       };
+
+      // creating view
+      try {
+        view = viewFactory();
+      } catch (e) {
+        assert(false);
+      };
+
+      // scrolltop, juste after reflow
+      // with a good browser engine (aka ie10) rendering is perfect.
+      // FIXME: dependancy router => DOM .. yeak :(
+      // document.body.scrollTop = 0;
 
       // next page name, page hash
       if (view && view.pageName)

@@ -92,7 +92,7 @@ module.exports = function( grunt ) {
           while (m = regexp.exec(filecontent)) {
             grunt.log.writeln("@include file "+m[1]+" in "+filepath);
             var includedcontent = grunt.file.read(m[1]);
-            result = result.replace(m[0], includedcontent);
+            result = result.replace(m[0], function () { return includedcontent }); // avoid $` bugs..
           }
 
           // Write the destination file.

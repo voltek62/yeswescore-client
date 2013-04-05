@@ -54,8 +54,7 @@ Y.Views.Game = Backbone.View.extend({
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
 
-        //this.render();
-        this.score.on("all",this.render,this);
+
 
         var games = Y.Conf.get("owner.games.followed");
         if (games !== undefined)
@@ -81,12 +80,10 @@ Y.Views.Game = Backbone.View.extend({
         //poller = Backbone.Poller.get(this.score, options)
         //poller.start();
         //poller.on('success', this.getObjectUpdated, this);
-        
-        this.score.on("all",this.renderRefresh,this);
-      
- 
 
- 
+        this.render();                                // rendu a vide (instantanément)
+        this.score.once("all",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
+        //this.score.on("all",this.renderRefresh,this); // 
       },
 
 
@@ -394,6 +391,16 @@ Y.Views.Game = Backbone.View.extend({
           game : this.score.toJSON(),
           Owner : this.Owner,
           follow : this.follow
+        }));
+
+        var $buttonCommentaires = this.$(".button-commentaires");
+        setTimeout(function () {
+          $buttonCommentaires.css("height", "87px");
+        }, 10);
+
+        $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
+          game : this.score.toJSON(),
+          Owner : this.Owner
         }));
 
         //$.mobile.hidePageLoadingMsg();

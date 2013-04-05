@@ -43,7 +43,7 @@ module.exports = function( grunt ) {
                    process.env[m[1]] == "0") { // key doesn't exist in env or is "false" or "0"
                 grunt.log.writeln("#ifdef "+m[1]+" => false");
                 grunt.log.writeln("stripping \n"+m[2]);
-                stripped.push(process.env[0])
+                stripped.push(m[0])
               } else {
                 grunt.log.writeln("#ifdef "+m[1]+" => true ");
                 console.log(process.env[m[1]] + ' typeof ' + typeof process.env[m[1]]);
@@ -51,11 +51,12 @@ module.exports = function( grunt ) {
             }
             stripped.forEach(function (s) {
               filecontent = filecontent.replace(s, "");
+
+              console.log(filecontent.substr(0, 200));
             });
           });
 
           // Write the destination file.
-          console.log('writing : ' + f.dest[i]);
           grunt.file.write(f.dest[i], filecontent);
         });
       });

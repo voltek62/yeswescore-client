@@ -119,8 +119,8 @@ module.exports = function (grunt) {
     },
     ifdef: {
       files: {
-        src: [ "dist/app.css", "dist/app.js" ],
-        dest: [ "dist/app.css", "dist/app.js" ]
+        src: [ "dist/app.css", "dist/app.js", "dist/index.html"],
+        dest: [ "dist/app.css", "dist/app.js", "dist/index.html"]
       }
     },
     include: {

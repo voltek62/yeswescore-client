@@ -953,6 +953,7 @@ input.jq-ui-forms {
 }
 .scoreBoard .playerInfos .other{
   line-height: 10px;
+  height: 11px; /* allow empty scoreboard height to equal full scoreboard */
 }
 .scoreBoard .playerInfos .club {
   font-family: Open Sans;

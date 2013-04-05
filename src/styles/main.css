@@ -112,7 +112,7 @@ p {
 #header .backButton {
   position: absolute;
   
-  display: none; /* default */
+  opacity: 0;
   
   top: 13px;
   left: 7px;
@@ -120,6 +120,8 @@ p {
   height: 22px;
 
   z-index: 1000;
+  
+  transition: opacity 1s;
 }
 
 #header .backButton .triangle {

@@ -21,7 +21,7 @@
         // optim: remove the script from the dom.
         node.parentNode.removeChild(node);
       });
-      /*#ifndef NOCONCAT*/
+      /*#ifdef NOCONCAT*/
       if (true) {
         
         // dev environment, loading template using $.get()

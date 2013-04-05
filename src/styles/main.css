@@ -710,8 +710,23 @@ input.jq-ui-forms {
 }
 
 /* gameListViewTemplate.html */
+#listGamesView li {
+  height:87px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  
+  cursor: pointer;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
 
-#listGamesView a {
+#listGamesView li:hover {
+  background-color: #fafafa;
+}
+
+#listGamesView .game-location {
   display:block; /* text-overflow: ... can only apply on block elements */
   
   padding-right: 10px;
@@ -726,16 +741,6 @@ input.jq-ui-forms {
   white-space:nowrap;
   text-overflow:ellipsis;
   overflow:hidden;
-}
-
-#listGamesView li {
-  height:87px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  
-  -moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:        border-box;
 }
 
 #listGamesView .game-status {

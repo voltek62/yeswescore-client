@@ -18,10 +18,10 @@ Y.Views.PlayerFollow = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("JOUEURS SUIVIS");	    
   
-    this.playerListViewTemplate = Y.Templates.get('playerListView');
+    this.playerListViewTemplate = Y.Templates.get('playerList');
     this.playerSearchTemplate = Y.Templates.get('playerSearch');
 
-    $.mobile.showPageLoadingMsg();
+    // $.mobile.showPageLoadingMsg();
 
     this.playersfollow = new PlayersCollection('follow');
     //On cherche que 

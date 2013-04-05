@@ -3,6 +3,7 @@ Y.Views.Index = Backbone.View.extend({
 
   events: {
     "keyup input#search-basic": "search",
+    "click li": "goToGame",    
     "click #sendFilter": "sendFilter"
   },
 
@@ -95,6 +96,13 @@ Y.Views.Index = Backbone.View.extend({
   },
 
 
+  goToGame: function (elmt) { 
+    console.log('goToGame',elmt.currentTarget.id); 
+    
+    var route = elmt.currentTarget.id;
+    Y.Router.navigate(route, {trigger: true}); 
+  
+  },
 
   sendFilter: function () {
     //console.log("sendFilter");

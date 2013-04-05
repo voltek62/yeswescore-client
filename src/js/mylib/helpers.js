@@ -36,7 +36,13 @@ var scrollTop = function () {
 	}, 0);
 }
 
-
+function goBack(){
+    if (typeof (navigator.app) !== "undefined") {
+        navigator.app.backHistory();
+    } else {
+        window.history.back();
+    }
+}
 
 var assert = function () { };
 /*#ifdef DEV*/

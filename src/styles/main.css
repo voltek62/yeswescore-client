@@ -6,18 +6,17 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  
   src:
     /*#ifdef NOCORDOVA*/
     url(/styles/webfonts/opensans-400.ttf) format('truetype'),
     /*#endif*/
     url(styles/webfonts/opensans-400.ttf) format('truetype');
+
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  
   src:
     /*#ifdef NOCORDOVA*/
     url(/styles/webfonts/opensans-700.ttf) format('truetype'),
@@ -28,7 +27,6 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  
   src: 
     /*#ifdef NOCORDOVA*/
     url(/styles/webfonts/opensans-800.ttf) format('truetype'),
@@ -122,6 +120,8 @@ p {
   border-right:11px solid white;
   border-top:11px solid transparent;
   border-bottom:11px solid transparent;
+  
+  z-index: 1000;
 }
 
 #header .logo {
@@ -345,13 +345,12 @@ p {
   color: #5e5e5e;
   */
   width:  17px;
-  height: 17px;
-  
-  /* hack cordova */
+  height: 17px;  
+ /* hack cordova */
   background-image: url(images/ico-magnifier-glass.jpg);
-  /*#ifdef NOCORDOVA*/
+  /*ifndef CORDOVA*/
   background-image: url(/images/ico-magnifier-glass.jpg);
-  /*#endif*/
+  /*endif*/
   
   background-size: 100%;
   background-repeat: no-repeat;

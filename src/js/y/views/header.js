@@ -1,9 +1,19 @@
 Y.Views.Header = Backbone.View.extend({
   el: "#header",
 
+  events: {
+    "click .backButton": "goBack"
+  },
+
   initialize: function () {
+    console.log('starting Length : ' + window.history.length);
+    this.startingLength = window.history.length;
+
     // on s'abonne au router, pour detecter des changement de pages.
-    Y.Router.on("pageChanged", function () {
+    var that = this;
+    Y.Router.on("pageChanged", function (a, b) {
+      console.log('pageChanged ' + a + " " + b);
+      that.repaintBack();
       // gestion du bouton back / prev.
       /*
       FIXME: comment gérer correctement l'historique ...
@@ -15,6 +25,10 @@ Y.Views.Header = Backbone.View.extend({
         document.querySelector("#header .backButton").style.display = "none";
       */
     });
+
+    /*document.addEventListener("backbutton", function () {
+      console.log('BACK BUTTON PRESSED');
+    }, false);*/
 
     // on s'abonne a la classe de connexion pour signifier les changements
 
@@ -28,8 +42,24 @@ Y.Views.Header = Backbone.View.extend({
       this.$(".title").text(title);
   },
 
-  showBack: function () { },
-  hideBack: function () { },
+  goBack: function () {
+    window.history.back();
+  },
+
+  showBack: function () { this.$(".backButton").css("opacity", 1) },
+  hideBack: function () { this.$(".backButton").css("opacity", 0) },
+  repaintBack: function () {
+    console.log('history length : ' + window.history.length);
+
+    //if (window.history.length > this.startingLength)
+    var pageName = Y.GUI.content.pageName;
+    if (pageName == "index" ||
+        pageName == "gameAdd" ||
+        pageName == "account")
+      this.hideBack();
+    else
+      this.showBack();
+  },
 
   showConnected: function () { },
   hideConnected: function () { }

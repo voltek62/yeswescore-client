@@ -54,7 +54,6 @@
                     this.$el.on('MSPointerDown' + suffix, selector, boundHandler);
                     this.$el.on('MSPointerUp' + suffix, selector, boundHandler);
                 }
-                this.$el[0].addEventListener('touchstart', function () { console.log('touchstart !') }, true);
                 this.$el.on('touchstart' + suffix, selector, boundHandler);
                 this.$el.on('touchend' + suffix, selector, boundHandler);
               } else {

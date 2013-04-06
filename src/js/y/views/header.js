@@ -27,13 +27,9 @@ Y.Views.Header = Backbone.View.extend({
   },
 
   goBack: function () {
-    
-    if (typeof (navigator.app) !== "undefined") {
-        navigator.app.backHistory();
-    } else {
-        window.history.back();
-    }
-      
+    console.log("Y.Views.Header: goBack()");
+    window.history.go(-1);
+    return false;
   },
 
   showBack: function () { this.$(".backButton").show() },

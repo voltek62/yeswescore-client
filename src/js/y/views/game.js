@@ -393,10 +393,12 @@ Y.Views.Game = Backbone.View.extend({
           follow : this.follow
         }));
 
+        /* css transition: performance issues: disabled
         var $buttonCommentaires = this.$(".button-commentaires");
         setTimeout(function () {
           $buttonCommentaires.css("height", "87px");
-        }, 10);
+        }, 100);
+        */
 
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),

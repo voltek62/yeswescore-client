@@ -121,7 +121,7 @@ p {
 
   z-index: 1000;
   
-  transition: opacity 1s;
+  /*transition: opacity 1s;  performance issues, disabled */
 }
 
 #header .backButton .triangle {
@@ -1049,12 +1049,14 @@ input.jq-ui-forms {
   left: 0px;
   width: 100%;
   bottom: 0px;
-  height: 67px; /* default = 87*/
+  height: 87px; /* default = 87*/
   
   overflow: hidden;
   
+  /* performance issues, disabled
   -webkit-transition: all 1s ease 0s;
   transition: all 1s ease 0s;
+  */
 }
 
 .button-commentaires .background.rounded {

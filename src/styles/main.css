@@ -112,7 +112,8 @@ p {
 #header .backButton {
   position: absolute;
   
-  opacity: 0;
+  display: none; /* initial */
+  /*opacity: 0; performance issues, disabled */
   
   top: 13px;
   left: 7px;

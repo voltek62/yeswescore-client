@@ -13,8 +13,8 @@ Y.Views.Game = Backbone.View.extend({
         'vclick #setPointWinButton' : 'setPointWin',
         'vclick #setPointErrorButton' : 'setPointError',
         'click #endButton' : 'endGame',
-        'vclick #followButton' : 'followGame',
-        'vclick #cancelButton' : 'cancelGame',
+        'click #followButton' : 'followGame',
+        'click #cancelButton' : 'cancelGame',
         'submit #frmAttachment' : 'submitAttachment',
         "keypress #messageText" : "updateOnEnter",
         'vclick #team1_set1_div' : 'setTeam1Set1',
@@ -22,7 +22,8 @@ Y.Views.Game = Backbone.View.extend({
         'vclick #team1_set3_div' : 'setTeam1Set3',
         'vclick #team2_set1_div' : 'setTeam2Set1',
         'vclick #team2_set2_div' : 'setTeam2Set2',
-        'vclick #team2_set3_div' : 'setTeam2Set3'      
+        'vclick #team2_set3_div' : 'setTeam2Set3',
+        "click .button-comments": "goToComment",       
       },
 
       pageName: "game",
@@ -98,6 +99,12 @@ Y.Views.Game = Backbone.View.extend({
           this.commentSend();
         }
       },
+      
+      goToComment: function (elmt) { 
+    	console.log('goToComment',elmt.currentTarget.id); 
+    	var route = elmt.currentTarget.id;
+    	Y.Router.navigate(route, {trigger: true}); 
+  	  },
 
       deleteComment : function(e) {
       

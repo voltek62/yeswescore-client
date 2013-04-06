@@ -1044,7 +1044,7 @@ input.jq-ui-forms {
   background-color:#fff;
 }
 
-.button-commentaires {
+.button-comments {
   position: absolute;
   
   left: 0px;
@@ -1060,7 +1060,7 @@ input.jq-ui-forms {
   */
 }
 
-.button-commentaires .background.rounded {
+.button-comments .background.rounded {
   position: absolute;
   
   left: 12px;
@@ -1077,7 +1077,7 @@ input.jq-ui-forms {
   box-sizing:        border-box;
 }
 
-.button-commentaires .background.trapeze {
+.button-comments .background.trapeze {
   position: absolute;
   top:15px;
   left: 0%;
@@ -1094,7 +1094,7 @@ input.jq-ui-forms {
   box-sizing:        border-box;
 }
 
-.button-commentaires a {
+.button-comments .link-comments {
   position: absolute;
     
   width: 100%;

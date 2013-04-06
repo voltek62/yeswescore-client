@@ -12,7 +12,11 @@ module.exports = function( grunt ) {
       // <!-- #ifdef KEY --> ... <!-- #endif -->
       /<!\-\-\s*#ifdef\s+([a-zA-Z0-9_]+)\s*\-\->([\s\S]*?)<!\-\-\s*#endif\s*\-\->/gm,
       // /* #ifdef KEY */.... /* #endif */-->
-      /\/\*\s*#ifdef\s+([a-zA-Z0-9_]+)\s*\*\/([\s\S]*?)\/\*\s*#endif\s*\*\//gm
+      /\/\*\s*#ifdef\s+([a-zA-Z0-9_]+)\s*\*\/([\s\S]*?)\/\*\s*#endif\s*\*\//gm,
+      // <!-- #ifndef KEY --> ... <!-- #endif -->
+      /<!\-\-\s*#ifndef\s+([a-zA-Z0-9_]+)\s*\-\->([\s\S]*?)<!\-\-\s*#endif\s*\-\->/gm,
+      // /* #ifndef KEY */.... /* #endif */-->
+      /\/\*\s*#ifndef\s+([a-zA-Z0-9_]+)\s*\*\/([\s\S]*?)\/\*\s*#endif\s*\*\//gm
     ];
 
     grunt.registerMultiTask('ifdef', 'ifdef', function() {
@@ -37,17 +41,25 @@ module.exports = function( grunt ) {
           // searching #ifdef ... #endif
           regexps.forEach(function (r) {
             var m, stripped = [];
+            var strip = function (m, s) {
+              grunt.log.writeln("#"+s+" "+m[1]+" => strip");
+              //grunt.log.writeln("stripping \n"+m[2]);
+              stripped.push(m[0]);
+            };
+            var skip = function (m, s) {
+              grunt.log.writeln("#"+s+" "+m[1]+" => skip");
+            };
+
             while (m = r.exec(filecontent)) {
+              var ifdef = (String(r).indexOf("ifdef") !== -1), f;
               if (!process.env[m[1]] ||
                    process.env[m[1]] == "false" ||
                    process.env[m[1]] == "0") { // key doesn't exist in env or is "false" or "0"
-                grunt.log.writeln("#ifdef "+m[1]+" => false");
-                grunt.log.writeln("stripping \n"+m[2]);
-                stripped.push(m[0])
+                f = (ifdef) ? strip : skip;
               } else {
-                grunt.log.writeln("#ifdef "+m[1]+" => true ");
-                console.log(process.env[m[1]] + ' typeof ' + typeof process.env[m[1]]);
+                f = (ifdef) ? skip : strip;
               }
+              f(m, ifdef?"ifdef":"ifndef");
             }
             stripped.forEach(function (s) {
               filecontent = filecontent.replace(s, "");

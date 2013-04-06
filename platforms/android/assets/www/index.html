@@ -16,9 +16,7 @@
   font-style: normal;
   font-weight: 400;
   src:
-    /*ifndef CORDOVA*/
-    url(/styles/webfonts/opensans-400.ttf) format('truetype'),
-    /*endif*/
+    
     url(styles/webfonts/opensans-400.ttf) format('truetype');
 
 }
@@ -27,9 +25,7 @@
   font-style: normal;
   font-weight: 700;
   src:
-    /*ifndef CORDOVA*/
-    url(/styles/webfonts/opensans-700.ttf) format('truetype'),
-    /*endif*/
+    
     url(styles/webfonts/opensans-700.ttf) format('truetype');
 }
 @font-face {
@@ -37,9 +33,7 @@
   font-style: normal;
   font-weight: 800;
   src: 
-    /*ifndef CORDOVA*/
-    url(/styles/webfonts/opensans-800.ttf) format('truetype'),
-    /*endif*/
+    
     url(styles/webfonts/opensans-800.ttf) format('truetype');
 }
 /* 
@@ -121,16 +115,26 @@ p {
 #header .backButton {
   position: absolute;
   
+  display: none; /* initial */
+  /*opacity: 0; performance issues, disabled */
+  
   top: 13px;
   left: 7px;
+  width: 30px;
+  height: 22px;
+
+  z-index: 1000;
+  
+  /*transition: opacity 1s;  performance issues, disabled */
+}
+
+#header .backButton .triangle {
   width:0;
   height:0;
   
   border-right:11px solid white;
   border-top:11px solid transparent;
   border-bottom:11px solid transparent;
-  
-  z-index: 1000;
 }
 
 #header .logo {
@@ -712,8 +716,23 @@ input.jq-ui-forms {
 }
 
 /* gameListViewTemplate.html */
+#listGamesView li {
+  height:87px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  
+  cursor: pointer;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
 
-#listGamesView a {
+#listGamesView li:hover {
+  background-color: #fafafa;
+}
+
+#listGamesView .game-location {
   display:block; /* text-overflow: ... can only apply on block elements */
   
   padding-right: 10px;
@@ -728,16 +747,6 @@ input.jq-ui-forms {
   white-space:nowrap;
   text-overflow:ellipsis;
   overflow:hidden;
-}
-
-#listGamesView li {
-  height:87px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  
-  -moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:        border-box;
 }
 
 #listGamesView .game-status {
@@ -948,6 +957,7 @@ input.jq-ui-forms {
 }
 .scoreBoard .playerInfos .other{
   line-height: 10px;
+  height: 11px; /* allow empty scoreboard height to equal full scoreboard */
 }
 .scoreBoard .playerInfos .club {
   font-family: Open Sans;
@@ -1043,7 +1053,14 @@ input.jq-ui-forms {
   left: 0px;
   width: 100%;
   bottom: 0px;
-  height: 87px;
+  height: 87px; /* default = 87*/
+  
+  overflow: hidden;
+  
+  /* performance issues, disabled
+  -webkit-transition: all 1s ease 0s;
+  transition: all 1s ease 0s;
+  */
 }
 
 .button-commentaires .background.rounded {
@@ -1181,7 +1198,7 @@ input.jq-ui-forms {
 
 
   </style>
-  <script>
+  <script type="text/javascript">
     // Platform: android
 
 // commit f50d20a87431c79a54572263729461883f611a53
@@ -12742,7 +12759,8 @@ var assert = function () { };
         , previousPageHash = "none"
         , nextPageName = "unknown"
         , nextPageHash = "unknown"
-        , view = null;
+        , view = null
+        , that = this;
 
       // previous page name, page hash
       if (this.currentView && this.currentView.pageName)
@@ -12757,13 +12775,6 @@ var assert = function () { };
         assert(false);
       };
 
-      // creating view
-      try {
-        view = viewFactory();
-      } catch (e) {
-        assert(false);
-      };
-
       // closing current view (still in the DOM)
       try {
         if (this.currentView)
@@ -12772,25 +12783,64 @@ var assert = function () { };
         assert(false);
       };
 
-      // next page name, page hash
-      if (view && view.pageName)
-        nextPageName = view.pageName;
-      if (view && view.pageHash)
-        nextPageHash = view.pageHash;
+      //
+      // Reflow bug under ie10 (WP8) maybe iOS & android.
+      // when document.documentElement is scrolled down & 
+      //  loading a new small view inside #content
+      //  the new view is rendered above the screen
+      //  because document.height hasn't been reflowed yet 
+      // 
+      // using document.documentElement.scrollTop = 0; is not enough
+      //   we must force a reflow & setTimeout to let the GUI thread some time to render.
+      //
+      // /!\ Be warned, this bugfix is empirical.
+      //
+      var next = function () {
+        // creating view
+        try {
+          view = viewFactory();
+        } catch (e) {
+          assert(false);
+        };
 
-      // acting the change in Router.currentView & Y.GUI.content
-      this.currentView = view;
-      Y.GUI.content = view;
+        // next page name, page hash
+        if (view && view.pageName)
+          nextPageName = view.pageName;
+        if (view && view.pageHash)
+          nextPageHash = view.pageHash;
 
-      // event
-      try {
-        this.trigger('pageChanged', nextPageName, nextPageHash);
-      } catch (e) {
-        assert(false);
+        // acting the change in Router.currentView & Y.GUI.content
+        that.currentView = view;
+        Y.GUI.content = view;
+
+        // event
+        try {
+          that.trigger('pageChanged', nextPageName, nextPageHash);
+        } catch (e) {
+          assert(false);
+        };
+
+        // stats.
+        Y.Stats.page(previousPageName, nextPageName);
       };
 
-      // stats.
-      Y.Stats.page(previousPageName, nextPageName);
+      // scrolltop, juste after reflow
+      // with a good browser engine (aka ie10) rendering is perfect.
+      // FIXME: dependancy router => DOM .. yeak :(
+      var WP8=true;
+      /*#ifndef WP8*/
+      WP8=false;
+      /*#endif*/
+      if (WP8) {
+        if (document.documentElement)
+          document.documentElement.scrollTop = 0;
+        else
+          document.body.scrollTop = 0;
+        document.getElementById("content").getBoundingClientRect(); // force reflow
+        setTimeout(next, 10);
+      } else {
+        next();
+      }
     }
   });
 
@@ -14077,8 +14127,7 @@ Y.Views.Game = Backbone.View.extend({
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
 
-        //this.render();
-        this.score.on("all",this.render,this);
+
 
         var games = Y.Conf.get("owner.games.followed");
         if (games !== undefined)
@@ -14104,12 +14153,10 @@ Y.Views.Game = Backbone.View.extend({
         //poller = Backbone.Poller.get(this.score, options)
         //poller.start();
         //poller.on('success', this.getObjectUpdated, this);
-        
-        this.score.on("all",this.renderRefresh,this);
-      
- 
 
- 
+        this.render();                                // rendu a vide (instantan�ment)
+        this.score.once("all",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render sp�cial.
+        //this.score.on("all",this.renderRefresh,this); // 
       },
 
 
@@ -14417,6 +14464,18 @@ Y.Views.Game = Backbone.View.extend({
           game : this.score.toJSON(),
           Owner : this.Owner,
           follow : this.follow
+        }));
+
+        /* css transition: performance issues: disabled
+        var $buttonCommentaires = this.$(".button-commentaires");
+        setTimeout(function () {
+          $buttonCommentaires.css("height", "87px");
+        }, 100);
+        */
+
+        $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
+          game : this.score.toJSON(),
+          Owner : this.Owner
         }));
 
         //$.mobile.hidePageLoadingMsg();
@@ -15151,19 +15210,17 @@ Y.Views.GameSearch = Backbone.View.extend({
 Y.Views.Header = Backbone.View.extend({
   el: "#header",
 
-  initialize: function () {
-    // on s'abonne au router, pour detecter des changement de pages.
-    Y.Router.on("pageChanged", function () {
-      // gestion du bouton back / prev.
-      /*
-      FIXME: comment gérer correctement l'historique ...
+  events: {
+    "click .backButton": "goBack"
+  },
 
-      console.log('HEADER: history length ' + window.history.length);
-      if (window.history.length > 0)
-        document.querySelector("#header .backButton").style.display = "block";
-      else
-        document.querySelector("#header .backButton").style.display = "none";
-      */
+  initialize: function () {
+    this.startingLength = window.history.length;
+
+    // on s'abonne au router, pour detecter des changement de pages.
+    var that = this;
+    Y.Router.on("pageChanged", function (a, b) {
+      that.repaintBack();
     });
 
     // on s'abonne a la classe de connexion pour signifier les changements
@@ -15178,8 +15235,27 @@ Y.Views.Header = Backbone.View.extend({
       this.$(".title").text(title);
   },
 
-  showBack: function () { },
-  hideBack: function () { },
+  goBack: function () {
+    
+    if (typeof (navigator.app) !== "undefined") {
+        navigator.app.backHistory();
+    } else {
+        window.history.back();
+    }
+      
+  },
+
+  showBack: function () { this.$(".backButton").show() },
+  hideBack: function () { this.$(".backButton").hide() },
+  repaintBack: function () {
+    var pageName = Y.GUI.content.pageName;
+    if (pageName == "index" ||
+        pageName == "gameAdd" ||
+        pageName == "account")
+      this.hideBack();
+    else
+      this.showBack();
+  },
 
   showConnected: function () { },
   hideConnected: function () { }
@@ -15458,10 +15534,10 @@ Y.Views.PlayerFollow = Backbone.View.extend({
     //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("JOUEURS SUIVIS");	    
   
-    this.playerListViewTemplate = Y.Templates.get('playerListView');
+    this.playerListViewTemplate = Y.Templates.get('playerList');
     this.playerSearchTemplate = Y.Templates.get('playerSearch');
 
-    $.mobile.showPageLoadingMsg();
+    // $.mobile.showPageLoadingMsg();
 
     this.playersfollow = new PlayersCollection('follow');
     //On cherche que 
@@ -15876,17 +15952,15 @@ $(document).ready(function () {
 <body>
   <!-- this is the header div at the top -->
   <div id="header">
-    <div class="backButton"><a href="#" onClick="goBack();">ICI</a></div>
+    <div class="backButton"><div class="triangle"></div></div>
     <div class="logo">&middot; YES WE SCORE &middot;</div>
     <div class="title">HISTORIQUE MATCHES</div>
     <img class="connectionStatus" src="images/header-logo-on.png" alt="online/offline" width="23" height="17"  />
   </div>
-          
-       
-    <div id="content">     
-      <!-- here is where you can add your panels -->
-    </div>
    
+  <div id="content">     
+    <!-- here is where you can add your panels -->
+  </div> 
             
   <!-- bottom navbar. Add additional tabs here -->
   <div id="navbar">
@@ -15925,9 +15999,9 @@ $(document).ready(function () {
     if (Owner.mail === '')
       print ('<a href="#players/form" class="button" id="">Inscription</a>');
     else
-      print ('<a href="#players/form" class="button" id="">Modifier mon profil</a>');
+      print ('<a href="#players/form" class="button" id="">Mon profil</a>');
   %>
-  <a href="#players/signin" class="button" id="">Charger un autre compte</a>
+  <a href="#players/signin" class="button" id="">Connectez-vous</a>
 </div>
 </script>
 <script type="text/template" id="club"><div class="bg-blue">
@@ -16044,9 +16118,16 @@ Facebook :<br />
       </div>
       <div class="ui-block-b">
       <%
-      game.dates.startConvert = new Date(game.dates.start);
-      game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
-      game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+      if (game.dates) {
+        game.dates.startConvert = new Date(game.dates.start);
+        game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
+        game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+      } else {
+         game.dates = {
+           startDate : '',
+           startTime : ''
+         };
+      }
       %>
       <b>
       <%= game.dates.startDate  %><br/>
@@ -16509,7 +16590,7 @@ game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.sta
 <li id="#games/<%= game.id %>">
 
 <div class="ui-grid-a">
-	<div class="ui-block-a" style="width: 80%;"> 
+	<div class="ui-block-a game-location" style="width: 80%;"> 
     <%= game.dates.startDate %> - <%= game.location.city %>
 	</div>
 	<div class="ui-block-b game-status" style="width: 20%;">

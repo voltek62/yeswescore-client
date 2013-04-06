@@ -44,7 +44,6 @@
               var match = key.match(delegateEventSplitter);
               var eventName = match[1], selector = match[2];
               method = _.bind(method, this);
-              eventName += '.delegateEvents' + this.cid;
 
               var that = this;
               var boundHandler = function (e) {
@@ -55,9 +54,11 @@
                     this.$el.on('MSPointerDown' + suffix, selector, boundHandler);
                     this.$el.on('MSPointerUp' + suffix, selector, boundHandler);
                 }
+                this.$el[0].addEventListener('touchstart', function () { console.log('touchstart !') }, true);
                 this.$el.on('touchstart' + suffix, selector, boundHandler);
                 this.$el.on('touchend' + suffix, selector, boundHandler);
               } else {
+                eventName += '.delegateEvents' + this.cid;
                 // backbone code.
                 if (selector === '') {
                   this.$el.on(eventName, method);

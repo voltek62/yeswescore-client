@@ -142,7 +142,8 @@
         , previousPageHash = "none"
         , nextPageName = "unknown"
         , nextPageHash = "unknown"
-        , view = null;
+        , view = null
+        , that = this;
 
       // previous page name, page hash
       if (this.currentView && this.currentView.pageName)
@@ -165,37 +166,64 @@
         assert(false);
       };
 
-      // creating view
-      try {
-        view = viewFactory();
-      } catch (e) {
-        assert(false);
+      //
+      // Reflow bug under ie10 (WP8) maybe iOS & android.
+      // when document.documentElement is scrolled down & 
+      //  loading a new small view inside #content
+      //  the new view is rendered above the screen
+      //  because document.height hasn't been reflowed yet 
+      // 
+      // using document.documentElement.scrollTop = 0; is not enough
+      //   we must force a reflow & setTimeout to let the GUI thread some time to render.
+      //
+      // /!\ Be warned, this bugfix is empirical.
+      //
+      var next = function () {
+        // creating view
+        try {
+          view = viewFactory();
+        } catch (e) {
+          assert(false);
+        };
+
+        // next page name, page hash
+        if (view && view.pageName)
+          nextPageName = view.pageName;
+        if (view && view.pageHash)
+          nextPageHash = view.pageHash;
+
+        // acting the change in Router.currentView & Y.GUI.content
+        that.currentView = view;
+        Y.GUI.content = view;
+
+        // event
+        try {
+          that.trigger('pageChanged', nextPageName, nextPageHash);
+        } catch (e) {
+          assert(false);
+        };
+
+        // stats.
+        Y.Stats.page(previousPageName, nextPageName);
       };
 
       // scrolltop, juste after reflow
       // with a good browser engine (aka ie10) rendering is perfect.
       // FIXME: dependancy router => DOM .. yeak :(
-      // document.body.scrollTop = 0;
-
-      // next page name, page hash
-      if (view && view.pageName)
-        nextPageName = view.pageName;
-      if (view && view.pageHash)
-        nextPageHash = view.pageHash;
-
-      // acting the change in Router.currentView & Y.GUI.content
-      this.currentView = view;
-      Y.GUI.content = view;
-
-      // event
-      try {
-        this.trigger('pageChanged', nextPageName, nextPageHash);
-      } catch (e) {
-        assert(false);
-      };
-
-      // stats.
-      Y.Stats.page(previousPageName, nextPageName);
+      var WP8=true;
+      /*#ifndef WP8*/
+      WP8=false;
+      /*#endif*/
+      if (WP8) {
+        if (document.documentElement)
+          document.documentElement.scrollTop = 0;
+        else
+          document.body.scrollTop = 0;
+        document.getElementById("content").getBoundingClientRect(); // force reflow
+        setTimeout(next, 10);
+      } else {
+        next();
+      }
     }
   });
 

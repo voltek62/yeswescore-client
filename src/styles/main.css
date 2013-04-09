@@ -849,7 +849,7 @@ input.jq-ui-forms {
   border-right:1px dotted #adadad;
   text-align:center;
   
-  font-size: 8px;
+  font-size: 10px;
   font-family: Open Sans;
   
   height: 28px;
@@ -1119,7 +1119,6 @@ input.jq-ui-forms {
 	COMMENT
 **********************************************************/
 
-/*
 .bg-green {
   color:#fff;
   background-image:none; 
@@ -1131,6 +1130,7 @@ input.jq-ui-forms {
   padding-top:10px;
   font-weight:bold;
 }
+
 
 .list-comment {
   background-color:#fff;
@@ -1171,9 +1171,13 @@ input.jq-ui-forms {
   height:100px;
 }
 
+
+/*
+
 #sendButton {
 	
 }
+
 
 .button_comment_send {
   padding-top:12px;

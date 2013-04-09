@@ -168,7 +168,7 @@ Y.Views.GameComment = Backbone.View.extend({
   onClose: function(){
     this.undelegateEvents();
     
-    poller.stop();
-    poller.off('success', this.renderRefresh, this);
+    //poller.stop();
+    //poller.off('success', this.renderRefresh, this);
   }
 });

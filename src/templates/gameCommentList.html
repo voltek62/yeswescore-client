@@ -17,16 +17,14 @@ stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dat
     <%
     if (stream.owner.player!==undefined) {
     %>
-    (stream.owner.player.name ||'Anonymous') 
-    <%
-    }
-    
-    if (stream.owner.facebook!==undefined) {
-    %>
-    (stream.owner.facebook.name ||'Anonymous') 
+    <%= (stream.owner.player.name ||'Anonymous') %>
     <%
     }    
-    
+    if (stream.owner.facebook!==undefined) {
+    %>
+    <%= (stream.owner.facebook.name ||'Anonymous') %> 
+    <%
+    }    
     %> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
     <%= stream.data.text %> 
 	<% if ( stream.owner.id === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>

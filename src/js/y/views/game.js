@@ -36,11 +36,7 @@ Y.Views.Game = Backbone.View.extend({
 		//On met à jour le pageHash
         this.pageHash += this.id; 
       
-      
-      	/*$.ui.setBackButtonVisibility(true);
-    	$.ui.setBackButtonText("&lt;");
-      	$.ui.setTitle("MATCH");
-        */
+
         Y.GUI.header.title("MATCH");
       	
       	
@@ -52,12 +48,9 @@ Y.Views.Game = Backbone.View.extend({
             .get('gameCommentList');
 
 
-       
         this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
-
-
 
         var games = Y.Conf.get("owner.games.followed");
         if (games !== undefined)
@@ -70,12 +63,10 @@ Y.Views.Game = Backbone.View.extend({
         }
         else
           this.follow = 'false';
+          
         
         var options = {
-          // default delay is 1000ms
-          // FIXME : on passe sur 30 s car souci avec API
           delay : Y.Conf.get("game.refresh")
-        // data: {id:this.id}
         };
 
         // FIXME: SI ONLINE
@@ -115,35 +106,7 @@ Y.Views.Game = Backbone.View.extend({
     	Y.Router.navigate(route, {trigger: true}); 
   	  },
 
-      deleteComment : function(e) {
-      
-        var elmt = $(e.currentTarget);
-  		var id = elmt.attr("id");
-  		
-  		//FIXME : On recupère le Owner.token et id pour etre sur que le comment lui appartient
-  		// si retour du serveur, on supprime
-      	console.log('On efface le comment '+id);
-      
-      },
-
-      commentSend : function() {
-        var playerid = $('#playerid').val()
-        , token  = $('#token').val()
-        , gameid = $('#gameid').val()
-        , comment = $('#messageText').val();
-
-        var stream = new StreamModel({
-          type : "comment",
-          playerid : playerid,
-          token : token,
-          text : comment,
-          gameid : gameid
-        });
-        // console.log('stream',stream);
-        stream.save();
-
-        $('#messageText').val();
-      },
+     
 
       setTeamSet : function(input, div) {
         if ($.isNumeric(input.val()))
@@ -458,24 +421,26 @@ Y.Views.Game = Backbone.View.extend({
           var games = Y.Conf.get("owner.games.followed");
           if (games !== undefined)
           {
-            if (games.indexOf(this.id) === -1) {
+            if (games.indexOf(this.id) !== -1) {
               //On retire l'elmt
+              console.log('elmt trouvé, on le retire');
               games.splice(games.indexOf(this.id), 1);
-              Y.Conf.set("Owner.games.followed", games);
+              Y.Conf.set("owner.games.followed", games, { permanent: true });
             }
+            else
+            	console.log('elmt pas trouvé');
           }
           
           $('span.success').html('Vous ne suivez plus ce match').show();
           // $('#followPlayerButton').html('Suivre ce joueur');
-          $("#followButton .ui-btn-text").text("Suivre");
+          $("#followButton").text("Suivre");
 
           this.follow = 'false';
 
         } else {
+        
+           console.log('On suit   ' + this.id);
 
-          //Via backbone.offline
-          //this.gamesfollow = new GamesCollection('follow');
-          //this.gamesfollow.create(this.scoreboard);
           
           //Via localStorage
           var games = Y.Conf.get("owner.games.followed");
@@ -483,15 +448,15 @@ Y.Views.Game = Backbone.View.extend({
           {
             if (games.indexOf(this.id) === -1) {
               games.push(this.id);
-              Y.Conf.set("Owner.games.followed", games);
+              Y.Conf.set("owner.games.followed", games, { permanent: true });
             }
           }
           else
-            Y.Conf.set("Owner.games.followed", [this.id]);
+            Y.Conf.set("owner.games.followed", [this.id]);
 
           $('span.success').html('Vous suivez ce joueur').show();
           // $('#followPlayerButton').html('Ne plus suivre ce joueur');
-          $("#followButton .ui-btn-text").text("Ne plus suivre");
+          $("#followButton").text("Ne plus suivre");
 
           this.follow = 'true';
 

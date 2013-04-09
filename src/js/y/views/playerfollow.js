@@ -14,9 +14,7 @@ Y.Views.PlayerFollow = Backbone.View.extend({
   
     this.pageHash += this.id; 
     
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
-    //$.ui.setTitle("JOUEURS SUIVIS");	    
+    Y.GUI.header.title("JOUEURS SUIVIS");    
   
     this.playerListViewTemplate = Y.Templates.get('playerList');
     this.playerSearchTemplate = Y.Templates.get('playerSearch');

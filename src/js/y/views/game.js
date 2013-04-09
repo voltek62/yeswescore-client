@@ -41,6 +41,7 @@ Y.Views.Game = Backbone.View.extend({
     	$.ui.setBackButtonText("&lt;");
       	$.ui.setTitle("MATCH");
         */
+        Y.GUI.header.title("MATCH");
       	
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
@@ -400,8 +401,12 @@ Y.Views.Game = Backbone.View.extend({
       },
 
 	  renderCountComment : function() {
+	  
+	    var counter = 0;
+	    if (this.streams.toJSON().length>0)
+			counter = this.streams.toJSON().length;
 
-        $(this.countComment).html(this.streams.toJSON().length);
+        $(this.countComment).html(counter);
 
 	  },
 

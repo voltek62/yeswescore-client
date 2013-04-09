@@ -21,6 +21,7 @@ Y.Views.GameComment = Backbone.View.extend({
      //$.ui.setBackButtonVisibility(true);
      //$.ui.setBackButtonText("&lt;");
      //$.ui.setTitle("COMMENTAIRES");
+     Y.GUI.header.title("COMMENTAIRES");
   
     this.gameCommentTemplate = Y.Templates.get('gameComment');
     this.gameViewCommentListTemplate = Y.Templates.get('gameCommentList');
@@ -87,7 +88,7 @@ Y.Views.GameComment = Backbone.View.extend({
           
           //$(this.incomingComment).html('vincent '+JSON.stringify(this.streams.toJSON()));
           
-          $(this.incomingComment).trigger('create');
+          //$(this.incomingComment).trigger('create');
 
         }
         

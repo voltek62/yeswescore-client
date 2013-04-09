@@ -12,9 +12,7 @@ Y.Views.Player = Backbone.View.extend({
   
     this.pageHash += this.id; 
     
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
-    //$.ui.setTitle("JOUEUR");	    
+    Y.GUI.header.title("JOUEUR");	    
   
     this.playerViewTemplate = Y.Templates.get('player');
 

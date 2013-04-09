@@ -11,9 +11,7 @@ Y.Views.ClubAdd = Backbone.View.extend({
 
   initialize: function () {
   
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
-    //$.ui.setTitle("AJOUTER UN CLUB");
+    Y.GUI.header.title("AJOUTER UN CLUB");
 
     this.clubAddTemplate = Y.Templates.get('clubAdd');
 

@@ -18,9 +18,8 @@ Y.Views.PlayerForm = Backbone.View.extend({
 
   initialize:function() {
           
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
-    //$.ui.setTitle("MON PROFIL");
+
+    Y.GUI.header.title("MON PROFIL"); 
   
     this.playerFormTemplate = Y.Templates.get('playerForm');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');

@@ -81,8 +81,9 @@ Y.Views.GameComment = Backbone.View.extend({
 
 
         if (this.streams.toJSON() !== undefined) {
-            if (!this.first)    
-              return false;
+            // desactive temporairement le pooling pour faciliter le debug dans le DOM.
+            //if (!this.first)    
+            //  return false;
             this.first = false;
 
 		 //FIXME : gérer la date en temps écoulé

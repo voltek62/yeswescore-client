@@ -21,6 +21,7 @@ Y.Views.GameComment = Backbone.View.extend({
      //$.ui.setBackButtonVisibility(true);
      //$.ui.setBackButtonText("&lt;");
      //$.ui.setTitle("COMMENTAIRES");
+     Y.GUI.header.title("COMMENTAIRES");
   
     this.gameCommentTemplate = Y.Templates.get('gameComment');
     this.gameViewCommentListTemplate = Y.Templates.get('gameCommentList');
@@ -39,7 +40,7 @@ Y.Views.GameComment = Backbone.View.extend({
     
     this.score.on("all",this.render,this);
 
-	/*
+	
    	this.streams = new StreamsCollection({id : this.id});
     this.streams.fetch();
     
@@ -50,7 +51,7 @@ Y.Views.GameComment = Backbone.View.extend({
     poller = Backbone.Poller.get(this.streams, options)
     poller.start();
     poller.on('success', this.getObjectUpdated, this);
-	*/
+	
 
 	//this.streams.on("all",this.renderRefresh,this);
 
@@ -87,7 +88,7 @@ Y.Views.GameComment = Backbone.View.extend({
           
           //$(this.incomingComment).html('vincent '+JSON.stringify(this.streams.toJSON()));
           
-          $(this.incomingComment).trigger('create');
+          //$(this.incomingComment).trigger('create');
 
         }
         
@@ -168,7 +169,7 @@ Y.Views.GameComment = Backbone.View.extend({
   onClose: function(){
     this.undelegateEvents();
     
-    //poller.stop();
-    //poller.off('success', this.renderRefresh, this);
+    poller.stop();
+    poller.off('success', this.renderRefresh, this);
   }
 });

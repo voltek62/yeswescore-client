@@ -23,6 +23,7 @@ Y.Views.GameAdd = Backbone.View.extend({
     //$.ui.scrollToTop('#content'); 
     
     //$.ui.setTitle("AJOUTER UNE PARTIE");	    
+    Y.GUI.header.title("AJOUTER UNE PARTIE");
   
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');
     this.gameAddTemplate = Y.Templates.get('gameAdd');

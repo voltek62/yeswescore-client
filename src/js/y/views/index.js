@@ -35,6 +35,7 @@ Y.Views.Index = Backbone.View.extend({
 
 
     // $.ui.showMask('please wait, loading player');
+    this.$el.html("please wait, loading player");
 
     var that = this;
 

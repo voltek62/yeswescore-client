@@ -14,12 +14,10 @@ Y.Views.GameSearch = Backbone.View.extend({
 
   initialize: function(data) {
   
-    //$.ui.scrollToTop('#content'); 
+    Y.GUI.header.title("LISTE DES PARTIES");
     
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
     //$.ui.setTitle("LISTE DES PARTIES");	    
-  
+
     //this.gameSearchTemplate = Y.Templates.get('gameSearch');
     this.gameListViewTemplate = Y.Templates.get('gameListView');
     

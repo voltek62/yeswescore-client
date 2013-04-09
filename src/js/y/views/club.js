@@ -10,6 +10,8 @@ Y.Views.Club = Backbone.View.extend({
   
   initialize : function() {
   
+  	Y.GUI.header.title("CLUB");
+  
     //$.ui.scrollToTop('#content'); 
     
     //$.ui.setBackButtonVisibility(true);

@@ -11,9 +11,7 @@ Y.Views.PlayerForget = Backbone.View.extend({
   
   initialize : function() {
   
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
-    //$.ui.setTitle("MOT DE PASSE OUBLIE");	    
+    Y.GUI.header.title("MOT DE PASSE OUBLIE");     
   
     this.playerForgetTemplate = Y.Templates.get('playerForget');
     this.render();

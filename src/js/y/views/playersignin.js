@@ -11,9 +11,7 @@ Y.Views.PlayerSignin = Backbone.View.extend({
 
   initialize : function() {
   
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
-    //$.ui.setTitle("CONNEXION");	    
+    Y.GUI.header.title("CONNEXION");     
   
     this.playerSigninTemplate = Y.Templates.get('playerSignin');
     this.render();

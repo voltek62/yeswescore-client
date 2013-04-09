@@ -5,6 +5,7 @@ Y.Views.Game = Backbone.View.extend({
       // Flux des commentaires
       // FIXME: sort by priority
       incomingComment : "#incomingComment",      
+      countComment : "#countComment",
       
       events : {
         'click #fbconnect' : 'fbconnect',
@@ -35,11 +36,8 @@ Y.Views.Game = Backbone.View.extend({
 		//On met à jour le pageHash
         this.pageHash += this.id; 
       
-      
-      	/*$.ui.setBackButtonVisibility(true);
-    	$.ui.setBackButtonText("&lt;");
-      	$.ui.setTitle("MATCH");
-        */
+
+        Y.GUI.header.title("MATCH");
       	
       	
         // FIXME : temps de rafrichissement selon batterie et selon forfait
@@ -50,12 +48,9 @@ Y.Views.Game = Backbone.View.extend({
             .get('gameCommentList');
 
 
-       
         this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
-
-
 
         var games = Y.Conf.get("owner.games.followed");
         if (games !== undefined)
@@ -68,12 +63,10 @@ Y.Views.Game = Backbone.View.extend({
         }
         else
           this.follow = 'false';
+          
         
         var options = {
-          // default delay is 1000ms
-          // FIXME : on passe sur 30 s car souci avec API
           delay : Y.Conf.get("game.refresh")
-        // data: {id:this.id}
         };
 
         // FIXME: SI ONLINE
@@ -85,6 +78,13 @@ Y.Views.Game = Backbone.View.extend({
         this.render();                                // rendu a vide (instantanément)
         this.score.once("all",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
         //this.score.on("all",this.renderRefresh,this); // 
+        
+        //On compte les commentaires
+        this.streams = new StreamsCollection({id : this.id});
+    	this.streams.fetch();
+    	this.streams.once("all",this.renderCountComment,this); 
+    	
+        
       },
 
 
@@ -106,35 +106,7 @@ Y.Views.Game = Backbone.View.extend({
     	Y.Router.navigate(route, {trigger: true}); 
   	  },
 
-      deleteComment : function(e) {
-      
-        var elmt = $(e.currentTarget);
-  		var id = elmt.attr("id");
-  		
-  		//FIXME : On recupère le Owner.token et id pour etre sur que le comment lui appartient
-  		// si retour du serveur, on supprime
-      	console.log('On efface le comment '+id);
-      
-      },
-
-      commentSend : function() {
-        var playerid = $('#playerid').val()
-        , token  = $('#token').val()
-        , gameid = $('#gameid').val()
-        , comment = $('#messageText').val();
-
-        var stream = new StreamModel({
-          type : "comment",
-          playerid : playerid,
-          token : token,
-          text : comment,
-          gameid : gameid
-        });
-        // console.log('stream',stream);
-        stream.save();
-
-        $('#messageText').val();
-      },
+     
 
       setTeamSet : function(input, div) {
         if ($.isNumeric(input.val()))
@@ -391,6 +363,16 @@ Y.Views.Game = Backbone.View.extend({
         return false;
       },
 
+	  renderCountComment : function() {
+	  
+	    var counter = 0;
+	    if (this.streams.toJSON().length>0)
+			counter = this.streams.toJSON().length;
+
+        $(this.countComment).html(counter);
+
+	  },
+
       render : function() {
         // On rafraichit tout
         // FIXME: refresh only input and id
@@ -406,14 +388,14 @@ Y.Views.Game = Backbone.View.extend({
           $buttonCommentaires.css("height", "87px");
         }, 100);
         */
+        
 
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),
           Owner : this.Owner
         }));
 
-        //$.mobile.hidePageLoadingMsg();
-        //this.$el.trigger('pagecreate');
+
 
         return this;
       },
@@ -431,54 +413,43 @@ Y.Views.Game = Backbone.View.extend({
       followGame : function() {
 
         if (this.follow === 'true') {
-          //this.gamesfollow = new GamesCollection('follow');
 
-          console.log('On ne suit plus nofollow ' + this.id);
-
-          //this.gamesfollow.storage.remove(this.scoreboard);
           var games = Y.Conf.get("owner.games.followed");
           if (games !== undefined)
           {
-            if (games.indexOf(this.id) === -1) {
+            if (games.indexOf(this.id) !== -1) {
               //On retire l'elmt
               games.splice(games.indexOf(this.id), 1);
-              Y.Conf.set("Owner.games.followed", games);
+              Y.Conf.set("owner.games.followed", games, { permanent: true });
             }
           }
           
           $('span.success').html('Vous ne suivez plus ce match').show();
-          // $('#followPlayerButton').html('Suivre ce joueur');
-          $("#followButton .ui-btn-text").text("Suivre");
+          $("#followButton").text("Suivre");
 
           this.follow = 'false';
 
         } else {
-
-          //Via backbone.offline
-          //this.gamesfollow = new GamesCollection('follow');
-          //this.gamesfollow.create(this.scoreboard);
-          
+        
           //Via localStorage
           var games = Y.Conf.get("owner.games.followed");
           if (games !== undefined)
           {
             if (games.indexOf(this.id) === -1) {
               games.push(this.id);
-              Y.Conf.set("Owner.games.followed", games);
+              Y.Conf.set("owner.games.followed", games, { permanent: true });
             }
           }
           else
-            Y.Conf.set("Owner.games.followed", [this.id]);
+            Y.Conf.set("owner.games.followed", [this.id]);
 
           $('span.success').html('Vous suivez ce joueur').show();
-          // $('#followPlayerButton').html('Ne plus suivre ce joueur');
-          $("#followButton .ui-btn-text").text("Ne plus suivre");
+
+          $("#followButton").text("Ne plus suivre");
 
           this.follow = 'true';
 
         }
-
-        //this.$el.trigger('pagecreate');
 
       },
 

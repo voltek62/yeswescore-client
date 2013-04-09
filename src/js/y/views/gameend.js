@@ -10,11 +10,7 @@ Y.Views.GameEnd = Backbone.View.extend({
     
   initialize:function() {
   
-    //$.ui.scrollToTop('#content'); 
-    
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
-    //$.ui.setTitle("TERMINER LA PARTIE");	    
+    Y.GUI.header.title("TERMINER LA PARTIE");	    
   
     this.gameEndTemplate = Y.Templates.get('gameEnd');
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));

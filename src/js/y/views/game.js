@@ -413,35 +413,24 @@ Y.Views.Game = Backbone.View.extend({
       followGame : function() {
 
         if (this.follow === 'true') {
-          //this.gamesfollow = new GamesCollection('follow');
 
-          console.log('On ne suit plus nofollow ' + this.id);
-
-          //this.gamesfollow.storage.remove(this.scoreboard);
           var games = Y.Conf.get("owner.games.followed");
           if (games !== undefined)
           {
             if (games.indexOf(this.id) !== -1) {
               //On retire l'elmt
-              console.log('elmt trouvé, on le retire');
               games.splice(games.indexOf(this.id), 1);
               Y.Conf.set("owner.games.followed", games, { permanent: true });
             }
-            else
-            	console.log('elmt pas trouvé');
           }
           
           $('span.success').html('Vous ne suivez plus ce match').show();
-          // $('#followPlayerButton').html('Suivre ce joueur');
           $("#followButton").text("Suivre");
 
           this.follow = 'false';
 
         } else {
         
-           console.log('On suit   ' + this.id);
-
-          
           //Via localStorage
           var games = Y.Conf.get("owner.games.followed");
           if (games !== undefined)
@@ -455,14 +444,12 @@ Y.Views.Game = Backbone.View.extend({
             Y.Conf.set("owner.games.followed", [this.id]);
 
           $('span.success').html('Vous suivez ce joueur').show();
-          // $('#followPlayerButton').html('Ne plus suivre ce joueur');
+
           $("#followButton").text("Ne plus suivre");
 
           this.follow = 'true';
 
         }
-
-        //this.$el.trigger('pagecreate');
 
       },
 

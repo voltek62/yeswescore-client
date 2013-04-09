@@ -1,5 +1,4 @@
-COMMENTAIRES (<%= streams.length %>)
-<br/>
+<div class="list-comment-title">COMMENTAIRES (<%= streams.length %>)</div>
 <div class="list-comment">
 <% if(streams.length==0) { %>
 <div class="comment">Aucun commentaire</div>
@@ -14,6 +13,7 @@ stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dat
 %>
 <div class="comment" id="comment<%= stream.id %>">
 	<div class="infocomment">
+    <span class="player-name">
     <%
     if (stream.owner.player!==undefined) {
     %>
@@ -25,11 +25,12 @@ stream.dates.startTime = ' '+stream.dates.startConvert.getHours()+':'+stream.dat
     <%= (stream.owner.facebook.name ||'Anonymous') %> 
     <%
     }    
-    %> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
+    %></span> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
     <%= stream.data.text %> 
-	<% if ( stream.owner.id === Owner.id ) { %> <span class="deleteComment" id="<%= stream.id %>" style="text-decoration:underline;">Supprimer</span> <% } %>
-	<% if ( stream.owner.id !== Owner.id ) { %> <span class="warnComment" id="<%= stream.id %>" style="text-decoration:underline;">Signaler un contenu douteux</span> <% } %>	
+      <div class="links">
+	<% if ( stream.owner.id === Owner.id ) { %> <a class="deleteComment" id="<%= stream.id %>">supprimer</a> <% } %>
+	<% if ( stream.owner.id !== Owner.id ) { %> <a class="warnComment" id="<%= stream.id %>">signaler</a> <% } %>	
+    </div>
 </div>
-<br />
 <% } %>
 </div>

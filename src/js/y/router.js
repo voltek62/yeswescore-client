@@ -212,7 +212,7 @@
       // FIXME: dependancy router => DOM .. yeak :(
       var WP8=true;
       /*#ifndef WP8*/
-      WP8=false;
+      WP8=true;
       /*#endif*/
       if (WP8) {
         if (document.documentElement)

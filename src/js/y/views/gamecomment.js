@@ -16,6 +16,8 @@ Y.Views.GameComment = Backbone.View.extend({
     
   initialize:function() {
   
+    this.first = true;
+
     this.pageHash += this.id; 
   
      //$.ui.setBackButtonVisibility(true);
@@ -76,9 +78,13 @@ Y.Views.GameComment = Backbone.View.extend({
 
       // render the content into div of view
   renderRefresh : function() {
-        
+
+
         if (this.streams.toJSON() !== undefined) {
-        
+            if (!this.first)    
+              return false;
+            this.first = false;
+
 		 //FIXME : gérer la date en temps écoulé
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
             streams  : this.streams.toJSON(),
@@ -91,7 +97,6 @@ Y.Views.GameComment = Backbone.View.extend({
           //$(this.incomingComment).trigger('create');
 
         }
-        
         //return this;+
         return false;
   }, 

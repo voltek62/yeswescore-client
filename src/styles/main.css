@@ -864,7 +864,7 @@ input.jq-ui-forms {
   border-right: none;
 }
 
-.game .infobar .text .timer {
+/*.game .infobar .text */.timer {
   font-size:14px;
   font-family: Open Sans;
   font-weight:bold;	
@@ -1060,6 +1060,8 @@ input.jq-ui-forms {
   -webkit-transition: all 1s ease 0s;
   transition: all 1s ease 0s;
   */
+  
+  cursor: pointer;
 }
 
 .button-comments .background.rounded {
@@ -1121,43 +1123,109 @@ input.jq-ui-forms {
 	COMMENT
 **********************************************************/
 
-.bg-green {
-  color:#fff;
-  background-image:none; 
-  background-color:#40c68f;  
-  width:100%;
-  height:100%; 		
-  text-align:center;
-  font-size:18px;	
-  padding-top:10px;
-  font-weight:bold;
+.comments {
+  position: absolute;
+  /* we have to absolutly position this, because of content padding. */
+  top: 45px;
+  left: 0px;
+  width: 100%;
+  bottom: 0px;
 }
 
+.comments .ui-block-a.colTimer {
+  width: 25%;
+  text-align:center;
+  padding-top:6px;
+}
+
+.comments .ui-block-b.players {
+  width: 75%;
+  border-left:1px dotted #cdcdcd ;
+}
+
+.comments .player-infos {
+  height: 26px;
+  
+  padding: 2px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.comments .player-infos:nth-child(1) {
+  border-bottom:1px dotted #cdcdcd ;
+}
+
+.comments .player-name {
+  padding-left: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 20px;
+}
+
+.bg-green {
+  background-color:#41c68f;  
+  width:100%;
+  padding: 9px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.list-comment-title {
+  width: 100%;
+  text-align:center;
+  
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color:#fff;
+  
+}
 
 .list-comment {
+  margin-top: 9px;
   background-color:#fff;
   text-align:left; 
   color:#000;
-  width:96%; 	
-  margin-left:auto;
-  margin-right:auto;
-  padding:5px;
+  width:100%;
 }
 
 .infocomment {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight:normal;
+  color: #7b797a;
+}
+.infocomment .player-name {
   font-weight:bold;
-  font-size:13px;	
+  padding: 0;
 }
 
 .comment {
+  font-family: 'Open Sans', sans-serif;
   font-weight:normal;
-  font-size:14px;	
-  border-top:0px;
-  border-right:0px;
-  border-left:0px;
-  border-bottom:1px;
-  border-style:dotted;
-  padding:10px;
+  font-size:12px;
+  border-bottom:1px dotted #9c9e9d;
+  padding:5px;
+  padding-bottom: 0px;
+  clear: both;
+}
+
+.comment .links {
+  height: 20px;
+  font-size: 10px;
+}
+.warnComment, .deleteComment {
+  float: right;
+  text-decoration: none;
+  cursor: pointer;
+}
+.warnComment {
+  color: #740000;
 }
 
 .textarea-border {

@@ -5,6 +5,7 @@ Y.Views.Game = Backbone.View.extend({
       // Flux des commentaires
       // FIXME: sort by priority
       incomingComment : "#incomingComment",      
+      countComment : "#countComment",
       
       events : {
         'click #fbconnect' : 'fbconnect',
@@ -85,6 +86,13 @@ Y.Views.Game = Backbone.View.extend({
         this.render();                                // rendu a vide (instantanément)
         this.score.once("all",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
         //this.score.on("all",this.renderRefresh,this); // 
+        
+        //On compte les commentaires
+        this.streams = new StreamsCollection({id : this.id});
+    	this.streams.fetch();
+    	this.streams.once("all",this.renderCountComment,this); 
+    	
+        
       },
 
 
@@ -391,6 +399,12 @@ Y.Views.Game = Backbone.View.extend({
         return false;
       },
 
+	  renderCountComment : function() {
+
+        $(this.countComment).html(this.streams.toJSON().length);
+
+	  },
+
       render : function() {
         // On rafraichit tout
         // FIXME: refresh only input and id
@@ -406,14 +420,14 @@ Y.Views.Game = Backbone.View.extend({
           $buttonCommentaires.css("height", "87px");
         }, 100);
         */
+        
 
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),
           Owner : this.Owner
         }));
 
-        //$.mobile.hidePageLoadingMsg();
-        //this.$el.trigger('pagecreate');
+
 
         return this;
       },

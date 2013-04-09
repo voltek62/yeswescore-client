@@ -18,8 +18,13 @@ var GameModel = Backbone.Model.extend({
   },
 
   defaults : {
+    owner: "",
     sport : "tennis",
     status : "ongoing",
+    dates : {
+      end : "",
+      start : ""
+    },   
     location : {
       country : "",
       city : "",
@@ -37,6 +42,7 @@ var GameModel = Backbone.Model.extend({
       } ]
     } ],
     options : {
+      type : "singles",
       subtype : "A",
       sets : "0/0",
       score : "0/0",

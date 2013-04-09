@@ -2,7 +2,8 @@ Y.Views.Index = Backbone.View.extend({
   el: "#content",
 
   events: {
-    "keyup input#search-basic": "search",
+    //"keyup input#search-basic": "search",
+    "blur input#search-basic": "search",
     "click li": "goToGame",    
     "click #sendFilter": "sendFilter"
   },
@@ -115,6 +116,8 @@ Y.Views.Index = Backbone.View.extend({
   },
 
   search: function () {
+  
+    console.log('search');
     //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
     $(this.listview).empty();

@@ -117,9 +117,12 @@ Y.Views.Index = Backbone.View.extend({
 
   search: function () {
   
-    console.log('search');
+
     //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
+    
+    //console.log('search '+q);
+        
     $(this.listview).empty();
     //gamesList = new GamesSearch();
     //gamesList.setQuery(q);

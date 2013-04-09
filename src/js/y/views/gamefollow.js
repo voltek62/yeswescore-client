@@ -16,20 +16,38 @@ Y.Views.GameFollow = Backbone.View.extend({
   
     this.indexViewTemplate = Y.Templates.get('index');
     this.gameListViewTemplate = Y.Templates.get('gameListView');
+       
+    this.render();   
         
-    //$.mobile.showPageLoadingMsg();
-        
-    this.games = new GamesCollection('follow');
-    this.gamesfollow = new GamesCollection(this.games.storage.findAll({local:true}));
+    var games = Y.Conf.get("owner.games.followed");
+    console.log('games',games);
+    
+    this.games = new GamesCollection();
+    games.forEach(function (game) {
+
+		console.log('game',game);
 		
-    this.render();
+		this.score = new GameModel({id : game});
+        this.score.fetch();
+        this.score.once("all",this.addScore,this);
+		//this.games.add(this.score);
+			
+    });
         
-    //this.games.on( 'all', this.renderList, this );
-    //this.games.on("all", this.renderList, this);
-    //this.games.findAll();
-        
-    //$.mobile.showPageLoadingMsg();
-    this.renderList();
+
+
+  },
+  
+  addScore:function() {
+  
+    console.log("addScore 1 ",this.score);
+    
+    this.games.add(this.score);
+    
+    console.log("addScore 2 ",this.games);
+    
+    this.games.once( 'all', this.renderList, this );    
+ 
   },
     
   search:function() {
@@ -58,16 +76,17 @@ Y.Views.GameFollow = Backbone.View.extend({
   },
 
   renderList: function(query) {
-    console.log('renderList');
+  
+    console.log('renderList',this.games);
     
-    $(this.listview).html(this.gameListViewTemplate({games:this.gamesfollow.toJSON(),query:' '}));
+    $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(),query:' '}));
     $(this.listview).listview('refresh');
-    //$.mobile.hidePageLoadingMsg();
+
     return this;
   },
   
   onClose: function() {
     this.undelegateEvents();
-    //this.games.off("all",this.renderList,this);
+    this.games.off("all",this.renderList,this);
   }
 });

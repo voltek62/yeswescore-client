@@ -16,7 +16,7 @@ var PlayerModel = Backbone.Model.extend({
     dates: {
       update: "",
       creation: new Date()
-    },f
+    },
     language: window.navigator.language,
     location: {
       currentPos: [0, 0]

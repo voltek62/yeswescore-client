@@ -108,6 +108,7 @@ var PlayerModel = Backbone.Model.extend({
       console.log('apres navigator language '+window.navigator.language);
       Y.Geolocation.longitude;
       console.log('apres geoloc '+Y.Geolocation.longitude+ ' '+Y.Geolocation.latitude);
+      var that = this;
       return $.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players"),
@@ -122,11 +123,11 @@ var PlayerModel = Backbone.Model.extend({
         // WHYYYYY ?????
         success: function (data) {
           console.log('debug marc success');
-          this.set(data);
+          that.set(data);
           if (options && options.success) {
             options.success(model, data, options);
           }
-        } .bind(this),
+        },
         error: function (message) {
           console.log('debug marc error message '+message);
           if (options && options.error)

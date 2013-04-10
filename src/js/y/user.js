@@ -63,7 +63,7 @@
           DB.saveJSON("Player", player);
           //
           callback(null, player);
-        } .bind(this)
+        }
       });
     },
 
@@ -82,14 +82,15 @@
     },
 
     createPlayerAsync: function (callback) {
+      var that = this;
       player = new PlayerModel({});
       player.save({}, {
         success: function () {
           // saving it.
-          this.setPlayer(player);
+          that.setPlayer(player);
           // answer
           callback(null, player);
-        } .bind(this),
+        },
         error: function (e) { callback(e); }
       });
     }

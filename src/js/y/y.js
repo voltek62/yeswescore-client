@@ -24,6 +24,7 @@
     },
 
     load: function (callback) {
+      console.log('debut load');
       var that = this;
       // initializing backbone.
       Backbone.$ = $;
@@ -36,22 +37,27 @@
         return bbsync(f, m, o);
       };
       /*#endif*/
+      console.log('avant conf initEnv');
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
+                 console.log('callback initEnv');
                  // init router
                  that.Router.initialize();
+                 console.log('router initialized');
                  // load the templates.
                  that.Templates.loadAsync(function () {
+                   console.log('template loaded');
                    // init GUI singleton
                    that.GUI.header = new Y.Views.Header();
                    that.GUI.content = null; // will be overwrite by the router.
                    that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
-
+                   console.log('backbone history start');
                    // start dispatching routes
                    // @see http://backbonejs.org/#History-start
                    Backbone.history.start();
                    // waiting for cordova to be ready
+                   console.log('devrait etre ready');
                    callback();
                  });
                });

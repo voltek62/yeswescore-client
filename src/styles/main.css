@@ -1271,11 +1271,20 @@ input.jq-ui-forms {
   font-family: 'Open Sans', sans-serif;
   font-weight:normal;
   font-size:12px;
+  
+  padding: 0;
+  margin: 0;
     
-  width:100%;
+  width:98%;/*I don't know why, but 100% render outside textarea-border*/
   height:100px;
 }
 
+.textarea-comment:focus {
+  outline:0px none transparent;
+  -webkit-appearance:caret;
+  -moz-appearance:caret;
+  border: 0;
+}
 
 /*
 

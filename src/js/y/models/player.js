@@ -99,7 +99,7 @@ var PlayerModel = Backbone.Model.extend({
 
   sync: function (method, model, options) {
 
-    //console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
+    console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
 
     if (method === 'create' && this.get('playerid') === undefined) {
       try {

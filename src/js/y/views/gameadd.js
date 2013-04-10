@@ -5,8 +5,8 @@ Y.Views.GameAdd = Backbone.View.extend({
     'submit form#frmAddGame': 'addGame',
     'change #myself': 'updateTeam1',
     'change #team1': 'changeTeam1',
-    'keyup #team1': 'updateListTeam1',
-    'keyup #team2': 'updateListTeam2',
+    'blur #team1': 'updateListTeam1',
+    'blur #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
     'click #team2_choice': 'displayTeam2',
     'click input' :'hideFooter' 

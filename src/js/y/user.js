@@ -48,7 +48,7 @@
       // have we got a player id in conf ?
       var playerId = Y.Conf.get(playerIdConfKey);
       var playerToken = Y.Conf.get(playerTokenConfKey);
-      if (!playerId || !token) {
+      if (!playerId || !playerToken) {
         callback(new Error("no player"));
         return;
       }

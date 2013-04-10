@@ -34,7 +34,12 @@
       Backbone.sync = function (f, m, o) {
         o || (o = {});
         o.crossDomain = true;
+        try {
         return bbsync(f, m, o);
+        } catch (e) {
+          console.log('Exception bbsync: ' + f + " e = " + e);
+          return null;
+        }
       };
       /*#endif*/
       console.log('avant conf initEnv');

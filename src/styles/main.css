@@ -443,18 +443,19 @@ ul > li.player > a {
 	FORM ELEMENTS
 **********************************************************/
 
-
 .bg-blue {
-  color:#fff;
-  background-image:none; 
   background-color:#45b1db;  
   width:100%;
-  height:100%; 		
+  padding: 9px;
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;	
+  /*
   text-align:left;
   font-size:16px;	
   padding-top:10px;
-
   font-weight:normal;
+  */
 }
 
 input.jq-ui-forms-white { 
@@ -672,6 +673,82 @@ input.jq-ui-forms {
 /**********************************************************
 	Templates
 **********************************************************/
+
+/* palyerForm.html */
+
+.button-form {
+  position: absolute;
+  
+  left: 0px;
+  width: 100%;
+  bottom: 0px;
+  height: 87px; /* default = 87*/
+  
+  overflow: hidden;
+  
+  /* performance issues, disabled
+  -webkit-transition: all 1s ease 0s;
+  transition: all 1s ease 0s;
+  */
+  
+  cursor: pointer;
+}
+
+.button-form .background.rounded {
+  position: absolute;
+  
+  left: 12px;
+  right: 12px;
+  height:87px;
+  
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  
+  background-color: #41c68f;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.button-form .background.trapeze {
+  position: absolute;
+  top:15px;
+  left: 0%;
+  
+  width: 100%;
+  height:33px;
+  
+  border-bottom:72px solid #41c68f;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
+.button-form .link-form {
+  position: absolute;
+    
+  width: 100%;
+  
+  top: 13px;
+  
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  font-size:14px;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  line-height:14px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
 
 /*
   indexViewTemplate.html

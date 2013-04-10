@@ -1,6 +1,5 @@
 // Global Object
 (function (global) {
-  "use strict";
 
   var YesWeScore = {
     lang: "fr",

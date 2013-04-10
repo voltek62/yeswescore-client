@@ -75,7 +75,9 @@
             // when YesWeScore is uninitialized, we just stack the callbacks.
             callbacks.push(callback);
             // we are now "loading"
+            console.log('avant status loading ');
             this.status = "loading";
+            console.log('typeof ' + typeof this.load);
             this.load(function () {
               // We are now ready.
               that.status = "ready";

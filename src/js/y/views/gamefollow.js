@@ -20,35 +20,37 @@ Y.Views.GameFollow = Backbone.View.extend({
     this.render();   
         
     var games = Y.Conf.get("owner.games.followed");
-    console.log('games',games);
+    this.collection = new GamesCollection();
     
-    this.games = new GamesCollection();
-    games.forEach(function (game) {
+    var that = this;
+    
+    var i = games.length;
+    games.forEach(function (gameid) {
 
-		console.log('game',game);
+		console.log('game',gameid);
 		
-		this.score = new GameModel({id : game});
-        this.score.fetch();
-        this.score.once("all",this.addScore,this);
-		//this.games.add(this.score);
+		game = new GameModel({id : gameid});
+        game.fetch();
+        game.once("all", function () { 
+          that.collection.add(game);
+          i--;
+          
+          console.log('i',i);
+          
+          if (i<=0) {
+
+    			console.log('renderList',that.collection.toJSON());
+    
+    			$(that.listview).html(that.gameListViewTemplate({games:that.collection.toJSON(),query:' '}));
+    	;
+          }
+        });
 			
     });
-        
-
 
   },
   
-  addScore:function() {
-  
-    console.log("addScore 1 ",this.score);
-    
-    this.games.add(this.score);
-    
-    console.log("addScore 2 ",this.games);
-    
-    this.games.once( 'all', this.renderList, this );    
- 
-  },
+
     
   search:function() {
     //FIXME if($("#search-basic").val().length>3) {
@@ -75,11 +77,11 @@ Y.Views.GameFollow = Backbone.View.extend({
     return this;
   },
 
-  renderList: function(query) {
+  renderList: function() {
   
-    console.log('renderList',this.games);
+    console.log('renderList',this.collection);
     
-    $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(),query:' '}));
+    $(this.listview).html(this.gameListViewTemplate({games:this.collection.toJSON(),query:' '}));
     $(this.listview).listview('refresh');
 
     return this;
@@ -87,6 +89,6 @@ Y.Views.GameFollow = Backbone.View.extend({
   
   onClose: function() {
     this.undelegateEvents();
-    this.games.off("all",this.renderList,this);
+    //this.games.off("all",this.renderList,this);
   }
 });

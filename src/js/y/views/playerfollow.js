@@ -21,15 +21,14 @@ Y.Views.PlayerFollow = Backbone.View.extend({
 
     // $.mobile.showPageLoadingMsg();
 
-    this.playersfollow = new PlayersCollection('follow');
-    //On cherche que 
-    this.playersfollow = new PlayersCollection(this.playersfollow.storage.findAll({local:true}));
+
     this.render();		
         
     console.log('players ',this.playersfollow.toJSON());
         	
     //this.players.on( 'all', this.renderList, this );
-    this.renderList();
+    //this.renderList();
+    
   },
   
   search:function() {

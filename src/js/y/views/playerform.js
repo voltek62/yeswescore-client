@@ -24,8 +24,9 @@ Y.Views.PlayerForm = Backbone.View.extend({
     this.playerFormTemplate = Y.Templates.get('playerForm');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
-    this.Owner = Y.User.getPlayer();
+    this.Owner = Y.User.getPlayer().toJSON();
     //this.pageHash += this.Owner.id; 
+    console.log(this.Owner);
         	
     this.player = new PlayerModel({id:this.Owner.id});
     this.player.fetch(); 

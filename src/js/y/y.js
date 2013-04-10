@@ -31,15 +31,15 @@
       /*#ifdef CORS*/
       // forcing cors in dev environment.
       Backbone.ajax = function() {
-        console.log('backbone ajax overloaded : ' + arguments[0]);
         var args = Array.prototype.slice(arguments);
+        console.log('backbone ajax overloaded : ' + JSON.stringify(args));
         if (typeof args[1] === "undefined")
           args[1] = {};
         args[1].crossDomain = true;
         try {
-        return Backbone.$.ajax.apply(Backbone.$, arguments);
+        return Backbone.$.ajax.apply(Backbone.$, args);
         } catch (e) {
-          console.log('Exception ajax : ' + arguments[0] + " error = " + e);
+          console.log('Exception ajax : ' +  JSON.stringify(args) + " error = " + e);
           return null;
         }
       };

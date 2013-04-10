@@ -30,14 +30,16 @@
       Backbone.$ = $;
       /*#ifdef CORS*/
       // forcing cors in dev environment.
-      var bbsync = Backbone.sync;
-      Backbone.sync = function (f, m, o) {
-        o || (o = {});
-        o.crossDomain = true;
+      Backbone.ajax = function() {
+        console.log('backbone ajax overloaded : ' + arguments[0]);
+        var args = Array.prototype.slice(arguments);
+        if (typeof args[1] === "undefined")
+          args[1] = {};
+        args[1].crossDomain = true;
         try {
-        return bbsync(f, m, o);
+        return Backbone.$.ajax.apply(Backbone.$, arguments);
         } catch (e) {
-          console.log('Exception bbsync: ' + f + " e = " + e);
+          console.log('Exception ajax : ' + arguments[0] + " error = " + e);
           return null;
         }
       };

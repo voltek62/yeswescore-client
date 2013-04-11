@@ -2,18 +2,17 @@ Y.Views.GameAdd = Y.View.extend({
   el: "#content",
 
   events: {
+    // mode "input"
+    'focus input[type="text"]': 'inputModeOn',
+    'blur input[type="text"]': 'inputModeOff',
+
     'submit form#frmAddGame': 'addGame',
     'change #myself': 'updateTeam1',
     'change #team1': 'changeTeam1',
     'blur #team1': 'updateListTeam1',
     'blur #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
-    'click #team2_choice': 'displayTeam2',
-    'click input' :'hideFooter',
-
-    // mode "input"
-    'click input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff'
+    'click #team2_choice': 'displayTeam2'
   },
 
   pageName: "gameAdd",
@@ -36,11 +35,6 @@ Y.Views.GameAdd = Y.View.extend({
 	  this.render();
 
   },
-
-  hideFooter:function() {
-  	console.log('hideFooter');
-  	//$.ui.toggleNavMenu(false);
-  },    
 
   displayTeam1: function (li) {
     selectedId = $('#team1_choice:checked').val();

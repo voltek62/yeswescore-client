@@ -2,14 +2,18 @@ Y.Views.Index = Y.View.extend({
   el: "#content",
 
   events: {
+    // mode "input"
+    'focus input[type="search"]': 'inputModeOn',
+    'blur input[type="search"]': 'inputModeOff',
+
     //"keyup input#search-basic": "search",
     "blur input#search-basic": "search",
-    "click li": "goToGame",    
-    "click #sendFilter": "sendFilter",
+    "click li": "goToGame",
 
-    // mode "input"
-    'click input[type="search"]': 'inputModeOn',
-    'blur input[type="search"]': 'inputModeOff'
+    'click .button-filter': 'showFilters',
+    'click .filters a[data-filter="date"]': 'filterByDate',
+    'click .filters a[data-filter="club"]': 'filterByClub',
+    'click .filters a[data-filter="player"]': 'filterByPlayer',
   },
 
   listview: "#listGamesView",
@@ -81,13 +85,21 @@ Y.Views.Index = Y.View.extend({
   
   },
 
-  sendFilter: function () {
-    //console.log("sendFilter");
-    /*$.ui.actionsheet('<a href="#sort/date" class="button">Afficher par Date</a>'
-    + ' <a href="#sort/location" class="button">Afficher par Lieu</a>'
-    + ' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
-    + ' <a href="#sort/finished" class="button">Afficher Matchs finis</a>');
-    */
+  showFilters: function () {
+    this.$(".filters").show();
+  },
+  hideFilters: function () {
+    this.$(".filters").hide();
+  },
+
+  filterByDate: function () { this.filter("date"); },
+  filterByClub: function () { this.filter("club"); },
+  filterByPlayer: function () { this.filter("player"); },
+
+  filter: function (o) {
+    // FIXME
+    console.log('FIXME: filter by ' + o);
+    this.hideFilters();
   },
 
   search: function () {

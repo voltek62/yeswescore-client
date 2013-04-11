@@ -16,12 +16,14 @@
       content: null, // singleton current view (center)
       navbar: null,  // singleton view #navbar
       inputMode: function (status) {
+        console.log('STATUS = ' + status);
         if (window.isMobileBrowser()) { // only on mobile browser
           _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
                     function (node) { (status)?$(node).hide():$(node).show() });
           (status) ? $("#content").css("padding-top", 0) :
-                     $("#content").removeAttr("style");
+                      $("#content").removeAttr("style");
         }
+        return true;
       }
     },
 

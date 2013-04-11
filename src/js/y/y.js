@@ -17,10 +17,14 @@
       navbar: null,  // singleton view #navbar
       inputMode: function (status) {
         if (window.isMobileBrowser()) { // only on mobile browser
-          _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
-                    function (node) { (status)?$(node).hide():$(node).show() });
-          (status) ? $("#content").css("padding-top", 0) :
-                     $("#content").removeAttr("style");
+          var repaint = function () {
+            _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
+                      function (node) { (status)?$(node).hide():$(node).show() });
+            (status) ? $("#content").css("padding-top", 0) :
+                       $("#content").removeAttr("style");
+          };
+          // trick, when moving from 1 input to another, click is send, then blur, we need to inverse this.
+          (status)?setTimeout(repaint, 20):repaint();
         }
       }
     },

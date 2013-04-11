@@ -103,7 +103,7 @@ var PlayerModel = Backbone.Model.extend({
 
     if (method === 'create' && this.get('playerid') === undefined) {
       var that = this;
-      return $.ajax({
+      return Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players"),
         type: 'POST',

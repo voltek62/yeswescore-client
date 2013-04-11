@@ -8,20 +8,43 @@ Y.Views.Navbar = Y.View.extend({
   },
 
   initialize: function () {
-    // nothing yet
+    var that = this;
+    Y.Router.on("pageChanged", function (page, fragment) {
+      this.highlight(fragment);
+    }, this);
   },
   render: function () { },
   
+  highlight: function (fragment) {
+    // factorizing fragment.
+    if (fragment == "index" ||
+        fragment.startsWith("games/comment/")) {
+      fragment = "#";
+    } else if (fragment == "games/add") {
+      fragment = "#games/add";
+    } else if (fragment == "account") {
+      fragment = "#account"
+    } else {
+      fragment = null; // unknown
+    }
+
+    // fragment was identified.
+    if (fragment) {
+      this.$("a").each(function () { $(this).removeClass("highlighted") });
+      this.$('a[href="'+fragment+'"]').addClass("highlighted");
+    }
+  },
+
   show: function () { 
-	this.$el.show();
+	  this.$el.show();
   },
 
   hide: function () { 
-    /*
-    this.$el.css("opacity", 0)
-	#navbar { transition: opacity ease 1s; }
-    */
-	this.$el.hide();
+      /*
+      this.$el.css("opacity", 0)
+	  #navbar { transition: opacity ease 1s; }
+      */
+	  this.$el.hide();
   },
 
   goToGames: function () { console.log('goToGames'); Y.Router.navigate("", {trigger: true}); },

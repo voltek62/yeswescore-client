@@ -291,6 +291,9 @@ p {
   /* @see http://stackoverflow.com/questions/13529777/ie10-gray-square-on-click-in-windows-8 */
   background: inherit;
 }
+#navbar a.highlighted {
+  color: #46c0e9;
+}
 
 /*
 #navbar a:active, #navbar a:focus, #navbar a:active:focus,  #navbar .selected{

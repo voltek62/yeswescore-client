@@ -85,7 +85,7 @@ Y.Views.Header = Backbone.View.extend({
       if (status == "on") {
         // on
         if (i == 0) {
-          intervalId = window.setInterval(repaint, 100);
+          intervalId = window.setInterval(repaint, 200);
           repaint();
         }
         i++;

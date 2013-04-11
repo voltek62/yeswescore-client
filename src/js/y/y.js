@@ -1,5 +1,5 @@
 // Global Object
-(function (global) {
+(function (global, undefined) {
 
   var YesWeScore = {
     lang: "fr",
@@ -23,26 +23,26 @@
     },
 
     load: function (callback) {
-      console.log('debut load');
       var that = this;
       // initializing backbone.
       Backbone.$ = $;
-      /*#ifdef CORS*/
-      // forcing cors in dev environment.
-      Backbone.ajax = function() {
-        var args = Array.prototype.slice.call(arguments);
-        console.log('backbone ajax overloaded : ' + JSON.stringify(args));
-        if (typeof args[1] === "undefined")
-          args[1] = {};
-        args[1].crossDomain = true;
-        try {
-        return Backbone.$.ajax.apply(Backbone.$, args);
-        } catch (e) {
-          console.log('Exception ajax : ' +  JSON.stringify(args) + " error = " + e);
-          return null;
-        }
+      Backbone.ajax = function(url, options) {
+          // proxy to jquery
+          if (typeof url === "object") {
+            options = url;
+            url = undefined;
+          }
+          options = options || {};
+          url = url || options.url;
+          /*#ifdef CORS*/
+          // adding cors
+          options.crossDomain = true;
+          /*#endif*/
+          // calling jquery
+          console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
+          return $.ajax(url, options);
       };
-      /*#endif*/
+      
       console.log('avant conf initEnv');
       // init self configuration
       this.Conf.initEnv()

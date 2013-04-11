@@ -16,7 +16,7 @@ var GamesCollection = Backbone.Collection.extend({
 	
 		  
   url:function() {
-    console.log('mode de games',this.mode); 	
+    // console.log('mode de games',this.mode); 	
     //console.log('sort de games',this.sortMode); 	
         
     var url='';
@@ -45,7 +45,7 @@ var GamesCollection = Backbone.Collection.extend({
       url = url  + "?sort=location.city";    	    
     
     //console.log('sortMode',this.sortMode);
-    console.log('URL',url);
+    //console.log('URL',url);
     //console.log('sortMode',this.sortMode);
         
     return url;

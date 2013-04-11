@@ -102,12 +102,6 @@ var PlayerModel = Backbone.Model.extend({
     console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
 
     if (method === 'create' && this.get('playerid') === undefined) {
-      try {
-      console.log('debug marc');
-      window.navigator.language;
-      console.log('apres navigator language '+window.navigator.language);
-      Y.Geolocation.longitude;
-      console.log('apres geoloc '+Y.Geolocation.longitude+ ' '+Y.Geolocation.latitude);
       var that = this;
       return $.ajax({
         dataType: 'json',
@@ -122,19 +116,16 @@ var PlayerModel = Backbone.Model.extend({
         },
         // WHYYYYY ?????
         success: function (data) {
-          console.log('debug marc success');
           that.set(data);
           if (options && options.success) {
             options.success(model, data, options);
           }
         },
         error: function (message) {
-          console.log('debug marc error message '+message);
           if (options && options.error)
             options.error(message);
         }
       });
-      } catch (e) { console.log('exception ' + e); }
     } else if (this.get('playerid') !== undefined) {
       // Update
 

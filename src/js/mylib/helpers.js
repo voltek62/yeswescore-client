@@ -34,7 +34,7 @@ window.isMobileBrowser = (function () {
   // isMobileBrowser copyright to http://detectmobilebrowsers.com/ (@chadsmith)
   var isMobileBrowser = true;
   /*#ifdef WEB*/
-  isMobileBrowser = null; // WEB => null => dynamic computation.
+  isMobileBrowser = true; // WEB => null => dynamic computation.
   /*#endif*/
   return function () {
     if (isMobileBrowser === null) {

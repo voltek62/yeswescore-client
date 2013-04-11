@@ -150,11 +150,16 @@
     <Content Include="www\images\chrono.png" />
     <Content Include="www\images\eye.png" />
     <Content Include="www\images\facebook.png" />
+    <Content Include="www\images\header-logo-on-animate-1.png" />
+    <Content Include="www\images\header-logo-on-animate-2.png" />
+    <Content Include="www\images\header-logo-on-animate-3.png" />
+    <Content Include="www\images\header-logo-on-animate-4.png" />
     <Content Include="www\images\header-logo-on.png" />
     <Content Include="www\images\house.png" />
     <Content Include="www\images\ico-magnifier-glass.jpg" />
     <Content Include="www\images\people.png" />
     <Content Include="www\images\pixel.jpg" />
+    <Content Include="www\images\pixel.png" />
     <Content Include="www\index.html">
       <SubType>Designer</SubType>
     </Content>

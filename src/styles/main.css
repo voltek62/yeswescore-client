@@ -773,11 +773,15 @@ input.jq-ui-forms {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-.indexViewTemplate > .ui-grid-a > .ui-block-a {
+.ui-grid-a.searchbar > .ui-block-a {
   position: relative;
   width: 85%;
   -webkit-border-radius:10px; border-radius:10px;
   background:#ededed;
+}
+
+.ui-grid-a.searchbar > .ui-block-b {
+  width: 15%;  
 }
 
 /* search bar */
@@ -800,13 +804,50 @@ input.jq-ui-forms {
 }
 
 /* filter button */
-#sendFilter {
-  position:relative;
-  width: 15%;
-}
 .indexViewTemplate .button-filter {
   position:absolute;
   right:0;
+}
+
+/* filter links */
+.indexViewTemplate .searchbar {
+  position: relative;
+  overflow: visible;
+  z-index: 20;
+}
+.indexViewTemplate .results {
+  position: relative;
+  z-index: 10;
+}
+.indexViewTemplate .filters {
+  display: none; /* default=invisible */
+  
+  position: absolute;
+  right: 0;
+  width: 150px;
+  height: 100px;
+  
+  background-color: #46b1db;
+  -webkit-border-radius:10px; border-radius:10px;
+  
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.indexViewTemplate .filters a {
+  display: block;
+  text-align: center;
+  height: 33px;
+  line-height: 30px;
+  
+  width: 100%;
+  border-bottom: 1px solid white;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  font-size:12px;
+  color: white; 
+  
+  cursor: pointer;
 }
 
 /* gameListViewTemplate.html */

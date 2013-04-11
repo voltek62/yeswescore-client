@@ -270,7 +270,8 @@ p {
   box-sizing:        border-box;
 }
 #navbar a:active {
-  background-color: transparent;
+  /* @see http://stackoverflow.com/questions/13529777/ie10-gray-square-on-click-in-windows-8 */
+  background: inherit;
 }
 
 /*
@@ -453,7 +454,7 @@ ul > li.player > a {
   width: 100%;
   height: 100%;
   min-height: 100%;
-  top: 0px;
+  top: 0px;:
   left: 0px;
   padding: 0;
   margin: 0;

@@ -1,5 +1,7 @@
  (function (Cordova, undefined) {
-   "use strict";
+  //#ifdef STRICT
+  "use strict";
+  //#endif
 
    /**
    * In App Browser Api

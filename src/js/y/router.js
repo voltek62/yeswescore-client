@@ -1,5 +1,7 @@
 (function (Y) {
+  //#ifdef STRICT
   "use strict";
+  //#endif
 
   // overloading backbone close.
   Backbone.View.prototype.close = function () {

@@ -1,5 +1,7 @@
 (function (Y, undefined) {
+  //#ifdef STRICT
   "use strict";
+  //#endif
 
   // permanent storage
   var filename = "yws.json";

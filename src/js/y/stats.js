@@ -1,4 +1,8 @@
 (function (Y, undefined) {
+  //#ifdef STRICT
+  "use strict";
+  //#endif
+
   /*
   * Api:
   *  Y.Stats.click(ev, 'button:les_plus');

@@ -1,5 +1,7 @@
 (function (Y, undefined) {
+  //#ifdef STRICT
   "use strict";
+  //#endif
 
   // DB Storage drivers :
   //  - localStorage (if possible)

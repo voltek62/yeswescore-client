@@ -132,12 +132,14 @@ module.exports = function (grunt) {
     env: {
       cordova: {
         CORDOVA: true,
-        NOCORDOVA: false
+        NOCORDOVA: false,
+        STRICT:true
       },
       web: {
         CORDOVA: true,
         NOCORDOVA: false,
-        CORS: true/*, // cross domain
+        CORS: true,
+        DEV:true/*, // cross domain
         NOCONCAT: true*/
       },
       wp8: {

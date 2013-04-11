@@ -1,5 +1,8 @@
 // Global Object
 (function (global, undefined) {
+  //#ifdef STRICT
+  "use strict";
+  //#endif
 
   var YesWeScore = {
     language: window.navigator.language || "en-US",

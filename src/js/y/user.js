@@ -1,4 +1,7 @@
 (function (Y, undefined) {
+  //#ifdef STRICT
+  "use strict";
+  //#endif
 
   var DB = new Y.DB("Y.Cache.");
 

@@ -16,6 +16,7 @@ Y.Views.Index = Backbone.View.extend({
   initialize: function () {
     Y.GUI.header.title("LISTE DES MATCHES");
 
+    var that = this;
     //
     this.indexViewTemplate = Y.Templates.get('index');
     this.gameListViewTemplate = Y.Templates.get('gameListView');
@@ -25,76 +26,46 @@ Y.Views.Index = Backbone.View.extend({
     //this.config = new Config();
     //this.config.fetch();
 
-    this.games = new GamesCollection();
-    if (this.id !== '') {
-      this.games.setSort(this.id);
-    }
+    // we need to do 2 things 
+    // - fetch games
+    // - read/create the player
+    // THEN
+    //  render games & player.
 
+    // first: fetch games
+    var gameDeferred = $.Deferred();
+    this.games = new GamesCollection();
+    if (this.id !== '')
+      this.games.setSort(this.id);
+    this.games.on('sync', gameDeferred.resolve, gameDeferred);
     this.games.fetch();
 
-    //console.log('this.id ',this.id);
-
-
-    // $.ui.showMask('please wait, loading player');
+    // second: read/create player
+    var playerDeferred = $.Deferred();
     this.$el.html("please wait, loading player");
-
-    var that = this;
-
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
         console.log('error reading player ', err);
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
+          // FIXME: err, reject deferred
           console.log('player created', player);
-
-          // $.ui.hideMask();
-
-          // rendering
-      	  that.render();
-      	  that.games.on('all', that.renderList, that);
-
-
+          playerDeffered.resolve();
         });
         return;
       }
-      // continue
-      // $.ui.hideMask();
-
-
-      that.render();
-      that.games.on('all', that.renderList, that);
- 
- 	  /* GEOLOCALISATION */
- 	  /*
-      Y.Geolocation.on("change", function (pos) { 
-          
-          this.Owner = Y.User.getPlayer().toJSON();
-	      // On sauve le player avec les coord actuels
-	      player = new PlayerModel({
-	      latitude : pos[1]
-	      , longitude : pos[0]
-	      , playerid : this.Owner.id
-	      , token : this.Owner.token
-	      });
-	      player.save();
-	        
-	      // On charge les parties par Géolocalisation
-	      this.games = new GamesCollection();
-	      this.games.setMode('geolocation','');
-	      this.games.setPos(pos);
-	      this.games.fetch();
-	      this.games.on('all', this.renderList, this);
-       	  
-        
-      });
-      */
-      
-      
-
+      playerDeferred.resolve();
     });
 
-
+    // FIXME: handling error with deferreds
+    $.when(
+      gameDeferred,
+      playerDeferred
+    ).done(function () {
+      that.render();
+      that.renderList();
+    });
   },
 
 
@@ -135,24 +106,20 @@ Y.Views.Index = Backbone.View.extend({
     return this;
   },
 
+  // should not take any parameters
   render: function () {
     this.$el.html(this.indexViewTemplate(), {});
-
     return this;
   },
 
-  renderList: function (query) {
-
-
+  // should not take any parameters
+  renderList: function () {
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
-
     return this;
   },
 
   onClose: function () {
     this.undelegateEvents();
-    this.games.off("all", this.renderList, this);
-    
-	
+    //this.games.off("all", this.renderList, this);
   }
 });

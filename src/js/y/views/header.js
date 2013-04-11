@@ -14,6 +14,9 @@ Y.Views.Header = Backbone.View.extend({
       that.repaintBack();
     });
 
+    Backbone.on("request.start", function () { that.animateConnection("on"); });
+    Backbone.on("request.end", function () { that.animateConnection("off"); });
+
     // on s'abonne a la classe de connexion pour signifier les changements
 
   },
@@ -44,6 +47,52 @@ Y.Views.Header = Backbone.View.extend({
       this.showBack();
   },
 
-  showConnected: function () { },
-  hideConnected: function () { }
+  connectionStatus: (function () {
+    var status = "connected";
+    return function (newStatus) {
+      // FIXME: repaint GUI depending on newStatus.
+      return status;
+    };
+  })(),
+
+  animateConnection: (function () {
+    // private vars
+    var i = 0;
+    var intervalId = null;
+    var animationImages = [
+      //"images/header-logo-on-animate-1.png",
+      //"images/header-logo-on-animate-2.png",
+      "",
+      "images/header-logo-on-animate-3.png",
+      "images/header-logo-on-animate-4.png",
+      "images/header-logo-on.png"
+    ];
+    var animationIndex = 0;
+    //
+    return function (status) {
+      var connectionStatus = this.$(".connectionStatus");
+      // animation repaint 
+      var repaint = function () {
+        var animationImage = animationImages[animationIndex % animationImages.length];
+        connectionStatus.attr("src", animationImage);
+        animationIndex++;
+        if (animationIndex % animationImages.length == 0 && i == 0) {
+          window.clearInterval(intervalId);
+          intervalId = null;
+        }
+      };
+      // handling "on" / "off"
+      if (status == "on") {
+        // on
+        if (i == 0) {
+          intervalId = window.setInterval(repaint, 100);
+          repaint();
+        }
+        i++;
+      } else {
+        // off
+        i--;
+      }
+    };
+  })()
 });

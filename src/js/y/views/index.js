@@ -6,8 +6,8 @@ Y.Views.Index = Y.View.extend({
     'focus input[type="search"]': 'inputModeOn',
     'blur input[type="search"]': 'inputModeOff',
 
-    //"keyup input#search-basic": "search",
-    "blur input#search-basic": "search",
+    "keyup input#search-basic": "searchOnKey",
+    "mousedown .button-search": "searchButton",
     "click li": "goToGame",
 
     'click .button-filter': 'showFilters',
@@ -77,12 +77,11 @@ Y.Views.Index = Y.View.extend({
   },
 
 
-  goToGame: function (elmt) { 
-    console.log('goToGame',elmt.currentTarget.id); 
-    
-    var route = elmt.currentTarget.id;
-    Y.Router.navigate(route, {trigger: true}); 
-  
+  goToGame: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
   },
 
   showFilters: function () {
@@ -109,23 +108,28 @@ Y.Views.Index = Y.View.extend({
     this.hideFilters();
   },
 
-  search: function () {
-  
+  searchButton: function () {
+    this.inputModeOff();
+    this.search();
+  },
 
+  searchOnKey: function (event) {
+    if(event.keyCode == 13){
+      // the user has pressed on ENTER
+      this.search();
+    }
+    return this;
+  },
+
+  search: function () {
     //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
-    
-    //console.log('search '+q);
-        
-    $(this.listview).empty();
-    //gamesList = new GamesSearch();
-    //gamesList.setQuery(q);
-    //gamesList.fetch();
-    this.games.setMode('player', q);
-    this.games.fetch();
-    $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: q }));
-    //$(this.listview).listview('refresh');
-    //}
+    $(this.listview).html('<p class="message">Aucun resultat</p>'); // FIXME: no html in code.
+    this.games.setMode('player');
+    this.games.setQuery(q);
+    this.games.fetch().done($.proxy(function () {
+      $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: q }));
+    }, this));
     return this;
   },
 

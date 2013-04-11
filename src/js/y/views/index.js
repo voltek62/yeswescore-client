@@ -92,7 +92,12 @@ Y.Views.Index = Y.View.extend({
     this.$(".filters").hide();
   },
 
-  filterByDate: function () { this.filter("date"); },
+/*
+<a href="#sort/location" class="button">Afficher par Lieu</a>'
++    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
++    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>
+*/
+  filterByDate: function () { this.filter("date");Y.Router.navigate("/#sort/ongoing", true);},
   filterByClub: function () { this.filter("club"); },
   filterByPlayer: function () { this.filter("player"); },
 

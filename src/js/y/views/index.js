@@ -77,12 +77,11 @@ Y.Views.Index = Y.View.extend({
   },
 
 
-  goToGame: function (elmt) { 
-    console.log('goToGame',elmt.currentTarget.id); 
-    
-    var route = elmt.currentTarget.id;
-    Y.Router.navigate(route, {trigger: true}); 
-  
+  goToGame: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
   },
 
   showFilters: function () {
@@ -123,7 +122,7 @@ Y.Views.Index = Y.View.extend({
   search: function () {
     //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
-    $(this.listview).html("please wait...");
+    $(this.listview).html('<p class="message">Aucun resultat</p>'); // FIXME: no html in code.
     this.games.setMode('player');
     this.games.setQuery(q);
     this.games.fetch().done($.proxy(function () {

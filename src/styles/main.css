@@ -887,6 +887,12 @@ input.jq-ui-forms {
   position: relative;
   z-index: 10;
 }
+.indexViewTemplate .results .message {
+  font-family: Open Sans;
+  font-weight:normal;
+  font-size:12px;
+  line-height:14px;
+}
 .indexViewTemplate .filters {
   display: none; /* default=invisible */
   

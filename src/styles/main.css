@@ -516,7 +516,7 @@ input.jq-ui-forms {
 	overflow: hidden
 }
 
-.ui-block-a,.ui-block-b,.ui-block-c,.ui-block-d,.ui-block-e {
+.ui-block-a,.ui-block-b,.ui-block-c,.ui-block-d,.ui-block-e,.ui-block-f  {
   position: relative;
 	margin: 0;
 	padding: 0;
@@ -1291,6 +1291,7 @@ input.jq-ui-forms {
   height: 26px;
   
   padding: 2px;
+  padding-right: 10px;
   
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
@@ -1375,6 +1376,7 @@ input.jq-ui-forms {
 
 .textarea-border {
   width:100%;
+  height: 140px;
   margin-left:auto;
   margin-right:auto; 
   background-color:#fff;
@@ -1405,30 +1407,31 @@ input.jq-ui-forms {
   border: 0;
 }
 
-
-/*
-
-#sendButton {
-	
+.textarea-border .buttons {
+  padding: 5px;
+  width: 100%;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 }
 
-
-.button_comment_send {
-  padding-top:12px;
-  width:90px;	
-  height:44px;
-  z-index:1;
-  color:#fff;
-  background-image:none; 
-  background-color:#40c68f;
-  font-size:14px;
-  font-weight:normal;  
-  -webkit-border-radius:22px; border-radius:22px;
+#sendComment {
+  float: right;
+  width: 65px;
+  height: 23px;
+  line-height: 20px;
+  
+  font-family: 'Open Sans', sans-serif;
+  font-weight:bold;
+  font-size:12px;
+  color: white;
+  background-color: #41c68f;
+  text-align: center;
+  
+  -webkit-border-radius:10px; border-radius:10px;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 }
-
-.label-info {
-	color:red;
-}
-*/
-
-

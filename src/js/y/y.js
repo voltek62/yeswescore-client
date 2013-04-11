@@ -38,6 +38,7 @@
           // adding cors
           options.crossDomain = true;
           /*#endif*/
+          options.cache = false; // forcing jquery to add a random parameter.
           // calling jquery
           console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           return $.ajax(url, options);

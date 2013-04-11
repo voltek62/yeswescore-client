@@ -2,14 +2,14 @@ Y.Views.Index = Y.View.extend({
   el: "#content",
 
   events: {
+    // mode "input"
+    'focus input[type="search"]': 'inputModeOn',
+    'blur input[type="search"]': 'inputModeOff',
+
     //"keyup input#search-basic": "search",
     "blur input#search-basic": "search",
     "click li": "goToGame",    
-    "click #sendFilter": "sendFilter",
-
-    // mode "input"
-    'click input[type="search"]': 'inputModeOn',
-    'blur input[type="search"]': 'inputModeOff'
+    "click #sendFilter": "sendFilter"
   },
 
   listview: "#listGamesView",

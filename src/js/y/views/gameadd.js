@@ -9,7 +9,11 @@ Y.Views.GameAdd = Backbone.View.extend({
     'blur #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
     'click #team2_choice': 'displayTeam2',
-    'click input' :'hideFooter' 
+    'click input' :'hideFooter',
+
+    // mode "input"
+    'click input[type="text"]': 'inputModeOn',
+    'blur input[type="text"]': 'inputModeOff'
   },
 
   pageName: "gameAdd",
@@ -33,6 +37,14 @@ Y.Views.GameAdd = Backbone.View.extend({
 
   },
   
+  inputModeOn: function () {
+    Y.GUI.inputMode(true);
+  },
+
+  inputModeOff: function () {
+    Y.GUI.inputMode(false);
+  },
+
   hideFooter:function() {
   	console.log('hideFooter');
   	//$.ui.toggleNavMenu(false);

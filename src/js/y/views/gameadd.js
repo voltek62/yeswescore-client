@@ -1,12 +1,12 @@
-var GameAddView = Backbone.View.extend({
+Y.Views.GameAdd = Backbone.View.extend({
   el: "#content",
 
   events: {
     'submit form#frmAddGame': 'addGame',
     'change #myself': 'updateTeam1',
     'change #team1': 'changeTeam1',
-    'keyup #team1': 'updateListTeam1',
-    'keyup #team2': 'updateListTeam2',
+    'blur #team1': 'updateListTeam1',
+    'blur #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
     'click #team2_choice': 'displayTeam2',
     'click input' :'hideFooter' 
@@ -20,12 +20,13 @@ var GameAddView = Backbone.View.extend({
 
   initialize: function () {
   
-    $.ui.scrollToTop('#content'); 
+    //$.ui.scrollToTop('#content'); 
     
-    $.ui.setTitle("AJOUTER UNE PARTIE");	    
+    //$.ui.setTitle("AJOUTER UNE PARTIE");	    
+    Y.GUI.header.title("AJOUTER UNE PARTIE");
   
-    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoCompleteViewTemplate');
-    this.gameAddTemplate = Y.Templates.get('gameAddTemplate');
+    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');
+    this.gameAddTemplate = Y.Templates.get('gameAdd');
       
       this.Owner = Y.User.getPlayer().toJSON();
 	  this.render();
@@ -34,7 +35,7 @@ var GameAddView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	$.ui.toggleNavMenu(false);
+  	//$.ui.toggleNavMenu(false);
   },    
 
   displayTeam1: function (li) {
@@ -147,7 +148,7 @@ var GameAddView = Backbone.View.extend({
 
   addGame: function (event) {
   
-    $.ui.toggleNavMenu(true);
+    //$.ui.toggleNavMenu(true);
   
     var team1 = $('#team1').val()
       , rank1 = $('#rank1').val()

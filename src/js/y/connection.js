@@ -1,4 +1,8 @@
 (function (Y, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
+
   var Connection = {
     ONLINE: "ONLINE",
     OFFLINE: "OFFLINE",

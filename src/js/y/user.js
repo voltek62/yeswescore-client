@@ -1,4 +1,7 @@
 (function (Y, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
 
   var DB = new Y.DB("Y.Cache.");
 
@@ -48,7 +51,7 @@
       // have we got a player id in conf ?
       var playerId = Y.Conf.get(playerIdConfKey);
       var playerToken = Y.Conf.get(playerTokenConfKey);
-      if (!playerId || !token) {
+      if (!playerId || !playerToken) {
         callback(new Error("no player"));
         return;
       }
@@ -63,7 +66,7 @@
           DB.saveJSON("Player", player);
           //
           callback(null, player);
-        } .bind(this)
+        }
       });
     },
 
@@ -82,14 +85,15 @@
     },
 
     createPlayerAsync: function (callback) {
+      var that = this;
       player = new PlayerModel({});
       player.save({}, {
         success: function () {
           // saving it.
-          this.setPlayer(player);
+          that.setPlayer(player);
           // answer
           callback(null, player);
-        } .bind(this),
+        },
         error: function (e) { callback(e); }
       });
     }

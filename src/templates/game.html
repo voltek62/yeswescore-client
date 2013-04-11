@@ -1,0 +1,112 @@
+<div class="game">
+
+  <!--
+    INFO BAR
+  -->
+  <div class="infobar">
+    <!-- icons -->
+    <div class="ui-grid-d header">
+      <div class="ui-block-a">
+        <img src="./images/chrono.png" width="15" height="19" style="margin-top:1px;">
+      </div>
+      <div class="ui-block-b">
+        <img src="./images/calendar.png" width="17" height="20">
+      </div>
+      <div class="ui-block-c">
+        <img src="./images/house.png" width="21" height="19">
+      </div>
+      <div class="ui-block-d">
+        <img src="./images/eye.png" width="20" height="12" style="margin-top:4px;">
+      </div>
+      <div class="ui-block-e">
+        <img src="./images/people.png" width="24" height="15" style="margin-top:4px;">
+      </div>
+    </div>
+    <!-- infos -->
+    <div class="ui-grid-d text" >
+      <div class="ui-block-a">
+        <span class="timer">0:45:32</span>
+        <% 
+        //si date de fin - terminé
+        //si en cours on affiche la différence de temps
+        %>
+      </div>
+      <div class="ui-block-b">
+      <%
+      if (game.dates) {
+        game.dates.startConvert = new Date(game.dates.start);
+        game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
+        game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+      } else {
+         game.dates = {
+           startDate : '',
+           startTime : ''
+         };
+      }
+      %>
+      <b>
+      <%= game.dates.startDate  %><br/>
+      <%= game.dates.startTime %>
+      </b>
+      </div>
+      <div class="ui-block-c">
+      <b><%= game.location.city %></b>
+      </div>
+      <div class="ui-block-d">
+      <b>Public</b>
+      </div>
+      <div class="ui-block-e ">
+      <b>.</b>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    SCOREBOARD
+  -->
+  <div id="scoreBoard">
+  
+  </div>
+
+  <!--
+    SOCIAL BAR
+  -->
+  <div class="socialbar">
+    <% if (game.owner === Owner.id) { %>
+	    <div class="ui-grid-b">
+		    <div class="ui-block-a button">
+          <a id="optionButton">Options match</a> 
+		    </div>
+        <div id="facebook" class="ui-block-b share">
+          <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
+        </div>
+		    <div class="ui-block-c button">
+			    <a id="endButton">Terminer match</a>
+		    </div>
+      </div>
+    <% } else { %> 
+      <div class="ui-grid-b">
+        <div class="ui-block-a button">
+          <a id="followButton">
+            <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre match<% } %> 
+          </a>
+        </div>
+        <div id="facebook" class="ui-block-b">
+          <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
+        </div>          
+        <div class="ui-block-c button">
+          <a id="endButton">Terminer match</a>
+        </div>
+     </div>
+    <% } %>
+    <br/>
+  </div>
+</div>
+<!--
+  COMMENT BUTTON
+-->
+<div class="button-comments" id="#games/comment/<%= game.id %>">
+  <div class="background rounded"></div>
+  <div class="background trapeze"></div>
+  <div class="link-comments">COMMENTAIRES (<span id="countComment"></span>)</div>
+</div>

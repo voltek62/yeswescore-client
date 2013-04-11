@@ -1,4 +1,4 @@
-var GameFollowView = Backbone.View.extend({
+Y.Views.GameFollow = Backbone.View.extend({
   el:"#content",
 
   listview:"#listGamesView",
@@ -12,29 +12,45 @@ var GameFollowView = Backbone.View.extend({
 
   initialize:function() {
   
-    $.ui.scrollToTop('#content'); 
-    
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("LISTE DES PARTIES SUIVIS");	    
+    Y.GUI.header.title("LISTE DES PARTIES SUIVIS");		    
   
-    this.indexViewTemplate = Y.Templates.get('indexViewTemplate');
-    this.gameListViewTemplate = Y.Templates.get('gameListViewTemplate');
+    this.indexViewTemplate = Y.Templates.get('index');
+    this.gameListViewTemplate = Y.Templates.get('gameListView');
+       
+    this.render();   
         
-    //$.mobile.showPageLoadingMsg();
-        
-    this.games = new GamesCollection('follow');
-    this.gamesfollow = new GamesCollection(this.games.storage.findAll({local:true}));
+    var games = Y.Conf.get("owner.games.followed");
+    this.collection = new GamesCollection();
+    
+    var that = this;
+    
+    var i = games.length;
+    games.forEach(function (gameid) {
+
+		console.log('game',gameid);
 		
-    this.render();
-        
-    //this.games.on( 'all', this.renderList, this );
-    //this.games.on("all", this.renderList, this);
-    //this.games.findAll();
-        
-    //$.mobile.showPageLoadingMsg();
-    this.renderList();
+		game = new GameModel({id : gameid});
+        game.fetch();
+        game.once("all", function () { 
+          that.collection.add(game);
+          i--;
+          
+          console.log('i',i);
+          
+          if (i<=0) {
+
+    			console.log('renderList',that.collection.toJSON());
+    
+    			$(that.listview).html(that.gameListViewTemplate({games:that.collection.toJSON(),query:' '}));
+    	;
+          }
+        });
+			
+    });
+
   },
+  
+
     
   search:function() {
     //FIXME if($("#search-basic").val().length>3) {
@@ -61,12 +77,13 @@ var GameFollowView = Backbone.View.extend({
     return this;
   },
 
-  renderList: function(query) {
-    console.log('renderList');
+  renderList: function() {
+  
+    console.log('renderList',this.collection);
     
-    $(this.listview).html(this.gameListViewTemplate({games:this.gamesfollow.toJSON(),query:' '}));
+    $(this.listview).html(this.gameListViewTemplate({games:this.collection.toJSON(),query:' '}));
     $(this.listview).listview('refresh');
-    //$.mobile.hidePageLoadingMsg();
+
     return this;
   },
   

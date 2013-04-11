@@ -18,8 +18,13 @@ var GameModel = Backbone.Model.extend({
   },
 
   defaults : {
+    owner: "",
     sport : "tennis",
     status : "ongoing",
+    dates : {
+      end : "",
+      start : ""
+    },   
     location : {
       country : "",
       city : "",
@@ -37,6 +42,7 @@ var GameModel = Backbone.Model.extend({
       } ]
     } ],
     options : {
+      type : "singles",
       subtype : "A",
       sets : "0/0",
       score : "0/0",
@@ -111,7 +117,7 @@ var GameModel = Backbone.Model.extend({
         type : 'POST',
         data : object,
         success : function(result) {
-          console.log('data result Game', result);
+          // console.log('data result Game', result);
           // FIXME : on redirige sur //si offline id , si online sid
           window.location.href = '#games/' + result.id;
         },

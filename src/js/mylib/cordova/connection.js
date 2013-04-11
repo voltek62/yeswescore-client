@@ -1,4 +1,8 @@
 (function (Cordova, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
+
   var Connection = {
     types: {
       UNKNOWN: null,

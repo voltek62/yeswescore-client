@@ -1,9 +1,11 @@
 (function (Y, undefined) {
+  /*#ifdef STRICT*/
   "use strict";
+  /*#endif*/
 
   var Geolocation = {
-    longitude: null,
-    latitude: null,
+    longitude: 4.879303,
+    latitude: 45.732307,
 
     update: (function () {
       var pooling = false; // avoiding pooling twice

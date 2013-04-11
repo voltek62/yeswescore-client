@@ -1,4 +1,4 @@
-var PlayerSigninView = Backbone.View.extend({
+Y.Views.PlayerSignin = Backbone.View.extend({
   el : "#content",
 
   events: {
@@ -11,23 +11,21 @@ var PlayerSigninView = Backbone.View.extend({
 
   initialize : function() {
   
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("CONNEXION");	    
+    Y.GUI.header.title("CONNEXION");     
   
-    this.playerSigninTemplate = Y.Templates.get('playerSigninTemplate');
+    this.playerSigninTemplate = Y.Templates.get('playerSignin');
     this.render();
     //$.mobile.hidePageLoadingMsg();
   },
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	$.ui.toggleNavMenu(false);
+  	//$.ui.toggleNavMenu(false);
   },    
 
   signin : function(event) {
   
-    $.ui.toggleNavMenu(true);
+    //$.ui.toggleNavMenu(true);
   
     var email = $('#email').val();
     var password = $('#password').val();

@@ -16,7 +16,7 @@ var GamesCollection = Backbone.Collection.extend({
 	
 		  
   url:function() {
-    //console.log('mode de games',this.mode); 	
+    // console.log('mode de games',this.mode); 	
     //console.log('sort de games',this.sortMode); 	
         
     var url='';
@@ -35,7 +35,8 @@ var GamesCollection = Backbone.Collection.extend({
     else if (this.mode === 'geolocation' && this.pos !==null) { 
       url =  Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
     }
-    url =  Y.Conf.get("api.url.games");	
+    else 
+      url =  Y.Conf.get("api.url.games");	
     
     if (this.sortMode==='date')
       url = url  + "?sort=-dates.start";   

@@ -1,5 +1,7 @@
 (function (Y) {
+  /*#ifdef STRICT*/
   "use strict";
+  /*#endif*/
 
   // overloading backbone close.
   Backbone.View.prototype.close = function () {
@@ -8,22 +10,15 @@
       this.onClose();
   };
 
-  var currentView = null;
-
-  /* JQmobi
-  $.mvc.addRoute("/foo",function(){
-  var args=arguments;
-  console.log("Foo",arguments);
-  });
-	
-  */
-  var scroller = null;
-
   var Router = Backbone.Router.extend({
+    history: [ /* { pageName: ..., pageHash: ... } */ ],
+
+    currentView: null,
+
     routes: {
       '': 'index',
       'index': 'index',
-      'sort/:id' : 'index',
+      'sort/:id': 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/follow': 'gameFollow',
@@ -45,245 +40,193 @@
       'account': 'account'
     },
 
-
     initialize: function (options) {
-    
-      var that = this; 
-            
-      /* overload click */      
-      jq.ui.customClickHandler = function (a) {
-        //console.log('customClickHandler contient ',a.id);      
-        if (a.id !== 'backButton')
-        	that.navigate(a.hash.substr(1), { trigger: true });
-        return true;
-      };
-      
-      jq.ui.topClickScroll = function() {
-      
-      	console.log('overload topClickScroll in router.js');
-      };
 
-	  /* overload goBack */      
-      jq.ui.goBack = function() {
-      	//console.log('new goBack');		
- 		if (jq.ui.history.length > 0) {    
- 		  
-          var tmpEl = jq.ui.history.pop();  
-          
-          //tmpEl.hash = "#"+tmpEl.target;
-          //jq.ui.customClickHandler(tmpEl);
-          that.navigate(tmpEl.target, { trigger: true });           
-        }		
-	  };
-      
-      //Par defaut , pas de scroll	
-	  $.feat.nativeTouchScroll = true;
-	  $.ui.ready(function(){
-	     scroller=$("#content").scroller();//Fetch the scroller from cache
-	     //scroller.addInfinite();
-	     //scroller.enable();
-	     //$("#content").css("overflow","auto");
-		 //$("#content").css("height","100%");
-		 //scroller.scrollToTop();	
-	  });      
-  
+    },
+
+    /*
+    * @param Y.Views.*  view 
+    * @param object     params 
+    * @return function returning a view object.
+    */
+    createViewFactory: function (view, params) {
+      return function () {
+        return new view(params);
+      };
     },
 
     account: function () {
-      var accountView = new AccountView();
-      this.changePage(accountView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.Account));
     },
 
     club: function (id) {
-      var clubView = new ClubView({ id: id });
-      this.changePage(clubView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.Club, { id: id }));
     },
 
     clubAdd: function (id) {
-      var clubAddView = new ClubAddView();
-      this.changePage(clubAddView);
-      //scroller.scrollToTop();
-      scroller.unlock();
+      this.changePage(this.createViewFactory(Y.Views.ClubAdd));
     },
 
     index: function (id) {
-      var indexView = new IndexView({ id: id });     
-      this.changePage(indexView);
-      //scroller.scrollToTop();      
-      scroller.unlock();
+      this.changePage(this.createViewFactory(Y.Views.Index, { id: id }));
     },
 
-    
     game: function (id) {
-      var gameView = new GameView({ id: id });
-      this.changePage(gameView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
     },
 
     gameAdd: function () {
-      var gameAddView = new GameAddView();
-      this.changePage(gameAddView);
-      //scroller.scrollToTop();
-      scroller.unlock();
+      this.changePage(this.createViewFactory(Y.Views.GameAdd));
     },
 
     gameEnd: function (id) {
-      var gameEndView = new GameEndView({ id: id });
-      this.changePage(gameEndView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.GameEnd, { id: id }));
     },
 
     gameComment: function (id) {
-      var gameCommentView = new GameCommentView({ id: id });
-      this.changePage(gameCommentView);  
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.GameComment, { id: id }));
     },
 
     gameFollow: function () {
-      var gameFollowView = new GameFollowView();
-      this.changePage(gameFollowView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.GameFollow));
     },
 
     gameMe: function (id) {
-      var gameListView = new GameListView({ mode: 'me', id: id });
-      this.changePage(gameListView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'me', id: id }));
     },
 
     gameClub: function (id) {
-      var gameListView = new GameListView({ mode: 'club', clubid: id });
-      this.changePage(gameListView);
-      //scroller.scrollToTop();
-      scroller.unlock();
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'club', clubid: id }));
     },
 
     player: function (id) {
-      //console.log('router ',id);
-      var playerView = new PlayerView({ id: id, follow: '' });
-      this.changePage(playerView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
     },
 
-
     playerFollow: function (id) {
-      var playerFollowView = new PlayerFollowView();
-      this.changePage(playerFollowView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.PlayerFollow));
     },
 
     playerNoFollow: function (id) {
-      var playerView = new PlayerView({ id: id, follow: 'false' });
-      this.changePage(playerView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: 'false' }));
     },
 
     playerForm: function () {
-      var playerFormView = new PlayerFormView();
-      this.changePage(playerFormView);
-      //scroller.scrollToTop();
-      scroller.unlock();
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm));
     },
 
     playerList: function () {
-      var playerListView = new PlayerListView();
-      this.changePage(playerListView);
-      //scroller.scrollToTop();
-      scroller.unlock();
+      this.changePage(this.createViewFactory(Y.Views.PlayerList));
     },
 
     playerListByClub: function (id) {
-      var playerListView = new PlayerListView({ id: id });
-      this.changePage(playerListView);
-      //scroller.scrollToTop();
-      scroller.unlock();
+      this.changePage(this.createViewFactory(Y.Views.PlayerList, { id: id }));
     },
 
     playerSignin: function () {
-      var playerSigninView = new PlayerSigninView();
-      this.changePage(playerSigninView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.PlayerSignin));
     },
 
     playerForget: function () {
-      var playerForgetView = new PlayerForgetView();
-      this.changePage(playerForgetView);
-      //scroller.scrollToTop();
-      //scroller.lock();
+      this.changePage(this.createViewFactory(Y.Views.PlayerForget));
     },
 
-    setNextTransition: function (el) {
-    },
+    /*
+    * you can change page passing a function:
+    *    this.changePage(function () { return new Y.Views.Account() });
+    *
+    * @param function  viewFactory    function returning a view
+    */
+    changePage: function (viewFactory) {
+      assert(typeof viewFactory === "function");
 
-    changePage: function (view) {
+      var previousPageName = "none"
+        , previousPageHash = "none"
+        , nextPageName = "unknown"
+        , nextPageHash = "unknown"
+        , view = null
+        , that = this;
 
+      // previous page name, page hash
+      if (this.currentView && this.currentView.pageName)
+        previousPageName = this.currentView.pageName;
+      if (this.currentView && this.currentView.pageHash)
+        previousPageHash = this.currentView.pageHash;
+
+      // event
       try {
-        var previousPageName = "none";
-        var nextPageName = "unknown";
+        this.trigger('beforePageChanged', previousPageName, previousPageHash);
+      } catch (e) {
+        assert(false);
+      };
 
-        var previousPageHash = "none";
-        var nextPageHash = "unknown";
+      // closing current view (still in the DOM)
+      try {
+        if (this.currentView)
+          this.currentView.close();
+      } catch (e) {
+        assert(false);
+      };
 
-        if (currentView && currentView.pageName) {
-          previousPageName = currentView.pageName;        
-        }
-        
-        if (currentView && currentView.pageHash) {
-          previousPageHash = currentView.pageHash;  
-        }
-        
-        if (currentView) {
-          currentView.close();
-        }
-        
-        currentView = view;
-        
-        if (view.pageName) {
-          nextPageName = view.pageName;        
-        }
-        
-        if (view.pageHash) {
+      //
+      // Reflow bug under ie10 (WP8) maybe iOS & android.
+      // when document.documentElement is scrolled down & 
+      //  loading a new small view inside #content
+      //  the new view is rendered above the screen
+      //  because document.height hasn't been reflowed yet 
+      // 
+      // using document.documentElement.scrollTop = 0; is not enough
+      //   we must force a reflow & setTimeout to let the GUI thread some time to render.
+      //
+      // /!\ Be warned, this bugfix is empirical.
+      //
+      var next = function () {
+        // creating view
+        try {
+          view = viewFactory();
+        } catch (e) {
+          assert(false);
+        };
+
+        // next page name, page hash
+        if (view && view.pageName)
+          nextPageName = view.pageName;
+        if (view && view.pageHash)
           nextPageHash = view.pageHash;
-        }  
-          
-        //console.log('view pageHash',view.pageHash);
-        //console.log('currentView pageHash',currentView.pageHash);
 
+        // acting the change in Router.currentView & Y.GUI.content
+        that.currentView = view;
+        Y.GUI.content = view;
+
+        // event
+        try {
+          that.trigger('pageChanged', nextPageName, nextPageHash);
+        } catch (e) {
+          assert(false);
+        };
+
+        // stats.
         Y.Stats.page(previousPageName, nextPageName);
-        //console.log('DEV ChangePage', new Date().getTime());
-        
-        //FIX ME : goback launch loadContent ( disabled )
-        if (previousPageHash==='none') {
-          $.ui.clearHistory();
-      	  $.ui.pushHistory("", nextPageHash, "", "");
-        }
+      };
+
+      // scrolltop, juste after reflow
+      // with a good browser engine (aka ie10) rendering is perfect.
+      // FIXME: dependancy router => DOM .. yeak :(
+      var WP8=true;
+      /*#ifndef WP8*/
+      WP8=true;
+      /*#endif*/
+      if (WP8) {
+        if (document.documentElement)
+          document.documentElement.scrollTop = 0;
         else
-          $.ui.pushHistory(previousPageHash, nextPageHash, "", "");
-        
-		
-        // FIXME: render of view should be here ?
+          document.body.scrollTop = 0;
+        document.getElementById("content").getBoundingClientRect(); // force reflow
+        setTimeout(next, 10);
+      } else {
+        next();
       }
-      catch (e) {
-        //console.log('DEV ChangePage Error', e);
-      }
-
-
-    },
-
-    historyCount: 0
+    }
   });
 
   Y.Router = new Router();

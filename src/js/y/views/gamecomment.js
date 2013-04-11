@@ -1,4 +1,4 @@
-var GameCommentView = Backbone.View.extend({
+Y.Views.GameComment = Backbone.View.extend({
   el:"#content",
   gameid:'',
   
@@ -16,14 +16,17 @@ var GameCommentView = Backbone.View.extend({
     
   initialize:function() {
   
+    this.first = true;
+
     this.pageHash += this.id; 
   
-     $.ui.setBackButtonVisibility(true);
-     $.ui.setBackButtonText("&lt;");
-     $.ui.setTitle("COMMENTAIRES");
+     //$.ui.setBackButtonVisibility(true);
+     //$.ui.setBackButtonText("&lt;");
+     //$.ui.setTitle("COMMENTAIRES");
+     Y.GUI.header.title("COMMENTAIRES");
   
-    this.gameCommentTemplate = Y.Templates.get('gameCommentTemplate');
-    this.gameViewCommentListTemplate = Y.Templates.get('gameViewCommentListTemplate');
+    this.gameCommentTemplate = Y.Templates.get('gameComment');
+    this.gameViewCommentListTemplate = Y.Templates.get('gameCommentList');
                
     //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
@@ -75,9 +78,14 @@ var GameCommentView = Backbone.View.extend({
 
       // render the content into div of view
   renderRefresh : function() {
-        
+
+
         if (this.streams.toJSON() !== undefined) {
-        
+            // desactive temporairement le pooling pour faciliter le debug dans le DOM.
+            //if (!this.first)    
+            //  return false;
+            this.first = false;
+
 		 //FIXME : gérer la date en temps écoulé
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
             streams  : this.streams.toJSON(),
@@ -87,10 +95,9 @@ var GameCommentView = Backbone.View.extend({
           
           //$(this.incomingComment).html('vincent '+JSON.stringify(this.streams.toJSON()));
           
-          $(this.incomingComment).trigger('create');
+          //$(this.incomingComment).trigger('create');
 
         }
-        
         //return this;+
         return false;
   }, 

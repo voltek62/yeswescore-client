@@ -1,12 +1,23 @@
 // Global Object
-(function (global) {
+(function (global, undefined) {
+  /*#ifdef STRICT*/
   "use strict";
+  /*#endif*/
 
   var YesWeScore = {
-    lang: "fr",
-    Conf: null,     // @see yws/conf.js
-    Router: null,   // @see yws/router.js
-    Templates: null, // @see yws/tempates.js
+    language: window.navigator.language || "en-US",
+    Conf: null,      // @see y/conf.js
+    Router: null,    // @see y/router.js
+    Templates: null, // @see y/tempates.js
+    Views: {},       // @see y/views/*
+
+    GUI: {
+      header: null,  // singleton view #header
+      content: null, // singleton current view (center)
+      navbar: null   // singleton view #navbar
+    },
+
+    status: "uninitialized",  // uninitialized, loading, loaded
 
     Env: {
       DEV: "DEV",
@@ -18,37 +29,68 @@
       var that = this;
       // initializing backbone.
       Backbone.$ = $;
+      Backbone.ajax = function(url, options) {
+          // proxy to jquery
+          if (typeof url === "object") {
+            options = url;
+            url = undefined;
+          }
+          options = options || {};
+          url = url || options.url;
+          /*#ifdef CORS*/
+          // adding cors
+          options.crossDomain = true;
+          /*#endif*/
+          options.cache = false; // forcing jquery to add a random parameter.
+          // calling jquery
+          console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
+          return $.ajax(url, options);
+      };
+      
+      console.log('avant conf initEnv');
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
-        // init router
-        that.Router.initialize({hashChange: false, pushState: false});
-        // load the templates.
-        that.Templates.loadAsync(function () {
-          // start dispatching routes
-          // @see http://backbonejs.org/#History-start
-          Backbone.history.start();
-          // waiting for cordova to be ready
-          callback();
-        });
-      });
+                 console.log('callback initEnv');
+                 // init router
+                 that.Router.initialize();
+                 console.log('router initialized');
+                 // load the templates.
+                 that.Templates.loadAsync(function () {
+                   console.log('template loaded');
+                   // init GUI singleton
+                   that.GUI.header = new Y.Views.Header();
+                   that.GUI.content = null; // will be overwrite by the router.
+                   that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
+                   console.log('backbone history start');
+                   // start dispatching routes
+                   // @see http://backbonejs.org/#History-start
+                   Backbone.history.start();
+                   // waiting for cordova to be ready
+                   console.log('devrait etre ready');
+                   callback();
+                 });
+               });
     },
 
+    // FIXME: should be initialized only when document is ready.
     // same as jquery ;)
     ready: (function () {
-      var status = "uninitialized"  // uninitialized, loading, loaded
-        , callbacks = [];
+      var callbacks = [];
 
       return function ready(callback) {
-        switch (status) {
+        var that = this;
+        switch (this.status) {
           case "uninitialized":
             // when YesWeScore is uninitialized, we just stack the callbacks.
             callbacks.push(callback);
             // we are now "loading"
-            status = "loading";
+            console.log('avant status loading ');
+            this.status = "loading";
+            console.log('typeof ' + typeof this.load);
             this.load(function () {
               // We are now ready.
-              status = "ready";
+              that.status = "ready";
               _(callbacks).forEach(function (f) { f() });
             });
             break;

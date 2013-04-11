@@ -2,10 +2,12 @@
 node_modules
 dist
 
+# repertoire de builds.
 src/build/
-platforms/ios/build/
-platforms/android/build/
+platforms/ios/www/
+platforms/android/assets/
 platforms/wp8/build/
+platforms/web/build/
 
 platforms/wp8/vs/Bin/
 platforms/wp8/vs/obj/

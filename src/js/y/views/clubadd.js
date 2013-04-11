@@ -1,4 +1,4 @@
-var ClubAddView = Backbone.View.extend({
+Y.Views.ClubAdd = Backbone.View.extend({
   el: "#content",
 
   events: {
@@ -11,11 +11,9 @@ var ClubAddView = Backbone.View.extend({
 
   initialize: function () {
   
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("AJOUTER UN CLUB");
+    Y.GUI.header.title("AJOUTER UN CLUB");
 
-    this.clubAddTemplate = Y.Templates.get('clubAddTemplate');
+    this.clubAddTemplate = Y.Templates.get('clubAdd');
 
     this.Owner = Y.User.getPlayer();
 
@@ -25,14 +23,14 @@ var ClubAddView = Backbone.View.extend({
 
   hideFooter:function() {
   	console.log('hideFooter');
-  	$.ui.toggleNavMenu(false);
+  	//$.ui.toggleNavMenu(false);
   },   
 
   addClub: function (event) {
   
     jq("#navbar").show();
     jq("#content").css("bottom", "48px");
-    $.ui.showNavMenu = true;
+    //$.ui.showNavMenu = true;
 
     console.log('add Club');
     

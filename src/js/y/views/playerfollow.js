@@ -1,4 +1,4 @@
-var PlayerFollowView = Backbone.View.extend({
+Y.Views.PlayerFollow = Backbone.View.extend({
   el:"#content",
   
   events: {
@@ -14,24 +14,21 @@ var PlayerFollowView = Backbone.View.extend({
   
     this.pageHash += this.id; 
     
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("JOUEURS SUIVIS");	    
+    Y.GUI.header.title("JOUEURS SUIVIS");    
   
-    this.playerListViewTemplate = Y.Templates.get('playerListViewTemplate');
-    this.playerSearchTemplate = Y.Templates.get('playerSearchTemplate');
+    this.playerListViewTemplate = Y.Templates.get('playerList');
+    this.playerSearchTemplate = Y.Templates.get('playerSearch');
 
-    $.mobile.showPageLoadingMsg();
+    // $.mobile.showPageLoadingMsg();
 
-    this.playersfollow = new PlayersCollection('follow');
-    //On cherche que 
-    this.playersfollow = new PlayersCollection(this.playersfollow.storage.findAll({local:true}));
+
     this.render();		
         
     console.log('players ',this.playersfollow.toJSON());
         	
     //this.players.on( 'all', this.renderList, this );
-    this.renderList();
+    //this.renderList();
+    
   },
   
   search:function() {

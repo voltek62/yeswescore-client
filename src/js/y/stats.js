@@ -1,4 +1,8 @@
 (function (Y, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
+
   /*
   * Api:
   *  Y.Stats.click(ev, 'button:les_plus');
@@ -107,6 +111,7 @@
     trySend: (function () {
       var sending = false; // semaphore
       return function () {
+        return; // FIXME: remove before prod.
         if (stack.length == 0 || sending)
           return;
         sending = true;
@@ -115,24 +120,24 @@
           url: Y.Conf.get("api.url.stats") + "?q=" + encodeURIComponent(msg),
           type: 'GET',
           success: function () {
-           // everything went ok, next stat in 1 sec.
-           		setTimeout(function () {
-             	sending = false;
-             	Y.Stats.trySend();
-           		}, 1000);
-	         },
-	       error: function () {
-	           // retry after 5 sec.
-	           setTimeout(function () {
-	             // msg again in the stack
-	             stack.unshift(msg);
-	             sending = false;
-	             Y.Stats.trySend();
-	           }, 3000);
-	        }
-         });
-        }
-      })(),
+            // everything went ok, next stat in 1 sec.
+            setTimeout(function () {
+              sending = false;
+              Y.Stats.trySend();
+            }, 1000);
+          },
+          error: function () {
+            // retry after 5 sec.
+            setTimeout(function () {
+              // msg again in the stack
+              stack.unshift(msg);
+              sending = false;
+              Y.Stats.trySend();
+            }, 3000);
+          }
+        });
+      }
+    })(),
 
     send: function (msg) {
       this.push(msg);

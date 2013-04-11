@@ -1,16 +1,14 @@
-var AccountView = Backbone.View.extend({
+Y.Views.Account = Backbone.View.extend({
   el: "#content",
-
 
   pageName: "account",
   pageHash : "account", 
   
-
   initialize: function () {
-  
-    $.ui.setTitle("PROFIL");	
+    // $.ui.setTitle("PROFIL");	
+    Y.GUI.header.title("PROFIL");
 
-    this.accountViewTemplate = Y.Templates.get('accountViewTemplate');
+    this.accountViewTemplate = Y.Templates.get('account');
 
     this.Owner = Y.User.getPlayer();
 
@@ -20,7 +18,7 @@ var AccountView = Backbone.View.extend({
 
   // render the content into div of view
   render: function () {
-    $.ui.setTitle("MON COMPTE");
+    // $.ui.setTitle("MON COMPTE");
 
     $(this.el).html(this.accountViewTemplate({
       Owner: this.Owner

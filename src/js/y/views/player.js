@@ -1,4 +1,4 @@
-var PlayerView = Backbone.View.extend({
+Y.Views.Player = Backbone.View.extend({
   el:"#content",
 
   events: {
@@ -12,11 +12,9 @@ var PlayerView = Backbone.View.extend({
   
     this.pageHash += this.id; 
     
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("JOUEUR");	    
+    Y.GUI.header.title("JOUEUR");	    
   
-    this.playerViewTemplate = Y.Templates.get('playerViewTemplate');
+    this.playerViewTemplate = Y.Templates.get('player');
 
 	//console.log('player init '+this.id);
 

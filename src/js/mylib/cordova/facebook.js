@@ -1,5 +1,7 @@
 (function (Cordova, undefined) {
+  /*#ifdef STRICT*/
   "use strict";
+  /*#endif*/
 
   // registering geolocalisation only when cordova is ready.
   Cordova.deviceready(function () {

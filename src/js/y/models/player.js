@@ -17,7 +17,7 @@ var PlayerModel = Backbone.Model.extend({
       update: "",
       creation: new Date()
     },
-    language: window.navigator.language,
+    language: Y.language,
     location: {
       currentPos: [0, 0]
     },
@@ -99,15 +99,16 @@ var PlayerModel = Backbone.Model.extend({
 
   sync: function (method, model, options) {
 
-    //console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
+    console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
 
     if (method === 'create' && this.get('playerid') === undefined) {
-      return $.ajax({
+      var that = this;
+      return Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players"),
         type: 'POST',
         data: {
-          language: window.navigator.language,
+          language: Y.language,
           location: {
             currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
           },
@@ -115,11 +116,11 @@ var PlayerModel = Backbone.Model.extend({
         },
         // WHYYYYY ?????
         success: function (data) {
-          this.set(data);
+          that.set(data);
           if (options && options.success) {
             options.success(model, data, options);
           }
-        } .bind(this),
+        },
         error: function (message) {
           if (options && options.error)
             options.error(message);
@@ -135,7 +136,7 @@ var PlayerModel = Backbone.Model.extend({
         email: { address: (this.get('email') || '') },
         rank: (this.get('rank') || ''),
         idlicense: (this.get('idlicense') || ''),
-        language: window.navigator.language,
+        language: Y.language,
         games: [],
         token: (this.get('token') || ''),
         location: {

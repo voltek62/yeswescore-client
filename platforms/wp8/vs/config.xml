@@ -26,7 +26,6 @@
     
     Authorized plugin (cordova 2.5.0)
     
-    <plugin name="Device"/>
     <plugin name="Logger"/>
     <plugin name="Compass"/>
     <plugin name="Accelerometer"/>
@@ -48,6 +47,7 @@
     -->
     
     <!-- required plugins -->
+    <plugin name="Device"/>
     <plugin name="DebugConsole" />
     <plugin name="NetworkStatus"/>
     <plugin name="File"/>

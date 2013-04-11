@@ -146,14 +146,13 @@
     <Content Include="images\tile-200x200.png" />
     <Content Include="images\tile.png" />
     <Content Include="www\images\bg.jpg" />
-    <Content Include="www\images\btn_filter.png" />
     <Content Include="www\images\calendar.png" />
     <Content Include="www\images\chrono.png" />
     <Content Include="www\images\eye.png" />
     <Content Include="www\images\facebook.png" />
-    <Content Include="www\images\footer_button_bottom.png" />
     <Content Include="www\images\header-logo-on.png" />
     <Content Include="www\images\house.png" />
+    <Content Include="www\images\ico-magnifier-glass.jpg" />
     <Content Include="www\images\people.png" />
     <Content Include="www\images\pixel.jpg" />
     <Content Include="www\index.html">
@@ -167,6 +166,10 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="www\styles\webfonts\opensans-400.woff" />
+    <None Include="www\styles\webfonts\opensans-700.woff" />
+    <None Include="www\styles\webfonts\opensans-800.woff" />
+    <None Include="www\styles\webfonts\sosa-regular.woff" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">

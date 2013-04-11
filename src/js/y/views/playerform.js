@@ -1,4 +1,4 @@
-var PlayerFormView = Backbone.View.extend({
+Y.Views.PlayerForm = Backbone.View.extend({
   el:"#content",
     
   events: {
@@ -18,15 +18,15 @@ var PlayerFormView = Backbone.View.extend({
 
   initialize:function() {
           
-    $.ui.setBackButtonVisibility(true);
-    $.ui.setBackButtonText("&lt;");
-    $.ui.setTitle("MON PROFIL");
+
+    Y.GUI.header.title("MON PROFIL"); 
   
-    this.playerFormTemplate = Y.Templates.get('playerFormTemplate');
-    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoCompleteViewTemplate');
+    this.playerFormTemplate = Y.Templates.get('playerForm');
+    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
-    this.Owner = Y.User.getPlayer();
+    this.Owner = Y.User.getPlayer().toJSON();
     //this.pageHash += this.Owner.id; 
+    console.log(this.Owner);
         	
     this.player = new PlayerModel({id:this.Owner.id});
     this.player.fetch(); 
@@ -38,12 +38,12 @@ var PlayerFormView = Backbone.View.extend({
   
   hideFooter:function() {
   	console.log('hideFooter');
-  	$.ui.toggleNavMenu(false);
+  	//$.ui.toggleNavMenu(false);
   },  
   
   showFooter:function() {
   	console.log('showFooter');
-  	//$.ui.toggleNavMenu(true);
+  	////$.ui.toggleNavMenu(true);
   },   
   
   updateList: function (event) {
@@ -88,7 +88,7 @@ var PlayerFormView = Backbone.View.extend({
       
   add: function (event) {
   
-    $.ui.toggleNavMenu(true);
+    //$.ui.toggleNavMenu(true);
   
     var name = $('#name').val()
       , nickname = $('#nickname').val()

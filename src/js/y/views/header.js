@@ -1,4 +1,4 @@
-Y.Views.Header = Backbone.View.extend({
+Y.Views.Header = Y.View.extend({
   el: "#header",
 
   events: {

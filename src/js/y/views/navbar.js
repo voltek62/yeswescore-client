@@ -1,4 +1,4 @@
-Y.Views.Navbar = Backbone.View.extend({
+Y.Views.Navbar = Y.View.extend({
   el: "#navbar",
 
   events: {

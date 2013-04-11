@@ -1,4 +1,4 @@
-Y.Views.GameEnd = Backbone.View.extend({
+Y.Views.GameEnd = Y.View.extend({
   el:"#content",
 
   events: {

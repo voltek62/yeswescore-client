@@ -1,4 +1,4 @@
-Y.Views.GameFollow = Backbone.View.extend({
+Y.Views.GameFollow = Y.View.extend({
   el:"#content",
 
   listview:"#listGamesView",

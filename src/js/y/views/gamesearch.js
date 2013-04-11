@@ -1,4 +1,4 @@
-Y.Views.GameSearch = Backbone.View.extend({
+Y.Views.GameSearch = Y.View.extend({
   el:"#content",
     
   events: {

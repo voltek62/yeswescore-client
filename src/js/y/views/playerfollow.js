@@ -1,4 +1,4 @@
-Y.Views.PlayerFollow = Backbone.View.extend({
+Y.Views.PlayerFollow = Y.View.extend({
   el:"#content",
   
   events: {

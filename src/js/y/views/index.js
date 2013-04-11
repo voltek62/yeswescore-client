@@ -1,11 +1,15 @@
-Y.Views.Index = Backbone.View.extend({
+Y.Views.Index = Y.View.extend({
   el: "#content",
 
   events: {
     //"keyup input#search-basic": "search",
     "blur input#search-basic": "search",
     "click li": "goToGame",    
-    "click #sendFilter": "sendFilter"
+    "click #sendFilter": "sendFilter",
+
+    // mode "input"
+    'click input[type="search"]': 'inputModeOn',
+    'blur input[type="search"]': 'inputModeOff'
   },
 
   listview: "#listGamesView",

@@ -1,4 +1,4 @@
-Y.Views.PlayerForm = Backbone.View.extend({
+Y.Views.PlayerForm = Y.View.extend({
   el:"#content",
     
   events: {

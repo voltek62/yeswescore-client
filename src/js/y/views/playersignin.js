@@ -1,4 +1,4 @@
-Y.Views.PlayerSignin = Backbone.View.extend({
+Y.Views.PlayerSignin = Y.View.extend({
   el : "#content",
 
   events: {

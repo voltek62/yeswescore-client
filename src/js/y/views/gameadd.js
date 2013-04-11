@@ -1,4 +1,4 @@
-Y.Views.GameAdd = Backbone.View.extend({
+Y.Views.GameAdd = Y.View.extend({
   el: "#content",
 
   events: {
@@ -35,14 +35,6 @@ Y.Views.GameAdd = Backbone.View.extend({
       this.Owner = Y.User.getPlayer().toJSON();
 	  this.render();
 
-  },
-  
-  inputModeOn: function () {
-    Y.GUI.inputMode(true);
-  },
-
-  inputModeOff: function () {
-    Y.GUI.inputMode(false);
   },
 
   hideFooter:function() {

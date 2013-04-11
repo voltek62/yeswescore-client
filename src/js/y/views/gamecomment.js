@@ -1,4 +1,4 @@
-Y.Views.GameComment = Backbone.View.extend({
+Y.Views.GameComment = Y.View.extend({
   el:"#content",
   gameid:'',
   

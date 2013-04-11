@@ -136,6 +136,7 @@ module.exports = function (grunt) {
         STRICT:true
       },
       web: {
+        WEB:true,
         CORDOVA: true,
         NOCORDOVA: false,
         CORS: true,

@@ -1,4 +1,4 @@
-Y.Views.PlayerList = Backbone.View.extend({
+Y.Views.PlayerList = Y.View.extend({
   el : "#content",
 
   events : {

@@ -1,4 +1,4 @@
-Y.Views.PlayerForget = Backbone.View.extend({
+Y.Views.PlayerForget = Y.View.extend({
   el : "#content",
 
   events: {

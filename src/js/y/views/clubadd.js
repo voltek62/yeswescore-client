@@ -1,4 +1,4 @@
-Y.Views.ClubAdd = Backbone.View.extend({
+Y.Views.ClubAdd = Y.View.extend({
   el: "#content",
 
   events: {

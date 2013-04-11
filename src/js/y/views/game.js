@@ -1,4 +1,4 @@
-Y.Views.Game = Backbone.View.extend({
+Y.Views.Game = Y.View.extend({
       el : "#content",
       
       displayViewScoreBoard : "#scoreBoard",

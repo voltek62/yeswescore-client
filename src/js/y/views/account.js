@@ -1,4 +1,4 @@
-Y.Views.Account = Backbone.View.extend({
+Y.Views.Account = Y.View.extend({
   el: "#content",
 
   pageName: "account",

@@ -2,7 +2,7 @@
 (function (global, undefined) {
 
   var YesWeScore = {
-    lang: "fr",
+    language: window.navigator.language || "en-US",
     Conf: null,      // @see y/conf.js
     Router: null,    // @see y/router.js
     Templates: null, // @see y/tempates.js

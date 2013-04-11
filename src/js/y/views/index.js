@@ -51,7 +51,7 @@ Y.Views.Index = Backbone.View.extend({
         Y.User.createPlayerAsync(function (err, player) {
           // FIXME: err, reject deferred
           console.log('player created', player);
-          playerDeffered.resolve();
+          playerDeferred.resolve();
         });
         return;
       }

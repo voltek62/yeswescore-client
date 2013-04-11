@@ -56,8 +56,13 @@ var GamesCollection = Backbone.Collection.extend({
     this.sortMode=s;
   },
   
-  setMode:function(m,q) {
+  setMode:function(m, q) {
     this.mode=m;
+    if (typeof q !== "undefined")
+      this.setQuery(q); // compatibility ...
+  },
+
+  setQuery:function (q) {
     this.query=q;
   },
   

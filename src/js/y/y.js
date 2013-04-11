@@ -20,8 +20,8 @@
         if (window.isMobileBrowser()) { // only on mobile browser
           _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
                     function (node) { (status)?$(node).hide():$(node).show() });
-          (status) ? $("#content").css("padding-top", 0) :
-                      $("#content").removeAttr("style");
+          (status) ? $("#content .content-container").css("padding-top", 0) :
+                      $("#content .content-container").removeAttr("style");
         }
         return true;
       }

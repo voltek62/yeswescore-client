@@ -62,7 +62,7 @@ Y.Views.Header = Backbone.View.extend({
     var animationImages = [
       //"images/header-logo-on-animate-1.png",
       //"images/header-logo-on-animate-2.png",
-      "",
+      "images/pixel.png",
       "images/header-logo-on-animate-3.png",
       "images/header-logo-on-animate-4.png",
       "images/header-logo-on.png"

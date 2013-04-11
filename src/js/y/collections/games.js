@@ -43,7 +43,11 @@ var GamesCollection = Backbone.Collection.extend({
        		
     if (this.sortMode==='location')
       url = url  + "?sort=location.city";    	    
-    
+
+	//FIXME : trie par club
+    if (this.sortMode==='club')
+      url = url  + "";    	
+         	          
     //console.log('sortMode',this.sortMode);
     //console.log('URL',url);
     //console.log('sortMode',this.sortMode);

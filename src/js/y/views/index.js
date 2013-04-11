@@ -12,8 +12,8 @@ Y.Views.Index = Y.View.extend({
 
     'click .button-filter': 'showFilters',
     'click .filters a[data-filter="date"]': 'filterByDate',
-    'click .filters a[data-filter="club"]': 'filterByClub',
-    'click .filters a[data-filter="player"]': 'filterByPlayer',
+    'click .filters a[data-filter="location"]': 'filterByLocation',    
+    'click .filters a[data-filter="club"]': 'filterByClub'
   },
 
   listview: "#listGamesView",
@@ -97,9 +97,11 @@ Y.Views.Index = Y.View.extend({
 +    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
 +    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>
 */
-  filterByDate: function () { this.filter("date");Y.Router.navigate("/#sort/ongoing", true);},
-  filterByClub: function () { this.filter("club"); },
-  filterByPlayer: function () { this.filter("player"); },
+  filterByLocation: function () { this.filter("location");Y.Router.navigate("/#sort/location", true);},
+  filterByDate: function () { this.filter("date");Y.Router.navigate("/#sort/date", true);},
+  filterByClub: function () { this.filter("club");Y.Router.navigate("/#sort/club", true);},  
+  filterByOngoing: function () { this.filter("ongoing");Y.Router.navigate("/#sort/ongoing", true); },
+  filterByFinished: function () { this.filter("finished");Y.Router.navigate("/#sort/finished", true); },
 
   filter: function (o) {
     // FIXME

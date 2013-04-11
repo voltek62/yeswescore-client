@@ -13,7 +13,7 @@ Y.Views.Navbar = Backbone.View.extend({
   render: function () { },
   
   show: function () { 
-	this.el.show();
+	this.$el.show();
   },
 
   hide: function () { 
@@ -21,7 +21,7 @@ Y.Views.Navbar = Backbone.View.extend({
     this.$el.css("opacity", 0)
 	#navbar { transition: opacity ease 1s; }
     */
-	this.el.hide();
+	this.$el.hide();
   },
 
   goToGames: function () { console.log('goToGames'); Y.Router.navigate("", {trigger: true}); },

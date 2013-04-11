@@ -31,7 +31,7 @@ var PlayerModel = Backbone.Model.extend({
 
   login: function (mail, password) {
 
-    return $.ajax({
+    return Backbone.ajax({
       dataType: 'json',
       url: Y.Conf.get("api.url.auth"),
       type: 'POST',
@@ -157,7 +157,7 @@ var PlayerModel = Backbone.Model.extend({
 
       console.log('Update Player', dataSend);
 
-      return $.ajax({
+      return Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players") + (this.get('playerid') || '')
             + '/?playerid=' + (this.get('playerid') || '') + '&token='

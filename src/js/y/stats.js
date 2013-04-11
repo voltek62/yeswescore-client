@@ -116,7 +116,7 @@
           return;
         sending = true;
         var msg = stack.shift(); // fifo.
-        $.ajax({
+        Backbone.ajax({
           url: Y.Conf.get("api.url.stats") + "?q=" + encodeURIComponent(msg),
           type: 'GET',
           success: function () {

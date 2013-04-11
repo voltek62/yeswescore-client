@@ -109,7 +109,7 @@ Y.Views.GameComment = Backbone.View.extend({
   	var id = elmt.attr("id");
   		
     
-    $.ajax({
+    Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games")
         + this.gameid 
@@ -135,7 +135,7 @@ Y.Views.GameComment = Backbone.View.extend({
   	var id = elmt.attr("id");
   		
     
-    $.ajax({
+    Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.reports.games")+ this.gameid + '/stream/'+ id + '/',
         type : 'POST',

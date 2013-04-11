@@ -31,7 +31,7 @@ var StreamModel = Backbone.Model.extend({
         + '/stream/?playerid=' + (this.get('playerid') || '') + '&token='
         + (this.get('token') || ''));    
 
-      return $.ajax({
+      return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") 
         	+ (this.get('gameid') || '') 

@@ -110,7 +110,7 @@ var GameModel = Backbone.Model.extend({
 
       //console.log('tmp Game POST', JSON.stringify(object));
 
-      return $.ajax({
+      return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") + '?playerid=' + (this.get('playerid') || '')
             + '&token=' + (this.get('token') || ''),
@@ -130,7 +130,7 @@ var GameModel = Backbone.Model.extend({
 
     } else if (method === 'update' && this.get('playerid') !== undefined) {
 
-      return $.ajax({
+      return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") + '?playerid=' + (this.get('playerid') || '')
             + '&token=' + (this.get('token') || ''),

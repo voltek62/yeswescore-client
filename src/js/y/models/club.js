@@ -60,7 +60,7 @@ var ClubModel = Backbone.Model.extend({
 
       console.log('Create Club POST', JSON.stringify(object));
 
-      return $.ajax({
+      return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.clubs"),
         type : 'POST',

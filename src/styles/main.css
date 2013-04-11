@@ -59,7 +59,8 @@ input.mylib-forms {
   -webkit-appearance:none;
 }
 
-* { -webkit-tap-highlight-color:  rgba(255, 255, 255, 0) !important;
+/* @see bug android 4.1 http://stackoverflow.com/questions/12694556/android-tap-highlight-jelly-bean */
+* { -webkit-tap-highlight-color:  transparent !important;
     -ms-tap-highlight-color:rgba(255, 255, 255, 0) !important; }
 
 /**********************************************************

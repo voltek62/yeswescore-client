@@ -59,6 +59,23 @@ input.mylib-forms {
   -webkit-appearance:none;
 }
 
+input[type="text"] {
+  color: #000;
+  background: #fff;
+  border: 0;
+  border-radius: 12px;
+  padding-left: 10px;
+  height: 30px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight:normal;
+  width: 100%;
+  
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
+}
+
 /* @see bug android 4.1 http://stackoverflow.com/questions/12694556/android-tap-highlight-jelly-bean */
 * { -webkit-tap-highlight-color:  transparent !important;
     -ms-tap-highlight-color:rgba(255, 255, 255, 0) !important; }
@@ -471,29 +488,56 @@ ul > li.player > a {
 **********************************************************/
 
 .gameAdd.content-container {
-  padding-left: 0px;
-  padding-right: 0px;
   padding-bottom: 0px;
 }
 
 .gameAdd.background {
   background-color: #45b1db;
 }
-
-.bg-blue {
-  width:100%;
-  padding: 9px;
-  -moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:        border-box;
+.gameAdd .titre {
+  padding-top: 8px;
+  padding-left:10px;
+  
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size:12px;
+  color: white;
+}
+/* */
+#team1, #team2 {
+  width: 75%;
+}
+#myself {
+  position: absolute;
+  top: 0px;
+  left: 75%;
+  width: 30px;
+  height: 30px;
+  
+  margin-left: 5px;
+  line-height: 28px;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size:12px;
+  color: white;
+  background-color: #19171c;
+  border-radius: 5px;
+  
+  cursor: pointer;
 }
 
-input.jq-ui-forms-white { 
-  color:#000;
-  background:#fff;
-  -webkit-border-radius:12px; border-radius:12px;
-  height:30px;
-  width:96%;
+
+/* option formulaire simple */
+.gameAdd .simple .ui-grid-a .ui-block-a {
+  width: 100%;
+}
+.gameAdd .simple .ui-grid-a .ui-block-b {
+  display: none;
+}
+
+.gameAdd .simple .additionnal-options {
+  display: none;
 }
 
 /*
@@ -730,7 +774,7 @@ input.jq-ui-forms {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   
-  background-color: #41c68f;
+  background-color: #e4e4e4;
   
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
@@ -746,7 +790,7 @@ input.jq-ui-forms {
   width: 100%;
   height:33px;
   
-  border-bottom:72px solid #41c68f;
+  border-bottom:72px solid #e4e4e4;
   border-left:12px solid transparent;
   border-right:12px solid transparent;
   

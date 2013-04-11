@@ -124,7 +124,7 @@ Y.Views.GameAdd = Backbone.View.extend({
   renderListTeam1: function () {
     var q = $("#team1").val();
     $(this.listview1).html(this.playerListAutoCompleteViewTemplate({ players: this.playersTeam1.toJSON(), query: q, select: 1 }));
-    $(this.listview1).listview('refresh');
+    //$(this.listview1).listview('refresh');
   },
 
 

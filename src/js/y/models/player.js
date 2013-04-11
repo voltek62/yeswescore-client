@@ -17,7 +17,7 @@ var PlayerModel = Backbone.Model.extend({
       update: "",
       creation: new Date()
     },
-    language: window.navigator.language,
+    language: Y.language,
     location: {
       currentPos: [0, 0]
     },
@@ -108,7 +108,7 @@ var PlayerModel = Backbone.Model.extend({
         url: Y.Conf.get("api.url.players"),
         type: 'POST',
         data: {
-          language: window.navigator.language,
+          language: Y.language,
           location: {
             currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
           },
@@ -136,7 +136,7 @@ var PlayerModel = Backbone.Model.extend({
         email: { address: (this.get('email') || '') },
         rank: (this.get('rank') || ''),
         idlicense: (this.get('idlicense') || ''),
-        language: window.navigator.language,
+        language: Y.language,
         games: [],
         token: (this.get('token') || ''),
         location: {

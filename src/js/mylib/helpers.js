@@ -7,6 +7,9 @@ JSON.tryParse = function(o, undefined) {
   }
 };
 
+String.prototype.startsWith = function (subString) {
+    return this.indexOf(subString) === 0;
+};
 
 Date.prototype.getMonthName = function(lang) {
     lang = lang && (lang in Date.locale) ? lang : 'fr';

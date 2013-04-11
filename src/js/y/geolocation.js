@@ -1,7 +1,7 @@
 (function (Y, undefined) {
-  //#ifdef STRICT
+  /*#ifdef STRICT*/
   "use strict";
-  //#endif
+  /*#endif*/
 
   var Geolocation = {
     longitude: 4.879303,

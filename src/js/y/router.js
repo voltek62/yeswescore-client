@@ -1,7 +1,7 @@
 (function (Y) {
-  //#ifdef STRICT
+  /*#ifdef STRICT*/
   "use strict";
-  //#endif
+  /*#endif*/
 
   // overloading backbone close.
   Backbone.View.prototype.close = function () {

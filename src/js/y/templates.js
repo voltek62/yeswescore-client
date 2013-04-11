@@ -1,7 +1,7 @@
 (function (Y) {
-  //#ifdef STRICT
+  /*#ifdef STRICT*/
   "use strict";
-  //#endif
+  /*#endif*/
 
   Y.Templates = {
     // Hash of preloaded templates for the app

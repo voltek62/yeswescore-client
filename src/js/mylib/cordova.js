@@ -1,8 +1,8 @@
 // Global Object
 (function (global) {
-  //#ifdef STRICT
+  /*#ifdef STRICT*/
   "use strict";
-  //#endif
+  /*#endif*/
 
   var ondevicereadyCallbacks = []
     , onreadyCallbacks = [];

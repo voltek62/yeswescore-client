@@ -1206,7 +1206,7 @@ input.jq-ui-forms {
 }
 
 .button-comments {
-  position: absolute;
+  position: fixed;
   
   left: 0px;
   width: 100%;

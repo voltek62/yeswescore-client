@@ -18,6 +18,8 @@
       inputMode: function (status) {
         _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
                   function (node) { (status)?$(node).hide():$(node).show() });
+        (status) ? $("#content").css("padding-top", 0) :
+                   $("#content").removeAttr("style");
       }
     },
 

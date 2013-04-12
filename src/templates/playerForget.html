@@ -1,33 +1,33 @@
-<form id="frmForgetPlayer" class="form-center">
+<div class="gameAdd background"></div>
+<div class="gameAdd content-container">
+  <div class="simple">
 
-<div class="bg-blue">
+  	<span class="success label label-info hide" style="color: red"></span>
+  
+  	<div>
+  		<label class="control-label" for="pseudo">Email</label>
+  	</div>
+  	<div>
+  		<input type="text" id="email" name="email" placeholder="Email" class='jq-ui-forms-white' value="" /> 
+  		<span class="email_error label label-info hide"></span>
+  	</div>
+  
+  
+  <br/>
+  
+  <div align="center">
+  	<a href="#players/form" class="ui-input-text">S'enregistrer</a>
+  </div>
 
-	<span class="success label label-info hide" style="color: red"></span>
-
-	<div>
-		<label class="control-label" for="pseudo">Email</label>
-	</div>
-	<div>
-		<input type="text" id="email" name="email" placeholder="Email" class='jq-ui-forms-white' value="" /> 
-		<span class="email_error label label-info hide"></span>
-	</div>
-
-
-<br/>
-
-<div align="center">
-	<a href="#players/form" class="ui-input-text">S'enregistrer</a>
-</div>
-
+  </div>
 </div>
 
 <!--
   COMMENT SAVE
 -->
-<div class="button-form">
+<div class="button-form" data-input-mode="none">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form"><button type="submit" value="Save" class="button">Demande de mot de passe</button></div>
+  <div class="link-form"><div class="button-form">Demande de mot de passe</div></div>  
 </div>
 
-</form>

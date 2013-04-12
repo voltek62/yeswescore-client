@@ -1,8 +1,9 @@
-<div class="bg-blue">
-
-<form id="frmEndGame" class="form-center">
-
-
+<div class="gameAdd background"></div>
+<div class="gameAdd content-container">
+  <div class="simple">
+  
+    <span class="success label label-info hide"></span>
+    
 	<div>
 		<label>Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note priv&eacute; ( conseils, astuces ) ?</label>
 		<textarea id="privateNote" name="privateNote" class="jq-ui-forms"></textarea>
@@ -16,14 +17,19 @@
 	</div>
 
 
-	<div>
-		<button type="submit" value="Save" class="button">Save</button>
-	</div>
-
-
 	<input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
 	<input type="hidden" id="token" value="<%= token %>" class="input" />
 
-</form>
 
+  </div>
+</div>
+
+
+<!--
+  COMMENT SAVE
+-->
+<div class="button-form" data-input-mode="none">
+  <div class="background rounded"></div>
+  <div class="background trapeze"></div>
+  <div class="link-form"><div class="button-form">Enregistrer</div></div>  
 </div>

@@ -6,6 +6,7 @@ dist
 src/build/
 platforms/ios/www/
 platforms/android/assets/
+platforms/android/bin/
 platforms/wp8/build/
 platforms/web/build/
 

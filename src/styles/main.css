@@ -513,11 +513,10 @@ ul > li.player > a {
 #myself {
   position: absolute;
   top: 0px;
-  left: 75%;
-  width: 30px;
+  left: 80%;
+  width: 20%;
   height: 30px;
   
-  margin-left: 5px;
   line-height: 28px;
   text-align: center;
   font-family: 'Open Sans', sans-serif;
@@ -525,7 +524,7 @@ ul > li.player > a {
   font-size:12px;
   color: white;
   background-color: #19171c;
-  border-radius: 5px;
+  border-radius: 12px;
   
   cursor: pointer;
 }

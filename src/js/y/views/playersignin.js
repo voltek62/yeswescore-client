@@ -2,6 +2,10 @@ Y.Views.PlayerSignin = Y.View.extend({
   el : "#content",
 
   events: {
+  
+    'focus input[type="text"]': 'inputModeOn',
+    'blur input[type="text"]': 'inputModeOff',
+  
     'submit form#frmSigninPlayer' : 'signin',
     'click input' :'hideFooter'
   },

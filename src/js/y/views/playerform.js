@@ -2,6 +2,10 @@ Y.Views.PlayerForm = Y.View.extend({
   el:"#content",
     
   events: {
+    'focus input[type="text"]': 'inputModeOn',
+    'blur input[type="text"]': 'inputModeOff',
+  
+  
     'click #savePlayer':'add',
     'blur #club': 'updateList',
     'click #club_choice' : 'displayClub',

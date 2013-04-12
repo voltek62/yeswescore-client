@@ -16,8 +16,8 @@
     currentView: null,
 
     routes: {
-      '': 'index',
-      'index': 'index',
+      '': 'games',
+      'index': 'games',
       'sort/:id': 'index',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',

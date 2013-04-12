@@ -75,6 +75,10 @@ input[type="text"] {
   -webkit-box-sizing: border-box;
   box-sizing:        border-box;
 }
+input[type="text"][disabled] {
+  background-color: #e4e4e4;
+}
+  
 
 /* @see bug android 4.1 http://stackoverflow.com/questions/12694556/android-tap-highlight-jelly-bean */
 * { -webkit-tap-highlight-color:  transparent !important;
@@ -497,7 +501,7 @@ ul > li.player > a {
 .gameAdd.background {
   background-color: #45b1db;
 }
-.gameAdd .titre {
+.form-label {
   padding-top: 8px;
   padding-left:10px;
   
@@ -510,11 +514,8 @@ ul > li.player > a {
 #team1, #team2 {
   width: 75%;
 }
-#myself {
+.form-button {
   position: absolute;
-  top: 0px;
-  left: 80%;
-  width: 20%;
   height: 30px;
   
   line-height: 28px;
@@ -528,11 +529,20 @@ ul > li.player > a {
   
   cursor: pointer;
 }
+.form-button.selected {
+  color: #46c0e9;
+}
+.form-button.other-team {
+  top: 0px;
+  left: 80%;
+  width: 20%;
+}
 
 
 /* option formulaire simple */
 .gameAdd .simple .ui-grid-a .ui-block-a {
   width: 100%;
+  height: 30px;
 }
 .gameAdd .simple .ui-grid-a .ui-block-b {
   display: none;
@@ -1056,6 +1066,10 @@ input.jq-ui-forms {
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
   box-sizing:        border-box;
+}
+.account a[disabled] {
+  background-color: #b0b0b0;
+  border: 1px solid #c0c0c0;
 }
 
 .account a.warning {

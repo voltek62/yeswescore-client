@@ -22,7 +22,10 @@ Y.Views.Games = Y.View.extend({
   pageHash : "games",  
   
   initialize: function () {
-    Y.GUI.header.title("LISTE DES MATCHES");
+  	
+  	console.log('on est dans le init de games view');
+  
+    Y.GUI.header.title("LISTE DES MATCHS");
 
     var that = this;
     //

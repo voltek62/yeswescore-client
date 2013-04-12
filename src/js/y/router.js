@@ -25,8 +25,8 @@
       'games/end/:id': 'gameEnd',
       'games/comment/:id': 'gameComment',
       'games/club/:id': 'gameClub',
-      'games/:id': 'game',
-      'games': 'games',      
+      'games/list': 'games',   
+      'games/:id': 'game',   
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
       'players/form': 'playerForm',
@@ -76,6 +76,7 @@
     },
 
     games: function () {
+      console.log('on demande la vue games');
       this.changePage(this.createViewFactory(Y.Views.Games));
     },
 

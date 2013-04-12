@@ -29,13 +29,7 @@ Y.Views.Index = Y.View.extend({
     // THEN
     //  render games & player.
 
-    // first: fetch games
-    var gameDeferred = $.Deferred();
-    this.games = new GamesCollection();
-    if (this.id !== '')
-      this.games.setSort(this.id);
-    this.games.on('sync', gameDeferred.resolve, gameDeferred);
-    this.games.fetch();
+
 
     // second: read/create player
     var playerDeferred = $.Deferred();
@@ -57,7 +51,6 @@ Y.Views.Index = Y.View.extend({
 
     // FIXME: handling error with deferreds
     $.when(
-      gameDeferred,
       playerDeferred
     ).done(function () {
       that.render();

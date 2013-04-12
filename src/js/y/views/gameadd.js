@@ -21,12 +21,8 @@ Y.Views.GameAdd = Y.View.extend({
   listview1: "#team1_suggestions",
   listview2: "#team2_suggestions",
 
-  initialize: function () {
-  
-    //$.ui.scrollToTop('#content'); 
-    
-    //$.ui.setTitle("AJOUTER UNE PARTIE");	    
-    Y.GUI.header.title("AJOUTER UNE PARTIE");
+  initialize: function () {  
+    Y.GUI.header.title("CREER UNE PARTIE");
   
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');
     this.gameAddTemplate = Y.Templates.get('gameAdd');

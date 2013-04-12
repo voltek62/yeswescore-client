@@ -12,9 +12,9 @@ Y.Views.GameFollow = Y.View.extend({
 
   initialize:function() {
   
-    Y.GUI.header.title("LISTE DES PARTIES SUIVIS");		    
+    Y.GUI.header.title("MATCHS SUIVIS");		    
   
-    this.indexViewTemplate = Y.Templates.get('index');
+    this.indexViewTemplate = Y.Templates.get('games');
     this.gameListViewTemplate = Y.Templates.get('gameListView');
        
     this.render();   

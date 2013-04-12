@@ -30,7 +30,7 @@
         // pas trouvé mieux pour l'instant...
         var templates = [
           "account", "clubAdd", "clubListAutoComplete", "club", "clubList", "clubListAutoComplete", 
-          "gameAdd", "gameComment","gameEnd", "gameSearch", "gameListView", "gameCommentList",
+          "games","gameAdd", "gameComment","gameEnd", "gameSearch", "gameListView", "gameCommentList",
           "gameScoreBoard", "game", "index", "playerForget",
           "playerForm", "playerListAutoComplete", "playerList",
           "playerSearch", "playerSignin", "player"

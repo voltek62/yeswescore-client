@@ -1,34 +1,39 @@
-<div class="bg-blue">
+<div class="gameAdd background"></div>
+<div class="gameAdd content-container">
+  <div class="simple">
+  
 
-	<form id="frmAddClub" class="form-center">
+<span class="success label label-info hide" style="color: red"></span>
 
-		<span class="success label label-info hide" style="color: red"></span>
+<div>
+      <label class="ui-input-text" for="name">* Nom</label>
+</div>
+<div>
+		<input type="text" id="name" name="name" placeholder="Nom du Club" class='jq-ui-forms' value="" /> 
+		<span class="name_error label label-info hide"></span>
+</div>
 
-		<div>
-          <label class="ui-input-text" for="name">* Nom</label>
-		</div>
-		<div>
-				<input type="text" id="name" name="name" placeholder="Nom du Club" class='jq-ui-forms' value="" /> 
-				<span class="name_error label label-info hide"></span>
-		</div>
-
-		<div>
-          <label class="ui-input-text " for="city">* Ville</label>
-		</div>
-		<div>
-				<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms' value="" /> 
-				<span class="city_error label label-info hide"></span>
-		</div>
-
-        <br/>
-
-        <button type="submit" value="Save" class="button">Ajouter un club</button>
+<div>
+      <label class="ui-input-text " for="city">* Ville</label>
+</div>
+<div>
+		<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms' value="" /> 
+		<span class="city_error label label-info hide"></span>
+</div>
 
 
-		<input type="hidden" id="playerid" value="<%= playerid %>"/> 
-		<input type="hidden" id="token" value="<%= token %>"/>
+<input type="hidden" id="playerid" value="<%= playerid %>"/> 
+<input type="hidden" id="token" value="<%= token %>"/>
 
-	</form>
+</div>
+</div>
 
+<!--
+  COMMENT SAVE
+-->
+<div class="button-form" data-input-mode="none">
+  <div class="background rounded"></div>
+  <div class="background trapeze"></div>
+  <div class="link-form"><div class="button-form">Ajouter un club</div></div>  
 </div>
 

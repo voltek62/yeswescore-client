@@ -26,16 +26,16 @@
       'games/comment/:id': 'gameComment',
       'games/club/:id': 'gameClub',
       'games/:id': 'game',
+      'games': 'games',      
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
       'players/form': 'playerForm',
       'players/signin': 'playerSignin',
       'players/forget': 'playerForget',
-      'players/follow': 'playerFollow',
-      //'players/follow/:id':                           'playerFollow',    
-      //'players/nofollow/:id':                         'playerNoFollow',                                    
+      'players/follow': 'playerFollow',                                    
       'players/:id': 'player',
       'clubs/add': 'clubAdd',
+      'clubs/follow': 'clubAdd',      
       'clubs/:id': 'club',
       'account': 'account'
     },
@@ -73,6 +73,10 @@
 
     game: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
+    },
+
+    games: function () {
+      this.changePage(this.createViewFactory(Y.Views.Games));
     },
 
     gameAdd: function () {

@@ -39,9 +39,8 @@ Y.Views.Header = Y.View.extend({
   hideBack: function () { this.$(".backButton").hide() },
   repaintBack: function () {
     var pageName = Y.GUI.content.pageName;
-    if (pageName == "index" ||
-        pageName == "gameAdd" ||
-        pageName == "account")
+    
+    if (pageName == "index")
       this.hideBack();
     else
       this.showBack();

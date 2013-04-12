@@ -1,6 +1,8 @@
 <div class="content-container">
   <div class="account">
     <a href="#games/me/<%= Owner.id %>">Mes Matchs</a>
+    <a href="#games/follow" class="button" id="">Matchs Suivis</a>
+    <a href="#players/follow" class="button" id="">Joueurs Suivis</a>
     <% 
      if(Owner.club === undefined ) 
        print ('<a href="#" disabled>Mon Club</a>'); 

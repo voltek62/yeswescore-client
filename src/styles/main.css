@@ -758,7 +758,6 @@ input.jq-ui-forms {
   width: 100%;
   bottom: 0px;
   height: 87px; /* default = 87*/ 
-  overflow: hidden;
   /* performance issues, disabled */
   /*
   -webkit-transition: all 1s ease 0s;
@@ -811,16 +810,21 @@ input.jq-ui-forms {
   line-height:14px;
 }
 
-
 .link-form .button {
   width: 122px;
   height: 34px;
   margin: auto;
-  padding-top:10px;
+  
+  font-family: Open Sans;
+  font-weight:bold;
+  font-size:14px;
+  line-height: 34px;
+  
   -webkit-border-radius: 22px; border-radius: 22px;
   background-color: #46b1dd;
   border: 1px solid #74c5e3;
-  color:#ffff;	
+  color:#fff;
+  
   cursor: pointer;
 }
 

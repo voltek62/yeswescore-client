@@ -84,7 +84,7 @@ Y.Views.Header = Y.View.extend({
       // handling "on" / "off"
       if (status == "on") {
         // on
-        if (i == 0) {
+        if (i == 0 && intervalId == null) {
           intervalId = window.setInterval(repaint, 200);
           repaint();
         }

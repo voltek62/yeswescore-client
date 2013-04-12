@@ -7,12 +7,13 @@ Y.Views.GameAdd = Y.View.extend({
     'blur input[type="text"]': 'inputModeOff',
 
     'submit form#frmAddGame': 'addGame',
-    'change #myself': 'updateTeam1',
-    'change #team1': 'changeTeam1',
     'blur #team1': 'updateListTeam1',
     'blur #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
-    'click #team2_choice': 'displayTeam2'
+    'click #team2_choice': 'displayTeam2',
+
+    'click .form-button.other-team': 'otherTeam',
+    'blur #team1': 'changeTeam1'
   },
 
   pageName: "gameAdd",
@@ -66,28 +67,17 @@ Y.Views.GameAdd = Y.View.extend({
     //$(this.listview2).listview('refresh');
   },
 
+  otherTeam: function () {
+    $(".form-button.other-team").addClass("selected");
+    $("#team1").prop("disabled", false);
+    $("#team1").focus();
+  },
 
-
+    
   changeTeam1: function () {
-    if ($('#myself').attr('checked') !== undefined) {
-      console.log($('#myself').attr('checked'));
-
-      //Si Owner.name == : On update objet Player
-      if (this.Owner.name === '') {
-        player = new PlayerModel({
-          id: this.Owner.id,
-          token: this.Owner.token,
-          name: this.Owner.name,
-          nickname: this.Owner.nickname,
-          password: this.Owner.password,
-          rank: this.Owner.rank,
-          club: this.Owner.club
-        });
-
-        console.log('Player gameadd', player)
-
-        player.save();
-      }
+    if ($("#team1").val() == "") {
+      $(".form-button.other-team").removeClass("selected");
+      $("#team1").prop("disabled", true);
     }
   },
 
@@ -98,7 +88,7 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   updateListTeam1: function (event) {
-  	
+    /* disabled: FIXME #myself doesn't exist.
   	console.log('updateListTeam1');
   
     if ($('#myself').attr('checked') === undefined) {
@@ -113,6 +103,7 @@ Y.Views.GameAdd = Y.View.extend({
         this.playersTeam1.on('all', this.renderListTeam1, this);
       }
     }
+    */
   },
 
   renderListTeam1: function () {
@@ -123,6 +114,7 @@ Y.Views.GameAdd = Y.View.extend({
 
 
   updateListTeam2: function (event) {
+    /*
     var q = $("#team2").val();
     this.playersTeam2 = new PlayersCollection();
     this.playersTeam2.setMode('search', q);
@@ -131,7 +123,7 @@ Y.Views.GameAdd = Y.View.extend({
 
       this.playersTeam2.on('all', this.renderListTeam2, this);
     }
-
+    */
   },
 
   renderListTeam2: function () {

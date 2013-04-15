@@ -1,6 +1,6 @@
-<div class="bg-blue">
-
-<form class="form-center">
+<div class="gameAdd background"></div>
+<div class="gameAdd content-container">
+  <div class="simple">
 
 <span class="success label label-info hide" style="color: red"></span>
 
@@ -8,12 +8,21 @@
 <br/>
 Club : <%= player.club.name %> <a href="#clubs/<%= player.club.id %>">Plus d'infos</a>
 <br /> Classement : <%= player.rank %><br /> 
-<% if (follow === 'true') { %> 
-<a class="button" id="followButton">Ne plus suivre ce joueur</a> 
-<% } else { %> 
-<a class="button" id="followButton">Suivre ce joueur</a>
-<% } %>
 
-</form>
+  </div>
+</div>
 
+<!--
+  COMMENT SAVE
+-->
+<div class="button-form">
+  <div class="background rounded"></div>
+  <div class="background trapeze"></div>
+  <div class="link-form">  
+  <% if (follow === 'true') { %> 
+  <div class="button" id="followButton">Ne plus suivre ce joueur</div> 
+  <% } else { %> 
+  <div class="button" id="followButton">Suivre ce joueur</div>
+  <% } %>
+  </div>  
 </div>

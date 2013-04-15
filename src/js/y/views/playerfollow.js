@@ -4,7 +4,7 @@ Y.Views.PlayerFollow = Y.View.extend({
   listview:"#listPlayersView",  
   
   events: {
-    "keyup input#search-basic": "search"
+    "blur input#search-basic": "search"
   },
 
   pageName: "playerFollow",
@@ -18,35 +18,45 @@ Y.Views.PlayerFollow = Y.View.extend({
     this.playerListViewTemplate = Y.Templates.get('playerList');
 
     this.render();		
-        
+       
     var players = Y.Conf.get("owner.players.followed");
-    this.collection = new PlayersCollection();
     
-    var that = this;
+    console.log('players',players);
     
-    var i = players.length;
-    players.forEach(function (playerid) {
+    if (players!==undefined) {
 
-		console.log('player',playerid);
-		
-		player = new PlayerModel({id : playerid});
-        player.fetch();
-        player.once("sync", function () { 
-        
-          that.collection.add(this);
-          console.log('add player',this.toJSON());           
-          
-          i--;
-          console.log('i',i);
-          
-          if (i<=0) {
-    			console.log('renderList',that.collection.toJSON());    
-    			$(that.listview).html(that.playerListViewTemplate({players:that.collection.toJSON(),query:' '}));  	
-          }
-        });
+	    this.collection = new PlayersCollection();
+	
+	    var that = this;
+	
+	    var i = players.length;	
+	    players.forEach(function (playerid) {
+	
+			//console.log('player',playerid);
 			
-    });
-        
+			player = new PlayerModel({id : playerid});
+	        player.fetch();
+	        player.once("sync", function () { 
+	        
+	          that.collection.add(this);
+	          //console.log('add player',this.toJSON());           
+	          
+	          i--;
+	          //console.log('i',i);
+	          
+	          if (i<=0) {
+	    			console.log('renderList',that.collection.toJSON());    
+	    			$(that.listview).html(that.playerListViewTemplate({players:that.collection.toJSON(),query:' '}));  	
+	          }
+	        });
+				
+	    });
+	 }
+	 else {
+	 
+	   $(this.listview).html(this.playerListViewTemplate({players:[],query:' '}));
+	 }
+     
   },
   
   search:function() {

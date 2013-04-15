@@ -52,10 +52,10 @@ Y.Views.Game = Y.View.extend({
 		this.score = new GameModel({id : this.id});
         this.score.fetch();
 
-        var games = Y.Conf.get("owner.games.followed");
-        if (games !== undefined)
+        var games_follow = Y.Conf.get("owner.games.followed");
+        if (games_follow !== undefined)
         {
-          if (games.indexOf(this.id) === -1) {
+          if (games_follow.indexOf(this.id) === -1) {
             this.follow = 'false';
           }
           else
@@ -414,13 +414,13 @@ Y.Views.Game = Y.View.extend({
 
         if (this.follow === 'true') {
 
-          var games = Y.Conf.get("owner.games.followed");
-          if (games !== undefined)
+          var games_follow = Y.Conf.get("owner.games.followed");
+          if (games_follow !== undefined)
           {
-            if (games.indexOf(this.id) !== -1) {
+            if (games_follow.indexOf(this.id) !== -1) {
               //On retire l'elmt
-              games.splice(games.indexOf(this.id), 1);
-              Y.Conf.set("owner.games.followed", games, { permanent: true });
+              games_follow.splice(games_follow.indexOf(this.id), 1);
+              Y.Conf.set("owner.games.followed", games_follow, { permanent: true });
             }
           }
           
@@ -432,12 +432,12 @@ Y.Views.Game = Y.View.extend({
         } else {
         
           //Via localStorage
-          var games = Y.Conf.get("owner.games.followed");
-          if (games !== undefined)
+          var games_follow = Y.Conf.get("owner.games.followed");
+          if (games_follow !== undefined)
           {
-            if (games.indexOf(this.id) === -1) {
-              games.push(this.id);
-              Y.Conf.set("owner.games.followed", games, { permanent: true });
+            if (games_follow.indexOf(this.id) === -1) {
+              games_follow.push(this.id);
+              Y.Conf.set("owner.games.followed", games_follow, { permanent: true });
             }
           }
           else

@@ -937,6 +937,30 @@ input.jq-ui-forms {
   cursor: pointer;
 }
 
+/* playerList.html */
+
+#listPlayersView .game-player {
+  font-family: Open Sans;
+  font-size: 14px;  
+  line-height: 14px;
+  /* trunk text */
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  margin-top:20px;
+}
+
+#listPlayersView .infos {
+  font-family: Open Sans;
+  font-size: 11px;  
+  line-height: 11px;
+  /* trunk text */
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  margin-top:5px;
+}
+
 /* gameListViewTemplate.html */
 #listGamesView li {
   height:87px;

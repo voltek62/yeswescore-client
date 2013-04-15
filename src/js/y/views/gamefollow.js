@@ -4,7 +4,7 @@ Y.Views.GameFollow = Y.View.extend({
   listview:"#listGamesView",
     
   events: {
-    "keyup input#search-basic": "search"
+    "blur input#search-basic": "search"
   },
 
   pageName: "gameFollow",
@@ -20,32 +20,39 @@ Y.Views.GameFollow = Y.View.extend({
     this.render();   
         
     var games = Y.Conf.get("owner.games.followed");
-    this.collection = new GamesCollection();
     
-    var that = this;
+    if (games!==undefined) {
     
-    var i = games.length;
-    games.forEach(function (gameid) {
-
-		//console.log('game',gameid);
-		
-		game = new GameModel({id : gameid});
-        game.fetch();
-        game.once("sync", function () {
-         
-          that.collection.add(this);
-          //console.log('add game',this.toJSON());             
-          
-          i--;         
-          //console.log('i',i);
-     
-          if (i<=0) {
-    			console.log('renderList',that.collection.toJSON());   
-    			$(that.listview).html(that.gameListViewTemplate({games:that.collection.toJSON(),query:' '}));
-          }
-        });
+	    this.collection = new GamesCollection();
+	    
+	    var that = this;
+	    
+	    var i = games.length;
+	    games.forEach(function (gameid) {
+	
+			//console.log('game',gameid);
 			
-    });
+			game = new GameModel({id : gameid});
+	        game.fetch();
+	        game.once("sync", function () {
+	         
+	          that.collection.add(this);
+	          //console.log('add game',this.toJSON());             
+	          
+	          i--;         
+	          //console.log('i',i);
+	     
+	          if (i<=0) {
+	    			console.log('renderList',that.collection.toJSON());   
+	    			$(that.listview).html(that.gameListViewTemplate({games:that.collection.toJSON(),query:' '}));
+	          }
+	        });
+				
+	    });
+	 }
+	 else {
+	   $(this.listview).html(this.gameListViewTemplate({games:[],query:' '}));
+	 }
 
   },
   

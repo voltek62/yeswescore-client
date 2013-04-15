@@ -2,7 +2,7 @@ Y.Views.Player = Y.View.extend({
   el:"#content",
 
   events: {
-    'vclick #followPlayerButton': 'followPlayer'
+    'click #followButton': 'followPlayer'
   },
 
   pageName: "player",
@@ -21,46 +21,62 @@ Y.Views.Player = Y.View.extend({
     this.player = new PlayerModel({id:this.id});
     this.player.fetch(); 
 
-    //console.log('Player',this.player.toJSON());
-    
-    // control if player id in playersfollow
-    //this.playersfollow = new PlayersCollection('follow');
-
-    //result = this.playersfollow.storage.find({id:this.id});
-    //if (result===null) 
-    	this.follow = 'false';
-    //else	
-    //	this.follow = 'true';
+    var players_follow = Y.Conf.get("owner.players.followed");
+    if (players_follow !== undefined)
+    {
+      if (players_follow.indexOf(this.id) === -1) {
+        this.follow = 'false';
+      }
+      else
+        this.follow = 'true';          
+    }
+    else
+      this.follow = 'false';
 
     //change
-    this.player.on( 'change', this.render, this );
+    this.player.on( 'sync', this.render, this );
   },
 
   followPlayer: function() {
-    if (this.follow==='true') 
-    {
-	    this.playersfollow = new PlayersCollection('follow');
-	       
-	    console.log('On ne suit plus nofollow '+this.id);
-	       
-	    this.playersfollow.storage.remove(this.player);
-      
-	    $('span.success').html('Vous ne suivez plus ce joueur').show();
-	    //$('#followPlayerButton').html('Suivre ce joueur');
-      $("#followButton .ui-btn-text").text("Suivre ce joueur");
-	    this.follow = 'false';
-    }
-    else 
-    {
-      this.playersfollow = new PlayersCollection('follow');
-      this.playersfollow.create(this.player);
-      $('span.success').html('Vous suivez ce joueur').show();	
-      //$('#followPlayerButton').html('Ne plus suivre ce joueur');	
-      $("#followButton .ui-btn-text").text("Ne plus suivre ce joueur");
-	    this.follow = 'true';
-    }
-		
-    //this.$el.trigger('pagecreate');
+  
+        if (this.follow === 'true') {
+
+          var players_follow = Y.Conf.get("owner.players.followed");
+          if (players_follow !== undefined)
+          {
+            if (players_follow.indexOf(this.id) !== -1) {
+              //On retire l'elmt
+              players_follow.splice(players_follow.indexOf(this.id), 1);
+              Y.Conf.set("owner.players.followed", players_follow, { permanent: true });
+            }
+          }
+          
+          $('span.success').html('Vous ne suivez plus ce joueur').show();
+          $("#followButton").text("Suivre");
+
+          this.follow = 'false';
+
+        } else {
+        
+          //Via localStorage
+          var players_follow = Y.Conf.get("owner.players.followed");
+          if (players_follow !== undefined)
+          {
+            if (players_follow.indexOf(this.id) === -1) {
+              players_follow.push(this.id);
+              Y.Conf.set("owner.players.followed", players_follow, { permanent: true });
+            }
+          }
+          else
+            Y.Conf.set("owner.players.followed", [this.id]);
+
+          $('span.success').html('Vous suivez ce joueur').show();
+          $("#followButton").text("Ne plus suivre");
+
+          this.follow = 'true';
+
+        }	
+  
   },    
 
   //render the content into div of view
@@ -70,14 +86,13 @@ Y.Views.Player = Y.View.extend({
     this.$el.html(this.playerViewTemplate({
       player:this.player.toJSON(),follow:this.follow
     }));
-    //$.mobile.hidePageLoadingMsg();
-    //this.$el.trigger('pagecreate');
+
     return this;
   },
 
   onClose: function(){
     this.undelegateEvents();
-    this.player.off("change",this.render,this);   
+    this.player.off("sync",this.render,this);   
     //this.$el.off('pagebeforeshow'); 
   }
 });

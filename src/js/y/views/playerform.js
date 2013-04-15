@@ -28,14 +28,14 @@ Y.Views.PlayerForm = Y.View.extend({
     this.playerFormTemplate = Y.Templates.get('playerForm');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
-    this.Owner = Y.User.getPlayer().toJSON();
-    //this.pageHash += this.Owner.id; 
-    console.log(this.Owner);
+    this.player_cache = Y.User.getPlayer().toJSON();
+    //this.pageHash += this.player.id; 
+    console.log(this.player_cache);
         	
-    this.player = new PlayerModel({id:this.Owner.id});
+    this.player = new PlayerModel({id:this.player_cache.id});
     this.player.fetch(); 
     	
-    this.player.on( 'change', this.renderPlayer, this );  	 	
+    this.player.on( 'sync', this.renderPlayer, this );  	 	
 
   },
   
@@ -60,7 +60,7 @@ Y.Views.PlayerForm = Y.View.extend({
     this.clubs.setMode('search',q);
     if (q.length>2) {
       this.clubs.fetch();
-      this.clubs.on( 'all', this.renderList, this );
+      this.clubs.on( 'sync', this.renderList, this );
     }
     //$(this.listview).listview('refresh');
   },
@@ -87,7 +87,7 @@ Y.Views.PlayerForm = Y.View.extend({
     //console.log('selected '+selectedId+' '+selectedName);
     	
     $(this.listview).html('');
-    $(this.listview).listview('refresh');
+    //$(this.listview).listview('refresh');
   },
       
   add: function (event) {
@@ -131,23 +131,27 @@ Y.Views.PlayerForm = Y.View.extend({
   //render the content into div of view
   renderPlayer: function(){
     	
+    console.log('players',this.player.toJSON());	
+    	
+    player = this.player.toJSON();
+    
     var dataDisplay = {
-	      name:this.Owner.name
-	    , nickname:this.Owner.nickname
-	    , rank:this.Owner.rank
-	    , password:this.Owner.password
-	    , idlicense:this.Owner.idlicense
-	    , playerid:this.Owner.id
-	    , token:this.Owner.token
+	      name:player.name
+	    , nickname:player.nickname
+	    , rank:this.player.rank
+	    , password:player.password
+	    , idlicense:player.idlicense
+	    , playerid:player.id
+	    , token:this.player_cache.token
     };
       
-    if (this.Owner.club!== undefined) {    
-      dataDisplay.club = this.Owner.club.name;
-      dataDisplay.idclub = this.Owner.club.id;      	
+    if (this.player.club!== undefined) {    
+      dataDisplay.club = player.club.name;
+      dataDisplay.idclub = player.club.id;      	
     }
     
-    if (this.Owner.email!== undefined) {    
-      dataDisplay.email = this.Owner.email.address;    
+    if (this.player.email!== undefined) {    
+      dataDisplay.email = player.email.address;    
     }
     
     //player:this.player.toJSON(),playerid:Owner.id,token:Owner.token	
@@ -158,6 +162,6 @@ Y.Views.PlayerForm = Y.View.extend({
 
   onClose: function(){
     this.undelegateEvents();
-    this.player.off("change",this.renderPlayer,this); 
+    this.player.off("sync",this.renderPlayer,this); 
   }
 });

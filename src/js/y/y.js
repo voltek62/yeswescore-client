@@ -53,7 +53,7 @@
           /*#endif*/
           options.cache = false; // forcing jquery to add a random parameter.
           // calling jquery
-          console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
+          //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
           var xhr = $.ajax(url, options);
           xhr.always($.proxy(function () { this.trigger("request.end"); }, this));

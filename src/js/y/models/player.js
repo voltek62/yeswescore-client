@@ -155,7 +155,10 @@ var PlayerModel = Backbone.Model.extend({
         };
       }
 
-      console.log('Update Player', dataSend);
+      console.log('Update Player Ok', dataSend);
+      
+      //MAJ cache ???
+      
 
       return Backbone.ajax({
         dataType: 'json',

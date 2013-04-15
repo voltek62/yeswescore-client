@@ -30,10 +30,10 @@
         // pas trouvé mieux pour l'instant...
         var templates = [
           "account", "clubAdd", "clubListAutoComplete", "club", "clubList", "clubListAutoComplete", 
-          "games","gameAdd", "gameComment","gameEnd", "gameSearch", "gameListView", "gameCommentList",
+          "games","gameAdd", "gameComment","gameEnd", "gameSearch", "gameList", "gameCommentList",
           "gameScoreBoard", "game", "index", "playerForget",
           "playerForm", "playerListAutoComplete", "playerList",
-          "playerSearch", "playerSignin", "player"
+          "players", "playerSignin", "player"
         ];
         var timeoutid = setTimeout(function () { throw "cannot load some template.. "; }, 2000);
         var i = 0;

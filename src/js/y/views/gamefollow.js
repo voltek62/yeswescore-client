@@ -15,7 +15,7 @@ Y.Views.GameFollow = Y.View.extend({
     Y.GUI.header.title("MATCHS SUIVIS");		    
   
     this.indexViewTemplate = Y.Templates.get('games');
-    this.gameListViewTemplate = Y.Templates.get('gameListView');
+    this.gameListViewTemplate = Y.Templates.get('gameList');
        
     this.render();   
         
@@ -31,18 +31,17 @@ Y.Views.GameFollow = Y.View.extend({
 		
 		game = new GameModel({id : gameid});
         game.fetch();
-        game.once("all", function () { 
-          that.collection.add(game);
-          i--;
+        game.once("sync", function () {
+         
+          that.collection.add(this);
+          console.log('add game',this.toJSON());             
           
+          i--;         
           console.log('i',i);
-          
+     
           if (i<=0) {
-
-    			console.log('renderList',that.collection.toJSON());
-    
+    			console.log('renderList',that.collection.toJSON());   
     			$(that.listview).html(that.gameListViewTemplate({games:that.collection.toJSON(),query:' '}));
-    	
           }
         });
 			
@@ -62,27 +61,20 @@ Y.Views.GameFollow = Y.View.extend({
     $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(), query:q}));
     $(this.listview).listview('refresh');
     //}
-    return this;
+  
   },
 
   //render the content into div of view
   render: function(){
     this.$el.html(this.indexViewTemplate(), {});
-    //Trigger jquerymobile rendering
-    //this.$el.trigger('pagecreate');
-      
-    //return to enable chained calls
-    return this;
+
   },
 
   renderList: function() {
-  
-    console.log('renderList',this.collection);
-    
+
     $(this.listview).html(this.gameListViewTemplate({games:this.collection.toJSON(),query:' '}));
     $(this.listview).listview('refresh');
 
-    return this;
   },
   
   onClose: function() {

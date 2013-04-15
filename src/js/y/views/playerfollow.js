@@ -1,11 +1,11 @@
 Y.Views.PlayerFollow = Y.View.extend({
   el:"#content",
   
+  listview:"#listPlayersView",  
+  
   events: {
     "keyup input#search-basic": "search"
   },
-
-  listview:"#listPlayersView",
 
   pageName: "playerFollow",
   pageHash : "players/follow",
@@ -14,7 +14,7 @@ Y.Views.PlayerFollow = Y.View.extend({
       
     Y.GUI.header.title("JOUEURS SUIVIS");    
 
-    this.playerSearchTemplate = Y.Templates.get('playerSearch');  
+    this.playerSearchTemplate = Y.Templates.get('players');  
     this.playerListViewTemplate = Y.Templates.get('playerList');
 
     this.render();		
@@ -25,24 +25,23 @@ Y.Views.PlayerFollow = Y.View.extend({
     var that = this;
     
     var i = players.length;
-    players.forEach(function (gameid) {
+    players.forEach(function (playerid) {
 
-		console.log('game',gameid);
+		console.log('player',playerid);
 		
-		player = new PlayerModel({id : gameid});
+		player = new PlayerModel({id : playerid});
         player.fetch();
-        player.once("all", function () { 
-          that.collection.add(player);
-          i--;
+        player.once("sync", function () { 
+        
+          that.collection.add(this);
+          console.log('add player',this.toJSON());           
           
+          i--;
           console.log('i',i);
           
           if (i<=0) {
-
-    			console.log('renderList',that.collection.toJSON());
-    
-    			$(that.listview).html(that.playerListViewTemplate({players:that.collection.toJSON(),query:' '}));
-    	
+    			console.log('renderList',that.collection.toJSON());    
+    			$(that.listview).html(that.playerListViewTemplate({players:that.collection.toJSON(),query:' '}));  	
           }
         });
 			
@@ -59,6 +58,7 @@ Y.Views.PlayerFollow = Y.View.extend({
     $(this.listview).html(this.playerListViewTemplate({players:this.playersfollow.toJSON(), query:q}));
     $(this.listview).listview('refresh');
     //}
+    return this;
   },
 
   //render the content into div of view
@@ -71,7 +71,7 @@ Y.Views.PlayerFollow = Y.View.extend({
   },
 
   renderList: function(query) {
-    $(this.listview).html(this.playerListViewTemplate({players:this.playersfollow.toJSON(), query:' '}));
+    $(this.listview).html(this.playerListViewTemplate({players:this.collection.toJSON(), query:' '}));
     $(this.listview).listview('refresh');
     //$.mobile.hidePageLoadingMsg();
     return this;

@@ -51,5 +51,5 @@ window.isMobileBrowser = (function () {
 
 var assert = function () { };
 /*#ifdef DEV*/
-assert = function (t) { if (!t) throw "assert false" };
+assert = function (t) { if (!t) throw "assert false " };
 /*#endif*/

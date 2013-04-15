@@ -35,11 +35,13 @@ Y.Views.Games = Y.View.extend({
     }
 	else
 	  Y.GUI.header.title("LISTE DES MATCHS");
+	  
 	
     var that = this;
-    //
-    this.indexViewTemplate = Y.Templates.get('games');
-    this.gameListViewTemplate = Y.Templates.get('gameListView');
+    //  
+    
+    this.indexViewTemplate = Y.Templates.get('games'); 
+    this.gameListViewTemplate = Y.Templates.get('gameList');
 
     //we capture config from bootstrap
     //FIXME: put a timer
@@ -65,7 +67,8 @@ Y.Views.Games = Y.View.extend({
 	    if (param.sort !== '')
 	      this.games.setSort(param.sort);
 	      
-     }       
+     }    
+      
             
     this.games.on('sync', gameDeferred.resolve, gameDeferred);
     this.games.fetch();
@@ -96,6 +99,7 @@ Y.Views.Games = Y.View.extend({
       that.render();
       that.renderList();
     });
+      
   },
 
 
@@ -163,9 +167,6 @@ Y.Views.Games = Y.View.extend({
 
   // should not take any parameters
   renderList: function () {
-  
-  	//console.log("renderList on affiche ",this.games.toJSON());
-  
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
     return this;
   },

@@ -19,7 +19,7 @@ Y.Views.GameSearch = Y.View.extend({
     //$.ui.setTitle("LISTE DES PARTIES");	    
 
     //this.gameSearchTemplate = Y.Templates.get('gameSearch');
-    this.gameListViewTemplate = Y.Templates.get('gameListView');
+    this.gameListViewTemplate = Y.Templates.get('gameList');
     
     //$.mobile.showPageLoadingMsg();
         

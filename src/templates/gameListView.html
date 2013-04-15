@@ -1,7 +1,22 @@
 <% if(games.length==0) { %>
 <li><p class="message">Aucun resultat</p></li>
 <% } %> 
-<% for (var i = 0; i < games.length; i++) { game = games[i]; 
+<% for (var i = 0; i < games.length; i++) { 
+
+game = games[i]; 
+
+
+if (game.error!=='undefined') 
+{
+  if (game.error === 'no player found') 
+  {  
+%>
+<li><p class="message">Aucun resultat : <%= game.error %></p></li>
+<%
+   break;
+  }
+}
+
 
 team1_set1 = '&nbsp;'; 
 team1_set2 = '&nbsp;'; 

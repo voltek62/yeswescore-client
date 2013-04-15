@@ -19,14 +19,21 @@ Y.Views.Games = Y.View.extend({
   listview: "#listGamesView",
 
   pageName: "games",
-  pageHash : "games",  
+  pageHash : "games", 
   
-  initialize: function () {
+  initialize: function (param) {
   	
-  	console.log('on est dans le init de games view');
-  
-    Y.GUI.header.title("LISTE DES MATCHS");
-
+  	console.log('on est dans le init de games view avec ',param);
+ 
+    if (param!=='undefined') { 
+      if (param.mode==="me")
+        Y.GUI.header.title("LISTE DE VOS MATCHS");
+      else if (param.mode==="club")
+        Y.GUI.header.title("LISTE DES MATCHS DU CLUB");      
+    }
+	else
+	  Y.GUI.header.title("LISTE DES MATCHS");
+	
     var that = this;
     //
     this.indexViewTemplate = Y.Templates.get('games');
@@ -46,8 +53,18 @@ Y.Views.Games = Y.View.extend({
     // first: fetch games
     var gameDeferred = $.Deferred();
     this.games = new GamesCollection();
-    if (this.id !== '')
-      this.games.setSort(this.id);
+
+    if (param!=='undefined') {
+    
+    	// Mode : my games, games followed /
+	    if (param.mode !== '')
+	      this.games.setMode(param.mode,param.id);
+	      
+	    if (param.sort !== '')
+	      this.games.setSort(param.sort);
+	      
+     }       
+            
     this.games.on('sync', gameDeferred.resolve, gameDeferred);
     this.games.fetch();
 
@@ -99,11 +116,11 @@ Y.Views.Games = Y.View.extend({
 +    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
 +    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>
 */
-  filterByLocation: function () { this.filter("location");Y.Router.navigate("/#sort/location", true);},
-  filterByDate: function () { this.filter("date");Y.Router.navigate("/#sort/date", true);},
-  filterByClub: function () { this.filter("club");Y.Router.navigate("/#sort/club", true);},  
-  filterByOngoing: function () { this.filter("ongoing");Y.Router.navigate("/#sort/ongoing", true); },
-  filterByFinished: function () { this.filter("finished");Y.Router.navigate("/#sort/finished", true); },
+  filterByLocation: function () { this.filter("location");Y.Router.navigate("sort/location", true);},
+  filterByDate: function () { this.filter("date");Y.Router.navigate("sort/date", true);},
+  filterByClub: function () { this.filter("club");Y.Router.navigate("sort/club", true);},  
+  filterByOngoing: function () { this.filter("ongoing");Y.Router.navigate("sort/ongoing", true); },
+  filterByFinished: function () { this.filter("finished");Y.Router.navigate("sort/finished", true); },
 
   filter: function (o) {
     // FIXME
@@ -144,6 +161,9 @@ Y.Views.Games = Y.View.extend({
 
   // should not take any parameters
   renderList: function () {
+  
+  	//console.log("renderList on affiche ",this.games.toJSON());
+  
     $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
     return this;
   },

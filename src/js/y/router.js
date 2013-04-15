@@ -18,7 +18,7 @@
     routes: {
       '': 'games',
       'index': 'games',
-      'sort/:id': 'index',
+      'sort/:id': 'games',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/follow': 'gameFollow',
@@ -68,17 +68,28 @@
     },
 
     index: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Index, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Index, { sort: id }));
     },
 
     game: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
     },
 
-    games: function () {
+    games: function (sort) {
       console.log('on demande la vue games');
-      this.changePage(this.createViewFactory(Y.Views.Games));
+      if (typeof sort === "undefined") sort='';
+      this.changePage(this.createViewFactory(Y.Views.Games, { mode: '', id: '', sort: sort }));
     },
+    
+    gameMe: function (id) {
+      console.log('on demande la vue my games');
+      this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'me', id: id, sort: '' }));
+    },
+
+    gameClub: function (id) {
+     console.log('on demande la vue games club');
+      this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'club', id: id, sort: '' }));
+    },    
 
     gameAdd: function () {
       this.changePage(this.createViewFactory(Y.Views.GameAdd));
@@ -94,14 +105,6 @@
 
     gameFollow: function () {
       this.changePage(this.createViewFactory(Y.Views.GameFollow));
-    },
-
-    gameMe: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'me', id: id }));
-    },
-
-    gameClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'club', clubid: id }));
     },
 
     player: function (id) {

@@ -42,7 +42,7 @@ Y.Views.GameFollow = Y.View.extend({
     			console.log('renderList',that.collection.toJSON());
     
     			$(that.listview).html(that.gameListViewTemplate({games:that.collection.toJSON(),query:' '}));
-    	;
+    	
           }
         });
 			

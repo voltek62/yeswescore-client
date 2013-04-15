@@ -8,10 +8,6 @@ var GamesCollection = Backbone.Collection.extend({
 	
 	initialize: function (param) {	
 		this.changeSort("city");		
-
-		//if (param==='follow')
-		//	this.storage = new Offline.Storage('gamesfollow', this);		
-
 	},
 	
 		  
@@ -21,10 +17,8 @@ var GamesCollection = Backbone.Collection.extend({
         
     var url='';
     
-    if (this.mode === 'clubid') 
+    if (this.mode === 'club') 
       url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
-    else if (this.mode === 'club') 
-      url =  Y.Conf.get("api.url.games");
     else if (this.mode === 'player') 
       url = Y.Conf.get("api.url.games") + "?q=" + this.query;
     else if (this.mode === 'me') {      
@@ -48,8 +42,8 @@ var GamesCollection = Backbone.Collection.extend({
     if (this.sortMode==='club')
       url = url  + "";    	
          	          
-    //console.log('sortMode',this.sortMode);
-    //console.log('URL',url);
+    console.log('sortMode',this.sortMode);
+    console.log('URL',url);
     //console.log('sortMode',this.sortMode);
         
     return url;

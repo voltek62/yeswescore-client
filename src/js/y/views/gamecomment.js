@@ -9,8 +9,6 @@ Y.Views.GameComment = Y.View.extend({
 
   events: {
     // mode "input"
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',  
     'focus textarea': 'inputModeOn',
     'blur textarea': 'inputModeOff', 
       

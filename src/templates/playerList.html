@@ -1,9 +1,15 @@
 <% if(players.length==0) { %>
 <li class="player"><p>Aucun resultat pour <%= query %></p></li>
-<% } %> <% for (var i = 0; i < players.length; i++) { player =
-players[i]; %>
-<li class="player"><a href="#players/<%= player.id %>">
+<% } %> 
+<% 
+for (var i = 0; i < players.length; i++) { 
+player = players[i]; 
+%>
+<li class="player">
+<a href="#players/<%= player.id %>">
 <%= player.name %> : <%= player.rank %><br/>
 <%= player.nickname %> : <%= player.club.name %> <br />
 </a></li>
-<% } %>
+<% 
+} 
+%>

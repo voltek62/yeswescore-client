@@ -11,24 +11,43 @@ Y.Views.PlayerFollow = Y.View.extend({
   pageHash : "players/follow",
 
   initialize:function() {
-  
-    this.pageHash += this.id; 
-    
+      
     Y.GUI.header.title("JOUEURS SUIVIS");    
-  
+
+    this.playerSearchTemplate = Y.Templates.get('playerSearch');  
     this.playerListViewTemplate = Y.Templates.get('playerList');
-    this.playerSearchTemplate = Y.Templates.get('playerSearch');
-
-    // $.mobile.showPageLoadingMsg();
-
 
     this.render();		
         
-    console.log('players ',this.playersfollow.toJSON());
-        	
-    //this.players.on( 'all', this.renderList, this );
-    //this.renderList();
+    var players = Y.Conf.get("owner.players.followed");
+    this.collection = new PlayersCollection();
     
+    var that = this;
+    
+    var i = players.length;
+    players.forEach(function (gameid) {
+
+		console.log('game',gameid);
+		
+		player = new PlayerModel({id : gameid});
+        player.fetch();
+        player.once("all", function () { 
+          that.collection.add(player);
+          i--;
+          
+          console.log('i',i);
+          
+          if (i<=0) {
+
+    			console.log('renderList',that.collection.toJSON());
+    
+    			$(that.listview).html(that.playerListViewTemplate({players:that.collection.toJSON(),query:' '}));
+    	
+          }
+        });
+			
+    });
+        
   },
   
   search:function() {

@@ -27,17 +27,17 @@ Y.Views.GameFollow = Y.View.extend({
     var i = games.length;
     games.forEach(function (gameid) {
 
-		console.log('game',gameid);
+		//console.log('game',gameid);
 		
 		game = new GameModel({id : gameid});
         game.fetch();
         game.once("sync", function () {
          
           that.collection.add(this);
-          console.log('add game',this.toJSON());             
+          //console.log('add game',this.toJSON());             
           
           i--;         
-          console.log('i',i);
+          //console.log('i',i);
      
           if (i<=0) {
     			console.log('renderList',that.collection.toJSON());   

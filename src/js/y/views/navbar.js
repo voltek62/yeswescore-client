@@ -2,7 +2,7 @@ Y.Views.Navbar = Y.View.extend({
   el: "#navbar",
 
   events: {
-    'click a[href="#"]': "goToGames",
+    'click a[href="#games/list"]': "goToGames",
     'click a[href="#games/add"]': "goToGamesAdd",
     'click a[href="#account"]': "goToAccount"
   },
@@ -10,6 +10,7 @@ Y.Views.Navbar = Y.View.extend({
   initialize: function () {
     var that = this;
     Y.Router.on("pageChanged", function (page, fragment) {
+      //console.log("fragment",fragment);
       this.highlight(fragment);
     }, this);
   },
@@ -17,9 +18,10 @@ Y.Views.Navbar = Y.View.extend({
   
   highlight: function (fragment) {
     // factorizing fragment.
-    if (fragment == "index" ||
-        fragment.startsWith("games/comment/")) {
+    if (fragment == "index" || fragment.startsWith("games/comment/")) {
       fragment = "#";
+    } else if ( fragment == "games/list" || fragment == "games" ) {
+      fragment = "#games/list";
     } else if (fragment == "games/add") {
       fragment = "#games/add";
     } else if (fragment == "account") {

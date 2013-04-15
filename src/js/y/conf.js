@@ -33,13 +33,13 @@
         case Y.Env.DEV:
           /*#ifdef DEV*/
           // marc
-          var apiBaseUrl = "http://plic.no-ip.org:22222";
-          var fbBaseUrl = "http://plic.no-ip.org:9091";
-          var fbAppId = "618522421507840";
+          //var apiBaseUrl = "http://plic.no-ip.org:22222";
+          //var fbBaseUrl = "http://plic.no-ip.org:9091";
+          //var fbAppId = "618522421507840";
           // vincent
-          // var apiBaseUrl = "http://plic.no-ip.org:1024";
-          // var fbBaseUrl = "http://plic.no-ip.org:9090";
-          // var fbAppId = "408897482525651";
+          var apiBaseUrl = "http://plic.no-ip.org:1024";
+          var fbBaseUrl = "http://plic.no-ip.org:9090";
+          var fbAppId = "408897482525651";
 
           this.set("api.url.auth", apiBaseUrl + "/v1/auth/");
           this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");

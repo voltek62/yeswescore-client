@@ -29,7 +29,9 @@ Y.Views.Games = Y.View.extend({
       if (param.mode==="me")
         Y.GUI.header.title("LISTE DE VOS MATCHS");
       else if (param.mode==="club")
-        Y.GUI.header.title("LISTE DES MATCHS DU CLUB");      
+        Y.GUI.header.title("LISTE DES MATCHS DU CLUB");   
+      else
+        Y.GUI.header.title("LISTE DES MATCHS");     
     }
 	else
 	  Y.GUI.header.title("LISTE DES MATCHS");

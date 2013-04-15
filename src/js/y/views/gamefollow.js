@@ -56,9 +56,7 @@ Y.Views.GameFollow = Y.View.extend({
     //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
     $(this.listview).empty();
-    //gamesList = new GamesSearch();
-    //gamesList.setQuery(q);
-    //gamesList.fetch();
+
     this.games.setMode('player',q);
     this.games.fetch();
     $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(), query:q}));

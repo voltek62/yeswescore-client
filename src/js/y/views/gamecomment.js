@@ -8,9 +8,15 @@ Y.Views.GameComment = Y.View.extend({
   pageHash : "games/comment/",
 
   events: {
-        'click #sendComment'  : 'sendComment',
-        'click .deleteComment': 'deleteComment',
-        'click .warnComment': 'warnComment'        
+    // mode "input"
+    'focus input[type="text"]': 'inputModeOn',
+    'blur input[type="text"]': 'inputModeOff',  
+    'focus textarea': 'inputModeOn',
+    'blur textarea': 'inputModeOff', 
+      
+    'click #sendComment'  : 'sendComment',
+    'click .deleteComment': 'deleteComment',
+    'click .warnComment': 'warnComment'        
   },
 
     

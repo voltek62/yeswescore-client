@@ -50,7 +50,7 @@ var StreamModel = Backbone.Model.extend({
         success : function(result) {
           // put your code after the game is saved/updated.
 
-          console.log('data Stream', result);
+          console.log('data Stream OK', result);
 
         }
       });

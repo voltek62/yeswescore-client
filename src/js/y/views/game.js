@@ -205,12 +205,12 @@ Y.Views.Game = Y.View.extend({
         // FIXME : On remplace les espaces par des zeros
         // sets_update = sets_update.replace(/ /g,'0');
 
-        // console.log('sets_update',sets_update);
+        console.log('sets_update',sets_update);
 
         tennis_update = new GameModel({
           sets : sets_update,
-          team1_points : team1_points,
-          team2_points : team2_points,
+          //team1_points : team1_points,
+          //team2_points : team2_points,
           id : gameid,
           team1_id : team1_id,
           team2_id : team2_id,

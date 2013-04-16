@@ -95,11 +95,8 @@ Y.Views.GameComment = Y.View.extend({
             streams  : this.streams.toJSON(),
             Owner : this.Owner
           }));
-          
-          
+                   
           //$(this.incomingComment).html('vincent '+JSON.stringify(this.streams.toJSON()));
-          
-          //$(this.incomingComment).trigger('create');
 
         }
         //return this;+
@@ -153,7 +150,7 @@ Y.Views.GameComment = Y.View.extend({
 
   sendComment : function() {
   
-  	console.log('sendComment');
+  	//console.log('sendComment');
   
     var playerid = $('#playerid').val()
     , token  = $('#token').val()
@@ -167,10 +164,12 @@ Y.Views.GameComment = Y.View.extend({
           text : comment,
           gameid : gameid
     });
-    // console.log('stream',stream);
+    
+    console.log('sendComment stream',stream.toJSON());
+    
     stream.save();
 
-    $('#messageText').val();
+    $('#messageText').val('');
     
     this.renderRefresh();
     

@@ -7,7 +7,7 @@ Y.Views.PlayerForm = Y.View.extend({
     'blur input[type="text"]': 'inputModeOff',
     //
     'click #savePlayer':'add',
-    'blur #club': 'updateList',
+    'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub',
     'click input' :'hideFooter'   
   },
@@ -70,8 +70,8 @@ Y.Views.PlayerForm = Y.View.extend({
     	
     console.log(this.clubs.toJSON());
     	
-	  $(this.listview).html(this.clubListAutoCompleteViewTemplate({clubs:this.clubs.toJSON(), query:q}));
-	  $(this.listview).listview('refresh');
+	$(this.listview).html(this.clubListAutoCompleteViewTemplate({clubs:this.clubs.toJSON(), query:q}));
+	  //$(this.listview).listview('refresh');
   },
     
     
@@ -131,26 +131,26 @@ Y.Views.PlayerForm = Y.View.extend({
   //render the content into div of view
   renderPlayer: function(){
     	
-    console.log('players',this.player.toJSON());	
+    console.log('renderPlayer players',this.player.toJSON());	
     	
     player = this.player.toJSON();
     
     var dataDisplay = {
 	      name:player.name
 	    , nickname:player.nickname
-	    , rank:this.player.rank
+	    , rank:player.rank
 	    , password:player.password
 	    , idlicense:player.idlicense
 	    , playerid:player.id
 	    , token:this.player_cache.token
     };
       
-    if (this.player.club!== undefined) {    
+    if (player.club!== undefined) {    
       dataDisplay.club = player.club.name;
       dataDisplay.idclub = player.club.id;      	
     }
     
-    if (this.player.email!== undefined) {    
+    if (player.email!== undefined) {    
       dataDisplay.email = player.email.address;    
     }
     

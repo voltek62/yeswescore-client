@@ -1216,6 +1216,7 @@ input.jq-ui-forms {
   -webkit-border-radius: 22px; border-radius: 22px;
   background-color: #46b1dd;
   border: 1px solid #74c5e3;
+  cursor: pointer;
 }
 .game .facebook img {
   position: relative;

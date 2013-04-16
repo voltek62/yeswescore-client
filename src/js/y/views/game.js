@@ -67,20 +67,19 @@ Y.Views.Game = Y.View.extend({
           delay : Y.Conf.get("game.refresh")
         };
 
-        // FIXME: SI ONLINE
-        
-        //poller = Backbone.Poller.get(this.score, options)
-        //poller.start();
-        //poller.on('success', this.getObjectUpdated, this);
 
         this.render();                                // rendu a vide (instantanément)
-        this.score.once("all",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
-        //this.score.on("all",this.renderRefresh,this); // 
+        this.score.once("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
+        // FIXME: SI ONLINE       
+        //poller = Backbone.Poller.get(this.score, options)
+        //poller.start();
+        //poller.on('sync', this.render, this);
+        
         
         //On compte les commentaires
         this.streams = new StreamsCollection({id : this.id});
     	this.streams.fetch();
-    	this.streams.once("all",this.renderCountComment,this); 
+    	this.streams.once("sync",this.renderCountComment,this); 
     	
         
       },
@@ -104,8 +103,6 @@ Y.Views.Game = Y.View.extend({
     	Y.Router.navigate(route, {trigger: true}); 
   	  },
 
-     
-
       setTeamSet : function(input, div) {
         if ($.isNumeric(input.val()))
           set = parseInt(input.val(), 10) + 1;
@@ -113,7 +110,10 @@ Y.Views.Game = Y.View.extend({
           set = '1';
 
         input.val(set);
-        div.html(set);
+        
+        //FIXME : NO HTML IN CODE
+        div.html('<div class="score">'+set+'</div>');
+        
         this.sendUpdater();
       },
 
@@ -162,13 +162,20 @@ Y.Views.Game = Y.View.extend({
         // '+$('input[name=team_selected]:checked').val());
 
         // ADD SERVICE
-        var gameid = $('#gameid').val(), team1_id = $('#team1_id').val(), team1_points = $(
-            '#team1_points').val(), team1_set1 = $('#team1_set1').val(), team1_set2 = $(
-            '#team1_set2').val(), team1_set3 = $('#team1_set3').val(), team2_id = $(
-            '#team2_id').val(), team2_points = $('#team2_points').val(), team2_set1 = $(
-            '#team2_set1').val(), team2_set2 = $('#team2_set2').val(), team2_set3 = $(
-            '#team2_set3').val(), playerid = $('#playerid').val(), token = $(
-            '#token').val(), tennis_update = null;
+        var gameid = $('#gameid').val()
+        , team1_id = $('#team1_id').val()
+        , team1_points = $('#team1_points').val()
+        , team1_set1 = $('#team1_set1').val()
+        , team1_set2 = $('#team1_set2').val()
+        , team1_set3 = $('#team1_set3').val()
+        , team2_id = $('#team2_id').val()
+        , team2_points = $('#team2_points').val()
+        , team2_set1 = $('#team2_set1').val()
+        , team2_set2 = $('#team2_set2').val()
+        , team2_set3 = $('#team2_set3').val()
+        , playerid = $('#playerid').val()
+        , token = $('#token').val()
+        , tennis_update = null;
 
         if ($.isNumeric(team1_set1) === false)
           team1_set1 = '0';
@@ -215,7 +222,8 @@ Y.Views.Game = Y.View.extend({
 
         tennis_update.save();
 
-        // FIXME: on ajoute dans le stream
+        // FIXME: on ajoute dans le stream un changement de score ???
+        /*
         var stream = new StreamModel({
           type : "score",
           playerid : playerid,
@@ -225,6 +233,8 @@ Y.Views.Game = Y.View.extend({
         });
         // console.log('stream',stream);
         stream.save();
+        */
+        
       },
 
       setPlusSet : function() {
@@ -328,15 +338,11 @@ Y.Views.Game = Y.View.extend({
         this.setPoint(false);
       },
       
-      
-      getObjectUpdated: function() {
-        this.score.on("all",this.renderRefresh,this);     
-      },
 
-      // render the content into div of view
+      // renderRefresh : refresh only scoreboard
       renderRefresh : function() {
         
-        //console.log('renderRefresh');
+        console.log('renderRefresh');
         
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),
@@ -344,22 +350,6 @@ Y.Views.Game = Y.View.extend({
         }));
              
         
-        $(this.displayViewScoreBoard).trigger('create');
-
-        // if we have comments
-        /* disable comment 
-        if (this.score.toJSON().stream !== undefined) {
-          
-          $(this.incomingComment).html(this.gameViewCommentListTemplate({
-            streams : this.score.toJSON().stream.reverse(),
-            Owner : this.Owner,
-            query : ' '
-          }));
-
-        }
-        */
-        
-        //return this;
         return false;
       },
 
@@ -375,10 +365,13 @@ Y.Views.Game = Y.View.extend({
 
       render : function() {
         // On rafraichit tout
+        
+        //console.log("Owner",this.Owner.toJSON());
+        
         // FIXME: refresh only input and id
         this.$el.html(this.gameViewTemplate({
           game : this.score.toJSON(),
-          Owner : this.Owner,
+          Owner : this.Owner.toJSON(),
           follow : this.follow
         }));
 
@@ -392,7 +385,7 @@ Y.Views.Game = Y.View.extend({
 
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),
-          Owner : this.Owner
+          Owner : this.Owner.toJSON()
         }));
 
 
@@ -462,12 +455,12 @@ Y.Views.Game = Y.View.extend({
       onClose : function() {
         // Clean
         this.undelegateEvents();
-        this.score.off("all",this.render,this);
+        this.score.off("sync",this.render,this);
         //this.score.off("all",this.renderRefresh,this);
         
         // FIXME:remettre
         //poller.stop();
-        //poller.off('success', this.renderRefresh, this);
+        //poller.off('sync', this.render, this);
 
         // FIXME:
         // poller.off('complete', this.render, this);

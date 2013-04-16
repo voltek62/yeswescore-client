@@ -7,9 +7,14 @@ player = players[i];
 
 if (player.error!=='undefined') 
 {
-   //break;
+  if (player.error.length > 1 ) 
+  { 
+  %>
+  <li><p class="message">Aucun resultat : <%= player.error %></p></li>
+  <%
+   break;
+  }
 }
-
 %>
 <li id="#players/<%= player.id %>">
 

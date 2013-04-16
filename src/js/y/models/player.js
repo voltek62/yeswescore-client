@@ -153,20 +153,24 @@ var PlayerModel = Backbone.Model.extend({
         dataSend.club = {
           id: (this.get('clubid') || undefined)
         };
+        //On met en cache le numero de club
+        Y.User.setClub(this.get('clubid'));
       }
 
-      console.log('Update Player Ok', dataSend);
+      console.log('Send Player', dataSend);
       
-      //MAJ cache ???
-      
-
       return Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players") + (this.get('playerid') || '')
             + '/?playerid=' + (this.get('playerid') || '') + '&token='
             + (this.get('token') || ''),
         type: 'POST',
-        data: dataSend
+        data: dataSend,
+        success : function(player) {
+          //MAJ cache ???
+          console.log('Update Player Ok',player);
+          
+        }
       });
     }
     else {

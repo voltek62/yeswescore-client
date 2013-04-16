@@ -8,7 +8,8 @@
   var player = null;
   var playerIdConfKey = 'player.id';
   var playerTokenConfKey = 'player.token';
-
+  var playerClubIdConfKey = 'player.club.id';
+  
   var User = {
     // @return PlayerModel/null   Player
     getPlayer: function () {
@@ -69,6 +70,14 @@
         }
       });
     },
+
+	setClub: function (clubid) {	
+      Y.Conf.set(playerClubIdConfKey, clubid, { permanent: true });		
+	},
+	
+	getClub: function () {	
+      return Y.Conf.get(playerClubIdConfKey);		
+	},	
 
     setPlayer: function (player) {
       assert(player instanceof PlayerModel);

@@ -3,11 +3,11 @@
     <a href="#games/me/<%= Owner.id %>">Mes Matchs</a>
     <a href="#games/follow" class="button" id="">Matchs Suivis</a>
     <a href="#players/follow" class="button" id="">Joueurs Suivis</a>
-    <% 
-     if(Owner.club === undefined ) 
+    <%
+     if( clubid === undefined ) 
        print ('<a href="#account" disabled>Mon Club</a>'); 
      else
-       print ('<a href="#clubs/'+Owner.club.id+'">Mon Club</a>'); 
+       print ('<a href="#clubs/'+clubid+'">Mon Club</a>'); 
     %>
     <a href="#players/form">Mon profil</a>
     <a href="#players/signin">Connectez-vous</a>

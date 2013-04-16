@@ -2,7 +2,9 @@ Y.Views.Club = Y.View.extend({
   el : "#content",
 
   events : {
-    'vclick #followButton' : 'follow'
+    'click a#listPlayer': "listPlayer",
+    'click a#lastResult': "lastResult",  
+    'click #followButton' : 'follow'
   },
 
   pageName: "club",
@@ -12,12 +14,6 @@ Y.Views.Club = Y.View.extend({
   
   	Y.GUI.header.title("CLUB");
   
-    //$.ui.scrollToTop('#content'); 
-    
-    //$.ui.setBackButtonVisibility(true);
-    //$.ui.setBackButtonText("&lt;");
-    //$.ui.setTitle("CLUB");	    
-  
     this.clubViewTemplate = Y.Templates.get('club');
 
     this.club = new ClubModel({
@@ -26,7 +22,7 @@ Y.Views.Club = Y.View.extend({
     this.club.fetch();
 
     // this.render();
-    this.club.on('change', this.render, this);
+    this.club.on('sync', this.render, this);
   },
 
   follow : function() {
@@ -40,21 +36,30 @@ Y.Views.Club = Y.View.extend({
       club : this.club.toJSON()
     }));
 
-    //$.mobile.hidePageLoadingMsg();
-
-    // Trigger jquerymobile rendering
-    // var thisel=this.$el;
-    // this.$el.on( 'pagebeforeshow',function(event){
-    // thisel.trigger('pagecreate');
-    // });
-    // return to enable chained calls
-    //this.$el.trigger('pagecreate');
     return this;
   },
+  
+  listPlayer : function(elmt) {
+ 
+    console.log('listPlayer ',elmt.currentTarget.href); 
+    var ref = elmt.currentTarget.href;
+    //console.log('listPlayer '+ref);
+	Y.Router.navigate(ref, {trigger: true}); 
+	   
+  },
+    
+  lastResult : function(elmt) {
+  
+    console.log('lastResult ',elmt.currentTarget.href);     
+    var ref = elmt.currentTarget.href;
+    //console.log('lastResult '+ref);
+	Y.Router.navigate(ref, {trigger: true});
+	    
+  },   
 
   onClose : function() {
     this.undelegateEvents();
-    this.club.off("change", this.render, this);
+    this.club.off("sync", this.render, this);
     // this.$el.off('pagebeforeshow');
   }
 });

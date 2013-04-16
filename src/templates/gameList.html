@@ -1,0 +1,138 @@
+<% if(games.length==0) { %>
+<li><p class="message">Aucun resultat</p></li>
+<% } %> 
+<% for (var i = 0; i < games.length; i++) { 
+
+game = games[i]; 
+
+if (game.error!=='undefined') 
+{
+  if (game.error.length > 1 ) 
+  {  
+%>
+<li><p class="message">Aucun resultat : <%= game.error %></p></li>
+<%
+   break;
+  }
+}
+
+
+team1_set1 = '&nbsp;'; 
+team1_set2 = '&nbsp;'; 
+team1_set3 = '&nbsp;';
+team2_set1 = '&nbsp;'; 
+team2_set2 = '&nbsp;'; 
+team2_set3 = '&nbsp;';
+set_current = 1; 
+team1_sets = '0'; 
+team2_sets = '0'; 
+
+if (game.options.score !== null ) { 
+  if(game.options.score.indexOf('/')!=-1) { 
+    scoreboard = game.options.score.split('/'); 
+    team1_sets = scoreboard[0]; 
+    team2_sets = scoreboard[1]; 
+    } 
+} 
+  
+if (game.options.sets !== null ) { 
+  if (game.options.sets.indexOf(';')!=-1) { 
+    scoreboard = game.options.sets.split(';'); 
+    
+    if (scoreboard.length==2 ||scoreboard.length==3) { 
+      scoreboard1 = scoreboard[0].split('/');
+      team1_set1 = scoreboard1[0]; 
+      team2_set1 = scoreboard1[1]; 
+      scoreboard2 = scoreboard[1].split('/'); 
+      team1_set2 = scoreboard2[0]; 
+      team2_set2 = scoreboard2[1]; 
+      set_current=2; 
+    } 
+    
+    if (scoreboard.length==3) { 
+      scoreboard3 = scoreboard[2].split('/'); 
+      team1_set3 = scoreboard3[0]; 
+      team2_set3 = scoreboard3[1]; set_current=3; 
+    } 
+  } 
+  // 1 set 
+  else { 
+    if (game.options.sets.indexOf('/')!=-1) { 
+      scoreboard1 = game.options.sets.split('/'); 
+      team1_set1 = scoreboard1[0]; 
+      team2_set1 = scoreboard1[1]; 
+    } 
+  } 
+} 
+
+
+game.dates.startConvert = new Date(game.dates.start);
+//game.dates.startConvert.getDay()+' '+
+game.dates.startDate = game.dates.startConvert.getDay()+' '+game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();
+game.dates.startTime = ' '+game.dates.startConvert.getHours()+':'+game.dates.startConvert.getMinutes();
+
+%>
+<li id="#games/<%= game.id %>">
+
+<div class="ui-grid-a">
+	<div class="ui-block-a game-location" style="width: 80%;"> 
+    <%= game.dates.startDate %> - <%= game.location.city %>
+	</div>
+	<div class="ui-block-b game-status" style="width: 20%;">
+	<%= game.status %>
+	</div>
+</div>
+
+ <div class="ui-grid-d" style="margin-top:5px">
+     <div class="ui-block-a game-player" style="width:63%;">
+	<% 
+	if (game.teams[0].players[0]!== undefined) { 
+		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+    
+		print('<span class="div_score_mini">');
+		print(game.teams[0].players[0].rank);	
+		
+		if (game.teams[0].players[0].club !== undefined) {	
+		
+			
+		  if (game.teams[0].players[0].club.name.length>20)
+		  	game.teams[0].players[0].club.name = game.teams[0].players[0].club.name.substr(0,19);		
+		    print(' '+game.teams[0].players[0].club.name);	
+		}	
+		print('</span>');	
+	}
+	%>         
+     </div>
+     <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
+     <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
+     <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
+     <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
+ </div>
+
+ <div class="ui-grid-d" style="margin-top:5px">
+     <div class="ui-block-a game-player" style="width:63%;">
+	<% 
+	if (game.teams[1].players[0]!== undefined) { 
+		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
+		print('<span class="div_score_mini">');
+		print(game.teams[1].players[0].rank);	
+
+		if (game.teams[1].players[0].club !== undefined) {
+		
+		
+		  if (game.teams[1].players[0].club.name.length>20)
+		  	game.teams[1].players[0].club.name = game.teams[1].players[0].club.name.substr(0,19);
+		   print(' '+game.teams[1].players[0].club.name);	
+		}
+		print('</span>');		
+	}
+	%>         
+     </div>
+     <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
+     <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
+     <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
+     <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
+ </div>
+ 
+</li>
+<% } %>

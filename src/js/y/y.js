@@ -16,7 +16,7 @@
       content: null, // singleton current view (center)
       navbar: null,  // singleton view #navbar
       inputMode: function (status) {
-        console.log('STATUS = ' + status);
+        //console.log('STATUS = ' + status);
         if (window.isMobileBrowser()) { // only on mobile browser
           _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
                     function (node) { (status)?$(node).hide():$(node).show() });

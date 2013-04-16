@@ -128,6 +128,7 @@
     },
 
     playerListByClub: function (id) {
+       console.log("playerListByClub "+id);
       this.changePage(this.createViewFactory(Y.Views.PlayerList, { id: id }));
     },
 

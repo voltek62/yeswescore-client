@@ -13,10 +13,11 @@ Y.Views.PlayerList = Y.View.extend({
   initialize : function() {
   
     Y.GUI.header.title("LISTE DES JOUEURS"); 
+    
+    console.log('PlayerList View '+this.id);
   
     this.playerListViewTemplate = Y.Templates.get('playerList');
-    this.playerSearchTemplate = Y.Templates.get('playerSearch');
-    //$.mobile.showPageLoadingMsg();
+    this.playerSearchTemplate = Y.Templates.get('players');
 
     if (this.id !== 'null') {
       console.log('on demande les joueurs par club ' + this.id);
@@ -24,11 +25,12 @@ Y.Views.PlayerList = Y.View.extend({
       this.players = new PlayersCollection();
       this.players.setMode('club', this.id);
       this.players.fetch();
-      this.players.on('all', this.renderList, this);
+      this.players.on('sync', this.renderList, this);
     }
+    
     this.render();
     // this.renderList();
-    //$.mobile.hidePageLoadingMsg();
+
   },
 
   search : function() {
@@ -46,7 +48,7 @@ Y.Views.PlayerList = Y.View.extend({
 	    });
     }
     catch(e) {
-    
+     console.log('error ',e);
     }
     
     $(this.listview).listview('refresh');
@@ -57,9 +59,7 @@ Y.Views.PlayerList = Y.View.extend({
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerSearchTemplate({}));
-    // Trigger jquerymobile rendering
-    //this.$el.trigger('pagecreate');
-    // return to enable chained calls
+
     return this;
   },
 
@@ -74,6 +74,6 @@ Y.Views.PlayerList = Y.View.extend({
 
   onClose : function() {
     this.undelegateEvents();
-    this.players.off("all", this.render, this);
+    this.players.off("sync", this.render, this);
   }
 });

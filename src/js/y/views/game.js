@@ -8,22 +8,20 @@ Y.Views.Game = Y.View.extend({
       countComment : "#countComment",
       
       events : {
-        'click #fbconnect' : 'fbconnect',
-        'vclick #setPlusSetButton' : 'setPlusSet',
-        'vclick #setMinusSetButton' : 'setMinusSet',
-        'vclick #setPointWinButton' : 'setPointWin',
-        'vclick #setPointErrorButton' : 'setPointError',
+        'click #facebook' : 'fbconnect',
+        'click #setPlusSetButton' : 'setPlusSet',
+        'click #setMinusSetButton' : 'setMinusSet',
+        'click #setPointWinButton' : 'setPointWin',
+        'click #setPointErrorButton' : 'setPointError',
         'click #endButton' : 'endGame',
         'click #followButton' : 'followGame',
         'click #cancelButton' : 'cancelGame',
-        'submit #frmAttachment' : 'submitAttachment',
-        "keypress #messageText" : "updateOnEnter",
-        'vclick #team1_set1_div' : 'setTeam1Set1',
-        'vclick #team1_set2_div' : 'setTeam1Set2',
-        'vclick #team1_set3_div' : 'setTeam1Set3',
-        'vclick #team2_set1_div' : 'setTeam2Set1',
-        'vclick #team2_set2_div' : 'setTeam2Set2',
-        'vclick #team2_set3_div' : 'setTeam2Set3',
+        'click #team1_set1_div' : 'setTeam1Set1',
+        'click #team1_set2_div' : 'setTeam1Set2',
+        'click #team1_set3_div' : 'setTeam1Set3',
+        'click #team2_set1_div' : 'setTeam2Set1',
+        'click #team2_set2_div' : 'setTeam2Set2',
+        'click #team2_set3_div' : 'setTeam2Set3',
         "click .button-comments": "goToComment",       
       },
 
@@ -125,10 +123,12 @@ Y.Views.Game = Y.View.extend({
       },
 
       setTeam1Set2 : function(options) {
+        console.log('setTeam1Set2');        
         this.setTeamSet($('#team1_set2'), $('#team1_set2_div'));
       },
 
       setTeam1Set3 : function() {
+        console.log('setTeam1Set3');
         this.setTeamSet($('#team1_set3'), $('#team1_set3_div'));
       },
 

@@ -31,8 +31,20 @@
       %></span> a dit le <%= stream.dates.startDate %> &agrave; <%= stream.dates.startTime %></div> 
       <%= stream.data.text %> 
         <div class="links">
-	  <% if ( stream.owner.id === Owner.id ) { %> <a class="deleteComment" id="<%= stream.id %>">supprimer</a> <% } %>
-	  <% if ( stream.owner.id !== Owner.id ) { %> <a class="warnComment" id="<%= stream.id %>">signaler</a> <% } %>	
+	  <% 
+       if (stream.owner.player!==undefined) {
+        if ( stream.owner.player.id === Owner.id ) { %> 
+        <a class="deleteComment" id="<%= stream.id %>">supprimer</a> 
+      <% } 
+       }
+      %>
+	  <% 
+       if (stream.owner.player!==undefined) {    
+        if ( stream.owner.player.id !== Owner.id ) { %> 
+        <a class="warnComment" id="<%= stream.id %>">signaler</a> 
+      <% } 
+       }
+      %>	
       </div>
   </div>
   <% } %>

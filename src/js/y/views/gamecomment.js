@@ -89,11 +89,13 @@ Y.Views.GameComment = Y.View.extend({
             //if (!this.first)    
             //  return false;
             this.first = false;
+            
+          
 
 		 //FIXME : gérer la date en temps écoulé
           $(this.incomingComment).html(this.gameViewCommentListTemplate({
             streams  : this.streams.toJSON(),
-            Owner : this.Owner
+            Owner : this.Owner.toJSON()
           }));
                    
           //$(this.incomingComment).html('vincent '+JSON.stringify(this.streams.toJSON()));

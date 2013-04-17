@@ -6,13 +6,15 @@ Y.Views.GameAdd = Y.View.extend({
     'focus input[type="text"]': 'inputModeOn',
     'blur input[type="text"]': 'inputModeOff',
 
-    'submit form#frmAddGame': 'addGame',
+    'click #addGame': 'addGame',
     'blur #team1': 'updateListTeam1',
     'blur #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
     'click #team2_choice': 'displayTeam2',
 
     'click .form-button.other-team': 'otherTeam',
+    'click #more-option': 'moreOption',
+        
     'blur #team1': 'changeTeam1'
   },
 
@@ -73,6 +75,11 @@ Y.Views.GameAdd = Y.View.extend({
     $("#team1").focus();
   },
 
+  moreOption: function () {
+    console.log('moreOption');
+    $(".gameAdd .simple .additionnal-options").css("display","block");
+
+  },
     
   changeTeam1: function () {
     if ($("#team1").val() == "") {

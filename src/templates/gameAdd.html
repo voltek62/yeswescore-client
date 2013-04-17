@@ -7,7 +7,8 @@
 
 		  <div class="ui-grid-a">
 			  <div class="ui-block-a">
-				  <input type="text" id="team1" name="team1" placeholder="Moi" value="" disabled/><span class="form-button other-team">Autre</span>
+				  <input type="text" id="team1" name="team1" placeholder="Moi" value="" disabled/>
+                  <span class="form-button other-team">Autre</span>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank1" name="rank1" placeholder="Classement" class='jq-ui-forms-white' value="" />
@@ -20,23 +21,25 @@
 			  <span class="team1_error label label-info hide"></span>
 		  </div>
 	
-      <div class="form-label">Nom du joueur 2</div>
+      <div class="form-label">Joueur 2</div>
 
 		  <div class="ui-grid-a">
 			  <div class="ui-block-a">
 				  <input type="text" id="team2" name="team2" placeholder="Joueur 2" value="" />
+                  <span class="form-button other-team" id="more-option">Plus?</span>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank2" name="rank2" placeholder="Classement" value="" />
 			  </div>
 		  </div>
 		
-      <div class="additionnal-options">
-		    <div>
-			    <ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
-			    <input type='hidden' id='team2_id' class='input' value='' /> 
-			    <span class="team2_error label label-info hide"></span>
-		    </div>		
+        <div>
+          <ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
+          <input type='hidden' id='team2_id' class='input' value='' /> 
+          <span class="team2_error label label-info hide"></span>
+        </div>  
+    
+      <div class="additionnal-options">	
 
 		    <div style="padding-top:10px">
 			    <label class="control-label" for="city">* Ville</label>
@@ -163,7 +166,7 @@
 <div class="button-form" data-input-mode="none">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form"><div class="button">ENREGISTRER</div></div>
+  <div class="link-form"><div class="button" id="addGame">ENREGISTRER</div></div>
 </div>
 
 

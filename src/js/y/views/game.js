@@ -16,6 +16,7 @@ Y.Views.Game = Y.View.extend({
         'click #endButton' : 'endGame',
         'click #followButton' : 'followGame',
         'click #cancelButton' : 'cancelGame',
+        'click #optionButton' : 'optionGame',        
         'click #team1_set1_div' : 'setTeam1Set1',
         'click #team1_set2_div' : 'setTeam1Set2',
         'click #team1_set3_div' : 'setTeam1Set3',
@@ -45,10 +46,16 @@ Y.Views.Game = Y.View.extend({
         this.gameViewCommentListTemplate = Y.Templates
             .get('gameCommentList');
 
+		//console.log('1.0');
 
         this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
+		
+		//console.log('1.1');		
+		
         this.score.fetch();
+
+		//console.log('1.2');
 
         var games_follow = Y.Conf.get("owner.games.followed");
         if (games_follow !== undefined)
@@ -68,6 +75,8 @@ Y.Views.Game = Y.View.extend({
         };
 
 
+		//console.log('1.3');
+
         this.render();                                // rendu a vide (instantanément)
         this.score.once("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
         // FIXME: SI ONLINE       
@@ -75,11 +84,15 @@ Y.Views.Game = Y.View.extend({
         //poller.start();
         //poller.on('sync', this.render, this);
         
+		//console.log('1.4');
+
         
         //On compte les commentaires
         this.streams = new StreamsCollection({id : this.id});
     	this.streams.fetch();
     	this.streams.once("sync",this.renderCountComment,this); 
+    	
+    	//console.log('1.5');
     	
         
       },
@@ -163,18 +176,12 @@ Y.Views.Game = Y.View.extend({
 
         // ADD SERVICE
         var gameid = $('#gameid').val()
-        , team1_id = $('#team1_id').val()
-        , team1_points = $('#team1_points').val()
         , team1_set1 = $('#team1_set1').val()
         , team1_set2 = $('#team1_set2').val()
         , team1_set3 = $('#team1_set3').val()
-        , team2_id = $('#team2_id').val()
-        , team2_points = $('#team2_points').val()
         , team2_set1 = $('#team2_set1').val()
         , team2_set2 = $('#team2_set2').val()
-        , team2_set3 = $('#team2_set3').val()
-        , playerid = $('#playerid').val()
-        , token = $('#token').val()
+        , team2_set3 = $('#team2_set3').val()                                
         , tennis_update = null;
 
         if ($.isNumeric(team1_set1) === false)
@@ -206,20 +213,28 @@ Y.Views.Game = Y.View.extend({
         // sets_update = sets_update.replace(/ /g,'0');
 
         console.log('sets_update',sets_update);
+        
+        var game = {
+		   team1 : $('#team1').val()
+	      , rank1 : $('#rank1').val()
+	      , team1_id : $('#team1_id').val()
+	      , team2 : $('#team2').val()
+	      , rank2 : $('#rank2').val()
+	      , team2_id : $('#team2_id').val()
+	      , country : $('#country').val()	      
+	      , city : $('#city').val()
+	      , playerid : $('#playerid').val()
+	      , token : $('#token').val()
+	      , court : $('#court').val()
+	      , surface : $('#surface').val()
+	      , tour : $('#tour').val()
+	      , subtype : $('#subtype').val()
+	      , sets : sets_update
+	      , id : gameid 
+    	};
+        
 
-        tennis_update = new GameModel({
-          sets : sets_update,
-          //team1_points : team1_points,
-          //team2_points : team2_points,
-          id : gameid,
-          team1_id : team1_id,
-          team2_id : team2_id,
-          playerid : playerid,
-          token : token
-        });
-
-        // console.log('setPlusSet',tennis_update);
-
+        tennis_update = new GameModel(game);
         tennis_update.save();
 
         // FIXME: on ajoute dans le stream un changement de score ???
@@ -366,7 +381,7 @@ Y.Views.Game = Y.View.extend({
       render : function() {
         // On rafraichit tout
         
-        //console.log("Owner",this.Owner.toJSON());
+        //console.log("3.0 ",this.score.toJSON());
         
         // FIXME: refresh only input and id
         this.$el.html(this.gameViewTemplate({
@@ -382,13 +397,12 @@ Y.Views.Game = Y.View.extend({
         }, 100);
         */
         
-
+		
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),
           Owner : this.Owner.toJSON()
         }));
-
-
+		
 
         return this;
       },
@@ -400,8 +414,11 @@ Y.Views.Game = Y.View.extend({
       endGame : function() {
         //window.location.href = '#games/end/' + this.id;
         Y.Router.navigate("/games/end/"+this.id,{trigger:true})
-        //Y.Router.gameEnd(this.id);
       },
+      
+      optionGame : function() {
+        console.log('option Game');
+      },      
 
       followGame : function() {
 

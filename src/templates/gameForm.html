@@ -1,0 +1,138 @@
+<div class="gameAdd background"></div>
+<div class="gameAdd content-container">
+  <div class="simple">
+  
+    <span class="success label label-info hide"></span>
+    
+        <div style="padding-top:10px">
+          <label class="control-label" for="city">* Ville</label>
+        </div>
+        <div>
+          <input type="text" id="city" name="city" placeholder="Ville" value="" /> 
+          <span class="city_error label label-info hide"></span>
+        </div>
+
+        <!-- 
+        <div style="padding-top:10px">
+          <label for="subtype" class="select">Type</label>
+        </div>
+        <div>
+          <select name="subtype" id="subtype" class="jq-ui-forms-white">
+            <option value="A">A - Normal</option>
+            <option value="B">B - Traditionnel (3 sets &agrave; 6 jeux pt d&eacute;cisif)</option>
+            <option value="C">C - 3 sets &agrave; 4 jeux - jeu décisif à 4/4</option>
+            <option value="D">D - 3 sets &agrave; 4 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
+            <option value="E">E - 3 sets &agrave; 3 jeux - jeu décisif à 2/2</option>
+            <option value="F">F - 3 sets &agrave; 3 jeux - jeu décisif à 2/2 pt d&eacute;cisif</option>
+            <option value="G">G - 3 jeux d&eacute:cisifs</option>
+            <option value="H">H - 3 Sets &agrave; 4 jeux - jeu décisif à 3/3 pt d&eacute;cisif</option>
+            <option value="I">I - 3 sets &agrave; 5 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
+          </select>
+        </div>
+          -->
+    
+        <div class="ui-grid-a" style="padding-top:10px">
+          <div class="ui-block-a">
+            <label class="select">Court</label>
+          </div>
+          <div class="ui-block-b">
+            <label class="select">Tour</label>
+          </div>
+          <div class="ui-block-a">
+            <select name="court" id="court" class="jq-ui-forms-white">
+              <option value="">Selection</option>
+              <option value="1">Terrain 1</option>
+              <option value="2">Terrain 2</option>
+              <option value="3">Terrain 3</option>
+              <option value="4">Terrain 4</option>
+              <option value="5">Terrain 5</option>
+              <option value="6">Terrain 6</option>
+              <option value="7">Terrain 7</option>
+              <option value="8">Terrain 8</option>
+              <option value="9">Terrain 9</option>
+              <option value="10">Terrain 10</option>
+              <option value="11">Terrain 11</option>
+              <option value="">---</option>
+              <option value="A">Terrain A</option>
+              <option value="B">Terrain B</option>
+              <option value="C">Terrain C</option>
+              <option value="D">Terrain D</option>
+              <option value="E">Terrain E</option>
+              <option value="F">Terrain F</option>
+            </select>
+          </div>
+          <div class="ui-block-b">
+            <select name="tour" id="tour" class="jq-ui-forms-white">
+              <option value="">Selection</option>
+              <option value="">Poule</option>
+              <option value="">Consolante</option>
+              <option value="">1er tour</option>
+              <option value="">2e tour</option>
+              <option value="">3e tour</option>
+              <option value="">4e tour</option>
+              <option value="">5e tour</option>
+              <option value="">6e tour</option>
+              <option value="">7e tour</option>
+              <option value="">8e tour</option>
+              <option value="">9e tour</option>
+              <option value="">1/256 finale</option>
+              <option value="">1/128 finale</option>
+              <option value="">1/64 finale</option>
+              <option value="">1/32 finale</option>
+              <option value="">1/16 finale</option>
+              <option value="">1/8 finale</option>
+              <option value="">1/4 finale</option>
+              <option value="">1/2 finale</option>
+              <option value="">Finale</option>
+              <option value="">Journ&eacute;e 1</option>
+              <option value="">Journ&eacute;e 2</option>
+              <option value="">Journ&eacute;e 3</option>
+              <option value="">Journ&eacute;e 4</option>
+              <option value="">Journ&eacute;e 5</option>
+              <option value="">Journ&eacute;e 6</option>
+              <option value="">Journ&eacute;e 7</option>
+              <option value="">Journ&eacute;e 8</option>
+              <option value="">Journ&eacute;e 9</option>
+              <option value="">Journ&eacute;e 10</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="padding-top:10px">  
+          <label for="surface" class="select">Surface</label>
+        </div>
+        <div> 
+          <select name="surface" id="surface" class="jq-ui-forms-white">
+            <option value="">Selection</option>
+            <option value="BP">B&eacute;ton poreux (quick) - BP</option>
+            <option value="EP">Enrob&eacute; poreux - EP</option>
+            <option value="EPDM">Granulats caoutchouc - EPDM</option>
+            <option value="GAS">Gazon synth&eacute;tique - GAS</option>
+            <option value="GAZ">Gazon naturel - GAZ</option>
+            <option value="MOQ">Moquette - MOQ</option>
+            <option value="NVTB">Terre battue non g&eacute;live - NVTB</option>
+            <option value="PAR">Parquet (bois) - PAR</option>
+            <option value="RES">R&eacute;sine (greenset) - RES</option>
+            <option value="TB">Terre-battue - TB</option>
+          </select>
+        </div>
+
+
+    <input type="hidden" id="gameid" value="<%= gameid %>" />
+    <input type="hidden" id="playerid" value="<%= playerid %>"  /> 
+    <input type="hidden" id="token" value="<%= token %>" />
+
+  </div>
+</div>
+
+
+<!--
+  COMMENT SAVE
+-->
+<div class="button-form" data-input-mode="none">
+  <div class="background rounded"></div>
+  <div class="background trapeze"></div>
+  <div class="link-form"><div class="button" id="savePlayer">MODIFIER</div></div>  
+</div>
+
+	

@@ -49,7 +49,7 @@ Y.Views.Navbar = Y.View.extend({
 	  this.$el.hide();
   },
 
-  goToGames: function () { console.log('goToGames'); Y.Router.navigate("", {trigger: true}); },
+  goToGames: function () { console.log('goToGames'); Y.Router.navigate("games/list", {trigger: true}); },
   goToGamesAdd: function () { console.log('goToGamesAdd'); Y.Router.navigate("games/add", {trigger: true}); },
   goToAccount: function () { console.log('goToAccount'); Y.Router.navigate("account", {trigger: true}); }
 });

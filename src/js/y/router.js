@@ -21,6 +21,7 @@
       'sort/:id': 'games',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
+      'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
       'games/comment/:id': 'gameComment',
@@ -107,6 +108,11 @@
     gameFollow: function () {
       this.changePage(this.createViewFactory(Y.Views.GameFollow));
     },
+    
+    gameForm: function (id) {
+      console.log('gameForm');
+      this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
+    },    
 
     player: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));

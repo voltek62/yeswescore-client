@@ -417,7 +417,8 @@ Y.Views.Game = Y.View.extend({
       },
       
       optionGame : function() {
-        console.log('option Game');
+        //console.log('option Game /games/form/'+this.id);
+        Y.Router.navigate("/games/form/"+this.id,{trigger:true})
       },      
 
       followGame : function() {

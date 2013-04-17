@@ -8,8 +8,7 @@ Y.Views.PlayerForm = Y.View.extend({
     //
     'click #savePlayer':'add',
     'keyup #club': 'updateList',
-    'click #club_choice' : 'displayClub',
-    'click input' :'hideFooter'   
+    'click #club_choice' : 'displayClub'
   },
   
   listview:"#suggestions",
@@ -39,16 +38,6 @@ Y.Views.PlayerForm = Y.View.extend({
 
   },
   
-  
-  hideFooter:function() {
-  	console.log('hideFooter');
-  	//$.ui.toggleNavMenu(false);
-  },  
-  
-  showFooter:function() {
-  	console.log('showFooter');
-  	////$.ui.toggleNavMenu(true);
-  },   
   
   updateList: function (event) {
     var q = $("#club").val();

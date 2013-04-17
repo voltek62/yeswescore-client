@@ -4,11 +4,28 @@
   
     <span class="success label label-info hide"></span>
     
+    
         <div style="padding-top:10px">
-          <label class="control-label" for="city">* Ville</label>
+          <label class="form-label" for="city">* Date du match</label>
         </div>
         <div>
-          <input type="text" id="city" name="city" placeholder="Ville" value="" /> 
+          <input type="date" id="city" name="date" value="<%= game.dates.start %>" /> 
+          <span class="date_error label label-info hide"></span>
+        </div>
+
+        <div style="padding-top:10px">
+          <label class="form-label" for="city">* Heure du match</label>
+        </div>
+        <div>
+          <input type="time" id="city" name="time" value="" /> 
+          <span class="time_error label label-info hide"></span>
+        </div>
+            
+        <div style="padding-top:10px">
+          <label class="form-label" for="city">* Ville</label>
+        </div>
+        <div>
+          <input type="text" id="city" name="city" placeholder="Ville" value="<%= game.location.city %>" /> 
           <span class="city_error label label-info hide"></span>
         </div>
 
@@ -30,16 +47,11 @@
           </select>
         </div>
           -->
-    
-        <div class="ui-grid-a" style="padding-top:10px">
-          <div class="ui-block-a">
-            <label class="select">Court</label>
-          </div>
-          <div class="ui-block-b">
-            <label class="select">Tour</label>
-          </div>
-          <div class="ui-block-a">
-            <select name="court" id="court" class="jq-ui-forms-white">
+        <div style="padding-top:10px">
+          <label class="form-label" for="court">Court</label>
+        </div>
+        <div>
+            <select name="court" id="court">
               <option value="">Selection</option>
               <option value="1">Terrain 1</option>
               <option value="2">Terrain 2</option>
@@ -60,9 +72,13 @@
               <option value="E">Terrain E</option>
               <option value="F">Terrain F</option>
             </select>
-          </div>
-          <div class="ui-block-b">
-            <select name="tour" id="tour" class="jq-ui-forms-white">
+        </div>       
+        
+        <div style="padding-top:10px">
+          <label class="form-label" for="tour">Tour</label>
+        </div>
+        <div>
+            <select name="tour" id="tour">
               <option value="">Selection</option>
               <option value="">Poule</option>
               <option value="">Consolante</option>
@@ -95,14 +111,14 @@
               <option value="">Journ&eacute;e 9</option>
               <option value="">Journ&eacute;e 10</option>
             </select>
-          </div>
-        </div>
+
+        </div>            
 
         <div style="padding-top:10px">  
-          <label for="surface" class="select">Surface</label>
+          <label for="surface" class="form-label">Surface</label>
         </div>
         <div> 
-          <select name="surface" id="surface" class="jq-ui-forms-white">
+          <select name="surface" id="surface">
             <option value="">Selection</option>
             <option value="BP">B&eacute;ton poreux (quick) - BP</option>
             <option value="EP">Enrob&eacute; poreux - EP</option>
@@ -117,10 +133,11 @@
           </select>
         </div>
 
-
-    <input type="hidden" id="gameid" value="<%= gameid %>" />
-    <input type="hidden" id="playerid" value="<%= playerid %>"  /> 
-    <input type="hidden" id="token" value="<%= token %>" />
+    <input type="hidden" id="team1_id" value="<%= game.teams[0].players[0].id %>" />
+    <input type="hidden" id="team2_id" value="<%= game.teams[1].players[0].id %>" />         
+    <input type="hidden" id="gameid" value="<%= game.id %>" />
+    <input type="hidden" id="playerid" value="<%= Owner.id %>"  /> 
+    <input type="hidden" id="token" value="<%= Owner.token %>" />
 
   </div>
 </div>
@@ -132,7 +149,7 @@
 <div class="button-form" data-input-mode="none">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form"><div class="button" id="savePlayer">MODIFIER</div></div>  
+  <div class="link-form"><div class="button" id="updateGame">MODIFIER</div></div>  
 </div>
 
 	

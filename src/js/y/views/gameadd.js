@@ -7,8 +7,8 @@ Y.Views.GameAdd = Y.View.extend({
     'blur input[type="text"]': 'inputModeOff',
 
     'click #addGame': 'addGame',
-    'blur #team1': 'updateListTeam1',
-    'blur #team2': 'updateListTeam2',
+    'keyup #team1': 'updateListTeam1',
+    'keyup #team2': 'updateListTeam2',
     'click #team1_choice': 'displayTeam1',
     'click #team2_choice': 'displayTeam2',
 

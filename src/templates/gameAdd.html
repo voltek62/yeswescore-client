@@ -1,17 +1,19 @@
 <div class="gameAdd background"></div>
 <div class="gameAdd content-container">
-  <div class="simple">
+  <div id="gameAddForm" class="simple">
 	    <span class="success label label-info hide"></span>
 	
       <div class="form-label">Joueur 1</div>
 
-		  <div class="ui-grid-a">
+		  <div class="ui-grid-b first-team me">
 			  <div class="ui-block-a">
 				  <input type="text" id="team1" name="team1" placeholder="Moi" value="" disabled/>
-                  <span class="form-button other-team">Autre</span>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank1" name="rank1" placeholder="Classement" class='jq-ui-forms-white' value="" />
+			  </div>
+        <div class="ui-block-c">
+				  <span class="form-button other-team">Autre</span>
 			  </div>
 		  </div>
 		
@@ -23,14 +25,16 @@
 	
       <div class="form-label">Joueur 2</div>
 
-		  <div class="ui-grid-a">
+		  <div class="ui-grid-b">
 			  <div class="ui-block-a">
 				  <input type="text" id="team2" name="team2" placeholder="Joueur 2" value="" />
-                  <span class="form-button other-team" id="more-option">Plus?</span>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank2" name="rank2" placeholder="Classement" value="" />
 			  </div>
+        <div class="ui-block-c">
+          <span class="form-button more-options">Plus?</span>
+        </div>
 		  </div>
 		
         <div>

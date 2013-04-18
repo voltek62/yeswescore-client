@@ -13,3 +13,6 @@ platforms/web/build/
 platforms/wp8/vs/Bin/
 platforms/wp8/vs/obj/
 platforms/wp8/vs/www/
+
+# ignoring dev Y.env custom developper settings.
+src/js/y/env.js

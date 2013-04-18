@@ -511,12 +511,10 @@ ul > li.player > a {
   color: white;
 }
 /* */
-#team1, #team2 {
-  width: 75%;
-}
 .form-button {
   position: absolute;
   height: 30px;
+  width: 100%;
   
   line-height: 28px;
   text-align: center;
@@ -532,20 +530,38 @@ ul > li.player > a {
 .form-button.selected {
   color: #46c0e9;
 }
-.form-button.other-team {
+.form-button {
   top: 0px;
-  left: 80%;
+}
+
+
+.gameAdd .ui-grid-b .ui-block-a {
+  width: 45%;
+  height: 30px;
+  padding-right: 10px;
+}
+.gameAdd .ui-grid-b .ui-block-b {
+  width: 35%;
+  padding-right: 10px;
+}
+.gameAdd .ui-grid-b .ui-block-c {
   width: 20%;
 }
 
-
 /* option formulaire simple */
-.gameAdd .simple .ui-grid-a .ui-block-a {
-  width: 100%;
-  height: 30px;
+.gameAdd .simple .ui-grid-b .ui-block-a,
+.gameAdd .ui-grid-b.me .ui-block-a {
+  width: 80%;
 }
-.gameAdd .simple .ui-grid-a .ui-block-b {
+.gameAdd .simple .ui-grid-b .ui-block-b,
+.gameAdd .ui-grid-b.me .ui-block-b {
   display: none;
+  width: 0%;
+  padding: 0;
+}
+.gameAdd .simple .ui-grid-b .ui-block-c,
+.gameAdd .ui-grid-b.me .ui-block-c {
+  width: 20%;
 }
 
 .gameAdd .simple .additionnal-options {

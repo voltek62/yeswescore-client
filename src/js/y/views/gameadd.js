@@ -13,7 +13,7 @@ Y.Views.GameAdd = Y.View.extend({
     'click #team2_choice': 'displayTeam2',
 
     'click .form-button.other-team': 'otherTeam',
-    'click #more-option': 'moreOption',
+    'click .form-button.more-options': 'moreOption',
         
     'blur #team1': 'changeTeam1'
   },
@@ -71,19 +71,20 @@ Y.Views.GameAdd = Y.View.extend({
 
   otherTeam: function () {
     $(".form-button.other-team").addClass("selected");
+    $(".ui-grid-b.first-team").removeClass("me");
     $("#team1").prop("disabled", false);
     $("#team1").focus();
   },
 
   moreOption: function () {
-    console.log('moreOption');
-    $(".gameAdd .simple .additionnal-options").css("display","block");
-
+    $(".form-button.more-options").toggleClass("selected");
+    $("#gameAddForm").toggleClass("simple");
   },
     
   changeTeam1: function () {
     if ($("#team1").val() == "") {
       $(".form-button.other-team").removeClass("selected");
+      $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
     }
   },

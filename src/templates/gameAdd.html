@@ -45,9 +45,8 @@
     
       <div class="additionnal-options">	
 
-		    <div style="padding-top:10px">
-			    <label class="control-label" for="city">* Ville</label>
-		    </div>
+        <div class="form-label" style="position:relative">Ville</div>
+        
 		    <div>
 			    <input type="text" id="city" name="city" placeholder="Ville" value="" /> 
 			    <span class="city_error label label-info hide"></span>
@@ -72,15 +71,15 @@
 		    </div>
 		      -->
 		
-		    <div class="ui-grid-a" style="padding-top:10px">
+		    <div class="ui-grid-a">
 			    <div class="ui-block-a">
-				    <label class="select">Court</label>
+            <div class="form-label">Court</div>
 			    </div>
 			    <div class="ui-block-b">
-				    <label class="select">Tour</label>
+            <div class="form-label">Tour</div>
 			    </div>
-			    <div class="ui-block-a">
-				    <select name="court" id="court" class="jq-ui-forms-white">
+			    <div class="ui-block-a" style="padding-right:5px;">
+				    <select name="court" id="court" style="width:100%">
 					    <option value="">Selection</option>
 					    <option value="1">Terrain 1</option>
 					    <option value="2">Terrain 2</option>
@@ -102,8 +101,8 @@
 					    <option value="F">Terrain F</option>
 				    </select>
 			    </div>
-			    <div class="ui-block-b">
-				    <select name="tour" id="tour" class="jq-ui-forms-white">
+			    <div class="ui-block-b" style="padding-left:5px;">
+				    <select name="tour" id="tour" style="width:100%">
 					    <option value="">Selection</option>
 					    <option value="">Poule</option>
 					    <option value="">Consolante</option>
@@ -139,8 +138,8 @@
 			    </div>
 		    </div>
 
-		    <div style="padding-top:10px">	
-			    <label for="surface" class="select">Surface</label>
+		    <div>	
+			    <div class="form-label">Surface</div>
 		    </div>
 		    <div>	
 			    <select name="surface" id="surface" class="jq-ui-forms-white">

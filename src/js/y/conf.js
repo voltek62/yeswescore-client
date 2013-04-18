@@ -32,14 +32,24 @@
       switch (env) {
         case Y.Env.DEV:
           /*#ifdef DEV*/
-          // marc
-          //var apiBaseUrl = "http://plic.no-ip.org:22222";
-          //var fbBaseUrl = "http://plic.no-ip.org:9091";
-          //var fbAppId = "618522421507840";
-          // vincent
-          var apiBaseUrl = "http://plic.no-ip.org:1024";
-          var fbBaseUrl = "http://plic.no-ip.org:9090";
-          var fbAppId = "408897482525651";
+          switch (Y.Env.user) {
+            case "marc":
+              var apiBaseUrl = "http://plic.no-ip.org:22222";
+              var fbBaseUrl = "http://plic.no-ip.org:9091";
+              var fbAppId = "618522421507840";
+              break;
+            case "vincent":
+              var apiBaseUrl = "http://plic.no-ip.org:1024";
+              var fbBaseUrl = "http://plic.no-ip.org:9090";
+              var fbAppId = "408897482525651";
+              break;
+            default:
+            case "alpha":
+              var apiBaseUrl = "http://plic.no-ip.org:20080";
+              var fbBaseUrl = "http://plic.no-ip.org:20081";
+              var fbAppId = "FIXME";
+              break;
+          }
 
           this.set("api.url.auth", apiBaseUrl + "/v1/auth/");
           this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");

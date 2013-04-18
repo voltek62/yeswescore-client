@@ -29,6 +29,7 @@
 
     status: "uninitialized",  // uninitialized, loading, loaded
 
+    /* /!\ overwrited in DEV by Y.Env in ey/env.js */
     Env: {
       DEV: "DEV",
       PROD: "PROD",

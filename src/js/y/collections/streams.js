@@ -6,11 +6,9 @@ var StreamsCollection = Backbone.Collection.extend({
   	
   query: '',
  	
-  initialize: function (param) {
-  		this.changeSort("date");
-  				
-  		//console.log('constructeur avec ',param);
-		this.gameid = param.id;
+  initialize: function (streamItems, options) {
+    this.changeSort("date");
+		this.gameid = options.gameid;
   },
 	  
   url:function() {

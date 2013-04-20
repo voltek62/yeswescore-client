@@ -88,9 +88,9 @@ Y.Views.Game = Y.View.extend({
 
         
         //On compte les commentaires
-        this.streams = new StreamsCollection({id : this.id});
-    	this.streams.fetch();
-    	this.streams.once("sync",this.renderCountComment,this); 
+        this.streams = new StreamsCollection([], {gameid : this.id});
+    	  this.streams.fetch();
+    	  this.streams.once("sync",this.renderCountComment,this); 
     	
     	//console.log('1.5');
     	

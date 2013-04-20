@@ -86,9 +86,9 @@
       }
 
       // Paramétrage des variables non dépendantes d'un environnement
-      this.set("game.refresh", 5000); // gameRefresh
-      this.set("pooling.geolocation", 5000);
-      this.set("pooling.connection", 1000);
+      this.set("game.refresh", 30000);        // default 30000 (30sec)
+      this.set("pooling.geolocation", 10000); // default 10000 (10sec)
+      this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
       this.set("version", version); // will be usefull on update.
 
       // loading permanent keys

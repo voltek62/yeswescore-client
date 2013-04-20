@@ -138,24 +138,26 @@
           </div>
         </div>
 
-        <div> 
-          <div class="form-label">Surface</div>
-        </div>
-        <div> 
-          <select name="surface" id="surface" class="jq-ui-forms-white">
-            <option value="">Selection</option>
-            <option value="BP">B&eacute;ton poreux (quick) - BP</option>
-            <option value="EP">Enrob&eacute; poreux - EP</option>
-            <option value="EPDM">Granulats caoutchouc - EPDM</option>
-            <option value="GAS">Gazon synth&eacute;tique - GAS</option>
-            <option value="GAZ">Gazon naturel - GAZ</option>
-            <option value="MOQ">Moquette - MOQ</option>
-            <option value="NVTB">Terre battue non g&eacute;live - NVTB</option>
-            <option value="PAR">Parquet (bois) - PAR</option>
-            <option value="RES">R&eacute;sine (greenset) - RES</option>
-            <option value="TB">Terre-battue - TB</option>
-          </select>
-        </div>
+
+		    <div>	
+			    <div class="form-label">Surface</div>
+		    </div>
+		    <div>	
+			    <select name="surface" id="surface" style="width:60%">
+				    <option value="">Selection</option>
+				    <option value="BP">B&eacute;ton poreux (quick) - BP</option>
+				    <option value="EP">Enrob&eacute; poreux - EP</option>
+				    <option value="EPDM">Granulats caoutchouc - EPDM</option>
+				    <option value="GAS">Gazon synth&eacute;tique - GAS</option>
+				    <option value="GAZ">Gazon naturel - GAZ</option>
+				    <option value="MOQ">Moquette - MOQ</option>
+				    <option value="NVTB">Terre battue non g&eacute;live - NVTB</option>
+				    <option value="PAR">Parquet (bois) - PAR</option>
+				    <option value="RES">R&eacute;sine (greenset) - RES</option>
+				    <option value="TB">Terre-battue - TB</option>
+			    </select>
+		    </div>
+
 
         <input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
         <input type="hidden" id="token" value="<%= token %>" class="input" />

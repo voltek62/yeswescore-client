@@ -55,8 +55,8 @@ Y.Views.GameComments = Y.View.extend({
   
   render: function () {
     // empty page.
-
 	  this.$el.html(this.templates.layout());
+    this.$(".list-comment-title").html("COMMENTAIRES");
 	  return this;
   },
   
@@ -69,6 +69,15 @@ Y.Views.GameComments = Y.View.extend({
   // liste de commentaires 
   renderList : function() {
     $listComment = this.$(".list-comment");
+    var nbComments = this.streamItemsCollection.length;
+    // FIXME: l18n
+    if (nbComments === 0)
+      this.$(".list-comment-title").html("Aucun commentaires");
+    else if (nbComments <= 10)
+      this.$(".list-comment-title").html(nbComments + " COMMENTAIRES");
+    else
+      this.$(".list-comment-title").html("10 DERNIERS COMMENTAIRES");
+    //
     this.streamItemsCollection.forEach(function (streamItem) {
       if (!document.getElementById("comment"+streamItem.get('id'))) {
         $listComment.prepend(this.templates.comment({

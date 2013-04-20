@@ -21,12 +21,8 @@ Y.Views.Account = Y.View.extend({
   },
   
   link : function(elmt) {
- 
-    console.log('link ',elmt.currentTarget.href); 
     var ref = elmt.currentTarget.href;
-    //console.log('listPlayer '+ref);
-	Y.Router.navigate(ref, {trigger: true}); 
-	   
+	Y.Router.navigate(ref, {trigger: true});	   
   },   
 
   // render the content into div of view

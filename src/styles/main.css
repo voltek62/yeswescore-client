@@ -792,11 +792,11 @@ input.jq-ui-forms {
 **********************************************************/
 
 /* player.html */
-.playerInfo.background {
+.info.background {
 	background-color: #fff;
 }
 
-.playerInfo.content-container {
+.info.content-container {
 	padding-bottom: 0px;
 }
 

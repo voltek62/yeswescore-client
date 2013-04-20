@@ -20,6 +20,9 @@ Y.Views.Player = Y.View.extend({
 	//console.log('player init '+this.id);
 
     this.player = new PlayerModel({id:this.id});
+    //change
+    this.player.on( 'sync', this.render, this );
+        
     this.player.fetch(); 
 
     var players_follow = Y.Conf.get("owner.players.followed");
@@ -34,8 +37,7 @@ Y.Views.Player = Y.View.extend({
     else
       this.follow = 'false';
 
-    //change
-    this.player.on( 'sync', this.render, this );
+
   },
   
   lastResult : function(elmt) {

@@ -1,21 +1,43 @@
-<div class="gameAdd background"></div>
-<div class="gameAdd content-container">
+<div class="info background"></div>
+<div class="info content-container">
 <div class="simple">
   
-<span class="success label label-info hide" style="color: red"></span>
-<h3><%= club.name %></h3>
-
-Sport : <%= club.sport %><br/>
-Ville : <%= club.location.city %><br /> 
-Site :<br/>
-Facebook :<br /> 
-<br/>
-<a href="#players/club/<%= club.id %>" class="button" id="listPlayer">Liste des joueurs</a><br/> 
-<a href="#games/club/<%= club.id %>" class="button" id="lastResult">Dernier resultat</a> <br/>
-<!-- 
-<a id="followButton" class="button">Suivre</a>
- -->
- 
+    <div class="ui-grid-a" style="padding-top:10px">
+        <div class="ui-block-a" style="width:30%">
+        PICTO
+        </div>
+        <div class="ui-block-b titlePlayer" style="width:70%">
+        <%= club.name %>
+        </div>
+    </div> 
+     
+    <hr/>
+    <b>Sport :</b> <%= club.sport %>
+    <hr/>
+    <b>Ville :</b> <%= club.location.city %>
+    <hr/>
+    <b>Site :</b>
+    <hr/>
+    
+    <div class="account">
+      <a href="#players/club/<%= club.id %>" class="button" id="listPlayer">Liste des joueurs</a>  
+      <a href="#games/club/<%= club.id %>" class="button" id="lastResult">Dernier resultat</a>
+    </div>
+  
+  </div>
 </div>
 
+<!--
+  COMMENT SAVE
+-->
+<div class="button-form">
+  <div class="background rounded"></div>
+  <div class="background trapeze"></div>
+  <div class="link-form">  
+  <% if (follow === 'true') { %> 
+  <div class="button-selected" id="followButton">Ne plus suivre</div> 
+  <% } else { %> 
+  <div class="button" id="followButton">Suivre</div>
+  <% } %>
+  </div>  
 </div>

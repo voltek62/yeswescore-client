@@ -19,37 +19,38 @@ Y.Views.GameComment = Y.View.extend({
 
     
   initialize:function() {
-  
-    this.first = true;
-
     this.pageHash += this.id; 
+    this.gameid = this.id;
+    this.game = null;
+
+    // header
+    Y.GUI.header.title("COMMENTAIRES");
   
-     //$.ui.setBackButtonVisibility(true);
-     //$.ui.setBackButtonText("&lt;");
-     //$.ui.setTitle("COMMENTAIRES");
-     Y.GUI.header.title("COMMENTAIRES");
-  
+    // loading templates.
     this.gameCommentTemplate = Y.Templates.get('gameComment');
     this.gameViewCommentListTemplate = Y.Templates.get('gameCommentList');
-               
-    //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-    //this.players = new PlayersCollection("me");
-   
+
+    // loading owner
     this.Owner = Y.User.getPlayer();
 
-	//console.log("Owner",this.Owner.toJSON());
-	//console.log("Owner.token",this.Owner.toJSON().token);
-    this.gameid=this.id;
-    
-   	this.score = new GameModel({id : this.id});
-    this.score.fetch();
-    
-    this.score.on("all",this.render,this);
+    // we render immediatly
+    this.render();
 
-	
+    // FIXME 1: appeler render immédiatement, qui affiche un message d'attente car this.game n'est pas encore rempli
+    // FIXME 2: utiliser une factory pour recuperer l'objet game.
+   	var game = new GameModel({id : this.id});
+    game.on("sync", function () {
+      this.game = game;
+      this.render(); // might be later.
+    });
+
+    
+    /*
    	this.streams = new StreamsCollection({id : this.id});
     this.streams.fetch();
-    
+    this.streams.once("sync", this.renderRefresh, this);
+    */
+    /*
     var options = {
           delay : Y.Conf.get("game.refresh")
     };
@@ -57,7 +58,7 @@ Y.Views.GameComment = Y.View.extend({
     poller = Backbone.Poller.get(this.streams, options)
     poller.start();
     poller.on('success', this.getObjectUpdated, this);
-	
+	  */
 
 	//this.streams.on("all",this.renderRefresh,this);
 
@@ -66,12 +67,15 @@ Y.Views.GameComment = Y.View.extend({
   
   //render the content into div of view
   render: function(){
-    
 	  var token = this.Owner.toJSON().token;
  	  var playerid = this.Owner.id;
-  
-	  this.$el.html(this.gameCommentTemplate({game : this.score.toJSON(),playerid:this.Owner.id,token:token}));
-	  //this.$el.trigger('pagecreate');
+    var game = (this.game) ? this.game.toJSON() : null;
+
+	  this.$el.html(this.gameCommentTemplate({
+      game : game,
+      playerid: playerid,
+      token:token
+    }));
 	  return this;
   },
   
@@ -85,12 +89,6 @@ Y.Views.GameComment = Y.View.extend({
 
 
         if (this.streams.toJSON() !== undefined) {
-            // desactive temporairement le pooling pour faciliter le debug dans le DOM.
-            //if (!this.first)    
-            //  return false;
-            this.first = false;
-            
-          
 
 		 //FIXME : gérer la date en temps écoulé
           $(this.incomingComment).html(this.gameViewCommentListTemplate({

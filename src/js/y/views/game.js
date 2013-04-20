@@ -4,7 +4,6 @@ Y.Views.Game = Y.View.extend({
       displayViewScoreBoard : "#scoreBoard",
       // Flux des commentaires
       // FIXME: sort by priority
-      incomingComment : "#incomingComment",      
       countComment : "#countComment",
       
       events : {
@@ -43,8 +42,6 @@ Y.Views.Game = Y.View.extend({
         this.gameViewTemplate = Y.Templates.get('game');
         this.gameViewScoreBoardTemplate = Y.Templates
             .get('gameScoreBoard');
-        this.gameViewCommentListTemplate = Y.Templates
-            .get('gameCommentList');
 
 		//console.log('1.0');
 
@@ -110,10 +107,9 @@ Y.Views.Game = Y.View.extend({
         }
       },
       
-      goToComment: function (elmt) { 
-    	console.log('goToComment',elmt.currentTarget.id); 
-    	var route = elmt.currentTarget.id;
-    	Y.Router.navigate(route, {trigger: true}); 
+      goToComment: function (elmt) {
+    	  var route = $(elmt.currentTarget).attr("data-js-href");
+    	  Y.Router.navigate(route, {trigger: true}); 
   	  },
 
       setTeamSet : function(input, div) {

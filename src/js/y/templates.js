@@ -31,7 +31,7 @@
         var templates = [
           "account", "clubAdd", "clubListAutoComplete", "club", "clubList", "clubListAutoComplete", 
           "games","gameAdd", "gameComments","gameEnd", "gameSearch", "gameList",
-          "gameCommentsScore",
+          "gameCommentsScore", "gameCommentsComment",
           "gameScoreBoard", "game", "gameForm",
           "index", 
           "playerForget","playerForm", "playerListAutoComplete", "playerList",
@@ -68,7 +68,7 @@
       var html = this.templates.HTML
         , compiled = this.templates.compiled;
       if (typeof html[templateId] === "undefined")
-        throw "unknown template "+templateId;
+        throw "unknown template "+templateId+" ; have you included the template in y/templates.js#loadAsync() ?";
       if (typeof compiled[templateId] === "undefined")
         compiled[templateId] = _.template(html[templateId]);
       return compiled[templateId];

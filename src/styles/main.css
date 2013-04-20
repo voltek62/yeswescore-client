@@ -1496,7 +1496,7 @@ input.jq-ui-forms {
   line-height: 20px;
 }
 
-.bg-green {
+.comments .zone-list {
   background-color:#41c68f;  
   width:100%;
   min-height: 100%;
@@ -1609,7 +1609,7 @@ input.jq-ui-forms {
   box-sizing:        border-box;
 }
 
-#sendComment {
+.button.send {
   float: right;
   width: 65px;
   height: 23px;

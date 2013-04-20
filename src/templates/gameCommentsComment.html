@@ -1,0 +1,28 @@
+<div class="comment" id="comment<%= streamItem.id %>">
+  <% 
+    var startConvert = new Date(streamItem.dates.creation);
+    var startDate = startConvert.getDay()+' '+startConvert.getMonthName()+' '+startConvert.getFullYear();
+    var startTime = ' '+startConvert.getHours()+':'+startConvert.getMinutes();
+  %>
+	<div class="infocomment">
+    <span class="player-name">
+      <% if (streamItem.owner.player!==undefined) { %>
+        <%= (streamItem.owner.player.name ||'Anonymous') %>
+      <% } %>
+      <% if (streamItem.owner.facebook!==undefined) { %>
+        <%= (streamItem.owner.facebook.name ||'Anonymous') %> 
+      <% } %>
+    </span> a dit le <%= startDate %> &agrave; <%= startTime %>
+  </div> 
+
+  <%= streamItem.data.text %> 
+
+  <div class="links">
+	  <% if (streamItem.owner.player!==undefined && streamItem.owner.player.id === Owner.id ) { %> 
+            <a class="deleteComment" data-js-streamitemid="<%= streamItem.id %>">supprimer</a> 
+    <% } %>
+	  <% if (streamItem.owner.player!==undefined && streamItem.owner.player.id !== Owner.id ) { %> 
+        <a class="warnComment" data-js-streamitemid="<%= streamItem.id %>">signaler</a> 
+    <% } %>
+  </div>
+</div>

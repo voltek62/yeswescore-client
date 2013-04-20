@@ -1,4 +1,4 @@
-Y.Views.GameComment = Y.View.extend({
+Y.Views.GameComments = Y.View.extend({
   el:"#content",
   gameid:'',
 
@@ -26,9 +26,9 @@ Y.Views.GameComment = Y.View.extend({
   
     // loading templates.
     this.templates = {
-      layout: Y.Templates.get('gameComment'),
-      score:  Y.Templates.get('gameCommentScore'),
-      list: Y.Templates.get('gameCommentList')
+      layout: Y.Templates.get('gameComments'),
+      score:  Y.Templates.get('gameCommentsScore'),
+      comment: Y.Templates.get('gameCommentsComment')
     };
 
     // loading owner
@@ -68,10 +68,15 @@ Y.Views.GameComment = Y.View.extend({
 
   // liste de commentaires 
   renderList : function() {
-    this.$("#incomingComment").html(this.templates.list({
-      streams  : this.streamItemsCollection.toJSON(),
-      Owner : this.Owner.toJSON()
-    }));
+    $listComment = this.$(".list-comment");
+    this.streamItemsCollection.forEach(function (streamItem) {
+      if (!document.getElementById("comment"+streamItem.get('id'))) {
+        $listComment.prepend(this.templates.comment({
+          streamItem  : streamItem.toJSON(),
+          Owner : this.Owner.toJSON()
+        }));
+      }
+    }, this);
     return this;
   }, 
 
@@ -111,6 +116,8 @@ Y.Views.GameComment = Y.View.extend({
   },
 
   sendComment : function() {
+    console.log('yes');
+    /*
     var playerid = this.Owner.id
     , token  = this.Owner.toJSON().token
     , gameid = this.gameid
@@ -131,7 +138,7 @@ Y.Views.GameComment = Y.View.extend({
     $('#messageText').val('');
     
     this.renderRefresh();
-    
+    */
   },
 
   onClose: function(){

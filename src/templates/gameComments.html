@@ -1,22 +1,21 @@
 <div class="comments background"></div>
 <div class="comments content-container">
-  
-  <div class="score">
-  </div>
+  <div class="zone-score"></div>
 
-  <div class="bg-green">
-
-    <div id="incomingComment">
+  <div class="zone-list">
+    <div>
       <div class="list-comment-title">
         <div data-nb-comments="0">Aucun commentaire</div>
         <div data-nb-comments="default">Aucun commentaire</div>
         <div data-nb-comments="10">COMMENTAIRES</div>
+        <div class="list-comment">
+        </div>
       </div>      
     </div>
     <br/>
     <div class="textarea-border">
       <textarea rows="10" cols="40" class="textarea-comment" id="messageText" placeholder="Ecrire un commentaire"></textarea> 
-      <div class="buttons"><div class="button" data-js="sendComment">Envoyer</div></div>
+      <div class="buttons"><div class="button send" data-js-call="sendComment">Envoyer</div></div>
     </div>
   </div>
 </div>

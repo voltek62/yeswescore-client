@@ -24,7 +24,7 @@
       'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
-      'games/comment/:id': 'gameComment',
+      'games/:id/comments/': 'gameComment',
       'games/club/:id': 'gameClub',
       'games/list': 'games',   
       'games/:id': 'game', 
@@ -52,6 +52,7 @@
     * @return function returning a view object.
     */
     createViewFactory: function (view, params) {
+      assert(typeof view !== "undefined");
       return function () {
         return new view(params);
       };
@@ -102,7 +103,7 @@
     },
 
     gameComment: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameComment, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.GameComments, { id: id }));
     },
 
     gameFollow: function () {

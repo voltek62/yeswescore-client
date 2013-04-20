@@ -6,6 +6,7 @@ Y.Views.GameForm = Y.View.extend({
     'focus input[type="text"]': 'inputModeOn',
     'blur input[type="text"]': 'inputModeOff',
     //
+    'click #deleteMatch':'deleteMatch',    
     'click #updateGame':'update',
     'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub'
@@ -71,6 +72,26 @@ Y.Views.GameForm = Y.View.extend({
     	
     $(this.listview).html('');
     //$(this.listview).listview('refresh');
+  },
+
+  deleteMatch: function (event) {
+
+    console.log('deleteMatch');    
+    
+     this.Owner = Y.User.getPlayer().toJSON();
+  
+	///v1/games/:id/?_method=delete
+    return Backbone.ajax({
+      dataType : 'json',
+      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.Owner.id+'&token='+this.Owner.token+'&_method=delete',
+      type : 'POST',
+      success : function(result) {
+        console.log('data success delete Game', result);
+        
+        Y.Router.navigate('/games/add', {trigger: true});	   
+      }
+    });  
+  
   },
       
   update: function (event) {

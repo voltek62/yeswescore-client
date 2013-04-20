@@ -10,9 +10,9 @@ Y.Views.GameComment = Y.View.extend({
     'focus textarea': 'inputModeOn',
     'blur textarea': 'inputModeOff', 
       
-    'click #sendComment'  : 'sendComment',
-    'click .deleteComment': 'deleteComment',
-    'click .warnComment': 'warnComment'        
+    'click *[data-js="sendComment"]'  : 'sendComment',
+    'click *[data-js="deleteComment"]': 'deleteComment',
+    'click *[data-js="deleteComment"]': 'reportComment'        
   },
 
   initialize:function() {
@@ -55,29 +55,20 @@ Y.Views.GameComment = Y.View.extend({
   
   render: function () {
     // empty page.
-    var gameid = this.gameid;
-	  var token = this.Owner.toJSON().token;
- 	  var playerid = this.Owner.id;
-	  this.$el.html(this.templates.layout({ gameid: gameid, token: token, playerid: playerid }));
+
+	  this.$el.html(this.templates.layout());
 	  return this;
   },
   
   // score component (top of the page)
   renderScore: function () {
-
-    var game = (this.game) ? this.game.toJSON() : null;
-
-	  this.$el.html(this.templates.score({
-      game : game,
-      playerid: playerid,
-      token:token
-    }));
+	  this.$(".score").html(this.templates.score({game : this.game}));
 	  return this;
   },
 
   // liste de commentaires 
   renderList : function() {
-    $("#incomingComment").html(this.templates.list({
+    this.$("#incomingComment").html(this.templates.list({
       streams  : this.streamItemsCollection.toJSON(),
       Owner : this.Owner.toJSON()
     }));
@@ -100,7 +91,6 @@ Y.Views.GameComment = Y.View.extend({
         
         type : 'POST',
         success : function(result) {
-          //console.log('data Warn', result);
         }
       });    
       
@@ -108,31 +98,22 @@ Y.Views.GameComment = Y.View.extend({
       $("#comment"+id).remove();
   },
 
-  warnComment : function(e) {
-      
+  reportComment : function(e) {
     var elmt = $(e.currentTarget);
   	var id = elmt.attr("id");
-  		
-    
+
     Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.reports.games")+ this.gameid + '/stream/'+ id + '/',
         type : 'POST',
-        success : function(result) {
-          //console.log('data Warn', result);
-        }
-      });
-    
-      
+        success : function(result) { /* console.log('data Report', result); */ }
+      });  
   },
 
   sendComment : function() {
-  
-  	//console.log('sendComment');
-  
-    var playerid = $('#playerid').val()
-    , token  = $('#token').val()
-    , gameid = $('#gameid').val()
+    var playerid = this.Owner.id
+    , token  = this.Owner.toJSON().token
+    , gameid = this.gameid
     , comment = $('#messageText').val();
 
     var stream = new StreamModel({

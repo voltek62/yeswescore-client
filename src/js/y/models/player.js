@@ -89,7 +89,7 @@ var PlayerModel = Backbone.Model.extend({
         // TODO : prevoir code erreur
 
 
-        $('span.success').html(' ' + data.message + ' Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.').show();
+        $('span.success').html('<br/> Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.').show();
 
 
       }

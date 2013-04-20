@@ -198,11 +198,22 @@
       //
       var next = function () {
         // creating view
-        try {
+
+        /*#ifdef DEV*/
+        if (true) {
+          // in dev, directly call viewFactory, to be able to debug exceptions.
           view = viewFactory();
-        } catch (e) {
-          assert(false);
-        };
+        } else {
+        /*#endif*/
+          try {
+            // avoiding exception in view.
+            view = viewFactory();
+          } catch (e) {
+            assert(false);
+          };
+        /*#ifdef DEV*/
+        }
+        /*#endif*/
 
         // next page name, page hash
         if (view && view.pageName)

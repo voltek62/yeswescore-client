@@ -2,10 +2,6 @@ Y.Views.GameAdd = Y.View.extend({
   el: "#content",
 
   events: {
-    // mode "input"
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',
-
     'click #addGame': 'addGame',
     'blur #team1': 'updateListTeam1',
     'blur #team2': 'updateListTeam2',
@@ -24,7 +20,7 @@ Y.Views.GameAdd = Y.View.extend({
   listview1: "#team1_suggestions",
   listview2: "#team2_suggestions",
 
-  initialize: function () {  
+  myinitialize: function () {  
     Y.GUI.header.title("CREER UNE PARTIE");
   
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');

@@ -1,8 +1,6 @@
 Y.Views.GameComment = Y.View.extend({
   el:"#content",
   gameid:'',
-  
-  incomingComment : "#incomingComment",
 
   pageName: "gameComment",
   pageHash : "games/comment/",
@@ -17,18 +15,21 @@ Y.Views.GameComment = Y.View.extend({
     'click .warnComment': 'warnComment'        
   },
 
-    
   initialize:function() {
     this.pageHash += this.id; 
     this.gameid = this.id;
     this.game = null;
+    this.streamItemsCollection = null;
 
     // header
     Y.GUI.header.title("COMMENTAIRES");
   
     // loading templates.
-    this.gameCommentTemplate = Y.Templates.get('gameComment');
-    this.gameViewCommentListTemplate = Y.Templates.get('gameCommentList');
+    this.templates = {
+      layout: Y.Templates.get('gameComment'),
+      score:  Y.Templates.get('gameCommentScore'),
+      list: Y.Templates.get('gameCommentList')
+    };
 
     // loading owner
     this.Owner = Y.User.getPlayer();
@@ -36,80 +37,57 @@ Y.Views.GameComment = Y.View.extend({
     // we render immediatly
     this.render();
 
-    // FIXME 1: appeler render immédiatement, qui affiche un message d'attente car this.game n'est pas encore rempli
-    // FIXME 2: utiliser une factory pour recuperer l'objet game.
-   	var game = new GameModel({id : this.id});
-    game.on("sync", function () {
+    // FIXME: utiliser une factory pour recuperer l'objet game.
+    // FIXME: quand la factory existera et que les objets seront globaux
+    //         on pourra activer du pooling sur l'objet.
+   	var game = new GameModel({id : this.gameid});
+    game.once("sync", function () {
       this.game = game;
-      this.render(); // might be later.
+      this.renderScore(); // might be later.
     });
 
-    
-    /*
-   	this.streams = new StreamsCollection({id : this.id});
-    this.streams.fetch();
-    this.streams.once("sync", this.renderRefresh, this);
-    */
-    /*
-    var options = {
-          delay : Y.Conf.get("game.refresh")
-    };
-    
-    poller = Backbone.Poller.get(this.streams, options)
-    poller.start();
-    poller.on('success', this.getObjectUpdated, this);
-	  */
-
-	//this.streams.on("all",this.renderRefresh,this);
-
+    this.streamItemsCollection = new StreamsCollection([], {gameid : this.gameid});
+    var pollingOptions = { delay: Y.Conf.get("game.refresh") };
+    this.poller = Backbone.Poller.get(this.streamItemsCollection, pollingOptions);
+    this.poller.on('success', this.renderList, this);
+    this.poller.start();
   },
   
-  
-  //render the content into div of view
-  render: function(){
+  render: function () {
+    // empty page.
+    var gameid = this.gameid;
 	  var token = this.Owner.toJSON().token;
  	  var playerid = this.Owner.id;
+	  this.$el.html(this.templates.layout({ gameid: gameid, token: token, playerid: playerid }));
+	  return this;
+  },
+  
+  // score component (top of the page)
+  renderScore: function () {
+
     var game = (this.game) ? this.game.toJSON() : null;
 
-	  this.$el.html(this.gameCommentTemplate({
+	  this.$el.html(this.templates.score({
       game : game,
       playerid: playerid,
       token:token
     }));
 	  return this;
   },
-  
-  
-  getObjectUpdated: function() {
-        this.streams.on("all",this.renderRefresh,this);     
-  },
 
-      // render the content into div of view
-  renderRefresh : function() {
-
-
-        if (this.streams.toJSON() !== undefined) {
-
-		 //FIXME : gérer la date en temps écoulé
-          $(this.incomingComment).html(this.gameViewCommentListTemplate({
-            streams  : this.streams.toJSON(),
-            Owner : this.Owner.toJSON()
-          }));
-                   
-          //$(this.incomingComment).html('vincent '+JSON.stringify(this.streams.toJSON()));
-
-        }
-        //return this;+
-        return false;
+  // liste de commentaires 
+  renderList : function() {
+    $("#incomingComment").html(this.templates.list({
+      streams  : this.streamItemsCollection.toJSON(),
+      Owner : this.Owner.toJSON()
+    }));
+    return this;
   }, 
 
-
-  deleteComment : function(e) {
-      
+  deleteComment : function(e) {  
     var elmt = $(e.currentTarget);
   	var id = elmt.attr("id");
-  		
-    
+  	
     Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games")
@@ -176,9 +154,11 @@ Y.Views.GameComment = Y.View.extend({
   },
 
   onClose: function(){
+    console.log('onClose !');
+
     this.undelegateEvents();
     
-    poller.stop();
-    poller.off('success', this.renderRefresh, this);
+    this.poller.off('success', this.renderList, this);
+    this.poller.stop();
   }
 });

@@ -6,7 +6,7 @@ Y.Views.ClubFollow = Y.View.extend({
     "click li": "chooseClub"    
   },
 
-  listview:"#listclubsView",  
+  listview:"#listClubsView",  
   
   pageName: "clubFollow",
   pageHash : "clubs/follow",
@@ -31,7 +31,7 @@ Y.Views.ClubFollow = Y.View.extend({
     
     if (clubs!==undefined) {
 
-	    this.collection = new clubsCollection();
+	    this.collection = new ClubsCollection();
 	
 	    var that = this;
 	

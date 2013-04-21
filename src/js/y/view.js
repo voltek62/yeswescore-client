@@ -13,6 +13,8 @@
 
   var View = Backbone.View.extend({
     initialize: function () {
+      // before anything, linking the DOM to this view.
+      this.el.view = this;
       // merging this.events with events.
       this.events = _.assign(events, this.events || {});
       // proxy func call.
@@ -23,12 +25,12 @@
       this[$(e.currentTarget).attr("data-js-call")](e);
     },
 
-    inputModeOn: function () {
+    inputModeOn: function (e) {
       Y.GUI.inputMode(true);
       return true;
     },
 
-    inputModeOff: function () {
+    inputModeOff: function (e) {
       Y.GUI.inputMode(false);
       return true;
     },

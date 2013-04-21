@@ -172,8 +172,10 @@
 
       // closing current view (still in the DOM)
       try {
-        if (this.currentView)
+        if (this.currentView) {
           this.currentView.close();
+          // this.currentView.remove(); // FIXME. gc: should we call remove ?
+        }
       } catch (e) {
         assert(false);
       };

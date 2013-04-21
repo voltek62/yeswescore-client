@@ -61,7 +61,9 @@ Y.Views.GameComments = Y.View.extend({
     var nbComments = this.streamItemsCollection.length;
     // FIXME: l18n
     if (nbComments === 0)
-      this.$(".list-comment-title").html("Aucun commentaires");
+      this.$(".list-comment-title").html("Aucun commentaire");
+    else if (nbComments === 1)
+      this.$(".list-comment-title").html("1 COMMENTAIRE");
     else if (nbComments <= 10)
       this.$(".list-comment-title").html(nbComments + " COMMENTAIRES");
     else
@@ -80,8 +82,10 @@ Y.Views.GameComments = Y.View.extend({
 
   deleteComment : function(e) {  
     var elmt = $(e.currentTarget);
-  	var id = elmt.attr("id");
-  	
+  	var id = elmt.attr("data-js-streamitemid");
+    
+    console.log("removing comment id " + id);
+      /*
     Backbone.ajax({
       dataType : 'json',
       url : Y.Conf.get("api.url.games")
@@ -95,10 +99,18 @@ Y.Views.GameComments = Y.View.extend({
       type : 'POST',
       success : function(result) {
       }
-    });    
-      
-    //$('#2 .c:eq(1)').html("<p>Hello</p>");
-    $("#comment"+id).remove();
+    }).always(function () {
+
+      // on le retire du DOM
+      $("#comment"+id).remove();
+      // on le supprime de la collection
+      var streamItem = this.streamItemsCollection.findWhere({id: id});
+      if (streamItem) {
+        this.streamItemsCollection.
+      }
+
+    });
+      */
   },
 
   reportComment : function(e) {
@@ -116,8 +128,8 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
-    console.log('yes');
-    /*
+    console.log('ici');
+    return;
     var playerid = this.Owner.id
     , token  = this.Owner.toJSON().token
     , gameid = this.gameid
@@ -131,14 +143,12 @@ Y.Views.GameComments = Y.View.extend({
           gameid : gameid
     });
     
-    console.log('sendComment stream',stream.toJSON());
-    
-    stream.save();
+    var that = this;
+    stream.save().done(function (streamItem) {
+      that.streamItemsCollection.fetch();
+    });
 
     $('#messageText').val('');
-    
-    this.renderRefresh();
-    */
   },
 
   onClose: function(){

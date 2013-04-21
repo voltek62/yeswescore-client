@@ -33,15 +33,19 @@
           "games","gameAdd", "gameComments","gameEnd", "gameSearch", "gameList",
           "gameCommentsScore", "gameCommentsComment",
           "gameScoreBoard", "game", "gameForm",
-          "index", 
-          "empty",
+          "index", "empty",
           "playerForget","playerForm", "playerListAutoComplete", "playerList",
           "players", "playerSignin", "player"
         ];
-        var timeoutid = setTimeout(function () { throw "cannot load some template.. "; }, 2000);
+        var timeoutid = setTimeout(function () {
+           var harvestedTemplates = _.keys(html);
+           var missingTemplates = _.filter(templates, function (t) {
+             return harvestedTemplates.indexOf(t) === -1;
+           });
+           throw "cannot load some template.. "+missingTemplates.join(",");
+        }, 2000);
         var i = 0;
         templates.forEach(function (template) {
-          console.log('harvesting template ' + "templates/"+template+".html");
           $.get("templates/"+template+".html", function (text) {
             html[template] = text;
             i++;

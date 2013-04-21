@@ -118,8 +118,6 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
-    console.log('yes');
-    /*
     var playerid = this.Owner.id
     , token  = this.Owner.toJSON().token
     , gameid = this.gameid
@@ -133,14 +131,12 @@ Y.Views.GameComments = Y.View.extend({
           gameid : gameid
     });
     
-    console.log('sendComment stream',stream.toJSON());
-    
-    stream.save();
+    var that = this;
+    stream.save().done(function (streamItem) {
+      that.streamItemsCollection.fetch();
+    });
 
     $('#messageText').val('');
-    
-    this.renderRefresh();
-    */
   },
 
   onClose: function(){

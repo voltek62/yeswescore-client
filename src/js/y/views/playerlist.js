@@ -2,7 +2,8 @@ Y.Views.PlayerList = Y.View.extend({
   el : "#content",
 
   events : {
-    "keyup input#search-basic" : "search"
+    "keyup input#search-basic" : "search",
+    "click li": "choosePlayer"
   },
 
   listview : "#listPlayersView",
@@ -23,8 +24,8 @@ Y.Views.PlayerList = Y.View.extend({
       players: Y.Templates.get('players')
     };
         
-    this.playerListViewTemplate = Y.Templates.get('playerList');
-    this.playerSearchTemplate = Y.Templates.get('players');
+    //this.playerListViewTemplate = Y.Templates.get('playerList');
+    //this.playerSearchTemplate = Y.Templates.get('players');
     
     // we render immediatly
     this.render();    
@@ -41,6 +42,12 @@ Y.Views.PlayerList = Y.View.extend({
 
     }
     
+  },
+
+  choosePlayer : function(elmt) { 
+    var ref = elmt.currentTarget.id;
+    console.log(ref);
+	Y.Router.navigate(ref, {trigger: true});  
   },
 
   search : function() {

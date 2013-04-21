@@ -160,23 +160,26 @@ Y.Views.GameAdd = Y.View.extend({
       $('span.team1_error').html('Vous devez indiquer un joueur !').show();
       return false;
     }
-
+    
+	/*
     if (rank1 === '') {
       //alert('Il manque le joueur 1 '+$('#myself').attr('checked'));
       $('span.team1_error').html('Vous devez indiquer le classement !').show();
       return false;
-    }
+    }*/
 
     if (team2 === '' && team2_id === '') {
       $('span.team2_error').html('Vous devez indiquer un joueur !').show();
       return false;
     }
 
+	/*
     if (rank2 === '') {
       //alert('Il manque le joueur 1 '+$('#myself').attr('checked'));
       $('span.team2_error').html('Vous devez indiquer le classement !').show();
       return false;
     }
+    */
 
     var game = {
 		team1 : $('#team1').val()

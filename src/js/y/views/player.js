@@ -2,7 +2,8 @@ Y.Views.Player = Y.View.extend({
   el:"#content",
 
   events: {
-    'click #followButton': 'followPlayer'
+    'click #followButton': 'followPlayer',
+    'click #lastResult': 'lastResult'
   },
 
   pageName: "player",
@@ -19,6 +20,9 @@ Y.Views.Player = Y.View.extend({
 	//console.log('player init '+this.id);
 
     this.player = new PlayerModel({id:this.id});
+    //change
+    this.player.on( 'sync', this.render, this );
+        
     this.player.fetch(); 
 
     var players_follow = Y.Conf.get("owner.players.followed");
@@ -33,9 +37,17 @@ Y.Views.Player = Y.View.extend({
     else
       this.follow = 'false';
 
-    //change
-    this.player.on( 'sync', this.render, this );
+
   },
+  
+  lastResult : function(elmt) {
+ 
+    console.log('lastResult ',elmt.currentTarget.href); 
+    var ref = elmt.currentTarget.href;
+    //console.log('listPlayer '+ref);
+	Y.Router.navigate(ref, {trigger: true}); 
+	   
+  },  
 
   followPlayer: function() {
   
@@ -53,6 +65,8 @@ Y.Views.Player = Y.View.extend({
           
           $('span.success').html('Vous ne suivez plus ce joueur').show();
           $("#followButton").text("Suivre");
+          $('#followButton').removeClass('button-selected');
+          $('#followButton').addClass('button'); 
 
           this.follow = 'false';
 
@@ -72,6 +86,9 @@ Y.Views.Player = Y.View.extend({
 
           $('span.success').html('Vous suivez ce joueur').show();
           $("#followButton").text("Ne plus suivre");
+          $('#followButton').removeClass('button');
+          $('#followButton').addClass('button-selected');          
+          
 
           this.follow = 'true';
 

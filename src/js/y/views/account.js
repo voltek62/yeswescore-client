@@ -1,5 +1,9 @@
 Y.Views.Account = Y.View.extend({
   el: "#content",
+  
+   events: {
+    'click a': 'link'
+  }, 
 
   pageName: "account",
   pageHash : "account", 
@@ -15,23 +19,26 @@ Y.Views.Account = Y.View.extend({
     this.render();
     
   },
+  
+  link : function(elmt) {
+    var ref = elmt.currentTarget.href;
+	Y.Router.navigate(ref, {trigger: true});	   
+  },   
 
   // render the content into div of view
   render: function () {
-    // $.ui.setTitle("MON COMPTE");
-    
-    console.log("clubid",this.clubid);
-    
-    console.log("1.1");    
+    // $.ui.setTitle("MON COMPTE");  
 
 	$(this.el).html(this.accountViewTemplate({
 	  Owner : this.Owner,
       clubid: this.clubid
     }));
 
-    console.log("1.2");
+
     
   },
+  
+  
 
   onClose: function () {
     this.undelegateEvents();

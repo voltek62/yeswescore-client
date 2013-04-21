@@ -6,8 +6,8 @@ Y.Views.PlayerForget = Y.View.extend({
     'focus input[type="text"]': 'inputModeOn',
     'blur input[type="text"]': 'inputModeOff',
   
-    'submit form#frmForgetPlayer' : 'forget',
-    'click input' :'hideFooter'
+    'click #forgetPlayer' : 'forget'
+
   },
 
   pageName: "playerForget",
@@ -22,10 +22,6 @@ Y.Views.PlayerForget = Y.View.extend({
     //$.mobile.hidePageLoadingMsg();
   },
   
-  hideFooter:function() {
-  	console.log('hideFooter');
-  	//$.ui.toggleNavMenu(false);
-  },    
 
   forget : function(event) {
   
@@ -37,6 +33,8 @@ Y.Views.PlayerForget = Y.View.extend({
     
     this.player = new PlayerModel();
     this.player.newpass(email);
+    
+    
     
     return false;
   },

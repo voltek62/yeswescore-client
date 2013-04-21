@@ -5,9 +5,10 @@ Y.Views.PlayerSignin = Y.View.extend({
   
     'focus input[type="text"]': 'inputModeOn',
     'blur input[type="text"]': 'inputModeOff',
-  
-    'submit form#frmSigninPlayer' : 'signin',
-    'click input' :'hideFooter'
+    
+    'click #signinUser' : 'signin',
+    'click #forgetPassword' : 'forget'    
+    
   },
 
   pageName: "playerSignin",
@@ -22,14 +23,14 @@ Y.Views.PlayerSignin = Y.View.extend({
     //$.mobile.hidePageLoadingMsg();
   },
   
-  hideFooter:function() {
-  	console.log('hideFooter');
-  	//$.ui.toggleNavMenu(false);
-  },    
+
+  forget : function(event) {
+
+   	Y.Router.navigate("/players/forget", {trigger: true}); 
+  
+  }, 
 
   signin : function(event) {
-  
-    //$.ui.toggleNavMenu(true);
   
     var email = $('#email').val();
     var password = $('#password').val();

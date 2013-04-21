@@ -11,6 +11,15 @@ String.prototype.startsWith = function (subString) {
     return this.indexOf(subString) === 0;
 };
 
+String.prototype.padLeft = function (size, padString) {
+    var n = String(this);
+    padString = padString || " ";
+    while (n.length < size) {
+        n = padString + n;
+    }
+    return n;
+};
+
 Date.prototype.getMonthName = function(lang) {
     lang = lang && (lang in Date.locale) ? lang : 'fr';
     return Date.locale[lang].month_names[this.getMonth()];

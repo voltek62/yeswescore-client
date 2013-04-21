@@ -34,7 +34,8 @@ Y.Views.GameComments = Y.View.extend({
     game.once("sync", function () {
       this.game = game;
       this.renderScore(); // might be later.
-    });
+    }, this);
+    game.fetch();
 
     // updating comment list when collection is updated
     this.streamItemsCollection = new StreamsCollection([], {gameid : this.gameid});
@@ -54,7 +55,7 @@ Y.Views.GameComments = Y.View.extend({
   
   // score component (top of the page)
   renderScore: function () {
-	  this.$(".score").html(this.templates.score({game : this.game}));
+	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON()}));
 	  return this;
   },
 

@@ -1469,7 +1469,7 @@ input.jq-ui-forms {
 	padding-bottom: 0px;
 }
 
-.comments>.ui-grid-a {
+.comments .ui-grid-a {
 	background-color: white;
 }
 

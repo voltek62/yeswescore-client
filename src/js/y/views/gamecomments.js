@@ -47,6 +47,22 @@ Y.Views.GameComments = Y.View.extend({
     this.poller.start();
   },
   
+  inputModeOn: function (e) {
+    // calling parent.
+    var r = Y.View.prototype.inputModeOn.apply(this, arguments);
+    // scrolling at the bottom
+    document.body.scrollTop = 1000000;
+    return r;
+  },
+
+  inputModeOff: function (e) {
+    // calling parent.
+    var r = Y.View.prototype.inputModeOff.apply(this, arguments);
+    // scrolling at the bottom
+    document.body.scrollTop = 1000000;
+    return r;
+  },
+
   render: function () {
     // empty page.
 	  this.$el.html(this.templates.layout());

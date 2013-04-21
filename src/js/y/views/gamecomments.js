@@ -161,7 +161,7 @@ Y.Views.GameComments = Y.View.extend({
 
     this.undelegateEvents();
     
-    this.streamItemCollection.off('success', this.renderList, this);
+    this.streamItemsCollection.off('success', this.renderList, this);
     this.poller.stop();
   }
 });

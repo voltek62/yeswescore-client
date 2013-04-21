@@ -118,7 +118,7 @@ var PlayerModel = Backbone.Model.extend({
         success: function (data) {
           that.set(data);
           if (options && options.success) {
-            options.success(model, data, options);
+            options.success(data);
           }
         },
         error: function (message) {

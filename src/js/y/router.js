@@ -3,13 +3,6 @@
   "use strict";
   /*#endif*/
 
-  // overloading backbone close.
-  Backbone.View.prototype.close = function () {
-    this.off();
-    if (typeof this.onClose === "function")
-      this.onClose();
-  };
-
   var Router = Backbone.Router.extend({
     history: [ /* { pageName: ..., pageHash: ... } */ ],
 

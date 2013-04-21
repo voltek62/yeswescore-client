@@ -31,6 +31,13 @@
     inputModeOff: function () {
       Y.GUI.inputMode(false);
       return true;
+    },
+
+    close : function () {
+      this.inputModeOff();
+      this.off();
+      if (typeof this.onClose === "function")
+        this.onClose();
     }
   });
 

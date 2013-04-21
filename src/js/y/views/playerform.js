@@ -3,8 +3,8 @@ Y.Views.PlayerForm = Y.View.extend({
     
   events: {
     // mode "input"
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',
+    //'focus input[type="text"]': 'inputModeOn',
+    //'blur input[type="text"]': 'inputModeOff',
     //
     'click #savePlayer':'add',
     'keyup #club': 'updateList',
@@ -19,22 +19,35 @@ Y.Views.PlayerForm = Y.View.extend({
   clubs:null,
      
 
-  initialize:function() {
+  myinitialize:function() {
+  
+    this.player = null;  	
           
-
+	//header
     Y.GUI.header.title("MON PROFIL"); 
   
-    this.playerFormTemplate = Y.Templates.get('playerForm');
-    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
+    // loading templates.
+    this.templates = {
+      layout: Y.Templates.get('empty'),
+      playerform:  Y.Templates.get('playerForm'),
+      clublist: Y.Templates.get('clubListAutoComplete')
+    };
+       
+    //this.playerFormTemplate = Y.Templates.get('playerForm');
+    //this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
     this.player_cache = Y.User.getPlayer().toJSON();
     //this.pageHash += this.player.id; 
-    console.log(this.player_cache);
+    //console.log(this.player_cache);
+    
+    // we render immediatly
+    this.render();    
         	
-    this.player = new PlayerModel({id:this.player_cache.id});
-    this.player.fetch(); 
-    	
-    this.player.on( 'sync', this.renderPlayer, this );  	 	
+
+    this.player = new PlayerModel({id : this.player_cache.id});
+    this.player.once("sync", this.renderPlayer, this);	
+    this.player.fetch();
+     	
 
   },
   
@@ -53,13 +66,21 @@ Y.Views.PlayerForm = Y.View.extend({
     }
     //$(this.listview).listview('refresh');
   },
+  
+  
+  render: function () {
+    // empty page.
+	  this.$el.html(this.templates.layout());
+	  return this;
+  },
+  
     
   renderList: function () {
     var q = $("#club").val();
     	
     console.log(this.clubs.toJSON());
     	
-	$(this.listview).html(this.clubListAutoCompleteViewTemplate({clubs:this.clubs.toJSON(), query:q}));
+	$(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
 	  //$(this.listview).listview('refresh');
   },
     
@@ -142,15 +163,18 @@ Y.Views.PlayerForm = Y.View.extend({
     if (player.email!== undefined) {    
       dataDisplay.email = player.email.address;    
     }
+    else 
+      dataDisplay.email = '';
     
     //player:this.player.toJSON(),playerid:Owner.id,token:Owner.token	
-    this.$el.html(this.playerFormTemplate(dataDisplay));
+    this.$el.html(this.templates.playerform(dataDisplay));
     //this.$el.trigger('pagecreate');
     return this;
   },
 
   onClose: function(){
     this.undelegateEvents();
-    this.player.off("sync",this.renderPlayer,this); 
+    
+    //this.player.off("sync",this.renderPlayer,this); 
   }
 });

@@ -18,18 +18,24 @@ Y.Views.PlayerList = Y.View.extend({
   
     this.playerListViewTemplate = Y.Templates.get('playerList');
     this.playerSearchTemplate = Y.Templates.get('players');
+    
+    // we render immediatly
+    this.render();    
+
 
     if (this.id !== 'null') {
       console.log('on demande les joueurs par club ' + this.id);
 
       this.players = new PlayersCollection();
       this.players.setMode('club', this.id);
-      this.players.fetch();
       this.players.on('sync', this.renderList, this);
+            
+      this.players.fetch();
+
     }
     
-    this.render();
-    // this.renderList();
+ 
+
 
   },
 

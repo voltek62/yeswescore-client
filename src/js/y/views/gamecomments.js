@@ -5,17 +5,7 @@ Y.Views.GameComments = Y.View.extend({
   pageName: "gameComment",
   pageHash : "games/comment/",
 
-  events: {
-    // mode "input"
-    'focus textarea': 'inputModeOn',
-    'blur textarea': 'inputModeOff', 
-      
-    'click *[data-js="sendComment"]'  : 'sendComment',
-    'click *[data-js="deleteComment"]': 'deleteComment',
-    'click *[data-js="deleteComment"]': 'reportComment'        
-  },
-
-  initialize:function() {
+  myinitialize:function() {
     this.pageHash += this.id; 
     this.gameid = this.id;
     this.game = null;
@@ -94,34 +84,36 @@ Y.Views.GameComments = Y.View.extend({
   	var id = elmt.attr("id");
   	
     Backbone.ajax({
-        dataType : 'json',
-        url : Y.Conf.get("api.url.games")
-        + this.gameid 
-        + '/stream/'
-        + id 
-        + '/?playerid='+this.Owner.id
-        +'&token='+this.Owner.toJSON().token
-        +'&_method=delete',
+      dataType : 'json',
+      url : Y.Conf.get("api.url.games")
+      + this.gameid 
+      + '/stream/'
+      + id 
+      + '/?playerid='+this.Owner.id
+      +'&token='+this.Owner.toJSON().token
+      +'&_method=delete',
         
-        type : 'POST',
-        success : function(result) {
-        }
-      });    
+      type : 'POST',
+      success : function(result) {
+      }
+    });    
       
-      //$('#2 .c:eq(1)').html("<p>Hello</p>");
-      $("#comment"+id).remove();
+    //$('#2 .c:eq(1)').html("<p>Hello</p>");
+    $("#comment"+id).remove();
   },
 
   reportComment : function(e) {
     var elmt = $(e.currentTarget);
-  	var id = elmt.attr("id");
+  	var id = elmt.attr("data-js-streamitemid");
 
     Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.reports.games")+ this.gameid + '/stream/'+ id + '/',
-        type : 'POST',
-        success : function(result) { /* console.log('data Report', result); */ }
-      });  
+        type : 'GET',
+        success : function(result) { 
+          console.log('report '+id, result); 
+        }
+      });
   },
 
   sendComment : function() {

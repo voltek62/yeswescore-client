@@ -50,16 +50,14 @@ Y.Views.GameComments = Y.View.extend({
   inputModeOn: function (e) {
     // calling parent.
     var r = Y.View.prototype.inputModeOn.apply(this, arguments);
-    // scrolling at the bottom
-    document.body.scrollTop = 1000000;
+    this.scrollBottom();
     return r;
   },
 
   inputModeOff: function (e) {
     // calling parent.
     var r = Y.View.prototype.inputModeOff.apply(this, arguments);
-    // scrolling at the bottom
-    document.body.scrollTop = 1000000;
+    this.scrollBottom();
     return r;
   },
 
@@ -96,7 +94,7 @@ Y.Views.GameComments = Y.View.extend({
         divHiddenContainer.style.display = "none";
         $(divHiddenContainer).html(this.templates.comment({
           streamItem  : streamItem.toJSON(),
-          Owner : this.Owner.toJSON()
+          Owner : (this.Owner) ? this.Owner.toJSON() : null
         }));
         $listComment.prepend(divHiddenContainer);
         $(divHiddenContainer).fadeIn();
@@ -166,7 +164,7 @@ Y.Views.GameComments = Y.View.extend({
     var that = this;
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
-      document.body.scrollTop = 0;
+      that.scrollTop();
     });
 
     $('#messageText').val('');

@@ -25,7 +25,7 @@ Y.Views.Club = Y.View.extend({
     this.render();        
 
     this.club = new ClubModel({id : this.id});   
-    this.club.on('sync', this.renderClub, this);      
+    this.club.once('sync', this.renderClub, this);      
     this.club.fetch();
     
     var clubs_follow = Y.Conf.get("owner.clubs.followed");
@@ -128,7 +128,7 @@ Y.Views.Club = Y.View.extend({
 
   onClose : function() {
     this.undelegateEvents();
-    this.club.off("sync", this.render, this);
+    //this.club.off("sync", this.render, this);
     // this.$el.off('pagebeforeshow');
   }
 });

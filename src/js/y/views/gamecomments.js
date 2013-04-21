@@ -36,10 +36,13 @@ Y.Views.GameComments = Y.View.extend({
       this.renderScore(); // might be later.
     });
 
+    // updating comment list when collection is updated
     this.streamItemsCollection = new StreamsCollection([], {gameid : this.gameid});
+    this.streamItemsCollection.on("sync", this.renderList, this);
+
+    // pool the collection regulary
     var pollingOptions = { delay: Y.Conf.get("game.refresh") };
     this.poller = Backbone.Poller.get(this.streamItemsCollection, pollingOptions);
-    this.poller.on('success', this.renderList, this);
     this.poller.start();
   },
   
@@ -68,13 +71,18 @@ Y.Views.GameComments = Y.View.extend({
       this.$(".list-comment-title").html(nbComments + " COMMENTAIRES");
     else
       this.$(".list-comment-title").html("10 DERNIERS COMMENTAIRES");
-    //
+    // adding comment into the DOM.
     this.streamItemsCollection.forEach(function (streamItem) {
       if (!document.getElementById("comment"+streamItem.get('id'))) {
-        $listComment.prepend(this.templates.comment({
+        // small fade-in effect using an hidden container.
+        var divHiddenContainer = document.createElement("div");
+        divHiddenContainer.style.display = "none";
+        $(divHiddenContainer).html(this.templates.comment({
           streamItem  : streamItem.toJSON(),
           Owner : this.Owner.toJSON()
         }));
+        $listComment.prepend(divHiddenContainer);
+        $(divHiddenContainer).fadeIn();
       }
     }, this);
     return this;
@@ -128,8 +136,6 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
-    console.log('ici');
-    return;
     var playerid = this.Owner.id
     , token  = this.Owner.toJSON().token
     , gameid = this.gameid
@@ -146,6 +152,7 @@ Y.Views.GameComments = Y.View.extend({
     var that = this;
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
+      document.body.scrollTop = 0;
     });
 
     $('#messageText').val('');
@@ -156,7 +163,7 @@ Y.Views.GameComments = Y.View.extend({
 
     this.undelegateEvents();
     
-    this.poller.off('success', this.renderList, this);
+    this.streamItemCollection.off('success', this.renderList, this);
     this.poller.stop();
   }
 });

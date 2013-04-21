@@ -34,6 +34,7 @@
           "gameCommentsScore", "gameCommentsComment",
           "gameScoreBoard", "game", "gameForm",
           "index", 
+          "empty",
           "playerForget","playerForm", "playerListAutoComplete", "playerList",
           "players", "playerSignin", "player"
         ];

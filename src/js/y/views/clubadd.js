@@ -2,8 +2,7 @@ Y.Views.ClubAdd = Y.View.extend({
   el: "#content",
 
   events: {
-    'submit form#frmAddClub': 'addClub',
-    'click input' :'hideFooter'
+    'submit form#frmAddClub': 'addClub'
   },
 
   pageName: "clubAdd",
@@ -21,10 +20,6 @@ Y.Views.ClubAdd = Y.View.extend({
     //$.mobile.hidePageLoadingMsg();
   },
 
-  hideFooter:function() {
-  	console.log('hideFooter');
-  	//$.ui.toggleNavMenu(false);
-  },   
 
   addClub: function (event) {
   

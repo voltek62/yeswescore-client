@@ -12,16 +12,20 @@ Y.Views.Club = Y.View.extend({
   
   initialize : function() {
   
+	//header    
   	Y.GUI.header.title("CLUB");
   
-    this.clubViewTemplate = Y.Templates.get('club');
+    // loading templates.
+    this.templates = {
+      layout: Y.Templates.get('empty'),
+      club:  Y.Templates.get('club')
+    };
+    
+    // we render immediatly
+    this.render();        
 
-    this.club = new ClubModel({
-      id : this.id
-    });
-    
-    this.club.on('sync', this.render, this);    
-    
+    this.club = new ClubModel({id : this.id});   
+    this.club.once('sync', this.renderClub, this);      
     this.club.fetch();
     
     var clubs_follow = Y.Conf.get("owner.clubs.followed");
@@ -85,13 +89,19 @@ Y.Views.Club = Y.View.extend({
   
   },    
 
-
+  render: function () {
+    // empty page.
+	  this.$el.html(this.templates.layout());
+	  return this;
+  },
+  
+ 
   // render the content into div of view
-  render : function() {
+  renderClub : function() {
   
   	console.log('club',this.club.toJSON());
   
-    this.$el.html(this.clubViewTemplate({
+    this.$el.html(this.templates.club({
       club : this.club.toJSON(),follow:this.follow
     }));
 
@@ -118,7 +128,7 @@ Y.Views.Club = Y.View.extend({
 
   onClose : function() {
     this.undelegateEvents();
-    this.club.off("sync", this.render, this);
+    //this.club.off("sync", this.render, this);
     // this.$el.off('pagebeforeshow');
   }
 });

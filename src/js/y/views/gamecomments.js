@@ -82,8 +82,10 @@ Y.Views.GameComments = Y.View.extend({
 
   deleteComment : function(e) {  
     var elmt = $(e.currentTarget);
-  	var id = elmt.attr("id");
-  	
+  	var id = elmt.attr("data-js-streamitemid");
+    
+    console.log("removing comment id " + id);
+      /*
     Backbone.ajax({
       dataType : 'json',
       url : Y.Conf.get("api.url.games")
@@ -97,10 +99,18 @@ Y.Views.GameComments = Y.View.extend({
       type : 'POST',
       success : function(result) {
       }
-    });    
-      
-    //$('#2 .c:eq(1)').html("<p>Hello</p>");
-    $("#comment"+id).remove();
+    }).always(function () {
+
+      // on le retire du DOM
+      $("#comment"+id).remove();
+      // on le supprime de la collection
+      var streamItem = this.streamItemsCollection.findWhere({id: id});
+      if (streamItem) {
+        this.streamItemsCollection.
+      }
+
+    });
+      */
   },
 
   reportComment : function(e) {
@@ -118,6 +128,8 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
+    console.log('ici');
+    return;
     var playerid = this.Owner.id
     , token  = this.Owner.toJSON().token
     , gameid = this.gameid

@@ -25,12 +25,12 @@
       this[$(e.currentTarget).attr("data-js-call")](e);
     },
 
-    inputModeOn: function () {
+    inputModeOn: function (e) {
       Y.GUI.inputMode(true);
       return true;
     },
 
-    inputModeOff: function () {
+    inputModeOff: function (e) {
       Y.GUI.inputMode(false);
       return true;
     },

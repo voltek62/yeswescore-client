@@ -79,13 +79,13 @@
       return Y.Conf.get(playerClubIdConfKey);		
 	},	
 
-    setPlayer: function (player) {
-      assert(player instanceof PlayerModel);
-      assert(player.get('id') !== undefined);
-      assert(player.get('token') !== undefined);
+    setPlayer: function (newplayer) {
+      assert(newplayer instanceof PlayerModel);
+      assert(newplayer.get('id') !== undefined);
+      assert(newplayer.get('token') !== undefined);
 
       // saving in memory
-      player = player;
+      player = newplayer;
       // saving in local storage for future session
       DB.saveJSON("Player", player);
       // saving playerid in file (permanent)

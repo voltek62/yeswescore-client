@@ -61,7 +61,9 @@ Y.Views.GameComments = Y.View.extend({
     var nbComments = this.streamItemsCollection.length;
     // FIXME: l18n
     if (nbComments === 0)
-      this.$(".list-comment-title").html("Aucun commentaires");
+      this.$(".list-comment-title").html("Aucun commentaire");
+    else if (nbComments === 1)
+      this.$(".list-comment-title").html("1 COMMENTAIRE");
     else if (nbComments <= 10)
       this.$(".list-comment-title").html(nbComments + " COMMENTAIRES");
     else

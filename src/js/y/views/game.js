@@ -361,8 +361,12 @@ Y.Views.Game = Y.View.extend({
       var nbComments = this.streams.length;
       if (nbComments > 10)
         this.$(".link-comments").html("10 DERNIERS COMMENTAIRES");
+      else if (nbComments == 1)
+        this.$(".link-comments").html("1 COMMENTAIRE");
       else if (nbComments > 0)
         this.$(".link-comments").html(nbComments + " COMMENTAIRES");
+      else
+        this.$(".link-comments").html("COMMENTAIRES");
 	  },
 
       render : function() {

@@ -13,6 +13,8 @@
 
   var View = Backbone.View.extend({
     initialize: function () {
+      // before anything, linking the DOM to this view.
+      this.el.view = this;
       // merging this.events with events.
       this.events = _.assign(events, this.events || {});
       // proxy func call.

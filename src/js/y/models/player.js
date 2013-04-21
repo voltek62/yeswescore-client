@@ -145,11 +145,11 @@ var PlayerModel = Backbone.Model.extend({
       };
 
       // si mot de passe defini
-      if (this.get('password') !== '') {
+      if (typeof this.get('password') === "string" && this.get('password') !== '') {
         dataSend.uncryptedPassword = this.get('password');
       }
       // si club non nul
-      if (this.get('clubid') !== '') {
+      if (typeof this.get('clubid') === "string" && this.get('clubid') !== '') {
         dataSend.club = {
           id: (this.get('clubid') || undefined)
         };

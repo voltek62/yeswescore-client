@@ -34,12 +34,16 @@ Y.Views.GameComments = Y.View.extend({
     game.once("sync", function () {
       this.game = game;
       this.renderScore(); // might be later.
-    });
+    }, this);
+    game.fetch();
 
+    // updating comment list when collection is updated
     this.streamItemsCollection = new StreamsCollection([], {gameid : this.gameid});
+    this.streamItemsCollection.on("sync", this.renderList, this);
+
+    // pool the collection regulary
     var pollingOptions = { delay: Y.Conf.get("game.refresh") };
     this.poller = Backbone.Poller.get(this.streamItemsCollection, pollingOptions);
-    this.poller.on('success', this.renderList, this);
     this.poller.start();
   },
   
@@ -51,7 +55,7 @@ Y.Views.GameComments = Y.View.extend({
   
   // score component (top of the page)
   renderScore: function () {
-	  this.$(".score").html(this.templates.score({game : this.game}));
+	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON()}));
 	  return this;
   },
 
@@ -68,13 +72,18 @@ Y.Views.GameComments = Y.View.extend({
       this.$(".list-comment-title").html(nbComments + " COMMENTAIRES");
     else
       this.$(".list-comment-title").html("10 DERNIERS COMMENTAIRES");
-    //
+    // adding comment into the DOM.
     this.streamItemsCollection.forEach(function (streamItem) {
       if (!document.getElementById("comment"+streamItem.get('id'))) {
-        $listComment.prepend(this.templates.comment({
+        // small fade-in effect using an hidden container.
+        var divHiddenContainer = document.createElement("div");
+        divHiddenContainer.style.display = "none";
+        $(divHiddenContainer).html(this.templates.comment({
           streamItem  : streamItem.toJSON(),
           Owner : this.Owner.toJSON()
         }));
+        $listComment.prepend(divHiddenContainer);
+        $(divHiddenContainer).fadeIn();
       }
     }, this);
     return this;
@@ -84,8 +93,6 @@ Y.Views.GameComments = Y.View.extend({
     var elmt = $(e.currentTarget);
   	var id = elmt.attr("data-js-streamitemid");
     
-    console.log("removing comment id " + id);
-      /*
     Backbone.ajax({
       dataType : 'json',
       url : Y.Conf.get("api.url.games")
@@ -99,18 +106,17 @@ Y.Views.GameComments = Y.View.extend({
       type : 'POST',
       success : function(result) {
       }
-    }).always(function () {
-
+    }).always(_.bind(function () {
       // on le retire du DOM
-      $("#comment"+id).remove();
+      $("#comment"+id).fadeOut().remove();
       // on le supprime de la collection
       var streamItem = this.streamItemsCollection.findWhere({id: id});
       if (streamItem) {
-        this.streamItemsCollection.
+        this.streamItemsCollection.remove(streamItem);
+      } else {
+        assert(false);
       }
-
-    });
-      */
+    }, this));
   },
 
   reportComment : function(e) {
@@ -128,8 +134,6 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
-    console.log('ici');
-    return;
     var playerid = this.Owner.id
     , token  = this.Owner.toJSON().token
     , gameid = this.gameid
@@ -146,6 +150,7 @@ Y.Views.GameComments = Y.View.extend({
     var that = this;
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
+      document.body.scrollTop = 0;
     });
 
     $('#messageText').val('');
@@ -156,7 +161,7 @@ Y.Views.GameComments = Y.View.extend({
 
     this.undelegateEvents();
     
-    this.poller.off('success', this.renderList, this);
+    this.streamItemCollection.off('success', this.renderList, this);
     this.poller.stop();
   }
 });

@@ -19,10 +19,10 @@
 
   <div class="links">
 	  <% if (streamItem.owner.player!==undefined && streamItem.owner.player.id === Owner.id ) { %> 
-            <a class="deleteComment" data-js-streamitemid="<%= streamItem.id %>">supprimer</a> 
+            <a class="deleteComment" data-js-streamitemid="<%= streamItem.id %>" data-js-call="deleteComment">supprimer</a> 
     <% } %>
 	  <% if (streamItem.owner.player!==undefined && streamItem.owner.player.id !== Owner.id ) { %> 
-        <a class="warnComment" data-js-streamitemid="<%= streamItem.id %>">signaler</a> 
+        <a class="warnComment" data-js-streamitemid="<%= streamItem.id %>" data-js-call="reportComment">signaler</a> 
     <% } %>
   </div>
 </div>

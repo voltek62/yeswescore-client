@@ -1,8 +1,12 @@
 <div class="comment" id="comment<%= streamItem.id %>">
   <% 
     var startConvert = new Date(streamItem.dates.creation);
-    var startDate = startConvert.getDay()+' '+startConvert.getMonthName()+' '+startConvert.getFullYear();
-    var startTime = ' '+startConvert.getHours()+':'+startConvert.getMinutes();
+    var startDate = String(startConvert.getDate()).padLeft(2, "0") +' '+startConvert.getMonthName()+' '+startConvert.getFullYear();
+    var startTime = ' '+String(startConvert.getHours()).padLeft(2, "0") + ':' + String(startConvert.getMinutes()).padLeft(2, "0");
+    var now = new Date();
+    var today = (startConvert.getDate() == now.getDate() &&
+                 startConvert.getMonth() == now.getMonth() &&
+                 startConvert.getFullYear() == now.getFullYear());
   %>
 	<div class="infocomment">
     <span class="player-name">
@@ -12,7 +16,11 @@
       <% if (streamItem.owner.facebook!==undefined) { %>
         <%= (streamItem.owner.facebook.name ||'Anonymous') %> 
       <% } %>
-    </span> a dit le <%= startDate %> &agrave; <%= startTime %>
+    </span> a dit
+    <% if (!today) { %>
+      le <%= startDate %> 
+    <% } %>
+      &agrave; <%= startTime %>
   </div> 
 
   <%= streamItem.data.text %> 

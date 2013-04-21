@@ -74,6 +74,12 @@ input[type="text"][disabled] {
 	background-color: #e4e4e4;
 }
 
+.button {
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+}
+
 /* @see bug android 4.1 http://stackoverflow.com/questions/12694556/android-tap-highlight-jelly-bean */
 * {
 	-webkit-tap-highlight-color: transparent !important;
@@ -83,8 +89,8 @@ input[type="text"][disabled] {
 /**********************************************************
 	WP8 specifics.
 **********************************************************/
-@media screen and (orientation: portrait) { @
-	-ms-viewport {
+@media screen and (orientation: portrait) {
+	@-ms-viewport {
 		width: 320px; /* should be device-width
                          but there is a bug in ie10 (puts screen resolution, not css resolution)
                          @see http://timkadlec.com/2013/01/windows-phone-8-and-device-width/

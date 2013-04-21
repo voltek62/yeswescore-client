@@ -43,8 +43,8 @@
               var fbBaseUrl = "http://plic.no-ip.org:9090";
               var fbAppId = "408897482525651";
               break;
-            default:
             case "alpha":
+            default:
               var apiBaseUrl = "http://plic.no-ip.org:20080";
               var fbBaseUrl = "http://plic.no-ip.org:20081";
               var fbAppId = "FIXME";

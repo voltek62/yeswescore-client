@@ -40,6 +40,20 @@
       this.off();
       if (typeof this.onClose === "function")
         this.onClose();
+    },
+
+    scrollTop: function () {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    },
+
+    scrollBottom: function () {
+      document.documentElement.scrollTop = 1000000;
+      document.body.scrollTop = 1000000;
+    },
+
+    scrollAt: function (val) {
+      // FIXME
     }
   });
 

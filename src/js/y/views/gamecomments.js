@@ -46,7 +46,6 @@ Y.Views.GameComments = Y.View.extend({
   render: function () {
     // empty page.
 	  this.$el.html(this.templates.layout());
-    this.$(".list-comment-title").html("COMMENTAIRES");
 	  return this;
   },
   

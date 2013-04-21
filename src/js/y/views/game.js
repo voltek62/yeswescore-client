@@ -81,17 +81,10 @@ Y.Views.Game = Y.View.extend({
         //poller.start();
         //poller.on('sync', this.render, this);
         
-		//console.log('1.4');
-
-        
         //On compte les commentaires
         this.streams = new StreamsCollection([], {gameid : this.id});
-    	  this.streams.fetch();
-    	  this.streams.once("sync",this.renderCountComment,this); 
-    	
-    	//console.log('1.5');
-    	
-        
+    	  this.streams.once("sync",this.renderCountComment,this);
+        this.streams.fetch();
       },
 
 
@@ -365,13 +358,11 @@ Y.Views.Game = Y.View.extend({
       },
 
 	  renderCountComment : function() {
-	  
-	    var counter = 0;
-	    if (this.streams.toJSON().length>0)
-			counter = this.streams.toJSON().length;
-
-        $(this.countComment).html(counter);
-
+      var nbComments = this.streams.length;
+      if (nbComments > 10)
+        this.$(".link-comments").html("10 DERNIERS COMMENTAIRES");
+      else if (nbComments > 0)
+        this.$(".link-comments").html(nbComments + " COMMENTAIRES");
 	  },
 
       render : function() {

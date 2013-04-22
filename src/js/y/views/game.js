@@ -22,11 +22,14 @@ Y.Views.Game = Y.View.extend({
         'click #team2_set1_div' : 'setTeam2Set1',
         'click #team2_set2_div' : 'setTeam2Set2',
         'click #team2_set3_div' : 'setTeam2Set3',
-        "click .button-comments": "goToComment",       
+        "click .button-comments": "goToComment",  
+        "click .undoAction" : "undoAction"     
       },
 
       pageName: "game",
       pageHash : "games/",
+      
+      lastScore: null,
 
       initialize : function() {
       
@@ -44,15 +47,10 @@ Y.Views.Game = Y.View.extend({
             .get('gameScoreBoard');
 
 		//console.log('1.0');
-
+		this.lastScore = new Array();
         this.Owner = Y.User.getPlayer();
 		this.score = new GameModel({id : this.id});
 		
-		//console.log('1.1');		
-		
-        this.score.fetch();
-
-		//console.log('1.2');
 
         var games_follow = Y.Conf.get("owner.games.followed");
         if (games_follow !== undefined)
@@ -75,11 +73,12 @@ Y.Views.Game = Y.View.extend({
 		//console.log('1.3');
 
         this.render();                                // rendu a vide (instantanément)
-        this.score.once("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
+        this.score.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
         // FIXME: SI ONLINE       
         //poller = Backbone.Poller.get(this.score, options)
         //poller.start();
         //poller.on('sync', this.render, this);
+       this.score.fetch();
         
         //On compte les commentaires
         this.streams = new StreamsCollection([], {gameid : this.id});
@@ -99,6 +98,67 @@ Y.Views.Game = Y.View.extend({
           this.commentSend();
         }
       },
+
+      undoAction: function () {
+    	  console.log('undo');
+    	  
+    	  var sets_update = this.lastScore.pop();
+    	  sets_update = this.lastScore.pop();
+    	  var gameid = $('#gameid').val();   	  
+    	  console.log(sets_update);
+    	  
+    	  if (sets_update !== 'undefined') {
+	    	  var game = {
+			   team1 : $('#team1').val()
+		      , rank1 : $('#rank1').val()
+		      , team1_id : $('#team1_id').val()
+		      , team2 : $('#team2').val()
+		      , rank2 : $('#rank2').val()
+		      , team2_id : $('#team2_id').val()
+		      , country : $('#country').val()	      
+		      , city : $('#city').val()
+		      , playerid : $('#playerid').val()
+		      , token : $('#token').val()
+		      , court : $('#court').val()
+		      , surface : $('#surface').val()
+		      , tour : $('#tour').val()
+		      , subtype : $('#subtype').val()
+		      , sets : sets_update
+		      , id : gameid 
+	    	};
+	        
+	
+	        var tennis_update = new GameModel(game);
+	        tennis_update.save();
+	        	        
+	        /*
+	        var that = this;
+	        
+	        tennis_update.once("all", function () { 
+	        
+		        console.log('tennis_update OK');
+	
+	    	    $(that.displayViewScoreBoard).html(that.gameViewScoreBoardTemplate({
+	          	  game : this.toJSON(),
+	         	  Owner : that.Owner.toJSON()
+	        	}));
+	        
+	        });
+	        */
+	        
+	        //assert(tennis_update instanceof GameModel);
+	        console.log('tennis_update',tennis_update.toJSON());
+	        //FIXME: Bug doubleclick
+	        //this.score = tennis_update;
+	        this.score = new GameModel({id : this.id});
+	        this.score.once("sync",this.render,this); 
+	        this.score.fetch();
+
+
+    	  
+    	  }
+    	  
+  	  },
       
       goToComment: function (elmt) {
     	  var route = $(elmt.currentTarget).attr("data-js-href");
@@ -202,6 +262,10 @@ Y.Views.Game = Y.View.extend({
         // sets_update = sets_update.replace(/ /g,'0');
 
         console.log('sets_update',sets_update);
+        
+        //on incremente le tableau
+        this.lastScore.push(sets_update);
+        console.log('lastScore ',this.lastScore);
         
         var game = {
 		   team1 : $('#team1').val()
@@ -372,7 +436,7 @@ Y.Views.Game = Y.View.extend({
       render : function() {
         // On rafraichit tout
         
-        //console.log("3.0 ",this.score.toJSON());
+        console.log("render ");
         
         // FIXME: refresh only input and id
         this.$el.html(this.gameViewTemplate({

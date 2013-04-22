@@ -41,7 +41,7 @@ Y.Views.ClubFollow = Y.View.extend({
 			//console.log('club',clubid);
 			
 			club = new ClubModel({id : clubid});
-	        club.fetch();
+	        
 	        club.once("sync", function () { 
 	        
 	          that.collection.add(this);
@@ -53,6 +53,7 @@ Y.Views.ClubFollow = Y.View.extend({
 	    			$(that.listview).html(that.templates.clublist({clubs:that.collection.toJSON(),query:' '}));  	
 	          }
 	        });
+	        club.fetch();
 				
 	    });
 	 }

@@ -41,7 +41,7 @@ Y.Views.PlayerFollow = Y.View.extend({
 			//console.log('player',playerid);
 			
 			player = new PlayerModel({id : playerid});
-	        player.fetch();
+	        
 	        player.once("sync", function () { 
 	        
 	          that.collection.add(this);
@@ -53,6 +53,7 @@ Y.Views.PlayerFollow = Y.View.extend({
 	    			$(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' '}));  	
 	          }
 	        });
+	        player.fetch();
 				
 	    });
 	 }

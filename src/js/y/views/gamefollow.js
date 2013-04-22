@@ -33,7 +33,7 @@ Y.Views.GameFollow = Y.View.extend({
 			//console.log('game',gameid);
 			
 			game = new GameModel({id : gameid});
-	        game.fetch();
+	        
 	        game.once("sync", function () {
 	         
 	          that.collection.add(this);
@@ -47,6 +47,7 @@ Y.Views.GameFollow = Y.View.extend({
 	    			$(that.listview).html(that.gameListViewTemplate({games:that.collection.toJSON(),query:' '}));
 	          }
 	        });
+	        game.fetch();
 				
 	    });
 	 }

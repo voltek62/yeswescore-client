@@ -57,7 +57,9 @@
         <b>Public</b>
         </div>
         <div class="ui-block-e ">
-        <b>.</b>
+        <% if (game.owner === Owner.id) { %>
+        <span class="undoAction">Annuler</span>
+        <% } %>
         </div>
       </div>
     </div>
@@ -82,7 +84,15 @@
             <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
           </div>
 		      <div class="ui-block-c button">
-			      <a id="endButton">Terminer match</a>
+                  <% if (game.dates.start === game.dates.creation ) { %>
+			      <a id="beginButton">Commencer match</a>
+                  <% } 
+                  else {
+                  %>
+                  <a id="endButton">Terminer match</a>
+                  <%
+                  }
+                  %>
 		      </div>
         </div>
       <% } else { %> 
@@ -95,8 +105,8 @@
           <div id="facebook" class="ui-block-b">
             <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
           </div>          
-          <div class="ui-block-c button">
-            <a id="endButton">Terminer match</a>
+          <div class="ui-block-c">
+            &nbsp;
           </div>
        </div>
       <% } %>

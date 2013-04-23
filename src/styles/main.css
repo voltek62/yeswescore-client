@@ -1242,6 +1242,8 @@ input.jq-ui-forms {
 	height: 100%;
 }
 
+
+
 .game .socialbar .button {
 	display: table;
 	height: 100%;
@@ -1254,12 +1256,35 @@ input.jq-ui-forms {
 	cursor: pointer;
 }
 
+.game .socialbar .buttonSpecial {
+	display: table;
+	height: 100%;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #46b1dd;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+	border: 1px solid #74c5e3;
+}
+
 .game .socialbar .share {
 	/*text-align: center;*/
 	
 }
 
 .game .socialbar .button a {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 12px;
+	font-family: Open Sans;
+	font-weight: 700;
+	color: white;
+	/* hack, pour monter legerement le texte */
+	top: -2px;
+	position: relative;
+}
+
+.game .socialbar .buttonSpecial span {
 	display: table-cell;
 	vertical-align: middle;
 	font-size: 12px;

@@ -86,7 +86,12 @@
 		      <div class="ui-block-c button">
                   <% if (game.dates.start === game.dates.creation ) { %>
 			      <a id="beginButton">Commencer match</a>
-                  <% } 
+                  <% }
+                  else if (game.dates.end !== undefined) {
+                  %>
+                  <a id ="end">Match Fini</a>
+                  <%                  
+                  }
                   else {
                   %>
                   <a id="endButton">Terminer match</a>
@@ -105,8 +110,19 @@
           <div id="facebook" class="ui-block-b">
             <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
           </div>          
-          <div class="ui-block-c">
-            &nbsp;
+          <div class="ui-block-c buttonSpecial">
+            <%
+            if (game.dates.end !== undefined) {
+            %>
+            <span>Match Fini</span>
+            <%                  
+            }
+            else {
+            %>
+            <span>Match en cours</span>
+            <%
+            }
+            %>
           </div>
        </div>
       <% } %>

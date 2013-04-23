@@ -438,6 +438,7 @@ Y.Views.Game = Y.View.extend({
         // On rafraichit tout
         
         console.log("render ");
+        console.log("game.dates ",this.score.toJSON().dates);
         
         // FIXME: refresh only input and id
         this.$el.html(this.gameViewTemplate({

@@ -12,6 +12,7 @@ Y.Views.Game = Y.View.extend({
         'click #setMinusSetButton' : 'setMinusSet',
         'click #setPointWinButton' : 'setPointWin',
         'click #setPointErrorButton' : 'setPointError',
+        'click #beginButton' : 'beginGame',        
         'click #endButton' : 'endGame',
         'click #followButton' : 'followGame',
         'click #cancelButton' : 'cancelGame',
@@ -466,13 +467,62 @@ Y.Views.Game = Y.View.extend({
         // do something
       },
 
-      endGame : function() {
-        //window.location.href = '#games/end/' + this.id;
-        Y.Router.navigate("/games/end/"+this.id,{trigger:true})
+      beginGame : function() {
+		/* TODO: envoie la page note */
+        /*Y.Router.navigate("/games/end/"+this.id,{trigger:true})*/
+             
+        var gameid = $('#gameid').val();
+        console.log('begin '+gameid);
+              	
+        var game = {
+	      start : new Date()
+		  , team1 : $('#team1').val()
+		  , rank1 : $('#rank1').val()
+		  , team1_id : $('#team1_id').val()
+		  , team2 : $('#team2').val()
+		  , rank2 : $('#rank2').val()
+		  , team2_id : $('#team2_id').val()	      
+	      , playerid : $('#playerid').val()
+	      , token : $('#token').val()
+	      , id : gameid 
+    	};
+        
+        var tennis_update = new GameModel(game);
+        tennis_update.save();
+        
+        /* FIXME : MAJ du css */
+        //Y.Router.navigate("/games/"+gameid,{trigger:true});
+        
+      },
+
+      endGame : function() {  	
+
+        var gameid = $('#gameid').val();
+        console.log('end '+gameid);    
+              	
+        var game = {
+	      end : new Date()
+		  , team1 : $('#team1').val()
+		  , rank1 : $('#rank1').val()
+		  , team1_id : $('#team1_id').val()
+		  , team2 : $('#team2').val()
+		  , rank2 : $('#rank2').val()
+		  , team2_id : $('#team2_id').val()		      
+	      , playerid : $('#playerid').val()
+	      , token : $('#token').val()	      
+	      , id : gameid 
+    	};
+        
+        var tennis_update = new GameModel(game);
+        tennis_update.save();
+        
+        /* FIXME : MAJ du css */
+        //Y.Router.navigate("/games/"+gameid,{trigger:true});
+        
       },
       
       optionGame : function() {
-        //console.log('option Game /games/form/'+this.id);
+
         Y.Router.navigate("/games/form/"+this.id,{trigger:true})
       },      
 

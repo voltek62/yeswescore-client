@@ -86,6 +86,7 @@ var GameModel = Backbone.Model.extend({
       id : null,
       players : [ team2_json ]
       } ], 
+      dates : {},      
       options : {},
       location : {}
      };
@@ -134,7 +135,14 @@ var GameModel = Backbone.Model.extend({
      if (this.get('city') !== undefined)  
        if (this.get('city') !== "") 
          object.location.city = this.get('city'); 
-     
+
+     if (this.get('start') !== undefined)  
+       if (this.get('start') !== "") 
+         object.dates.start = this.get('start');     
+         
+     if (this.get('end') !== undefined)  
+       if (this.get('end') !== "") 
+         object.dates.end = this.get('end');          
          
      //console.log("1.4");          
      //,pos : [ appConfig.longitude, appConfig.latitude ]

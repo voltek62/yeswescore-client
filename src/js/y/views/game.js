@@ -105,8 +105,9 @@ Y.Views.Game = Y.View.extend({
     	  
     	  var sets_update = this.lastScore.pop();
     	  sets_update = this.lastScore.pop();
-    	  var gameid = $('#gameid').val();   	  
-    	  console.log(sets_update);
+    	  var gameid = $('#gameid').val();   
+    	  	  
+    	  console.log("On reprend le jeu : ",sets_update);
     	  
     	  if (sets_update !== 'undefined') {
 	    	  var game = {
@@ -128,35 +129,26 @@ Y.Views.Game = Y.View.extend({
 		      , id : gameid 
 	    	};
 	        
-	
-	        var tennis_update = new GameModel(game);
-	        tennis_update.save();
-	        	        
-	        /*
-	        var that = this;
-	        
-	        tennis_update.once("all", function () { 
-	        
-		        console.log('tennis_update OK');
-	
-	    	    $(that.displayViewScoreBoard).html(that.gameViewScoreBoardTemplate({
-	          	  game : this.toJSON(),
-	         	  Owner : that.Owner.toJSON()
-	        	}));
-	        
-	        });
-	        */
-	        
-	        //assert(tennis_update instanceof GameModel);
-	        console.log('tennis_update',tennis_update.toJSON());
-	        //FIXME: Bug doubleclick
-	        //this.score = tennis_update;
-	        this.score = new GameModel({id : this.id});
-	        this.score.once("sync",this.render,this); 
-	        this.score.fetch();
 
+	        this.score = new GameModel(game);	        
+	        this.score.save({
+			  success: function(model, response){
+			    console.log('undo success');
+			  },
+			  error: function(){
+			    console.log('undo error');
+			  }
+			})
+	        
 
-    	  
+	    	/*
+    	    $(that.displayViewScoreBoard).html(that.gameViewScoreBoardTemplate({
+          	  game : gameDeferred.toJSON(),
+         	  Owner : that.Owner.toJSON()
+        	}));
+        	*/
+		         
+
     	  }
     	  
   	  },
@@ -411,11 +403,12 @@ Y.Views.Game = Y.View.extend({
       // renderRefresh : refresh only scoreboard
       renderRefresh : function() {
         
-        console.log('renderRefresh');
+        console.log('renderRefresh avec '+this.score.toJSON().options.sets);
         
         $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
           game : this.score.toJSON(),
-          Owner : this.Owner
+          Owner : this.Owner.toJSON(),
+          follow : this.follow
         }));
              
         
@@ -435,10 +428,15 @@ Y.Views.Game = Y.View.extend({
 	  },
 
       render : function() {
-        // On rafraichit tout
         
-        console.log("render ");
-        console.log("game.dates ",this.score.toJSON().dates);
+        //si premiere init et lastScore null
+        /*
+        if (this.lastScore.size===0) {
+          if (this.score.toJSON().options.sets !== undefined) {	
+           this.lastScore.push(this.score.toJSON().options.sets);
+          } 
+        }
+        */
         
         // FIXME: refresh only input and id
         this.$el.html(this.gameViewTemplate({

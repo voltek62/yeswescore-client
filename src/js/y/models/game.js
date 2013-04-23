@@ -171,18 +171,27 @@ var GameModel = Backbone.Model.extend({
         var gameid = this.get('id');
     
         console.log('update Game', JSON.stringify(object));    	
-
+		var that = this;
+		
         return Backbone.ajax({
           dataType : 'json',
           url : Y.Conf.get("api.url.games") + gameid + '/?playerid=' + (this.get('playerid') || '')
             + '&token=' + (this.get('token') || ''),
           type : 'POST',
           data : object,
-          success : function(result) {
-            console.log('data success update Game', result);
-        }
-
-      });
+          success: function (data) {
+            that.set(data);
+            if (options && options.success) {
+              console.log('success in backbone ajax model');
+              options.success(data);
+            }
+          },
+          error: function (message) {
+            if (options && options.error)
+              console.log('error in backbone ajax model');              
+              options.error(message);
+          }               
+       });
 
     } else {
       

@@ -114,7 +114,7 @@ Y.Views.Game = Y.View.extend({
     	  console.log("sets actuel : ",this.score.toJSON().options.sets);    	  
     	  
     	  //S'il s'agit du meme score
-    	  if (sets_update === currentScore ) {
+    	  if (sets_update === this.currentScore ) {
 	    	  sets_update = this.lastScore.pop();	    	  
 	    	  console.log("second pop : ",sets_update);  
     	  }
@@ -152,6 +152,12 @@ Y.Views.Game = Y.View.extend({
 			var that = this;
 
 			this.score.save({}, {success: function(model, response){
+			
+				//that.currentScore = model.toJSON().options.sets;
+				
+				that.lastScore.push(model.toJSON().options.sets);	    
+		        that.currentScore = model.toJSON().options.sets;        
+		        console.log(that.lastScore);
   				
 	    	    $(that.displayViewScoreBoard).html(that.gameViewScoreBoardTemplate({
 	          	  game : model.toJSON(),
@@ -163,6 +169,11 @@ Y.Views.Game = Y.View.extend({
 	        
     	  }
     	  
+    	}
+    	else {
+    	
+    	   console.log("lastScore ne change pas : ",this.lastScore);
+    	
     	}
     	  
   	  },
@@ -177,13 +188,19 @@ Y.Views.Game = Y.View.extend({
           set = parseInt(input.val(), 10) + 1;
         else
           set = '1';
+          
+        //console.log(this.score.toJSON().owner+" !! "+this.Owner.id);
+      
+      	if (this.score.toJSON().owner === this.Owner.id ) {  
 
-        input.val(set);
+	        input.val(set);
+	        
+	        //FIXME : NO HTML IN CODE
+	        div.html('<div class="score">'+set+'</div>');
+	        
+	        this.sendUpdater();
         
-        //FIXME : NO HTML IN CODE
-        div.html('<div class="score">'+set+'</div>');
-        
-        this.sendUpdater();
+        }
       },
 
       setTeam1Set1 : function() {
@@ -269,11 +286,13 @@ Y.Views.Game = Y.View.extend({
         // sets_update = sets_update.replace(/ /g,'0');
 
         console.log('sets_update',sets_update);
-        currentScore = sets_update;
+        this.currentScore = sets_update;
         
         //on incremente le tableau
         this.lastScore.push(sets_update);
         console.log('lastScore ',this.lastScore);
+        
+        
         
         var game = {
 		   team1 : $('#team1').val()
@@ -321,31 +340,40 @@ Y.Views.Game = Y.View.extend({
       },
 
       setPlusSet : function() {
-        var selected = $('input[name=team_selected]:checked').val();
-        var set = parseInt($('#team' + selected + '_set1').val(), 10) + 1;
-        // console.log(set);
+      
 
-        // FIXME : Regle de Gestion selon le score
-
-        $('#team' + selected + '_set1').val(set);
-        $('#team' + selected + '_set1_div').html(set);
-
-        this.sendUpdater();
+      	
+	        var selected = $('input[name=team_selected]:checked').val();
+	        var set = parseInt($('#team' + selected + '_set1').val(), 10) + 1;
+	        // console.log(set);
+	
+	        // FIXME : Regle de Gestion selon le score
+	
+	        $('#team' + selected + '_set1').val(set);
+	        $('#team' + selected + '_set1_div').html(set);
+	
+	        this.sendUpdater();
+        
+        
       },
 
       setMinusSet : function() {
-        var selected = $('input[name=team_selected]:checked').val();
-        var set = parseInt($('#team' + selected + '_set1').val(), 10) - 1;
-        console.log(set);
-
-        if (set < 0)
-          set = 0;
-        // FIXME : Regle de Gestion selon le score
-
-        $('#team' + selected + '_set1').val(set);
-        $('#team' + selected + '_set1_div').html(set);
-
-        this.sendUpdater();
+      
+   
+	        var selected = $('input[name=team_selected]:checked').val();
+	        var set = parseInt($('#team' + selected + '_set1').val(), 10) - 1;
+	        console.log(set);
+	
+	        if (set < 0)
+	          set = 0;
+	        // FIXME : Regle de Gestion selon le score
+	
+	        $('#team' + selected + '_set1').val(set);
+	        $('#team' + selected + '_set1_div').html(set);
+	
+	        this.sendUpdater();
+        
+        
       },
 
       setPoint : function(mode) {
@@ -458,10 +486,12 @@ Y.Views.Game = Y.View.extend({
         if (this.lastScore.length === 0) {
 	        if (this.score.toJSON().owner !== "") {	          
 	          //console.log('sets ',this.score.toJSON().options.sets);	        
-	          if (this.score.toJSON().options.sets !== undefined) {	
-	            this.lastScore.push(this.score.toJSON().options.sets);	    
-	            currentScore = this.score.toJSON().options.sets;        
-	            console.log(this.lastScore);
+	          if (this.score.toJSON().options.sets !== undefined) {
+	           if (this.score.toJSON().options.sets!=="") {
+		            this.lastScore.push(this.score.toJSON().options.sets);	    
+		            this.currentScore = this.score.toJSON().options.sets;        
+		            console.log(this.lastScore);
+	            }
 	          } 
 	        }
         }
@@ -502,7 +532,7 @@ Y.Views.Game = Y.View.extend({
         console.log('begin '+gameid);
               	
         var game = {
-	      start : new Date()
+	      status : "ongoing"
 		  , team1 : $('#team1').val()
 		  , rank1 : $('#rank1').val()
 		  , team1_id : $('#team1_id').val()
@@ -518,7 +548,7 @@ Y.Views.Game = Y.View.extend({
         tennis_update.save();
         
         /* FIXME : MAJ du css */
-        //Y.Router.navigate("/games/"+gameid,{trigger:true});
+        Y.Router.navigate("/games/"+gameid,{trigger:true});
         
       },
 
@@ -528,7 +558,7 @@ Y.Views.Game = Y.View.extend({
         console.log('end '+gameid);    
               	
         var game = {
-	      end : new Date()
+	      status : "finished"
 		  , team1 : $('#team1').val()
 		  , rank1 : $('#rank1').val()
 		  , team1_id : $('#team1_id').val()
@@ -544,7 +574,7 @@ Y.Views.Game = Y.View.extend({
         tennis_update.save();
         
         /* FIXME : MAJ du css */
-        //Y.Router.navigate("/games/"+gameid,{trigger:true});
+        Y.Router.navigate("/games/"+gameid,{trigger:true});
         
       },
       

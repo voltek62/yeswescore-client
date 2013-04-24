@@ -16,7 +16,7 @@ var GameModel = Backbone.Model.extend({
   defaults : {
     owner: "",
     sport : "tennis",
-    status : "ongoing",
+    status : "",
     dates : {
       end : "",
       start : ""
@@ -143,6 +143,10 @@ var GameModel = Backbone.Model.extend({
      if (this.get('end') !== undefined)  
        if (this.get('end') !== "") 
          object.dates.end = this.get('end');          
+
+     if (this.get('status') !== undefined)  
+       if (this.get('status') !== "") 
+         object.status = this.get('status');  
          
      //console.log("1.4");          
      //,pos : [ appConfig.longitude, appConfig.latitude ]

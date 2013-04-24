@@ -298,35 +298,7 @@ p {
 	BUTTON STYLES
 **********************************************************/
 
-/*
-.ui-disabled {
-  z-index: 1;
-}
 
-.button {
-  width:90%;	
-  z-index:1;
-  color:#fff;
-  background-image:none; 
-  background-color:#45b1db;
-  font-size:16px;
-  font-weight:normal;
-  text-transform:uppercase;
-  -webkit-border-radius:0px; border-radius:0px;
-}
-
-.button-green {
-  width:90%;	
-  z-index:1;
-  color:#fff;
-  background-image:none; 
-  background-color:#40c68f;
-  font-size:16px;
-  font-weight:normal;
-  text-transform:uppercase;
-  -webkit-border-radius:0px; border-radius:0px;
-}
-  */
 
 /***
   pictos
@@ -604,41 +576,7 @@ ul>li.player>a {
 	display: none;
 }
 
-/*
-.form-center {
-  margin-left:auto;
-  margin-right:auto;
-  width:90%;  
-}
 
-
-#jQUi label {
-  color: #fff;
-  font-weight: normal;
-  font-family:Open Sans;
-}
-
-.ui-input-text {
-  color:#fff;
-  font-weight:bold;  	
-}
-
-input.jq-ui-forms-white { 
-  color:#000;
-  background:#fff;
-  -webkit-border-radius:12px; border-radius:12px;
-  height:30px;
-  width:100%;	
-  padding-left:10px;
-}
-
-input.jq-ui-forms { 
-	color:#000;
-	background:#EDEDED;
-	-webkit-border-radius:6px; border-radius:6px;
-	width:95%;	
-}
-*/
 
 /**********************************************************
 	TABLE
@@ -1179,6 +1117,10 @@ input.jq-ui-forms {
 }
 
 /* game.html */
+.undoAction {
+	cursor:pointer;
+}
+
 .game {
 	padding-left: 3px;
 	padding-right: 3px;

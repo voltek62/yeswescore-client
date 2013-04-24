@@ -31,7 +31,7 @@ Y.Views.Game = Y.View.extend({
       pageHash : "games/",
       
       lastScore: null,
-      currentScore: null;
+      currentScore: null,
 
       initialize : function() {
       
@@ -114,7 +114,7 @@ Y.Views.Game = Y.View.extend({
     	  console.log("sets actuel : ",this.score.toJSON().options.sets);    	  
     	  
     	  //S'il s'agit du meme score
-    	  if (sets_update === this.score.toJSON().options.sets ) {
+    	  if (sets_update === currentScore ) {
 	    	  sets_update = this.lastScore.pop();	    	  
 	    	  console.log("second pop : ",sets_update);  
     	  }
@@ -269,6 +269,7 @@ Y.Views.Game = Y.View.extend({
         // sets_update = sets_update.replace(/ /g,'0');
 
         console.log('sets_update',sets_update);
+        currentScore = sets_update;
         
         //on incremente le tableau
         this.lastScore.push(sets_update);
@@ -458,7 +459,8 @@ Y.Views.Game = Y.View.extend({
 	        if (this.score.toJSON().owner !== "") {	          
 	          //console.log('sets ',this.score.toJSON().options.sets);	        
 	          if (this.score.toJSON().options.sets !== undefined) {	
-	            this.lastScore.push(this.score.toJSON().options.sets);	            
+	            this.lastScore.push(this.score.toJSON().options.sets);	    
+	            currentScore = this.score.toJSON().options.sets;        
 	            console.log(this.lastScore);
 	          } 
 	        }

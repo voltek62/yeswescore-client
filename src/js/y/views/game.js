@@ -31,6 +31,7 @@ Y.Views.Game = Y.View.extend({
       pageHash : "games/",
       
       lastScore: null,
+      currentScore: null;
 
       initialize : function() {
       
@@ -103,11 +104,28 @@ Y.Views.Game = Y.View.extend({
       undoAction: function () {
     	  console.log('undo');
     	  
+    	  console.log('taille lastScore',this.lastScore.length); 
+    	  
+    	  if (this.lastScore.length>1) {
+    	  
     	  var sets_update = this.lastScore.pop();
-    	  sets_update = this.lastScore.pop();
+
+    	  console.log("premier pop : ",sets_update);
+    	  console.log("sets actuel : ",this.score.toJSON().options.sets);    	  
+    	  
+    	  //S'il s'agit du meme score
+    	  if (sets_update === this.score.toJSON().options.sets ) {
+	    	  sets_update = this.lastScore.pop();	    	  
+	    	  console.log("second pop : ",sets_update);  
+    	  }
+    	    	  
+    	  
     	  var gameid = $('#gameid').val();   
     	  	  
     	  console.log("On reprend le jeu : ",sets_update);
+    	  
+    	  console.log("Il reste : ",this.lastScore);
+    	  
     	  
     	  if (sets_update !== 'undefined') {
 	    	  var game = {
@@ -130,26 +148,22 @@ Y.Views.Game = Y.View.extend({
 	    	};
 	        
 
-	        this.score = new GameModel(game);	        
-	        this.score.save({
-			  success: function(model, response){
-			    console.log('undo success');
-			  },
-			  error: function(){
-			    console.log('undo error');
-			  }
-			})
+	        this.score = new GameModel(game);	    
+			var that = this;
+
+			this.score.save({}, {success: function(model, response){
+  				
+	    	    $(that.displayViewScoreBoard).html(that.gameViewScoreBoardTemplate({
+	          	  game : model.toJSON(),
+	         	  Owner : that.Owner.toJSON()
+	        	}));
+	        				
+  				
+			}});
 	        
-
-	    	/*
-    	    $(that.displayViewScoreBoard).html(that.gameViewScoreBoardTemplate({
-          	  game : gameDeferred.toJSON(),
-         	  Owner : that.Owner.toJSON()
-        	}));
-        	*/
-		         
-
     	  }
+    	  
+    	}
     	  
   	  },
       
@@ -280,8 +294,15 @@ Y.Views.Game = Y.View.extend({
     	};
         
 
-        tennis_update = new GameModel(game);
-        tennis_update.save();
+        this.score = new GameModel(game);
+        
+        //this.score.save();
+        
+        this.score.save({}, {success: function(model, response){
+  								
+  			console.log('save OK');
+  				
+	    }});
 
         // FIXME: on ajoute dans le stream un changement de score ???
         /*
@@ -327,6 +348,7 @@ Y.Views.Game = Y.View.extend({
       },
 
       setPoint : function(mode) {
+      
         // 15 30 40 AV
         var selected = $('input[name=team_selected]:checked').val(), selected_opponent = '';
 
@@ -429,14 +451,18 @@ Y.Views.Game = Y.View.extend({
 
       render : function() {
         
-        //si premiere init et lastScore null
-        /*
-        if (this.lastScore.size===0) {
-          if (this.score.toJSON().options.sets !== undefined) {	
-           this.lastScore.push(this.score.toJSON().options.sets);
-          } 
+        //si premiere init et lastScore null, on stock le score en cours
+        //console.log('taille tab', this.lastScore.length);
+        
+        if (this.lastScore.length === 0) {
+	        if (this.score.toJSON().owner !== "") {	          
+	          //console.log('sets ',this.score.toJSON().options.sets);	        
+	          if (this.score.toJSON().options.sets !== undefined) {	
+	            this.lastScore.push(this.score.toJSON().options.sets);	            
+	            console.log(this.lastScore);
+	          } 
+	        }
         }
-        */
         
         // FIXME: refresh only input and id
         this.$el.html(this.gameViewTemplate({

@@ -56,6 +56,9 @@
           // calling jquery
           //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
+          /*#ifdef DEV*/
+          console.log('Backbone.ajax: ' + url);
+          /*#endif*/
           var xhr = $.ajax(url, options);
           xhr.always($.proxy(function () { this.trigger("request.end"); }, this));
           this.trigger("request.start", xhr, url, options);

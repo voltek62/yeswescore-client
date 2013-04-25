@@ -26,7 +26,7 @@
     this.iabRef = null;
     /*#ifdef WEB*/
     this.poolingIntervalId = null;
-    /*#ifdef WEB*/
+    /*#endif*/
   };
 
   InAppBrowser.prototype.open = function (options) {
@@ -72,7 +72,12 @@
       /*#endif*/
 
       if (typeof options.loadstart === "function")
-        this.iabRef.addEventListener('loadstart', options.loadstart);
+        this.iabRef.addEventListener('loadstart', function (data) {
+          /*#ifdef DEV*/
+          console.log('Cordova.InAppBrowser: loadstart: ' + data.url);
+          /*#endif*/
+          options.loadstart.apply(this, arguments);
+        });
       if (typeof options.loadstop === "function")
         this.iabRef.addEventListener('loadstop', options.loadstop);
       if (typeof options.exit === "function")

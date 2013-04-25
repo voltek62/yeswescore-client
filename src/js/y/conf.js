@@ -68,7 +68,7 @@
           break;
         case Y.Env.PROD:
           this.set("api.url.auth", "http://api.yeswescore.com/v1/auth/");
-          this.set("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
+          this.set("api.url.bootstrap", "http://api.yeswescore.com/bootstrap/conf.json?version=%VERSION%");
           this.set("api.url.games", "http://api.yeswescore.com/v1/games/");
           this.set("api.url.players", "http://api.yeswescore.com/v1/players/");
           this.set("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
@@ -90,6 +90,10 @@
       this.set("pooling.geolocation", 10000); // default 10000 (10sec)
       this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
       this.set("version", version); // will be usefull on update.
+      
+      //bootstrap
+      //on ecrase avec les changements et on change les versions
+      //variable qui oblige à mettre à jour -> objet connnection toujours offline
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]

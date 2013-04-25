@@ -19,15 +19,21 @@ Y.Views.GameAdd = Y.View.extend({
 
   listview1: "#team1_suggestions",
   listview2: "#team2_suggestions",
+  
+ useSearch:0,	
 
   myinitialize: function () {  
+  
+    this.useSearch = 0;	
+  
+  	//header
     Y.GUI.header.title("CREER UNE PARTIE");
   
     this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');
     this.gameAddTemplate = Y.Templates.get('gameAdd');
       
-      this.Owner = Y.User.getPlayer().toJSON();
-	  this.render();
+    this.Owner = Y.User.getPlayer().toJSON();
+	this.render();
 
   },
 

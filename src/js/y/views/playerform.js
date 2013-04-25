@@ -17,11 +17,12 @@ Y.Views.PlayerForm = Y.View.extend({
   pageHash : "players/form",  
     
   clubs:null,
-     
+  useSearch:0,	     
 
   myinitialize:function() {
   
-    this.player = null;  	
+    this.player = null;  
+    this.useSearch = 0;	
           
 	//header
     Y.GUI.header.title("MON PROFIL"); 
@@ -61,6 +62,7 @@ Y.Views.PlayerForm = Y.View.extend({
     this.clubs = new ClubsCollection();
     this.clubs.setMode('search',q);
     if (q.length>2) {
+      this.useSearch=1;
       this.clubs.fetch();
       this.clubs.on( 'sync', this.renderList, this );
     }
@@ -176,6 +178,6 @@ Y.Views.PlayerForm = Y.View.extend({
     this.undelegateEvents();
     
     this.player.off("sync", this.renderPlayer, this);	
-    this.clubs.off( "sync", this.renderList, this );
+    if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );
   }
 });

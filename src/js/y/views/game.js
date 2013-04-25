@@ -89,8 +89,8 @@ Y.Views.Game = Y.View.extend({
         // FIXME: SI ONLINE     
         // FIXME : temps de rafrichissement selon batterie et selon forfait  
     	var pollingOptions = { delay: Y.Conf.get("game.refresh") };
-        this.poller = Backbone.Poller.get(this.score, pollingOptions)
-        this.poller.start();
+        //this.poller = Backbone.Poller.get(this.score, pollingOptions)
+        //this.poller.start();
        
         
       },
@@ -438,6 +438,8 @@ Y.Views.Game = Y.View.extend({
       },
 
 	  renderCountComment : function() {
+	  
+	  
       var nbComments = this.streams.length;
       if (nbComments > 10)
         this.$(".link-comments").html("10 DERNIERS COMMENTAIRES");
@@ -610,7 +612,7 @@ Y.Views.Game = Y.View.extend({
     	this.streams.off("sync",this.renderCountComment,this);
         
         // FIXME:remettre
-        this.poller.stop();
+        //this.poller.stop();
         //poller.off('sync', this.render, this);
 
       }

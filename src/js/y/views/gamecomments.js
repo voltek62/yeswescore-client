@@ -34,8 +34,8 @@ Y.Views.GameComments = Y.View.extend({
    	
    	var that = this;
    	this.syncGame = function () {
-      that.game = game;
-      this.renderScore(); // might be later.   	
+      //that.game = game;
+      that.renderScore(); // might be later.   	
    	};
    	
     this.game.once("sync", this.syncGame, this);

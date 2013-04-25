@@ -62,8 +62,6 @@
         window.addEventListener('message', function (e) {
           clearInterval(that.poolingIntervalId);
           that.poolingIntervalId = null;
-          // closing the window.
-          that.iabRef.close();
           //
           if (typeof options.loadstart === "function")
             options.loadstart({url: e.data});

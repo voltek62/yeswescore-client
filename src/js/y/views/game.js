@@ -98,7 +98,9 @@ Y.Views.Game = Y.View.extend({
 
 	  fbconnect: function () {
 	    console.log('facebook connect');
-	    Y.Facebook.shareAsync(function (err) {
+      var message = "game info";
+      var id = String(this.id);
+	    Y.Facebook.shareAsync(id, message, function (err) {
         console.log('error ? ' + err);  
       });
 	  },

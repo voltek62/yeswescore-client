@@ -21,6 +21,9 @@
     update: function () {
       if (Cordova.status !== "ready")
         return;
+        
+      //console.log('status connection ',Cordova.Connection.getType()); 
+        
       var newStatus = Cordova.Connection.isOnline() ? this.ONLINE : this.OFFLINE;
       if (this.status !== newStatus) {
         this.status = newStatus;

@@ -18,7 +18,25 @@ Y.Views.Header = Y.View.extend({
     Backbone.on("request.end", function () { that.animateConnection("off"); });
 
     // on s'abonne a la classe de connexion pour signifier les changements
-
+    //navigator.connection = { type: "NONE" }
+    
+    Y.Connection.on("change", function (state) {   
+    
+      if (state[0] === "ONLINE") {
+      	var connectionStatus = $(".connectionStatus");
+      	connectionStatus.attr("src", "images/header-logo-on.png");
+      	connectionStatus.attr("width", "23");
+      	connectionStatus.attr("height", "17");      	
+      }
+      else if (state[0] === "OFFLINE") {
+      	var connectionStatus = $(".connectionStatus");
+      	connectionStatus.attr("src", "images/header-logo-off.png");
+      	connectionStatus.attr("width", "35");
+      	connectionStatus.attr("height", "17");       	
+      }
+ 	
+    });
+    
   },
   render: function () { },
 

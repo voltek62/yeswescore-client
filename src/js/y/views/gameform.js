@@ -19,12 +19,15 @@ Y.Views.GameForm = Y.View.extend({
   pageHash : "games/form",  
     
   clubs:null,
-     
+  useSearch:null,
 
   initialize:function() {
 
 	//header
     Y.GUI.header.title("MES OPTIONS"); 
+    
+    //no search
+    this.useSearch=0;
   
     this.gameFormTemplate = Y.Templates.get('gameForm');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
@@ -46,6 +49,7 @@ Y.Views.GameForm = Y.View.extend({
     this.clubs.setMode('search',q);
     if (q.length>2) {
       this.clubs.fetch();
+      this.useSearch=1
       this.clubs.on( 'sync', this.renderList, this );
     }
   },
@@ -142,6 +146,6 @@ Y.Views.GameForm = Y.View.extend({
     this.undelegateEvents();
 
     this.score.off("sync",this.render,this);
-    this.clubs.off("sync",this.renderList,this);
+    if (this.useSearch===1) this.clubs.off("sync",this.renderList,this);
   }
 });

@@ -40,6 +40,25 @@
 }
 */
 
+/*******************
+no connection
+******************/
+.noconnection {
+	position:absolute;
+	top:44;
+	left:0;
+	height:100%;
+	width:100%;
+	background-color:#a0a0a0;
+	-moz-opacity:0.38;
+	opacity:0.38;
+	filter:alpha(opacity=38);
+	z-index: 20000;
+	pointer-events: none;
+    cursor: default;
+}
+
+
 /**********************************************************
   mylib
 **********************************************************/

@@ -26,13 +26,15 @@ Y.Views.Header = Y.View.extend({
       	var connectionStatus = $(".connectionStatus");
       	connectionStatus.attr("src", "images/header-logo-on.png");
       	connectionStatus.attr("width", "23");
-      	connectionStatus.attr("height", "17");      	
+      	connectionStatus.attr("height", "17"); 
+      	$('body').removeClass("noconnection");     	
       }
       else if (state[0] === "OFFLINE") {
       	var connectionStatus = $(".connectionStatus");
       	connectionStatus.attr("src", "images/header-logo-off.png");
       	connectionStatus.attr("width", "35");
       	connectionStatus.attr("height", "17");       	
+      	$('body').addClass("noconnection"); 
       }
  	
     });

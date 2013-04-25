@@ -96,6 +96,34 @@
       //bootstrap
       //on ecrase avec les changements et on change les versions
       //variable qui oblige à mettre à jour -> objet connnection toujours offline
+      //console.log('api.url.bootstrap',this.get('api.url.bootstrap').replace("%VERSION%", version));
+      
+      $.ajax({
+          type: 'GET',
+          url: this.get('api.url.bootstrap').replace("%VERSION%", version),
+          success: function (infos) { 
+          
+            infos.forEach(function (info) {      
+            
+            	if (info.key.indexOf("app.deprecated")!=-1) {
+            	
+            		console.log('on detecte app deprecated');
+            		
+            		if (info.value === true) {
+            			console.log('Il faut mettre à jour l\'apps');
+            			Y.Connection.forceUpdate();	
+            		}
+            	}
+                else  	
+            	  Y.Conf.set(info.key, info.value);  
+            	         	
+            });
+            
+            
+          },
+          dataType: "JSON"
+        });
+      
 
       // loading permanent keys
       //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]

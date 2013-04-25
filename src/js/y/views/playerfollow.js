@@ -36,29 +36,26 @@ Y.Views.PlayerFollow = Y.View.extend({
 	    var that = this;
 	
 	    var i = players.length;	
-	    players.forEach(function (playerid) {
-	
-			//console.log('player',playerid);
-			
-			player = new PlayerModel({id : playerid});
-	        
-	        player.once("sync", function () { 
-	        
-	          that.collection.add(this);
-	          
-	          i--;
-
-	          if (i<=0) {
-	    			console.log('renderList',that.collection.toJSON());    
-	    			$(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' '}));  	
-	          }
-	        });
-	        player.fetch();
+	    
+		this.syncPlayer = function () {
+	      that.collection.add(this);
+	      i--;
+	      
+	      if (i<=0) {
+	        console.log('renderList',that.collection.toJSON());    
+	        $(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' '}));  	
+	      }
+	          			
+		};	    
+	    
+	    players.forEach(function (playerid) {	
+			this.player = new PlayerModel({id : playerid});	        
+	        this.player.once("sync", this.syncPlayer, this);
+	        this.player.fetch();
 				
 	    });
 	 }
-	 else {
-	 
+	 else {	 
 	   $(this.listview).html(this.templates.playerlist({players:[],query:' '}));
 	 }
      
@@ -97,6 +94,6 @@ Y.Views.PlayerFollow = Y.View.extend({
 
   onClose: function(){
     this.undelegateEvents();
-    //this.players.off("all",this.renderList,this);   
+    this.player.off("sync", this.syncPlayer, this);
   }
 });

@@ -104,7 +104,7 @@ Y.Views.GameAdd = Y.View.extend({
       this.playersTeam1.setMode('search', q);
       if (q.length > 2) {
         this.playersTeam1.fetch();
-        this.playersTeam1.on('all', this.renderListTeam1, this);
+        this.playersTeam1.on('sync', this.renderListTeam1, this);
       }
     }
     */
@@ -125,7 +125,7 @@ Y.Views.GameAdd = Y.View.extend({
     if (q.length > 2) {
       this.playersTeam2.fetch();
 
-      this.playersTeam2.on('all', this.renderListTeam2, this);
+      this.playersTeam2.on('sync', this.renderListTeam2, this);
     }
     */
   },

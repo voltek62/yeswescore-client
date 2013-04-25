@@ -12,10 +12,16 @@ Y.Views.GameFollow = Y.View.extend({
 
   initialize:function() {
   
+    //header
     Y.GUI.header.title("MATCHS SUIVIS");		    
   
-    this.indexViewTemplate = Y.Templates.get('games');
-    this.gameListViewTemplate = Y.Templates.get('gameList');
+    this.templates = {
+      gamelist:  Y.Templates.get('gameList'),
+      games: Y.Templates.get('games')
+    };
+      
+    //this.indexViewTemplate = Y.Templates.get('games');
+    //this.gameListViewTemplate = Y.Templates.get('gameList');
        
     this.render();   
         
@@ -28,27 +34,20 @@ Y.Views.GameFollow = Y.View.extend({
 	    var that = this;
 	    
 	    var i = games.length;
+	    
+	    this.syncGame = function () {
+	      that.collection.add(this);
+           i--;         
+           if (i<=0) {
+	         console.log('renderList',that.collection.toJSON());   
+	    	  $(that.listview).html(that.templates.gamelist({games:that.collection.toJSON(),query:' '}));
+	       }			
+	     };	    
+	    
 	    games.forEach(function (gameid) {
-	
-			//console.log('game',gameid);
-			
-			game = new GameModel({id : gameid});
-	        
-	        game.once("sync", function () {
-	         
-	          that.collection.add(this);
-	          //console.log('add game',this.toJSON());             
-	          
-	          i--;         
-	          //console.log('i',i);
-	     
-	          if (i<=0) {
-	    			console.log('renderList',that.collection.toJSON());   
-	    			$(that.listview).html(that.gameListViewTemplate({games:that.collection.toJSON(),query:' '}));
-	          }
-	        });
-	        game.fetch();
-				
+			this.game = new GameModel({id : gameid});	        
+	        this.game.once("sync", this.syncGame, this);
+	        this.game.fetch();				
 	    });
 	 }
 	 else {
@@ -66,7 +65,7 @@ Y.Views.GameFollow = Y.View.extend({
 
     this.games.setMode('player',q);
     this.games.fetch();
-    $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(), query:q}));
+    $(this.listview).html(this.templates.gamelist({games:this.games.toJSON(), query:q}));
     $(this.listview).listview('refresh');
     //}
   
@@ -74,19 +73,20 @@ Y.Views.GameFollow = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.indexViewTemplate(), {});
+    this.$el.html(this.templates.games(), {});
 
   },
 
   renderList: function() {
 
-    $(this.listview).html(this.gameListViewTemplate({games:this.collection.toJSON(),query:' '}));
-    $(this.listview).listview('refresh');
+    $(this.listview).html(this.templates.gamelist({games:this.collection.toJSON(),query:' '}));
+    //$(this.listview).listview('refresh');
 
   },
   
   onClose: function() {
     this.undelegateEvents();
-    //this.games.off("all",this.renderList,this);
+
+    this.game.off("sync", this.syncGame, this);
   }
 });

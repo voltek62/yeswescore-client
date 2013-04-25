@@ -76,18 +76,15 @@
     },
 
     games: function (sort) {
-      console.log('on demande la vue games');
       if (typeof sort === "undefined") sort='';
       this.changePage(this.createViewFactory(Y.Views.Games, { mode: '', id: '', sort: sort }));
     },
     
     gameMe: function (id) {
-      console.log('on demande la vue my games');
       this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'me', id: id, sort: '' }));
     },
 
     gameClub: function (id) {
-     console.log('on demande la vue games club');
       this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'club', id: id, sort: '' }));
     },    
 
@@ -108,7 +105,6 @@
     },
     
     gameForm: function (id) {
-      console.log('gameForm');
       this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
     },    
 

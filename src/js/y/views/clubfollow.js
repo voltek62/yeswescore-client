@@ -36,25 +36,22 @@ Y.Views.ClubFollow = Y.View.extend({
 	    var that = this;
 	
 	    var i = clubs.length;	
-	    clubs.forEach(function (clubid) {
-	
-			//console.log('club',clubid);
-			
-			club = new ClubModel({id : clubid});
-	        
-	        club.once("sync", function () { 
-	        
-	          that.collection.add(this);
-	          
-	          i--;
+	    
+		this.syncClub = function () {
+ 		  that.collection.add(this);
+	      i--;
 
-	          if (i<=0) {
-	    			console.log('renderList',that.collection.toJSON());    
-	    			$(that.listview).html(that.templates.clublist({clubs:that.collection.toJSON(),query:' '}));  	
-	          }
-	        });
-	        club.fetch();
-				
+	      if (i<=0) {
+	        console.log('renderList',that.collection.toJSON());    
+	    	$(that.listview).html(that.templates.clublist({clubs:that.collection.toJSON(),query:' '}));  	
+	      }
+	          			
+		};	    
+	    
+	    clubs.forEach(function (clubid) {
+		  this.club = new ClubModel({id : clubid});
+		  this.club.once("sync", this.syncClub, this);
+	      this.club.fetch();				
 	    });
 	 }
 	 else {
@@ -97,6 +94,6 @@ Y.Views.ClubFollow = Y.View.extend({
 
   onClose: function(){
     this.undelegateEvents();
-    //this.clubs.off("all",this.renderList,this);   
+ 	this.club.off("sync", this.syncClub, this);
   }
 });

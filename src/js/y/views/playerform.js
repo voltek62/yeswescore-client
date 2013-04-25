@@ -175,6 +175,7 @@ Y.Views.PlayerForm = Y.View.extend({
   onClose: function(){
     this.undelegateEvents();
     
-    //this.player.off("sync",this.renderPlayer,this); 
+    this.player.off("sync", this.renderPlayer, this);	
+    this.clubs.off( "sync", this.renderList, this );
   }
 });

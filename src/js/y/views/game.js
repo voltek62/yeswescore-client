@@ -35,25 +35,31 @@ Y.Views.Game = Y.View.extend({
 
       initialize : function() {
       
-        //$.ui.scrollToTop('#content');
-		//On met à jour le pageHash
         this.pageHash += this.id; 
       
-
+		//header
         Y.GUI.header.title("MATCH");
       	
-      	
-        // FIXME : temps de rafrichissement selon batterie et selon forfait
+	    // loading templates.
+	    this.templates = {
+	      game:  Y.Templates.get('game'),
+	      scoreboard: Y.Templates.get('gameScoreBoard')
+	    };
+	          	
+        /*
         this.gameViewTemplate = Y.Templates.get('game');
         this.gameViewScoreBoardTemplate = Y.Templates
             .get('gameScoreBoard');
-
-		//console.log('1.0');
+		*/
+		
 		this.lastScore = new Array();
+		
+		// loading owner
         this.Owner = Y.User.getPlayer();
+        
 		this.score = new GameModel({id : this.id});
 		
-
+		//loading followed
         var games_follow = Y.Conf.get("owner.games.followed");
         if (games_follow !== undefined)
         {
@@ -66,26 +72,27 @@ Y.Views.Game = Y.View.extend({
         else
           this.follow = 'false';
           
+    	// we render immediatly
+        this.render(); 
         
-        var options = {
-          delay : Y.Conf.get("game.refresh")
-        };
-
-
-		//console.log('1.3');
-
-        this.render();                                // rendu a vide (instantanément)
+                                      
         this.score.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
-        // FIXME: SI ONLINE       
-        //poller = Backbone.Poller.get(this.score, options)
-        //poller.start();
-        //poller.on('sync', this.render, this);
-       this.score.fetch();
+        this.score.fetch();        
+        
         
         //On compte les commentaires
         this.streams = new StreamsCollection([], {gameid : this.id});
-    	  this.streams.once("sync",this.renderCountComment,this);
+    	this.streams.once("sync",this.renderCountComment,this);
         this.streams.fetch();
+        
+        
+        // FIXME: SI ONLINE     
+        // FIXME : temps de rafrichissement selon batterie et selon forfait  
+    	var pollingOptions = { delay: Y.Conf.get("game.refresh") };
+        this.poller = Backbone.Poller.get(this.score, pollingOptions)
+        this.poller.start();
+       
+        
       },
 
 
@@ -106,28 +113,19 @@ Y.Views.Game = Y.View.extend({
     	   	  
     	if ( this.statusScore !== "finished"  ) {  
     	  
-    	  //console.log('taille lastScore',this.lastScore.length); 
-    	  
 	    	  if (this.lastScore.length>1) {
 	    	  
 	    	  var sets_update = this.lastScore.pop();
 	
-	    	  //console.log("premier pop : ",sets_update);
-	    	  //console.log("sets actuel : ",this.score.toJSON().options.sets);    	  
-	    	  
 	    	  //S'il s'agit du meme score
 	    	  if (sets_update === this.currentScore ) {
 		    	  sets_update = this.lastScore.pop();	    	  
 		    	  console.log("second pop : ",sets_update);  
 	    	  }
 	    	    	  
-	    	  
 	    	  var gameid = $('#gameid').val();   
 	    	  	  
-	    	 //console.log("On reprend le jeu : ",sets_update);
-	    	  
-	    	  console.log("Il reste : ",this.lastScore);
-	    	  
+	    	  //console.log("Il reste : ",this.lastScore);
 	    	  
 	    	  if (sets_update !== 'undefined') {
 		    	  var game = {
@@ -155,13 +153,11 @@ Y.Views.Game = Y.View.extend({
 	
 				this.score.save({}, {success: function(model, response){
 				
-					//that.currentScore = model.toJSON().options.sets;
-					
 					that.lastScore.push(model.toJSON().options.sets);	    
 			        that.currentScore = model.toJSON().options.sets;        
 			        //console.log(that.lastScore);
 	  				
-		    	    $(that.displayViewScoreBoard).html(that.gameViewScoreBoardTemplate({
+		    	    $(that.displayViewScoreBoard).html(that.templates.scoreboard({
 		          	  game : model.toJSON(),
 		         	  Owner : that.Owner.toJSON()
 		        	}));
@@ -232,23 +228,12 @@ Y.Views.Game = Y.View.extend({
       },
 
       submitAttachment : function(data) {
-        // formData = new FormData($(this)[0]);
-        console.log('date-form', data);
 
-        /*
-         * $.ajax({ type:'POST', url:urlServiceUpload, data:formData,2
-         * contentType: false, processData: false, error:function (jqXHR,
-         * textStatus, errorThrown) { alert('Failed to upload file') },
-         * success:function () { alert('File uploaded')
-         */
         return false;
       },
 
       sendUpdater : function() {
-        // console.log('action setPlusSet avec
-        // '+$('input[name=team_selected]:checked').val());
 
-        // ADD SERVICE
         var gameid = $('#gameid').val()
         , team1_set1 = $('#team1_set1').val()
         , team1_set2 = $('#team1_set2').val()
@@ -316,34 +301,18 @@ Y.Views.Game = Y.View.extend({
         
 
         this.score = new GameModel(game);
-        
-        //this.score.save();
-        
+
         this.score.save({}, {success: function(model, response){
   								
-  			console.log('save OK');
+  			//console.log('save OK');
   				
 	    }});
 
-        // FIXME: on ajoute dans le stream un changement de score ???
-        /*
-        var stream = new StreamModel({
-          type : "score",
-          playerid : playerid,
-          token : token,
-          text : sets_update,
-          gameid : gameid
-        });
-        // console.log('stream',stream);
-        stream.save();
-        */
         
       },
 
       setPlusSet : function() {
       
-
-      	
 	        var selected = $('input[name=team_selected]:checked').val();
 	        var set = parseInt($('#team' + selected + '_set1').val(), 10) + 1;
 	        // console.log(set);
@@ -354,8 +323,7 @@ Y.Views.Game = Y.View.extend({
 	        $('#team' + selected + '_set1_div').html(set);
 	
 	        this.sendUpdater();
-        
-        
+
       },
 
       setMinusSet : function() {
@@ -457,7 +425,7 @@ Y.Views.Game = Y.View.extend({
         
         console.log('renderRefresh avec '+this.score.toJSON().options.sets);
         
-        $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
+        $(this.displayViewScoreBoard).html(this.templates.game({
           game : this.score.toJSON(),
           Owner : this.Owner.toJSON(),
           follow : this.follow
@@ -501,7 +469,7 @@ Y.Views.Game = Y.View.extend({
         }
         
         // FIXME: refresh only input and id
-        this.$el.html(this.gameViewTemplate({
+        this.$el.html(this.templates.game({
           game : this.score.toJSON(),
           Owner : this.Owner.toJSON(),
           follow : this.follow
@@ -515,7 +483,7 @@ Y.Views.Game = Y.View.extend({
         */
         
 		
-        $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
+        $(this.displayViewScoreBoard).html(this.templates.scoreboard({
           game : this.score.toJSON(),
           Owner : this.Owner.toJSON()
         }));
@@ -637,14 +605,11 @@ Y.Views.Game = Y.View.extend({
         // Clean
         this.undelegateEvents();
         this.score.off("sync",this.render,this);
-        //this.score.off("all",this.renderRefresh,this);
+    	this.streams.off("sync",this.renderCountComment,this);
         
         // FIXME:remettre
-        //poller.stop();
+        this.poller.stop();
         //poller.off('sync', this.render, this);
 
-        // FIXME:
-        // poller.off('complete', this.render, this);
-        // this.$el.off('pagebeforeshow');
       }
     });

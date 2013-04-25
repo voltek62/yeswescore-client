@@ -23,6 +23,7 @@ Y.Views.GameForm = Y.View.extend({
 
   initialize:function() {
 
+	//header
     Y.GUI.header.title("MES OPTIONS"); 
   
     this.gameFormTemplate = Y.Templates.get('gameForm');
@@ -139,6 +140,8 @@ Y.Views.GameForm = Y.View.extend({
 
   onClose: function(){
     this.undelegateEvents();
-    this.player.off("sync",this.render,this); 
+
+    this.score.off("sync",this.render,this);
+    this.clubs.off("sync",this.renderList,this);
   }
 });

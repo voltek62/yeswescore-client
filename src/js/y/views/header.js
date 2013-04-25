@@ -54,6 +54,8 @@ Y.Views.Header = Y.View.extend({
     window.history.go(-1);
     return false;
   },
+  
+  
 
   showBack: function () { this.$(".backButton").show() },
   hideBack: function () { this.$(".backButton").hide() },

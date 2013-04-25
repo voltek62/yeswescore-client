@@ -30,12 +30,16 @@ Y.Views.GameComments = Y.View.extend({
     // FIXME: utiliser une factory pour recuperer l'objet game.
     // FIXME: quand la factory existera et que les objets seront globaux
     //         on pourra activer du pooling sur l'objet.
-   	var game = new GameModel({id : this.gameid});
-    game.once("sync", function () {
-      this.game = game;
-      this.renderScore(); // might be later.
-    }, this);
-    game.fetch();
+   	this.game = new GameModel({id : this.gameid});
+   	
+   	var that = this;
+   	this.syncGame = function () {
+      that.game = game;
+      this.renderScore(); // might be later.   	
+   	};
+   	
+    this.game.once("sync", this.syncGame, this);
+    this.game.fetch();
 
     // updating comment list when collection is updated
     this.streamItemsCollection = new StreamsCollection([], {gameid : this.gameid});
@@ -175,7 +179,10 @@ Y.Views.GameComments = Y.View.extend({
 
     this.undelegateEvents();
     
+    this.game.off("sync", this.syncGame, this);
+    
     this.streamItemsCollection.off('success', this.renderList, this);
+    
     this.poller.stop();
   }
 });

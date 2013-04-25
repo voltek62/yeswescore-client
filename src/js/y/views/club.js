@@ -128,7 +128,6 @@ Y.Views.Club = Y.View.extend({
 
   onClose : function() {
     this.undelegateEvents();
-    //this.club.off("sync", this.render, this);
-    // this.$el.off('pagebeforeshow');
+    this.club.off("sync", this.renderClub, this);
   }
 });

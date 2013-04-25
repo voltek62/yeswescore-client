@@ -53,6 +53,7 @@
 
           this.set("api.url.auth", apiBaseUrl + "/v1/auth/");
           this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
+          this.set("api.facebook.login", apiBaseUrl + "/v1/facebook/login/");
           this.set("api.url.games", apiBaseUrl + "/v1/games/");
           this.set("api.url.players", apiBaseUrl + "/v1/players/");
           this.set("api.url.clubs", apiBaseUrl + "/v1/clubs/");
@@ -63,12 +64,13 @@
           this.set("api.url.reports.clubs", apiBaseUrl + "/v1/report/clubs/");
           this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v1/inappbrowser/redirect.html");
           this.set("facebook.app.id", fbAppId);
-          this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
+          this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email,read_stream,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
           /*#endif*/
           break;
         case Y.Env.PROD:
           this.set("api.url.auth", "http://api.yeswescore.com/v1/auth/");
           this.set("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
+          this.set("api.facebook.login", "http://api.yeswescore.com/v1/facebook/login/");
           this.set("api.url.games", "http://api.yeswescore.com/v1/games/");
           this.set("api.url.players", "http://api.yeswescore.com/v1/players/");
           this.set("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
@@ -79,7 +81,7 @@
           this.set("api.url.reports.clubs", "http://api.yeswescore.com/v1/report/clubs/");
           this.set("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v1/inappbrowser/redirect.html");
           this.set("facebook.app.id", "447718828610668");
-          this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
+          this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email,read_stream,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
           break;
         default:
           break;

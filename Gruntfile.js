@@ -144,7 +144,8 @@ module.exports = function (grunt) {
         NOCONCAT: true*/
       },
       wp8: {
-        WP8: true
+        WP8: true,
+        DEV: true
       }
     }
   });

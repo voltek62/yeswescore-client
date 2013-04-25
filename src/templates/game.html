@@ -62,7 +62,7 @@
         <div class="ui-block-d">
         <b>Public</b>
         </div>
-        <div class="ui-block-e ">
+        <div class="ui-block-e">
         <% if (game.owner === Owner.id) { %>
         <span class="undoAction">Annuler</span>
         <% } 
@@ -93,20 +93,21 @@
             <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
           </div>
 		      <div class="ui-block-c button">
-                  <% if (game.status === "created" ) { %>
-			      <a id="beginButton">Commencer match</a>
-                  <% }
-                  else if (game.status === "finished" || game.status === "canceled") {
-                  %>
-                  <a id ="end">Match Fini</a>
-                  <%                  
-                  }
-                  else {
-                  %>
-                  <a id="endButton">Terminer match</a>
-                  <%
-                  }
-                  %>
+                <% if (game.status === "created" ) { %>
+		        <a id="statusButton">Commencer match</a>
+                <% }
+                else if (game.status === "finished" || game.status === "canceled") 
+                {
+                %>
+                <a id ="statusButton">Match Fini</a>
+                <%                  
+                }
+                else {
+                %>
+                <a id="statusButton">Terminer match</a>
+                <%
+                }
+                %>
 		      </div>
         </div>
       <% } else { %> 

@@ -29,8 +29,12 @@ Y.Views.GameAdd = Y.View.extend({
   	//header
     Y.GUI.header.title("CREER UNE PARTIE");
   
-    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');
-    this.gameAddTemplate = Y.Templates.get('gameAdd');
+  
+  	this.templates = {
+	  gameadd:  Y.Templates.get('gameAdd'),
+	  playerlist: Y.Templates.get('playerListAutoComplete')
+	};
+	    
       
     this.Owner = Y.User.getPlayer().toJSON();
 	this.render();
@@ -118,7 +122,7 @@ Y.Views.GameAdd = Y.View.extend({
 
   renderListTeam1: function () {
     var q = $("#team1").val();
-    $(this.listview1).html(this.playerListAutoCompleteViewTemplate({ players: this.playersTeam1.toJSON(), query: q, select: 1 }));
+    $(this.listview1).html(this.templates.playerlist({ players: this.playersTeam1.toJSON(), query: q, select: 1 }));
     //$(this.listview1).listview('refresh');
   },
 
@@ -138,7 +142,7 @@ Y.Views.GameAdd = Y.View.extend({
 
   renderListTeam2: function () {
     var q = $("#team2").val();
-    $(this.listview2).html(this.playerListAutoCompleteViewTemplate({ players: this.playersTeam2.toJSON(), query: q, select: 2 }));
+    $(this.listview2).html(this.templates.playerlist({ players: this.playersTeam2.toJSON(), query: q, select: 2 }));
     //$(this.listview2).listview('refresh');
   },
 
@@ -215,30 +219,28 @@ Y.Views.GameAdd = Y.View.extend({
       game.teams[1].players[0].name = team2;
 	*/
 	
-    console.log('gameadd on envoie objet ', game);
 
     //On sauve dans Collections
-    var gameNew = new GameModel(game);
-    var gameCache = gameNew.save();
+    var game = new GameModel(game);    
+    game.save({}, {success: function(model, response){
+	    console.log('success '+'games/'+model.id);
+        Y.Router.navigate('games/'+model.id, {trigger: true});	
+        
+	    //Mis par defaut dans mes matchs
+        //Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })        
+              
+      }
+	});   
 
-	//On stocke dans le localStorage
-    //Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })
 
-    //console.log('gamecache.id ', gameCache.id);
 
-    //if (gamecache.id !== 'undefined') {
-      //Backbone.Router.navigate("/#games/"+gamecache.id, true);
-      //window.location.href = '#games/' + gameCache.id;
-    //}
-    
-    
     return false;
   },
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.gameAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
-    //this.$el.trigger('pagecreate');
+    this.$el.html(this.templates.gameadd({ playerid: this.Owner.id, token: this.Owner.token }));
+
     return this;
   },
 

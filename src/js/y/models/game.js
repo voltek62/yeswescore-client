@@ -155,17 +155,28 @@ var GameModel = Backbone.Model.extend({
     if (method === 'create' && this.get('playerid') !== undefined) {
     
       console.log('create Game', JSON.stringify(object));
-
+	  var that = this;
+		
       return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") + '?playerid=' + (this.get('playerid') || '')
             + '&token=' + (this.get('token') || ''),
         type : 'POST',
         data : object,
-        success : function(result) {
-          console.log('data success create Game', result);
+        success : function(data) {
           // FIXME : on redirige sur //si offline id , si online sid
-          window.location.href = '#games/' + result.id;
+          //window.location.href = '#games/' + data.id;         
+          that.set(data);         
+          if (options && options.success) {
+              console.log('success create in backbone ajax model');
+              options.success(data);
+          }
+          
+        },
+        error: function (message) {
+            if (options && options.error)
+              console.log('error create in backbone ajax model');              
+              options.error(message);
         }
 
       });
@@ -186,13 +197,13 @@ var GameModel = Backbone.Model.extend({
           success: function (data) {
             that.set(data);
             if (options && options.success) {
-              console.log('success in backbone ajax model');
+              console.log('success update in backbone ajax model');
               options.success(data);
             }
           },
           error: function (message) {
             if (options && options.error)
-              console.log('error in backbone ajax model');              
+              console.log('error update in backbone ajax model');              
               options.error(message);
           }               
        });

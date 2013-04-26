@@ -39,6 +39,7 @@ Y.Views.Game = Y.View.extend({
         this.pageHash += this.id; 
       
 		//header
+		//i18n t("game.title")
         Y.GUI.header.title("MATCH");
       	
 	    // loading templates.
@@ -561,6 +562,9 @@ Y.Views.Game = Y.View.extend({
         }));
 		
 
+		//i18n
+		//PERF:on remplace que les champs du DOM concerné
+		$('#statusButton').i18n();
 
         return this;
       },

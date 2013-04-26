@@ -5,6 +5,13 @@
   "nav": {
     "matchs": "iMatchs",
     "create": "iCreer",
-    "account": "iMon Compte",	
-	}
+    "account": "iMon Compte"
+	},
+  "gameadd": {
+    "title": ""
+  },	
+  "game": {
+    "title": "iMATCH",  
+    "finish": "iTerminer match"
+  }
 }

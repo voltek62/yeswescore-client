@@ -57,6 +57,7 @@ Y.Views.Game = Y.View.extend({
 		// loading owner
         this.Owner = Y.User.getPlayer();
         
+        this.scoreDeferred = $.Deferred();
 		this.score = new GameModel({id : this.id});
 		
 		//loading followed
@@ -81,10 +82,15 @@ Y.Views.Game = Y.View.extend({
         
         
         //On compte les commentaires
-        this.streams = new StreamsCollection([], {gameid : this.id});
-    	this.streams.once("sync",this.renderCountComment,this);
-        this.streams.fetch();
-        
+        //On affiche que si les scores sont là
+        var that = this;
+        $.when(
+  			this.scoreDeferred
+		).done(function () {
+	        that.streams = new StreamsCollection([], {gameid : that.id});
+	    	that.streams.once("sync",that.renderCountComment,that);
+	        that.streams.fetch();
+        });
         
         // FIXME: SI ONLINE     
         // FIXME : temps de rafrichissement selon batterie et selon forfait  
@@ -455,6 +461,9 @@ Y.Views.Game = Y.View.extend({
 	  
 	  
       var nbComments = this.streams.length;
+      
+      console.log('nbComments',nbComments);
+      
       if (nbComments > 10)
         this.$(".link-comments").html("10 DERNIERS COMMENTAIRES");
       else if (nbComments == 1)
@@ -480,7 +489,9 @@ Y.Views.Game = Y.View.extend({
 		            this.lastScore.push(this.score.toJSON().options.sets);	    
 		            this.currentScore = this.score.toJSON().options.sets;  
 	            }
-	          } 
+	          }
+	          
+	          this.scoreDeferred.resolve(); 
 	        }
         }
         
@@ -527,6 +538,7 @@ Y.Views.Game = Y.View.extend({
           Owner : this.Owner.toJSON()
         }));
 		
+
 
         return this;
       },

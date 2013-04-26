@@ -10,7 +10,7 @@
     inputMode: function (status) {
       //console.log('STATUS = ' + status);
       if (window.isMobileBrowser()) { // only on mobile browser
-        _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
+        _.forEach(document.querySelectorAll('*[data-input-mode="hide"]'),
                   function (node) { (status)?$(node).hide():$(node).show() });
         (status) ? $("#content .content-container").css("padding-top", 0) :
                     $("#content .content-container").removeAttr("style");

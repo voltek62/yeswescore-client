@@ -98,8 +98,10 @@ Y.Views.ClubFollow = Y.View.extend({
   onClose: function(){
     this.undelegateEvents();
 
-	this.clubs.forEach(function (club) {
-	   club.off("sync", this.syncClub, this);
-	}, this);
+	if (this.clubs!==undefined) {
+		this.clubs.forEach(function (club) {
+		   club.off("sync", this.syncClub, this);
+		}, this);
+	}
   }
 });

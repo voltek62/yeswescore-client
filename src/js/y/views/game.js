@@ -450,7 +450,7 @@ Y.Views.Game = Y.View.extend({
       else if (nbComments > 0)
         this.$(".link-comments").html(nbComments + " COMMENTAIRES");
       else
-        this.$(".link-comments").html("COMMENTAIRES");
+        this.$(".link-comments").html("0 COMMENTAIRE");
 	  },
 
       render : function() {

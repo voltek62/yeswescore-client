@@ -97,8 +97,10 @@ Y.Views.PlayerFollow = Y.View.extend({
   onClose: function(){
     this.undelegateEvents();
 
-	this.players.forEach(function (player) {
-	   player.off("sync", this.syncPlayer, this);
-	}, this);
+	if (this.players!==undefined) {
+		this.players.forEach(function (player) {
+		   player.off("sync", this.syncPlayer, this);
+		}, this);
+	}
   }
 });

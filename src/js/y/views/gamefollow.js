@@ -36,10 +36,9 @@ Y.Views.GameFollow = Y.View.extend({
 	    var i = games.length;
 	    
 	    this.syncGame = function (game) {
+
+	       that.collection.add(game);
 	      
-	      //console.log('game',game);
-	      
-	      that.collection.add(game);
            i--;         
            if (i<=0) {
 	         console.log('renderList',that.collection.toJSON());   
@@ -56,7 +55,7 @@ Y.Views.GameFollow = Y.View.extend({
 	    },this);
 	 }
 	 else {
-	   $(this.listview).html(this.gameListViewTemplate({games:[],query:' '}));
+	   $(this.listview).html(this.templates.gamelist({games:[],query:' '}));
 	 }
 
   },
@@ -92,8 +91,10 @@ Y.Views.GameFollow = Y.View.extend({
   onClose: function() {
     this.undelegateEvents();
 
-	this.games.forEach(function (game) {
-	   game.off("sync", this.syncGame, this);
-	}, this);
+	if (this.games!==undefined) {
+		this.games.forEach(function (game) {
+		   game.off("sync", this.syncGame, this);
+		}, this);
+	}
   }
 });

@@ -438,6 +438,18 @@ Y.Views.Game = Y.View.extend({
         
         return false;
       },
+      
+      
+      secondsToHms : function(d) {
+      
+		d = Number(d);
+		var h = Math.floor(d / 3600);
+		var m = Math.floor(d % 3600 / 60);
+		var s = Math.floor(d % 3600 % 60);
+		return ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "0:") + (s < 10 ? "0" : "") + s);
+		 
+   	  },
+ 
 
 	  renderCountComment : function() {
 	  
@@ -456,8 +468,6 @@ Y.Views.Game = Y.View.extend({
       render : function() {
         
         //si premiere init et lastScore null, on stock le score en cours
-        //console.log('taille tab', this.lastScore.length);
-        
         if (this.lastScore.length === 0) {
 	        if (this.score.toJSON().owner !== "") {	          
 	          //console.log('sets ',this.score.toJSON().options.sets);	        
@@ -474,10 +484,21 @@ Y.Views.Game = Y.View.extend({
 	        }
         }
         
+        var timer = '';
+        
+        if ( this.score.toJSON().status === "finished" ) {
+        
+          timer = this.score.toJSON().dates.finished - this.score.toJSON().dates.start;
+          //FIXME : on repasse en hh:mm:ss 
+                   
+        
+        }
+        
         // FIXME: refresh only input and id
         this.$el.html(this.templates.game({
           game : this.score.toJSON(),
           Owner : this.Owner.toJSON(),
+          timer : timer,
           follow : this.follow
         }));
 

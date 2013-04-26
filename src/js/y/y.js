@@ -11,21 +11,7 @@
     Templates: null, // @see y/tempates.js
     Views: {},       // @see y/views/*
 
-    GUI: {
-      header: null,  // singleton view #header
-      content: null, // singleton current view (center)
-      navbar: null,  // singleton view #navbar
-      inputMode: function (status) {
-        //console.log('STATUS = ' + status);
-        if (window.isMobileBrowser()) { // only on mobile browser
-          _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
-                    function (node) { (status)?$(node).hide():$(node).show() });
-          (status) ? $("#content .content-container").css("padding-top", 0) :
-                      $("#content .content-container").removeAttr("style");
-        }
-        return true;
-      }
-    },
+    GUI: null,       // @see y/gui.js
 
     status: "uninitialized",  // uninitialized, loading, loaded
 

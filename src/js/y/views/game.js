@@ -445,24 +445,14 @@ Y.Views.Game = Y.View.extend({
         return false;
       },
       
-      // convert second in hh:mm:ss
-      secondsToHms : function(d) {
       
-		d = Number(d);
-		var h = Math.floor(d / 3600);
-		var m = Math.floor(d % 3600 / 60);
-		var s = Math.floor(d % 3600 % 60);
-		return ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "0:") + (s < 10 ? "0" : "") + s);
-		 
-   	  },
- 
 
 	  renderCountComment : function() {
 	  
 	  
       var nbComments = this.streams.length;
       
-      console.log('nbComments',nbComments);
+      //console.log('nbComments',nbComments);
       
       if (nbComments > 10)
         this.$(".link-comments").html("10 DERNIERS COMMENTAIRES");
@@ -499,24 +489,35 @@ Y.Views.Game = Y.View.extend({
         
         if ( this.score.toJSON().status === "finished" ) {
         
-          console.log('finished',this.score.toJSON().dates.end);
-          console.log('start',this.score.toJSON().dates.start);
-          
-          /*
-                          game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
-                game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);
-          */
-        
-          timer = new Date(this.score.toJSON().dates.end).getTime() - new Date(this.score.toJSON().dates.start).getTime();
-          //timer = timer / 100;
-                    
-          console.log('timer',timer);
-          
-          //FIXME : on repasse en hh:mm:ss 
-          timer = this.secondsToHms(timer);         
+          var dateEnd = new Date(this.score.toJSON().dates.end);
+          var dateStart = new Date(this.score.toJSON().dates.start);
+          	
+          //console.log('end',dateEnd);
+          //console.log('date end',('0'+dateEnd.getHours()).slice(-2)+'h'+('0'+dateEnd.getMinutes()).slice(-2));
+          //console.log('start',dateStart);
+          //console.log('date start',('0'+dateStart.getHours()).slice(-2)+'h'+('0'+dateStart.getMinutes()).slice(-2));
+
+          timer = dateEnd - dateStart;
+          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
         
         }
+        else if ( this.score.toJSON().status === "ongoing" ) {
         
+          //comment connaitre la date actuelle par rapport au serveur ?
+          var dateEnd = new Date();
+          var dateStart = new Date(this.score.toJSON().dates.start);
+          	
+          timer = dateEnd - dateStart;
+          
+          console.log('timer ongoing',timer);
+          
+          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+        
+          //declenche setTimeout(); qui met à jour toutes les 30 secondes ???
+        }
+                
         // FIXME: refresh only input and id
         this.$el.html(this.templates.game({
           game : this.score.toJSON(),

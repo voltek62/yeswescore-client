@@ -12,6 +12,8 @@
       if (window.isMobileBrowser()) { // only on mobile browser
         _.forEach(document.querySelectorAll('*[data-input-mode="hide"]'),
                   function (node) { (status)?$(node).hide():$(node).show() });
+        _.forEach(document.querySelectorAll('*[data-input-mode="show"]'),
+                  function (node) { (status)?$(node).show():$(node).hide() });
         (status) ? $("#content .content-container").css("padding-top", 0) :
                     $("#content .content-container").removeAttr("style");
       }

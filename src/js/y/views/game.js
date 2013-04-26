@@ -439,7 +439,7 @@ Y.Views.Game = Y.View.extend({
         return false;
       },
       
-      
+      // convert second in hh:mm:ss
       secondsToHms : function(d) {
       
 		d = Number(d);
@@ -488,9 +488,21 @@ Y.Views.Game = Y.View.extend({
         
         if ( this.score.toJSON().status === "finished" ) {
         
-          timer = this.score.toJSON().dates.finished - this.score.toJSON().dates.start;
+          console.log('finished',this.score.toJSON().dates.end);
+          console.log('start',this.score.toJSON().dates.start);
+          
+          /*
+                          game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
+                game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);
+          */
+        
+          timer = new Date(this.score.toJSON().dates.end).getTime() - new Date(this.score.toJSON().dates.start).getTime();
+          //timer = timer / 100;
+                    
+          console.log('timer',timer);
+          
           //FIXME : on repasse en hh:mm:ss 
-                   
+          timer = this.secondsToHms(timer);         
         
         }
         

@@ -79,12 +79,12 @@ Y.Views.Game = Y.View.extend({
           
     	// we render immediatly
         this.render(); 
-        this.game.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render sp�cial.
+        this.game.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
         this.game.fetch();
         
         
         //On compte les commentaires
-        //On affiche que si les scores sont l�
+        //On affiche que si les scores sont là
         var that = this;
         $.when(
   			this.gameDeferred
@@ -190,8 +190,8 @@ Y.Views.Game = Y.View.extend({
       messages['[score]'] = this.game.get('options').score;
       messages['[sets]'] = this.game.get('options').sets;
 
-      // hâte toi de consulter 
-      messages['[time]'] = ""; // FIXME: temps écoulé.
+      // hÃ¢te toi de consulter 
+      messages['[time]'] = ""; // FIXME: temps Ã©coulÃ©.
 
       // FIXME: message promo en conf
       // FIXME: url facebook doit pointer vers la game
@@ -217,7 +217,7 @@ Y.Views.Game = Y.View.extend({
  
       updateOnEnter : function(e) {
         if (e.keyCode == 13) {
-          console.log('touche entrée envoie le commentaire');
+          console.log('touche entrÃ©e envoie le commentaire');
           this.commentSend();
         }
       },
@@ -488,7 +488,7 @@ Y.Views.Game = Y.View.extend({
         // Le serveur gagne son set
         if (point == 'AV'
             || (point == '40' && (point_opponent != '40' || point_opponent != 'AV'))) {
-          // On ajoute 1 set au gagnant les point repartent à zero
+          // On ajoute 1 set au gagnant les point repartent Ã  zero
           var set = parseInt(
               $('#team' + selected + '_set' + set_current).val(), 10) + 1;
           $('#team' + selected + '_set1').val(set);
@@ -512,7 +512,7 @@ Y.Views.Game = Y.View.extend({
             point = '00';
           else {
             point = '00';
-            // On met l'adversaire à zéro
+            // On met l'adversaire Ã  zÃ©ro
             $('#team' + selected_opponent + '_points').val(point);
             $('#team' + selected_opponent + '_points_div').html(point);
           }
@@ -637,7 +637,7 @@ Y.Views.Game = Y.View.extend({
 	          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
 	          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
           }
-          //declenche setTimeout(); qui met � jour toutes les 50 secondes ???
+          //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
           //setInterval ( this.refreshTimer, 1000 );
           
         }
@@ -665,7 +665,7 @@ Y.Views.Game = Y.View.extend({
 		
 
 		//i18n
-		//PERF:on remplace que les champs du DOM concern�
+		//PERF:on remplace que les champs du DOM concerné
 		$('#statusButton').i18n();
 
         return this;

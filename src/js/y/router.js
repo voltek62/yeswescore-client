@@ -252,5 +252,10 @@
     }
   });
 
-  Y.Router = new Router();
+  $.i18n.init({
+    lng: "fr-FR"
+  }, function() {  
+   Y.Router = new Router();
+  }); 
+  
 })(Y);

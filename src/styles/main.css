@@ -1268,11 +1268,32 @@ ul>li.player>a {
 	cursor: pointer;
 }
 
+.game .facebook .message {
+  display: none;
+  font-size: 12px;
+  font-family: Open Sans;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+}
+
 .game .facebook img {
 	position: relative;
 	top: 9px;
 	left: 15px;
 }
+
+.game .facebook.ok { background-color: #41c68f; border: 1px solid #41c68f; }
+.game .facebook.ko { background-color: #f2734c; border: 1px solid #f2734c; }
+
+.game .facebook.ok .message.ok { display: block; }
+.game .facebook.ok .message.ko { display: none; }
+.game .facebook.ok img { display: none; }
+
+.game .facebook.ko .message.ok { display: none; }
+.game .facebook.ko .message.ko { display: block; }
+.game .facebook.ko img { display: none; }
 
 .scoreBoard {
 	background-color: #45b1db;

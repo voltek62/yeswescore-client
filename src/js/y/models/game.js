@@ -216,6 +216,44 @@ var GameModel = Backbone.Model.extend({
     }      
     
     
-  }
+  },
 
+  getPlayersNamesByTeam: function (teamIndex) {
+    var team = _.isArray(this.get("teams")) ? this.get("teams")[teamIndex] : null;
+    if (!team)
+      return "";
+    return _.reduce(team.players, function (result, player) {
+      return result ? result + ", " + player.name : player.name;
+    }, "");
+  },
+
+  // @return 0,1, -1 if draw / null if error or non defined
+  getIndexWinningTeam: function () {
+    var score = this.get("options").score; 
+    if (typeof score !== "string")
+      return null;
+    var scoreDetails = score.split("/");
+    if (scoreDetails.length !== 2)
+      return null;
+    var scoreTeamA = parseInt(scoreDetails[0], 10);
+    var scoreTeamB = parseInt(scoreDetails[1], 10)
+    if (scoreTeamA == NaN || scoreTeamB == NaN)
+      return null;
+    if (scoreTeamA == scoreTeamB)
+      return -1; // draw
+    if (scoreTeamA < scoreTeamB)
+      return 1; // team B is winning
+    return 0; // team A is winning
+  },
+
+  // @return bool
+  isFinished: function () {
+    switch (this.get("status")) {
+      case "created":
+      case "ongoing":
+        return false;
+      default:
+        return true;
+    }
+  }
 });

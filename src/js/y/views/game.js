@@ -7,7 +7,7 @@ Y.Views.Game = Y.View.extend({
       countComment : "#countComment",
       
       events : {
-        'click #facebook' : 'fbconnect',
+        'click #facebook' : 'share',
         'click #setPlusSetButton' : 'setPlusSet',
         'click #setMinusSetButton' : 'setMinusSet',
         'click #setPointWinButton' : 'setPointWin',
@@ -33,6 +33,9 @@ Y.Views.Game = Y.View.extend({
       currentScore: null,
       statusScore: null,
 
+      shareTimeout: null,
+      sharing: false,
+
       initialize : function() {
       
         this.pageHash += this.id; 
@@ -57,7 +60,7 @@ Y.Views.Game = Y.View.extend({
 		// loading owner
         this.Owner = Y.User.getPlayer();
         
-		this.score = new GameModel({id : this.id});
+		this.game = new GameModel({id : this.id});
 		
 		//loading followed
         var games_follow = Y.Conf.get("owner.games.followed");
@@ -76,8 +79,8 @@ Y.Views.Game = Y.View.extend({
         this.render(); 
         
                                       
-        this.score.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render sp�cial.
-        this.score.fetch();        
+        this.game.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
+        this.game.fetch();        
         
         
         //On compte les commentaires
@@ -89,25 +92,126 @@ Y.Views.Game = Y.View.extend({
         // FIXME: SI ONLINE     
         // FIXME : temps de rafrichissement selon batterie et selon forfait  
     	var pollingOptions = { delay: Y.Conf.get("game.refresh") };
-        //this.poller = Backbone.Poller.get(this.score, pollingOptions)
+        //this.poller = Backbone.Poller.get(this.game, pollingOptions)
         //this.poller.start();
        
         
       },
 
+    shareError: function (err) {
+      console.log('share error: ' + err);
+      var that = this;
+      this.$(".facebook").addClass("ko");
+      this.shareTimeout = window.setTimeout(function () {
+        that.$(".facebook").removeClass("ko");
+        that.shareTimeout = null;
+      }, 5000);
+    },
 
-	  fbconnect: function () {
-	    console.log('facebook connect');
-      var message = "game info";
+    shareSuccess: function () {
+      var that = this;
+      this.$(".facebook").addClass("ok");
+      this.shareTimeout = window.setTimeout(function () {
+        that.$(".facebook").removeClass("ok");
+        that.shareTimeout = null;
+      }, 5000);
+    },
+
+	  share: function () {
+	    console.log('game: sharing on facebook');
+      // semaphore
+      if (this.sharing)
+        return; // cannot click on button until previous sharing is finished.
+      this.sharing = true;
+      // reseting GUI.
+      this.$(".faceboook").removeClass("ok");
+      this.$(".faceboook").removeClass("ko");
+      // clearing eventual timeouts
+      if (this.shareTimeout) {
+        window.clearTimeout(this.shareTimeout);
+        this.shareTimeout = null;
+      }
+      // 
+      var status = this.game.get("status");
+      // cannot share canceled game
+      if (status == "canceled") {
+        return this.shareError("cannot share a canceled game");
+      }
+      // we build a message for facebook.
+      // ex: [PlayersTeamA] [Versus] [PlayersTeamB]. [WinningPlayers] [scoreInfos] [score] [time]. [PROMO]
+      var messages = { };
+      // players names
+      messages['[playersTeamA]'] = this.game.getPlayersNamesByTeam(0);
+      messages['[playersTeamB]'] = this.game.getPlayersNamesByTeam(1);
+      // versus text
+      var versus;
+      if (status == "created") {
+        versus = "va bientôt jouer contre";
+      } else if (status == "ongoing") {
+        versus = "joue contre";
+      } else if (status == "finished") {
+        versus = "a joué contre";
+      } else {
+        versus = "VS"; // neutral
+      }
+      messages['[versus]'] = versus;
+
+      var winningTeamIndex = this.game.getIndexWinningTeam();
+      var winningPlayers, scoreInfos;
+      // message : [Draw] [score] in [time]/[PlayerTeamA] wins [score] in [time]
+      switch (winningTeamIndex) {
+        case -1:
+          winningPlayers = "";
+          scoreInfos = "Egalité !";
+          break;
+        case 1:
+          winningPlayers = this.game.getPlayersNamesByTeam(1);
+          scoreInfos = (status == "finished") ? "a gagné":"mène le jeu.";
+          break;
+        case 0:
+          winningPlayers = this.game.getPlayersNamesByTeam(0);
+          scoreInfos = (status == "finished") ? "a gagné":"mène le jeu.";
+          break;
+        case null:
+        default:
+          winningPlayers = "";
+          scoreInfos = "";
+          break;
+      }
+      messages['[winningPlayers]'] = winningPlayers;
+      messages['[scoreInfos]'] = scoreInfos;
+      //
+      messages['[score]'] = this.game.get('options').score;
+      messages['[sets]'] = this.game.get('options').sets;
+
+      // hâte toi de consulter 
+      messages['[time]'] = ""; // FIXME: temps écoulé.
+
+      // FIXME: message promo en conf
+      // FIXME: url facebook doit pointer vers la game
+      messages['[PROMO]'] = "\n"+'Retrouvez ces scores, ceux de votre club et de vos amis sur Android, iOS et WindowsPhone ou sur la page facebook YesWeScore';
+
+      var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
+      var message = _.reduce(_.keys(messages), function (result, token) {
+        console.log('result=' + result + ' token='+token + ' val='+messages[token]);
+        return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
+      }, messagePattern);
+
+      // building message
+      console.log("SENDING FACEBOOK MESSAGE: " + message);
+      var that = this;
       var id = String(this.id);
 	    Y.Facebook.shareAsync(id, message, function (err) {
-        console.log('error ? ' + err);  
+        that.sharing = false;
+        if (err)
+          return that.shareError(err);
+        that.shareSuccess();
       });
 	  },
  
       updateOnEnter : function(e) {
         if (e.keyCode == 13) {
-          console.log('touche entr�e envoie le commentaire');
+          console.log('touche entrée envoie le commentaire');
           this.commentSend();
         }
       },
@@ -152,10 +256,10 @@ Y.Views.Game = Y.View.extend({
 		    	};
 		        
 	
-		        this.score = new GameModel(game);	    
+		        this.game = new GameModel(game);	    
 				var that = this;
 	
-				this.score.save({}, {success: function(model, response){
+				this.game.save({}, {success: function(model, response){
 				
 					that.lastScore.push(model.toJSON().options.sets);	    
 			        that.currentScore = model.toJSON().options.sets;        
@@ -189,7 +293,7 @@ Y.Views.Game = Y.View.extend({
           
         if ( this.statusScore === "ongoing"  ) {
         
-	      	if (this.score.toJSON().owner === this.Owner.id ) {  
+	      	if (this.game.toJSON().owner === this.Owner.id ) {  
 	
 		        input.val(set);
 		        
@@ -304,9 +408,9 @@ Y.Views.Game = Y.View.extend({
     	};
         
 
-        this.score = new GameModel(game);
+        this.game = new GameModel(game);
 
-        this.score.save({}, {success: function(model, response){
+        this.game.save({}, {success: function(model, response){
   								
   			//console.log('save OK');
   				
@@ -378,7 +482,7 @@ Y.Views.Game = Y.View.extend({
         // Le serveur gagne son set
         if (point == 'AV'
             || (point == '40' && (point_opponent != '40' || point_opponent != 'AV'))) {
-          // On ajoute 1 set au gagnant les point repartent � zero
+          // On ajoute 1 set au gagnant les point repartent à zero
           var set = parseInt(
               $('#team' + selected + '_set' + set_current).val(), 10) + 1;
           $('#team' + selected + '_set1').val(set);
@@ -402,7 +506,7 @@ Y.Views.Game = Y.View.extend({
             point = '00';
           else {
             point = '00';
-            // On met l'adversaire � z�ro
+            // On met l'adversaire à zéro
             $('#team' + selected_opponent + '_points').val(point);
             $('#team' + selected_opponent + '_points_div').html(point);
           }
@@ -427,10 +531,10 @@ Y.Views.Game = Y.View.extend({
       // renderRefresh : refresh only scoreboard
       renderRefresh : function() {
         
-        console.log('renderRefresh avec '+this.score.toJSON().options.sets);
+        console.log('renderRefresh avec '+this.game.toJSON().options.sets);
         
         $(this.displayViewScoreBoard).html(this.templates.game({
-          game : this.score.toJSON(),
+          game : this.game.toJSON(),
           Owner : this.Owner.toJSON(),
           follow : this.follow
         }));
@@ -469,16 +573,16 @@ Y.Views.Game = Y.View.extend({
         
         //si premiere init et lastScore null, on stock le score en cours
         if (this.lastScore.length === 0) {
-	        if (this.score.toJSON().owner !== "") {	          
-	          //console.log('sets ',this.score.toJSON().options.sets);	        
-	          if (this.score.toJSON().options.sets !== undefined) {
+	        if (this.game.toJSON().owner !== "") {	          
+	          //console.log('sets ',this.game.toJSON().options.sets);	        
+	          if (this.game.toJSON().options.sets !== undefined) {
 	          
-	           this.statusScore = this.score.toJSON().status;      
+	           this.statusScore = this.game.toJSON().status;      
 		       console.log('statusScore',this.statusScore);
 	          
-	            if (this.score.toJSON().options.sets!=="") {
-		            this.lastScore.push(this.score.toJSON().options.sets);	    
-		            this.currentScore = this.score.toJSON().options.sets;  
+	            if (this.game.toJSON().options.sets!=="") {
+		            this.lastScore.push(this.game.toJSON().options.sets);	    
+		            this.currentScore = this.game.toJSON().options.sets;  
 	            }
 	          } 
 	        }
@@ -486,17 +590,17 @@ Y.Views.Game = Y.View.extend({
         
         var timer = '';
         
-        if ( this.score.toJSON().status === "finished" ) {
+        if ( this.game.toJSON().status === "finished" ) {
         
-          console.log('finished',this.score.toJSON().dates.end);
-          console.log('start',this.score.toJSON().dates.start);
+          console.log('finished',this.game.toJSON().dates.end);
+          console.log('start',this.game.toJSON().dates.start);
           
           /*
                           game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
                 game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);
           */
         
-          timer = new Date(this.score.toJSON().dates.end).getTime() - new Date(this.score.toJSON().dates.start).getTime();
+          timer = new Date(this.game.toJSON().dates.end).getTime() - new Date(this.game.toJSON().dates.start).getTime();
           //timer = timer / 100;
                     
           console.log('timer',timer);
@@ -508,7 +612,7 @@ Y.Views.Game = Y.View.extend({
         
         // FIXME: refresh only input and id
         this.$el.html(this.templates.game({
-          game : this.score.toJSON(),
+          game : this.game.toJSON(),
           Owner : this.Owner.toJSON(),
           timer : timer,
           follow : this.follow
@@ -523,7 +627,7 @@ Y.Views.Game = Y.View.extend({
         
 		
         $(this.displayViewScoreBoard).html(this.templates.scoreboard({
-          game : this.score.toJSON(),
+          game : this.game.toJSON(),
           Owner : this.Owner.toJSON()
         }));
 		
@@ -643,9 +747,14 @@ Y.Views.Game = Y.View.extend({
       onClose : function() {
         // Clean
         this.undelegateEvents();
-        this.score.off("sync",this.render,this);
-    	this.streams.off("sync",this.renderCountComment,this);
+        this.game.off("sync",this.render,this);
+    	  this.streams.off("sync",this.renderCountComment,this);
         
+        if (this.shareTimeout) {
+          window.clearTimeout(this.shareTimeout);
+          this.shareTimeout = null;
+        }
+
         // FIXME:remettre
         //this.poller.stop();
         //poller.off('sync', this.render, this);

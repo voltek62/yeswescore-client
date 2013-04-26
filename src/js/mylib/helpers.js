@@ -20,6 +20,10 @@ String.prototype.padLeft = function (size, padString) {
     return n;
 };
 
+String.prototype.toRegExp = function () {
+    return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
 Date.prototype.getMonthName = function(lang) {
     lang = lang && (lang in Date.locale) ? lang : 'fr';
     return Date.locale[lang].month_names[this.getMonth()];

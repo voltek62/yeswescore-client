@@ -16,7 +16,7 @@
 
     browser: null,
 
-    MAX_INAPPBROWSER_PAGES: 5, // the user can browse max 5 pages inside the inappbrowser.
+    MAX_INAPPBROWSER_PAGES: 10, // the user can browse max 5 pages inside the inappbrowser.
                                // if > 5 => we close the browser.
     nbPagesBrowsed: 0,
     
@@ -129,6 +129,16 @@
       } else {
         // another page has been opened.
         // FIXME: white list / number of pages
+        /*
+          Log:"Cordova.InAppBrowser: loadstart: https://www.facebook.com/dialog/oauth?%20client_id=618522421507840&scope=email,publish_stream,offline_access&redirect_uri=http%3A%2F%2Fplic.no-ip.org%3A9091%2Fv1%2Finappbrowser%2Fredirect.html&response_type=token"
+          Log:"Cordova.InAppBrowser: loadstart: https://m.facebook.com/dialog/permissions.request?app_id=618522421507840&client_id=618522421507840&redirect_uri=http%3A%2F%2Fplic.no-ip.org%3A9091%2Fv1%2Finappbrowser%2Fredirect.html&response_type=token&perms=email%2Cpublish_stream%2Coffline_access&fbconnect=1&_path=permissions.request"
+          Log:"Cordova.InAppBrowser: loadstart: http://m.facebook.com/login.php?app_id=618522421507840&skip_api_login=1&cancel=http%3A%2F%2Fplic.no-ip.org%3A9091%2Fv1%2Finappbrowser%2Fredirect.html%3Ferror_reason%3Duser_denied%26error%3Daccess_denied%26error_description%3DThe%2Buser%2Bdenied%2Byour%2Brequest.&fbconnect=1&next=https%3A%2F%2Fm.facebook.com%2Fdialog%2Fpermissions.request%3F_path%3Dpermissions.request%26app_id%3D618522421507840%26client_id%3D618522421507840%26redirect_uri%3Dhttp%253A%252F%252Fplic.no-ip.org%253A9091%252Fv1%252Finappbrowser%252Fredirect.html%26display%3Dtouch%26response_type%3Dtoken%26perms%3Demail%252Cpublish_stream%252Coffline_access%26fbconnect%3D1%26from_login%3D1&rcount=1&_rdr"
+          Log:"Cordova.InAppBrowser: loadstart: https://m.facebook.com/login.php?fbconnect=1&skip_api_login=1&next=https%3A%2F%2Fm.facebook.com%2Fdialog%2Fpermissions.request%3F_path%3Dpermissions.request%26app_id%3D618522421507840%26client_id%3D618522421507840%26redirect_uri%3Dhttp%253A%252F%252Fplic.no-ip.org%253A9091%252Fv1%252Finappbrowser%252Fredirect.html%26display%3Dtouch%26response_type%3Dtoken%26perms%3Demail%252Cpublish_stream%252Coffline_access%26fbconnect%3D1%26from_login%3D1&refsrc=http%3A%2F%2Fm.facebook.com%2Flogin.php&app_id=618522421507840&cancel=http%3A%2F%2Fplic.no-ip.org%3A9091%2Fv1%2Finappbrowser%2Fredirect.html%3Ferror_reason%3Duser_denied%26error%3Daccess_denied%26error_description%3DThe%2Buser%2Bdenied%2Byour%2Brequest.&refid=9"
+          Log:"Cordova.InAppBrowser: loadstart: https://m.facebook.com/dialog/permissions.request?_path=permissions.request&app_id=618522421507840&client_id=618522421507840&redirect_uri=http%3A%2F%2Fplic.no-ip.org%3A9091%2Fv1%2Finappbrowser%2Fredirect.html&display=touch&response_type=token&perms=email%2Cpublish_stream%2Coffline_access&fbconnect=1&from_login=1&refid=9&_rdr"
+          Log:"Cordova.InAppBrowser: loadstart: http://plic.no-ip.org:9091/v1/inappbrowser/redirect.html#access_token=BAAIyivk4NwABABRdJzmQZCRCMIJvPFiOofFyXyrZCCZBeaFTnic79wjySHPc6qP7SogUpZAkIUWNaZBdLnSNaeo7SycQeCK0TMdfAXyGmlteDpUYe5hFjSMuo5xsTYMbrX5DSQm3ELUk2CMcxUKeVXvZBlyDR5kAVc0nPDn8ZAZBOWido1nievZCayooEBCi7HNwImQ2ag7sYdUBg8sEHysSLCb3EPXQd4aASjUAa14ZB3dgZDZD&expires_in=5147662"
+        */
+        // FIXME: restreindre à .*\:\/\/.*facebook\.com\/
+        //    et à plic.no-ip (fb.yeswescore)...
       }
     },
 
@@ -140,7 +150,7 @@
       //
       Backbone.ajax({
         dataType : 'json',
-        url : Y.Conf.get("api.facebook.login"),
+        url : Y.Conf.get("api.url.facebook.login"),
         type : 'GET',
         data : { playerid: playerId, token: playerToken, access_token: token }
       }).done(function (data) {

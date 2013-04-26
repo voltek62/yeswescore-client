@@ -32,6 +32,7 @@ Y.Views.Game = Y.View.extend({
       lastScore: null,
       currentScore: null,
       statusScore: null,
+      dateStart: null,
 
       shareTimeout: null,
       sharing: false,
@@ -41,6 +42,7 @@ Y.Views.Game = Y.View.extend({
         this.pageHash += this.id; 
       
 		//header
+		//i18n t("game.title")
         Y.GUI.header.title("MATCH");
       	
 	    // loading templates.
@@ -58,8 +60,8 @@ Y.Views.Game = Y.View.extend({
 		this.lastScore = new Array();
 		
 		// loading owner
-        this.Owner = Y.User.getPlayer();
-        
+    this.Owner = Y.User.getPlayer();
+    this.gameDeferred = $.Deferred();
 		this.game = new GameModel({id : this.id});
 		
 		//loading followed
@@ -77,23 +79,27 @@ Y.Views.Game = Y.View.extend({
           
     	// we render immediatly
         this.render(); 
-        
-                                      
-        this.game.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spÃ©cial.
-        this.game.fetch();        
+        this.game.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
+        this.game.fetch();
         
         
         //On compte les commentaires
-        this.streams = new StreamsCollection([], {gameid : this.id});
-    	this.streams.once("sync",this.renderCountComment,this);
-        this.streams.fetch();
-        
+        //On affiche que si les scores sont là
+        var that = this;
+        $.when(
+  			this.gameDeferred
+		).done(function () {
+	        that.streams = new StreamsCollection([], {gameid : that.id});
+	    	that.streams.once("sync",that.renderCountComment,that);
+	        that.streams.fetch();
+        });
         
         // FIXME: SI ONLINE     
         // FIXME : temps de rafrichissement selon batterie et selon forfait  
     	var pollingOptions = { delay: Y.Conf.get("game.refresh") };
-        //this.poller = Backbone.Poller.get(this.game, pollingOptions)
-        //this.poller.start();
+        this.poller = Backbone.Poller.get(this.game, pollingOptions)
+        this.poller.start();  
+        this.poller.on('sync', this.render, this);
        
         
       },
@@ -543,22 +549,17 @@ Y.Views.Game = Y.View.extend({
         return false;
       },
       
-      // convert second in hh:mm:ss
-      secondsToHms : function(d) {
       
-		d = Number(d);
-		var h = Math.floor(d / 3600);
-		var m = Math.floor(d % 3600 / 60);
-		var s = Math.floor(d % 3600 % 60);
-		return ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "0:") + (s < 10 ? "0" : "") + s);
-		 
-   	  },
- 
+      
+      
 
 	  renderCountComment : function() {
 	  
 	  
       var nbComments = this.streams.length;
+      
+      //console.log('nbComments',nbComments);
+      
       if (nbComments > 10)
         this.$(".link-comments").html("10 DERNIERS COMMENTAIRES");
       else if (nbComments == 1)
@@ -568,6 +569,24 @@ Y.Views.Game = Y.View.extend({
       else
         this.$(".link-comments").html("0 COMMENTAIRE");
 	  },
+
+      refreshTimer : function() {
+      
+          var dateEnd = new Date();
+          var dateStart = new Date(this.dateStart);
+          	
+          timer = dateEnd - dateStart;
+          
+          if (timer>0)
+          {
+	          console.log('timer refreshTimer',timer);
+	          
+	          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+	          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);       
+	          $('.timer').html(timer); 
+          }
+              
+      },		
 
       render : function() {
         
@@ -584,32 +603,45 @@ Y.Views.Game = Y.View.extend({
 		            this.lastScore.push(this.game.toJSON().options.sets);	    
 		            this.currentScore = this.game.toJSON().options.sets;  
 	            }
-	          } 
+	          }
+	          
+	          this.gameDeferred.resolve(); 
 	        }
         }
         
         var timer = '';
         
         if ( this.game.toJSON().status === "finished" ) {
-        
-          console.log('finished',this.game.toJSON().dates.end);
-          console.log('start',this.game.toJSON().dates.start);
-          
-          /*
-                          game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
-                game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);
-          */
-        
-          timer = new Date(this.game.toJSON().dates.end).getTime() - new Date(this.game.toJSON().dates.start).getTime();
-          //timer = timer / 100;
-                    
-          console.log('timer',timer);
-          
-          //FIXME : on repasse en hh:mm:ss 
-          timer = this.secondsToHms(timer);         
+       
+          var dateEnd = new Date(this.game.toJSON().dates.end);
+          var dateStart = new Date(this.game.toJSON().dates.start);
+          	
+          timer = dateEnd - dateStart;
+          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
         
         }
+        else if ( this.game.toJSON().status === "ongoing" ) {
         
+          //comment connaitre la date actuelle par rapport au serveur ?
+          var dateEnd = new Date();
+          var dateStart = new Date(this.game.toJSON().dates.start);
+          this.dateStart = this.game.toJSON().dates.start;
+          	
+          timer = dateEnd - dateStart;
+          
+          if (timer>0)
+          {
+	          console.log('timer ongoing',timer);
+	          
+	          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+	          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+          }
+          //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
+          //setInterval ( this.refreshTimer, 1000 );
+          
+        }
+                
         // FIXME: refresh only input and id
         this.$el.html(this.templates.game({
           game : this.game.toJSON(),
@@ -631,6 +663,10 @@ Y.Views.Game = Y.View.extend({
           Owner : this.Owner.toJSON()
         }));
 		
+
+		//i18n
+		//PERF:on remplace que les champs du DOM concerné
+		$('#statusButton').i18n();
 
         return this;
       },
@@ -756,8 +792,8 @@ Y.Views.Game = Y.View.extend({
         }
 
         // FIXME:remettre
-        //this.poller.stop();
-        //poller.off('sync', this.render, this);
+        this.poller.stop();
+        this.poller.off('sync', this.render, this);
 
       }
     });

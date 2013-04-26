@@ -100,7 +100,7 @@
       <% if (game.owner === Owner.id) { %>
 	      <div class="ui-grid-b">
 		      <div class="ui-block-a button">
-            <a id="optionButton">Options match</a> 
+            <a id="optionButton" data-i18n="game.options">Options match</a> 
 		      </div>
           <div id="facebook" class="ui-block-b share">
             <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
@@ -117,7 +117,7 @@
                 }
                 else {
                 %>
-                <a id="statusButton">Terminer match</a>
+                <a id="statusButton" data-i18n="game.finish"></a>
                 <%
                 }
                 %>

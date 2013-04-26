@@ -36,7 +36,7 @@ Y.Views.GameAdd = Y.View.extend({
 	};
 	    
       
-    this.Owner = Y.User.getPlayer().toJSON();
+    this.owner = Y.User.getPlayer().toJSON();
 	this.render();
 
   },
@@ -96,9 +96,9 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   updateTeam1: function () {
-    $('#team1').val(this.Owner.name);
-    $('#rank1').val(this.Owner.rank);
-    $('#team1_id').val(this.Owner.id);
+    $('#team1').val(this.owner.name);
+    $('#rank1').val(this.owner.rank);
+    $('#team1_id').val(this.owner.id);
   },
 
   updateListTeam1: function (event) {
@@ -239,7 +239,7 @@ Y.Views.GameAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.templates.gameadd({ playerid: this.Owner.id, token: this.Owner.token }));
+    this.$el.html(this.templates.gameadd({ playerid: this.owner.id, token: this.owner.token }));
 
     return this;
   },

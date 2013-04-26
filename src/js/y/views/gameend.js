@@ -13,9 +13,9 @@ Y.Views.GameEnd = Y.View.extend({
     Y.GUI.header.title("TERMINER LA PARTIE");	    
   
     this.gameEndTemplate = Y.Templates.get('gameEnd');
-    //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
+    //owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
     //this.players = new PlayersCollection("me");
-    this.Owner = Y.User.getPlayer().toJSON();
+    this.owner = Y.User.getPlayer().toJSON();
     this.render();
     //$.mobile.hidePageLoadingMsg(); 
   },
@@ -31,7 +31,7 @@ Y.Views.GameEnd = Y.View.extend({
   
   //render the content into div of view
   render: function(){
-	  this.$el.html(this.gameEndTemplate({playerid:this.Owner.id, token:this.Owner.token}));
+	  this.$el.html(this.gameEndTemplate({playerid:this.owner.id, token:this.owner.token}));
 	  //this.$el.trigger('pagecreate');
 	  return this;
   },

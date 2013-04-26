@@ -14,7 +14,7 @@ Y.Views.Account = Y.View.extend({
 
     this.accountViewTemplate = Y.Templates.get('account');
     this.clubid = Y.User.getClub();
-    this.Owner = Y.User.getPlayer();
+    this.owner = Y.User.getPlayer();
     
     this.render();
     
@@ -30,7 +30,7 @@ Y.Views.Account = Y.View.extend({
     // $.ui.setTitle("MON COMPTE");  
 
 	$(this.el).html(this.accountViewTemplate({
-	  Owner : this.Owner,
+	  owner : this.owner,
       clubid: this.clubid
     }));
 

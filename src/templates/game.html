@@ -20,7 +20,7 @@
           <img src="./images/eye.png" width="20" height="12" style="margin-top:4px;">
         </div>
         <div class="ui-block-e">
-        <% if (game.owner === Owner.id) { %>
+        <% if (game.owner === owner.id) { %>
           <img src="./images/undo.png" width="20" height="20">
         <% }
            else { 
@@ -76,7 +76,7 @@
         <b>Public</b>
         </div>
         <div class="ui-block-e">
-        <% if (game.owner === Owner.id) { %>
+        <% if (game.owner === owner.id) { %>
         <span class="undoAction">Annuler</span>
         <% } 
         else { %>
@@ -97,7 +97,7 @@
       SOCIAL BAR
     -->
     <div class="socialbar">
-      <% if (game.owner === Owner.id) { %>
+      <% if (game.owner === owner.id) { %>
 	      <div class="ui-grid-b">
 		      <div class="ui-block-a button">
             <a id="optionButton" data-i18n="game.options">Options match</a> 

@@ -22,7 +22,7 @@ Y.Views.GameComments = Y.View.extend({
     };
 
     // loading owner
-    this.Owner = Y.User.getPlayer();
+    this.owner = Y.User.getPlayer();
 
     // we render immediatly
     this.render();
@@ -98,7 +98,7 @@ Y.Views.GameComments = Y.View.extend({
         divHiddenContainer.style.display = "none";
         $(divHiddenContainer).html(this.templates.comment({
           streamItem  : streamItem.toJSON(),
-          Owner : (this.Owner) ? this.Owner.toJSON() : null
+          owner : (this.owner) ? this.owner.toJSON() : null
         }));
         $listComment.prepend(divHiddenContainer);
         $(divHiddenContainer).fadeIn();
@@ -117,8 +117,8 @@ Y.Views.GameComments = Y.View.extend({
       + this.gameid 
       + '/stream/'
       + id 
-      + '/?playerid='+this.Owner.id
-      +'&token='+this.Owner.toJSON().token
+      + '/?playerid='+this.owner.id
+      +'&token='+this.owner.toJSON().token
       +'&_method=delete',
         
       type : 'POST',
@@ -152,8 +152,8 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
-    var playerid = this.Owner.id
-    , token  = this.Owner.toJSON().token
+    var playerid = this.owner.id
+    , token  = this.owner.toJSON().token
     , gameid = this.gameid
     , comment = $('#messageText').val();
 

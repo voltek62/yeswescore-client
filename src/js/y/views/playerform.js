@@ -168,7 +168,7 @@ Y.Views.PlayerForm = Y.View.extend({
     else 
       dataDisplay.email = '';
     
-    //player:this.player.toJSON(),playerid:Owner.id,token:Owner.token	
+    //player:this.player.toJSON(),playerid:owner.id,token:owner.token	
     this.$el.html(this.templates.playerform(dataDisplay));
     //this.$el.trigger('pagecreate');
     return this;

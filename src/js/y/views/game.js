@@ -59,7 +59,7 @@ Y.Views.Game = Y.View.extend({
     this.lastScore = new Array();
 		
     // loading owner
-    this.Owner = Y.User.getPlayer();
+    this.owner = Y.User.getPlayer();
     this.gameDeferred = $.Deferred();
     this.game = new GameModel({id : this.id});
 		
@@ -267,7 +267,7 @@ Y.Views.Game = Y.View.extend({
 	  				
 		    	    $(that.displayViewScoreBoard).html(that.templates.scoreboard({
 		            game : model.toJSON(),
-		            Owner : that.Owner.toJSON()
+		            owner : that.owner.toJSON()
 		          }));
             }
           });   
@@ -288,7 +288,7 @@ Y.Views.Game = Y.View.extend({
       set = '1';
           
     if ( this.statusScore === "ongoing"  ) {
-	    if (this.game.toJSON().owner === this.Owner.id ) {  
+	    if (this.game.toJSON().owner === this.owner.id ) {  
 		    input.val(set);
 		        
 		    //FIXME : NO HTML IN CODE
@@ -507,7 +507,7 @@ Y.Views.Game = Y.View.extend({
         
     $(this.displayViewScoreBoard).html(this.templates.game({
       game : this.game.toJSON(),
-      Owner : this.Owner.toJSON(),
+      owner : this.owner.toJSON(),
       follow : this.follow
     }));
      
@@ -546,18 +546,21 @@ Y.Views.Game = Y.View.extend({
   },		
 
   render : function() {
+    var game = this.game.toJSON();
+    var owner = this.owner.toJSON();
+
     //si premiere init et lastScore null, on stock le score en cours
     if (this.lastScore.length === 0) {
-	    if (this.game.toJSON().owner !== "") {	          
-	      //console.log('sets ',this.game.toJSON().options.sets);	        
-	      if (this.game.toJSON().options.sets !== undefined) {
+	    if (game.owner !== "") {	          
+	      //console.log('sets ',game.options.sets);	        
+	      if (game.options.sets !== undefined) {
 	          
-	        this.statusScore = this.game.toJSON().status;      
+	        this.statusScore = game.status;      
 		    console.log('statusScore',this.statusScore);
 	          
-	        if (this.game.toJSON().options.sets!=="") {
-		        this.lastScore.push(this.game.toJSON().options.sets);	    
-		        this.currentScore = this.game.toJSON().options.sets;  
+	        if (game.options.sets!=="") {
+		        this.lastScore.push(game.options.sets);	    
+		        this.currentScore = game.options.sets;  
 	        }
 	      }
 	          
@@ -567,22 +570,22 @@ Y.Views.Game = Y.View.extend({
         
     var timer = '';
         
-    if ( this.game.toJSON().status === "finished" ) {
+    if ( game.status === "finished" ) {
        
-      var dateEnd = new Date(this.game.toJSON().dates.end);
-      var dateStart = new Date(this.game.toJSON().dates.start);
+      var dateEnd = new Date(game.dates.end);
+      var dateStart = new Date(game.dates.start);
           	
       timer = dateEnd - dateStart;
       var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
       timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
         
     }
-    else if ( this.game.toJSON().status === "ongoing" ) {
+    else if ( game.status === "ongoing" ) {
         
       //comment connaitre la date actuelle par rapport au serveur ?
       var dateEnd = new Date();
-      var dateStart = new Date(this.game.toJSON().dates.start);
-      this.dateStart = this.game.toJSON().dates.start;
+      var dateStart = new Date(game.dates.start);
+      this.dateStart = game.dates.start;
           	
       timer = dateEnd - dateStart;
           
@@ -600,8 +603,8 @@ Y.Views.Game = Y.View.extend({
                 
     // FIXME: refresh only input and id
     this.$el.html(this.templates.game({
-      game : this.game.toJSON(),
-      Owner : this.Owner.toJSON(),
+      game : game,
+      owner : owner,
       timer : timer,
       follow : this.follow
     }));
@@ -615,8 +618,8 @@ Y.Views.Game = Y.View.extend({
         
 		
     $(this.displayViewScoreBoard).html(this.templates.scoreboard({
-      game : this.game.toJSON(),
-      Owner : this.Owner.toJSON()
+      game : game,
+      owner : owner
     }));
 		
 

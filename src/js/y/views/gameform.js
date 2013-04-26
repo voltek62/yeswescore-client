@@ -32,7 +32,7 @@ Y.Views.GameForm = Y.View.extend({
     this.gameFormTemplate = Y.Templates.get('gameForm');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
-	this.Owner = Y.User.getPlayer();
+	this.owner = Y.User.getPlayer();
 	
 	this.score = new GameModel({id : this.id});
     this.score.fetch();
@@ -83,12 +83,12 @@ Y.Views.GameForm = Y.View.extend({
 
     console.log('deleteMatch');    
     
-     this.Owner = Y.User.getPlayer().toJSON();
+     this.owner = Y.User.getPlayer().toJSON();
   
 	///v1/games/:id/?_method=delete
     return Backbone.ajax({
       dataType : 'json',
-      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.Owner.id+'&token='+this.Owner.token+'&_method=delete',
+      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.owner.id+'&token='+this.owner.token+'&_method=delete',
       type : 'POST',
       success : function(result) {
         console.log('data success delete Game', result);
@@ -136,7 +136,7 @@ Y.Views.GameForm = Y.View.extend({
   
     this.$el.html(this.gameFormTemplate({
           game : this.score.toJSON(),
-          Owner : this.Owner.toJSON()
+          owner : this.owner.toJSON()
     }));
       
    

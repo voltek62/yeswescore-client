@@ -32,6 +32,7 @@ Y.Views.Game = Y.View.extend({
       lastScore: null,
       currentScore: null,
       statusScore: null,
+      dateStart: null,
 
       initialize : function() {
       
@@ -75,8 +76,7 @@ Y.Views.Game = Y.View.extend({
           
     	// we render immediatly
         this.render(); 
-        
-                                      
+                             
         this.score.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
         this.score.fetch();        
         
@@ -95,8 +95,9 @@ Y.Views.Game = Y.View.extend({
         // FIXME: SI ONLINE     
         // FIXME : temps de rafrichissement selon batterie et selon forfait  
     	var pollingOptions = { delay: Y.Conf.get("game.refresh") };
-        //this.poller = Backbone.Poller.get(this.score, pollingOptions)
-        //this.poller.start();
+        this.poller = Backbone.Poller.get(this.score, pollingOptions)
+        this.poller.start();  
+        this.poller.on('sync', this.render, this);
        
         
       },
@@ -446,6 +447,8 @@ Y.Views.Game = Y.View.extend({
       },
       
       
+      
+      
 
 	  renderCountComment : function() {
 	  
@@ -463,6 +466,24 @@ Y.Views.Game = Y.View.extend({
       else
         this.$(".link-comments").html("0 COMMENTAIRE");
 	  },
+
+      refreshTimer : function() {
+      
+          var dateEnd = new Date();
+          var dateStart = new Date(this.dateStart);
+          	
+          timer = dateEnd - dateStart;
+          
+          if (timer>0)
+          {
+	          console.log('timer refreshTimer',timer);
+	          
+	          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+	          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);       
+	          $('.timer').html(timer); 
+          }
+              
+      },		
 
       render : function() {
         
@@ -492,11 +513,6 @@ Y.Views.Game = Y.View.extend({
           var dateEnd = new Date(this.score.toJSON().dates.end);
           var dateStart = new Date(this.score.toJSON().dates.start);
           	
-          //console.log('end',dateEnd);
-          //console.log('date end',('0'+dateEnd.getHours()).slice(-2)+'h'+('0'+dateEnd.getMinutes()).slice(-2));
-          //console.log('start',dateStart);
-          //console.log('date start',('0'+dateStart.getHours()).slice(-2)+'h'+('0'+dateStart.getMinutes()).slice(-2));
-
           timer = dateEnd - dateStart;
           var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
           timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
@@ -507,15 +523,20 @@ Y.Views.Game = Y.View.extend({
           //comment connaitre la date actuelle par rapport au serveur ?
           var dateEnd = new Date();
           var dateStart = new Date(this.score.toJSON().dates.start);
+          this.dateStart = this.score.toJSON().dates.start;
           	
           timer = dateEnd - dateStart;
           
-          console.log('timer ongoing',timer);
+          if (timer>0)
+          {
+	          console.log('timer ongoing',timer);
+	          
+	          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+	          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+          }
+          //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
+          //setInterval ( this.refreshTimer, 1000 );
           
-          var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-          timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
-        
-          //declenche setTimeout(); qui met à jour toutes les 30 secondes ???
         }
                 
         // FIXME: refresh only input and id
@@ -660,8 +681,8 @@ Y.Views.Game = Y.View.extend({
     	this.streams.off("sync",this.renderCountComment,this);
         
         // FIXME:remettre
-        //this.poller.stop();
-        //poller.off('sync', this.render, this);
+        this.poller.stop();
+        this.poller.off('sync', this.render, this);
 
       }
     });

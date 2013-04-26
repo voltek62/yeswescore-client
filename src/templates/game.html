@@ -32,11 +32,7 @@
       <!-- infos -->
       <div class="ui-grid-d text" >
         <div class="ui-block-a">
-          <span class="timer">0:45:32</span>
-          <% 
-          //si date de fin - terminé
-          //si en cours on affiche la différence de temps
-          %>
+          <span class="timer"></span>
         </div>
         <div class="ui-block-b">
         <%
@@ -50,8 +46,8 @@
               }
               else { 
                 game.dates.startConvert = new Date(game.dates.start);
-                game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
-                game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
+                game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
+                game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);
               }
            } 
            else {                      

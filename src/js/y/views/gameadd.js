@@ -3,14 +3,8 @@ Y.Views.GameAdd = Y.View.extend({
 
   events: {
     'click #addGame': 'addGame',
-    'blur #team1': 'updateListTeam1',
-    'blur #team2': 'updateListTeam2',
-    'click #team1_choice': 'displayTeam1',
-    'click #team2_choice': 'displayTeam2',
-
     'click .form-button.other-team': 'otherTeam',
     'click .form-button.more-options': 'moreOption',
-        
     'blur #team1': 'changeTeam1'
   },
 
@@ -37,42 +31,7 @@ Y.Views.GameAdd = Y.View.extend({
 	    
       
     this.owner = Y.User.getPlayer().toJSON();
-	this.render();
-
-  },
-
-  displayTeam1: function (li) {
-    selectedId = $('#team1_choice:checked').val();
-    selectedName = $('#team1_choice:checked').next('label').text();
-    selectedRank = $('#team1_choice:checked').next('label').next('label').text();
-    //$('label[for=pre-payment]').text();
-
-    $('#team1').val($.trim(selectedName));
-    $('#rank1').val($.trim(selectedRank));
-    $('#team1_id').val(selectedId);
-    $('team1_error').html('');
-
-    //console.log('selected '+selectedId+' '+selectedName);
-
-    $(this.listview1).html('');
-    //&$(this.listview1).listview('refresh');
-  },
-
-  displayTeam2: function (li) {
-    selectedId = $('#team2_choice:checked').val();
-    selectedName = $('#team2_choice:checked').next('label').text();
-    selectedRank = $('#team2_choice:checked').next('label').next('label').text();
-    //$('label[for=pre-payment]').text();
-
-    $('#team2').val($.trim(selectedName));
-    $('#rank2').val($.trim(selectedRank));
-    $('#team2_id').val(selectedId);
-    $('team2_error').html('');
-
-    //console.log('selected '+selectedId+' '+selectedName);
-
-    $(this.listview2).html('');
-    //$(this.listview2).listview('refresh');
+	  this.render();
   },
 
   otherTeam: function () {
@@ -93,57 +52,6 @@ Y.Views.GameAdd = Y.View.extend({
       $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
     }
-  },
-
-  updateTeam1: function () {
-    $('#team1').val(this.owner.name);
-    $('#rank1').val(this.owner.rank);
-    $('#team1_id').val(this.owner.id);
-  },
-
-  updateListTeam1: function (event) {
-    /* disabled: FIXME #myself doesn't exist.
-  	console.log('updateListTeam1');
-  
-    if ($('#myself').attr('checked') === undefined) {
-      var q = $("#team1").val();
-
-	  console.log('updateListTeam1 1');
-
-      this.playersTeam1 = new PlayersCollection();
-      this.playersTeam1.setMode('search', q);
-      if (q.length > 2) {
-        this.playersTeam1.fetch();
-        this.playersTeam1.on('sync', this.renderListTeam1, this);
-      }
-    }
-    */
-  },
-
-  renderListTeam1: function () {
-    var q = $("#team1").val();
-    $(this.listview1).html(this.templates.playerlist({ players: this.playersTeam1.toJSON(), query: q, select: 1 }));
-    //$(this.listview1).listview('refresh');
-  },
-
-
-  updateListTeam2: function (event) {
-    /*
-    var q = $("#team2").val();
-    this.playersTeam2 = new PlayersCollection();
-    this.playersTeam2.setMode('search', q);
-    if (q.length > 2) {
-      this.playersTeam2.fetch();
-
-      this.playersTeam2.on('sync', this.renderListTeam2, this);
-    }
-    */
-  },
-
-  renderListTeam2: function () {
-    var q = $("#team2").val();
-    $(this.listview2).html(this.templates.playerlist({ players: this.playersTeam2.toJSON(), query: q, select: 2 }));
-    //$(this.listview2).listview('refresh');
   },
 
   addGame: function (event) {

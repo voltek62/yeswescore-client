@@ -43,7 +43,6 @@ Y.Views.ClubFollow = Y.View.extend({
 	      i--;
 
 	      if (i<=0) {
-	        console.log('renderList',that.collection.toJSON());    
 	    	$(that.listview).html(that.templates.clublist({clubs:that.collection.toJSON(),query:' '}));  	
 	      }
 	          			
@@ -77,7 +76,6 @@ Y.Views.ClubFollow = Y.View.extend({
     this.clubs.setMode('search',q);
     this.clubs.fetch();
     $(this.listview).html(this.templates.clublist({clubs:this.clubsfollow.toJSON(), query:q}));
-    //$(this.listview).listview('refresh');
     //}
     return this;
   },

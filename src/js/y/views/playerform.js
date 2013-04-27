@@ -78,10 +78,8 @@ Y.Views.PlayerForm = Y.View.extend({
   
     
   renderList: function () {
-    var q = $("#club").val();
-    	
-    console.log(this.clubs.toJSON());
-    	
+    var q = $("#club").val();  	
+    //console.log(this.clubs.toJSON());   	
 	$(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
 	  //$(this.listview).listview('refresh');
   },
@@ -132,8 +130,7 @@ Y.Views.PlayerForm = Y.View.extend({
       , clubid:clubid            
     });
 
-    console.log('player form envoie ',player.toJSON());
-
+	//FIXME :  control state
     player.save();
    
     return false;
@@ -142,8 +139,6 @@ Y.Views.PlayerForm = Y.View.extend({
 
   //render the content into div of view
   renderPlayer: function(){
-    	
-    console.log('renderPlayer players',this.player.toJSON());	
     	
     player = this.player.toJSON();
     

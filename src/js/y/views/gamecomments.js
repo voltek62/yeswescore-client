@@ -117,8 +117,8 @@ Y.Views.GameComments = Y.View.extend({
       + this.gameid 
       + '/stream/'
       + id 
-      + '/?playerid='+this.owner.id
-      +'&token='+this.owner.toJSON().token
+      + '/?playerid='+this.owner.get('id')
+      +'&token='+this.owner.get('token')
       +'&_method=delete',
         
       type : 'POST',
@@ -153,7 +153,7 @@ Y.Views.GameComments = Y.View.extend({
 
   sendComment : function() {
     var playerid = this.owner.id
-    , token  = this.owner.toJSON().token
+    , token  = this.owner.get('token')
     , gameid = this.gameid
     , comment = $('#messageText').val();
 

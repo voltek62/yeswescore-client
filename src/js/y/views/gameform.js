@@ -56,9 +56,7 @@ Y.Views.GameForm = Y.View.extend({
     
   renderList: function () {
     var q = $("#club").val();
-    	
-    console.log(this.clubs.toJSON());
-    	
+    //console.log(this.clubs.toJSON());   	
 	$(this.listview).html(this.clubListAutoCompleteViewTemplate({clubs:this.clubs.toJSON(), query:q}));
 
   },

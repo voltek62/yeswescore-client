@@ -19,16 +19,20 @@ Y.Views.GameForm = Y.View.extend({
   pageHash : "games/form",  
     
   clubs:null,
-     
+  useSearch:null,
 
   initialize:function() {
 
+	//header
     Y.GUI.header.title("MES OPTIONS"); 
+    
+    //no search
+    this.useSearch=0;
   
     this.gameFormTemplate = Y.Templates.get('gameForm');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
-	this.Owner = Y.User.getPlayer();
+	this.owner = Y.User.getPlayer();
 	
 	this.score = new GameModel({id : this.id});
     this.score.fetch();
@@ -45,15 +49,14 @@ Y.Views.GameForm = Y.View.extend({
     this.clubs.setMode('search',q);
     if (q.length>2) {
       this.clubs.fetch();
+      this.useSearch=1
       this.clubs.on( 'sync', this.renderList, this );
     }
   },
     
   renderList: function () {
     var q = $("#club").val();
-    	
-    console.log(this.clubs.toJSON());
-    	
+    //console.log(this.clubs.toJSON());   	
 	$(this.listview).html(this.clubListAutoCompleteViewTemplate({clubs:this.clubs.toJSON(), query:q}));
 
   },
@@ -78,12 +81,12 @@ Y.Views.GameForm = Y.View.extend({
 
     console.log('deleteMatch');    
     
-     this.Owner = Y.User.getPlayer().toJSON();
+     this.owner = Y.User.getPlayer().toJSON();
   
 	///v1/games/:id/?_method=delete
     return Backbone.ajax({
       dataType : 'json',
-      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.Owner.id+'&token='+this.Owner.token+'&_method=delete',
+      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.owner.id+'&token='+this.owner.token+'&_method=delete',
       type : 'POST',
       success : function(result) {
         console.log('data success delete Game', result);
@@ -131,7 +134,7 @@ Y.Views.GameForm = Y.View.extend({
   
     this.$el.html(this.gameFormTemplate({
           game : this.score.toJSON(),
-          Owner : this.Owner.toJSON()
+          owner : this.owner.toJSON()
     }));
       
    
@@ -139,6 +142,8 @@ Y.Views.GameForm = Y.View.extend({
 
   onClose: function(){
     this.undelegateEvents();
-    this.player.off("sync",this.render,this); 
+
+    this.score.off("sync",this.render,this);
+    if (this.useSearch===1) this.clubs.off("sync",this.renderList,this);
   }
 });

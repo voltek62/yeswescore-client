@@ -23,8 +23,7 @@ Y.Views.Games = Y.View.extend({
   
   initialize: function (param) {
   	
-  	console.log('on est dans le init de games view avec ',param);
- 
+	//header 
     if (param!=='undefined') { 
       if (param.mode==="me")
         Y.GUI.header.title("LISTE DE VOS MATCHS");
@@ -55,7 +54,7 @@ Y.Views.Games = Y.View.extend({
     //  render games & player.
 
     // first: fetch games
-    var gameDeferred = $.Deferred();
+    this.gameDeferred = $.Deferred();
     this.games = new GamesCollection();
 
     if (param!=='undefined') {
@@ -70,7 +69,7 @@ Y.Views.Games = Y.View.extend({
      }    
       
             
-    this.games.on('sync', gameDeferred.resolve, gameDeferred);
+    this.games.on('sync', this.gameDeferred.resolve, this.gameDeferred);
     this.games.fetch();
 
     // second: read/create player
@@ -93,7 +92,7 @@ Y.Views.Games = Y.View.extend({
 
     // FIXME: handling error with deferreds
     $.when(
-      gameDeferred,
+      this.gameDeferred,
       playerDeferred
     ).done(function () {
       that.render();
@@ -174,5 +173,6 @@ Y.Views.Games = Y.View.extend({
   onClose: function () {
     this.undelegateEvents();
     //this.games.off("all", this.renderList, this);
+    this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
   }
 });

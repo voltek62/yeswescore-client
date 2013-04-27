@@ -6,6 +6,7 @@
   var Connection = {
     ONLINE: "ONLINE",
     OFFLINE: "OFFLINE",
+    NEWVERSION: "NEWVERSION",    
 
     status: null,
 
@@ -17,10 +18,22 @@
       this.update();
       return this.status === this.ONLINE;
     },
+    
+    forceUpdate : function () {
+    
+     this.status = this.NEWVERSION;
+     
+    },
 
     update: function () {
       if (Cordova.status !== "ready")
         return;
+        
+      if (this.status === this.NEWVERSION) {
+        this.trigger("change", [this.NEWVERSION]);	
+        return;      
+      }
+        
       var newStatus = Cordova.Connection.isOnline() ? this.ONLINE : this.OFFLINE;
       if (this.status !== newStatus) {
         this.status = newStatus;

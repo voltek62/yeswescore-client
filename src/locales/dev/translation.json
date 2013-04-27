@@ -1,0 +1,17 @@
+{
+  "app": {
+    "name": "Yes We Score"
+  },
+  "nav": {
+    "matchs": "iMatchs",
+    "create": "iCreer",
+    "account": "iMon Compte"
+	},
+  "gameadd": {
+    "title": ""
+  },	
+  "game": {
+    "title": "iiiMATCH",  
+    "finish": "iiiTerminer match"
+  }
+}

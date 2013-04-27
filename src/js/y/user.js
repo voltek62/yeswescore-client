@@ -105,6 +105,25 @@
         },
         error: function (e) { callback(e); }
       });
+    },
+
+    // will update player in cache
+    updatePlayer: function (properties) {
+      assert(properties && typeof properties === "object");
+      assert(typeof properties.id === "string");
+
+      // we will do some checks...
+      if (!player || !properties ||
+           player.get('id') !== properties.id)
+        return;
+      // blacklist
+      delete(properties['id']);
+      delete(properties['token']);
+      // saving properties
+      player.set(properties);
+      // updating cache.
+      DB.saveJSON("Player", player);
+      // do not update permanent keys.
     }
   };
 

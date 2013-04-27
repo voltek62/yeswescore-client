@@ -98,8 +98,7 @@ Y.Views.Player = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    console.log('render player view ',this.player.toJSON());
-    
+    //console.log('render player view ',this.player.toJSON());   
     this.$el.html(this.playerViewTemplate({
       player:this.player.toJSON(),follow:this.follow
     }));

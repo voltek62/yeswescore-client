@@ -143,8 +143,8 @@
     <input type="hidden" id="team1_id" value="<%= game.teams[0].players[0].id %>" />
     <input type="hidden" id="team2_id" value="<%= game.teams[1].players[0].id %>" />         
     <input type="hidden" id="gameid" value="<%= game.id %>" />
-    <input type="hidden" id="playerid" value="<%= Owner.id %>"  /> 
-    <input type="hidden" id="token" value="<%= Owner.token %>" />
+    <input type="hidden" id="playerid" value="<%= owner.id %>"  /> 
+    <input type="hidden" id="token" value="<%= owner.token %>" />
 
   </div>
 </div>
@@ -153,7 +153,7 @@
 <!--
   COMMENT SAVE
 -->
-<div class="button-form" data-input-mode="none">
+<div class="button-form" data-input-mode="hide">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
   <div class="link-form"><div class="button" id="updateGame">MODIFIER</div></div>  

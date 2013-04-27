@@ -17,11 +17,12 @@ Y.Views.PlayerForm = Y.View.extend({
   pageHash : "players/form",  
     
   clubs:null,
-     
+  useSearch:0,	     
 
   myinitialize:function() {
   
-    this.player = null;  	
+    this.player = null;  
+    this.useSearch = 0;	
           
 	//header
     Y.GUI.header.title("MON PROFIL"); 
@@ -61,6 +62,7 @@ Y.Views.PlayerForm = Y.View.extend({
     this.clubs = new ClubsCollection();
     this.clubs.setMode('search',q);
     if (q.length>2) {
+      this.useSearch=1;
       this.clubs.fetch();
       this.clubs.on( 'sync', this.renderList, this );
     }
@@ -76,10 +78,8 @@ Y.Views.PlayerForm = Y.View.extend({
   
     
   renderList: function () {
-    var q = $("#club").val();
-    	
-    console.log(this.clubs.toJSON());
-    	
+    var q = $("#club").val();  	
+    //console.log(this.clubs.toJSON());   	
 	$(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
 	  //$(this.listview).listview('refresh');
   },
@@ -130,8 +130,7 @@ Y.Views.PlayerForm = Y.View.extend({
       , clubid:clubid            
     });
 
-    console.log('player form envoie ',player.toJSON());
-
+	//FIXME :  control state
     player.save();
    
     return false;
@@ -140,8 +139,6 @@ Y.Views.PlayerForm = Y.View.extend({
 
   //render the content into div of view
   renderPlayer: function(){
-    	
-    console.log('renderPlayer players',this.player.toJSON());	
     	
     player = this.player.toJSON();
     
@@ -166,7 +163,7 @@ Y.Views.PlayerForm = Y.View.extend({
     else 
       dataDisplay.email = '';
     
-    //player:this.player.toJSON(),playerid:Owner.id,token:Owner.token	
+    //player:this.player.toJSON(),playerid:owner.id,token:owner.token	
     this.$el.html(this.templates.playerform(dataDisplay));
     //this.$el.trigger('pagecreate');
     return this;
@@ -175,6 +172,7 @@ Y.Views.PlayerForm = Y.View.extend({
   onClose: function(){
     this.undelegateEvents();
     
-    //this.player.off("sync",this.renderPlayer,this); 
+    this.player.off("sync", this.renderPlayer, this);	
+    if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );
   }
 });

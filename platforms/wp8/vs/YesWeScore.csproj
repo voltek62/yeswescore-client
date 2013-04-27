@@ -171,10 +171,6 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="www\styles\webfonts\opensans-400.woff" />
-    <None Include="www\styles\webfonts\opensans-700.woff" />
-    <None Include="www\styles\webfonts\opensans-800.woff" />
-    <None Include="www\styles\webfonts\sosa-regular.woff" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">
@@ -193,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\" />
+    <Folder Include="www\styles\webfonts\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="WPCordovaClassLib, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL" />

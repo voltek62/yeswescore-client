@@ -42,8 +42,8 @@ var GamesCollection = Backbone.Collection.extend({
     if (this.sortMode==='club')
       url = url  + "";    	
          	          
-    console.log('sortMode',this.sortMode);
-    console.log('URL',url);
+    //console.log('sortMode',this.sortMode);
+    //console.log('URL',url);
     //console.log('sortMode',this.sortMode);
         
     return url;

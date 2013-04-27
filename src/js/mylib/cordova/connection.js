@@ -44,6 +44,7 @@
       switch (this.getType()) {
         case this.types.ETHERNET:
         case this.types.WIFI:
+        case this.types.CELL_4G:
           return true;
         default:
           return false;

@@ -138,9 +138,7 @@
   },
   "connection":{
     "type":[
-      "wifi",
-      "3g",
-      "none"
+      "WIFI"
     ]
   },
   "contacts":{

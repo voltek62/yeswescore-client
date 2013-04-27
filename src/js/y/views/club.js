@@ -99,8 +99,6 @@ Y.Views.Club = Y.View.extend({
   // render the content into div of view
   renderClub : function() {
   
-  	console.log('club',this.club.toJSON());
-  
     this.$el.html(this.templates.club({
       club : this.club.toJSON(),follow:this.follow
     }));
@@ -128,7 +126,6 @@ Y.Views.Club = Y.View.extend({
 
   onClose : function() {
     this.undelegateEvents();
-    //this.club.off("sync", this.render, this);
-    // this.$el.off('pagebeforeshow');
+    this.club.off("sync", this.renderClub, this);
   }
 });

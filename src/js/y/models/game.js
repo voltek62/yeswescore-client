@@ -16,7 +16,7 @@ var GameModel = Backbone.Model.extend({
   defaults : {
     owner: "",
     sport : "tennis",
-    status : "ongoing",
+    status : "",
     dates : {
       end : "",
       start : ""
@@ -86,6 +86,7 @@ var GameModel = Backbone.Model.extend({
       id : null,
       players : [ team2_json ]
       } ], 
+      dates : {},      
       options : {},
       location : {}
      };
@@ -134,7 +135,18 @@ var GameModel = Backbone.Model.extend({
      if (this.get('city') !== undefined)  
        if (this.get('city') !== "") 
          object.location.city = this.get('city'); 
-     
+
+     if (this.get('start') !== undefined)  
+       if (this.get('start') !== "") 
+         object.dates.start = this.get('start');     
+         
+     if (this.get('end') !== undefined)  
+       if (this.get('end') !== "") 
+         object.dates.end = this.get('end');          
+
+     if (this.get('status') !== undefined)  
+       if (this.get('status') !== "") 
+         object.status = this.get('status');  
          
      //console.log("1.4");          
      //,pos : [ appConfig.longitude, appConfig.latitude ]
@@ -143,17 +155,28 @@ var GameModel = Backbone.Model.extend({
     if (method === 'create' && this.get('playerid') !== undefined) {
     
       console.log('create Game', JSON.stringify(object));
-
+	  var that = this;
+		
       return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") + '?playerid=' + (this.get('playerid') || '')
             + '&token=' + (this.get('token') || ''),
         type : 'POST',
         data : object,
-        success : function(result) {
-          console.log('data success create Game', result);
+        success : function(data) {
           // FIXME : on redirige sur //si offline id , si online sid
-          window.location.href = '#games/' + result.id;
+          //window.location.href = '#games/' + data.id;         
+          that.set(data);         
+          if (options && options.success) {
+              console.log('success create in backbone ajax model');
+              options.success(data);
+          }
+          
+        },
+        error: function (message) {
+            if (options && options.error)
+              console.log('error create in backbone ajax model');              
+              options.error(message);
         }
 
       });
@@ -163,18 +186,27 @@ var GameModel = Backbone.Model.extend({
         var gameid = this.get('id');
     
         console.log('update Game', JSON.stringify(object));    	
-
+		var that = this;
+		
         return Backbone.ajax({
           dataType : 'json',
           url : Y.Conf.get("api.url.games") + gameid + '/?playerid=' + (this.get('playerid') || '')
             + '&token=' + (this.get('token') || ''),
           type : 'POST',
           data : object,
-          success : function(result) {
-            console.log('data success update Game', result);
-        }
-
-      });
+          success: function (data) {
+            that.set(data);
+            if (options && options.success) {
+              console.log('success update in backbone ajax model');
+              options.success(data);
+            }
+          },
+          error: function (message) {
+            if (options && options.error)
+              console.log('error update in backbone ajax model');              
+              options.error(message);
+          }               
+       });
 
     } else {
       
@@ -184,6 +216,44 @@ var GameModel = Backbone.Model.extend({
     }      
     
     
-  }
+  },
 
+  getPlayersNamesByTeam: function (teamIndex) {
+    var team = _.isArray(this.get("teams")) ? this.get("teams")[teamIndex] : null;
+    if (!team)
+      return "";
+    return _.reduce(team.players, function (result, player) {
+      return result ? result + ", " + player.name : player.name;
+    }, "");
+  },
+
+  // @return 0,1, -1 if draw / null if error or non defined
+  getIndexWinningTeam: function () {
+    var score = this.get("options").score; 
+    if (typeof score !== "string")
+      return null;
+    var scoreDetails = score.split("/");
+    if (scoreDetails.length !== 2)
+      return null;
+    var scoreTeamA = parseInt(scoreDetails[0], 10);
+    var scoreTeamB = parseInt(scoreDetails[1], 10)
+    if (scoreTeamA == NaN || scoreTeamB == NaN)
+      return null;
+    if (scoreTeamA == scoreTeamB)
+      return -1; // draw
+    if (scoreTeamA < scoreTeamB)
+      return 1; // team B is winning
+    return 0; // team A is winning
+  },
+
+  // @return bool
+  isFinished: function () {
+    switch (this.get("status")) {
+      case "created":
+      case "ongoing":
+        return false;
+      default:
+        return true;
+    }
+  }
 });

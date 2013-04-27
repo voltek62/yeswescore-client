@@ -11,21 +11,7 @@
     Templates: null, // @see y/tempates.js
     Views: {},       // @see y/views/*
 
-    GUI: {
-      header: null,  // singleton view #header
-      content: null, // singleton current view (center)
-      navbar: null,  // singleton view #navbar
-      inputMode: function (status) {
-        //console.log('STATUS = ' + status);
-        if (window.isMobileBrowser()) { // only on mobile browser
-          _.forEach(document.querySelectorAll('*[data-input-mode="none"]'),
-                    function (node) { (status)?$(node).hide():$(node).show() });
-          (status) ? $("#content .content-container").css("padding-top", 0) :
-                      $("#content .content-container").removeAttr("style");
-        }
-        return true;
-      }
-    },
+    GUI: null,       // @see y/gui.js
 
     status: "uninitialized",  // uninitialized, loading, loaded
 
@@ -56,6 +42,9 @@
           // calling jquery
           //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
+          /*#ifdef DEV*/
+          console.log('Backbone.ajax: ' + url);
+          /*#endif*/
           var xhr = $.ajax(url, options);
           xhr.always($.proxy(function () { this.trigger("request.end"); }, this));
           this.trigger("request.start", xhr, url, options);
@@ -76,6 +65,7 @@
                    // init GUI singleton
                    that.GUI.header = new Y.Views.Header();
                    that.GUI.content = null; // will be overwrite by the router.
+                   that.GUI.autocomplete = new Y.Views.Autocomplete();
                    that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
                    console.log('backbone history start');
                    // start dispatching routes

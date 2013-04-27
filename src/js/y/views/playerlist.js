@@ -68,8 +68,7 @@ Y.Views.PlayerList = Y.View.extend({
      console.log('error ',e);
     }
     
-    //$(this.listview).listview('refresh');
-    // }
+
     return this;
   },
 
@@ -85,12 +84,13 @@ Y.Views.PlayerList = Y.View.extend({
       players : this.players.toJSON(),
       query : ' '
     }));
-    //$(this.listview).listview('refresh');
+
     return this;
   },
 
   onClose : function() {
     this.undelegateEvents();
-    //this.players.off("sync", this.render, this);
+
+    this.players.off('sync', this.renderList, this);
   }
 });

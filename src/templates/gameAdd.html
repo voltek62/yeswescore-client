@@ -7,12 +7,12 @@
 
 		  <div class="ui-grid-b first-team me">
 			  <div class="ui-block-a">
-				  <input type="text" id="team1" name="team1" placeholder="Moi" value="" disabled/>
+				  <input type="text" id="team1" name="team1" placeholder="Moi" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank1" name="rank1" placeholder="Classement" class='jq-ui-forms-white' value="" />
 			  </div>
-        <div class="ui-block-c">
+        <div class="ui-block-c" data-input-mode="hide">
 				  <span class="form-button other-team">Autre</span>
 			  </div>
 		  </div>
@@ -27,12 +27,12 @@
 
 		  <div class="ui-grid-b">
 			  <div class="ui-block-a">
-				  <input type="text" id="team2" name="team2" placeholder="Joueur 2" value="" />
+				  <input type="text" id="team2" name="team2" placeholder="Joueur 2" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank2" name="rank2" placeholder="Classement" value="" />
 			  </div>
-        <div class="ui-block-c">
+        <div class="ui-block-c" data-input-mode="hide">
           <span class="form-button more-options">Plus?</span>
         </div>
 		  </div>
@@ -138,24 +138,35 @@
 			    </div>
 		    </div>
 
-		    <div>	
-			    <div class="form-label">Surface</div>
-		    </div>
-		    <div>	
-			    <select name="surface" id="surface" style="width:60%">
-				    <option value="">Selection</option>
-				    <option value="BP">B&eacute;ton poreux (quick) - BP</option>
-				    <option value="EP">Enrob&eacute; poreux - EP</option>
-				    <option value="EPDM">Granulats caoutchouc - EPDM</option>
-				    <option value="GAS">Gazon synth&eacute;tique - GAS</option>
-				    <option value="GAZ">Gazon naturel - GAZ</option>
-				    <option value="MOQ">Moquette - MOQ</option>
-				    <option value="NVTB">Terre battue non g&eacute;live - NVTB</option>
-				    <option value="PAR">Parquet (bois) - PAR</option>
-				    <option value="RES">R&eacute;sine (greenset) - RES</option>
-				    <option value="TB">Terre-battue - TB</option>
-			    </select>
-		    </div>
+		    <div class="ui-grid-a">
+			    <div class="ui-block-a">
+                  <div class="form-label">Surface</div>
+			    </div>
+			    <div class="ui-block-b">
+                  <div class="form-label">Officiel</div>
+			    </div>
+			    <div class="ui-block-a" style="padding-right:5px;">
+    			    <select name="surface" id="surface" style="width:100%">
+    				    <option value="">Selection</option>
+    				    <option value="BP">B&eacute;ton poreux (quick) - BP</option>
+    				    <option value="EP">Enrob&eacute; poreux - EP</option>
+    				    <option value="EPDM">Granulats caoutchouc - EPDM</option>
+    				    <option value="GAS">Gazon synth&eacute;tique - GAS</option>
+    				    <option value="GAZ">Gazon naturel - GAZ</option>
+    				    <option value="MOQ">Moquette - MOQ</option>
+    				    <option value="NVTB">Terre battue non g&eacute;live - NVTB</option>
+    				    <option value="PAR">Parquet (bois) - PAR</option>
+    				    <option value="RES">R&eacute;sine (greenset) - RES</option>
+    				    <option value="TB">Terre-battue - TB</option>
+    			    </select>
+		        </div>
+                <div class="ui-block-b" style="padding-right:1px;">
+                  <select name="competition" id="competition" style="width:100%">
+                    <option value="yes">Oui</option>  
+                    <option value="no">Non</option>                       
+                   </select>             
+                </div>
+            </div>
 
 	      <input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
 	      <input type="hidden" id="token" value="<%= token %>" class="input" />
@@ -166,7 +177,7 @@
 <!--
   COMMENT SAVE
 -->
-<div class="button-form" data-input-mode="none">
+<div class="button-form" data-input-mode="hide">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
   <div class="link-form"><div class="button" id="addGame">ENREGISTRER</div></div>

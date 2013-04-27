@@ -14,7 +14,7 @@ Y.Views.ClubAdd = Y.View.extend({
 
     this.clubAddTemplate = Y.Templates.get('clubAdd');
 
-    this.Owner = Y.User.getPlayer();
+    this.owner = Y.User.getPlayer();
 
     this.render();
     //$.mobile.hidePageLoadingMsg();
@@ -37,8 +37,6 @@ Y.Views.ClubAdd = Y.View.extend({
     , city: city          
     });
 
-    console.log('club form envoie ',club.toJSON());
-  
     club.save();    
    
     return false;
@@ -46,7 +44,7 @@ Y.Views.ClubAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.clubAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
+    this.$el.html(this.clubAddTemplate({ playerid: this.owner.id, token: this.owner.token }));
     //this.$el.trigger('pagecreate');
     return this;
   },

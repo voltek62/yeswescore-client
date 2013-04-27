@@ -20,29 +20,48 @@
           <img src="./images/eye.png" width="20" height="12" style="margin-top:4px;">
         </div>
         <div class="ui-block-e">
-          <img src="./images/people.png" width="24" height="15" style="margin-top:4px;">
+        <% if (game.owner === owner.id) { %>
+          <img src="./images/undo.png" width="20" height="20">
+        <% }
+           else { 
+         %>
+          <img src="./images/people.png" width="24" height="18">
+        <% } %>                  
         </div>
       </div>
       <!-- infos -->
       <div class="ui-grid-d text" >
         <div class="ui-block-a">
-          <span class="timer">0:45:32</span>
-          <% 
-          //si date de fin - terminé
-          //si en cours on affiche la différence de temps
-          %>
+          <span class="timer"><%= timer %></span>
         </div>
         <div class="ui-block-b">
         <%
-        if (game.dates) {
-          game.dates.startConvert = new Date(game.dates.start);
-          game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+game.dates.startConvert.getFullYear();
-          game.dates.startTime = game.dates.startConvert.getHours()+'h'+game.dates.startConvert.getMinutes();
-        } else {
+        if (game.dates) {        
+            if (game.dates.start !== undefined ) {            
+              if (game.dates.start==="") {
+                 game.dates = {
+                   startDate : '',
+                   startTime : ''
+                 };              
+              }
+              else { 
+                game.dates.startConvert = new Date(game.dates.start);
+                game.dates.startDate = ('0'+game.dates.startConvert.getDay()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
+                game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);
+              }
+           } 
+           else {                      
+             game.dates = {
+               startDate : '',
+               startTime : ''
+             };           
+          }
+        }
+        else {        
            game.dates = {
              startDate : '',
              startTime : ''
-           };
+           };           
         }
         %>
         <b>
@@ -56,8 +75,13 @@
         <div class="ui-block-d">
         <b>Public</b>
         </div>
-        <div class="ui-block-e ">
-        <b>.</b>
+        <div class="ui-block-e">
+        <% if (game.owner === owner.id) { %>
+        <span class="undoAction">Annuler</span>
+        <% } 
+        else { %>
+        Mode Spectateur
+        <% } %>
         </div>
       </div>
     </div>
@@ -73,16 +97,30 @@
       SOCIAL BAR
     -->
     <div class="socialbar">
-      <% if (game.owner === Owner.id) { %>
+      <% if (game.owner === owner.id) { %>
 	      <div class="ui-grid-b">
 		      <div class="ui-block-a button">
-            <a id="optionButton">Options match</a> 
+            <a id="optionButton" data-i18n="game.options">Options match</a> 
 		      </div>
           <div id="facebook" class="ui-block-b share">
             <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
           </div>
 		      <div class="ui-block-c button">
-			      <a id="endButton">Terminer match</a>
+                <% if (game.status === "created" ) { %>
+		        <a id="statusButton">Commencer match</a>
+                <% }
+                else if (game.status === "finished" || game.status === "canceled") 
+                {
+                %>
+                <a id ="statusButton">Match Fini</a>
+                <%                  
+                }
+                else {
+                %>
+                <a id="statusButton" data-i18n="game.finish"></a>
+                <%
+                }
+                %>
 		      </div>
         </div>
       <% } else { %> 
@@ -93,10 +131,35 @@
             </a>
           </div>
           <div id="facebook" class="ui-block-b">
-            <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
+            <div class="facebook">
+              <span class="message ok">ok</span>
+              <span class="message ko">error</span>
+              <img src="./images/facebook.png" width="11" height="22" />
+            </div>
           </div>          
-          <div class="ui-block-c button">
-            <a id="endButton">Terminer match</a>
+          <div class="ui-block-c buttonSpecial">
+            <%
+            if (game.status === "finished") {
+            %>
+            <span>Match Fini</span>
+            <%                  
+            }
+            else if (game.status === "created") {
+            %>
+            <span>Match Pr&eacute;vu</span>
+            <%                  
+            }            
+            else if (game.status === "canceled") {
+            %>
+            <span>Match Annul&eacute;</span>
+            <%                  
+            } 
+            else  {
+            %>
+            <span>Match en cours</span>
+            <%
+            }
+            %>
           </div>
        </div>
       <% } %>

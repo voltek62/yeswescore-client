@@ -30,7 +30,7 @@
       'players/follow': 'playerFollow',                                    
       'players/:id': 'player',
       'clubs/add': 'clubAdd',
-      'clubs/follow': 'clubAdd',      
+      'clubs/follow': 'clubFollow',      
       'clubs/:id': 'club',
       'account': 'account'
     },
@@ -63,6 +63,10 @@
       this.changePage(this.createViewFactory(Y.Views.ClubAdd));
     },
 
+    clubFollow: function () {
+      this.changePage(this.createViewFactory(Y.Views.ClubFollow));
+    },
+
     index: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Index, { sort: id }));
     },
@@ -72,18 +76,15 @@
     },
 
     games: function (sort) {
-      console.log('on demande la vue games');
       if (typeof sort === "undefined") sort='';
       this.changePage(this.createViewFactory(Y.Views.Games, { mode: '', id: '', sort: sort }));
     },
     
     gameMe: function (id) {
-      console.log('on demande la vue my games');
       this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'me', id: id, sort: '' }));
     },
 
     gameClub: function (id) {
-     console.log('on demande la vue games club');
       this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'club', id: id, sort: '' }));
     },    
 
@@ -104,7 +105,6 @@
     },
     
     gameForm: function (id) {
-      console.log('gameForm');
       this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
     },    
 
@@ -252,5 +252,10 @@
     }
   });
 
-  Y.Router = new Router();
+  $.i18n.init({
+    lng: "fr-FR"
+  }, function() {  
+   Y.Router = new Router();
+  }); 
+  
 })(Y);

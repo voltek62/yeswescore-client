@@ -41,9 +41,9 @@ Y.Views.GameSearch = Y.View.extend({
 
     this.render();
         
-    this.games.on("all", this.renderList, this);
+    this.games.on("sync", this.renderList, this);
         
-    //$.mobile.showPageLoadingMsg();
+
   },
 
 
@@ -82,6 +82,6 @@ Y.Views.GameSearch = Y.View.extend({
   
   onClose: function(){
     this.undelegateEvents();
-    this.games.off("all",this.renderList,this);
+    this.games.off("sync", this.renderList, this);
   }
 });

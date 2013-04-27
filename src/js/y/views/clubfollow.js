@@ -19,7 +19,7 @@ Y.Views.ClubFollow = Y.View.extend({
     // loading templates.
     this.templates = {
       clublist:  Y.Templates.get('clubList'),
-      clubs: Y.Templates.get('clubs')
+      clubsearch: Y.Templates.get('clubSearch')
     };
     
 
@@ -82,7 +82,7 @@ Y.Views.ClubFollow = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.templates.clubs({}));
+    this.$el.html(this.templates.clubsearch({}));
 
     return this;
   },

@@ -21,7 +21,7 @@ Y.Views.PlayerList = Y.View.extend({
     // loading templates.
     this.templates = {
       playerlist:  Y.Templates.get('playerList'),
-      players: Y.Templates.get('players')
+      players: Y.Templates.get('playerSearch')
     };
         
     //this.playerListViewTemplate = Y.Templates.get('playerList');

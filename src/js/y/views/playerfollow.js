@@ -19,7 +19,7 @@ Y.Views.PlayerFollow = Y.View.extend({
     // loading templates.
     this.templates = {
       playerlist:  Y.Templates.get('playerList'),
-      players: Y.Templates.get('players')
+      playersearch: Y.Templates.get('playerSearch')
     };
     
 
@@ -43,7 +43,6 @@ Y.Views.PlayerFollow = Y.View.extend({
 	      i--;
 	      
 	      if (i<=0) {
-	        //console.log('renderList',that.collection.toJSON());    
 	        $(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' '}));  	
 	      }
 	          			
@@ -83,7 +82,7 @@ Y.Views.PlayerFollow = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.templates.players({}));
+    this.$el.html(this.templates.playersearch({}));
 
     return this;
   },

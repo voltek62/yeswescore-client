@@ -10,7 +10,7 @@ Y.Views.Account = Y.View.extend({
   
   initialize: function () {
     // $.ui.setTitle("PROFIL");	
-    Y.GUI.header.title("PROFIL");
+    Y.GUI.header.title(i18n.t('account.title'));
 
     this.accountViewTemplate = Y.Templates.get('account');
     this.clubid = Y.User.getClub();
@@ -34,7 +34,7 @@ Y.Views.Account = Y.View.extend({
       clubid: this.clubid
     }));
 
-
+	$('a').i18n();
     
   },
   

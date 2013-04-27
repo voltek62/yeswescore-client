@@ -1,16 +1,16 @@
 <div class="content-container">
   <div class="account">
-    <a href="#games/me/<%= owner.id %>">Mes Matchs</a>
-    <a href="#clubs/follow" class="button" id="">Clubs Suivis</a>    
-    <a href="#games/follow" class="button" id="">Matchs Suivis</a>
-    <a href="#players/follow" class="button" id="">Joueurs Suivis</a>
+    <a href="#games/me/<%= owner.id %>" data-i18n="account.mymatch"></a>
+    <a href="#clubs/follow" class="button" data-i18n="account.clubsfollowed"></a>    
+    <a href="#games/follow" class="button" data-i18n="account.gamesfollowed"></a>
+    <a href="#players/follow" class="button" data-i18n="account.playersfollowed"></a>
     <%
      if( clubid === undefined ) 
-       print ('<a href="#account" disabled>Mon Club</a>'); 
+       print ('<a href="#account" data-i18n="account.myclub" disabled></a>'); 
      else
-       print ('<a href="#clubs/'+clubid+'">Mon Club</a>'); 
+       print ('<a href="#clubs/'+clubid+'" data-i18n="account.myclub"></a>'); 
     %>
-    <a href="#players/form">Mon profil</a>
-    <a href="#players/signin">Connectez-vous</a>
+    <a href="#players/form" data-i18n="account.myprofil"></a>
+    <a href="#players/signin" data-i18n="account.connect"></a>
   </div>
 </div>

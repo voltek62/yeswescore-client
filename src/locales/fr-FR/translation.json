@@ -1,17 +1,69 @@
 {
+  "account": {
+    "title": "PROFIL",
+    "mymatch": "Mes Matchs",
+    "clubsfollowed": "Clubs Suivis",
+    "gamesfollowed": "Matchs Suivis",    
+    "playersfollowed": "Joueurs Suivis",
+    "myclub": "Mon Club",
+    "myprofil": "Mon profil",
+    "connect": "Connectez-vous"    
+  },
   "app": {
     "name": "Yes We Score"
   },
-  "nav": {
-    "matchs": "iMatchs",
-    "create": "iCreer",
-    "account": "iMon Compte"
-	},
+  "club": {
+    "title": ""
+  },
+  "clubadd": {
+    "title": ""
+  },
+  "clublist": {
+    "title": ""
+  },    
+  "game": {
+    "title": "MATCH",  
+    "finish": "Terminer match"
+  },   
   "gameadd": {
     "title": ""
-  },	
-  "game": {
-    "title": "iMATCH",  
-    "finish": "iTerminer match"
+  },
+  "gameclub": {
+    "title": ""
+  },  
+  "gamecomment": {
+    "title": ""
+  },  
+  "gameend": {
+    "title": ""
+  },  	 
+  "gameform": {
+    "title": ""
+  },
+  "gamelist": {
+    "title": ""
+  },      
+  "message": {
+    "title": ""
+  }, 
+  "playerforget": {
+    "title": ""
+  }, 
+  "playerfollow": {
+    "title": ""
+  },     
+  "playerform": {
+    "title": ""
+  },     
+  "playerlist": {
+    "title": ""
+  },    
+  "playersignin": {
+    "title": ""
+  },   
+  "nav": {
+    "matchs": "Matchs",
+    "create": "Creer",
+    "account": "Mon Compte"
   }
 }

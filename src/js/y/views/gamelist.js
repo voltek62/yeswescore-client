@@ -1,4 +1,4 @@
-Y.Views.Games = Y.View.extend({
+Y.Views.GameList = Y.View.extend({
   el: "#content",
 
   events: {
@@ -18,8 +18,8 @@ Y.Views.Games = Y.View.extend({
 
   listview: "#listGamesView",
 
-  pageName: "games",
-  pageHash : "games", 
+  pageName: "gameList",
+  pageHash : "gameList", 
   
   initialize: function (param) {
   	
@@ -39,8 +39,12 @@ Y.Views.Games = Y.View.extend({
     var that = this;
     //  
     
-    this.indexViewTemplate = Y.Templates.get('games'); 
-    this.gameListViewTemplate = Y.Templates.get('gameList');
+    
+    this.templates = {
+      gamelist:  Y.Templates.get('gameList'),
+      gamesearch: Y.Templates.get('gameSearch')
+    };
+    
 
     //we capture config from bootstrap
     //FIXME: put a timer
@@ -153,20 +157,20 @@ Y.Views.Games = Y.View.extend({
     this.games.setMode('player');
     this.games.setQuery(q);
     this.games.fetch().done($.proxy(function () {
-      $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: q }));
+      $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
     }, this));
     return this;
   },
 
   // should not take any parameters
   render: function () {
-    this.$el.html(this.indexViewTemplate(), {});
+    this.$el.html(this.templates.gamesearch(), {});
     return this;
   },
 
   // should not take any parameters
   renderList: function () {
-    $(this.listview).html(this.gameListViewTemplate({ games: this.games.toJSON(), query: ' ' }));
+    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: ' ' }));
     return this;
   },
 

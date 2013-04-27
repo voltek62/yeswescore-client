@@ -57,7 +57,7 @@ Y.Views.GameSearch = Y.View.extend({
     this.games.setMode('player',q);
     this.games.fetch();          
     $(this.listview).html(this.gameListViewTemplate({games:this.games.toJSON(),query:q}));
-    //$(this.listview).listview('refresh');
+
     //}
     return this;
   },
@@ -65,9 +65,7 @@ Y.Views.GameSearch = Y.View.extend({
   //render the content into div of view
   render: function(){
     this.$el.html(this.gameListTemplate({mode:this.mode}));
-    //Trigger jquerymobile rendering
-    //this.$el.trigger('pagecreate');
-    //return to enable chained calls
+
     return this;
   },
 

@@ -25,15 +25,12 @@ Y.Views.PlayerForget = Y.View.extend({
 
   forget : function(event) {
   
-    //$.ui.toggleNavMenu(true);
-  
     var email = $('#email').val();
 
-    console.log('test mot de passe oublie avec ' + email);
+    //console.log('test mot de passe oublie avec ' + email);
     
     this.player = new PlayerModel();
     this.player.newpass(email);
-    
     
     
     return false;
@@ -42,7 +39,7 @@ Y.Views.PlayerForget = Y.View.extend({
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerForgetTemplate({}));
-    //this.$el.trigger('pagecreate');
+
     return this;
   },
 

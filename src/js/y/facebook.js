@@ -92,6 +92,8 @@
         this.browser = null;
         this.nbPagesBrowsed = 0;
         this.browser = new Cordova.InAppBrowser();
+        
+        
         this.browser.open({
           url: facebookOauthUrl, // Oauth facebook
           loadstart: function onloadstart(data) {
@@ -147,6 +149,9 @@
       var player = Y.User.getPlayer();
       var playerId = player.get('id');
       var playerToken = player.get('token');
+      
+      console.log("fb playerid:"+playerId+" playertoken:"+playerToken+" token:"+token);
+      
       //
       Backbone.ajax({
         dataType : 'json',

@@ -96,6 +96,14 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/web/build/images/', filter: 'isFile' }
         ]
       },
+      locales: {
+        files: [
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/android/assets/www/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/ios/www/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/wp8/build/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/web/build/locales/fr-FR/', filter: 'isFile' }
+        ]
+      },	  
       fonts: {
         files: [
           { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/android/assets/www/styles/webfonts/', filter: 'isFile' },

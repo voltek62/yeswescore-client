@@ -21,7 +21,7 @@ Y.Views.GameAdd = Y.View.extend({
     this.useSearch = 0;	
   
   	//header
-    Y.GUI.header.title("CREER UNE PARTIE");
+    Y.GUI.header.title(i18n.t('gameadd.title'));
   
   
   	this.templates = {
@@ -71,12 +71,12 @@ Y.Views.GameAdd = Y.View.extend({
       , game = null;
 
     if (team1 === '' && team1_id === '') {
-      $('span.team1_error').html('Vous devez indiquer un joueur !').show();
+      $('span.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       return false;
     }
 
     if (team2 === '' && team2_id === '') {
-      $('span.team2_error').html('Vous devez indiquer un joueur !').show();
+      $('span.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       return false;
     }
 
@@ -157,7 +157,18 @@ Y.Views.GameAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.templates.gameadd({ playerid: this.owner.id, token: this.owner.token }));
+    this.$el.html(this.templates.gameadd({ 
+    	playerid: this.owner.id
+	    , token: this.owner.token
+	    , placeholderme : i18n.t('gameadd.me')
+	    , placeholderrank : i18n.t('gameadd.rank') 
+	    , placeholderplayer2 : i18n.t('gameadd.player2')
+	    , selection : i18n.t('gameadd.selection')
+	    , surface : i18n.t('gameadd.surface')
+     }));
+    
+    //this.$el.i18n();
+	$('#content').i18n();
 
     return this;
   },

@@ -12,7 +12,7 @@ Y.Views.GameComments = Y.View.extend({
     this.streamItemsCollection = null;
 
     // header
-    Y.GUI.header.title("COMMENTAIRES");
+    Y.GUI.header.title(i18n.t('gamecomment.title'));
   
     // loading templates.
     this.templates = {
@@ -67,7 +67,8 @@ Y.Views.GameComments = Y.View.extend({
 
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.layout());
+	  this.$el.html(this.templates.layout({placeholder:i18n.t('gamecomment.placeholder')}));
+      $('.send').i18n();	  
 	  return this;
   },
   
@@ -83,13 +84,13 @@ Y.Views.GameComments = Y.View.extend({
     var nbComments = this.streamItemsCollection.length;
     // FIXME: l18n
     if (nbComments === 0)
-      this.$(".list-comment-title").html("Aucun commentaire");
+      this.$(".list-comment-title").html(i18n.t('game.0comment'));
     else if (nbComments === 1)
-      this.$(".list-comment-title").html("1 COMMENTAIRE");
+      this.$(".list-comment-title").html(i18n.t('game.1comment'));
     else if (nbComments <= 10)
-      this.$(".list-comment-title").html(nbComments + " COMMENTAIRES");
+      this.$(".list-comment-title").html(nbComments + " "+i18n.t('game.comments'));
     else
-      this.$(".list-comment-title").html("10 DERNIERS COMMENTAIRES");
+      this.$(".list-comment-title").html(i18n.t('game.10lastcomments'));
     // adding comment into the DOM.
     this.streamItemsCollection.forEach(function (streamItem) {
       if (!document.getElementById("comment"+streamItem.get('id'))) {
@@ -104,6 +105,10 @@ Y.Views.GameComments = Y.View.extend({
         $(divHiddenContainer).fadeIn();
       }
     }, this);
+    
+    $('a').i18n();
+    $('span').i18n();
+        
     return this;
   }, 
 

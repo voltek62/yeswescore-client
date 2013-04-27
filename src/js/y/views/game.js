@@ -149,11 +149,11 @@ Y.Views.Game = Y.View.extend({
     // versus text
     var versus;
     if (status == "created") {
-      versus = "va bientôt jouer contre";
+      versus = i18n.t('game.fbversus1');
     } else if (status == "ongoing") {
-      versus = "joue contre";
+      versus = i18n.t('game.fbversus2');
     } else if (status == "finished") {
-      versus = "a joué contre";
+      versus = i18n.t('game.fbversus3');
     } else {
       versus = "VS"; // neutral
     }
@@ -165,15 +165,15 @@ Y.Views.Game = Y.View.extend({
     switch (winningTeamIndex) {
       case -1:
         winningPlayers = "";
-        scoreInfos = "Egalité !";
+        scoreInfos = i18n.t('game.fbegality')+" !";
         break;
       case 1:
         winningPlayers = this.game.getPlayersNamesByTeam(1);
-        scoreInfos = (status == "finished") ? "a gagné":"mène le jeu.";
+        scoreInfos = (status == "finished") ? i18n.t('game.fbstatus1'):i18n.t('game.fbstatus2');
         break;
       case 0:
         winningPlayers = this.game.getPlayersNamesByTeam(0);
-        scoreInfos = (status == "finished") ? "a gagné":"mène le jeu.";
+        scoreInfos = (status == "finished") ? i18n.t('game.fbstatus1'):i18n.t('game.fbstatus2');
         break;
       case null:
       default:
@@ -187,12 +187,12 @@ Y.Views.Game = Y.View.extend({
     messages['[score]'] = this.game.get('options').score;
     messages['[sets]'] = this.game.get('options').sets;
 
-    // hÃ¢te toi de consulter 
-    messages['[time]'] = ""; // FIXME: temps Ã©coulÃ©.
+    // hate toi de consulter 
+    messages['[time]'] = ""; // FIXME: temps �coul�
 
     // FIXME: message promo en conf
     // FIXME: url facebook doit pointer vers la game
-    messages['[PROMO]'] = "\n"+'Retrouvez ces scores, ceux de votre club et de vos amis sur Android, iOS et WindowsPhone ou sur la page facebook YesWeScore';
+    messages['[PROMO]'] = "\n"+i18n.t('game.fbpromo');
 
     var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
     var message = _.reduce(_.keys(messages), function (result, token) {
@@ -214,7 +214,6 @@ Y.Views.Game = Y.View.extend({
  
   updateOnEnter : function(e) {
     if (e.keyCode == 13) {
-      console.log('touche entrÃ©e envoie le commentaire');
       this.commentSend();
     }
   },
@@ -506,8 +505,7 @@ Y.Views.Game = Y.View.extend({
 
   // renderRefresh : refresh only scoreboard
   renderRefresh : function() {
-    console.log('renderRefresh avec '+this.game.get('options.sets'));
-        
+     
     $(this.displayViewScoreBoard).html(this.templates.game({
       game : this.game.toJSON(),
       owner : this.owner.toJSON(),
@@ -523,13 +521,13 @@ Y.Views.Game = Y.View.extend({
     //console.log('nbComments',nbComments);
       
     if (nbComments > 10)
-      this.$(".link-comments").html("10 DERNIERS COMMENTAIRES");
+      this.$(".link-comments").html(i18n.t('game.10lastcomments'));
     else if (nbComments == 1)
-      this.$(".link-comments").html("1 COMMENTAIRE");
+      this.$(".link-comments").html(i18n.t('game.1comment'));
     else if (nbComments > 0)
-      this.$(".link-comments").html(nbComments + " COMMENTAIRES");
+      this.$(".link-comments").html(nbComments + " "+i18n.t('game.comments'));
     else
-      this.$(".link-comments").html("0 COMMENTAIRE");
+      this.$(".link-comments").html(i18n.t('game.0comment'));
   },
 
   refreshTimer : function() {
@@ -612,6 +610,7 @@ Y.Views.Game = Y.View.extend({
       follow : this.follow
     }));
 
+
     /* css transition: performance issues: disabled
     var $buttonCommentaires = this.$(".button-commentaires");
     setTimeout(function () {
@@ -628,7 +627,10 @@ Y.Views.Game = Y.View.extend({
 
     //i18n
     //PERF:on remplace que les champs du DOM concerné
-    $('#statusButton').i18n();
+    //$('#statusButton').i18n();
+    $('a').i18n();
+    $('span').i18n();    
+    //this.$el.i18n();
 
     return this;
   },

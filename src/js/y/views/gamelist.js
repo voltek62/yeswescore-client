@@ -26,14 +26,14 @@ Y.Views.GameList = Y.View.extend({
 	//header 
     if (param!=='undefined') { 
       if (param.mode==="me")
-        Y.GUI.header.title("LISTE DE VOS MATCHS");
+        Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
       else if (param.mode==="club")
-        Y.GUI.header.title("LISTE DES MATCHS DU CLUB");   
+        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames'));   
       else
-        Y.GUI.header.title("LISTE DES MATCHS");     
+        Y.GUI.header.title(i18n.t('gamelist.titlegames'));     
     }
 	else
-	  Y.GUI.header.title("LISTE DES MATCHS");
+	  Y.GUI.header.title(i18n.t('gamelist.titlegames'));
 	  
 	
     var that = this;
@@ -42,7 +42,8 @@ Y.Views.GameList = Y.View.extend({
     
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
-      gamesearch: Y.Templates.get('gameSearch')
+      gamesearch: Y.Templates.get('gameSearch'),
+      error: Y.Templates.get('error')      
     };
     
 
@@ -82,11 +83,11 @@ Y.Views.GameList = Y.View.extend({
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
-        console.log('error reading player ', err);
+        //console.log('error reading player ', err);
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           // FIXME: err, reject deferred
-          console.log('player created', player);
+          //console.log('player created', player);
           playerDeferred.resolve();
         });
         return;
@@ -151,20 +152,25 @@ Y.Views.GameList = Y.View.extend({
   },
 
   search: function () {
-    //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
-    $(this.listview).html('<p class="message">Aucun resultat</p>'); // FIXME: no html in code.
+    $(this.listview).html(this.templates.error()); 
     this.games.setMode('player');
     this.games.setQuery(q);
     this.games.fetch().done($.proxy(function () {
       $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
     }, this));
+    
+    
+    
     return this;
   },
 
   // should not take any parameters
   render: function () {
-    this.$el.html(this.templates.gamesearch(), {});
+    this.$el.html(this.templates.gamesearch({ placeholder: i18n.t('search.gameplaceholder') }));
+    
+    $('a').i18n();
+    
     return this;
   },
 
@@ -176,7 +182,6 @@ Y.Views.GameList = Y.View.extend({
 
   onClose: function () {
     this.undelegateEvents();
-    //this.games.off("all", this.renderList, this);
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
   }
 });

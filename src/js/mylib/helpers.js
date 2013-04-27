@@ -20,9 +20,18 @@ String.prototype.padLeft = function (size, padString) {
     return n;
 };
 
+String.prototype.padRight = function(size, padString) {
+  var t = String(this), l = padString.length;
+  while (t.length + l <= size)
+    t += padString;
+  if (t.length < size)
+    t += padString.substring(0, size - t);
+  return t;
+};
+
 String.prototype.toRegExp = function () {
     return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
+};
 
 Date.prototype.getMonthName = function(lang) {
     lang = lang && (lang in Date.locale) ? lang : 'fr';
@@ -65,4 +74,32 @@ window.isMobileBrowser = (function () {
 var assert = function () { };
 /*#ifdef DEV*/
 assert = function (t) { if (!t) throw "assert false " };
+/*#endif*/
+
+/*#ifdef DEV*/
+if (false) {
+/*endif*/
+  // we do not want any console.log in production environment.
+  setTimeout(function () {
+    var f = console.log;
+    console.log = function () {
+      return;
+    };
+    console.log.f = f;
+  }, 5000);
+/*#ifdef DEV*/
+} else {
+  (function () {
+    var start = Date.now();
+    var f = console.log;
+    console.log = function () {
+      var a = Array.prototype.slice.apply(arguments);
+      var now = Date.now() - start;
+      now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');
+      a.unshift(now);
+      f.apply(console, a);
+    };
+    console.log.f = f;
+  })();
+}
 /*#endif*/

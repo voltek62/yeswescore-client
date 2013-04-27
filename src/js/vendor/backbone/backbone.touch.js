@@ -46,9 +46,11 @@
 
             // begin hack
             var that = this;
-            var boundHandler = function (e) {
-              that._touchHandler(e, {method:method});
-            };
+            var boundHandler = (function (method) {
+              return function (e) {
+                that._touchHandler(e, {method:method});
+              };
+            })(method);
             if (this.isTouch && eventName === 'click') {
               if (window.navigator.msPointerEnabled) {
                   this.$el.on('MSPointerDown', selector, boundHandler);

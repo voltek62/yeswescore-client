@@ -93,6 +93,10 @@ input[type="text"][disabled] {
 	background-color: #e4e4e4;
 }
 
+input:-ms-input-placeholder {
+  color: #bdbdbd;
+}
+
 .button {
   -ms-user-select: none;
   -webkit-user-select: none;

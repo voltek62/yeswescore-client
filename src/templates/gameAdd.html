@@ -7,7 +7,7 @@
 
 		  <div class="ui-grid-b first-team me">
 			  <div class="ui-block-a">
-				  <input type="text" id="team1" name="team1" placeholder="Moi" value="" disabled/>
+				  <input type="text" id="team1" name="team1" placeholder="Moi" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank1" name="rank1" placeholder="Classement" class='jq-ui-forms-white' value="" />
@@ -27,7 +27,7 @@
 
 		  <div class="ui-grid-b">
 			  <div class="ui-block-a">
-				  <input type="text" id="team2" name="team2" placeholder="Joueur 2" value="" />
+				  <input type="text" id="team2" name="team2" placeholder="Joueur 2" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank2" name="rank2" placeholder="Classement" value="" />

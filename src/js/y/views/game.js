@@ -261,13 +261,16 @@ Y.Views.Game = Y.View.extend({
 	
 		      this.game.save({}, {
             success: function(model, response) {
-			        that.lastScore.push(model.toJSON().options.sets);	    
-			        that.currentScore = model.toJSON().options.sets;        
-			        //console.log(that.lastScore);
+			        //that.lastScore.push(model.toJSON().options.sets);	    
+			        //that.currentScore = model.toJSON().options.sets;  
+			        that.lastScore.push(model.get('options.sets'));	    
+			        that.currentScore = model.get('options.sets');  			              
+			        console.log(that.lastScore);
 	  				
 		    	    $(that.displayViewScoreBoard).html(that.templates.scoreboard({
 		            game : model.toJSON(),
-		            owner : that.owner.toJSON()
+		            //owner : that.owner.toJSON()
+		            owner : model.get('owner')
 		          }));
             }
           });   
@@ -288,7 +291,7 @@ Y.Views.Game = Y.View.extend({
       set = '1';
           
     if ( this.statusScore === "ongoing"  ) {
-	    if (this.game.toJSON().owner === this.owner.id ) {  
+	    if (this.game.get('owner') === this.owner.id ) {  
 		    input.val(set);
 		        
 		    //FIXME : NO HTML IN CODE
@@ -503,7 +506,7 @@ Y.Views.Game = Y.View.extend({
 
   // renderRefresh : refresh only scoreboard
   renderRefresh : function() {
-    console.log('renderRefresh avec '+this.game.toJSON().options.sets);
+    console.log('renderRefresh avec '+this.game.get('options.sets'));
         
     $(this.displayViewScoreBoard).html(this.templates.game({
       game : this.game.toJSON(),

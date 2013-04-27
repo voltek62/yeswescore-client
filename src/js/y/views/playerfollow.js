@@ -43,7 +43,7 @@ Y.Views.PlayerFollow = Y.View.extend({
 	      i--;
 	      
 	      if (i<=0) {
-	        console.log('renderList',that.collection.toJSON());    
+	        //console.log('renderList',that.collection.toJSON());    
 	        $(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' '}));  	
 	      }
 	          			

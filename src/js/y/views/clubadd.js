@@ -37,8 +37,6 @@ Y.Views.ClubAdd = Y.View.extend({
     , city: city          
     });
 
-    console.log('club form envoie ',club.toJSON());
-  
     club.save();    
    
     return false;

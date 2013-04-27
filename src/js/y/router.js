@@ -9,9 +9,9 @@
     currentView: null,
 
     routes: {
-      '': 'games',
-      'index': 'games',
-      'sort/:id': 'games',
+      '': 'gameList',
+      'index': 'gameList',
+      'sort/:id': 'gameList',
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/form/:id': 'gameForm',      
@@ -19,9 +19,9 @@
       'games/end/:id': 'gameEnd',
       'games/:id/comments/': 'gameComment',
       'games/club/:id': 'gameClub',
-      'games/list': 'games',   
+      'games/list': 'gameList',   
       'games/:id': 'game', 
-      'games/': 'games',        
+      'games/': 'gameList',        
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
       'players/form': 'playerForm',
@@ -75,17 +75,17 @@
       this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
     },
 
-    games: function (sort) {
+    gameList: function (sort) {
       if (typeof sort === "undefined") sort='';
-      this.changePage(this.createViewFactory(Y.Views.Games, { mode: '', id: '', sort: sort }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: '', id: '', sort: sort }));
     },
     
     gameMe: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'me', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'me', id: id, sort: '' }));
     },
 
     gameClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'club', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'club', id: id, sort: '' }));
     },    
 
     gameAdd: function () {

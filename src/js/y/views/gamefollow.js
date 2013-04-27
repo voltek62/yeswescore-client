@@ -17,7 +17,7 @@ Y.Views.GameFollow = Y.View.extend({
   
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
-      games: Y.Templates.get('games')
+      gamesearch: Y.Templates.get('gameSearch')
     };
       
     //this.indexViewTemplate = Y.Templates.get('games');
@@ -77,7 +77,7 @@ Y.Views.GameFollow = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.templates.games(), {});
+    this.$el.html(this.templates.gamesearch(), {});
 
   },
 

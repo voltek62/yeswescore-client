@@ -13,18 +13,17 @@ Y.Views.GameEnd = Y.View.extend({
     Y.GUI.header.title("TERMINER LA PARTIE");	    
   
     this.gameEndTemplate = Y.Templates.get('gameEnd');
-    //owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-    //this.players = new PlayersCollection("me");
+
     this.owner = Y.User.getPlayer().toJSON();
     this.render();
-    //$.mobile.hidePageLoadingMsg(); 
+
   },
   
   endGame: function (event) {
     var privateNote = $('#privateNote').val(),
     fbNote = $('#fbNote').val();
         
-    //Backbone.Router.navigate("/#games/"+game.id, true);
+    //Y.Router.navigate("/#games/"+game.id, true);
     alert(privateNote+' '+fbNote);
     return false;
   },
@@ -32,7 +31,6 @@ Y.Views.GameEnd = Y.View.extend({
   //render the content into div of view
   render: function(){
 	  this.$el.html(this.gameEndTemplate({playerid:this.owner.id, token:this.owner.token}));
-	  //this.$el.trigger('pagecreate');
 	  return this;
   },
 

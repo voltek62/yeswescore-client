@@ -70,7 +70,7 @@ Y.Views.Header = Y.View.extend({
   repaintBack: function () {
     var pageName = Y.GUI.content.pageName;
     
-    if (pageName == "games" || pageName == "account" || pageName == "gameAdd")
+    if (pageName == "gameList" || pageName == "account" || pageName == "gameAdd")
       this.hideBack();
     else
       this.showBack();

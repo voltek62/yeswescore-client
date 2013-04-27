@@ -20,7 +20,7 @@ Y.Views.PlayerSignin = Y.View.extend({
   
     this.playerSigninTemplate = Y.Templates.get('playerSignin');
     this.render();
-    //$.mobile.hidePageLoadingMsg();
+
   },
   
 
@@ -44,7 +44,7 @@ Y.Views.PlayerSignin = Y.View.extend({
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerSigninTemplate({}));
-    //this.$el.trigger('pagecreate');
+
     return this;
   },
 

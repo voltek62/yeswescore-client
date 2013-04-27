@@ -105,6 +105,10 @@ input[type="text"][disabled] {
 	-ms-tap-highlight-color: rgba(255, 255, 255, 0) !important;
 }
 
+*[data-input-mode="show"] {
+  display: none;
+}
+
 /**********************************************************
 	WP8 specifics.
 **********************************************************/

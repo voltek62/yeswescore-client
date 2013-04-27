@@ -209,6 +209,38 @@ p {
 	right: 13px;
 }
 
+
+/**********************************************************
+	AUTOCOMPLETE
+**********************************************************/
+#autocomplete {
+  position: fixed;
+  z-index: 12;
+  width: 100%;
+  bottom: 0px;
+  text-align: center;
+}
+
+#autocomplete div {
+  float: left;
+  border:  1px solid #d0ebf6;
+  background-color: #46b1db;
+  
+  padding: 5px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+  
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  
+  font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color: white;
+  
+  cursor: pointer;
+}
+
 /**********************************************************
 	NAV BAR
 **********************************************************/

@@ -4,9 +4,10 @@
   /*#endif*/
 
   var GUI = {
-    header: null,  // singleton view #header
-    content: null, // singleton current view (center)
-    navbar: null,  // singleton view #navbar
+    header: null,       // singleton view #header
+    content: null,      // singleton current view (center)
+    autocomplete: null, // singleton view #autocomplete
+    navbar: null,       // singleton view #navbar
     inputMode: function (status) {
       //console.log('STATUS = ' + status);
       if (window.isMobileBrowser()) { // only on mobile browser

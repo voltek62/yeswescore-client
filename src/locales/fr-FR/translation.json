@@ -13,7 +13,7 @@
     "name": "Yes We Score"
   },
   "club": {
-    "title": "CLUB"
+    "title": "CLUB",
     "sport":"Sport",
     "city":"Ville",
     "site":"Site",
@@ -201,8 +201,8 @@
   },    
   "playersignin": {
     "title": "CONNEXION",
-    "email": "Email333",
-    "emailplaceholder": "Email"    
+    "email": "Email",
+    "emailplaceholder": "Email",    
     "password": "Mot de passe",
     "connexion": "Connexion"   
   },   

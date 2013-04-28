@@ -74,7 +74,43 @@ Y.Views.GameComments = Y.View.extend({
   
   // score component (top of the page)
   renderScore: function () {
-	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON()}));
+  
+ 	var timer = '';
+ 	var game = this.game.toJSON();
+        
+    if ( game.status === "finished" ) {
+       
+
+      var dateEnd = new Date(game.dates.end);
+      var dateStart = new Date(game.dates.start);
+          	
+      timer = dateEnd - dateStart;
+      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+        
+    }
+    else if ( game.status === "ongoing" ) {
+      
+      //comment connaitre la date actuelle par rapport au serveur ?
+      var dateEnd = new Date();
+      var dateStart = new Date(game.dates.start);
+      //this.dateStart = this.game.dates.start;
+          	
+      timer = dateEnd - dateStart;
+          
+      if (timer>0)
+      {
+	      console.log('timer ongoing',timer);
+	          
+	      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+	      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+      }
+      //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
+      //setInterval ( this.refreshTimer, 1000 );
+          
+    }  
+  
+	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
 	  return this;
   },
 

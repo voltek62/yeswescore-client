@@ -3,9 +3,6 @@ Y.Views.GameList = Y.View.extend({
 
   events: {
     // mode "input"
-    'focus input[type="search"]': 'inputModeOn',
-    'blur input[type="search"]': 'inputModeOff',
-
     "keyup input#search-basic": "searchOnKey",
     "mousedown .button-search": "searchButton",
     "click li": "goToGame",

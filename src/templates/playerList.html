@@ -1,5 +1,5 @@
 <% if(players.length==0) { %>
-<li><p class="message">Aucun resultat</p></li>
+<li><p class="message" data-i18n="message.noresult"></p></li>
 <% } %> 
 <% for (var i = 0; i < players.length; i++) { 
 
@@ -10,7 +10,7 @@ if (player.error!==undefined)
   if (player.error.length > 1 ) 
   { 
   %>
-  <li><p class="message">Aucun resultat : <%= player.error %></p></li>
+  <li><p class="message" data-i18n="message.error"></p></li>
   <%
    break;
   }

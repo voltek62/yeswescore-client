@@ -67,7 +67,7 @@ Y.Views.GameComments = Y.View.extend({
 
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.layout({placeholder:i18n.t('gamecomment.placeholder')}));
+	  this.$el.html(this.templates.layout({}));
       $('.send').i18n();	  
 	  return this;
   },

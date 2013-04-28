@@ -44,6 +44,8 @@ Y.Views.PlayerSignin = Y.View.extend({
   render : function() {
     this.$el.html(this.playerSigninTemplate({}));
 
+	this.$el.i18n();
+
     return this;
   },
 

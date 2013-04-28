@@ -44,8 +44,11 @@ Y.Views.ClubAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.clubAddTemplate({ playerid: this.owner.id, token: this.owner.token }));
-    //this.$el.trigger('pagecreate');
+    this.$el.html(this.clubAddTemplate({ 
+    playerid: this.owner.id
+    , token: this.owner.token       
+    }));
+
     return this;
   },
 

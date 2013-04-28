@@ -30,12 +30,12 @@
         // pas trouvé mieux pour l'instant...
         var templates = [
           "account", 
-          "clubAdd", "clubListAutoComplete", "club", "clubList","clubSearch", 
-          "gameAdd", "gameComments","gameEnd", "gameSearch", "gameList",
+          "clubAdd", "clubListAutoComplete", "club", "clubList","clubListSearch", 
+          "gameAdd", "gameComments","gameEnd", "gameListSearch", "gameList",
           "gameCommentsScore", "gameCommentsComment","gameScoreBoard", "game", "gameForm",
           "index", "empty", "error",
           "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList",
-          "playerSearch", "playerSignin",
+          "playerListSearch", "playerSignin",
         ];
         var timeoutid = setTimeout(function () {
            var harvestedTemplates = _.keys(html);

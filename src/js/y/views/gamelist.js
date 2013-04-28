@@ -42,7 +42,7 @@ Y.Views.GameList = Y.View.extend({
     
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
-      gamesearch: Y.Templates.get('gameSearch'),
+      gamesearch: Y.Templates.get('gameListSearch'),
       error: Y.Templates.get('error')      
     };
     
@@ -167,7 +167,7 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
-    this.$el.html(this.templates.gamesearch({ placeholder: i18n.t('search.gameplaceholder') }));
+    this.$el.html(this.templates.gamesearch({}));
     
     $('a').i18n();
     

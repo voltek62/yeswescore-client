@@ -160,9 +160,6 @@ Y.Views.GameAdd = Y.View.extend({
     this.$el.html(this.templates.gameadd({ 
     	playerid: this.owner.id
 	    , token: this.owner.token
-	    , placeholderme : i18n.t('gameadd.me')
-	    , placeholderrank : i18n.t('gameadd.rank') 
-	    , placeholderplayer2 : i18n.t('gameadd.player2')
 	    , selection : i18n.t('gameadd.selection')
 	    , surface : i18n.t('gameadd.surface')
      }));

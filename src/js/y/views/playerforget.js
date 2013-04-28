@@ -37,6 +37,8 @@ Y.Views.PlayerForget = Y.View.extend({
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerForgetTemplate({}));
+    
+    this.$el.i18n();
 
     return this;
   },

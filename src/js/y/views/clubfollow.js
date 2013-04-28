@@ -14,12 +14,12 @@ Y.Views.ClubFollow = Y.View.extend({
   initialize:function() {
 
 	//header      
-    Y.GUI.header.title("CLUBS SUIVIS");    
+    Y.GUI.header.title(i18n.t('clubfollow.title'));    
 
     // loading templates.
     this.templates = {
       clublist:  Y.Templates.get('clubList'),
-      clubsearch: Y.Templates.get('clubSearch')
+      clubsearch: Y.Templates.get('clubListSearch')
     };
     
 

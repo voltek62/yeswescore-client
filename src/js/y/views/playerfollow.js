@@ -19,7 +19,7 @@ Y.Views.PlayerFollow = Y.View.extend({
     // loading templates.
     this.templates = {
       playerlist:  Y.Templates.get('playerList'),
-      playersearch: Y.Templates.get('playerSearch')
+      playersearch: Y.Templates.get('playerListSearch')
     };
     
 

@@ -13,16 +13,16 @@
      
     <hr/>
     <b>Club :</b> <%= player.club.name %>
-    <br/><a href="#clubs/<%= player.club.id %>">Plus d'infos</a>
+    <br/><a href="#clubs/<%= player.club.id %>" data-i18n="player.more"></a>
     <hr/>
-    <b>Classement :</b> <%= player.rank %>
+    <b><label data-i18n="playerform.rank"></label> :</b> <%= player.rank %>
     <hr/>
-    <b>Pseudo :</b> <%= player.nickname %>
+    <b><label data-i18n="playerform.pseudo"></label> :</b> <%= player.nickname %>
     
     <br/>
     
     <div class="account">
-      <a href="#games/me/<%= player.id %>" id="lastResult">Derniers resultats</a>
+      <a href="#games/me/<%= player.id %>" id="lastResult" data-i18n="player.lastresults"></a>
     </div>
  
   </div>
@@ -36,9 +36,9 @@
   <div class="background trapeze"></div>
   <div class="link-form">  
   <% if (follow === 'true') { %> 
-  <div class="button-selected" id="followButton">Ne plus suivre</div> 
+  <div class="button-selected" id="followButton" data-i18n="message.nofollow"></div> 
   <% } else { %> 
-  <div class="button" id="followButton">Suivre</div>
+  <div class="button" id="followButton" data-i18n="message.follow"></div>
   <% } %>
   </div>  
 </div>

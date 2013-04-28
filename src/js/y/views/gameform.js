@@ -24,7 +24,7 @@ Y.Views.GameForm = Y.View.extend({
   initialize:function() {
 
 	//header
-    Y.GUI.header.title("MES OPTIONS"); 
+    Y.GUI.header.title(i18n.t('gameform.title')); 
     
     //no search
     this.useSearch=0;

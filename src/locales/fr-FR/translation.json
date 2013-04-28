@@ -14,16 +14,23 @@
   },
   "club": {
     "title": "CLUB"
+    "sport":"Sport",
+    "city":"Ville",
+    "site":"Site",
+    "listplayers":"Liste des joueurs",
+    "lastresult":"Dernier resultat"            
   },
   "clubadd": {
-    "title": "AJOUTER UN CLUB"
+    "title": "AJOUTER UN CLUB",
+    "name" : "Nom",
+    "placeholdername" : "Nom du Club",    
+    "city" : "Ville",
+    "placeholdercity" : "Ville",      
+    "add":"Ajouter"
   },
   "clubfollow": {
     "title": "CLUBS SUIVIS"
-  },  
-  "clublist": {
-    "title": ""
-  },    
+  },   
   "game": {
     "title": "MATCH",  
     "spectators" : "Mode Spectateur5",
@@ -40,8 +47,6 @@
     "options" : "Options match",
     "public" : "Public",
     "private" : "Privé",
-    "follow" : "Suivre match",
-    "nofollow" : "Ne plus suivre",
     "comments" : "COMMENTAIRES", 
     "10lastcomments" : "10 DERNIERS COMMENTAIRES",
     "1comment" : "1 COMMENTAIRE",    
@@ -63,16 +68,12 @@
   "gameadd": {
     "title": "CREER UNE PARTIE",
     "player1": "Joueur 1",
-    "player2": "Joueur 2",
-    "placeholderplayer2": "Joueur 2",    
+    "player2": "Joueur 2",    
     "other": "Autre",
     "plus": "Plus",
     "me": "Moi",
-    "placeholderme" : "Moi",  
-    "rank" : "Classement",      
-    "placeholderrank" : "Classement",          
-    "city" : "Ville",
-    "placeholdercity" : "Ville",    
+    "rank" : "Classement",                
+    "city" : "Ville",    
     "court" : "Court", 
     "tour" : "Tour",
     "surface" : "Terrain",
@@ -138,33 +139,72 @@
     "send" : "ENVOYER"    
   },  
   "gameend": {
-    "title": ""
+    "title": "TERMINER LA PARTIE",
+    "saveprivate":"Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note priv&eacute; ( conseils, astuces ) ?",
+    "savefb":"Vous pouvez indiquer le message qui sera diffus&eacute; sur FB ?",    
+    "finish":"Terminer"
   },  	 
   "gameform": {
-    "title": ""
+    "title": "MES OPTIONS",
+    "delete": "Supprimer le match",
+    "date":"Date du match",
+    "time":"Heure du match",
+    "city":"Ville",
+    "update":"MODIFIER"  
   },
   "gamefollow": {
     "title": "MATCHS SUIVIS"
   },      
+  "index": {
+    "title": "ACCUEIL",
+    "games": "Matchs",
+    "players":"Joueurs"
+  },      
   "message": {
     "noresult": "Aucun resultat",
+    "noresultfor": "Aucun resultat pour",  
+    "results": "resultats",  
     "error": "Une erreur s'est produite",
-    "error_emptyplayer" : "Vous devez indiquer un joueur"
-  }, 
+    "error_emptyplayer" : "Vous devez indiquer un joueur",
+    "nofollowplayerok":"Vous ne suivez plus ce joueur",
+    "followplayerok":"Vous suivez ce joueur",
+    "follow":"Suivre",
+    "nofollow":"Ne plus suivre", 
+    "loading":"CHARGEMENT"       
+  },
+  "player": {
+    "title": "JOUEUR",
+    "more":"Plus d'infos",
+    "lastresults":"Derniers resultats"
+  },    
   "playerforget": {
-    "title": "MOT DE PASSE OUBLIE"
+    "title": "MOT DE PASSE OUBLIE",
+    "email": "Email",    
+    "send": "Envoyer" 
   }, 
   "playerfollow": {
     "title": "JOUEURS SUIVIS"
   },     
   "playerform": {
-    "title": "MON PROFIL"
+    "title": "MON PROFIL",
+    "name":"Nom",
+    "mail":"Email",
+    "password":"Mot de passe",
+    "pseudo":"Pseudo",
+    "rank":"Classement",
+    "idlicence":"ID de la licence",
+    "clubname":"Nom du Club",
+    "save":"ENREGISTRER"  
   },     
   "playerlist": {
-    "title": ""
+    "title": "LISTE DES JOUEURS"
   },    
   "playersignin": {
-    "title": "CONNEXION"
+    "title": "CONNEXION",
+    "email": "Email333",
+    "emailplaceholder": "Email"    
+    "password": "Mot de passe",
+    "connexion": "Connexion"   
   },   
   "nav": {
     "matchs": "Matchs",
@@ -173,6 +213,7 @@
   },
   "search": {
     "gameplaceholder": "Rechercher par nom, par club",
+    "playerplaceholder": "Rechercher par nom",    
     "filterdate" : "Afficher par date",
     "filterlocation" : "Afficher par ville",
     "filterclub" : "Afficher par club"    

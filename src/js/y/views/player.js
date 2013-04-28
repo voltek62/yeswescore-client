@@ -13,7 +13,7 @@ Y.Views.Player = Y.View.extend({
   
     this.pageHash += this.id; 
     
-    Y.GUI.header.title("JOUEUR");	    
+    Y.GUI.header.title(i18n.t('player.title'));	    
   
     this.playerViewTemplate = Y.Templates.get('player');
 
@@ -63,8 +63,8 @@ Y.Views.Player = Y.View.extend({
             }
           }
           
-          $('span.success').html('Vous ne suivez plus ce joueur').show();
-          $("#followButton").text("Suivre");
+          $('span.success').html(i18n.t('message.nofollowplayerok')).show();
+          $("#followButton").text(i18n.t('message.follow'));
           $('#followButton').removeClass('button-selected');
           $('#followButton').addClass('button'); 
 
@@ -84,8 +84,8 @@ Y.Views.Player = Y.View.extend({
           else
             Y.Conf.set("owner.players.followed", [this.id]);
 
-          $('span.success').html('Vous suivez ce joueur').show();
-          $("#followButton").text("Ne plus suivre");
+          $('span.success').html(i18n.t('message.followplayerok')).show();
+          $("#followButton").text(i18n.t('message.nofollow'));
           $('#followButton').removeClass('button');
           $('#followButton').addClass('button-selected');          
           

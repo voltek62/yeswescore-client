@@ -10,7 +10,7 @@ Y.Views.GameEnd = Y.View.extend({
     
   initialize:function() {
   
-    Y.GUI.header.title("TERMINER LA PARTIE");	    
+    Y.GUI.header.title(i18n.t('gameend.title'));	    
   
     this.gameEndTemplate = Y.Templates.get('gameEnd');
 

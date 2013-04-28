@@ -1,5 +1,5 @@
 <% if(clubs.length==0) { %>
-<li><p>Aucun resultat pour <%= query %></p></li>
+<li><p><span data-i18n="message.noresultfor"></span><%= query %></p></li>
 <% } %> 
 <% for (var i = 0; i < clubs.length; i++) { 
 club = clubs[i]; %>
@@ -11,5 +11,5 @@ club = clubs[i]; %>
 </li>
 
 <% if (i>6) break; } if (clubs.length>5) { %>
-<li>... ( <%= clubs.length %> resultats)</li>
+<li>... ( <%= clubs.length %> <span data-i18n="message.results"></span>)</li>
 <% } %>

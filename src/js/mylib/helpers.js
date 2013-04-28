@@ -57,8 +57,8 @@ Date.locale = {
 window.isMobileBrowser = (function () {
   // detect lots of mobile browser (not ipad/tablet/..)
   // isMobileBrowser copyright to http://detectmobilebrowsers.com/ (@chadsmith)
-  var isMobileBrowser = true;
-  /*#ifdef WEB*/
+  var isMobileBrowser = null;
+  /*#ifndef WEB*/
   isMobileBrowser = true; // WEB => null => dynamic computation.
   /*#endif*/
   return function () {

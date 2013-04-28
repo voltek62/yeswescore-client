@@ -10,7 +10,7 @@ Y.Views.ClubAdd = Y.View.extend({
 
   initialize: function () {
   
-    Y.GUI.header.title("AJOUTER UN CLUB");
+    Y.GUI.header.title(i18n.t('clubadd.title'));
 
     this.clubAddTemplate = Y.Templates.get('clubAdd');
 

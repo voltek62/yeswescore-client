@@ -14,7 +14,7 @@ Y.Views.PlayerFollow = Y.View.extend({
   initialize:function() {
 
 	//header      
-    Y.GUI.header.title("JOUEURS SUIVIS");    
+    Y.GUI.header.title(i18n.t('playerfollow.title'));    
 
     // loading templates.
     this.templates = {

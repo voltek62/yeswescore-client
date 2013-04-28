@@ -13,7 +13,7 @@ Y.Views.Club = Y.View.extend({
   initialize : function() {
   
 	//header    
-  	Y.GUI.header.title("CLUB");
+  	Y.GUI.header.title(i18n.t('club.title'));
   
     // loading templates.
     this.templates = {

@@ -16,7 +16,7 @@ Y.Views.PlayerSignin = Y.View.extend({
 
   initialize : function() {
   
-    Y.GUI.header.title("CONNEXION");     
+    Y.GUI.header.title(i18n.t('playersignin.title'));     
   
     this.playerSigninTemplate = Y.Templates.get('playerSignin');
     this.render();
@@ -35,7 +35,6 @@ Y.Views.PlayerSignin = Y.View.extend({
     var email = $('#email').val();
     var password = $('#password').val();
 
-    console.log('test authentification avec ' + email);
     this.player = new PlayerModel();
     this.player.login(email, password);
     return false;

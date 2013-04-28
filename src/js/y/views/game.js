@@ -42,7 +42,7 @@ Y.Views.Game = Y.View.extend({
     this.pageHash += this.id;       
     //header
     //i18n t("game.title")
-    Y.GUI.header.title("MATCH");
+    Y.GUI.header.title(i18n.t('game.title'));
       	
 	  // loading templates.
 	  this.templates = {

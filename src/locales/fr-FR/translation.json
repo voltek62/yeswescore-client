@@ -13,11 +13,14 @@
     "name": "Yes We Score"
   },
   "club": {
-    "title": ""
+    "title": "CLUB"
   },
   "clubadd": {
-    "title": ""
+    "title": "AJOUTER UN CLUB"
   },
+  "clubfollow": {
+    "title": "CLUBS SUIVIS"
+  },  
   "clublist": {
     "title": ""
   },    
@@ -140,26 +143,28 @@
   "gameform": {
     "title": ""
   },
-      
+  "gamefollow": {
+    "title": "MATCHS SUIVIS"
+  },      
   "message": {
     "noresult": "Aucun resultat",
     "error": "Une erreur s'est produite",
     "error_emptyplayer" : "Vous devez indiquer un joueur"
   }, 
   "playerforget": {
-    "title": ""
+    "title": "MOT DE PASSE OUBLIE"
   }, 
   "playerfollow": {
-    "title": ""
+    "title": "JOUEURS SUIVIS"
   },     
   "playerform": {
-    "title": ""
+    "title": "MON PROFIL"
   },     
   "playerlist": {
     "title": ""
   },    
   "playersignin": {
-    "title": ""
+    "title": "CONNEXION"
   },   
   "nav": {
     "matchs": "Matchs",

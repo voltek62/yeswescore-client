@@ -21,7 +21,7 @@ Y.Views.PlayerForm = Y.View.extend({
     this.useSearch = 0;	
           
 	//header
-    Y.GUI.header.title("MON PROFIL"); 
+    Y.GUI.header.title(i18n.t('playerform.title')); 
   
     // loading templates.
     this.templates = {

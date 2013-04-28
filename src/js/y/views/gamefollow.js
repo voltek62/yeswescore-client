@@ -13,7 +13,7 @@ Y.Views.GameFollow = Y.View.extend({
   initialize:function() {
   
     //header
-    Y.GUI.header.title("MATCHS SUIVIS");		    
+    Y.GUI.header.title(i18n.t('gamefollow.title'));		    
   
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),

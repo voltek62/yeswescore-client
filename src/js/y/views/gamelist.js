@@ -18,7 +18,7 @@ Y.Views.GameList = Y.View.extend({
   pageName: "gameList",
   pageHash : "gameList", 
   
-  initialize: function (param) {
+  myinitialize: function (param) {
   	
 	//header 
     if (param!=='undefined') { 

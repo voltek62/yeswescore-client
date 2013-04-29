@@ -156,7 +156,7 @@ Y.Views.GameList = Y.View.extend({
     $(this.listview).html(this.templates.error()); 
     this.games.setMode('player');
     this.games.setQuery(q);
-    this.games.fetch().done($.proxy(function () {
+    this.games.fetch().done($.proxy(function () {    
       $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
     }, this));
     

@@ -586,13 +586,13 @@ Y.Views.Game = Y.View.extend({
       //comment connaitre la date actuelle par rapport au serveur ?
       var dateEnd = new Date();
       var dateStart = new Date(game.dates.start);
-      this.dateStart = game.dates.start;
+      //this.dateStart = game.dates.start;
           	
       timer = dateEnd - dateStart;
           
       if (timer>0)
       {
-	      console.log('timer ongoing',timer);
+	      //console.log('timer ongoing',timer);
 	          
 	      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
 	      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        

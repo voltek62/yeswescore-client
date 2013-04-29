@@ -73,7 +73,12 @@ if (game.dates.start !== undefined ) {
 }
 else
 	game.dates.startDate = 'A venir';
-	
+
+
+if (game.status === "ongoing") game.status = i18n.t('game.ongoing');
+else if (game.status === "finished") game.status = i18n.t('game.finished');
+else if (game.status === "created") game.status = i18n.t('game.created');
+ 
 %>
 <li id="#games/<%= game.id %>">
 

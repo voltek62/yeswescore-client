@@ -3,6 +3,7 @@ node_modules
 dist
 
 # repertoire de builds.
+src/.settings/
 src/build/
 platforms/ios/www/
 platforms/android/assets/

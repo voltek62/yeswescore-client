@@ -204,6 +204,7 @@
     "email": "Email",
     "emailplaceholder": "Email",    
     "password": "Mot de passe",
+    "passwordforgotten": "Mot de passe oublié",    
     "connexion": "Connexion"   
   },   
   "nav": {

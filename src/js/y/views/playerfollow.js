@@ -26,23 +26,19 @@ Y.Views.PlayerFollow = Y.View.extend({
     this.render();		
        
     var players = Y.Conf.get("owner.players.followed");
-    
-    //console.log('players',players);
-    
-    if (players!==undefined) {
 
-	    this.collection = new PlayersCollection();
-	
-	    var that = this;
-	
+    if (players!==undefined) {
+    	this.playerLast = players[players.length-1];
+	    this.collection = new PlayersCollection();	
+	    var that = this;	
 	    var i = players.length;	
 	    
 		this.syncPlayer = function (player) {
 	      
 	      that.collection.add(player);
 	      i--;
-	      
-	      if (i<=0) {
+          //si dernier element du tableau
+          if (that.clubLast === player.get('id')) {
 	        $(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' '}));  	
 	      }
 	          			
@@ -58,13 +54,13 @@ Y.Views.PlayerFollow = Y.View.extend({
 	 }
 	 else {	 
 	   $(this.listview).html(this.templates.playerlist({players:[],query:' '}));
+	   $('p.message').i18n();
 	 }
      
   },
   
   choosePlayer : function(elmt) { 
     var ref = elmt.currentTarget.id;
-    console.log(ref);
 	Y.Router.navigate(ref, {trigger: true});  
   },  
   

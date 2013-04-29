@@ -213,7 +213,8 @@
   },
   "search": {
     "gameplaceholder": "Rechercher par nom, par club",
-    "playerplaceholder": "Rechercher par nom",    
+    "playerplaceholder": "Rechercher par nom",  
+    "clubplaceholder": "Rechercher par nom",       
     "filterdate" : "Afficher par date",
     "filterlocation" : "Afficher par ville",
     "filterclub" : "Afficher par club"    

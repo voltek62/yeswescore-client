@@ -26,23 +26,18 @@ Y.Views.ClubFollow = Y.View.extend({
     this.render();		
        
     var clubs = Y.Conf.get("owner.clubs.followed");
-    
-    //console.log('clubs',clubs);
-    
-    if (clubs!==undefined) {
-
-	    this.collection = new ClubsCollection();
-	
+	  
+    if (clubs!==undefined) {   
+    	this.clubLast = clubs[clubs.length-1];
+	    this.collection = new ClubsCollection();	
 	    var that = this;
-	
 	    var i = clubs.length;	
 	    
-		this.syncClub = function (club) {
-		
+		this.syncClub = function (club) {		
  		  that.collection.add(club);
 	      i--;
-
-	      if (i<=0) {
+          //si dernier element du tableau
+          if (that.clubLast === club.get('id')) {
 	    	$(that.listview).html(that.templates.clublist({clubs:that.collection.toJSON(),query:' '}));  	
 	      }
 	          			
@@ -56,9 +51,9 @@ Y.Views.ClubFollow = Y.View.extend({
 	      this.clubs[index] = club;	      			
 	    },this);
 	 }
-	 else {
-	 
+	 else {	 
 	   $(this.listview).html(this.templates.clublist({clubs:[],query:' '}));
+	   $('p.message').i18n();
 	 }
      
   },

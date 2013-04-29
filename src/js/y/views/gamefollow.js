@@ -20,42 +20,38 @@ Y.Views.GameFollow = Y.View.extend({
       gamesearch: Y.Templates.get('gameListSearch')
     };
       
-    //this.indexViewTemplate = Y.Templates.get('games');
-    //this.gameListViewTemplate = Y.Templates.get('gameList');
-       
+	//render immediately
     this.render();   
         
     var games = Y.Conf.get("owner.games.followed");
-    
-    if (games!==undefined) {
-    
-	    this.collection = new GamesCollection();
-	    
-	    var that = this;
-	    
+    	    
+    if (games!==undefined) {   
+    	this.gameLast = games[games.length-1];     
+	    this.collection = new GamesCollection();	    
+	    var that = this;	    
 	    var i = games.length;
 	    
-	    this.syncGame = function (game) {
-
-	       that.collection.add(game);
-	      
-           i--;         
-           if (i<=0) {
-	         console.log('renderList',that.collection.toJSON());   
-	    	  $(that.listview).html(that.templates.gamelist({games:that.collection.toJSON(),query:' '}));
+	    this.syncGame = function (game) {	    
+		   that.collection.add(game);	      
+           i--;         		   
+           //si dernier element du tableau
+           if (that.gameLast === game.get('id')) {
+	    	 $(that.listview).html(that.templates.gamelist({games:that.collection.toJSON(),query:' '}));
 	       }			
 	     };	    
 	    
 	    this.games = [];
-	    games.forEach(function (gameid,index) {
+	    games.forEach(function (gameid,index) {	    
 			var game = new GameModel({id : gameid});	        
 	        game.once("sync", this.syncGame, this);
 	        game.fetch();
-	        this.games[index] = game;				
+	        this.games[index] = game;	
+	        			
 	    },this);
 	 }
 	 else {
 	   $(this.listview).html(this.templates.gamelist({games:[],query:' '}));
+	   $('p.message').i18n();
 	 }
 
   },

@@ -175,6 +175,7 @@ Y.Views.GameList = Y.View.extend({
   // should not take any parameters
   renderList: function () {
     $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: ' ' }));
+    $('p.message').i18n();
     return this;
   },
 

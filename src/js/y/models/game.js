@@ -23,8 +23,7 @@ var GameModel = Backbone.Model.extend({
     },   
     location : {
       country : "",
-      city : "",
-      pos : []
+      city : ""
     },
     teams : [ {
       points : "",
@@ -53,13 +52,11 @@ var GameModel = Backbone.Model.extend({
     var team1_json = '';
     var team2_json = '';
     
-	console.log("1.0");
-
     // if player exists / not exists
     if (this.get('team1_id') === '')
       team1_json = {
         name : this.get('team1'),
-        rank : 'NC'
+        rank : this.get('rank1')
     };
     else
       team1_json = {
@@ -69,7 +66,7 @@ var GameModel = Backbone.Model.extend({
     if (this.get('team2_id') === '')
       team2_json = {
         name : this.get('team2'),
-        rank : 'NC'
+        rank : this.get('rank2')
     };
     else
       team2_json = {

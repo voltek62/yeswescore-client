@@ -41,10 +41,11 @@ Y.Views.Game = Y.View.extend({
   , team2_set3 : '&nbsp;'
   , team1_sets : '0'
   , team2_sets : '0'
-  , set_current : 1  
   , playerid : null
   , gameid : null
   , token : null
+  
+  /*
   , team1 : null
   , rank1 : null
   , team1_id : null
@@ -58,7 +59,7 @@ Y.Views.Game = Y.View.extend({
   , court : null
   , surface : null
   , tour : null
-  , subtype : null
+  , subtype : null*/
 
   ,initialize : function() {
       
@@ -73,12 +74,7 @@ Y.Views.Game = Y.View.extend({
 	    scoreboard: Y.Templates.get('gameScoreBoard')
 	  };
 	          	
-    /*
-    this.gameViewTemplate = Y.Templates.get('game');
-    this.gameViewScoreBoardTemplate = Y.Templates
-        .get('gameScoreBoard');
-    */
-		
+	//On stock les dernieres modifs		
     this.lastScore = new Array();
 		
     // loading owner
@@ -258,22 +254,19 @@ Y.Views.Game = Y.View.extend({
 	      //console.log("Il reste : ",this.lastScore);  
 	      if (sets_update !== 'undefined') {
 		      var game = {
-				    team1 : this.team1
-			      , rank1 : this.rank1
-			      , team1_id : this.team1_id
-			      , team2 : this.team2
-			      , rank2 : this.rank2
+				    team1_id : this.team1_id
 			      , team2_id : this.team2_id
-			      , country : this.country	      
-			      , city : this.city
+			      , id : this.gameid 			      
 			      , playerid : this.playerid
-			      , token : this.token
-			      , court : this.court
-			      , surface : this.surface
-			      , tour : this.tour
-			      , subtype : this.subtype
-			      , sets : this.sets_update
-			      , id : this.gameid 
+			      , token : this.token			      			      			      
+			      , country : this.game.location.country	      
+			      , city : this.game.location.city
+			      , court : this.game.options.court
+			      , surface : this.game.options.surface
+			      , tour : this.game.options.tour
+			      , subtype : this.game.options.subtype			      
+			      , sets : sets_update
+
 		      };
 		        
 	
@@ -287,6 +280,8 @@ Y.Views.Game = Y.View.extend({
 			        that.lastScore.push(model.get('options.sets'));	    
 			        that.currentScore = model.get('options.sets');  			              
 			        console.log(that.lastScore);
+	  				
+	  				that.game = model;
 	  				
 		    	    $(that.displayViewScoreBoard).html(that.templates.scoreboard({
 		            game : model.toJSON(),
@@ -306,14 +301,16 @@ Y.Views.Game = Y.View.extend({
   },
 
   setTeamSet : function(input, div) {
-    if ($.isNumeric(input.val()))
-      set = parseInt(input.val(), 10) + 1;
+  
+    if ($.isNumeric(input))
+      set = parseInt(input, 10) + 1;
     else
       set = '1';
           
     if ( this.statusScore === "ongoing"  ) {
-	    if (this.game.get('owner') === this.owner.id ) {  
-		    input.val(set);
+	    if (this.game.get('owner') === this.playerid ) {  
+		    //input.val(set);
+		    input = set;
 		        
 		    //FIXME : NO HTML IN CODE
 		    div.html('<div class="score">'+set+'</div>');
@@ -321,38 +318,34 @@ Y.Views.Game = Y.View.extend({
 		    this.sendUpdater();
 	    }
 	  }
+	  
   },
 
   setTeam1Set1 : function() {
-    console.log('setTeam1Set1');
-    this.setTeamSet($('#team1_set1'), $('#team1_set1_div'));
+    this.setTeamSet(this.team1_set1, $('#team1_set1_div'));
   },
 
   setTeam1Set2 : function(options) {
-    console.log('setTeam1Set2');        
-    this.setTeamSet($('#team1_set2'), $('#team1_set2_div'));
+    this.setTeamSet(this.team1_set2, $('#team1_set2_div'));
   },
 
   setTeam1Set3 : function() {
-    console.log('setTeam1Set3');
-    this.setTeamSet($('#team1_set3'), $('#team1_set3_div'));
+    this.setTeamSet(this.team1_set3, $('#team1_set3_div'));
   },
 
-  setTeam2Set1 : function() {
-    this.setTeamSet($('#team2_set1'), $('#team2_set1_div'));
+  setTeam2Set1 : function() {  
+    this.setTeamSet(this.team2_set1, $('#team2_set1_div'));
   },
 
-  setTeam2Set2 : function() {
-    this.setTeamSet($('#team2_set2'), $('#team2_set2_div'));
+  setTeam2Set2 : function() { 
+    this.setTeamSet(this.team2_set2, $('#team2_set2_div'));
   },
 
-  setTeam2Set3 : function() {
-    this.setTeamSet($('#team2_set3'), $('#team2_set3_div'));
+  setTeam2Set3 : function() { 
+    this.setTeamSet(this.team2_set3, $('#team2_set3_div'));
   },
 
-  submitAttachment : function(data) {
-    return false;
-  },
+
 
   sendUpdater : function() {
     var gameid = this.gameid
@@ -372,6 +365,7 @@ Y.Views.Game = Y.View.extend({
     var sets_update = team1_set1 + '/' + team2_set1;
 
     if (team1_set2 > 0 || team2_set2 > 0) {
+    
       if ($.isNumeric(team1_set2) === false)
         team1_set2 = '0';
       if ($.isNumeric(team2_set2) === false)
@@ -389,8 +383,6 @@ Y.Views.Game = Y.View.extend({
       sets_update += ";" + team1_set3 + '/' + team2_set3;
     }
 
-    // FIXME : On remplace les espaces par des zeros
-    // sets_update = sets_update.replace(/ /g,'0');
 
     console.log('sets_update',sets_update);
     this.currentScore = sets_update;
@@ -400,44 +392,30 @@ Y.Views.Game = Y.View.extend({
     console.log('lastScore ',this.lastScore);
         
         
-        
-    var game = {
-		  team1 : this.team1
-	    , rank1 : this.rank1
-	    , team1_id : this.team1_id
-	    , team2 : this.team2
-	    , rank2 : this.rank2
-	    , team2_id : this.team2_id
-	    , country : this.country  
-	    , city : this.city
-	    , playerid : this.playerid
-	    , token : this.token
-	    , court : this.court
-	    , surface : this.surface
-	    , tour : this.tour
-	    , subtype : this.subtype
-	    , sets : sets_update
-	    , id : this.gameid 
-    };
+      var game = {
+		    team1_id : this.team1_id
+	      , team2_id : this.team2_id
+	      , id : this.gameid 			      
+	      , playerid : this.playerid
+	      , token : this.token			      			      			      
+	      , country : this.game.location.country	      
+	      , city : this.game.location.city
+	      , court : this.game.options.court
+	      , surface : this.game.options.surface
+	      , tour : this.game.options.tour
+	      , subtype : this.game.options.subtype			      
+	      , sets : sets_update
+
+      };
+     
+    var that = this;
+      
     this.game = new GameModel(game);
-    this.game.save({}, {success: function(model, response){ }}); 
+    this.game.save({}, {success: function(model, response){ 
+      that.game = model;
+    }}); 
   },
 
-
-  setMinusSet : function() {
-	  var selected = $('input[name=team_selected]:checked').val();
-	  var set = parseInt($('#team' + selected + '_set1').val(), 10) - 1;
-	  console.log(set);
-	
-	  if (set < 0)
-	    set = 0;
-	  // FIXME : Regle de Gestion selon le score
-	
-	  //$('#team' + selected + '_set1').val(set);
-	  $('#team' + selected + '_set1_div').html(set);
-	
-	  this.sendUpdater();
-  },
 
       
 
@@ -455,8 +433,6 @@ Y.Views.Game = Y.View.extend({
   
   renderCountComment : function() {
 	  var nbComments = this.streams.length;
-      
-    //console.log('nbComments',nbComments);
       
     if (nbComments > 10)
       this.$(".link-comments").html(i18n.t('game.10lastcomments'));
@@ -483,27 +459,40 @@ Y.Views.Game = Y.View.extend({
   },		
 
   render : function() {
-    var game = this.game.toJSON();
-    var owner = this.owner.toJSON();
+
+    var game = this.game;
+    
+    console.log('render game',game);
 
     //si premiere init et lastScore null, on stock le score en cours
     if (this.lastScore.length === 0) {
-	    if (game.owner !== "") {	          
+	    if (game.get('owner') !== "") {	          
 	      //console.log('sets ',game.options.sets);	        
-	      if (game.options.sets !== undefined) {
+	      if (game.get('options').sets !== undefined) {
 	          
-	        this.statusScore = game.status;      
+	        this.statusScore = game.get('status');      
 
 	          
-	        if (game.options.sets!=="") {
-		        this.lastScore.push(game.options.sets);	    
-		        this.currentScore = game.options.sets;  
+	        if (game.get('options').sets!=="") {
+		        this.lastScore.push(game.get('options').sets);	    
+		        this.currentScore = game.get('options').sets;  
 	        }
 	      }
 	      
 	      this.gameid = game.id;
+
+	      
+	      /*
 	      this.team1_id=game.teams[0].players[0].id;
 	      this.team2_id=game.teams[1].players[0].id; 
+		  this.country = game.location.country;  
+	      this.city = game.loation.city;
+	      this.court = game.options.court;
+	      this.surface = game.options.surface;
+	      this.tour : game.options.tour;
+	      this.subtype : game.options.subtype;
+	      this.sets : game.options.sets;
+		  */
     
 	      this.gameDeferred.resolve(); 
 	    }
@@ -513,8 +502,8 @@ Y.Views.Game = Y.View.extend({
         
     if ( game.status === "finished" ) {
        
-      var dateEnd = new Date(game.dates.end);
-      var dateStart = new Date(game.dates.start);
+      var dateEnd = new Date(game.get('dates').end);
+      var dateStart = new Date(game.get('dates').start);
           	
       timer = dateEnd - dateStart;
       var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
@@ -525,7 +514,7 @@ Y.Views.Game = Y.View.extend({
         
       //comment connaitre la date actuelle par rapport au serveur ?
       var dateEnd = new Date();
-      var dateStart = new Date(game.dates.start);
+      var dateStart = new Date(game.get('dates').start);
       //this.dateStart = game.dates.start;
           	
       timer = dateEnd - dateStart;
@@ -543,9 +532,11 @@ Y.Views.Game = Y.View.extend({
     }
                 
     // FIXME: refresh only input and id
+    
     this.$el.html(this.templates.game({
-      game : game,
+      game : game.toJSON(),
       timer : timer,
+      playerid : this.playerid,      
       follow : this.follow
     }));
 
@@ -557,17 +548,17 @@ Y.Views.Game = Y.View.extend({
     }, 100);
     */
     
-	  if (game.options.score !== null ) { 
-	    if(game.options.score.indexOf('/')!=-1) { 
-	      var scoreboard = game.options.score.split('/'); 
+	  if (game.get('options').score !== null ) { 
+	    if(game.get('options').score.indexOf('/')!=-1) { 
+	      var scoreboard = game.get('options').score.split('/'); 
 	      this.team1_sets = scoreboard[0]; 
 	      this.team2_sets = scoreboard[1]; 
 	      } 
 	  } 
 	  
-	  if (game.options.sets !== null ) { 
-	    if (game.options.sets.indexOf(';')!=-1) { 
-	      var scoreboard = game.options.sets.split(';'); 
+	  if (game.get('options').sets !== null ) { 
+	    if (game.get('options').sets.indexOf(';')!=-1) { 
+	      var scoreboard = game.get('options').sets.split(';'); 
 	    
 	      if (scoreboard.length==2 ||scoreboard.length==3) { 
 	        var scoreboard1 = scoreboard[0].split('/');
@@ -588,16 +579,17 @@ Y.Views.Game = Y.View.extend({
 	    } 
 	    // 1 set 
 	    else { 
-	      if (game.options.sets.indexOf('/')!=-1) { 
-	        this.scoreboard1 = game.options.sets.split('/'); 
+	      if (game.get('options').sets.indexOf('/')!=-1) { 
+	        var scoreboard1 = game.get('options').sets.split('/'); 
 	        this.team1_set1 = scoreboard1[0]; 
 	        this.team2_set1 = scoreboard1[1]; 
 	      } 
 	    } 
 	  }        
-		
+	
+	
     $(this.displayViewScoreBoard).html(this.templates.scoreboard({
-      game : game,
+      game : game.toJSON(),
   	  team1_set1 : this.team1_set1
   	  , team1_set2 : this.team1_set2
       , team1_set3 : this.team1_set3
@@ -618,27 +610,21 @@ Y.Views.Game = Y.View.extend({
     return this;
   },
 
-  alertDismissed : function() {
-    // do something
-  },
-      
+    
 
   statusGame : function() {    
-    var gameid = $('#gameid').val();
+
     console.log('statusGame '+gameid+'  status '+this.statusScore);
 
     var game = {
-	    team1 : this.team1
-	    , rank1 : this.rank1
-	    , team1_id : this.team1_id
-	    , team2 : this.team2
-	    , rank2 : this.rank2
-	    , team2_id : this.team2_id	      
+	    team1_id : this.game.get('teams')[0].players[0].id
+	    , team2_id : this.game.get('teams')[1].players[0].id	      
 	    , playerid : this.playerid
 	    , token : this.token
 	    , id : this.gameid 
     };
     	
+    console.log('game',game);
 
     if ( this.statusScore === "created"  ) {
       game.status = "ongoing";    	          
@@ -716,10 +702,7 @@ Y.Views.Game = Y.View.extend({
 
   },
 
-  cancelGame : function() {
 
-
-  },
 
   onClose : function() {
     // Clean

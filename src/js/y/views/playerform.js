@@ -33,9 +33,9 @@ Y.Views.PlayerForm = Y.View.extend({
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');
-    this.clubid = this.owner.get('club.id');
+    this.clubid = this.owner.get('club').id;
     
-    console.log('clubid',this.clubid);
+    //console.log('clubid',this.clubid);
     
     // we render immediatly
     this.render();    
@@ -100,7 +100,7 @@ Y.Views.PlayerForm = Y.View.extend({
       , password = $('#password').val()
       , email = $('#email').val()
       , rank = $('#rank').val()
-      , playerid = this.owner
+      , playerid = this.playerid
       , token = this.token
       , club = $('#club').val()
       , clubid = this.clubid
@@ -139,8 +139,8 @@ Y.Views.PlayerForm = Y.View.extend({
 	    , rank:player.rank
 	    , password:player.password
 	    , idlicense:player.idlicense
-	    , playerid:player.id
-	    , token:this.player_cache.token
+	    , playerid:this.playerid
+	    , token:this.token
     };
       
     if (player.club!== undefined) {    

@@ -254,17 +254,17 @@ Y.Views.Game = Y.View.extend({
 	      //console.log("Il reste : ",this.lastScore);  
 	      if (sets_update !== 'undefined') {
 		      var game = {
-				    team1_id : this.team1_id
-			      , team2_id : this.team2_id
+				    team1_id : this.game.get('teams')[0].players[0].id
+			      , team2_id : this.game.get('teams')[1].players[0].id
 			      , id : this.gameid 			      
 			      , playerid : this.playerid
 			      , token : this.token			      			      			      
-			      , country : this.game.location.country	      
-			      , city : this.game.location.city
-			      , court : this.game.options.court
-			      , surface : this.game.options.surface
-			      , tour : this.game.options.tour
-			      , subtype : this.game.options.subtype			      
+			      , country : this.game.get('location').country	      
+			      , city : this.game.get('location').city
+			      , court : this.game.get('options').court
+			      , surface : this.game.get('options').surface
+			      , tour : this.game.get('options').tour
+			      , subtype : this.game.get('options').subtype			      
 			      , sets : sets_update
 
 		      };
@@ -302,16 +302,30 @@ Y.Views.Game = Y.View.extend({
 
   setTeamSet : function(input, div) {
   
+     var set = '';	
+        
     if ($.isNumeric(input))
       set = parseInt(input, 10) + 1;
     else
-      set = '1';
-          
+      set = '1';          	
+    
     if ( this.statusScore === "ongoing"  ) {
 	    if (this.game.get('owner') === this.playerid ) {  
 		    //input.val(set);
-		    input = set;
-		        
+		    
+			if (div.attr('id').indexOf('team1_set1')!=-1)
+		     this.team1_set1 = set;
+		    else if (div.attr('id').indexOf('team1_set2')!=-1)
+		     this.team1_set2 = set;
+		    else if (div.attr('id').indexOf('team1_set3')!=-1)
+		     this.team1_set3 = set;
+		    else if (div.attr('id').indexOf('team2_set1')!=-1)
+		     this.team2_set1 = set;
+		    else if (div.attr('id').indexOf('team2_set2')!=-1)
+		     this.team2_set2 = set;
+		    else if (div.attr('id').indexOf('team2_set3')!=-1)
+		     this.team2_set3 = set;
+		     		     		     		     		        
 		    //FIXME : NO HTML IN CODE
 		    div.html('<div class="score">'+set+'</div>');
 		        
@@ -393,19 +407,18 @@ Y.Views.Game = Y.View.extend({
         
         
       var game = {
-		    team1_id : this.team1_id
-	      , team2_id : this.team2_id
+		    team1_id : this.game.get('teams')[0].players[0].id
+	      , team2_id : this.game.get('teams')[1].players[0].id
 	      , id : this.gameid 			      
 	      , playerid : this.playerid
 	      , token : this.token			      			      			      
-	      , country : this.game.location.country	      
-	      , city : this.game.location.city
-	      , court : this.game.options.court
-	      , surface : this.game.options.surface
-	      , tour : this.game.options.tour
-	      , subtype : this.game.options.subtype			      
+	      , country : this.game.get('location').country	      
+	      , city : this.game.get('location').city
+	      , court : this.game.get('options').court
+	      , surface : this.game.get('options').surface
+	      , tour : this.game.get('options').tour
+	      , subtype : this.game.get('options').subtype			      
 	      , sets : sets_update
-
       };
      
     var that = this;
@@ -500,7 +513,7 @@ Y.Views.Game = Y.View.extend({
         
     var timer = '';
         
-    if ( game.status === "finished" ) {
+    if ( game.get('status') === "finished" ) {
        
       var dateEnd = new Date(game.get('dates').end);
       var dateStart = new Date(game.get('dates').start);
@@ -510,13 +523,13 @@ Y.Views.Game = Y.View.extend({
       timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
         
     }
-    else if ( game.status === "ongoing" ) {
+    else if ( game.get('status') === "ongoing" ) {
         
       //comment connaitre la date actuelle par rapport au serveur ?
       var dateEnd = new Date();
       var dateStart = new Date(game.get('dates').start);
       //this.dateStart = game.dates.start;
-          	
+       	
       timer = dateEnd - dateStart;
           
       if (timer>0)
@@ -614,7 +627,7 @@ Y.Views.Game = Y.View.extend({
 
   statusGame : function() {    
 
-    console.log('statusGame '+gameid+'  status '+this.statusScore);
+    console.log('statusGame '+this.gameid+'  status '+this.statusScore);
 
     var game = {
 	    team1_id : this.game.get('teams')[0].players[0].id

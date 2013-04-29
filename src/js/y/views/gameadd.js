@@ -60,20 +60,11 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   addGame: function (event) {
-    var team1 = $('#team1').val()
-      , rank1 = $('#rank1').val()
+  
+    var team1 = $('#team1').val()    
       , team1_id = $('#team1_id').val()
       , team2 = $('#team2').val()
-      , rank2 = $('#rank2').val()
-      , team2_id = $('#team2_id').val()
-      , city = $('#city').val()
-      , playerid = $('#playerid').val()
-      , token = $('#token').val()
-      , court = $('#court').val()
-      , surface = $('#surface').val()
-      , tour = $('#tour').val()
-      , subtype = $('#subtype').val()
-      , game = null;
+      , team2_id = $('#team2_id').val();
 
     if (team1 === '' && team1_id === '') {
       $('span.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
@@ -86,39 +77,28 @@ Y.Views.GameAdd = Y.View.extend({
     }
 
     var game = {
-		team1 : $('#team1').val()
+		team1 : team1
       , rank1 : $('#rank1').val()
-      , team1_id : $('#team1_id').val()
-      , team2 : $('#team2').val()
+      , team1_id : team1_id
+      , team2 : team2
       , rank2 : $('#rank2').val()
-      , team2_id : $('#team2_id').val()
+      , team2_id : team2_id
       , city : $('#city').val()
-      , playerid : $('#playerid').val()
-      , token : $('#token').val()
       , court : $('#court').val()
       , surface : $('#surface').val()
       , tour : $('#tour').val()
       , subtype : $('#subtype').val()
+      , playerid : this.playerid
+      , token : this.token      
     };
-
-	  /*
-      if (team1_id.length > 2)
-        game.teams[0].players[0].id = team1_id;
-      else
-        game.teams[0].players[0].name = team1;
-
-      if (team2_id.length > 2)
-        game.teams[1].players[0].id = team2_id;
-      else
-        game.teams[1].players[0].name = team2;
-	  */
 	
     //On sauve dans Collections
     var game = new GameModel(game);    
-    game.save({}, {success: function(model, response){
+    game.save({}, {  
+      success: function(model, response){
 	    console.log('success '+'games/'+model.id);
         Y.Router.navigate('games/'+model.id, {trigger: true});	
-	      //Mis par defaut dans mes matchs
+	    //Mis par defaut dans mes matchs
         //Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })              
       }
   	});   

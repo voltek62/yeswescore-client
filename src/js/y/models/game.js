@@ -82,10 +82,10 @@ var GameModel = Backbone.Model.extend({
       }, {
       id : null,
       players : [ team2_json ]
-      } ], 
-      dates : {},      
-      options : {},
-      location : {}
+      } ]
+      //, dates : {}
+      , options : {}
+      , location : {}
      };
 
 	/*

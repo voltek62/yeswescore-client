@@ -95,7 +95,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
      <div class="ui-block-a game-player" style="width:63%;">
 	<% 
 	if (game.teams[0].players[0]!== undefined) { 
-		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+		print("<b>"+game.teams[0].players[0].name+"</b><br/>&nbsp;");
     
 		print('<span class="div_score_mini">');
 		print(game.teams[0].players[0].rank);	
@@ -121,7 +121,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
      <div class="ui-block-a game-player" style="width:63%;">
 	<% 
 	if (game.teams[1].players[0]!== undefined) { 
-		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
+		print("<b>"+game.teams[1].players[0].name+"</b><br/>&nbsp;");	
 		print('<span class="div_score_mini">');
 		print(game.teams[1].players[0].rank);	
 

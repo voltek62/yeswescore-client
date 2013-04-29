@@ -8,10 +8,6 @@ Y.Views.Game = Y.View.extend({
       
   events : {
     'click #facebook' : 'share',
-    'click #setPlusSetButton' : 'setPlusSet',
-    'click #setMinusSetButton' : 'setMinusSet',
-    'click #setPointWinButton' : 'setPointWin',
-    'click #setPointErrorButton' : 'setPointError',
     'click #statusButton' : 'statusGame',
     'click #followButton' : 'followGame',
     'click #cancelButton' : 'cancelGame',
@@ -36,8 +32,35 @@ Y.Views.Game = Y.View.extend({
 
   shareTimeout: null,
   sharing: false,
+  
+  team1_set1 : '&nbsp;'
+  , team1_set2 : '&nbsp;'
+  , team1_set3 : '&nbsp;'
+  , team2_set1 : '&nbsp;'
+  , team2_set2 : '&nbsp;'
+  , team2_set3 : '&nbsp;'
+  , team1_sets : '0'
+  , team2_sets : '0'
+  , set_current : 1  
+  , playerid : null
+  , gameid : null
+  , token : null
+  , team1 : null
+  , rank1 : null
+  , team1_id : null
+  , team2 : null
+  , rank2 : null
+  , team2_id : null
+  , country : null	      
+  , city : null
+  , playerid : null
+  , token : null
+  , court : null
+  , surface : null
+  , tour : null
+  , subtype : null
 
-  initialize : function() {
+  ,initialize : function() {
       
     this.pageHash += this.id;       
     //header
@@ -60,8 +83,12 @@ Y.Views.Game = Y.View.extend({
 		
     // loading owner
     this.owner = Y.User.getPlayer();
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');    
+    
     this.gameDeferred = $.Deferred();
     this.game = new GameModel({id : this.id});
+    this.gameid = this.id;
 		
     //loading followed
     var games_follow = Y.Conf.get("owner.games.followed");
@@ -188,7 +215,7 @@ Y.Views.Game = Y.View.extend({
     messages['[sets]'] = this.game.get('options').sets;
 
     // hate toi de consulter 
-    messages['[time]'] = ""; // FIXME: temps �coul�
+    messages['[time]'] = ""; // FIXME: temps �coul�
 
     // FIXME: message promo en conf
     // FIXME: url facebook doit pointer vers la game
@@ -212,11 +239,6 @@ Y.Views.Game = Y.View.extend({
     });
   },
  
-  updateOnEnter : function(e) {
-    if (e.keyCode == 13) {
-      this.commentSend();
-    }
-  },
 
   undoAction: function () {
     console.log('undo');
@@ -231,27 +253,27 @@ Y.Views.Game = Y.View.extend({
 		      console.log("second pop : ",sets_update);  
 	      }
 	    	  
-	      var gameid = $('#gameid').val();   
+	      var gameid = this.gameid;   
 	    	  	  
 	      //console.log("Il reste : ",this.lastScore);  
 	      if (sets_update !== 'undefined') {
 		      var game = {
-				    team1 : $('#team1').val()
-			      , rank1 : $('#rank1').val()
-			      , team1_id : $('#team1_id').val()
-			      , team2 : $('#team2').val()
-			      , rank2 : $('#rank2').val()
-			      , team2_id : $('#team2_id').val()
-			      , country : $('#country').val()	      
-			      , city : $('#city').val()
-			      , playerid : $('#playerid').val()
-			      , token : $('#token').val()
-			      , court : $('#court').val()
-			      , surface : $('#surface').val()
-			      , tour : $('#tour').val()
-			      , subtype : $('#subtype').val()
-			      , sets : sets_update
-			      , id : gameid 
+				    team1 : this.team1
+			      , rank1 : this.rank1
+			      , team1_id : this.team1_id
+			      , team2 : this.team2
+			      , rank2 : this.rank2
+			      , team2_id : this.team2_id
+			      , country : this.country	      
+			      , city : this.city
+			      , playerid : this.playerid
+			      , token : this.token
+			      , court : this.court
+			      , surface : this.surface
+			      , tour : this.tour
+			      , subtype : this.subtype
+			      , sets : this.sets_update
+			      , id : this.gameid 
 		      };
 		        
 	
@@ -333,13 +355,13 @@ Y.Views.Game = Y.View.extend({
   },
 
   sendUpdater : function() {
-    var gameid = $('#gameid').val()
-    , team1_set1 = $('#team1_set1').val()
-    , team1_set2 = $('#team1_set2').val()
-    , team1_set3 = $('#team1_set3').val()
-    , team2_set1 = $('#team2_set1').val()
-    , team2_set2 = $('#team2_set2').val()
-    , team2_set3 = $('#team2_set3').val()                                
+    var gameid = this.gameid
+    , team1_set1 = this.team1_set1
+    , team1_set2 = this.team1_set2
+    , team1_set3 = this.team1_set3
+    , team2_set1 = this.team2_set1
+    , team2_set2 = this.team2_set2
+    , team2_set3 = this.team2_set3                                
     , tennis_update = null;
 
     if ($.isNumeric(team1_set1) === false)
@@ -380,39 +402,27 @@ Y.Views.Game = Y.View.extend({
         
         
     var game = {
-		  team1 : $('#team1').val()
-	    , rank1 : $('#rank1').val()
-	    , team1_id : $('#team1_id').val()
-	    , team2 : $('#team2').val()
-	    , rank2 : $('#rank2').val()
-	    , team2_id : $('#team2_id').val()
-	    , country : $('#country').val()	      
-	    , city : $('#city').val()
-	    , playerid : $('#playerid').val()
-	    , token : $('#token').val()
-	    , court : $('#court').val()
-	    , surface : $('#surface').val()
-	    , tour : $('#tour').val()
-	    , subtype : $('#subtype').val()
+		  team1 : this.team1
+	    , rank1 : this.rank1
+	    , team1_id : this.team1_id
+	    , team2 : this.team2
+	    , rank2 : this.rank2
+	    , team2_id : this.team2_id
+	    , country : this.country  
+	    , city : this.city
+	    , playerid : this.playerid
+	    , token : this.token
+	    , court : this.court
+	    , surface : this.surface
+	    , tour : this.tour
+	    , subtype : this.subtype
 	    , sets : sets_update
-	    , id : gameid 
+	    , id : this.gameid 
     };
     this.game = new GameModel(game);
     this.game.save({}, {success: function(model, response){ }}); 
   },
 
-  setPlusSet : function() {
-	  var selected = $('input[name=team_selected]:checked').val();
-	  var set = parseInt($('#team' + selected + '_set1').val(), 10) + 1;
-	  // console.log(set);
-	
-	  // FIXME : Regle de Gestion selon le score
-	
-	  $('#team' + selected + '_set1').val(set);
-	  $('#team' + selected + '_set1_div').html(set);
-	
-	  this.sendUpdater();
-  },
 
   setMinusSet : function() {
 	  var selected = $('input[name=team_selected]:checked').val();
@@ -423,84 +433,12 @@ Y.Views.Game = Y.View.extend({
 	    set = 0;
 	  // FIXME : Regle de Gestion selon le score
 	
-	  $('#team' + selected + '_set1').val(set);
+	  //$('#team' + selected + '_set1').val(set);
 	  $('#team' + selected + '_set1_div').html(set);
 	
 	  this.sendUpdater();
   },
 
-  setPoint : function(mode) {
-    // 15 30 40 AV
-    var selected = $('input[name=team_selected]:checked').val(), selected_opponent = '';
-
-    // le serveur gagne un point
-    if (mode == true) {
-      if (selected == '2') {
-        selected_opponent = '2';
-      } else
-        selected_opponent = '1';
-    }
-    // le serveur perd un point
-    else {
-      if (selected == '2') {
-        selected = '1';
-        selected_opponent = '2';
-      } else
-        selected = '2';
-      selected_opponent = '1';
-    }
-
-    var set_current = $('input[name=set_current]:checked').val(), point = $(
-        '#team' + selected + '_points').val(), point_opponent = $(
-        '#team' + selected_opponent + '_points').val();
-
-    // Le serveur gagne son set
-    if (point == 'AV'
-        || (point == '40' && (point_opponent != '40' || point_opponent != 'AV'))) {
-      // On ajoute 1 set au gagnant les point repartent Ã  zero
-      var set = parseInt(
-          $('#team' + selected + '_set' + set_current).val(), 10) + 1;
-      $('#team' + selected + '_set1').val(set);
-      $('#team' + selected + '_set1_div').html(set);
-
-      point = '00';
-      $('#team1_points').val(point);
-      $('#team1_points_div').html(point);
-      $('#team2_points').val(point);
-      $('#team2_points_div').html(point);
-    } else {
-      if (point === '00')
-        point = '15';
-      else if (point === '15')
-        point = '30';
-      else if (point === '30')
-        point = '40';
-      else if (point === '40')
-        point = 'AV';
-      else if (point === 'AV')
-        point = '00';
-      else {
-        point = '00';
-        // On met l'adversaire Ã  zÃ©ro
-        $('#team' + selected_opponent + '_points').val(point);
-        $('#team' + selected_opponent + '_points_div').html(point);
-      }
-
-      $('#team' + selected + '_points').val(point);
-      $('#team' + selected + '_points_div').html(point);
-    }
-    this.sendUpdater();
-  },
-
-  setPointWin : function() {
-    console.log('setPointWin');
-    this.setPoint(true);
-  },
-
-  setPointError : function() {
-    console.log('setPointError');
-    this.setPoint(false);
-  },
       
 
   // renderRefresh : refresh only scoreboard
@@ -537,9 +475,7 @@ Y.Views.Game = Y.View.extend({
     timer = dateEnd - dateStart;
           
     if (timer>0)
-    {
-	    console.log('timer refreshTimer',timer);
-	          
+    {     
 	    var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
 	    timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);       
 	    $('.timer').html(timer); 
@@ -557,14 +493,18 @@ Y.Views.Game = Y.View.extend({
 	      if (game.options.sets !== undefined) {
 	          
 	        this.statusScore = game.status;      
-		    console.log('statusScore',this.statusScore);
+
 	          
 	        if (game.options.sets!=="") {
 		        this.lastScore.push(game.options.sets);	    
 		        this.currentScore = game.options.sets;  
 	        }
 	      }
-	          
+	      
+	      this.gameid = game.id;
+	      this.team1_id=game.teams[0].players[0].id;
+	      this.team2_id=game.teams[1].players[0].id; 
+    
 	      this.gameDeferred.resolve(); 
 	    }
     }
@@ -605,7 +545,6 @@ Y.Views.Game = Y.View.extend({
     // FIXME: refresh only input and id
     this.$el.html(this.templates.game({
       game : game,
-      owner : owner,
       timer : timer,
       follow : this.follow
     }));
@@ -617,16 +556,61 @@ Y.Views.Game = Y.View.extend({
       $buttonCommentaires.css("height", "87px");
     }, 100);
     */
-        
+    
+	  if (game.options.score !== null ) { 
+	    if(game.options.score.indexOf('/')!=-1) { 
+	      var scoreboard = game.options.score.split('/'); 
+	      this.team1_sets = scoreboard[0]; 
+	      this.team2_sets = scoreboard[1]; 
+	      } 
+	  } 
+	  
+	  if (game.options.sets !== null ) { 
+	    if (game.options.sets.indexOf(';')!=-1) { 
+	      var scoreboard = game.options.sets.split(';'); 
+	    
+	      if (scoreboard.length==2 ||scoreboard.length==3) { 
+	        var scoreboard1 = scoreboard[0].split('/');
+	        this.team1_set1 = scoreboard1[0]; 
+	        this.team2_set1 = scoreboard1[1]; 
+	        var scoreboard2 = scoreboard[1].split('/'); 
+	        this.team1_set2 = scoreboard2[0]; 
+	        this.team2_set2 = scoreboard2[1]; 
+	        this.set_current=2; 
+	      } 
+	    
+	      if (scoreboard.length==3) { 
+	        var scoreboard3 = scoreboard[2].split('/'); 
+	        this.team1_set3 = scoreboard3[0]; 
+	        this.team2_set3 = scoreboard3[1]; 
+	        this.set_current=3; 
+	      } 
+	    } 
+	    // 1 set 
+	    else { 
+	      if (game.options.sets.indexOf('/')!=-1) { 
+	        this.scoreboard1 = game.options.sets.split('/'); 
+	        this.team1_set1 = scoreboard1[0]; 
+	        this.team2_set1 = scoreboard1[1]; 
+	      } 
+	    } 
+	  }        
 		
     $(this.displayViewScoreBoard).html(this.templates.scoreboard({
       game : game,
-      owner : owner
+  	  team1_set1 : this.team1_set1
+  	  , team1_set2 : this.team1_set2
+      , team1_set3 : this.team1_set3
+      , team2_set1 : this.team2_set1
+      , team2_set2 : this.team2_set2
+      , team2_set3 : this.team2_set3
+      , team1_sets : this.team1_sets
+      , team2_sets : this.team2_sets      
     }));
 		
 
     //i18n
-    //PERF:on remplace que les champs du DOM concern�
+    //PERF:on remplace que les champs du DOM concern�
     $('a').i18n();
     $('span').i18n();    
     //this.$el.i18n();
@@ -644,15 +628,15 @@ Y.Views.Game = Y.View.extend({
     console.log('statusGame '+gameid+'  status '+this.statusScore);
 
     var game = {
-	    team1 : $('#team1').val()
-	    , rank1 : $('#rank1').val()
-	    , team1_id : $('#team1_id').val()
-	    , team2 : $('#team2').val()
-	    , rank2 : $('#rank2').val()
-	    , team2_id : $('#team2_id').val()	      
-	    , playerid : $('#playerid').val()
-	    , token : $('#token').val()
-	    , id : gameid 
+	    team1 : this.team1
+	    , rank1 : this.rank1
+	    , team1_id : this.team1_id
+	    , team2 : this.team2
+	    , rank2 : this.rank2
+	    , team2_id : this.team2_id	      
+	    , playerid : this.playerid
+	    , token : this.token
+	    , id : this.gameid 
     };
     	
 
@@ -663,7 +647,7 @@ Y.Views.Game = Y.View.extend({
 	    tennis_update.save({}, {
         success: function(model, response){
 	        console.log('success ');
-          $("#statusButton").html('Terminer match');
+          $("#statusButton").html(i18n.t('game.finish'));
           that.statusScore = "ongoing";	      
         }
 	    });
@@ -675,7 +659,7 @@ Y.Views.Game = Y.View.extend({
 	    tennis_update.save({}, {
         success: function(model, response){
 	        console.log('success ');	        
-            $("#statusButton").html('Match Fini');
+            $("#statusButton").html(i18n.t('game.finished'));
             that.statusScore = "finished"; 	  
           }
 	    });
@@ -702,8 +686,9 @@ Y.Views.Game = Y.View.extend({
         }
       }
           
-      $('span.success').html('Vous ne suivez plus ce match').show();
-      $("#followButton").text("Suivre");
+      //$('span.success').html('Vous ne suivez plus ce match').show();
+      
+      $("#followButton").text(i18n.t('message.follow'));
 
       this.follow = 'false';
 
@@ -721,9 +706,9 @@ Y.Views.Game = Y.View.extend({
       else
         Y.Conf.set("owner.games.followed", [this.id]);
 
-      $('span.success').html('Vous suivez ce joueur').show();
+      //$('span.success').html('Vous suivez ce match').show();
 
-      $("#followButton").text("Ne plus suivre");
+      $("#followButton").text(i18n.t('message.nofollow'));
 
       this.follow = 'true';
 
@@ -733,7 +718,6 @@ Y.Views.Game = Y.View.extend({
 
   cancelGame : function() {
 
-    console.log('On retire la derniere action');
 
   },
 

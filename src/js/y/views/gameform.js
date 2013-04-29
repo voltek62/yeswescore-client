@@ -32,7 +32,10 @@ Y.Views.GameForm = Y.View.extend({
     this.gameFormTemplate = Y.Templates.get('gameForm');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
-	this.owner = Y.User.getPlayer();
+    this.owner = Y.User.getPlayer();    
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');  
+    this.gameid = this.id;      
 	
 	this.score = new GameModel({id : this.id});
     this.score.fetch();
@@ -105,14 +108,14 @@ Y.Views.GameForm = Y.View.extend({
     var game = {
 	   team1 : $('#team1').val()
       , rank1 : $('#rank1').val()
-      , team1_id : $('#team1_id').val()
+      , team1_id : this.team1_id
       , team2 : $('#team2').val()
       , rank2 : $('#rank2').val()
-      , team2_id : $('#team2_id').val()
+      , team2_id : this.team2_id
       , country : $('#country').val()	      
       , city : $('#city').val()
-      , playerid : $('#playerid').val()
-      , token : $('#token').val()
+      , playerid : this.owner
+      , token : this.token
       , court : $('#court').val()
       , surface : $('#surface').val()
       , tour : $('#tour').val()
@@ -132,9 +135,13 @@ Y.Views.GameForm = Y.View.extend({
   //render the content into div of view
   render: function(){
   
+   var game = this.score.toJSON();
+  
+   this.team1_id = game.teams[0].players[0].id; 
+   this.team2_id = game.teams[1].players[0].id;
+     
     this.$el.html(this.gameFormTemplate({
-          game : this.score.toJSON()
-          , owner : this.owner.get('id')
+          game : game
           , selection : i18n.t('gameadd.selection')
 	      , surface : i18n.t('gameadd.surface')
     }));

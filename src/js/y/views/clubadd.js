@@ -7,6 +7,8 @@ Y.Views.ClubAdd = Y.View.extend({
 
   pageName: "clubAdd",
   pageHash : "clubs/add",
+  playerid : "",
+  token : "",
 
   initialize: function () {
   
@@ -14,10 +16,12 @@ Y.Views.ClubAdd = Y.View.extend({
 
     this.clubAddTemplate = Y.Templates.get('clubAdd');
 
-    this.owner = Y.User.getPlayer();
+    this.owner = Y.User.getPlayer();    
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');  
 
     this.render();
-    //$.mobile.hidePageLoadingMsg();
+
   },
 
 
@@ -44,11 +48,8 @@ Y.Views.ClubAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.clubAddTemplate({ 
-    playerid: this.owner.id
-    , token: this.owner.token       
-    }));
-
+    this.$el.html(this.clubAddTemplate({}));
+    
     return this;
   },
 

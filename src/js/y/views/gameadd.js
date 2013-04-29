@@ -13,6 +13,8 @@ Y.Views.GameAdd = Y.View.extend({
 
   listview1: "#team1_suggestions",
   listview2: "#team2_suggestions",
+  playerid: "",
+  token: "",
   
   useSearch:0,
 
@@ -30,8 +32,11 @@ Y.Views.GameAdd = Y.View.extend({
 	};
 	    
       
-    this.owner = Y.User.getPlayer().toJSON();
-	  this.render();
+    this.owner = Y.User.getPlayer();    
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');
+    
+	this.render();
   },
 
   otherTeam: function () {
@@ -158,9 +163,7 @@ Y.Views.GameAdd = Y.View.extend({
   //render the content into div of view
   render: function () {
     this.$el.html(this.templates.gameadd({ 
-    	playerid: this.owner.id
-	    , token: this.owner.token
-	    , selection : i18n.t('gameadd.selection')
+	    selection : i18n.t('gameadd.selection')
 	    , surface : i18n.t('gameadd.surface')
      }));
     

@@ -151,24 +151,21 @@ Y.Views.GameList = Y.View.extend({
 
   search: function () {
     var q = $("#search-basic").val();
-    $(this.listview).html(this.templates.error()); 
+    $(this.listview).html(this.templates.error());
+    $('p').i18n(); 
     this.games.setMode('player');
     this.games.setQuery(q);
     this.games.fetch().done($.proxy(function () {    
       $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
     }, this));
     
-    
-    
     return this;
   },
 
   // should not take any parameters
   render: function () {
-    this.$el.html(this.templates.gamesearch({}));
-    
-    $('a').i18n();
-    
+    this.$el.html(this.templates.gamesearch({}));   
+    $('a').i18n();    
     return this;
   },
 

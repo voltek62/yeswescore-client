@@ -427,6 +427,7 @@ ul>li {
 	background: #fff;
 	border-top: 1px solid #8c8c8e;
 	height: 100px;
+	cursor:pointer;
 }
 
 ul>li:first-child {

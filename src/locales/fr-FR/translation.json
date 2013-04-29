@@ -196,6 +196,7 @@
     "password":"Mot de passe",
     "pseudo":"Pseudo",
     "rank":"Classement",
+    "club":"Club",
     "idlicence":"ID de la licence",
     "clubname":"Nom du Club",
     "save":"ENREGISTRER"  

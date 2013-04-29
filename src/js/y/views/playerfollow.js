@@ -19,7 +19,8 @@ Y.Views.PlayerFollow = Y.View.extend({
     // loading templates.
     this.templates = {
       playerlist:  Y.Templates.get('playerList'),
-      playersearch: Y.Templates.get('playerListSearch')
+      playersearch: Y.Templates.get('playerListSearch'),
+      error: Y.Templates.get('error') 
     };
     
 
@@ -38,7 +39,7 @@ Y.Views.PlayerFollow = Y.View.extend({
 	      that.collection.add(player);
 	      i--;
           //si dernier element du tableau
-          if (that.clubLast === player.get('id')) {
+          if (that.playerLast === player.get('id')) {
 	        $(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' '}));  	
 	      }
 	          			
@@ -60,27 +61,29 @@ Y.Views.PlayerFollow = Y.View.extend({
   },
   
   choosePlayer : function(elmt) { 
-    var ref = elmt.currentTarget.id;
-	Y.Router.navigate(ref, {trigger: true});  
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }	
   },  
   
   search:function() {
-    //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
-    $(this.listview).empty();    	  
+    $(this.listview).html(this.templates.error()); 
+    this.players = new PlayersCollection();   	  
     this.players.setMode('search',q);
-    this.players.fetch();
-    $(this.listview).html(this.templates.playerlist({players:this.playersfollow.toJSON(), query:q}));
-    //$(this.listview).listview('refresh');
-    //}
+    this.games.fetch().done($.proxy(function () { 
+      $(this.listview).html(this.templates.playerlist({players:this.playersfollow.toJSON(), query:q}));
+    }, this));
+    
     return this;
   },
 
   //render the content into div of view
   render: function(){
     this.$el.html(this.templates.playersearch({}));
-
-    return this;
+	$('a').i18n(); 
+	return this;
   },
 
   renderList: function(query) {

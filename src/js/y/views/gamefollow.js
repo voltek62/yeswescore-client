@@ -4,6 +4,7 @@ Y.Views.GameFollow = Y.View.extend({
   listview:"#listGamesView",
     
   events: {
+    "click li": "goToGame",
     "blur input#search-basic": "search"
   },
 
@@ -17,7 +18,8 @@ Y.Views.GameFollow = Y.View.extend({
   
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
-      gamesearch: Y.Templates.get('gameListSearch')
+      gamesearch: Y.Templates.get('gameListSearch'),
+      error: Y.Templates.get('error')
     };
       
 	//render immediately
@@ -41,10 +43,11 @@ Y.Views.GameFollow = Y.View.extend({
 	     };	    
 	    
 	    this.games = [];
+
 	    games.forEach(function (gameid,index) {	    
 			var game = new GameModel({id : gameid});	        
-	        game.once("sync", this.syncGame, this);
-	        game.fetch();
+	        game.once("sync", this.syncGame, this);	        
+	        game.fetch(); 	        
 	        this.games[index] = game;	
 	        			
 	    },this);
@@ -56,25 +59,31 @@ Y.Views.GameFollow = Y.View.extend({
 
   },
   
-
+  goToGame: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
+  },
     
   search:function() {
-    //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
-    $(this.listview).empty();
-
+    $(this.listview).html(this.templates.error()); 
+    $('p').i18n();     
+    this.games = new GamesCollection();      
     this.games.setMode('player',q);
-    this.games.fetch();
-    $(this.listview).html(this.templates.gamelist({games:this.games.toJSON(), query:q}));
-    $(this.listview).listview('refresh');
-    //}
-  
+    this.games.fetch().done($.proxy(function () {  
+      $(this.listview).html(this.templates.gamelist({games:this.games.toJSON(), query:q}));
+    }, this));
+
+	return this;
   },
 
   //render the content into div of view
   render: function(){
     this.$el.html(this.templates.gamesearch(), {});
-
+	$('a').i18n(); 
+	return this;
   },
 
   renderList: function() {

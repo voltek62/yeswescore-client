@@ -102,6 +102,8 @@ Y.Views.Player = Y.View.extend({
     this.$el.html(this.playerViewTemplate({
       player:this.player.toJSON(),follow:this.follow
     }));
+    
+    this.$el.i18n();
 
     return this;
   },

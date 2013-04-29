@@ -626,8 +626,7 @@ Y.Views.Game = Y.View.extend({
 		
 
     //i18n
-    //PERF:on remplace que les champs du DOM concernÃ©
-    //$('#statusButton').i18n();
+    //PERF:on remplace que les champs du DOM concerné
     $('a').i18n();
     $('span').i18n();    
     //this.$el.i18n();

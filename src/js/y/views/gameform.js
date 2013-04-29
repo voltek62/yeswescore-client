@@ -133,9 +133,14 @@ Y.Views.GameForm = Y.View.extend({
   render: function(){
   
     this.$el.html(this.gameFormTemplate({
-          game : this.score.toJSON(),
-          owner : this.owner.toJSON()
+          game : this.score.toJSON()
+          , owner : this.owner.get('id')
+          , selection : i18n.t('gameadd.selection')
+	      , surface : i18n.t('gameadd.surface')
     }));
+    
+    
+    this.$el.i18n();
       
    
   },

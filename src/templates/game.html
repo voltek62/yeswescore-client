@@ -73,14 +73,14 @@
         <b><%= game.location.city %></b>
         </div>
         <div class="ui-block-d">
-        <span data-i18n="game.public"></span>
+        <b><span data-i18n="game.public"></span></b>
         </div>
         <div class="ui-block-e">
         <% if (game.owner === owner.id) { %>
-        <span class="undoAction" data-i18n="game.undo"></span>
+        <b><span class="undoAction" data-i18n="game.undo"></span></b>
         <% } 
         else { %>
-        <span data-i18n="game.spectators"></span>
+        <b><span data-i18n="game.spectators"></span></b>
         <% } %>
         </div>
       </div>

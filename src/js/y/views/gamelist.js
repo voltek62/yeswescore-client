@@ -20,6 +20,7 @@ Y.Views.GameList = Y.View.extend({
 
   pageName: "gameList",
   pageHash : "gameList", 
+  filterList: "",
   
   initialize: function (param) {
   	
@@ -121,11 +122,7 @@ Y.Views.GameList = Y.View.extend({
     this.$(".filters").hide();
   },
 
-/*
-<a href="#sort/location" class="button">Afficher par Lieu</a>'
-+    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
-+    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>
-*/
+
   filterByLocation: function () { this.filter("location");Y.Router.navigate("sort/location", true);},
   filterByDate: function () { this.filter("date");Y.Router.navigate("sort/date", true);},
   filterByClub: function () { this.filter("club");Y.Router.navigate("sort/club", true);},  
@@ -134,7 +131,8 @@ Y.Views.GameList = Y.View.extend({
 
   filter: function (o) {
     // FIXME
-    console.log('FIXME: filter by ' + o);
+    //console.log('FIXME: filter by ' + o);
+    this.filterList = o;
     this.hideFilters();
   },
 

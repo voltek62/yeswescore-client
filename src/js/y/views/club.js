@@ -56,8 +56,8 @@ Y.Views.Club = Y.View.extend({
             }
           }
           
-          $('span.success').html('Vous ne suivez plus ce club').show();
-          $("#followButton").text("Suivre");
+          $('span.success').html(i18n.t('message.nofollowclubok')).show();
+          $("#followButton").text(i18n.t('message.follow'));
           $('#followButton').removeClass('button-selected');
           $('#followButton').addClass('button'); 
 
@@ -77,8 +77,8 @@ Y.Views.Club = Y.View.extend({
           else
             Y.Conf.set("owner.clubs.followed", [this.id]);
 
-          $('span.success').html('Vous suivez ce club').show();
-          $("#followButton").text("Ne plus suivre");
+          $('span.success').html(i18n.t('message.followclubok')).show();
+          $("#followButton").text(i18n.t('message.nofollow'));
           $('#followButton').removeClass('button');
           $('#followButton').addClass('button-selected');          
           
@@ -92,6 +92,7 @@ Y.Views.Club = Y.View.extend({
   render: function () {
     // empty page.
 	  this.$el.html(this.templates.layout());
+
 	  return this;
   },
   
@@ -102,6 +103,8 @@ Y.Views.Club = Y.View.extend({
     this.$el.html(this.templates.club({
       club : this.club.toJSON(),follow:this.follow
     }));
+    
+	this.$el.i18n();    
 
     return this;
   },

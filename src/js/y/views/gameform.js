@@ -82,14 +82,9 @@ Y.Views.GameForm = Y.View.extend({
 
   deleteMatch: function (event) {
 
-    console.log('deleteMatch');    
-    
-     this.owner = Y.User.getPlayer().toJSON();
-  
-	///v1/games/:id/?_method=delete
     return Backbone.ajax({
       dataType : 'json',
-      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.owner.id+'&token='+this.owner.token+'&_method=delete',
+      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.playerid+'&token='+this.token+'&_method=delete',
       type : 'POST',
       success : function(result) {
         console.log('data success delete Game', result);
@@ -106,20 +101,20 @@ Y.Views.GameForm = Y.View.extend({
     
     //FIXME : gestion date de debut
     var game = {
-	   team1 : $('#team1').val()
-      , rank1 : $('#rank1').val()
-      , team1_id : this.team1_id
-      , team2 : $('#team2').val()
-      , rank2 : $('#rank2').val()
-      , team2_id : this.team2_id
-      , country : $('#country').val()	      
+      team1_id : this.team1_id
+	  //, team1 : $('#team1').val()
+      //, rank1 : $('#rank1').val()
+      , team2_id : this.team2_id            
+      //, team2 : $('#team2').val()
+      //, rank2 : $('#rank2').val()
+      //, country : $('#country').val()	      
       , city : $('#city').val()
-      , playerid : this.owner
+      , playerid : this.playerid
       , token : this.token
       , court : $('#court').val()
       , surface : $('#surface').val()
       , tour : $('#tour').val()
-      , subtype : $('#subtype').val()
+      //, subtype : $('#subtype').val()
       , id : this.gameid 
 	};
     
@@ -132,8 +127,11 @@ Y.Views.GameForm = Y.View.extend({
 	    
 	    $('span.success').html('MAJ OK ').show();
 	    that.game = model;
+	    
+	    console.log("new model",model);
 	                 
       }
+    });
 
 	return this;
     
@@ -156,7 +154,12 @@ Y.Views.GameForm = Y.View.extend({
 	      , surface : i18n.t('gameadd.surface')
     }));
     
-    
+    if ( game.location.city !== undefined ) $("#city").val(game.location.city);    
+    if ( game.options.surface !== undefined ) $("#surface").val(game.options.surface);
+    if ( game.options.tour !== undefined ) $("#tour").val(game.options.tour);
+    if ( game.options.court !== undefined ) $("#court").val(game.options.court);
+    if ( game.options.competition !== undefined ) $("#competition").val(game.options.competition);        
+        
     this.$el.i18n();
       
    

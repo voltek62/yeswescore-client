@@ -1157,12 +1157,14 @@ ul>li.player>a {
 	box-sizing: border-box;
 }
 
-.account a#send {
+.account a.sendButton {
 	background-color: #b0b0b0;
 	border: 1px solid #c0c0c0;
-	pointer-events: none;
-	cursor: default;
 }
+
+.account a.sendButton.ok { background-color: #46b1db; border: 1px solid #41c68f;pointer-events: none;cursor: default; }
+.account a.sendButton.ko { background-color: #f2734c; border: 1px solid #f2734c; }
+
 
 .account a[disabled] {
 	background-color: #b0b0b0;

@@ -5,6 +5,8 @@ Y.Views.GameComments = Y.View.extend({
   pageName: "gameComment",
   pageHash : "games/comment/",
 
+  shareTimeout: null,
+
   myinitialize:function() {
     this.pageHash += this.id; 
     this.gameid = this.id;
@@ -194,6 +196,7 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
+  
     var playerid = this.owner.id
     , token  = this.owner.get('token')
     , gameid = this.gameid
@@ -210,10 +213,21 @@ Y.Views.GameComments = Y.View.extend({
     var that = this;
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
+      
+	  that.$("a.sendButton").addClass("ok");
+	  that.shareTimeout = window.setTimeout(function () {
+	    that.$("a.sendButton").removeClass("ok");
+	    that.shareTimeout = null;
+	  }, 4000);
+      
       that.scrollTop();
     });
 
     $('#messageText').val('');
+    
+    
+    
+    
   },
 
   onClose: function(){

@@ -1157,6 +1157,13 @@ ul>li.player>a {
 	box-sizing: border-box;
 }
 
+.account a#send {
+	background-color: #b0b0b0;
+	border: 1px solid #c0c0c0;
+	pointer-events: none;
+	cursor: default;
+}
+
 .account a[disabled] {
 	background-color: #b0b0b0;
 	border: 1px solid #c0c0c0;

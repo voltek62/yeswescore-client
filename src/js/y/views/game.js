@@ -531,6 +531,8 @@ Y.Views.Game = Y.View.extend({
       //this.dateStart = game.dates.start;
        	
       timer = dateEnd - dateStart;
+      
+      console.log('timer',timer);
           
       if (timer>0)
       {

@@ -102,11 +102,11 @@ Y.Views.GameForm = Y.View.extend({
     //FIXME : gestion date de debut
     var game = {
       team1_id : this.team1_id
-	  //, team1 : $('#team1').val()
-      //, rank1 : $('#rank1').val()
+	  , team1 : $('#team1').val()
+      , rank1 : $('#rank1').val()
       , team2_id : this.team2_id            
-      //, team2 : $('#team2').val()
-      //, rank2 : $('#rank2').val()
+      , team2 : $('#team2').val()
+      , rank2 : $('#rank2').val()
       //, country : $('#country').val()	      
       , city : $('#city').val()
       , playerid : this.playerid
@@ -128,7 +128,7 @@ Y.Views.GameForm = Y.View.extend({
 	    $('span.success').html('MAJ OK ').show();
 	    that.game = model;
 	    
-	    console.log("new model",model);
+	    console.log("new model",model.toJSON());
 	                 
       }
     });
@@ -153,6 +153,12 @@ Y.Views.GameForm = Y.View.extend({
           , selection : i18n.t('gameadd.selection')
 	      , surface : i18n.t('gameadd.surface')
     }));
+
+
+    if ( game.teams[0].players[0].name !== undefined ) $("#team1").val(game.teams[0].players[0].name);    
+    if ( game.teams[0].players[0].rank !== undefined ) $("#rank1").val(game.teams[0].players[0].rank);    
+    if ( game.teams[1].players[0].name !== undefined ) $("#team2").val(game.teams[1].players[0].name);    
+    if ( game.teams[1].players[0].rank !== undefined ) $("#rank2").val(game.teams[1].players[0].rank);                
     
     if ( game.location.city !== undefined ) $("#city").val(game.location.city);    
     if ( game.options.surface !== undefined ) $("#surface").val(game.options.surface);

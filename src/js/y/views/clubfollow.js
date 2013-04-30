@@ -34,6 +34,11 @@ Y.Views.ClubFollow = Y.View.extend({
 	    var that = this;
 	    var i = clubs.length;	
 	    
+        if (clubs.length<1) {
+	      $(this.listview).html(this.templates.clublist({clubs:[],query:' '}));
+	      $('p.message').i18n();		          
+        }	    
+	    
 		this.syncClub = function (club) {		
  		  that.collection.add(club);
 	      i--;
@@ -44,11 +49,29 @@ Y.Views.ClubFollow = Y.View.extend({
 	          			
 		};	    
 	   
-	    this.clubs = [];	    
+	    this.clubs = [];
+	    	    
 	    clubs.forEach(function (clubid,index) {
 		  var club = new ClubModel({id : clubid});
 		  club.once("sync", this.syncClub, this);
-	      club.fetch();	
+
+	        club.fetch().error(function (xhrResult, error) {	        
+
+	        	if (clubs.indexOf(clubid) !== -1) {
+		          clubs.splice(clubs.indexOf(clubid), 1);
+		          Y.Conf.set("owner.clubs.followed", clubs, { permanent: true });
+		          
+		          if (clubs.length<1) {
+				   $(that.listview).html(that.templates.clublist({clubs:[],query:' '}));
+				   $('p.message').i18n();		          
+		          }
+		          else
+		            this.clubLast = clubs[clubs.length-1];
+   
+		        }
+	        	
+	        });
+	        
 	      this.clubs[index] = club;	      			
 	    },this);
 	 }

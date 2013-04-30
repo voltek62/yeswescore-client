@@ -32,6 +32,11 @@ Y.Views.GameFollow = Y.View.extend({
 	    this.collection = new GamesCollection();	    
 	    var that = this;	    
 	    var i = games.length;
+
+       if (games.length<1) {
+	     $(this.listview).html(this.templates.gamelist({games:[],query:' '}));
+	     $('p.message').i18n();		          
+       }
 	    
 	    this.syncGame = function (game) {	    
 		   that.collection.add(game);	      
@@ -46,8 +51,25 @@ Y.Views.GameFollow = Y.View.extend({
 
 	    games.forEach(function (gameid,index) {	    
 			var game = new GameModel({id : gameid});	        
-	        game.once("sync", this.syncGame, this);	        
-	        game.fetch(); 	        
+	        game.once("sync", this.syncGame, this);	
+     
+	        game.fetch().error(function (xhrResult, error) {	        
+
+	        	if (games.indexOf(gameid) !== -1) {
+		          games.splice(games.indexOf(gameid), 1);
+		          Y.Conf.set("owner.games.followed", games, { permanent: true });
+		          
+		          if (games.length<1) {
+				   $(that.listview).html(that.templates.gamelist({games:[],query:' '}));
+				   $('p.message').i18n();		          
+		          }
+		          else
+		            this.gameLast = games[games.length-1];
+   
+		        }
+	        	
+	        });
+	               
 	        this.games[index] = game;	
 	        			
 	    },this);

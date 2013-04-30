@@ -5,7 +5,7 @@
 
   var events = {
     // input mode
-    'focus input': 'inputModeOn',
+    'click input': 'inputModeOn',
     'blur input': 'inputModeOff',
     'focus textarea': 'inputModeOn',
     'blur textarea': 'inputModeOff',

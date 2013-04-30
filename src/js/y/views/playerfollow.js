@@ -34,6 +34,11 @@ Y.Views.PlayerFollow = Y.View.extend({
 	    var that = this;	
 	    var i = players.length;	
 	    
+        if (players.length<1) {
+	      $(this.listview).html(this.templates.playerlist({players:[],query:' '}));
+	      $('p.message').i18n();		          
+        }	    
+	    
 		this.syncPlayer = function (player) {
 	      
 	      that.collection.add(player);
@@ -46,11 +51,31 @@ Y.Views.PlayerFollow = Y.View.extend({
 		};	    
 	    
 	    this.players = [];
+	    
 	    players.forEach(function (playerid,index) {	
 			var player = new PlayerModel({id : playerid});	        
 	        player.once("sync", this.syncPlayer, this);
-	        player.fetch();
-	        this.players[index] = player;					
+	        
+	        player.fetch().error(function (xhrResult, error) {	        
+
+	        	if (players.indexOf(playerid) !== -1) {
+		          players.splice(players.indexOf(playerid), 1);
+		          Y.Conf.set("owner.players.followed", players, { permanent: true });
+		          
+		          if (players.length<1) {
+				   $(that.listview).html(that.templates.playerlist({players:[],query:' '}));
+				   $('p.message').i18n();		          
+		          }
+		          else
+		            this.playerLast = players[players.length-1];
+		            
+		          }
+   
+		    });	        
+	        
+	        
+	        this.players[index] = player;	
+	        				
 	    },this);
 	 }
 	 else {	 

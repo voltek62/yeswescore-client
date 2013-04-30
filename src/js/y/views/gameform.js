@@ -35,13 +35,13 @@ Y.Views.GameForm = Y.View.extend({
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');  
-    this.gameid = this.id;      
+    this.gameid = this.id;     
+    
+     
 	
-	this.score = new GameModel({id : this.id});
-    this.score.fetch();
-  	                  
-    this.score.once("sync",this.render,this);
- 
+	this.game = new GameModel({id : this.id});  	                  
+    this.game.once("sync",this.render,this);
+    this.game.fetch(); 
   
   },
    
@@ -120,14 +120,22 @@ Y.Views.GameForm = Y.View.extend({
       , surface : $('#surface').val()
       , tour : $('#tour').val()
       , subtype : $('#subtype').val()
-      , id : gameid 
+      , id : this.gameid 
 	};
     
 
-    var tennis_update = new GameModel(game);
-    tennis_update.save();
+    var game = new GameModel(game);
+    
+    var that = this;
+    game.save({}, {  
+      success: function(model, response){
+	    
+	    $('span.success').html('MAJ OK ').show();
+	    that.game = model;
+	                 
+      }
 
-	return false;
+	return this;
     
   },     
     
@@ -135,7 +143,9 @@ Y.Views.GameForm = Y.View.extend({
   //render the content into div of view
   render: function(){
   
-   var game = this.score.toJSON();
+   var game = this.game.toJSON();
+   
+   console.log('game render',game);
   
    this.team1_id = game.teams[0].players[0].id; 
    this.team2_id = game.teams[1].players[0].id;
@@ -155,7 +165,7 @@ Y.Views.GameForm = Y.View.extend({
   onClose: function(){
     this.undelegateEvents();
 
-    this.score.off("sync",this.render,this);
+    this.game.off("sync",this.render,this);
     if (this.useSearch===1) this.clubs.off("sync",this.renderList,this);
   }
 });

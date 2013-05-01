@@ -171,6 +171,7 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="www\locales\fr-FR\translation.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">

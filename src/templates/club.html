@@ -12,16 +12,16 @@
     </div> 
      
     <hr/>
-    <b>Sport :</b> <%= club.sport %>
+    <b data-i18n="club.sport"></b> : <%= club.sport %>
     <hr/>
-    <b>Ville :</b> <%= club.location.city %>
+    <b data-i18n="club.city"></b> : <%= club.location.city %>
     <hr/>
-    <b>Site :</b>
+    <b data-i18n="club.site"></b> :
     <hr/>
     
     <div class="account">
-      <a href="#players/club/<%= club.id %>" class="button" id="listPlayer">Liste des joueurs</a>  
-      <a href="#games/club/<%= club.id %>" class="button" id="lastResult">Dernier resultat</a>
+      <a href="#players/club/<%= club.id %>" class="button" id="listPlayer" data-i18n="club.listplayers"></a>  
+      <a href="#games/club/<%= club.id %>" class="button" id="lastResult" data-i18n="club.lastresult"></a>
     </div>
   
   </div>
@@ -35,9 +35,9 @@
   <div class="background trapeze"></div>
   <div class="link-form">  
   <% if (follow === 'true') { %> 
-  <div class="button-selected" id="followButton">Ne plus suivre</div> 
+  <div class="button-selected" id="followButton" data-i18n="message.nofollow"></div> 
   <% } else { %> 
-  <div class="button" id="followButton">Suivre</div>
+  <div class="button" id="followButton" data-i18n="message.follow"></div>
   <% } %>
   </div>  
 </div>

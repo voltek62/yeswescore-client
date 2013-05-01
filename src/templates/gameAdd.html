@@ -3,17 +3,17 @@
   <div id="gameAddForm" class="simple">
 	    <span class="success label label-info hide"></span>
 	
-      <div class="form-label">Joueur 1</div>
+      <div class="form-label" data-i18n="gameadd.player1"></div>
 
 		  <div class="ui-grid-b first-team me">
 			  <div class="ui-block-a">
-				  <input type="text" id="team1" name="team1" placeholder="Moi" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
+				  <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
 			  </div>
 			  <div class="ui-block-b">
-				  <input type="text" id="rank1" name="rank1" placeholder="Classement" class='jq-ui-forms-white' value="" />
+				  <input type="text" id="rank1" name="rank1" data-i18n="[placeholder]gameadd.rank;" class='jq-ui-forms-white' value="" />
 			  </div>
         <div class="ui-block-c" data-input-mode="hide">
-				  <span class="form-button other-team">Autre</span>
+				  <span class="form-button other-team" data-i18n="gameadd.other"></span>
 			  </div>
 		  </div>
 		
@@ -23,17 +23,17 @@
 			  <span class="team1_error label label-info hide"></span>
 		  </div>
 	
-      <div class="form-label">Joueur 2</div>
+      <div class="form-label" data-i18n="gameadd.player2"></div>
 
 		  <div class="ui-grid-b">
 			  <div class="ui-block-a">
-				  <input type="text" id="team2" name="team2" placeholder="Joueur 2" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
+				  <input type="text" id="team2" name="team2" data-i18n="[placeholder]gameadd.player2;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
 			  </div>
 			  <div class="ui-block-b">
-				  <input type="text" id="rank2" name="rank2" placeholder="Classement" value="" />
+				  <input type="text" id="rank2" name="rank2" data-i18n="[placeholder]gameadd.rank;" value="" />
 			  </div>
         <div class="ui-block-c" data-input-mode="hide">
-          <span class="form-button more-options">Plus?</span>
+          <span class="form-button more-options" data-i18n="gameadd.plus"></span>
         </div>
 		  </div>
 		
@@ -45,131 +45,110 @@
     
       <div class="additionnal-options">	
 
-        <div class="form-label" style="position:relative">Ville</div>
+        <div class="form-label" style="position:relative" data-i18n="gameadd.city"></div>
         
 		    <div>
 			    <input type="text" id="city" name="city" placeholder="Ville" value="" /> 
 			    <span class="city_error label label-info hide"></span>
 		    </div>
-
-		    <!-- 
-		    <div style="padding-top:10px">
-			    <label for="subtype" class="select">Type</label>
-		    </div>
-		    <div>
-			    <select name="subtype" id="subtype" class="jq-ui-forms-white">
-				    <option value="A">A - Normal</option>
-				    <option value="B">B - Traditionnel (3 sets &agrave; 6 jeux pt d&eacute;cisif)</option>
-				    <option value="C">C - 3 sets &agrave; 4 jeux - jeu décisif à 4/4</option>
-				    <option value="D">D - 3 sets &agrave; 4 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
-				    <option value="E">E - 3 sets &agrave; 3 jeux - jeu décisif à 2/2</option>
-				    <option value="F">F - 3 sets &agrave; 3 jeux - jeu décisif à 2/2 pt d&eacute;cisif</option>
-				    <option value="G">G - 3 jeux d&eacute:cisifs</option>
-				    <option value="H">H - 3 Sets &agrave; 4 jeux - jeu décisif à 3/3 pt d&eacute;cisif</option>
-				    <option value="I">I - 3 sets &agrave; 5 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
-			    </select>
-		    </div>
-		      -->
 		
 		    <div class="ui-grid-a">
 			    <div class="ui-block-a">
-            <div class="form-label">Court</div>
+            <div class="form-label" data-i18n="gameadd.court"></div>
 			    </div>
 			    <div class="ui-block-b">
-            <div class="form-label">Tour</div>
+            <div class="form-label" data-i18n="gameadd.tour"></div>
 			    </div>
 			    <div class="ui-block-a" style="padding-right:5px;">
 				    <select name="court" id="court" style="width:100%">
-					    <option value="">Selection</option>
-					    <option value="1">Terrain 1</option>
-					    <option value="2">Terrain 2</option>
-					    <option value="3">Terrain 3</option>
-					    <option value="4">Terrain 4</option>
-					    <option value="5">Terrain 5</option>
-					    <option value="6">Terrain 6</option>
-					    <option value="7">Terrain 7</option>
-					    <option value="8">Terrain 8</option>
-					    <option value="9">Terrain 9</option>
-					    <option value="10">Terrain 10</option>
-					    <option value="11">Terrain 11</option>
+					    <option value=""><%= selection %></option>
+					    <option value="1"><%= surface %> 1</option>
+					    <option value="2"><%= surface %> 2</option>
+					    <option value="3"><%= surface %> 3</option>
+					    <option value="4"><%= surface %> 4</option>
+					    <option value="5"><%= surface %> 5</option>
+					    <option value="6"><%= surface %> 6</option>
+					    <option value="7"><%= surface %> 7</option>
+					    <option value="8"><%= surface %> 8</option>
+					    <option value="9"><%= surface %> 9</option>
+					    <option value="10"><%= surface %> 10</option>
+					    <option value="11"><%= surface %> 11</option>
 					    <option value="">---</option>
-					    <option value="A">Terrain A</option>
-					    <option value="B">Terrain B</option>
-					    <option value="C">Terrain C</option>
-					    <option value="D">Terrain D</option>
-					    <option value="E">Terrain E</option>
-					    <option value="F">Terrain F</option>
+					    <option value="A"><%= surface %> A</option>
+					    <option value="B"><%= surface %> B</option>
+					    <option value="C"><%= surface %> C</option>
+					    <option value="D"><%= surface %> D</option>
+					    <option value="E"><%= surface %> E</option>
+					    <option value="F"><%= surface %> F</option>
 				    </select>
 			    </div>
 			    <div class="ui-block-b" style="padding-left:5px;">
 				    <select name="tour" id="tour" style="width:100%">
-					    <option value="">Selection</option>
-					    <option value="">Poule</option>
-					    <option value="">Consolante</option>
-					    <option value="">1er tour</option>
-					    <option value="">2e tour</option>
-					    <option value="">3e tour</option>
-					    <option value="">4e tour</option>
-					    <option value="">5e tour</option>
-					    <option value="">6e tour</option>
-					    <option value="">7e tour</option>
-					    <option value="">8e tour</option>
-					    <option value="">9e tour</option>
-					    <option value="">1/256 finale</option>
-					    <option value="">1/128 finale</option>
-					    <option value="">1/64 finale</option>
-					    <option value="">1/32 finale</option>
-					    <option value="">1/16 finale</option>
-					    <option value="">1/8 finale</option>
-					    <option value="">1/4 finale</option>
-					    <option value="">1/2 finale</option>
-					    <option value="">Finale</option>
-					    <option value="">Journ&eacute;e 1</option>
-					    <option value="">Journ&eacute;e 2</option>
-					    <option value="">Journ&eacute;e 3</option>
-					    <option value="">Journ&eacute;e 4</option>
-					    <option value="">Journ&eacute;e 5</option>
-					    <option value="">Journ&eacute;e 6</option>
-					    <option value="">Journ&eacute;e 7</option>
-					    <option value="">Journ&eacute;e 8</option>
-					    <option value="">Journ&eacute;e 9</option>
-					    <option value="">Journ&eacute;e 10</option>
+					    <option value=""><%= selection %></option>
+					    <option value="" data-i18n="gameadd.poule"></option>
+					    <option value="" data-i18n="gameadd.consolante"></option>
+					    <option value="" data-i18n="gameadd.select1"></option>
+					    <option value="" data-i18n="gameadd.select2"></option>
+					    <option value="" data-i18n="gameadd.select3"></option>
+					    <option value="" data-i18n="gameadd.select4"></option>
+					    <option value="" data-i18n="gameadd.select5"></option>
+					    <option value="" data-i18n="gameadd.select6"></option>
+					    <option value="" data-i18n="gameadd.select7"></option>
+					    <option value="" data-i18n="gameadd.select8"></option>
+					    <option value="" data-i18n="gameadd.select9"></option>
+					    <option value="" data-i18n="gameadd.select10"></option>
+					    <option value="" data-i18n="gameadd.select11"></option>
+					    <option value="" data-i18n="gameadd.select12"></option>
+					    <option value="" data-i18n="gameadd.select13"></option>
+					    <option value="" data-i18n="gameadd.select14"></option>
+					    <option value="" data-i18n="gameadd.select15"></option>
+					    <option value="" data-i18n="gameadd.select16"></option>
+					    <option value="" data-i18n="gameadd.select17"></option>
+					    <option value="" data-i18n="gameadd.select18"></option>
+					    <option value="" data-i18n="gameadd.select19"></option>
+					    <option value="" data-i18n="gameadd.select20"></option>
+					    <option value="" data-i18n="gameadd.select21"></option>
+					    <option value="" data-i18n="gameadd.select22"></option>
+					    <option value="" data-i18n="gameadd.select23"></option>
+					    <option value="" data-i18n="gameadd.select24"></option>
+					    <option value="" data-i18n="gameadd.select25"></option>
+					    <option value="" data-i18n="gameadd.select26"></option>
+					    <option value="" data-i18n="gameadd.select27"></option>
+					    <option value="" data-i18n="gameadd.select28"></option>
 				    </select>
 			    </div>
 		    </div>
 
 		    <div class="ui-grid-a">
 			    <div class="ui-block-a">
-                  <div class="form-label">Surface</div>
+                  <div class="form-label" data-i18n="gameadd.surface"></div>
 			    </div>
 			    <div class="ui-block-b">
-                  <div class="form-label">Officiel</div>
+                  <div class="form-label" data-i18n="gameadd.official"></div>
 			    </div>
 			    <div class="ui-block-a" style="padding-right:5px;">
     			    <select name="surface" id="surface" style="width:100%">
-    				    <option value="">Selection</option>
-    				    <option value="BP">B&eacute;ton poreux (quick) - BP</option>
-    				    <option value="EP">Enrob&eacute; poreux - EP</option>
-    				    <option value="EPDM">Granulats caoutchouc - EPDM</option>
-    				    <option value="GAS">Gazon synth&eacute;tique - GAS</option>
-    				    <option value="GAZ">Gazon naturel - GAZ</option>
-    				    <option value="MOQ">Moquette - MOQ</option>
-    				    <option value="NVTB">Terre battue non g&eacute;live - NVTB</option>
-    				    <option value="PAR">Parquet (bois) - PAR</option>
-    				    <option value="RES">R&eacute;sine (greenset) - RES</option>
-    				    <option value="TB">Terre-battue - TB</option>
+    				    <option value=""><%= selection %></option>
+    				    <option value="BP" data-i18n="gameadd.surface_bp"></option>
+    				    <option value="EP" data-i18n="gameadd.surface_ep"></option>
+    				    <option value="EPDM" data-i18n="gameadd.surface_epdm"></option>
+    				    <option value="GAS" data-i18n="gameadd.surface_gas"></option>
+    				    <option value="GAZ" data-i18n="gameadd.surface_gaz"></option>
+    				    <option value="MOQ" data-i18n="gameadd.surface_moq"></option>
+    				    <option value="NVTB" data-i18n="gameadd.surface_nvtb"></option>
+    				    <option value="PAR" data-i18n="gameadd.surface_par"></option>
+    				    <option value="RES" data-i18n="gameadd.surface_res"></option>
+    				    <option value="TB" data-i18n="gameadd.surface_tb"></option>
     			    </select>
 		        </div>
                 <div class="ui-block-b" style="padding-right:1px;">
                   <select name="competition" id="competition" style="width:100%">
-                    <option value="yes">Oui</option>  
-                    <option value="no">Non</option>                       
+                    <option value="yes" data-i18n="gameadd.yes"></option>  
+                    <option value="no" data-i18n="gameadd.no"></option>                       
                    </select>             
                 </div>
             </div>
 
-	      <input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
-	      <input type="hidden" id="token" value="<%= token %>" class="input" />
       </div>
     </div>
 </div>
@@ -180,7 +159,7 @@
 <div class="button-form" data-input-mode="hide">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form"><div class="button" id="addGame">ENREGISTRER</div></div>
+  <div class="link-form"><div class="button" id="addGame" data-i18n="gameadd.submit"></div></div>
 </div>
 
 

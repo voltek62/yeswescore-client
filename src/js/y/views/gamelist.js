@@ -17,20 +17,21 @@ Y.Views.GameList = Y.View.extend({
 
   pageName: "gameList",
   pageHash : "gameList", 
+  filterList: "",
   
   myinitialize: function (param) {
   	
 	//header 
     if (param!=='undefined') { 
       if (param.mode==="me")
-        Y.GUI.header.title("LISTE DE VOS MATCHS");
+        Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
       else if (param.mode==="club")
-        Y.GUI.header.title("LISTE DES MATCHS DU CLUB");   
+        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames'));   
       else
-        Y.GUI.header.title("LISTE DES MATCHS");     
+        Y.GUI.header.title(i18n.t('gamelist.titlegames'));     
     }
 	else
-	  Y.GUI.header.title("LISTE DES MATCHS");
+	  Y.GUI.header.title(i18n.t('gamelist.titlegames'));
 	  
 	
     var that = this;
@@ -39,7 +40,8 @@ Y.Views.GameList = Y.View.extend({
     
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
-      gamesearch: Y.Templates.get('gameSearch')
+      gamesearch: Y.Templates.get('gameListSearch'),
+      error: Y.Templates.get('error')      
     };
     
 
@@ -79,11 +81,11 @@ Y.Views.GameList = Y.View.extend({
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
-        console.log('error reading player ', err);
+        //console.log('error reading player ', err);
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           // FIXME: err, reject deferred
-          console.log('player created', player);
+          //console.log('player created', player);
           playerDeferred.resolve();
         });
         return;
@@ -117,11 +119,7 @@ Y.Views.GameList = Y.View.extend({
     this.$(".filters").hide();
   },
 
-/*
-<a href="#sort/location" class="button">Afficher par Lieu</a>'
-+    +' <a href="#sort/ongoing" class="button">Afficher Matchs encours</a>'
-+    +' <a href="#sort/finished" class="button">Afficher Matchs finis</a>
-*/
+
   filterByLocation: function () { this.filter("location");Y.Router.navigate("sort/location", true);},
   filterByDate: function () { this.filter("date");Y.Router.navigate("sort/date", true);},
   filterByClub: function () { this.filter("club");Y.Router.navigate("sort/club", true);},  
@@ -130,7 +128,8 @@ Y.Views.GameList = Y.View.extend({
 
   filter: function (o) {
     // FIXME
-    console.log('FIXME: filter by ' + o);
+    //console.log('FIXME: filter by ' + o);
+    this.filterList = o;
     this.hideFilters();
   },
 
@@ -148,32 +147,34 @@ Y.Views.GameList = Y.View.extend({
   },
 
   search: function () {
-    //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
-    $(this.listview).html('<p class="message">Aucun resultat</p>'); // FIXME: no html in code.
+    $(this.listview).html(this.templates.error());
+    $('p').i18n(); 
     this.games.setMode('player');
     this.games.setQuery(q);
-    this.games.fetch().done($.proxy(function () {
+    this.games.fetch().done($.proxy(function () {    
       $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
     }, this));
+    
     return this;
   },
 
   // should not take any parameters
   render: function () {
-    this.$el.html(this.templates.gamesearch(), {});
+    this.$el.html(this.templates.gamesearch({}));   
+    $('a').i18n();    
     return this;
   },
 
   // should not take any parameters
   renderList: function () {
     $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: ' ' }));
+    $('p.message').i18n();
     return this;
   },
 
   onClose: function () {
     this.undelegateEvents();
-    //this.games.off("all", this.renderList, this);
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
   }
 });

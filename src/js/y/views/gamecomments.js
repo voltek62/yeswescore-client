@@ -5,6 +5,8 @@ Y.Views.GameComments = Y.View.extend({
   pageName: "gameComment",
   pageHash : "games/comment/",
 
+  shareTimeout: null,
+
   myinitialize:function() {
     this.pageHash += this.id; 
     this.gameid = this.id;
@@ -12,7 +14,7 @@ Y.Views.GameComments = Y.View.extend({
     this.streamItemsCollection = null;
 
     // header
-    Y.GUI.header.title("COMMENTAIRES");
+    Y.GUI.header.title(i18n.t('gamecomment.title'));
   
     // loading templates.
     this.templates = {
@@ -67,13 +69,51 @@ Y.Views.GameComments = Y.View.extend({
 
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.layout());
+	  this.$el.html(this.templates.layout({}));
+      $('.send').i18n();	
+      $('textarea').i18n();  
 	  return this;
   },
   
   // score component (top of the page)
   renderScore: function () {
-	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON()}));
+  
+ 	var timer = '';
+ 	var game = this.game.toJSON();
+        
+    if ( game.status === "finished" ) {
+       
+
+      var dateEnd = new Date(game.dates.end);
+      var dateStart = new Date(game.dates.start);
+          	
+      timer = dateEnd - dateStart;
+      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+        
+    }
+    else if ( game.status === "ongoing" ) {
+      
+      //comment connaitre la date actuelle par rapport au serveur ?
+      var dateEnd = new Date();
+      var dateStart = new Date(game.dates.start);
+      //this.dateStart = this.game.dates.start;
+          	
+      timer = dateEnd - dateStart;
+          
+      if (timer>0)
+      {
+	      console.log('timer ongoing',timer);
+	          
+	      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+	      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+      }
+      //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
+      //setInterval ( this.refreshTimer, 1000 );
+          
+    }  
+  
+	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
 	  return this;
   },
 
@@ -83,13 +123,13 @@ Y.Views.GameComments = Y.View.extend({
     var nbComments = this.streamItemsCollection.length;
     // FIXME: l18n
     if (nbComments === 0)
-      this.$(".list-comment-title").html("Aucun commentaire");
+      this.$(".list-comment-title").html(i18n.t('game.0comment'));
     else if (nbComments === 1)
-      this.$(".list-comment-title").html("1 COMMENTAIRE");
+      this.$(".list-comment-title").html(i18n.t('game.1comment'));
     else if (nbComments <= 10)
-      this.$(".list-comment-title").html(nbComments + " COMMENTAIRES");
+      this.$(".list-comment-title").html(nbComments + " "+i18n.t('game.comments'));
     else
-      this.$(".list-comment-title").html("10 DERNIERS COMMENTAIRES");
+      this.$(".list-comment-title").html(i18n.t('game.10lastcomments'));
     // adding comment into the DOM.
     this.streamItemsCollection.forEach(function (streamItem) {
       if (!document.getElementById("comment"+streamItem.get('id'))) {
@@ -104,6 +144,10 @@ Y.Views.GameComments = Y.View.extend({
         $(divHiddenContainer).fadeIn();
       }
     }, this);
+    
+    $('a').i18n();
+    $('span').i18n();
+        
     return this;
   }, 
 
@@ -152,6 +196,7 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
+  
     var playerid = this.owner.id
     , token  = this.owner.get('token')
     , gameid = this.gameid
@@ -168,10 +213,21 @@ Y.Views.GameComments = Y.View.extend({
     var that = this;
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
+      
+	  that.$("a.sendButton").addClass("ok");
+	  that.shareTimeout = window.setTimeout(function () {
+	    that.$("a.sendButton").removeClass("ok");
+	    that.shareTimeout = null;
+	  }, 4000);
+      
       that.scrollTop();
     });
 
     $('#messageText').val('');
+    
+    
+    
+    
   },
 
   onClose: function(){

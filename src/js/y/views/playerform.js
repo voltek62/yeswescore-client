@@ -21,7 +21,7 @@ Y.Views.PlayerForm = Y.View.extend({
     this.useSearch = 0;	
           
 	//header
-    Y.GUI.header.title("MON PROFIL"); 
+    Y.GUI.header.title(i18n.t('playerform.title')); 
   
     // loading templates.
     this.templates = {
@@ -30,18 +30,17 @@ Y.Views.PlayerForm = Y.View.extend({
       clublist: Y.Templates.get('clubListAutoComplete')
     };
        
-    //this.playerFormTemplate = Y.Templates.get('playerForm');
-    //this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
+    this.owner = Y.User.getPlayer();    
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');
+    this.clubid = this.owner.get('club').id;
     
-    this.player_cache = Y.User.getPlayer().toJSON();
-    //this.pageHash += this.player.id; 
-    //console.log(this.player_cache);
+    //console.log('clubid',this.clubid);
     
     // we render immediatly
     this.render();    
-        	
-
-    this.player = new PlayerModel({id : this.player_cache.id});
+    
+    this.player = new PlayerModel({id : this.owner.id});
     this.player.once("sync", this.renderPlayer, this);	
     this.player.fetch();
      	
@@ -51,10 +50,7 @@ Y.Views.PlayerForm = Y.View.extend({
   
   updateList: function (event) {
     var q = $("#club").val();
-
-    //console.log('updateList');	  
-   	//Utiliser ClubListViewTemplate
-    //$(this.listview).html('<li><a href="" data-transition="slide">Club 1</a></li>');    	
+   	
     this.clubs = new ClubsCollection();
     this.clubs.setMode('search',q);
     if (q.length>2) {
@@ -62,7 +58,7 @@ Y.Views.PlayerForm = Y.View.extend({
       this.clubs.fetch();
       this.clubs.on( 'sync', this.renderList, this );
     }
-    //$(this.listview).listview('refresh');
+
   },
   
   
@@ -75,9 +71,9 @@ Y.Views.PlayerForm = Y.View.extend({
     
   renderList: function () {
     var q = $("#club").val();  	
-    //console.log(this.clubs.toJSON());   	
+  	
 	$(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
-	  //$(this.listview).listview('refresh');
+
   },
     
     
@@ -93,7 +89,6 @@ Y.Views.PlayerForm = Y.View.extend({
     //console.log('selected '+selectedId+' '+selectedName);
     	
     $(this.listview).html('');
-    //$(this.listview).listview('refresh');
   },
       
   add: function (event) {
@@ -105,10 +100,10 @@ Y.Views.PlayerForm = Y.View.extend({
       , password = $('#password').val()
       , email = $('#email').val()
       , rank = $('#rank').val()
-      , playerid = $('#playerid').val()
-      , token = $('#token').val()
+      , playerid = this.playerid
+      , token = this.token
       , club = $('#club').val()
-      , clubid = $('#clubid').val()
+      , clubid = this.clubid
       , idlicense = $('#idlicense').val()
       , player = null;
            
@@ -144,8 +139,8 @@ Y.Views.PlayerForm = Y.View.extend({
 	    , rank:player.rank
 	    , password:player.password
 	    , idlicense:player.idlicense
-	    , playerid:player.id
-	    , token:this.player_cache.token
+	    , playerid:this.playerid
+	    , token:this.token
     };
       
     if (player.club!== undefined) {    
@@ -159,9 +154,11 @@ Y.Views.PlayerForm = Y.View.extend({
     else 
       dataDisplay.email = '';
     
-    //player:this.player.toJSON(),playerid:owner.id,token:owner.token	
+
     this.$el.html(this.templates.playerform(dataDisplay));
-    //this.$el.trigger('pagecreate');
+
+	this.$el.i18n();
+
     return this;
   },
 

@@ -14,14 +14,12 @@ Y.Views.PlayerList = Y.View.extend({
   initialize : function() {
   
 	//header    
-    Y.GUI.header.title("LISTE DES JOUEURS"); 
-    
-    console.log('PlayerList View '+this.id);
+    Y.GUI.header.title(i18n.t('playerlist.title')); 
   
     // loading templates.
     this.templates = {
       playerlist:  Y.Templates.get('playerList'),
-      players: Y.Templates.get('playerSearch')
+      playersearch: Y.Templates.get('playerListSearch')
     };
         
     //this.playerListViewTemplate = Y.Templates.get('playerList');
@@ -32,8 +30,6 @@ Y.Views.PlayerList = Y.View.extend({
 
 	// renderList
     if (this.id !== 'null') {
-      console.log('on demande les joueurs par club ' + this.id);
-
       this.players = new PlayersCollection();
       this.players.setMode('club', this.id);
       this.players.once('sync', this.renderList, this);
@@ -74,7 +70,7 @@ Y.Views.PlayerList = Y.View.extend({
 
   // render the content into div of view
   render : function() {
-    this.$el.html(this.templates.players({}));
+    this.$el.html(this.templates.playersearch({}));
 
     return this;
   },

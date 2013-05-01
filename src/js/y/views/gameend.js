@@ -7,14 +7,19 @@ Y.Views.GameEnd = Y.View.extend({
 
   pageName: "gameEnd",
   pageHash : "games/end/",
-    
+  playerid: "",
+  token: "",
+      
   initialize:function() {
   
-    Y.GUI.header.title("TERMINER LA PARTIE");	    
+    Y.GUI.header.title(i18n.t('gameend.title'));	    
   
     this.gameEndTemplate = Y.Templates.get('gameEnd');
 
-    this.owner = Y.User.getPlayer().toJSON();
+    this.owner = Y.User.getPlayer();    
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');
+    
     this.render();
 
   },
@@ -24,7 +29,7 @@ Y.Views.GameEnd = Y.View.extend({
     fbNote = $('#fbNote').val();
         
     //Y.Router.navigate("/#games/"+game.id, true);
-    alert(privateNote+' '+fbNote);
+    //alert(privateNote+' '+fbNote);
     return false;
   },
   

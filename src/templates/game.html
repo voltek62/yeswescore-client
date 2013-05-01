@@ -20,7 +20,7 @@
           <img src="./images/eye.png" width="20" height="12" style="margin-top:4px;">
         </div>
         <div class="ui-block-e">
-        <% if (game.owner === owner.id) { %>
+        <% if (game.owner === playerid) { %>
           <img src="./images/undo.png" width="20" height="20">
         <% }
            else { 
@@ -73,14 +73,14 @@
         <b><%= game.location.city %></b>
         </div>
         <div class="ui-block-d">
-        <b>Public</b>
+        <b><span data-i18n="game.public"></span></b>
         </div>
         <div class="ui-block-e">
-        <% if (game.owner === owner.id) { %>
-        <span class="undoAction">Annuler</span>
+        <% if (game.owner === playerid) { %>
+        <b><span class="undoAction" data-i18n="game.undo"></span></b>
         <% } 
         else { %>
-        Mode Spectateur
+        <b><span data-i18n="game.spectators"></span></b>
         <% } %>
         </div>
       </div>
@@ -97,22 +97,22 @@
       SOCIAL BAR
     -->
     <div class="socialbar">
-      <% if (game.owner === owner.id) { %>
+      <% if (game.owner === playerid) { %>
 	      <div class="ui-grid-b">
 		      <div class="ui-block-a button">
-            <a id="optionButton" data-i18n="game.options">Options match</a> 
+            <a id="optionButton" data-i18n="game.options"></a> 
 		      </div>
           <div id="facebook" class="ui-block-b share">
             <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
           </div>
 		      <div class="ui-block-c button">
                 <% if (game.status === "created" ) { %>
-		        <a id="statusButton">Commencer match</a>
+		        <a id="statusButton" data-i18n="game.begin"></a>
                 <% }
                 else if (game.status === "finished" || game.status === "canceled") 
                 {
                 %>
-                <a id ="statusButton">Match Fini</a>
+                <a id ="statusButton" data-i18n="game.gamefinished"></a>
                 <%                  
                 }
                 else {
@@ -127,7 +127,11 @@
         <div class="ui-grid-b">
           <div class="ui-block-a button">
             <a id="followButton">
-              <% if (follow === 'true') { %>Ne plus suivre<% } else { %>Suivre match<% } %> 
+              <% if (follow === 'true') { %>
+              <span data-i18n="message.nofollow"></span>
+              <% } else { %>
+              <span data-i18n="message.follow"></span>
+              <% } %> 
             </a>
           </div>
           <div id="facebook" class="ui-block-b">
@@ -141,22 +145,22 @@
             <%
             if (game.status === "finished") {
             %>
-            <span>Match Fini</span>
+            <span data-i18n="game.gamefinished"></span>
             <%                  
             }
             else if (game.status === "created") {
             %>
-            <span>Match Pr&eacute;vu</span>
+            <span data-i18n="game.gamecreated"></span>
             <%                  
             }            
             else if (game.status === "canceled") {
             %>
-            <span>Match Annul&eacute;</span>
+            <span data-i18n="game.gamecanceled"></span>
             <%                  
             } 
             else  {
             %>
-            <span>Match en cours</span>
+            <span data-i18n="game.gameongoing"></span>
             <%
             }
             %>
@@ -173,5 +177,5 @@
 <div class="button-comments" data-js-href="#games/<%= game.id %>/comments/">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-comments">COMMENTAIRES</div>
+  <div class="link-comments"></div>
 </div>

@@ -14,76 +14,97 @@ Y.Views.ClubFollow = Y.View.extend({
   initialize:function() {
 
 	//header      
-    Y.GUI.header.title("CLUBS SUIVIS");    
+    Y.GUI.header.title(i18n.t('clubfollow.title'));    
 
     // loading templates.
     this.templates = {
       clublist:  Y.Templates.get('clubList'),
-      clubsearch: Y.Templates.get('clubSearch')
+      clubsearch: Y.Templates.get('clubListSearch'),
+      error: Y.Templates.get('error') 
     };
     
 
     this.render();		
        
     var clubs = Y.Conf.get("owner.clubs.followed");
-    
-    //console.log('clubs',clubs);
-    
-    if (clubs!==undefined) {
-
-	    this.collection = new ClubsCollection();
-	
+	  
+    if (clubs!==undefined) {   
+    	this.clubLast = clubs[clubs.length-1];
+	    this.collection = new ClubsCollection();	
 	    var that = this;
-	
 	    var i = clubs.length;	
 	    
-		this.syncClub = function (club) {
-		
+        if (clubs.length<1) {
+	      $(this.listview).html(this.templates.clublist({clubs:[],query:' '}));
+	      $('p.message').i18n();		          
+        }	    
+	    
+		this.syncClub = function (club) {		
  		  that.collection.add(club);
 	      i--;
-
-	      if (i<=0) {
+          //si dernier element du tableau
+          if (that.clubLast === club.get('id')) {	    	
 	    	$(that.listview).html(that.templates.clublist({clubs:that.collection.toJSON(),query:' '}));  	
 	      }
 	          			
 		};	    
 	   
-	    this.clubs = [];	    
+	    this.clubs = [];
+	    	    
 	    clubs.forEach(function (clubid,index) {
 		  var club = new ClubModel({id : clubid});
 		  club.once("sync", this.syncClub, this);
-	      club.fetch();	
+
+	        club.fetch().error(function (xhrResult, error) {	        
+
+	        	if (clubs.indexOf(clubid) !== -1) {
+		          clubs.splice(clubs.indexOf(clubid), 1);
+		          Y.Conf.set("owner.clubs.followed", clubs, { permanent: true });
+		          
+		          if (clubs.length<1) {
+				   $(that.listview).html(that.templates.clublist({clubs:[],query:' '}));
+				   $('p.message').i18n();		          
+		          }
+		          else
+		            this.clubLast = clubs[clubs.length-1];
+   
+		        }
+	        	
+	        });
+	        
 	      this.clubs[index] = club;	      			
 	    },this);
 	 }
-	 else {
-	 
+	 else {	 
 	   $(this.listview).html(this.templates.clublist({clubs:[],query:' '}));
+	   $('p.message').i18n();
 	 }
      
   },
   
-  chooseclub : function(elmt) { 
+  chooseClub : function(elmt) { 
     var ref = elmt.currentTarget.id;
     console.log(ref);
 	Y.Router.navigate(ref, {trigger: true});  
   },  
   
   search:function() {
-    //FIXME if($("#search-basic").val().length>3) {
     var q = $("#search-basic").val();
-    $(this.listview).empty();    	  
+    $(this.listview).html(this.templates.error());
+    $('p').i18n();   
+    this.clubs = new ClubsCollection();  	  
     this.clubs.setMode('search',q);
-    this.clubs.fetch();
-    $(this.listview).html(this.templates.clublist({clubs:this.clubsfollow.toJSON(), query:q}));
-    //}
+    this.clubs.fetch().done($.proxy(function () {        
+      $(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
+    }, this));
+    
     return this;
   },
 
   //render the content into div of view
   render: function(){
     this.$el.html(this.templates.clubsearch({}));
-
+	$('a').i18n(); 
     return this;
   },
 

@@ -427,6 +427,7 @@ ul>li {
 	background: #fff;
 	border-top: 1px solid #8c8c8e;
 	height: 100px;
+	cursor:pointer;
 }
 
 ul>li:first-child {
@@ -1158,6 +1159,15 @@ ul>li.player>a {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
+.account a.sendButton {
+	background-color: #b0b0b0;
+	border: 1px solid #c0c0c0;
+}
+
+.account a.sendButton.ok { background-color: #46b1db; border: 1px solid #41c68f;pointer-events: none;cursor: default; }
+.account a.sendButton.ko { background-color: #f2734c; border: 1px solid #f2734c; }
+
 
 .account a[disabled] {
 	background-color: #b0b0b0;

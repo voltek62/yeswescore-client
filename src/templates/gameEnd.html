@@ -5,21 +5,16 @@
     <span class="success label label-info hide"></span>
     
 	<div>
-		<label>Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note priv&eacute; ( conseils, astuces ) ?</label>
+		<label data-i18n="gameend.saveprivate"></label>
 		<textarea id="privateNote" name="privateNote" class="jq-ui-forms"></textarea>
 		<span class="privateNote_error label label-info hide"></span>
 	</div>
 
 	<div>
-		<label>Vous pouvez indiquer le message qui sera diffus&eacute; sur FB ?</label>
+		<label data-i18n="gameend.savefb"></label>
 		<textarea id="fbNote" name="fbNote" class="jq-ui-forms"></textarea>
 		<span class="fbNote_error label label-info hide"></span>
 	</div>
-
-
-	<input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
-	<input type="hidden" id="token" value="<%= token %>" class="input" />
-
 
   </div>
 </div>
@@ -31,5 +26,5 @@
 <div class="button-form" data-input-mode="hide">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form"><div class="button">Terminer</div></div>  
+  <div class="link-form"><div class="button" data-i18n="gameend.finish"></div></div>  
 </div>

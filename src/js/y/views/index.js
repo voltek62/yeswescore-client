@@ -12,7 +12,7 @@ Y.Views.Index = Y.View.extend({
   pageHash : "index",  
   
   initialize: function () {
-    Y.GUI.header.title("ACCUEIL");
+    Y.GUI.header.title(i18n.t('index.title'));
 
     var that = this;
     //

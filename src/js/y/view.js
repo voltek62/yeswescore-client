@@ -7,7 +7,7 @@
     // input mode
     'click input': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
     'blur input': 'inputModeOffDelayed',
-    'focus textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
+    'click textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
     'blur textarea': 'inputModeOffDelayed',
 
     // helpers

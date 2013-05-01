@@ -15,11 +15,11 @@ Y.Views.PlayerForget = Y.View.extend({
   
   initialize : function() {
   
-    Y.GUI.header.title("MOT DE PASSE OUBLIE");     
+    Y.GUI.header.title(i18n.t('playerforget.title'));     
   
     this.playerForgetTemplate = Y.Templates.get('playerForget');
     this.render();
-    //$.mobile.hidePageLoadingMsg();
+
   },
   
 
@@ -27,8 +27,6 @@ Y.Views.PlayerForget = Y.View.extend({
   
     var email = $('#email').val();
 
-    //console.log('test mot de passe oublie avec ' + email);
-    
     this.player = new PlayerModel();
     this.player.newpass(email);
     
@@ -39,6 +37,8 @@ Y.Views.PlayerForget = Y.View.extend({
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerForgetTemplate({}));
+    
+    this.$el.i18n();
 
     return this;
   },

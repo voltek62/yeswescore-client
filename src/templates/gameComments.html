@@ -4,19 +4,17 @@
 
   <div class="zone-list">
     <div>
-      <div class="list-comment-title">COMMENTAIRES</div>
+      <div class="list-comment-title" data-i18n="gamecomment.title"></div>
       <div class="list-comment">
       </div>
     </div>
     <br/>
     <div class="textarea-border">
-      <textarea rows="10" cols="40" class="textarea-comment" id="messageText" placeholder="Ecrire un commentaire"></textarea> 
+      <textarea rows="10" cols="40" class="textarea-comment" id="messageText" data-i18n="[placeholder]gamecomment.placeholder;"></textarea> 
+      <div class="account">
+        <a data-js-call="sendComment" data-i18n="gamecomment.send" class="sendButton"></a>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="button-form" data-input-mode="hide">
-  <div class="background rounded"></div>
-  <div class="background trapeze"></div>
-  <div class="link-form"><div class="button send" data-js-call="sendComment">ENVOYER</div></div>
-</div>

@@ -24,7 +24,7 @@ Y.Views.GameForm = Y.View.extend({
   initialize:function() {
 
 	//header
-    Y.GUI.header.title("MES OPTIONS"); 
+    Y.GUI.header.title(i18n.t('gameform.title')); 
     
     //no search
     this.useSearch=0;
@@ -32,13 +32,16 @@ Y.Views.GameForm = Y.View.extend({
     this.gameFormTemplate = Y.Templates.get('gameForm');
     this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
-	this.owner = Y.User.getPlayer();
+    this.owner = Y.User.getPlayer();    
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');  
+    this.gameid = this.id;     
+    
+     
 	
-	this.score = new GameModel({id : this.id});
-    this.score.fetch();
-  	                  
-    this.score.once("sync",this.render,this);
- 
+	this.game = new GameModel({id : this.id});  	                  
+    this.game.once("sync",this.render,this);
+    this.game.fetch(); 
   
   },
    
@@ -79,14 +82,9 @@ Y.Views.GameForm = Y.View.extend({
 
   deleteMatch: function (event) {
 
-    console.log('deleteMatch');    
-    
-     this.owner = Y.User.getPlayer().toJSON();
-  
-	///v1/games/:id/?_method=delete
     return Backbone.ajax({
       dataType : 'json',
-      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.owner.id+'&token='+this.owner.token+'&_method=delete',
+      url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.playerid+'&token='+this.token+'&_method=delete',
       type : 'POST',
       success : function(result) {
         console.log('data success delete Game', result);
@@ -103,28 +101,39 @@ Y.Views.GameForm = Y.View.extend({
     
     //FIXME : gestion date de debut
     var game = {
-	   team1 : $('#team1').val()
+      team1_id : this.team1_id
+	  , team1 : $('#team1').val()
       , rank1 : $('#rank1').val()
-      , team1_id : $('#team1_id').val()
+      , team2_id : this.team2_id            
       , team2 : $('#team2').val()
       , rank2 : $('#rank2').val()
-      , team2_id : $('#team2_id').val()
-      , country : $('#country').val()	      
+      //, country : $('#country').val()	      
       , city : $('#city').val()
-      , playerid : $('#playerid').val()
-      , token : $('#token').val()
+      , playerid : this.playerid
+      , token : this.token
       , court : $('#court').val()
       , surface : $('#surface').val()
       , tour : $('#tour').val()
-      , subtype : $('#subtype').val()
-      , id : gameid 
+      //, subtype : $('#subtype').val()
+      , id : this.gameid 
 	};
     
 
-    var tennis_update = new GameModel(game);
-    tennis_update.save();
+    var game = new GameModel(game);
+    
+    var that = this;
+    game.save({}, {  
+      success: function(model, response){
+	    
+	    $('span.success').html('MAJ OK ').show();
+	    that.game = model;
+	    
+	    console.log("new model",model.toJSON());
+	                 
+      }
+    });
 
-	return false;
+	return this;
     
   },     
     
@@ -132,10 +141,32 @@ Y.Views.GameForm = Y.View.extend({
   //render the content into div of view
   render: function(){
   
+   var game = this.game.toJSON();
+   
+   console.log('game render',game);
+  
+   this.team1_id = game.teams[0].players[0].id; 
+   this.team2_id = game.teams[1].players[0].id;
+     
     this.$el.html(this.gameFormTemplate({
-          game : this.score.toJSON(),
-          owner : this.owner.toJSON()
+          game : game
+          , selection : i18n.t('gameadd.selection')
+	      , surface : i18n.t('gameadd.surface')
     }));
+
+
+    if ( game.teams[0].players[0].name !== undefined ) $("#team1").val(game.teams[0].players[0].name);    
+    if ( game.teams[0].players[0].rank !== undefined ) $("#rank1").val(game.teams[0].players[0].rank);    
+    if ( game.teams[1].players[0].name !== undefined ) $("#team2").val(game.teams[1].players[0].name);    
+    if ( game.teams[1].players[0].rank !== undefined ) $("#rank2").val(game.teams[1].players[0].rank);                
+    
+    if ( game.location.city !== undefined ) $("#city").val(game.location.city);    
+    if ( game.options.surface !== undefined ) $("#surface").val(game.options.surface);
+    if ( game.options.tour !== undefined ) $("#tour").val(game.options.tour);
+    if ( game.options.court !== undefined ) $("#court").val(game.options.court);
+    if ( game.options.competition !== undefined ) $("#competition").val(game.options.competition);        
+        
+    this.$el.i18n();
       
    
   },
@@ -143,7 +174,7 @@ Y.Views.GameForm = Y.View.extend({
   onClose: function(){
     this.undelegateEvents();
 
-    this.score.off("sync",this.render,this);
+    this.game.off("sync",this.render,this);
     if (this.useSearch===1) this.clubs.off("sync",this.renderList,this);
   }
 });

@@ -22,14 +22,10 @@ Y.Views.GameAdd = Y.View.extend({
   
   	//header
     Y.GUI.header.title("CREER UNE PARTIE");
-  
-  
   	this.templates = {
-	  gameadd:  Y.Templates.get('gameAdd'),
-	  playerlist: Y.Templates.get('playerListAutoComplete')
-	};
-	    
-      
+	    gameadd:  Y.Templates.get('gameAdd'),
+	    playerlist: Y.Templates.get('playerListAutoComplete')
+	  };
     this.owner = Y.User.getPlayer().toJSON();
 	  this.render();
   },
@@ -38,7 +34,9 @@ Y.Views.GameAdd = Y.View.extend({
     $(".form-button.other-team").addClass("selected");
     $(".ui-grid-b.first-team").removeClass("me");
     $("#team1").prop("disabled", false);
+    // on force l'input mode
     $("#team1").focus();
+    this.$("#team1").trigger("click");
   },
 
   moreOption: function () {

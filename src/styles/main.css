@@ -588,6 +588,9 @@ ul>li.player>a {
 	background-color: #19171c;
 	border-radius: 12px;
 	cursor: pointer;
+  
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 
 .form-button.selected {

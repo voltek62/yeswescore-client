@@ -5,16 +5,17 @@
 
   var events = {
     // input mode
-    'focus input': 'inputModeOn',
-    'blur input': 'inputModeOff',
-    'focus textarea': 'inputModeOn',
-    'blur textarea': 'inputModeOff',
+    'click input': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
+    'blur input': 'inputModeOffDelayed',
+    'focus textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
+    'blur textarea': 'inputModeOffDelayed',
+
     // helpers
     'click *[data-js-call]': 'mycall',
     // autocompletion
-    'focus *[data-autocomplete]': 'autocompleteStart',
-    'blur *[data-autocomplete]': 'autocompleteStopDelayed', // keep 0.5 sec on screen.
-    'keyup *[data-autocomplete]': 'autocompleteCall'
+    //'click *[data-autocomplete]': 'autocompleteStart',
+    //'blur *[data-autocomplete]': 'autocompleteStopDelayed', // keep 0.5 sec on screen.
+    //'keyup *[data-autocomplete]': 'autocompleteCall'
   };
 
   var View = Backbone.View.extend({
@@ -112,6 +113,7 @@
         this.autocompleteObj.dispose();
         this.autocompleteObj = null;
       }
+      return true;
     },
 
     autocompleteCall: function (e) {

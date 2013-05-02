@@ -168,6 +168,7 @@
     "updateerror" : "Mise à jour impossible",    
     "error": "Une erreur s'est produite",
     "error_emptyplayer" : "Vous devez indiquer un joueur",
+    "error_emptyyou" : "Vous devez indiquer au moins un nom et un classement pour vous",    
     "nofollowplayerok":"Vous ne suivez plus ce joueur",
     "followplayerok":"Vous suivez ce joueur",
     "nofollowgameok":"Vous ne suivez plus ce match",
@@ -197,6 +198,7 @@
   },     
   "playerform": {
     "title": "MON PROFIL",
+    "firstconnection" : "Merci d'indiquer au moins votre nom et prénom :",
     "name":"Nom",
     "mail":"Email",
     "password":"Mot de passe",

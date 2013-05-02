@@ -25,13 +25,16 @@ Y.Views.GameAdd = Y.View.extend({
 	    gameadd:  Y.Templates.get('gameAdd'),
 	    playerlist: Y.Templates.get('playerListAutoComplete')
 	  };
-	  this.owner = Y.User.getPlayer();    
+	this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');
-	  this.render();
+	this.render();
   },
 
   otherTeam: function () {
+    $('span.team1_error').hide();
+    $('span.team2_error').hide();
+    
     $(".form-button.other-team").addClass("selected");
     $(".ui-grid-b.first-team").removeClass("me");
     $("#team1").prop("disabled", false);
@@ -41,6 +44,10 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   moreOption: function () {
+  
+    $('span.team1_error').hide();
+    $('span.team2_error').hide();  
+  
     $(".form-button.more-options").toggleClass("selected");
     $("#gameAddForm").toggleClass("simple");
   },
@@ -60,10 +67,17 @@ Y.Views.GameAdd = Y.View.extend({
       , team2 = $('#team2').val()
       , team2_id = $('#team2_id').val();
 
-    if (team1 === '' && team1_id === '') {
+    if ( team1 === '' && team1_id === ''   && !$('#team1').is(':disabled') ) {
       $('span.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       return false;
     }
+    
+    //On redirige vers le formulaire special
+    if ( ( team1 === '' || team1_id === '' )  && $('#team1').is(':disabled') ) {
+      //$('span.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();
+      Y.Router.navigate("players/form/me", {trigger: true});	  
+      return false;
+    }    
 
     if (team2 === '' && team2_id === '') {
       $('span.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
@@ -143,7 +157,10 @@ Y.Views.GameAdd = Y.View.extend({
     
     //this.$el.i18n();
 	  $('#content').i18n();
-
+	 
+	 if ( this.owner.get('name') !== "" ) $("#team1").val(this.owner.get('name')); 
+	 if ( this.owner.get('id') !== "" ) $("#team1_id").val(this.owner.get('id')); 	
+		
     return this;
   },
 

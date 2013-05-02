@@ -27,8 +27,8 @@
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YesWeScore</RootNamespace>
-    <AssemblyName>YesWeScore</AssemblyName>
+    <RootNamespace>yeswescore</RootNamespace>
+    <AssemblyName>yeswescore</AssemblyName>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>
     </SilverlightVersion>
@@ -42,7 +42,7 @@
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>CordovaAppProj_$(Configuration)_$(Platform).xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>YesWeScore.App</SilverlightAppEntry>
+    <SilverlightAppEntry>yeswescore.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
@@ -143,13 +143,21 @@
   <ItemGroup>
     <Content Include="config.xml" />
     <Content Include="CordovaLib\WPCordovaClassLib.dll" />
-    <Content Include="images\tile-200x200.png" />
-    <Content Include="images\tile.png" />
+    <Content Include="Images\appbar.back.rest.png" />
+    <Content Include="Images\appbar.close.rest.png" />
+    <Content Include="Images\appbar.feature.video.rest.png" />
+    <Content Include="Images\appbar.next.rest.png" />
+    <Content Include="Images\appbar.save.rest.png" />
+    <Content Include="Images\appbar.stop.rest.png" />
+    <Resource Include="www\images\ajax-loader.gif" />
+    <Content Include="www\images\ajax-loader.png" />
     <Content Include="www\images\bg.jpg" />
     <Content Include="www\images\calendar.png" />
     <Content Include="www\images\chrono.png" />
+    <Content Include="www\images\club-pic.jpg" />
     <Content Include="www\images\eye.png" />
     <Content Include="www\images\facebook.png" />
+    <Content Include="www\images\header-logo-off.png" />
     <Content Include="www\images\header-logo-on-animate-1.png" />
     <Content Include="www\images\header-logo-on-animate-2.png" />
     <Content Include="www\images\header-logo-on-animate-3.png" />
@@ -157,12 +165,21 @@
     <Content Include="www\images\header-logo-on.png" />
     <Content Include="www\images\house.png" />
     <Content Include="www\images\ico-magnifier-glass.jpg" />
+    <Content Include="www\images\icons-18-black.png" />
+    <Content Include="www\images\icons-18-white.png" />
+    <Content Include="www\images\icons-36-black.png" />
+    <Content Include="www\images\icons-36-white.png" />
+    <Content Include="www\images\index-club.png" />
+    <Content Include="www\images\index-match.png" />
+    <Content Include="www\images\index-player.png" />
+    <Content Include="www\images\ko.png" />
+    <Content Include="www\images\ok.png" />
     <Content Include="www\images\people.png" />
     <Content Include="www\images\pixel.jpg" />
     <Content Include="www\images\pixel.png" />
-    <Content Include="www\index.html">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="www\images\player-pic.jpg" />
+    <Content Include="www\images\undo.png" />
+    <Content Include="www\index.html" />
     <None Include="cordova\debug.bat" />
     <None Include="cordova\emulate.bat" />
     <None Include="Properties\AppManifest.xml">
@@ -172,6 +189,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="www\locales\fr-FR\translation.json" />
+    <None Include="www\styles\webfonts\opensans-400.ttf" />
+    <None Include="www\styles\webfonts\opensans-700.ttf" />
+    <None Include="www\styles\webfonts\opensans-800.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">
@@ -190,10 +210,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\" />
-    <Folder Include="www\styles\webfonts\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="WPCordovaClassLib, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="WPCordovaClassLib, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

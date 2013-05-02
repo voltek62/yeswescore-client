@@ -22,10 +22,11 @@
 <widget>
 
   <plugins>
-    <!--
+    <!-- 
     
-    Authorized plugin (cordova 2.5.0)
-    
+    Authorized plugins (cordova 2.6.0)
+
+    <plugin name="Device"/>
     <plugin name="Logger"/>
     <plugin name="Compass"/>
     <plugin name="Accelerometer"/>
@@ -43,7 +44,7 @@
     <plugin name="SplashScreen"/>
     <plugin name="Battery"/>
     <plugin name="Globalization"/>
-    <plugin name="InAppBrowser"/>
+    <plugin name="InAppBrowser"/> 
     -->
     
     <!-- required plugins -->

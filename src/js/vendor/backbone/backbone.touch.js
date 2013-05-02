@@ -51,7 +51,7 @@
                 that._touchHandler(e, {method:method});
               };
             })(method);
-            if (this.isTouch && eventName === 'click') {
+            if (this.isTouch && eventName === 'vclick') {
               if (window.navigator.msPointerEnabled) {
                   this.$el.on('MSPointerDown', selector, boundHandler);
                   this.$el.on('MSPointerUp', selector, boundHandler);
@@ -59,7 +59,7 @@
               this.$el.on('touchstart', selector, boundHandler);
               this.$el.on('touchend', selector, boundHandler);
             } else {
-
+              eventName = (eventName === 'vclick') ? 'click' : eventName;
               // backbone code.
               eventName += '.delegateEvents' + this.cid;
               if (selector === '') {

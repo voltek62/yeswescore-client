@@ -4,7 +4,8 @@ Y.Views.Autocomplete = Y.View.extend({
   proposals: null, /* @see y/autocomplete.js */
 
   events: {
-    'click .proposal': 'selected'
+    // Hack. mousedown is triggered before blur in the GUI.
+    'mousedown .proposal': 'selected'
   },
 
   initialize: function () { },

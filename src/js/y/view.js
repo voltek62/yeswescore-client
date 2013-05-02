@@ -13,9 +13,9 @@
     // helpers
     'click *[data-js-call]': 'mycall',
     // autocompletion
-    //'click *[data-autocomplete]': 'autocompleteStart',
+    'click *[data-autocomplete]': 'autocompleteStart',
     //'blur *[data-autocomplete]': 'autocompleteStopDelayed', // keep 0.5 sec on screen.
-    //'keyup *[data-autocomplete]': 'autocompleteCall'
+    'keyup *[data-autocomplete]': 'autocompleteCall'
   };
 
   var View = Backbone.View.extend({
@@ -32,12 +32,45 @@
       this[$(e.currentTarget).attr("data-js-call")](e);
     },
 
+    clearInputModeOffDelayed: function () {
+      if (this.inputModeOffTimeout) {
+        window.clearTimeout(this.inputModeOffTimeout);
+        this.inputModeOffTimeout = null;
+      }
+    },
+
     inputModeOn: function (e) {
+      console.log('View.js: input mode on');
+      this.clearInputModeOffDelayed();
+      if ($(e.target).attr("data-autocomplete"))
+        this.autocompleteStart(e);
       Y.GUI.inputMode(true);
       return true;
     },
 
+    inputModeOffTimeout: null,
+
+    inputModeOffDelayed: function (e) {
+      console.log('View.js: input mode off delayed');
+      this.clearInputModeOffDelayed();
+      this.inputModeOffTimeout = window.setTimeout(function () {
+        console.log('View.js: input mode off delayed suite');
+        var activeElement = document.activeElement;
+        if (activeElement && activeElement.nodeName.toLowerCase() === "input") {
+          console.log('View.js: new activeElement is an input');
+          return; // security...
+        }
+        console.log('View.js: => input mode off ' + activeElement.nodeName + ' => on bascule en input mode off');
+        Y.GUI.inputMode(false);
+      }, 100);
+      // au cas ou ... on n'a pas d'autres moyens de toute façon..
+      this.autocompleteStopDelayed(e);
+      return true;
+    },
+
     inputModeOff: function (e) {
+      console.log('View.js: input mode off');
+      this.clearInputModeOffDelayed();
       Y.GUI.inputMode(false);
       return true;
     },
@@ -95,17 +128,20 @@
       if (selectedFunctionName) {
         assert(typeof this[selectedFunctionName] === "function");
         this.autocompleteObj.on("selected", function (val) {
+          console.log('View.js: onselected (autocomplete)');
           this[selectedFunctionName](val);
         }, this);
       }
+      return true;
     },
 
-    autocompleteStopDelayed: function (now) {
+    autocompleteStopDelayed: function () {
       // keep on screen 0.5 sec.
       this.autocompleteTimeout = window.setTimeout(_.bind(function () {
         this.autocompleteStop(); 
         this.autocompleteTimeout = null;
       }, this), 500);
+      return true;
     },
 
     autocompleteStop: function () {

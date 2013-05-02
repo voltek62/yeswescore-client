@@ -196,7 +196,6 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   sendComment : function() {
-  
     var playerid = this.owner.id
     , token  = this.owner.get('token')
     , gameid = this.gameid

@@ -29,73 +29,14 @@ var PlayerModel = Backbone.Model.extend({
 
   },
 
-  login: function (mail, password) {
 
-    return Backbone.ajax({
-      dataType: 'json',
-      url: Y.Conf.get("api.url.auth"),
-      type: 'POST',
-      data: {
-        email: { address: mail },
-        uncryptedPassword: password
-      },
-      success: function (data) {
-
-        throw "FIXME: do not call GUI & use Y.User.* api";
-        /*
-        console.log('data result Login', data);
-
-        // Display Results
-        // TODO : prevoir code erreur
-        if (data.id !== undefined) {
-          $('span.success').html('Login OK ' + data.id).show();
-
-          //window.localStorage.setItem("Y.Cache.Player", JSON.stringify(data));
-
-          //players = new PlayersCollection('me');
-          //players.create(data);
-
-        } else
-          $('span.success').html('Erreur').show();
-
-        // FIXME : on redirige sur la page moncompte
-        */
-      }
-    });
-
-  },
 
   read: function () {
 
 
   },
 
-  newpass: function (mail) {
 
-    console.log('On demande un newpass');
-
-    return $.ajax({
-      dataType: 'json',
-      url: Y.Conf.get("api.url.auth") + "resetPassword/",
-      type: 'POST',
-      data: {
-        email: { address: mail }
-      },
-      success: function (data) {
-
-        console.log('data result Reset Password', data);
-
-        // Display Results
-        // TODO : prevoir code erreur
-
-
-        $('span.success').html('<br/> Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.').show();
-
-
-      }
-    });
-
-  },
 
   sync: function (method, model, options) {
 

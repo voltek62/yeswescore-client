@@ -25,13 +25,25 @@ Y.Views.PlayerForget = Y.View.extend({
 
   forget : function(event) {
   
-    var email = $('#email').val();
+    var mail = $('#email').val();
 
-    this.player = new PlayerModel();
-    this.player.newpass(email);
-    
-    
-    return false;
+	Backbone.ajax({
+      dataType: 'json',
+      url: Y.Conf.get("api.url.auth") + "resetPassword/",
+      type: 'POST',
+      data: {
+        email: { address: mail }
+      },
+      success: function (data) {
+
+        console.log('data result Reset Password', data);
+
+        $('span.success').html(i18n.t('message.mailspam')).show();
+
+      }
+    });
+        
+    return this;
   },
 
   // render the content into div of view

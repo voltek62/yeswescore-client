@@ -121,8 +121,14 @@ Y.Views.PlayerForm = Y.View.extend({
       , clubid:clubid            
     });
 
-	//FIXME :  control state
-    player.save();
+	//FIXME :  add control error
+    var that = this;
+    player.save().done(function (result) {
+      
+      	$('span.success').html(i18n.t('message.updateok')).show();
+		$('span.success').i18n();
+      
+    });
    
     return false;
   },     

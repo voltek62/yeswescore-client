@@ -32,12 +32,35 @@ Y.Views.PlayerSignin = Y.View.extend({
 
   signin : function(event) {
   
-    var email = $('#email').val();
+    var mail = $('#email').val();
     var password = $('#password').val();
 
-    this.player = new PlayerModel();
-    this.player.login(email, password);
-    return false;
+	Backbone.ajax({
+      dataType: 'json',
+      url: Y.Conf.get("api.url.auth"),
+      type: 'POST',
+      data: {
+        email: { address: mail },
+        uncryptedPassword: password
+      },
+      success: function (result) {
+
+		$('span.success').html(i18n.t('message.signok')).show();
+		$('span.success').i18n();
+		
+		var player = new PlayerModel(result);	
+		Y.User.setPlayer(player);
+		
+      },
+      error: function (result) {
+
+		$('span.success').html(i18n.t('message.signerror')).show();
+		$('span.success').i18n();
+     
+      }      
+    });
+    
+    return this;
   },
 
   // render the content into div of view

@@ -687,8 +687,6 @@ Y.Views.Game = Y.View.extend({
         }
       }
           
-      //$('span.success').html('Vous ne suivez plus ce match').show();
-      
       $("#followButton").text(i18n.t('message.follow'));
 
       this.follow = 'false';
@@ -706,8 +704,6 @@ Y.Views.Game = Y.View.extend({
       }
       else
         Y.Conf.set("owner.games.followed", [this.id]);
-
-      //$('span.success').html('Vous suivez ce match').show();
 
       $("#followButton").text(i18n.t('message.nofollow'));
 

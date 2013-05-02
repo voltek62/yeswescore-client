@@ -174,6 +174,8 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) {
     grunt.registerTask('copy-cordova-' + platform + '-to-dist', function () {
+      if (platforms === "wp8")
+         cordovaVersion = "2.6.0";
       grunt.file.copy('platforms/' + platform + '/cordova/cordova-' + cordovaVersion + '.js', 'dist/cordova.js');
     });
   });

@@ -164,6 +164,8 @@
     "noresult": "Aucun resultat",
     "noresultfor": "Aucun resultat pour",  
     "results": "resultats",  
+    "updateok" : "Mise à jour réussie",
+    "updateerror" : "Mise à jour impossible",    
     "error": "Une erreur s'est produite",
     "error_emptyplayer" : "Vous devez indiquer un joueur",
     "nofollowplayerok":"Vous ne suivez plus ce joueur",
@@ -174,6 +176,9 @@
     "followclubok":"Vous suivez ce club",   
     "follow":"Suivre",
     "nofollow":"Ne plus suivre", 
+    "mailspam":"<br/> Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.",
+    "signinok":"Chargement réussi",
+    "signinerror":"Chargement impossible",    
     "loading":"CHARGEMENT"       
   },
   "player": {

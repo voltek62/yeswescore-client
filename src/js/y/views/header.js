@@ -44,9 +44,7 @@ Y.Views.Header = Y.View.extend({
       	connectionStatus.attr("height", "17");       	
       	$('body').addClass("noconnection"); 
       }
- 	
     });
-    
   },
   render: function () { },
 
@@ -63,8 +61,6 @@ Y.Views.Header = Y.View.extend({
     return false;
   },
   
-  
-
   showBack: function () { this.$(".backButton").show() },
   hideBack: function () { this.$(".backButton").hide() },
   repaintBack: function () {

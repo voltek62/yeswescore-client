@@ -241,6 +241,11 @@ Y.Views.GameComments = Y.View.extend({
 
     this.undelegateEvents();
     
+    if (this.shareTimeout) {
+      window.clearTimeout(this.shareTimeout);
+      this.shareTimeout = null;
+    }    
+    
     this.game.off("sync", this.syncGame, this);
     
     this.streamItemsCollection.off('success', this.renderList, this);

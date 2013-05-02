@@ -513,12 +513,26 @@ ul>li.player>a {
 	FORM ELEMENTS
 **********************************************************/
 .success {
-	font-family: 'Open Sans', sans-serif;
-	font-weight: bold;
-	font-size: 12px;
-	color: white;
+	display : none;
+	width: 100%;
+	height: 50px;
+	margin-top: 10px;
+	text-decoration: none;
 	text-align: center;
-	line-height: 8px;
+	font-family: Open Sans;
+	font-weight: 700;
+	line-height: 50px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: #0000;
+	background-color: #d0ebf6;
+	border-top: 1px solid #d0ebf6;
+	border-left: 1px solid #a3d7ed;
+	border-bottom: 1px solid #74c5e3;
+	border-right: 1px solid #74c5e3;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;	
 }
 
 .form-button-black {
@@ -1131,28 +1145,7 @@ ul>li.player>a {
 
 /* account.html */
 
-.success {
-	display: none;
-	width: 100%;
-	height: 50px;
-	margin-top: 10px;
-	text-decoration: none;
-	text-align: center;
-	font-family: Open Sans;
-	font-weight: 700;
-	line-height: 50px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	color: white;
-	background-color: #d0ebf6;
-	border-top: 1px solid #d0ebf6;
-	border-left: 1px solid #a3d7ed;
-	border-bottom: 1px solid #74c5e3;
-	border-right: 1px solid #74c5e3;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;	
-}
+
 
 .account {
 	padding: 0;

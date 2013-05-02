@@ -38,8 +38,16 @@ Y.Views.PlayerForget = Y.View.extend({
 
         console.log('data result Reset Password', data);
 
+		$('span.success').css({display:"block"});
         $('span.success').html(i18n.t('message.mailspam')).show();
 
+      },
+      error: function (err) {
+
+	    $('span.success').css({display:"block"});
+		$('span.success').html(i18n.t('message.mailerror')).show();
+		$('span.success').i18n();
+            
       }
     });
         

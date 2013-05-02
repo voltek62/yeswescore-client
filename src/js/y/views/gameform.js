@@ -125,6 +125,7 @@ Y.Views.GameForm = Y.View.extend({
     game.save({}, {  
       success: function(model, response){
 	    
+	    $('span.success').css({display:"block"});
 	    $('span.success').html(i18n.t('message.updateok')).show();
 	    that.game = model;
 	    

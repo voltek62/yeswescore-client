@@ -125,6 +125,7 @@ Y.Views.PlayerForm = Y.View.extend({
     var that = this;
     player.save().done(function (result) {
       
+        $('span.success').css({display:"block"});
       	$('span.success').html(i18n.t('message.updateok')).show();
 		$('span.success').i18n();
       

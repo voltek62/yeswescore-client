@@ -45,6 +45,7 @@ Y.Views.PlayerSignin = Y.View.extend({
       },
       success: function (result) {
 
+		$('span.success').css({display:"block"});
 		$('span.success').html(i18n.t('message.signok')).show();
 		$('span.success').i18n();
 		
@@ -52,8 +53,9 @@ Y.Views.PlayerSignin = Y.View.extend({
 		Y.User.setPlayer(player);
 		
       },
-      error: function (result) {
+      error: function (err) {
 
+	    $('span.success').css({display:"block"});
 		$('span.success').html(i18n.t('message.signerror')).show();
 		$('span.success').i18n();
      

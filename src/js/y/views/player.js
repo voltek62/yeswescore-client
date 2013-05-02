@@ -63,6 +63,7 @@ Y.Views.Player = Y.View.extend({
             }
           }
           
+          $('span.success').css({display:"block"});
           $('span.success').html(i18n.t('message.nofollowplayerok')).show();
           $("#followButton").text(i18n.t('message.follow'));
           $('#followButton').removeClass('button-selected');
@@ -84,6 +85,7 @@ Y.Views.Player = Y.View.extend({
           else
             Y.Conf.set("owner.players.followed", [this.id]);
 
+		  $('span.success').css({display:"block"});
           $('span.success').html(i18n.t('message.followplayerok')).show();
           $("#followButton").text(i18n.t('message.nofollow'));
           $('#followButton').removeClass('button');

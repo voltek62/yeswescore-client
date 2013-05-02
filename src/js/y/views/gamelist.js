@@ -16,7 +16,7 @@ Y.Views.GameList = Y.View.extend({
   listview: "#listGamesView",
 
   pageName: "gameList",
-  pageHash : "gameList", 
+  pageHash : "games/list",
   filterList: "",
   
   myinitialize: function (param) {

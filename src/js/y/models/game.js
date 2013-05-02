@@ -161,8 +161,7 @@ var GameModel = Backbone.Model.extend({
         type : 'POST',
         data : object,
         success : function(data) {
-          // FIXME : on redirige sur //si offline id , si online sid
-          //window.location.href = '#games/' + data.id;         
+          // FIXME : on redirige sur //si offline id , si online sid  
           that.set(data);         
           if (options && options.success) {
               console.log('success create in backbone ajax model');

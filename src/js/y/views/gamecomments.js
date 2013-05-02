@@ -220,13 +220,20 @@ Y.Views.GameComments = Y.View.extend({
 	    that.shareTimeout = null;
 	  }, 4000);
       
+      $('#messageText').val('');
+ 
       that.scrollTop();
-    });
-
-    $('#messageText').val('');
+          
+    }).fail(function (err) {
+      
+	  that.$("a.sendButton").addClass("ko");
+	  that.shareTimeout = window.setTimeout(function () {
+	    that.$("a.sendButton").removeClass("ko");
+	    that.shareTimeout = null;
+	  }, 4000);
+	        
     
-    
-    
+    });   
     
   },
 

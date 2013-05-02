@@ -31,6 +31,8 @@ var StreamModel = Backbone.Model.extend({
         + '/stream/?playerid=' + (this.get('playerid') || '') + '&token='
         + (this.get('token') || ''));    
 
+	  var that = this;
+
       return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") 
@@ -49,10 +51,19 @@ var StreamModel = Backbone.Model.extend({
         },
         success : function(result) {
           // put your code after the game is saved/updated.
-
           console.log('data Stream OK', result);
+          that.set(data);         
+          if (options && options.success) {
+              console.log('success stream create in backbone ajax model');
+              options.success(data);
+          }          
 
-        }
+        },
+        error: function (message) {
+            if (options && options.error)
+              console.log('error stream create in backbone ajax model');              
+              options.error(message);
+        }        
       });
 
     } 

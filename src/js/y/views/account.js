@@ -15,9 +15,10 @@ Y.Views.Account = Y.View.extend({
     this.accountViewTemplate = Y.Templates.get('account');
     this.clubid = Y.User.getClub();
     
-    console.log('clubid',this.clubid);
     
     this.owner = Y.User.getPlayer();
+
+    //console.log('ANDROID account playerid : '+this.owner.get('id'));
     
     this.render();
     

@@ -51,6 +51,9 @@ Y.Views.PlayerSignin = Y.View.extend({
 		
 		var player = new PlayerModel(result);	
 		Y.User.setPlayer(player);
+
+		//console.log('ANDROID result '+JSON.stringify(result));		
+		//console.log('ANDROID player'+player.toJSON());
 		
       },
       error: function (err) {

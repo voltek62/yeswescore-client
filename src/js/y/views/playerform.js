@@ -38,7 +38,8 @@ Y.Views.PlayerForm = Y.View.extend({
     this.playerid = this.owner.get('id');
     this.clubid = this.owner.get('club').id;
     
-    //console.log('clubid',this.clubid);
+    console.log('ANDROID playerform playerid '+JSON.stringify(this.owner));
+    
     
     // we render immediatly
     this.render();    
@@ -175,7 +176,9 @@ Y.Views.PlayerForm = Y.View.extend({
       dataDisplay.email = '';
     
 
-    this.$el.html(this.templates.playerform(dataDisplay));
+	//console.log('ANDROID dataDisplay '+JSON.stringify(dataDisplay));
+
+    this.$el.html(this.templates.playerform({data : dataDisplay}));
     
     if (this.mode === 'first') {
 		$('#form_firstconnection').hide();

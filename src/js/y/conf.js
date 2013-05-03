@@ -12,7 +12,7 @@
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
       /*#ifdef DEV*/
-      Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
+      //Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
       /*#endif*/
       return this; // chainable
     },
@@ -28,7 +28,7 @@
           this.get('version') === version)
         return callback();
 
-      // Paramétrage des variables dependantes d'un environnement
+      // Paramï¿½trage des variables dependantes d'un environnement
       switch (env) {
         case Y.Env.DEV:
           /*#ifdef DEV*/
@@ -89,7 +89,7 @@
           break;
       }
 
-      // Paramétrage des variables non dépendantes d'un environnement
+      // Paramï¿½trage des variables non dï¿½pendantes d'un environnement
       this.set("game.refresh", 30000);        // default 30000 (30sec)
       this.set("pooling.geolocation", 10000); // default 10000 (10sec)
       this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
@@ -97,7 +97,7 @@
       
       //bootstrap
       //on ecrase avec les changements et on change les versions
-      //variable qui oblige à mettre à jour -> objet connnection toujours offline
+      //variable qui oblige ï¿½ mettre ï¿½ jour -> objet connnection toujours offline
       //console.log('api.url.bootstrap',this.get('api.url.bootstrap').replace("%VERSION%", version));
       
       $.ajax({
@@ -112,7 +112,7 @@
             		console.log('on detecte app deprecated');
             		
             		if (info.value === true) {
-            			console.log('Il faut mettre à jour l\'apps');
+            			console.log('Il faut mettre ï¿½ jour l\'apps');
             			Y.Connection.forceUpdate();	
             		}
             	}

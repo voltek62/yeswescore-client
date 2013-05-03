@@ -1177,7 +1177,7 @@ ul>li.player>a {
 	box-sizing: border-box;
 }
 
-.account a.sendButton {
+.account a.buttonGrey {
 	background-color: #b0b0b0;
 	border: 1px solid #c0c0c0;
 }

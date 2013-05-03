@@ -40,11 +40,13 @@ Y.Views.PlayerForget = Y.View.extend({
 
 		$('span.success').css({display:"block"});
         $('span.success').html(i18n.t('message.mailspam')).show();
+        $('span.success_sentence').html(i18n.t('message.mailspam_sentence')).show();
 
       },
       error: function (err) {
 
 	    $('span.success').css({display:"block"});
+	    console.log('erreur',err);
 		$('span.success').html(i18n.t('message.mailerror')).show();
 		$('span.success').i18n();
             

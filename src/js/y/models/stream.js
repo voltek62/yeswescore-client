@@ -49,9 +49,9 @@ var StreamModel = Backbone.Model.extend({
             text : (this.get('text') || '')
           }
         },
-        success : function(result) {
+        success : function(data) {
           // put your code after the game is saved/updated.
-          console.log('data Stream OK', result);
+          console.log('data Stream OK', data);
           that.set(data);         
           if (options && options.success) {
               console.log('success stream create in backbone ajax model');

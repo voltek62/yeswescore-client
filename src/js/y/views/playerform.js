@@ -14,11 +14,14 @@ Y.Views.PlayerForm = Y.View.extend({
     
   clubs:null,
   useSearch:0,	     
+  mode:'',
 
-  myinitialize:function() {
+  myinitialize:function(obj) {
   
     this.player = null;  
     this.useSearch = 0;	
+    
+    this.mode = obj.mode;
           
 	//header
     Y.GUI.header.title(i18n.t('playerform.title')); 
@@ -35,7 +38,8 @@ Y.Views.PlayerForm = Y.View.extend({
     this.playerid = this.owner.get('id');
     this.clubid = this.owner.get('club').id;
     
-    //console.log('clubid',this.clubid);
+    console.log('ANDROID playerform playerid '+JSON.stringify(this.owner));
+    
     
     // we render immediatly
     this.render();    
@@ -73,6 +77,9 @@ Y.Views.PlayerForm = Y.View.extend({
     var q = $("#club").val();  	
   	
 	$(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
+	
+
+	
 
   },
     
@@ -128,6 +135,13 @@ Y.Views.PlayerForm = Y.View.extend({
         $('span.success').css({display:"block"});
       	$('span.success').html(i18n.t('message.updateok')).show();
 		$('span.success').i18n();
+		
+		console.log(new PlayerModel(result));
+		Y.User.setPlayer(new PlayerModel(result));
+		
+		if (that.mode === 'first') {
+		  Y.Router.navigate("games/add", {trigger: true});	   
+		}
       
     });
    
@@ -162,7 +176,16 @@ Y.Views.PlayerForm = Y.View.extend({
       dataDisplay.email = '';
     
 
-    this.$el.html(this.templates.playerform(dataDisplay));
+	//console.log('ANDROID dataDisplay '+JSON.stringify(dataDisplay));
+
+    this.$el.html(this.templates.playerform({data : dataDisplay}));
+    
+    if (this.mode === 'first') {
+		$('#form_firstconnection').hide();
+	}
+	else {
+		$('#intro_firstconnection').hide();
+	}
 
 	this.$el.i18n();
 

@@ -2,9 +2,9 @@ Y.Views.Navbar = Y.View.extend({
   el: "#navbar",
 
   events: {
-    'click a[href="#games/list"]': "goToGames",
-    'click a[href="#games/add"]': "goToGamesAdd",
-    'click a[href="#account"]': "goToAccount"
+    'vclick a[href="#games/list"]': "goToGames",
+    'vclick a[href="#games/add"]': "goToGamesAdd",
+    'vclick a[href="#account"]': "goToAccount"
   },
 
   initialize: function () {

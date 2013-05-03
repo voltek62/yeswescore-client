@@ -22,9 +22,9 @@ var GamesCollection = Backbone.Collection.extend({
     else if (this.mode === 'player') 
       url = Y.Conf.get("api.url.games") + "?q=" + this.query;
     else if (this.mode === 'me') {      
-      // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a joué
-	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player possède (qu'il a créé)
-      url = Y.Conf.get("api.url.players") + this.query + "/games/";
+      // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jouï¿½
+	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player possï¿½de (qu'il a crï¿½ï¿½)
+      url = Y.Conf.get("api.url.players") + this.query + "/games/?owned=true";
     }
     else if (this.mode === 'geolocation' && this.pos !==null) { 
       url =  Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];

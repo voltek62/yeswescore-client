@@ -5,7 +5,7 @@
     <a href="#games/follow" class="button" data-i18n="account.gamesfollowed"></a>
     <a href="#players/follow" class="button" data-i18n="account.playersfollowed"></a>
     <%
-     if( clubid === undefined ) 
+     if( clubid === '' || clubid === undefined ) 
        print ('<a href="#account" data-i18n="account.myclub" disabled></a>'); 
      else
        print ('<a href="#clubs/'+clubid+'" data-i18n="account.myclub"></a>'); 

@@ -24,10 +24,11 @@
       'games/': 'gameList',        
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
-      'players/form': 'playerForm',
+      'players/form/me': 'playerFormFirst',        
+      'players/form': 'playerForm',     
       'players/signin': 'playerSignin',
       'players/forget': 'playerForget',
-      'players/follow': 'playerFollow',                                    
+      'players/follow': 'playerFollow',                                              
       'players/:id': 'player',
       'clubs/add': 'clubAdd',
       'clubs/follow': 'clubFollow',      
@@ -120,8 +121,12 @@
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: 'false' }));
     },
 
+    playerFormFirst: function () {
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'first'}));
+    },
+    
     playerForm: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForm));
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: ''}));
     },
 
     playerList: function () {

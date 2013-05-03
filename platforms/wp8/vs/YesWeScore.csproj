@@ -188,7 +188,9 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="www\locales\fr-FR\translation.json" />
+    <Content Include="www\locales\fr-FR\translation.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="www\styles\webfonts\opensans-400.ttf" />
     <None Include="www\styles\webfonts\opensans-700.ttf" />
     <None Include="www\styles\webfonts\opensans-800.ttf" />

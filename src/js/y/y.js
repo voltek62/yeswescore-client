@@ -51,29 +51,37 @@
           return xhr;
       };
       
-      console.log('avant conf initEnv');
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded() {
-                 console.log('callback initEnv');
-                 // init router
-                 that.Router.initialize();
-                 console.log('router initialized');
-                 // load the templates.
-                 that.Templates.loadAsync(function () {
-                   console.log('template loaded');
-                   // init GUI singleton
-                   that.GUI.header = new Y.Views.Header();
-                   that.GUI.content = null; // will be overwrite by the router.
-                   that.GUI.autocomplete = new Y.Views.Autocomplete();
-                   that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
-                   console.log('backbone history start');
-                   // start dispatching routes
-                   // @see http://backbonejs.org/#History-start
-                   Backbone.history.start();
-                   // waiting for cordova to be ready
-                   console.log('devrait etre ready');
-                   callback();
+                 var i18nOptions = { lng: "fr-FR" };
+                 /*#ifndef WP8*/
+                 if (false) {
+                 /*#endif*/
+                   i18nOptions.resGetPath = '/www/locales/__lng__/translation.json';
+                 /*#ifndef WP8*/
+                 }
+                 /*#endif*/
+                 $.i18n.init(i18nOptions, function() {
+                   // init router
+                   that.Router.initialize();
+                   console.log('router initialized');
+                   // load the templates.
+                   that.Templates.loadAsync(function () {
+                     console.log('template loaded');
+                     // init GUI singleton
+                     that.GUI.header = new Y.Views.Header();
+                     that.GUI.content = null; // will be overwrite by the router.
+                     that.GUI.autocomplete = new Y.Views.Autocomplete();
+                     that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
+                     console.log('backbone history start');
+                     // start dispatching routes
+                     // @see http://backbonejs.org/#History-start
+                     Backbone.history.start();
+                     // waiting for cordova to be ready
+                     console.log('devrait etre ready');
+                     callback();
+                   });
                  });
                });
     },

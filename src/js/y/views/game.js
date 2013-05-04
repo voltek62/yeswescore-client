@@ -62,19 +62,19 @@ Y.Views.Game = Y.View.extend({
   , subtype : null*/
 
   ,initialize : function() {
-      
-    this.pageHash += this.id;       
+    this.pageHash += this.id;
+    this.gameid = this.id;
+
     //header
-    //i18n t("game.title")
     Y.GUI.header.title(i18n.t('game.title'));
       	
 	  // loading templates.
 	  this.templates = {
-	    game:  Y.Templates.get('game'),
+	    game: Y.Templates.get('game'),
 	    scoreboard: Y.Templates.get('gameScoreBoard')
 	  };
 	          	
-	//On stock les dernieres modifs		
+	  // On stock les dernieres modifs		
     this.lastScore = new Array();
 		
     // loading owner
@@ -82,10 +82,6 @@ Y.Views.Game = Y.View.extend({
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');    
     
-    this.gameDeferred = $.Deferred();
-    this.game = new GameModel({id : this.id});
-    this.gameid = this.id;
-		
     //loading followed
     var games_follow = Y.Conf.get("owner.games.followed");
     if (games_follow !== undefined)
@@ -98,30 +94,27 @@ Y.Views.Game = Y.View.extend({
     }
     else
       this.follow = 'false';
-          
-   // we render immediatly
-    this.render(); 
-    this.game.on("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
-    this.game.fetch();
-        
-        
-    //On compte les commentaires
-    //On affiche que si les scores sont là
-    var that = this;
-    $.when(
-  	  this.gameDeferred
-    ).done(function () {
-	    that.streams = new StreamsCollection([], {gameid : that.id});
-	    that.streams.once("sync",that.renderCountComment,that);
-	    that.streams.fetch();
-    });
-        
-    // FIXME: SI ONLINE     
+
+    // creating object game & stream (required by render)
+    this.game = new GameModel({id : this.gameid});
+    this.streams = new StreamsCollection([], {gameid : this.gameid});
+       
+    // Rendering.
+    // first: we render immediatly
+    this.render();
+    // rerender on game update
+    this.game.on('sync', this.render, this);
+    // grabbing comments & display nb
+	  this.streams.once("sync", this.renderCountComment, this);
+
+    // Fetching data.
+    // Pooling du model game & affichage.
+    // FIXME: SI ONLINE
     // FIXME : temps de rafrichissement selon batterie et selon forfait  
     var pollingOptions = { delay: Y.Conf.get("game.refresh") };
     this.poller = Backbone.Poller.get(this.game, pollingOptions)
-    this.poller.start();  
-    this.poller.on('sync', this.render, this);
+    this.poller.start();
+    this.streams.fetch();
   },
 
   shareError: function (err) {
@@ -429,9 +422,6 @@ Y.Views.Game = Y.View.extend({
     }}); 
   },
 
-
-      
-
   // renderRefresh : refresh only scoreboard
   renderRefresh : function() {
      
@@ -496,18 +486,16 @@ Y.Views.Game = Y.View.extend({
 
 	      
 	      /*
-	      this.team1_id=game.teams[0].players[0].id;
-	      this.team2_id=game.teams[1].players[0].id; 
-		  this.country = game.location.country;  
-	      this.city = game.loation.city;
-	      this.court = game.options.court;
-	      this.surface = game.options.surface;
-	      this.tour : game.options.tour;
-	      this.subtype : game.options.subtype;
-	      this.sets : game.options.sets;
-		  */
-    
-	      this.gameDeferred.resolve(); 
+	        this.team1_id=game.teams[0].players[0].id;
+	        this.team2_id=game.teams[1].players[0].id; 
+		      this.country = game.location.country;  
+	        this.city = game.loation.city;
+	        this.court = game.options.court;
+	        this.surface = game.options.surface;
+	        this.tour : game.options.tour;
+	        this.subtype : game.options.subtype;
+	        this.sets : game.options.sets;
+		    */
 	    }
     }
         
@@ -616,8 +604,10 @@ Y.Views.Game = Y.View.extend({
     }));
 		
 
+    this.renderCountComment();
+
     //i18n
-    //PERF:on remplace que les champs du DOM concern�
+    //PERF:on remplace que les champs du DOM concernés
     $('a').i18n();
     $('span').i18n();    
     //this.$el.i18n();
@@ -718,16 +708,15 @@ Y.Views.Game = Y.View.extend({
   onClose : function() {
     // Clean
     this.undelegateEvents();
-    this.game.off("sync",this.render,this);
-    this.streams.off("sync",this.renderCountComment,this);
-        
+    // desabonnements
+    this.game.off("sync", this.render, this);
+    this.streams.off("sync",this.renderCountComment, this);
+    //
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
       this.shareTimeout = null;
     }
-
-    // FIXME:remettre
+    // 
     this.poller.stop();
-    this.poller.off('sync', this.render, this);
   }
 });

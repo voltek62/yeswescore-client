@@ -240,7 +240,7 @@ Y.Views.Game = Y.View.extend({
     console.log('undo');
     	   	  
     if ( this.statusScore !== "finished"  ) {  
-	    if (this.lastScore.length > 1) {
+	    if (this.lastScore.length >= 1) {
 	      var sets_update = this.lastScore.pop();
 	
 	      //S'il s'agit du meme score
@@ -251,8 +251,11 @@ Y.Views.Game = Y.View.extend({
 	    	  
 	      var gameid = this.gameid;   
 	    	  	  
-	      //console.log("Il reste : ",this.lastScore);  
+	      console.log("Il reste : ",this.lastScore);  
+	      
+	      
 	      if (sets_update !== 'undefined') {
+	      
 		      var game = {
 				    team1_id : this.game.get('teams')[0].players[0].id
 			      , team2_id : this.game.get('teams')[1].players[0].id
@@ -274,21 +277,30 @@ Y.Views.Game = Y.View.extend({
 		      var that = this;
 	
 		      this.game.save({}, {
-            success: function(model, response) {
-			        //that.lastScore.push(model.toJSON().options.sets);	    
-			        //that.currentScore = model.toJSON().options.sets;  
-			        that.lastScore.push(model.get('options.sets'));	    
-			        that.currentScore = model.get('options.sets');  			              
-			        console.log(that.lastScore);
-	  				
+		      
+            	  success: function(model, response) {
+			        			        
+			        //that.lastScore.push(model.get('options').sets);	    
+			        that.currentScore = model.get('options').sets;  			              
+		
+					console.log("lastScore ",that.lastScore);          
+			        console.log('currentScore ', that.currentScore);	
+		
 	  				that.game = model;
 	  				
-		    	    $(that.displayViewScoreBoard).html(that.templates.scoreboard({
-		            game : model.toJSON(),
-		            //owner : that.owner.toJSON()
-		            owner : model.get('owner')
-		          }));
-            }
+	  				//refresh scoreboard
+		    	    that.renderScoreBoard(model);
+            	},
+            	error : function(err) {
+            	
+            		console.log('erreur',err);
+            		
+            		//on remet l'ancien score
+            		that.lastScore.push(that.currentScore);	
+            		
+            		
+            	
+            	}
           });   
 	      } 
 	    }
@@ -313,17 +325,17 @@ Y.Views.Game = Y.View.extend({
 	    if (this.game.get('owner') === this.playerid ) {  
 		    //input.val(set);
 		    
-			if (div.attr('id').indexOf('team1_set1')!=-1)
+			if (div.attr('id').indexOf('team1_set1')!==-1)
 		     this.team1_set1 = set;
-		    else if (div.attr('id').indexOf('team1_set2')!=-1)
+		    else if (div.attr('id').indexOf('team1_set2')!==-1)
 		     this.team1_set2 = set;
-		    else if (div.attr('id').indexOf('team1_set3')!=-1)
+		    else if (div.attr('id').indexOf('team1_set3')!==-1)
 		     this.team1_set3 = set;
-		    else if (div.attr('id').indexOf('team2_set1')!=-1)
+		    else if (div.attr('id').indexOf('team2_set1')!==-1)
 		     this.team2_set1 = set;
-		    else if (div.attr('id').indexOf('team2_set2')!=-1)
+		    else if (div.attr('id').indexOf('team2_set2')!==-1)
 		     this.team2_set2 = set;
-		    else if (div.attr('id').indexOf('team2_set3')!=-1)
+		    else if (div.attr('id').indexOf('team2_set3')!==-1)
 		     this.team2_set3 = set;
 		     		     		     		     		        
 		    //FIXME : NO HTML IN CODE
@@ -490,6 +502,10 @@ Y.Views.Game = Y.View.extend({
 		        this.lastScore.push(game.get('options').sets);	    
 		        this.currentScore = game.get('options').sets;  
 	        }
+	        else {
+		        this.lastScore.push("0/0");	    
+		        this.currentScore = "0/0";  	         
+	        }
 	      }
 	      
 	      this.gameid = game.id;
@@ -563,6 +579,24 @@ Y.Views.Game = Y.View.extend({
     }, 100);
     */
     
+	this.renderScoreBoard(game);
+		
+	//FORCE STREAMS TOTAL
+	this.streams = new StreamsCollection([], {gameid : this.gameid});
+	this.streams.once("sync",this.renderCountComment,this);
+	this.streams.fetch();		
+
+    //i18n
+    //PERF:on remplace que les champs du DOM concern�
+    $('a').i18n();
+    $('span').i18n();    
+    //this.$el.i18n();
+
+    return this;
+  },
+
+  renderScoreBoard : function(game) {
+  
 	  if (game.get('options').score !== null ) { 
 	    if(game.get('options').score.indexOf('/')!=-1) { 
 	      var scoreboard = game.get('options').score.split('/'); 
@@ -583,6 +617,7 @@ Y.Views.Game = Y.View.extend({
 	        this.team1_set2 = scoreboard2[0]; 
 	        this.team2_set2 = scoreboard2[1]; 
 	        this.set_current=2; 
+	        
 	      } 
 	    
 	      if (scoreboard.length==3) { 
@@ -590,6 +625,10 @@ Y.Views.Game = Y.View.extend({
 	        this.team1_set3 = scoreboard3[0]; 
 	        this.team2_set3 = scoreboard3[1]; 
 	        this.set_current=3; 
+	      }
+	      else {
+	        this.team1_set3 = "&nbsp;";
+	        this.team2_set3 = "&nbsp;";		      
 	      } 
 	    } 
 	    // 1 set 
@@ -598,6 +637,10 @@ Y.Views.Game = Y.View.extend({
 	        var scoreboard1 = game.get('options').sets.split('/'); 
 	        this.team1_set1 = scoreboard1[0]; 
 	        this.team2_set1 = scoreboard1[1]; 
+	        this.team1_set2 = "&nbsp;";
+	        this.team2_set2 = "&nbsp;";
+	        this.team1_set3 = "&nbsp;";
+	        this.team2_set3 = "&nbsp;";	        	        
 	      } 
 	    } 
 	  }        
@@ -614,22 +657,8 @@ Y.Views.Game = Y.View.extend({
       , team1_sets : this.team1_sets
       , team2_sets : this.team2_sets      
     }));
-		
-	//FORCE STREAMS TOTAL
-	this.streams = new StreamsCollection([], {gameid : this.gameid});
-	this.streams.once("sync",this.renderCountComment,this);
-	this.streams.fetch();		
-
-    //i18n
-    //PERF:on remplace que les champs du DOM concern�
-    $('a').i18n();
-    $('span').i18n();    
-    //this.$el.i18n();
-
-    return this;
-  },
-
-    
+  
+  }, 
 
   statusGame : function() {    
 

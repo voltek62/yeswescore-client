@@ -38,6 +38,7 @@ Y.Views.GameAdd = Y.View.extend({
     $(".form-button.other-team").addClass("selected");
     $(".ui-grid-b.first-team").removeClass("me");
     $("#team1").prop("disabled", false);
+    $("#team1_id").val('');
     // on force l'input mode
     $("#team1").focus();
     this.$("#team1").trigger("click");
@@ -57,6 +58,7 @@ Y.Views.GameAdd = Y.View.extend({
       $(".form-button.other-team").removeClass("selected");
       $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
+      $("#team1_id").val(this.owner.get('id'));
     }
   },
 
@@ -105,7 +107,7 @@ Y.Views.GameAdd = Y.View.extend({
       , playerid : this.playerid
       , token : this.token      
     };
-	
+    
     //On sauve dans Collections
     var game = new GameModel(game);    
     game.save({}, {  
@@ -123,7 +125,7 @@ Y.Views.GameAdd = Y.View.extend({
   autocompletePlayers: function (input, callback) {
     console.log('input temporized: ' + input);
     
-    if (input.indexOf('  ')!=-1)
+    if (input.indexOf('  ')!==-1 || input.length<= 1 )
       callback('empty');		
     
     Backbone.ajax({
@@ -132,7 +134,7 @@ Y.Views.GameAdd = Y.View.extend({
       dataType : 'json',
       data: { q: input }
     }).done(function (players) {
-      if (players && _.isArray(players)) {
+      if (players && _.isArray(players) && players.length>0) {
         callback(null, players.splice(0, 3).map(function (p) { p.text = p.name; return p; }));
       } else {
         callback(null, []);

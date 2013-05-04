@@ -67,20 +67,26 @@ Y.Views.GameAdd = Y.View.extend({
       , team2 = $('#team2').val()
       , team2_id = $('#team2_id').val();
 
-    if ( team1 === '' && team1_id === ''   && !$('#team1').is(':disabled') ) {
+    if ( ( team1.length < 3 || team1.indexOf('  ')!==-1 ) && !$('#team1').is(':disabled') ) {
       $('span.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
+      $('#team1').val('');
       return false;
     }
     
     //On redirige vers le formulaire special
-    if ( ( team1 === '' || team1_id === '' )  && $('#team1').is(':disabled') ) {
+    if ( team1 === ''   && $('#team1').is(':disabled') ) {
       //$('span.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();
       Y.Router.navigate("players/form/me", {trigger: true});	  
       return false;
     }    
+    
+    //console.log(team2.length);
+    //return false;
 
-    if (team2 === '' && team2_id === '') {
+    if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && team2_id === '' ) {
+      $('span.team1_error').html('').hide();
       $('span.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
+      $('#team2').val('');
       return false;
     }
 
@@ -116,6 +122,10 @@ Y.Views.GameAdd = Y.View.extend({
 
   autocompletePlayers: function (input, callback) {
     console.log('input temporized: ' + input);
+    
+    if (input.indexOf('  ')!=-1)
+      callback('empty');		
+    
     Backbone.ajax({
       url: Y.Conf.get("api.url.autocomplete.players"),
       type: 'GET',

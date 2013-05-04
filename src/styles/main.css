@@ -144,6 +144,22 @@ p {
 }
 
 /**********************************************************
+	INPUT MODE
+**********************************************************/
+
+body.inputmodeon *[data-input-mode="hide"] {
+  display: none;
+}
+
+body.inputmodeon *[data-input-mode="show"] {
+  display: block;
+}
+
+body.inputmodeon #content .content-container {
+  padding-top: 0px;
+}
+
+/**********************************************************
 	header
 **********************************************************/
 #header {

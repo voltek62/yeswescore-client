@@ -123,6 +123,12 @@
             
             
           },
+          error: function (err) {
+          
+           console.log('err Connection',err);
+           Y.Connection.setOff();	
+          
+          },
           dataType: "JSON"
         });
       

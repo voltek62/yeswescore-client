@@ -19,10 +19,18 @@
       return this.status === this.ONLINE;
     },
     
-    forceUpdate : function () {
+    forceUpdate : function () {  
+     this.status = this.NEWVERSION;     
+    },
     
-     this.status = this.NEWVERSION;
-     
+    setOff : function () {
+       this.status = this.OFFLINE;
+       this.trigger("change", [this.status]);	
+    },
+
+    setOn : function () {
+       this.status = this.ONLINE;
+       this.trigger("change", [this.status]);	       
     },
 
     update: function () {

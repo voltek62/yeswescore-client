@@ -523,8 +523,10 @@ Y.Views.Game = Y.View.extend({
       var dateStart = new Date(game.get('dates').start);
           	
       timer = dateEnd - dateStart;
-      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);  
+      
+      if (timer>0)       
+        timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
         
     }
     else if ( game.get('status') === "ongoing" ) {

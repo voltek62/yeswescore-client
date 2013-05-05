@@ -33,6 +33,16 @@ String.prototype.toRegExp = function () {
     return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 };
 
+// for old browser : parse a date in yyyy-mm-dd format
+var parseDate = function(input) {
+  var parts = input.match(/(\d+)/g);
+  
+  //console.log('ANDROID parts',parts);
+  
+  // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+  return new Date(parts[0], parts[1]-1, parts[2], parts[3], parts[4], parts[5]); // months are 0-based
+};
+
 Date.prototype.getMonthName = function(lang) {
     lang = lang && (lang in Date.locale) ? lang : 'fr';
     return Date.locale[lang].month_names[this.getMonth()];

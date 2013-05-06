@@ -59,9 +59,9 @@
       	<label class="form-label" for="club" data-i18n="playerform.clubname"></label>
       </div>
       <div>
-      	<input type="text" id="club" name="club" data-i18n="[placeholder]playerform.clubname;" value="<%= data.club %>" />
-      	<ul id="suggestions" data-role="listview" data-inset="true"></ul>
-                 <span class="club_error label label-info hide"></span>
+        <input type="text" id="club" name="club" data-i18n="[placeholder]playerform.clubname;" value="<%= data.club %>" data-autocomplete="autocompleteClubs" data-autocomplete-onselected="autocompleteChoose"/>
+       	
+        <span class="club_error label label-info hide"></span>
       </div>
     
       <div style="padding:70px"></div>

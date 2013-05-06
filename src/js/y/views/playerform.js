@@ -51,6 +51,56 @@ Y.Views.PlayerForm = Y.View.extend({
 
   },
   
+  autocompleteClubs: function (input, callback) {
+    console.log('input temporized: ' + input);
+    
+    if (input.indexOf('  ')!==-1 || input.length<= 1 )
+      callback('empty');		
+    
+    Backbone.ajax({
+      url: Y.Conf.get("api.url.autocomplete.clubs"),
+      type: 'GET',
+      dataType : 'json',
+      data: { q: input }
+    }).done(function (clubs) {
+      if (clubs && _.isArray(clubs) && clubs.length>0) {
+        callback(null, clubs.splice(0, 3).map(function (p) { p.text = p.name; return p; }));
+      } else {
+        callback(null, []);
+      }
+    }).fail(function (xhr, error) { 
+      callback(error);
+    });
+
+  },
+
+  autocompleteChoose: function (data) {
+    console.log("autocomplete data: " + JSON.stringify(data));
+    if (data && data.name) {
+      this.$("#club").val(data.name);
+      this.clubid = data.id; 
+      
+      console.log(this.clubid);
+           
+      this.$('club_error').html('');      
+    }
+  },
+    
+  /*  
+  
+  displayClub: function(li) {
+    selectedId = $('#club_choice:checked').val();
+    selectedName = $('#club_choice:checked').next('label').text();
+    	
+    $('#club').val(selectedName);
+    //FIXME : differencier idclub et fftid
+    $('#clubid').val(selectedId); 
+    $('club_error').html('');
+    	
+    //console.log('selected '+selectedId+' '+selectedName);
+    	
+    $(this.listview).html('');
+  },  
   
   updateList: function (event) {
     var q = $("#club").val();
@@ -65,6 +115,7 @@ Y.Views.PlayerForm = Y.View.extend({
 
   },
   
+  */
   
   render: function () {
     // empty page.
@@ -84,19 +135,6 @@ Y.Views.PlayerForm = Y.View.extend({
   },
     
     
-  displayClub: function(li) {
-    selectedId = $('#club_choice:checked').val();
-    selectedName = $('#club_choice:checked').next('label').text();
-    	
-    $('#club').val(selectedName);
-    //FIXME : differencier idclub et fftid
-    $('#clubid').val(selectedId); 
-    $('club_error').html('');
-    	
-    //console.log('selected '+selectedId+' '+selectedName);
-    	
-    $(this.listview).html('');
-  },
       
   add: function (event) {
   

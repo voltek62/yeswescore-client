@@ -150,14 +150,18 @@ Y.Views.GameAdd = Y.View.extend({
 
   autocompleteTeam1: function (data) {
     console.log("autocomplete data: " + JSON.stringify(data));
-    if (data && data.name)
+    if (data && data.name) {
       this.$("#team1").val(data.name);
+      this.$("#team1_id").val(data.id);
+    }
   },
 
   autocompleteTeam2: function (data) {
     console.log("autocomplete data: " + JSON.stringify(data));
-    if (data && data.name)
+    if (data && data.name) {
       this.$("#team2").val(data.name);
+      this.$("#team2_id").val(data.id);      
+    }
   },
 
   //render the content into div of view

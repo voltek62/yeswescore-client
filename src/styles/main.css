@@ -62,6 +62,15 @@ no connection
 /**********************************************************
   mylib
 **********************************************************/
+
+img.undoSelect {
+	cursor:pointer;
+}
+
+span.undoSelect {
+	cursor:pointer;
+}
+
 input.mylib-forms {
 	display: block;
 	padding: 2px;

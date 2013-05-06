@@ -21,7 +21,7 @@
         </div>
         <div class="ui-block-e">
         <% if (game.owner === playerid) { %>
-          <img src="./images/undo.png" width="20" height="20">
+          <img src="./images/undo.png" width="20" height="20" class="undoSelect">
         <% }
            else { 
          %>
@@ -77,7 +77,7 @@
         </div>
         <div class="ui-block-e">
         <% if (game.owner === playerid) { %>
-        <b><span class="undoAction" data-i18n="game.undo"></span></b>
+        <b><span data-i18n="game.undo" class="undoSelect"></span></b>
         <% } 
         else { %>
         <b><span data-i18n="game.spectators"></span></b>

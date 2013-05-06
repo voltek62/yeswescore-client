@@ -12,7 +12,7 @@ Y.Views.Game = Y.View.extend({
     'click #followButton' : 'followGame',
     'click #cancelButton' : 'cancelGame',
     'click #optionButton' : 'optionGame',
-    'click .undoAction'   : 'undoAction',        
+    'click .undoSelect'   : 'undoAction',          
     'click #team1_set1_div' : 'setTeam1Set1',
     'click #team1_set2_div' : 'setTeam1Set2',
     'click #team1_set3_div' : 'setTeam1Set3',
@@ -232,7 +232,7 @@ Y.Views.Game = Y.View.extend({
   undoAction: function () {
     console.log('undo');
     	   	  
-    if ( this.statusScore !== "finished"  ) {  
+    if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {  
 	    if (this.lastScore.length >= 1) {
 	      var sets_update = this.lastScore.pop();
 	

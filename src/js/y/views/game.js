@@ -7,12 +7,14 @@ Y.Views.Game = Y.View.extend({
   countComment : "#countComment",
       
   events : {
-    'click #facebook' : 'share',
-    'click #statusButton' : 'statusGame',
-    'click #followButton' : 'followGame',
-    'click #cancelButton' : 'cancelGame',
-    'click #optionButton' : 'optionGame',
-    'click .undoSelect'   : 'undoAction',          
+    'click #facebook'       : 'share',
+    'click #statusButton'   : 'statusGame',
+    'click #followButton'   : 'followGame',
+    'click #cancelButton'   : 'cancelGame',
+    'click #optionButton'   : 'optionGame',
+    'click .undoSelect'     : 'undoAction',    
+    'click #team1_sets_div' : 'setTeam1Score',
+    'click #team2_sets_div' : 'setTeam2Score',          
     'click #team1_set1_div' : 'setTeam1Set1',
     'click #team1_set2_div' : 'setTeam1Set2',
     'click #team1_set3_div' : 'setTeam1Set3',
@@ -232,7 +234,9 @@ Y.Views.Game = Y.View.extend({
   undoAction: function () {
     console.log('undo');
     	   	  
-    if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {  
+    if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {
+    
+      
 	    if (this.lastScore.length >= 1) {
 	      var sets_update = this.lastScore.pop();
 	
@@ -274,10 +278,10 @@ Y.Views.Game = Y.View.extend({
             	  success: function(model, response) {
 			        			        
 			        //that.lastScore.push(model.get('options').sets);	    
-			        that.currentScore = model.get('options').sets;  			              
-		
-					console.log("lastScore ",that.lastScore);          
-			        console.log('currentScore ', that.currentScore);	
+			        that.currentScore = model.get('options').sets;  
+			        		
+			        Y.Conf.set("owner.games."+that.gameid+".sets.current", model.get('options').sets);
+			        Y.Conf.set("owner.games."+that.gameid+".scores.current", model.get('options').score);            			        	              
 		
 	  				that.game = model;
 	  				
@@ -303,6 +307,34 @@ Y.Views.Game = Y.View.extend({
   goToComment: function (elmt) {
     var route = $(elmt.currentTarget).attr("data-js-href");
     Y.Router.navigate(route, {trigger: true}); 
+  },
+
+
+ setTeamScore : function(input, div) {
+  
+     var score = '';	
+        
+    if ($.isNumeric(input))
+      score = parseInt(input, 10) + 1;
+    else
+      score = '1';          	
+    
+    if ( this.statusScore === "ongoing"  ) {
+	    if (this.game.get('owner') === this.playerid ) {  
+		    //input.val(set);
+		    
+			if (div.attr('id').indexOf('team1_sets')!==-1)
+		     this.team1_sets = score;
+		    else if (div.attr('id').indexOf('team2_sets')!==-1)
+		     this.team2_sets = score;
+		     		     		     		     		        
+		    //FIXME : NO HTML IN CODE
+		    div.html('<div class="score sets">'+score+'</div>');
+		        
+		    this.sendUpdater();
+	    }
+	  }
+	  
   },
 
   setTeamSet : function(input, div) {
@@ -332,13 +364,23 @@ Y.Views.Game = Y.View.extend({
 		     this.team2_set3 = set;
 		     		     		     		     		        
 		    //FIXME : NO HTML IN CODE
-		    div.html('<div class="score">'+set+'</div>');
+		    div.html('<div class="score ongoing">'+set+'</div>');
+		    
+	
 		        
 		    this.sendUpdater();
 	    }
 	  }
 	  
   },
+
+   setTeam1Score : function() {
+    this.setTeamScore(this.team1_sets, $('#team1_sets_div'));
+  },
+  
+   setTeam2Score : function() {
+    this.setTeamScore(this.team2_sets, $('#team2_sets_div'));
+  }, 
 
   setTeam1Set1 : function() {
     this.setTeamSet(this.team1_set1, $('#team1_set1_div'));
@@ -375,7 +417,8 @@ Y.Views.Game = Y.View.extend({
     , team2_set2 = this.team2_set2
     , team2_set3 = this.team2_set3                                
     , tennis_update = null
-    , score = "0/0"
+    , team1_sets = this.team1_sets
+    , team2_sets = this.team2_sets
     ;
     
 
@@ -386,6 +429,9 @@ Y.Views.Game = Y.View.extend({
       team2_set1 = '0';
 
     var sets_update = team1_set1 + '/' + team2_set1;
+    var score = team1_sets + '/' + team2_sets;
+     
+    
 
     if (team1_set2 > 0 || team2_set2 > 0) {
     
@@ -409,22 +455,46 @@ Y.Views.Game = Y.View.extend({
     /* controle si possible */
     /* on met "ongoing" sur la class "score" en cours*/
     
-    console.log('team1_set1',team1_set1);
-    console.log('team2_set1',team2_set1);
-    
+
     /* regle de gestion */
+    
+    
     // add diff de 2 max si superieur à 6
     // add force score if diff de 2 ou on peut mettre à jour les scores ? on controle si 0,1,2,3
-	if ( (team1_set1>=7 && team2_set1<=5) 
-		 || (team2_set1>=7 && team1_set1<=5) 
-		 
+     var total_sets = parseInt(this.team1_sets) + parseInt(this.team2_sets);
+
+     console.log('total_sets',total_sets);     
+     console.log('diff de sets1',Math.abs(parseInt(team1_set1)-parseInt(team2_set1)));
+     console.log('diff de sets2',Math.abs(parseInt(team1_set2)-parseInt(team2_set2)));
+     console.log('diff de sets3',Math.abs(parseInt(team1_set3)-parseInt(team2_set3)));
+               
+     var diff_sets1 = Math.abs(parseInt(team1_set1)-parseInt(team2_set1));
+     var diff_sets2 = Math.abs(parseInt(team1_set2)-parseInt(team2_set2));
+     var diff_sets3 = Math.abs(parseInt(team1_set3)-parseInt(team2_set3));
+              	
+	if ( 
+		 //   (team1_set1>=7 && team2_set1<=6) 
+		 //|| (team2_set1>=7 && team1_set1<=6) 
+		 //|| (team1_set2>=7 && team2_set2<=6) 
+		 //|| (team2_set2>=7 && team1_set2<=6) 	
+		 //|| (team1_set3>=7 && team2_set3<=6) 
+		 //|| (team2_set3>=7 && team1_set3<=6) 
+		 //|| 
+		 total_sets > 3		
+		 || (team1_set1>=6 && diff_sets1>2)
+		 || (team2_set1>=6 && diff_sets1>2)		 
+		 || (team1_set2>=6 && diff_sets2>2)
+		 || (team2_set2>=6 && diff_sets2>2)		
+		 || (team1_set3>=6 && diff_sets3>2)
+		 || (team2_set3>=6 && diff_sets3>2)				 		 
 		 ) {    
-    	console.log('impossible');
-    	//On remet à jour
-    	this.renderScoreBoard(this.game);
-    	return;
+    	  console.log('impossible');
+    	  //On remet à jour
+    	  this.renderScoreBoard(this.game);
+    	  return;
     }
     
+	/*
 	if ( team1_set1>=6 && team2_set1<=5 ) {
 		$('#team1_set1_div .score').removeClass('ongoing');	
 		score = "1/0";
@@ -445,6 +515,7 @@ Y.Views.Game = Y.View.extend({
 		$('#team2_set1_div .score').addClass('ongoing');	
 		score = "0/0";		
 	}
+	*/
 	
 	/*
 	if ((team1_set2>=6 && team2_set2<=5) || (team2_set2>=6 && team1_set2<=5)) {
@@ -458,30 +529,48 @@ Y.Views.Game = Y.View.extend({
 		return;
 	}*/	   
 
-    console.log('sets_update',sets_update);
-    console.log('score',score);
-    this.currentScore = sets_update;
-        
+
+    this.currentScore = sets_update;        
     //on incremente le tableau
     this.lastScore.push(sets_update);
-    console.log('lastScore ',this.lastScore);
+
+    
+    Y.Conf.set("owner.games."+this.gameid+".sets.current", sets_update);
+	Y.Conf.set("owner.games."+this.gameid+".scores.current", score);  
+	
+    var setsCache = Y.Conf.get("owner.games."+this.gameid+".sets");
+    if (setsCache !== undefined)
+    {
+        setsCache.push(sets_update);
+        Y.Conf.set("owner.games."+this.gameid+".sets", setsCache );
+    }
+    else
+      Y.Conf.set("owner.games."+this.gameid+".sets", [sets_update]);	       
+
+    var scoresCache = Y.Conf.get("owner.games."+this.gameid+".scores");
+    if (scoresCache !== undefined)
+    {
+        scoresCache.push(score);
+        Y.Conf.set("owner.games."+this.gameid+".scores", scoresCache );
+    }
+    else
+      Y.Conf.set("owner.games."+this.gameid+".scores", [score]);
         
-        
-      var game = {
-		    team1_id : this.game.get('teams')[0].players[0].id
-	      , team2_id : this.game.get('teams')[1].players[0].id
-	      , id : this.gameid 			      
-	      , playerid : this.playerid
-	      , token : this.token			      			      			      
-	      , country : this.game.get('location').country	      
-	      , city : this.game.get('location').city
-	      , court : this.game.get('options').court
-	      , surface : this.game.get('options').surface
-	      , tour : this.game.get('options').tour
-	      , subtype : this.game.get('options').subtype			      
-	      , sets : sets_update
-	      , score : score
-      };
+    var game = {
+      team1_id : this.game.get('teams')[0].players[0].id
+	  , team2_id : this.game.get('teams')[1].players[0].id
+	  , id : this.gameid 			      
+	  , playerid : this.playerid
+	  , token : this.token			      			      			      
+	  , country : this.game.get('location').country	      
+	  , city : this.game.get('location').city
+	  , court : this.game.get('options').court
+	  , surface : this.game.get('options').surface
+	  , tour : this.game.get('options').tour
+	  , subtype : this.game.get('options').subtype			      
+	  , sets : sets_update
+	  , score : score
+    };
      
     var that = this;
       
@@ -606,6 +695,9 @@ Y.Views.Game = Y.View.extend({
       }
       //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
       //setInterval ( this.refreshTimer, 1000 );
+      
+      
+       
           
     }
                 
@@ -713,6 +805,38 @@ Y.Views.Game = Y.View.extend({
     $('a').i18n();
     $('span').i18n();    
     //this.$el.i18n();
+    
+    
+	var total_sets = parseInt(this.team1_sets) + parseInt(this.team2_sets);
+      
+       
+    if (total_sets >= 2)  {
+          console.log('total_sets',total_sets);
+	      $('#team1_set1_div .score').removeClass('ongoing');	
+	      $('#team2_set1_div .score').removeClass('ongoing');	
+		  $('#team1_set2_div .score').removeClass('ongoing');
+		  $('#team2_set2_div .score').removeClass('ongoing');		  
+		  $('#team3_set3_div .score').addClass('ongoing');
+		  $('#team3_set3_div .score').addClass('ongoing');	
+    }             
+    else if (total_sets === 1)  {
+          console.log('total_sets',total_sets);
+	      $('#team1_set1_div .score').removeClass('ongoing');	
+	      $('#team2_set1_div .score').removeClass('ongoing');	
+		  $('#team1_set2_div .score').addClass('ongoing');
+		  $('#team2_set2_div .score').addClass('ongoing');		  
+		  $('#team3_set3_div .score').removeClass('ongoing');
+		  $('#team3_set3_div .score').removeClass('ongoing');
+    }
+    else {
+      	  console.log('total_sets',total_sets);
+	      $('#team1_set1_div .score').addClass('ongoing');	
+	      $('#team2_set1_div .score').addClass('ongoing');	
+		  $('#team1_set2_div .score').removeClass('ongoing');
+		  $('#team2_set2_div .score').removeClass('ongoing');		  
+		  $('#team3_set3_div .score').removeClass('ongoing');
+		  $('#team3_set3_div .score').removeClass('ongoing');              
+    }    
 
     return this;
   },

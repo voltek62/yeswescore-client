@@ -46,7 +46,8 @@
               }
               else { 
                 game.dates.startConvert = new Date(game.dates.start);
-                game.dates.startDate = ('0'+game.dates.startConvert.getDate()).slice(-2)+'/'+('0'+game.dates.startConvert.getMonth()).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
+                game.dates.startConvert.month = game.dates.startConvert.getMonth() + 1;
+                game.dates.startDate = ('0'+game.dates.startConvert.getDate()).slice(-2)+'/'+('0'+game.dates.startConvert.month).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
                 game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);
               }
            } 

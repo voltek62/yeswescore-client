@@ -374,7 +374,11 @@ Y.Views.Game = Y.View.extend({
     , team2_set1 = this.team2_set1
     , team2_set2 = this.team2_set2
     , team2_set3 = this.team2_set3                                
-    , tennis_update = null;
+    , tennis_update = null
+    , score = "0/0"
+    ;
+    
+
 
     if ($.isNumeric(team1_set1) === false)
       team1_set1 = '0';
@@ -402,8 +406,60 @@ Y.Views.Game = Y.View.extend({
       sets_update += ";" + team1_set3 + '/' + team2_set3;
     }
 
+    /* controle si possible */
+    /* on met "ongoing" sur la class "score" en cours*/
+    
+    console.log('team1_set1',team1_set1);
+    console.log('team2_set1',team2_set1);
+    
+    /* regle de gestion */
+    // add diff de 2 max si superieur à 6
+    // add force score if diff de 2 ou on peut mettre à jour les scores ? on controle si 0,1,2,3
+	if ( (team1_set1>=7 && team2_set1<=5) 
+		 || (team2_set1>=7 && team1_set1<=5) 
+		 
+		 ) {    
+    	console.log('impossible');
+    	//On remet à jour
+    	this.renderScoreBoard(this.game);
+    	return;
+    }
+    
+	if ( team1_set1>=6 && team2_set1<=5 ) {
+		$('#team1_set1_div .score').removeClass('ongoing');	
+		score = "1/0";
+		$('#team1_set2_div .score').addClass('ongoing');
+	}
+	else {
+		$('#team1_set1_div .score').addClass('ongoing');
+		score = "0/0";		
+	}
+	
+	if ( team2_set1>=6 && team1_set1<=5 ) {
+		$('#team1_set1_div .score').removeClass('ongoing');
+		score = "0/1";	
+		$('#team2_set2_div .score').addClass('ongoing');	
+						
+	}
+	else {
+		$('#team2_set1_div .score').addClass('ongoing');	
+		score = "0/0";		
+	}
+	
+	/*
+	if ((team1_set2>=6 && team2_set2<=5) || (team2_set2>=6 && team1_set2<=5)) {
+		console.log('impossible');
+		this.renderScoreBoard(this.game);		
+		return;
+	}
+	if ((team1_set3>=6 && team2_set3<=5) || (team2_set3>=6 && team1_set3<=5)) {
+		console.log('impossible');
+		this.renderScoreBoard(this.game);		
+		return;
+	}*/	   
 
     console.log('sets_update',sets_update);
+    console.log('score',score);
     this.currentScore = sets_update;
         
     //on incremente le tableau
@@ -424,6 +480,7 @@ Y.Views.Game = Y.View.extend({
 	      , tour : this.game.get('options').tour
 	      , subtype : this.game.get('options').subtype			      
 	      , sets : sets_update
+	      , score : score
       };
      
     var that = this;

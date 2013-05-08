@@ -18,31 +18,17 @@ Y.Views.Header = Y.View.extend({
     Backbone.on("request.end", function () { that.animateConnection("off"); });
 
     // on s'abonne a la classe de connexion pour signifier les changements
-    //navigator.connection = { type: "NONE" }
-    
-    Y.Connection.on("change", function (state) {   
-    
-      if (state[0] === "ONLINE") {
+    Y.Connection.on("change", function (state) {
+      if (state[0] === Y.Connection.STATUS_ONLINE) {
       	var connectionStatus = $(".connectionStatus");
       	connectionStatus.attr("src", "images/header-logo-on.png");
       	connectionStatus.attr("width", "23");
-      	connectionStatus.attr("height", "17"); 
-      	$('body').removeClass("noconnection");     	
-      }
-      else if (state[0] === "NEWVERSION") {
-      	var connectionStatus = $(".connectionStatus");
-      	connectionStatus.attr("src", "images/header-logo-on.png");
-      	connectionStatus.attr("width", "23");
-      	connectionStatus.attr("height", "17");      	
-      	$('body').addClass("noconnection"); 
-      	$('#content').html('<span style="color:black;font-size:25px;top:80px;position:absolute;">Vous devez mettre &agrave; jour l\'apps pour continuer &agrave; l\'utiliser</span>');     	
-      }
-      else if (state[0] === "OFFLINE") {
+      	connectionStatus.attr("height", "17");
+      } else {
       	var connectionStatus = $(".connectionStatus");
       	connectionStatus.attr("src", "images/header-logo-off.png");
       	connectionStatus.attr("width", "35");
-      	connectionStatus.attr("height", "17");       	
-      	$('body').addClass("noconnection"); 
+      	connectionStatus.attr("height", "17");
       }
     });
   },

@@ -13,6 +13,8 @@
 
     GUI: null,       // @see y/gui.js
 
+    App: null,       // @see y/app.js
+
     status: "uninitialized",  // uninitialized, loading, loaded
 
     /* /!\ overwrited in DEV by Y.Env in ey/env.js */
@@ -22,9 +24,7 @@
       CURRENT: null
     },
 
-    load: function (callback) {
-      var that = this;
-      // initializing backbone.
+    initializingBackbone: function () {
       Backbone.$ = $;
       Backbone.ajax = function(url, options) {
           // proxy to jquery
@@ -47,13 +47,27 @@
           /*#endif*/
           var xhr = $.ajax(url, options);
           xhr.always($.proxy(function () { this.trigger("request.end"); }, this));
+          
           this.trigger("request.start", xhr, url, options);
           return xhr;
       };
-      
+    },
+
+    load: function (callback) {
+      var that = this;
+      // forcing offline status while loading
+      Y.Connection.forceStatus(Y.Connection.STATUS_OFFLINE);
+      // initializing backbone.
+      this.initializingBackbone();
       // init self configuration
       this.Conf.initEnv()
-               .load(this.Env.CURRENT, function onConfLoaded() {
+               .load(this.Env.CURRENT, function onConfLoaded(err) {
+                 // error handling.
+                 //  if err is "deprecated" => we stop loading.
+                 //  if err is other (ex: "network connection"), we continue to load.
+                 if (err && err == "deprecated")
+                   return callback(err);
+                 // internationalization.
                  var i18nOptions = { lng: "fr-FR" };
                  /*#ifndef WP8*/
                  if (false) {
@@ -78,8 +92,10 @@
                      // start dispatching routes
                      // @see http://backbonejs.org/#History-start
                      Backbone.history.start();
-                     // waiting for cordova to be ready
-                     console.log('devrait etre ready');
+                     // Everything is ok => updating networkg status
+                     // FiXME: remplacer cet artefact de chargement par un splashscreen étendu.
+                     Y.Connection.resetStatus();
+                     // appel de la callback.
                      callback();
                    });
                  });
@@ -92,7 +108,6 @@
       var callbacks = [];
 
       return function ready(callback) {
-        var that = this;
         switch (this.status) {
           case "uninitialized":
             // when YesWeScore is uninitialized, we just stack the callbacks.
@@ -101,11 +116,21 @@
             console.log('avant status loading ');
             this.status = "loading";
             console.log('typeof ' + typeof this.load);
-            this.load(function () {
+            this.load(_.bind(function onConfLoaded(err) {
+              // error handling
+              if (err) {
+                if (err === "deprecated") {
+                  Y.Connection.forceStatus(Y.Connection.STATUS_OFFLINE);
+                  Y.GUI.displayNewVersionLayer();
+                  return; // we do not want to continue loading.
+                }
+                if (err === "network error")
+                  42; // FIXME: we should listen to Y.Connection.
+              }
               // We are now ready.
-              that.status = "ready";
+              this.status = "ready";
               _(callbacks).forEach(function (f) { f() });
-            });
+            }, this));
             break;
           case "loading":
             // when YesWeScore is loading, we just stack the callbacks.

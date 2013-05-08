@@ -7,6 +7,10 @@ Y.Views.GameComments = Y.View.extend({
 
   shareTimeout: null,
 
+  events: {
+    'mousedown .button.send' : 'sendComment'
+  },
+
   myinitialize:function() {
     this.pageHash += this.id; 
     this.gameid = this.id;
@@ -199,8 +203,11 @@ Y.Views.GameComments = Y.View.extend({
     var playerid = this.owner.id
     , token  = this.owner.get('token')
     , gameid = this.gameid
-    , comment = $('#messageText').val();
+    , comment = $('#messageText').val()
+    , that = this;
 
+    if (comment.length === 0)
+      return; // empty => doing nothing.
     var stream = new StreamModel({
           type : "comment",
           playerid : playerid,
@@ -208,30 +215,15 @@ Y.Views.GameComments = Y.View.extend({
           text : comment,
           gameid : gameid
     });
-    
-    var that = this;
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
-      
-	  that.$("a.sendButton").addClass("ok");
-	  that.shareTimeout = window.setTimeout(function () {
-	    that.$("a.sendButton").removeClass("ok");
-	    that.shareTimeout = null;
-	  }, 4000);
-      
-      $('#messageText').val('');
- 
       that.scrollTop();
-          
     }).fail(function (err) {
-      
-	  that.$("a.sendButton").addClass("ko");
-	  that.shareTimeout = window.setTimeout(function () {
-	    that.$("a.sendButton").removeClass("ko");
-	    that.shareTimeout = null;
-	  }, 4000);
-	        
-    
+	    that.$(".button.send").addClass("ko");
+	    that.shareTimeout = window.setTimeout(function () {
+	      that.$(".button.send").removeClass("ko");
+	      that.shareTimeout = null;
+	    }, 4000);
     });   
     
   },

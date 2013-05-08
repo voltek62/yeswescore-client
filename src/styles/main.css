@@ -190,6 +190,10 @@ body.inputmodeon #content .content-container {
   padding-top: 0px;
 }
 
+body.inputmodeon .button-form[data-input-mode="process"] {
+  bottom: -50px;
+}
+
 /**********************************************************
 	header
 **********************************************************/
@@ -969,7 +973,7 @@ ul>li.player>a {
 	-webkit-border-radius: 22px;
 	border-radius: 22px;
 	background-color: #f2734c;
-	border: 1px solid #74c5e3;
+	border: 1px solid #f2734c;
 	color: #fff;
 	cursor: pointer;
 }
@@ -977,6 +981,10 @@ ul>li.player>a {
 .link-form .button.send {
   background-color:#41c68f;
   border: 1px solid #96e1c3;
+}
+.link-form .button.send.ko {
+  background-color: #f2734c;
+	border: 1px solid #f2734c;
 }
 
 /*
@@ -1140,6 +1148,10 @@ ul>li.player>a {
 	font-size: 12px;
 	font-weight: bold;
 	text-align: right;
+	/* trunk text */
+	white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 #listGamesView .game-player {

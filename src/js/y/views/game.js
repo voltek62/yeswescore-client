@@ -214,7 +214,6 @@ Y.Views.Game = Y.View.extend({
 
     var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
     var message = _.reduce(_.keys(messages), function (result, token) {
-      console.log('result=' + result + ' token='+token + ' val='+messages[token]);
       return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
     }, messagePattern);
 

@@ -236,22 +236,28 @@ Y.Views.Game = Y.View.extend({
     	   	  
     if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {
     
+    	var lastScore = Y.Conf.get("owner.games."+this.gameid+".sets");
+    	
+    	console.log('lastScore',lastScore);
       
-	    if (this.lastScore.length >= 1) {
-	      var sets_update = this.lastScore.pop();
+	    if (lastScore !== undefined) {
+	      var sets_undo = lastScore.pop();
+	      console.log("premier pop : ",sets_undo); 
 	
 	      //S'il s'agit du meme score
-	      if (sets_update === this.currentScore ) {
-		      sets_update = this.lastScore.pop();	    	  
-		      console.log("second pop : ",sets_update);  
+	      if (sets_undo === this.currentScore ) {
+		      sets_undo = lastScore.pop();	    	  
+		      console.log("second pop : ",sets_undo);  
 	      }
 	    	  
 	      var gameid = this.gameid;   
 	    	  	  
-	      console.log("Il reste : ",this.lastScore);  
+	      console.log("sets : ",sets_undo[0]);  
+	      console.log("score : ",sets_undo[1]);  	      
+	      console.log("sets_undo : ",sets_undo); 
+	      //console.log("sets_undo length: ",sets_undo.length); 
 	      
-	      
-	      if (sets_update !== 'undefined') {
+	      if (sets_undo !== 'undefined') {
 	      
 		      var game = {
 				    team1_id : this.game.get('teams')[0].players[0].id
@@ -265,8 +271,8 @@ Y.Views.Game = Y.View.extend({
 			      , surface : this.game.get('options').surface
 			      , tour : this.game.get('options').tour
 			      , subtype : this.game.get('options').subtype			      
-			      , sets : sets_update
-
+			      , sets :  sets_undo[0]
+			      , score : sets_undo[1]
 		      };
 		        
 	
@@ -280,8 +286,8 @@ Y.Views.Game = Y.View.extend({
 			        //that.lastScore.push(model.get('options').sets);	    
 			        that.currentScore = model.get('options').sets;  
 			        		
-			        Y.Conf.set("owner.games."+that.gameid+".sets.current", model.get('options').sets);
-			        Y.Conf.set("owner.games."+that.gameid+".scores.current", model.get('options').score);            			        	              
+			        //Y.Conf.set("owner.games."+that.gameid+".sets.current", model.get('options').sets);
+			        //Y.Conf.set("owner.games."+that.gameid+".scores.current", model.get('options').score);            			        	              
 		
 	  				that.game = model;
 	  				
@@ -532,21 +538,22 @@ Y.Views.Game = Y.View.extend({
 
     this.currentScore = sets_update;        
     //on incremente le tableau
-    this.lastScore.push(sets_update);
+    //this.lastScore.push(sets_update);
 
     
-    Y.Conf.set("owner.games."+this.gameid+".sets.current", sets_update);
-	Y.Conf.set("owner.games."+this.gameid+".scores.current", score);  
+    //Y.Conf.set("owner.games."+this.gameid+".sets.current", sets_update);
+	//Y.Conf.set("owner.games."+this.gameid+".scores.current", score);  
 	
     var setsCache = Y.Conf.get("owner.games."+this.gameid+".sets");
     if (setsCache !== undefined)
     {
-        setsCache.push(sets_update);
+        setsCache.push([sets_update,score]);
         Y.Conf.set("owner.games."+this.gameid+".sets", setsCache );
     }
     else
-      Y.Conf.set("owner.games."+this.gameid+".sets", [sets_update]);	       
+      Y.Conf.set("owner.games."+this.gameid+".sets", [[sets_update,score]]);	       
 
+	/*
     var scoresCache = Y.Conf.get("owner.games."+this.gameid+".scores");
     if (scoresCache !== undefined)
     {
@@ -555,6 +562,7 @@ Y.Views.Game = Y.View.extend({
     }
     else
       Y.Conf.set("owner.games."+this.gameid+".scores", [score]);
+    */
         
     var game = {
       team1_id : this.game.get('teams')[0].players[0].id
@@ -635,29 +643,18 @@ Y.Views.Game = Y.View.extend({
 
 	          
 	        if (game.get('options').sets!=="") {
-		        this.lastScore.push(game.get('options').sets);	    
+		        //this.lastScore.push(game.get('options').sets);	    
 		        this.currentScore = game.get('options').sets;  
 	        }
 	        else {
-		        this.lastScore.push("0/0");	    
+		        //this.lastScore.push("0/0");	    
 		        this.currentScore = "0/0";  	         
 	        }
 	      }
 	      
 	      this.gameid = game.id;
 
-	      
-	      /*
-	        this.team1_id=game.teams[0].players[0].id;
-	        this.team2_id=game.teams[1].players[0].id; 
-		      this.country = game.location.country;  
-	        this.city = game.loation.city;
-	        this.court = game.options.court;
-	        this.surface = game.options.surface;
-	        this.tour : game.options.tour;
-	        this.subtype : game.options.subtype;
-	        this.sets : game.options.sets;
-		    */
+	     
 	    }
     }
         
@@ -878,7 +875,11 @@ Y.Views.Game = Y.View.extend({
         success: function(model, response){
 	        console.log('success ');	        
             $("#statusButton").html(i18n.t('game.finished'));
-            that.statusScore = "finished"; 	  
+            that.statusScore = "finished"; 	 
+            
+            // On efface la cache
+            Y.Conf.del("owner.games."+that.gameid+".sets");
+             
           }
 	    });
     }   
@@ -887,7 +888,8 @@ Y.Views.Game = Y.View.extend({
       
   optionGame : function() {
 
-    Y.Router.navigate("/games/form/"+this.id,{trigger:true})
+    Y.Router.navigate("/games/form/"+this.id,{trigger:true});
+    
   },      
 
   followGame : function() {

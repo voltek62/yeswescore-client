@@ -1140,6 +1140,10 @@ ul>li.player>a {
 	font-size: 12px;
 	font-weight: bold;
 	text-align: right;
+	/* trunk text */
+	white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 #listGamesView .game-player {

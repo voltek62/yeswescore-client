@@ -189,6 +189,19 @@
       }, this);
     },
 
+
+    // Del API
+    // @param string/regExp key
+    // @return [values]/value/undefined
+    del: function (key) {
+      assert(typeof key === "string" || key instanceof RegExp);
+
+      if (typeof key === "string") {
+        return DB.remove(key);
+      }
+
+    },
+
     // @param string key
     // @return object/undefined
     getMetadata: function (key) {

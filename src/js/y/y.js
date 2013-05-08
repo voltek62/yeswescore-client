@@ -43,7 +43,7 @@
           //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
           /*#ifdef DEV*/
-          console.log('Backbone.ajax: ' + url);
+          console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
           /*#endif*/
           var xhr = $.ajax(url, options);
           xhr.always($.proxy(function () { this.trigger("request.end"); }, this));

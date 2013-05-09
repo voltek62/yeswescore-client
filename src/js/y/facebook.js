@@ -6,10 +6,6 @@
 
   // detecter error sur le token
   // detecter error en general
-  // detecter doublons
-
-  // avoiding already shared messages. (using id)
-  var messagesById = {};
 
   var Facebook = {
     _connecting: false,
@@ -51,11 +47,6 @@
       assert(typeof id === "string");
       assert(typeof message === "string");
       assert(typeof callback === "function");
-
-      // first security: avoiding messages to be shared twice
-      if (typeof messagesById[id] !== "undefined")
-        return callback("already shared");
-      messagesById[id] = message;
 
       var player = Y.User.getPlayer();
       var fbid = player.get('connection').facebook.id;

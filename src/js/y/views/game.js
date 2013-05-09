@@ -78,6 +78,7 @@ Y.Views.Game = Y.View.extend({
 	          	
 	  // On stock les dernieres modifs		
     this.lastScore = new Array();
+    this.DB = new Y.DB("Y.Games."+this.gameid+".");
 		
     // loading owner
     this.owner = Y.User.getPlayer();
@@ -235,25 +236,39 @@ Y.Views.Game = Y.View.extend({
     	   	  
     if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {
     
-    	var lastScore = Y.Conf.get("owner.games."+this.gameid+".sets");
+    	this.lastScore = this.DB.readJSON("sets");
     	
-    	console.log('lastScore',lastScore);
-      
-	    if (lastScore !== undefined) {
-	      var sets_undo = lastScore.pop();
+    	console.log('lastScore',this.lastScore);
+    	console.log('currentScore',this.currentScore);
+    	      
+	    if (this.lastScore !== undefined) {
+	      var sets_undo = this.lastScore.pop();
 	      console.log("premier pop : ",sets_undo); 
 	
 	      //S'il s'agit du meme score
-	      if (sets_undo === this.currentScore ) {
-		      sets_undo = lastScore.pop();	    	  
-		      console.log("second pop : ",sets_undo);  
-	      }
+	      if (sets_undo !== undefined)
+	      {
+		      if (sets_undo[0] === this.currentScore ) {
+		             
+		        //lastScore.splice(lastScore.indexOf(sets_undo), 1);
+		        this.DB.saveJSON("sets",this.lastScore);
+		        
+			    sets_undo = this.lastScore.pop();	    	  
+			    console.log("idem donc second pop : ",sets_undo);  	
+			    	
+		      }
+		      else {
+		      	console.log('diff on continue');
+		      }
+		  }
+		  else 
+		    return;
 	    	  
 	      var gameid = this.gameid;   
 	    	  	  
-	      console.log("sets : ",sets_undo[0]);  
-	      console.log("score : ",sets_undo[1]);  	      
-	      console.log("sets_undo : ",sets_undo); 
+	      //console.log("sets : ",sets_undo[0]);  
+	      //console.log("score : ",sets_undo[1]);  	      
+	      //console.log("sets_undo : ",sets_undo); 
 	      //console.log("sets_undo length: ",sets_undo.length); 
 	      
 	      if (sets_undo !== 'undefined') {
@@ -285,8 +300,7 @@ Y.Views.Game = Y.View.extend({
 			        //that.lastScore.push(model.get('options').sets);	    
 			        that.currentScore = model.get('options').sets;  
 			        		
-			        //Y.Conf.set("owner.games."+that.gameid+".sets.current", model.get('options').sets);
-			        //Y.Conf.set("owner.games."+that.gameid+".scores.current", model.get('options').score);            			        	              
+			        that.DB.saveJSON("sets",that.lastScore);         			        	              
 		
 	  				that.game = model;
 	  				
@@ -296,10 +310,6 @@ Y.Views.Game = Y.View.extend({
             	error : function(err) {
             	
             		console.log('erreur',err);
-            		
-            		//on remet l'ancien score
-            		that.lastScore.push(that.currentScore);	
-            		
             		
             	
             	}
@@ -466,32 +476,19 @@ Y.Views.Game = Y.View.extend({
     
     // add diff de 2 max si superieur à 6
     // add force score if diff de 2 ou on peut mettre à jour les scores ? on controle si 0,1,2,3
-     var total_sets = parseInt(this.team1_sets) + parseInt(this.team2_sets);
-
-     console.log('total_sets',total_sets);     
-     console.log('diff de sets1',Math.abs(parseInt(team1_set1)-parseInt(team2_set1)));
-     console.log('diff de sets2',Math.abs(parseInt(team1_set2)-parseInt(team2_set2)));
-     console.log('diff de sets3',Math.abs(parseInt(team1_set3)-parseInt(team2_set3)));
-               
+     var total_sets = parseInt(this.team1_sets) + parseInt(this.team2_sets);    
      var diff_sets1 = Math.abs(parseInt(team1_set1)-parseInt(team2_set1));
      var diff_sets2 = Math.abs(parseInt(team1_set2)-parseInt(team2_set2));
      var diff_sets3 = Math.abs(parseInt(team1_set3)-parseInt(team2_set3));
               	
 	if ( 
-		 //   (team1_set1>=7 && team2_set1<=6) 
-		 //|| (team2_set1>=7 && team1_set1<=6) 
-		 //|| (team1_set2>=7 && team2_set2<=6) 
-		 //|| (team2_set2>=7 && team1_set2<=6) 	
-		 //|| (team1_set3>=7 && team2_set3<=6) 
-		 //|| (team2_set3>=7 && team1_set3<=6) 
-		 //|| 
 		 total_sets > 3		
-		 || (team1_set1>=6 && diff_sets1>2)
-		 || (team2_set1>=6 && diff_sets1>2)		 
-		 || (team1_set2>=6 && diff_sets2>2)
-		 || (team2_set2>=6 && diff_sets2>2)		
-		 || (team1_set3>=6 && diff_sets3>2)
-		 || (team2_set3>=6 && diff_sets3>2)				 		 
+		 || (team1_set1>=7 && diff_sets1>2)
+		 || (team2_set1>=7 && diff_sets1>2)		 
+		 || (team1_set2>=7 && diff_sets2>2)
+		 || (team2_set2>=7 && diff_sets2>2)		
+		 || (team1_set3>=7 && diff_sets3>2)
+		 || (team2_set3>=7 && diff_sets3>2)				 		 
 		 ) {    
     	  console.log('impossible');
     	  //On remet à jour
@@ -499,69 +496,25 @@ Y.Views.Game = Y.View.extend({
     	  return;
     }
     
-	/*
-	if ( team1_set1>=6 && team2_set1<=5 ) {
-		$('#team1_set1_div .score').removeClass('ongoing');	
-		score = "1/0";
-		$('#team1_set2_div .score').addClass('ongoing');
-	}
-	else {
-		$('#team1_set1_div .score').addClass('ongoing');
-		score = "0/0";		
-	}
-	
-	if ( team2_set1>=6 && team1_set1<=5 ) {
-		$('#team1_set1_div .score').removeClass('ongoing');
-		score = "0/1";	
-		$('#team2_set2_div .score').addClass('ongoing');	
-						
-	}
-	else {
-		$('#team2_set1_div .score').addClass('ongoing');	
-		score = "0/0";		
-	}
-	*/
-	
-	/*
-	if ((team1_set2>=6 && team2_set2<=5) || (team2_set2>=6 && team1_set2<=5)) {
-		console.log('impossible');
-		this.renderScoreBoard(this.game);		
-		return;
-	}
-	if ((team1_set3>=6 && team2_set3<=5) || (team2_set3>=6 && team1_set3<=5)) {
-		console.log('impossible');
-		this.renderScoreBoard(this.game);		
-		return;
-	}*/	   
-
-
     this.currentScore = sets_update;        
-    //on incremente le tableau
-    //this.lastScore.push(sets_update);
 
-    
-    //Y.Conf.set("owner.games."+this.gameid+".sets.current", sets_update);
-	//Y.Conf.set("owner.games."+this.gameid+".scores.current", score);  
-	
-    var setsCache = Y.Conf.get("owner.games."+this.gameid+".sets");
+    var setsCache = this.DB.readJSON("sets");
     if (setsCache !== undefined)
     {
-        setsCache.push([sets_update,score]);
-        Y.Conf.set("owner.games."+this.gameid+".sets", setsCache );
+      setsCache.push([sets_update,score]);
+      //Y.Conf.set("owner.games."+this.gameid+".sets", setsCache );
+        
+      //FIXME : use Y.DB
+      this.DB.saveJSON("sets", setsCache);
+  
     }
-    else
-      Y.Conf.set("owner.games."+this.gameid+".sets", [[sets_update,score]]);	       
-
-	/*
-    var scoresCache = Y.Conf.get("owner.games."+this.gameid+".scores");
-    if (scoresCache !== undefined)
-    {
-        scoresCache.push(score);
-        Y.Conf.set("owner.games."+this.gameid+".scores", scoresCache );
-    }
-    else
-      Y.Conf.set("owner.games."+this.gameid+".scores", [score]);
-    */
+    else {
+      //Y.Conf.set("owner.games."+this.gameid+".sets", [[sets_update,score]]);	
+      
+      //FIXME : use Y.DB
+      this.DB.saveJSON("sets", [[sets_update,score]]);
+      	         
+	}
         
     var game = {
       team1_id : this.game.get('teams')[0].players[0].id
@@ -877,7 +830,7 @@ Y.Views.Game = Y.View.extend({
             that.statusScore = "finished"; 	 
             
             // On efface la cache
-            Y.Conf.del("owner.games."+that.gameid+".sets");
+            this.DB.remove("sets");
              
           }
 	    });

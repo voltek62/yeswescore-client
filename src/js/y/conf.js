@@ -80,7 +80,7 @@
             this.set("api.url.autocomplete.clubs", apiBaseUrl + "/v1/clubs/autocomplete/");          
             this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v1/inappbrowser/redirect.html");
             this.set("facebook.app.id", fbAppId);
-            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
             /*#endif*/
             break;
           case Y.Env.PROD:
@@ -99,7 +99,7 @@
             this.set("api.url.autocomplete.clubs", "http://api.yeswescore.com/v1/clubs/autocomplete/");
             this.set("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v1/inappbrowser/redirect.html");
             this.set("facebook.app.id", "447718828610668");
-            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
             break;
           default:
             break;

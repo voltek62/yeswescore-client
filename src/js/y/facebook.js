@@ -74,6 +74,11 @@
       });
     },
 
+    // WARNING:
+    //  if the user agent is mobile, facebook doesn't allow an http redirect.
+    //  so, in DEV environment
+    //    if non mobile (chrome) => normal dev url
+    //    if mobile              => https redirect url
     connectAsync: function (callback) {
       if (this._connecting) {
         assert(false); // we should never be here.
@@ -87,6 +92,18 @@
       var facebookOauthUrl = Y.Conf.get("facebook.url.oauth")
                               .replace("[fb_app_id]", Y.Conf.get("facebook.app.id"))
                               .replace("[redirect_uri]", encodeURIComponent(redirectUri));
+      // we might call the callback twice: 
+      //  - first on success
+      //  - second, when the window is closing.
+      // so we create a new callback that can only be called once
+      var cbAlreadyCalled = false;
+      var callbackOnce = function () {
+        if (!cbAlreadyCalled) {
+          cbAlreadyCalled = true;
+          callback.apply(null, arguments);
+        }
+      };
+
       // create a new browser (trying to be secur)
       try {
         this.browser = null;
@@ -98,11 +115,19 @@
           url: facebookOauthUrl, // Oauth facebook
           loadstart: function onloadstart(data) {
             that._onInappbrowserPageChanged(data, callback);
-          }
+          },
+          exit: function () {
+            that._connecting = false;
+            callback("exit");
+          } // the use might close the browser or push back button
         });
       } catch (e) {
         if (this.browser) {
-          try { this.browser.close() } catch (e) { }
+          try {
+            that._connecting = false;
+            callback(e);
+            this.browser.close();
+          } catch (e) { }
         }
         callback("inappbrowser error");
       }

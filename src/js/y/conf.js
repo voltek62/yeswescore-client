@@ -49,18 +49,18 @@
             switch (Y.Env.user) {
               case "marc":
                 var apiBaseUrl = "http://plic.no-ip.org:22222";
-                var fbBaseUrl = "http://plic.no-ip.org:9091";
+                var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "618522421507840";
                 break;
               case "vincent":
                 var apiBaseUrl = "http://plic.no-ip.org:1024";
-                var fbBaseUrl = "http://plic.no-ip.org:9090";
+                var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "408897482525651";
                 break;
               case "alpha":
               default:
                 var apiBaseUrl = "http://plic.no-ip.org:20080";
-                var fbBaseUrl = "http://plic.no-ip.org:20081";
+                var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "FIXME";
                 break;
             }

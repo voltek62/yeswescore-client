@@ -45,9 +45,19 @@
           /*#ifdef DEV*/
           console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
           /*#endif*/
+
+          // slow if answer is taking longer than 2sec.
+          var timeoutid = window.setTimeout(function () { Y.Connection.setSpeed(Y.Connection.SPEED_SLOW); timeoutid = null; }, 2000);
+          // launching xhr.
           var xhr = $.ajax(url, options);
+          // events.
           xhr.always($.proxy(function () { this.trigger("request.end"); }, this));
-          
+          xhr.always(function () {
+            if (timeoutid) {
+              window.clearTimeout(timeoutid);
+              Y.Connection.setSpeed(Y.Connection.SPEED_FAST);
+            }
+          });
           this.trigger("request.start", xhr, url, options);
           return xhr;
       };

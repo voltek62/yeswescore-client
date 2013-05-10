@@ -112,6 +112,10 @@
                });
     },
 
+    unload: function () {
+      Y.Connection.unload();
+    },
+
     // FIXME: should be initialized only when document is ready.
     // same as jquery ;)
     ready: (function () {

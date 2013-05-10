@@ -168,8 +168,8 @@ module.exports = function (grunt) {
 
   var platforms = [ ["android","2.7.0"], 
   					["ios","2.4"], 
-  					["wp8","2.5"], 
-  					["web","2.4"] ];
+  					["wp8","2.6.0"], 
+  					["web","2.5.0"] ];
 
   //
   // registering grunt copy-cordova-android-to-dist, copy-cordova-ios-to-dist, ...
@@ -177,9 +177,6 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) {
     grunt.registerTask('copy-cordova-' + platform[0] + '-to-dist', function () {
-      //if (platforms === "wp8")
-      //   cordovaVersion = "2.6.0";
-		 
       grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
     });
   });

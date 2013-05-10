@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
   // cordova version (used in cordova-2.4.0.js)
-  var cordovaVersion = "2.5.0";
+  //var cordovaVersion = "2.5.0";
 
   // External tasks.
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -166,17 +166,21 @@ module.exports = function (grunt) {
     }
   });
 
-  var platforms = ["android", "ios", "wp8", "web"];
+  var platforms = [ ["android","2.7.0"], 
+  					["ios","2.4"], 
+  					["wp8","2.5"], 
+  					["web","2.4"] ];
 
   //
   // registering grunt copy-cordova-android-to-dist, copy-cordova-ios-to-dist, ...
   //  ex: copy /platforms/ios/cordova/cordova-2.4.0.js  => /dist/cordova.js
   //
   platforms.forEach(function (platform) {
-    grunt.registerTask('copy-cordova-' + platform + '-to-dist', function () {
-      if (platforms === "wp8")
-         cordovaVersion = "2.6.0";
-      grunt.file.copy('platforms/' + platform + '/cordova/cordova-' + cordovaVersion + '.js', 'dist/cordova.js');
+    grunt.registerTask('copy-cordova-' + platform[0] + '-to-dist', function () {
+      //if (platforms === "wp8")
+      //   cordovaVersion = "2.6.0";
+		 
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
     });
   });
 
@@ -185,13 +189,13 @@ module.exports = function (grunt) {
   //  ex: copy /dist/index.html  => /platforms/android/build/index.html
   //
   platforms.forEach(function (platform) {
-    grunt.registerTask('to-' + platform, function () {
-      if (platform.indexOf('android') != -1)
-        grunt.file.copy('dist/index.html', 'platforms/' + platform + '/assets/www/index.html');
-      else if (platform.indexOf('ios') != -1)
-        grunt.file.copy('dist/index.html', 'platforms/' + platform + '/www/index.html');
+    grunt.registerTask('to-' + platform[0], function () {
+      if (platform[0].indexOf('android') != -1)
+        grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/assets/www/index.html');
+      else if (platform[0].indexOf('ios') != -1)
+        grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/www/index.html');
       else
-        grunt.file.copy('dist/index.html', 'platforms/' + platform + '/build/index.html');
+        grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/build/index.html');
     });
   });
 
@@ -204,6 +208,7 @@ module.exports = function (grunt) {
   grunt.registerTask('android-alpha', ['clean', 'env:cordova', 'env:androidAlpha', 'copy-cordova-android-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
   grunt.registerTask('ios-beta', ['clean', 'env:cordova', 'copy-cordova-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);  
   grunt.registerTask('ios-alpha', ['clean', 'env:cordova', 'env:iosAlpha', 'copy-cordova-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);
+  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
   grunt.registerTask('wp8-alpha', ['clean', 'env:cordova', 'env:wp8Alpha', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
   grunt.registerTask('web', ['clean', 'env:web', 'copy-cordova-web-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-web']);
   grunt.registerTask('default', 'android');

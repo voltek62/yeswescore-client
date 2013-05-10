@@ -2,9 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="libs/facebook-android-sdk.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="C:/Google Drive/yeswescore-client/platforms/android/libs/cordova-2.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Google Drive/yeswescore-client/platforms/android/libs/cordova-2.7.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

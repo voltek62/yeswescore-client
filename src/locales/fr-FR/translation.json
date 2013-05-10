@@ -17,7 +17,7 @@
     "sport":"Sport",
     "city":"Ville",
     "site":"Site",
-    "listplayers":"Liste des joueurs",
+    "listplayers":"Liste des jougameeurs",
     "lastresult":"Dernier résultat"            
   },
   "clubadd": {
@@ -233,5 +233,10 @@
     "filterdate" : "Afficher par date",
     "filterlocation" : "Afficher par ville",
     "filterclub" : "Afficher par club"    
-  }  
+  },
+  "bootstrap": {
+    "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",
+    "errortext": "Veuillez vous connecter à un réseau.",
+    "errorbutton": "recharger"
+  }
 }

@@ -1,4 +1,6 @@
 
+
+
 On copie les nouvelles libs
 /libs/ios/CordovaLib
 
@@ -9,3 +11,9 @@ When you update to a new Cordova version, you may need to update the CordovaLib 
 1. Launch **Terminal.app**
 2. Go to the location where you installed Cordova, in the **bin** sub-folder
 3. Run **"update_cordova_subproject [path/to/your/project/xcodeproj]"**  where the first parameter is the path to your project's .xcodeproj file
+
+
+
+
+./update_cordova_subproject /Users/vincent/Documents/yeswescore-client/platforms/ios/yeswescore.xcodeproj
+

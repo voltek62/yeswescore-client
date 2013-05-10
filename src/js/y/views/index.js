@@ -1,17 +1,10 @@
 Y.Views.Index = Y.View.extend({
   el: "#content",
 
-  events: {
-    "click #games-follow": "goTo",
-    "click #clubs-follow": "goTo",
-    "click #players-follow": "goTo"
-  },
-
-
   pageName: "index",
   pageHash : "index",  
   
-  initialize: function () {
+  myinitialize: function () {
     Y.GUI.header.title(i18n.t('index.title'));
 
     var that = this;
@@ -56,15 +49,6 @@ Y.Views.Index = Y.View.extend({
       that.render();
 
     });
-  },
-
-
-  goTo: function (elmt) {
-    if (elmt.currentTarget.href) {
-      var route = elmt.currentTarget.data-input;
-      console.log(route);
-      Y.Router.navigate(route, {trigger: true}); 
-    }
   },
 
   // should not take any parameters

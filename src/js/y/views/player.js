@@ -2,14 +2,13 @@ Y.Views.Player = Y.View.extend({
   el:"#content",
 
   events: {
-    'click #followButton': 'followPlayer',
-    'click #lastResult': 'lastResult'
+    'click #followButton': 'followPlayer'
   },
 
   pageName: "player",
   pageHash : "players/",
 
-  initialize: function(options) {
+  myinitialize: function(options) {
   
     this.pageHash += this.id; 
     
@@ -17,7 +16,7 @@ Y.Views.Player = Y.View.extend({
   
     this.playerViewTemplate = Y.Templates.get('player');
 
-	//console.log('player init '+this.id);
+	  //console.log('player init '+this.id);
 
     this.player = new PlayerModel({id:this.id});
     //change
@@ -39,15 +38,6 @@ Y.Views.Player = Y.View.extend({
 
 
   },
-  
-  lastResult : function(elmt) {
- 
-    console.log('lastResult ',elmt.currentTarget.href); 
-    var ref = elmt.currentTarget.href;
-    //console.log('listPlayer '+ref);
-	Y.Router.navigate(ref, {trigger: true}); 
-	   
-  },  
 
   followPlayer: function() {
   

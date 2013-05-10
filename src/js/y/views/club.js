@@ -2,8 +2,6 @@ Y.Views.Club = Y.View.extend({
   el : "#content",
 
   events : {
-    'click a#listPlayer': "listPlayer",
-    'click a#lastResult': "lastResult",  
     'click #followButton' : 'followClub'
   },
 
@@ -110,24 +108,6 @@ Y.Views.Club = Y.View.extend({
 
     return this;
   },
-  
-  listPlayer : function(elmt) {
- 
-    console.log('listPlayer ',elmt.currentTarget.href); 
-    var ref = elmt.currentTarget.href;
-    //console.log('listPlayer '+ref);
-	Y.Router.navigate(ref, {trigger: true}); 
-	   
-  },
-    
-  lastResult : function(elmt) {
-  
-    console.log('lastResult ',elmt.currentTarget.href);     
-    var ref = elmt.currentTarget.href;
-    //console.log('lastResult '+ref);
-	Y.Router.navigate(ref, {trigger: true});
-	    
-  },   
 
   onClose : function() {
     this.undelegateEvents();

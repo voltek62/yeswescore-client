@@ -12,6 +12,7 @@
 
     // helpers
     'click *[data-js-call]': 'mycall',
+    'click a[data-js-navigate]': 'navigate',
     // autocompletion
     'click *[data-autocomplete]': 'autocompleteStart',
     //'blur *[data-autocomplete]': 'autocompleteStopDelayed', // keep 0.5 sec on screen.
@@ -29,7 +30,22 @@
     },
 
     mycall: function (e) {
-      this[$(e.currentTarget).attr("data-js-call")](e);
+      return this[$(e.currentTarget).attr("data-js-call")](e);
+    },
+
+    navigate: function (e) {
+      var $a = $(e.currentTarget)
+        , href = $a.attr("href")
+        , disabled = $a.attr("disabled");
+      
+      // prevent other execution
+      e.preventDefault();
+      e.stopPropagation();
+      //
+      href = (href[0] == "#") ? href.substr(1) : href;
+      if (disabled === undefined)
+        Y.Router.navigate(href, {trigger: true});
+      return false;
     },
 
     clearInputModeOffDelayed: function () {

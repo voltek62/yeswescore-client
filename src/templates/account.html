@@ -1,16 +1,16 @@
 <div class="content-container">
   <div class="account">
-    <a href="#games/me/<%= owner.id %>" data-i18n="account.mymatch"></a>
-    <a href="#clubs/follow" class="button" data-i18n="account.clubsfollowed"></a>    
-    <a href="#games/follow" class="button" data-i18n="account.gamesfollowed"></a>
-    <a href="#players/follow" class="button" data-i18n="account.playersfollowed"></a>
+    <a class="button" href="#games/me/<%= owner.id %>" data-i18n="account.mymatch" data-js-navigate></a>
+    <a class="button" href="#clubs/follow" data-i18n="account.clubsfollowed" data-js-navigate></a>    
+    <a class="button" href="#games/follow" data-i18n="account.gamesfollowed" data-js-navigate></a>
+    <a class="button" href="#players/follow" data-i18n="account.playersfollowed" data-js-navigate></a>
     <%
      if( clubid === '' || clubid === undefined ) 
-       print ('<a href="#account" data-i18n="account.myclub" disabled></a>'); 
+       print ('<a class="button" href="" data-i18n="account.myclub" data-js-navigate="" disabled></a>'); 
      else
-       print ('<a href="#clubs/'+clubid+'" data-i18n="account.myclub"></a>'); 
+       print ('<a class="button" href="#clubs/'+clubid+'" data-i18n="account.myclub" data-js-navigate></a>'); 
     %>
-    <a href="#players/form" data-i18n="account.myprofil"></a>
-    <a href="#players/signin" data-i18n="account.connect"></a>
+    <a class="button" href="#players/form" data-i18n="account.myprofil" data-js-navigate></a>
+    <a class="button" href="#players/signin" data-i18n="account.connect" data-js-navigate></a>
   </div>
 </div>

@@ -132,6 +132,7 @@ input:-ms-input-placeholder {
   -ms-user-select: none;
   -webkit-user-select: none;
   -moz-user-select: -moz-none;
+  cursor: pointer;
 }
 
 /* @see bug android 4.1 http://stackoverflow.com/questions/12694556/android-tap-highlight-jelly-bean */

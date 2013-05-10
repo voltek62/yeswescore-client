@@ -10,13 +10,27 @@
     status: null,
     forcedStatus: null,
 
+    SPEED_FAST: "FAST",
+    SPEED_SLOW: "SLOW",
+
+    speed: null,
+
     initialize: function () {
       this.status = this.STATUS_OFFLINE;
+      this.speed = this.SPEED_FAST;
     },
 
     isOnline: function () {
       this.update();
       return this.status === this.STATUS_ONLINE;
+    },
+
+    isFast: function () {
+      return this.speed === this.SPEED_FAST;
+    },
+
+    isSlow: function () {
+      return this.speed === this.SPEED_SLOW;
     },
     
     forceStatus : function (status) {  
@@ -41,6 +55,13 @@
     setStatus: function (status) {
       this.status = status;
       this.trigger("change", [this.status]);
+    },
+
+    setSpeed: function (speed) {
+      assert(speed == this.SPEED_FAST ||
+             speed == this.SPEED_SLOW);
+      console.log("speed : "+speed);
+      this.speed = speed;
     },
 
     update: function () {

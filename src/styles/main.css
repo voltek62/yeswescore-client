@@ -451,11 +451,10 @@ body.inputmodeon .button-form[data-input-mode="process"] {
   */
 	width: 17px;
 	height: 17px;
-	/* hack cordova */
 	background-image: url(images/ico-magnifier-glass.jpg);
-	/*ifndef CORDOVA*/
+	/*#ifdef NOCORDOVA*/
 	background-image: url(/images/ico-magnifier-glass.jpg);
-	/*endif*/
+	/*#endif*/
 	background-size: 100%;
 	background-repeat: no-repeat;
 	cursor: pointer;
@@ -560,6 +559,8 @@ ul>li.player>a {
 /**********************************************************
 	FORM ELEMENTS
 **********************************************************/
+
+
 .success {
 	display : none;
 	width: 100%;
@@ -1085,6 +1086,12 @@ ul>li.player>a {
 	font-size: 12px;
 	color: white;
 	cursor: pointer;
+}
+
+.filters a.select {
+	color:red;
+	font-weight: bold;
+	background-color: #d0ebf6;	
 }
 
 /* playerList.html */

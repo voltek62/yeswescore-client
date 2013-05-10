@@ -17,6 +17,7 @@ Y.Views.GameList = Y.View.extend({
 
   pageHash : "games/list",
   filterList: "",
+  sort: "",
   
   myinitialize: function (param) {
   	
@@ -72,8 +73,10 @@ Y.Views.GameList = Y.View.extend({
 	    if (param.mode !== '')
 	      this.games.setMode(param.mode,param.id);
 	      
-	    if (param.sort !== '')
+	    if (param.sort !== '') {
 	      this.games.setSort(param.sort);
+		  this.sort = param.sort;  	  
+	    }
 	      
      }    
       
@@ -126,11 +129,26 @@ Y.Views.GameList = Y.View.extend({
   },
 
 
-  filterByLocation: function () { this.filter("location");Y.Router.navigate("sort/location", true);},
-  filterByDate: function () { this.filter("date");Y.Router.navigate("sort/date", true);},
-  filterByClub: function () { this.filter("club");Y.Router.navigate("sort/club", true);},  
-  filterByOngoing: function () { this.filter("ongoing");Y.Router.navigate("sort/ongoing", true); },
-  filterByFinished: function () { this.filter("finished");Y.Router.navigate("sort/finished", true); },
+  filterByLocation: function () { 
+    this.filter("location");
+    Y.Router.navigate("sort/location", true);
+  },
+  filterByDate: function () {   	
+  	this.filter("date");
+  	Y.Router.navigate("sort/date", true);
+  },
+  filterByClub: function () {  	  
+    this.filter("club");
+    Y.Router.navigate("sort/club", true);
+  },  
+  filterByOngoing: function () { 
+    this.filter("ongoing");
+    Y.Router.navigate("sort/ongoing", true); 
+  },
+  filterByFinished: function () { 
+    this.filter("finished");
+    Y.Router.navigate("sort/finished", true); 
+  },
 
   filter: function (o) {
     // FIXME
@@ -169,6 +187,14 @@ Y.Views.GameList = Y.View.extend({
   render: function () {
     this.$el.html(this.templates.gamesearch({}));   
     $('a').i18n();    
+	      
+	if (this.sort==='date') 
+      $('.filters #filter-date').addClass('select');
+ 	else if (this.sort==='location') 
+  	  $('.filters #filter-location').addClass('select'); 
+ 	else if (this.sort==='club') 
+      $('.filters #filter-club').addClass('select');      
+    
     return this;
   },
 

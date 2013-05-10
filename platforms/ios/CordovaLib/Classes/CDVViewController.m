@@ -19,27 +19,27 @@
 
 #import <objc/message.h>
 #import "CDV.h"
+#import "CDVCommandQueue.h"
 #import "CDVCommandDelegateImpl.h"
 #import "CDVConfigParser.h"
 #import "CDVUserAgentUtil.h"
-#import "CDVWebViewDelegate.h"
 
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 
 @interface CDVViewController () {
     NSInteger _userAgentLockToken;
-    CDVWebViewDelegate* _webViewDelegate;
 }
 
 @property (nonatomic, readwrite, strong) NSXMLParser* configParser;
-@property (nonatomic, readwrite, strong) NSMutableDictionary* settings;
+@property (nonatomic, readwrite, strong) NSDictionary* settings;
 @property (nonatomic, readwrite, strong) CDVWhitelist* whitelist;
 @property (nonatomic, readwrite, strong) NSMutableDictionary* pluginObjects;
-@property (nonatomic, readwrite, strong) NSArray* startupPluginNames;
 @property (nonatomic, readwrite, strong) NSDictionary* pluginsMap;
 @property (nonatomic, readwrite, strong) NSArray* supportedOrientations;
 @property (nonatomic, readwrite, assign) BOOL loadFromString;
 
+@property (nonatomic, readwrite, strong) IBOutlet UIActivityIndicatorView* activityView;
+@property (nonatomic, readwrite, strong) UIImageView* imageView;
 @property (readwrite, assign) BOOL initialized;
 
 @property (atomic, strong) NSURL* openURL;
@@ -49,9 +49,9 @@
 @implementation CDVViewController
 
 @synthesize webView, supportedOrientations;
-@synthesize pluginObjects, pluginsMap, whitelist, startupPluginNames;
+@synthesize pluginObjects, pluginsMap, whitelist;
 @synthesize configParser, settings, loadFromString;
-@synthesize useSplashScreen;
+@synthesize imageView, activityView, useSplashScreen;
 @synthesize wwwFolderName, startPage, initialized, openURL;
 @synthesize commandDelegate = _commandDelegate;
 @synthesize commandQueue = _commandQueue;
@@ -61,6 +61,9 @@
     if ((self != nil) && !self.initialized) {
         _commandQueue = [[CDVCommandQueue alloc] initWithViewController:self];
         _commandDelegate = [[CDVCommandDelegateImpl alloc] initWithViewController:self];
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedOrientationChange)
+                                                     name:UIDeviceOrientationDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAppWillTerminate:)
                                                      name:UIApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAppWillResignActive:)
@@ -84,7 +87,6 @@
 
         // load config.xml settings
         [self loadSettings];
-        useSplashScreen = YES;
     }
 }
 
@@ -100,48 +102,6 @@
     self = [super init];
     [self __init];
     return self;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self
-           selector:@selector(keyboardWillShowOrHide:)
-               name:UIKeyboardWillShowNotification
-             object:nil];
-    [nc addObserver:self
-           selector:@selector(keyboardWillShowOrHide:)
-               name:UIKeyboardWillHideNotification
-             object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [nc removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-
-- (void)keyboardWillShowOrHide:(NSNotification*)notif
-{
-    if (![@"true" isEqualToString : self.settings[@"KeyboardShrinksView"]]) {
-        return;
-    }
-    BOOL showEvent = [notif.name isEqualToString:UIKeyboardWillShowNotification];
-
-    CGRect keyboardFrame = [notif.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    keyboardFrame = [self.view convertRect:keyboardFrame fromView:nil];
-
-    CGRect newFrame = self.view.bounds;
-    if (showEvent) {
-        newFrame.size.height -= keyboardFrame.size.height;
-    }
-    self.webView.frame = newFrame;
-    self.webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, -keyboardFrame.size.height, 0);
 }
 
 - (void)printDeprecationNotice
@@ -202,20 +162,16 @@
     [configParser parse];
 
     // Get the plugin dictionary, whitelist and settings from the delegate.
-    self.pluginsMap = delegate.pluginsDict;
-    self.startupPluginNames = delegate.startupPluginNames;
+    self.pluginsMap = [delegate.pluginsDict dictionaryWithLowercaseKeys];
     self.whitelist = [[CDVWhitelist alloc] initWithArray:delegate.whitelistHosts];
     self.settings = delegate.settings;
 
     // And the start folder/page.
     self.wwwFolderName = @"www";
-    self.startPage = delegate.startPage;
-    if (self.startPage == nil) {
-        self.startPage = @"index.html";
-    }
+    self.startPage = [delegate getStartPage];
 
     // Initialize the plugin objects dict.
-    self.pluginObjects = [[NSMutableDictionary alloc] initWithCapacity:20];
+    self.pluginObjects = [[NSMutableDictionary alloc] initWithCapacity:4];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -246,11 +202,13 @@
 
     NSString* backupWebStorageType = @"cloud"; // default value
 
-    id backupWebStorage = self.settings[@"BackupWebStorage"];
+    id backupWebStorage = [self.settings objectForKey:@"BackupWebStorage"];
     if ([backupWebStorage isKindOfClass:[NSString class]]) {
         backupWebStorageType = backupWebStorage;
+    } else if ([backupWebStorage isKindOfClass:[NSNumber class]]) {
+        NSLog(@"Deprecated: BackupWebStorage boolean property is a string property now (none, local, cloud). A boolean value of 'true' will be mapped to 'cloud'. Consult the docs: http://docs.cordova.io/en/edge/guide_project-settings_ios_index.md.html#Project%%20Settings%%20for%%20iOS");
+        backupWebStorageType = [(NSNumber*) backupWebStorage boolValue] ? @"cloud" : @"none";
     }
-    self.settings[@"BackupWebStorage"] = backupWebStorageType;
 
     if (IsAtLeastiOSVersion(@"5.1")) {
         [CDVLocalStorage __fixupDatabaseLocationsWithBackupType:backupWebStorageType];
@@ -269,10 +227,6 @@
     if ([self.settings objectForKey:@"MediaPlaybackRequiresUserAction"]) {
         mediaPlaybackRequiresUserAction = [(NSNumber*)[settings objectForKey:@"MediaPlaybackRequiresUserAction"] boolValue];
     }
-    BOOL hideKeyboardFormAccessoryBar = NO;  // default value
-    if ([self.settings objectForKey:@"HideKeyboardFormAccessoryBar"]) {
-        hideKeyboardFormAccessoryBar = [(NSNumber*)[settings objectForKey:@"HideKeyboardFormAccessoryBar"] boolValue];
-    }
 
     self.webView.scalesPageToFit = [enableViewportScale boolValue];
 
@@ -281,27 +235,16 @@
      */
 
     if ([enableLocation boolValue]) {
-        NSLog(@"Deprecated: The 'EnableLocation' boolean property is deprecated in 2.5.0, and will be removed in 3.0.0. Use the 'onload' boolean attribute (of the CDVLocation plugin.");
         [[self.commandDelegate getCommandInstance:@"Geolocation"] getLocation:[CDVInvokedUrlCommand new]];
-    }
-
-    if (hideKeyboardFormAccessoryBar) {
-        __weak CDVViewController* weakSelf = self;
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification
-                                                          object:nil
-                                                           queue:[NSOperationQueue mainQueue]
-                                                      usingBlock:^(NSNotification* notification) {
-            // we can't hide it here because the accessory bar hasn't been created yet, so we delay on the queue
-            [weakSelf performSelector:@selector(hideKeyboardFormAccessoryBar) withObject:nil afterDelay:0];
-        }];
     }
 
     /*
      * Fire up CDVLocalStorage to work-around WebKit storage limitations: on all iOS 5.1+ versions for local-only backups, but only needed on iOS 5.1 for cloud backup.
      */
     if (IsAtLeastiOSVersion(@"5.1") && (([backupWebStorageType isEqualToString:@"local"]) ||
-        ([backupWebStorageType isEqualToString:@"cloud"] && !IsAtLeastiOSVersion(@"6.0")))) {
-        [self registerPlugin:[[CDVLocalStorage alloc] initWithWebView:self.webView] withClassName:NSStringFromClass([CDVLocalStorage class])];
+            ([backupWebStorageType isEqualToString:@"cloud"] && !IsAtLeastiOSVersion(@"6.0")))) {
+        [self registerPlugin:[[CDVLocalStorage alloc] initWithWebView:self.webView settings:[NSDictionary dictionaryWithObjectsAndKeys:
+                    @"backupType", backupWebStorageType, nil]] withClassName:NSStringFromClass([CDVLocalStorage class])];
     }
 
     /*
@@ -314,19 +257,12 @@
         self.webView.mediaPlaybackRequiresUserAction = NO;
     }
 
-    // By default, overscroll bouncing is allowed.
-    // UIWebViewBounce has been renamed to DisallowOverscroll, but both are checked.
-    BOOL bounceAllowed = YES;
-    NSNumber* disallowOverscroll = [self.settings objectForKey:@"DisallowOverscroll"];
-    if (disallowOverscroll == nil) {
-        NSNumber* bouncePreference = [self.settings objectForKey:@"UIWebViewBounce"];
-        bounceAllowed = (bouncePreference == nil || [bouncePreference boolValue]);
-    } else {
-        bounceAllowed = ![disallowOverscroll boolValue];
-    }
+    // UIWebViewBounce property - defaults to true
+    NSNumber* bouncePreference = [self.settings objectForKey:@"UIWebViewBounce"];
+    BOOL bounceAllowed = (bouncePreference == nil || [bouncePreference boolValue]);
 
     // prevent webView from bouncing
-    // based on the DisallowOverscroll/UIWebViewBounce key in config.xml
+    // based on UIWebViewBounce key in config.xml
     if (!bounceAllowed) {
         if ([self.webView respondsToSelector:@selector(scrollView)]) {
             ((UIScrollView*)[self.webView scrollView]).bounces = NO;
@@ -368,63 +304,18 @@
         }
     }
 
-    if ([self.startupPluginNames count] > 0) {
-        [CDVTimer start:@"TotalPluginStartup"];
-
-        for (NSString* pluginName in self.startupPluginNames) {
-            [CDVTimer start:pluginName];
-            [self getCommandInstance:pluginName];
-            [CDVTimer stop:pluginName];
-        }
-
-        [CDVTimer stop:@"TotalPluginStartup"];
-    }
-
-    // TODO: Remove this explicit instantiation once we move to cordova-CLI.
-    if (useSplashScreen) {
-        [self getCommandInstance:@"splashscreen"];
-    }
-
     // /////////////////
     [CDVUserAgentUtil acquireLock:^(NSInteger lockToken) {
-        _userAgentLockToken = lockToken;
-        [CDVUserAgentUtil setUserAgent:self.userAgent lockToken:lockToken];
-        if (!loadErr) {
-            NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-            [self.webView loadRequest:appReq];
-        } else {
-            NSString* html = [NSString stringWithFormat:@"<html><body> %@ </body></html>", loadErr];
-            [self.webView loadHTMLString:html baseURL:nil];
-        }
-    }];
-}
-
-- (void)hideKeyboardFormAccessoryBar
-{
-    NSArray* windows = [[UIApplication sharedApplication] windows];
-
-    for (UIWindow* window in windows) {
-        for (UIView* view in window.subviews) {
-            if ([[view description] hasPrefix:@"<UIPeripheralHostView"]) {
-                for (UIView* peripheralView in view.subviews) {
-                    // hides the accessory bar
-                    if ([[peripheralView description] hasPrefix:@"<UIWebFormAccessory"]) {
-                        // remove the extra scroll space for the form accessory bar
-                        CGRect newFrame = self.webView.scrollView.frame;
-                        newFrame.size.height += peripheralView.frame.size.height;
-                        self.webView.scrollView.frame = newFrame;
-
-                        // remove the form accessory bar
-                        [peripheralView removeFromSuperview];
-                    }
-                    // hides the thin grey line used to adorn the bar (iOS 6)
-                    if ([[peripheralView description] hasPrefix:@"<UIImageView"]) {
-                        [[peripheralView layer] setOpacity:0.0];
-                    }
-                }
+            _userAgentLockToken = lockToken;
+            [CDVUserAgentUtil setUserAgent:self.userAgent lockToken:lockToken];
+            if (!loadErr) {
+                NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+                [self.webView loadRequest:appReq];
+            } else {
+                NSString* html = [NSString stringWithFormat:@"<html><body> %@ </body></html>", loadErr];
+                [self.webView loadHTMLString:html baseURL:nil];
             }
-        }
-    }
+        }];
 }
 
 - (NSArray*)parseInterfaceOrientations:(NSArray*)orientations
@@ -550,8 +441,7 @@
         [self.view addSubview:self.webView];
         [self.view sendSubviewToBack:self.webView];
 
-        _webViewDelegate = [[CDVWebViewDelegate alloc] initWithDelegate:self];
-        self.webView.delegate = _webViewDelegate;
+        self.webView.delegate = self;
 
         // register this viewcontroller with the NSURLProtocol, only after the User-Agent is set
         [CDVURLProtocol registerViewController:self];
@@ -590,7 +480,6 @@
 
     self.webView.delegate = nil;
     self.webView = nil;
-    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
 }
 
 #pragma mark UIWebViewDelegate
@@ -601,35 +490,56 @@
  */
 - (void)webViewDidStartLoad:(UIWebView*)theWebView
 {
-    NSLog(@"Resetting plugins due to page load.");
     [_commandQueue resetRequestId];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginResetNotification object:self.webView]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginResetNotification object:nil]];
 }
 
 /**
- Called when the webview finishes loading.  This stops the activity view.
+ Called when the webview finishes loading.  This stops the activity view and closes the imageview
  */
 - (void)webViewDidFinishLoad:(UIWebView*)theWebView
 {
-    NSLog(@"Finished load of: %@", theWebView.request.URL);
-    // It's safe to release the lock even if this is just a sub-frame that's finished loading.
-    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
+    if (_userAgentLockToken != 0) {
+        [CDVUserAgentUtil releaseLock:_userAgentLockToken];
+        _userAgentLockToken = 0;
+    }
 
     /*
      * Hide the Top Activity THROBBER in the Battery Bar
      */
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
-    [self processOpenUrl];
+    id autoHideSplashScreenValue = [self.settings objectForKey:@"AutoHideSplashScreen"];
+    // if value is missing, default to yes
+    if ((autoHideSplashScreenValue == nil) || [autoHideSplashScreenValue boolValue]) {
+        self.imageView.hidden = YES;
+        self.activityView.hidden = YES;
+        [self.view.superview bringSubviewToFront:self.webView];
+    }
+    [self didRotateFromInterfaceOrientation:(UIInterfaceOrientation)[[UIDevice currentDevice] orientation]];
 
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPageDidLoadNotification object:self.webView]];
+    // The .onNativeReady().fire() will work when cordova.js is already loaded.
+    // The _nativeReady = true; is used when this is run before cordova.js is loaded.
+    NSString* nativeReady = @"try{cordova.require('cordova/channel').onNativeReady.fire();}catch(e){window._nativeReady = true;}";
+    // Don't use [commandDelegate evalJs] here since it relies on cordova.js being loaded already.
+    [self.webView stringByEvaluatingJavaScriptFromString:nativeReady];
+
+    [self processOpenUrl];
 }
 
-- (void)webView:(UIWebView*)theWebView didFailLoadWithError:(NSError*)error
+- (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error
 {
-    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
+    if (_userAgentLockToken != 0) {
+        [CDVUserAgentUtil releaseLock:_userAgentLockToken];
+        _userAgentLockToken = 0;
+    }
 
     NSLog(@"Failed to load webpage with error: %@", [error localizedDescription]);
+
+    /*
+     if ([error code] != NSURLErrorCancelled)
+     alert([error localizedDescription]);
+     */
 }
 
 - (BOOL)webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
@@ -685,6 +595,8 @@
      * Handle all other types of urls (tel:, sms:), and requests to load a url in the main webview.
      */
     else {
+        // BOOL isIFrame = ([theWebView.request.mainDocumentURL absoluteString] == nil);
+
         if ([self.whitelist schemeIsAllowed:[url scheme]]) {
             return [self.whitelist URLIsAllowed:url];
         } else {
@@ -735,6 +647,131 @@
     return basePath;
 }
 
+- (void)showSplashScreen
+{
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    NSString* launchImageFile = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
+
+    if (launchImageFile == nil) { // fallback if no launch image was specified
+        if (CDV_IsIPhone5()) {
+            // iPhone 5 or iPod Touch 6th-gen
+            launchImageFile = @"Default-568h";
+        } else {
+            launchImageFile = @"Default";
+        }
+    }
+
+    NSString* orientedLaunchImageFile = nil;
+    CGAffineTransform startupImageTransform = CGAffineTransformIdentity;
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
+    UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    UIImage* launchImage = nil;
+
+    // default to center of screen as in the original implementation. This will produce the 20px jump
+    CGPoint center = CGPointMake((screenBounds.size.width / 2), (screenBounds.size.height / 2));
+
+    if (CDV_IsIPad()) {
+        if (!UIDeviceOrientationIsValidInterfaceOrientation(deviceOrientation)) {
+            deviceOrientation = (UIDeviceOrientation)statusBarOrientation;
+        }
+
+        switch (deviceOrientation) {
+            case UIDeviceOrientationLandscapeLeft: // this is where the home button is on the right (yeah, I know, confusing)
+                {
+                    orientedLaunchImageFile = [NSString stringWithFormat:@"%@-Landscape", launchImageFile];
+                    startupImageTransform = CGAffineTransformMakeRotation(degreesToRadian(90));
+                    center.x -= MIN(statusBarFrame.size.width, statusBarFrame.size.height) / 2;
+                }
+                break;
+
+            case UIDeviceOrientationLandscapeRight: // this is where the home button is on the left (yeah, I know, confusing)
+                {
+                    orientedLaunchImageFile = [NSString stringWithFormat:@"%@-Landscape", launchImageFile];
+                    startupImageTransform = CGAffineTransformMakeRotation(degreesToRadian(-90));
+                    center.x += MIN(statusBarFrame.size.width, statusBarFrame.size.height) / 2;
+                }
+                break;
+
+            case UIDeviceOrientationPortraitUpsideDown:
+                {
+                    orientedLaunchImageFile = [NSString stringWithFormat:@"%@-Portrait", launchImageFile];
+                    startupImageTransform = CGAffineTransformMakeRotation(degreesToRadian(180));
+                    center.y -= MIN(statusBarFrame.size.width, statusBarFrame.size.height) / 2;
+                }
+                break;
+
+            case UIDeviceOrientationPortrait:
+            default:
+                {
+                    orientedLaunchImageFile = [NSString stringWithFormat:@"%@-Portrait", launchImageFile];
+                    startupImageTransform = CGAffineTransformIdentity;
+                    center.y += MIN(statusBarFrame.size.width, statusBarFrame.size.height) / 2;
+                }
+                break;
+        }
+    } else { // not iPad
+        orientedLaunchImageFile = launchImageFile;
+    }
+
+    launchImage = [UIImage imageNamed:[[self class] resolveImageResource:orientedLaunchImageFile]];
+    if (launchImage == nil) {
+        NSLog(@"WARNING: Splash-screen image '%@' was not found. Orientation: %d, iPad: %d", orientedLaunchImageFile, deviceOrientation, CDV_IsIPad());
+    }
+
+    self.imageView = [[UIImageView alloc] initWithImage:launchImage];
+    self.imageView.tag = 1;
+    self.imageView.center = center;
+
+    self.imageView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
+    [self.imageView setTransform:startupImageTransform];
+    [self.view.superview addSubview:self.imageView];
+
+    /*
+     * The Activity View is the top spinning throbber in the status/battery bar. We init it with the default Grey Style.
+     *
+     *     whiteLarge = UIActivityIndicatorViewStyleWhiteLarge
+     *     white      = UIActivityIndicatorViewStyleWhite
+     *     gray       = UIActivityIndicatorViewStyleGray
+     *
+     */
+    NSString* topActivityIndicator = [self.settings objectForKey:@"TopActivityIndicator"];
+    UIActivityIndicatorViewStyle topActivityIndicatorStyle = UIActivityIndicatorViewStyleGray;
+
+    if ([topActivityIndicator isEqualToString:@"whiteLarge"]) {
+        topActivityIndicatorStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    } else if ([topActivityIndicator isEqualToString:@"white"]) {
+        topActivityIndicatorStyle = UIActivityIndicatorViewStyleWhite;
+    } else if ([topActivityIndicator isEqualToString:@"gray"]) {
+        topActivityIndicatorStyle = UIActivityIndicatorViewStyleGray;
+    }
+
+    self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:topActivityIndicatorStyle];
+    self.activityView.tag = 2;
+
+    id showSplashScreenSpinnerValue = [self.settings objectForKey:@"ShowSplashScreenSpinner"];
+    // backwards compatibility - if key is missing, default to true
+    if ((showSplashScreenSpinnerValue == nil) || [showSplashScreenSpinnerValue boolValue]) {
+        [self.view.superview addSubview:self.activityView];
+    }
+
+    self.activityView.center = self.view.center;
+    [self.activityView startAnimating];
+
+    [self.view.superview layoutSubviews];
+}
+
+BOOL gSplashScreenShown = NO;
+- (void)receivedOrientationChange
+{
+    if (self.imageView == nil) {
+        gSplashScreenShown = YES;
+        if (self.useSplashScreen) {
+            [self showSplashScreen];
+        }
+    }
+}
+
 #pragma mark CordovaCommands
 
 - (void)registerPlugin:(CDVPlugin*)plugin withClassName:(NSString*)className
@@ -748,23 +785,6 @@
     }
 
     [self.pluginObjects setObject:plugin forKey:className];
-    [plugin pluginInitialize];
-}
-
-- (void)registerPlugin:(CDVPlugin*)plugin withPluginName:(NSString*)pluginName
-{
-    if ([plugin respondsToSelector:@selector(setViewController:)]) {
-        [plugin setViewController:self];
-    }
-
-    if ([plugin respondsToSelector:@selector(setCommandDelegate:)]) {
-        [plugin setCommandDelegate:_commandDelegate];
-    }
-
-    NSString* className = NSStringFromClass([plugin class]);
-    [self.pluginObjects setObject:plugin forKey:className];
-    [self.pluginsMap setValue:className forKey:[pluginName lowercaseString]];
-    [plugin pluginInitialize];
 }
 
 /**
@@ -785,9 +805,16 @@
 
     id obj = [self.pluginObjects objectForKey:className];
     if (!obj) {
-        obj = [[NSClassFromString(className)alloc] initWithWebView:webView];
+        // attempt to load the settings for this command class
+        NSDictionary* classSettings = [self.settings objectForKey:className];
 
-        if (obj != nil) {
+        if (classSettings) {
+            obj = [[NSClassFromString (className)alloc] initWithWebView:webView settings:classSettings];
+        } else {
+            obj = [[NSClassFromString (className)alloc] initWithWebView:webView];
+        }
+
+        if ((obj != nil) && [obj isKindOfClass:[CDVPlugin class]]) {
             [self registerPlugin:obj withClassName:className];
         } else {
             NSLog(@"CDVPlugin class %@ (pluginName: %@) does not exist.", className, pluginName);
@@ -921,11 +948,16 @@
 - (void)dealloc
 {
     [CDVURLProtocol unregisterViewController:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSCurrentLocaleDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CDVPluginHandleOpenURLNotification object:nil];
 
     self.webView.delegate = nil;
     self.webView = nil;
-    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
     [_commandQueue dispose];
     [[self.pluginObjects allValues] makeObjectsPerformSelector:@selector(dispose)];
 }

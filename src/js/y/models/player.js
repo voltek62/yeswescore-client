@@ -5,7 +5,6 @@ var PlayerModel = Backbone.Model.extend({
 
   defaults: {
     name: "",
-    nickname: "",
     rank: "NC",
     type: "default",
     games: [],
@@ -72,7 +71,6 @@ var PlayerModel = Backbone.Model.extend({
 
       var dataSend = {
         id: (this.get('playerid') || ''),
-        nickname: (this.get('nickname') || ''),
         name: (this.get('name') || ''),
         email: { address: (this.get('email') || '') },
         rank: (this.get('rank') || ''),

@@ -141,7 +141,6 @@ Y.Views.PlayerForm = Y.View.extend({
     //$.ui.toggleNavMenu(true);
   
     var name = $('#name').val()
-      , nickname = $('#nickname').val()
       , password = $('#password').val()
       , email = $('#email').val()
       , rank = $('#rank').val()
@@ -155,7 +154,6 @@ Y.Views.PlayerForm = Y.View.extend({
 
     var player = new PlayerModel({
         name: name
-      , nickname: nickname
       , password: password
       , email: email
       , rank: rank                  	
@@ -194,7 +192,6 @@ Y.Views.PlayerForm = Y.View.extend({
     
     var dataDisplay = {
 	      name:player.name
-	    , nickname:player.nickname
 	    , rank:player.rank
 	    , password:player.password
 	    , idlicense:player.idlicense

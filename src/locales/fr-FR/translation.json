@@ -203,7 +203,6 @@
     "name":"Nom",
     "mail":"Email",
     "password":"Mot de passe",
-    "pseudo":"Pseudo",
     "rank":"Classement",
     "club":"Club",
     "idlicence":"ID de la licence",

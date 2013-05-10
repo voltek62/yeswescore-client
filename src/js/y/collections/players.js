@@ -33,7 +33,6 @@ var PlayersCollection = Backbone.Collection.extend({
 
   strategies : {
     name : function(item) { return [ item.get("name") ] }
-  , nickname : function(item) { return [ item.get("nickname") ] }
   , rank : function(item) { return [ item.get("rank") ] }
   },
 

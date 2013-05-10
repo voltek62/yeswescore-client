@@ -72,13 +72,11 @@
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded(err) {
-                 // error handling.
-                 //  if err is "deprecated" => we stop loading.
-                 //  if err is other (ex: "network connection"), we continue to load.
-                 if (err == "deprecated" || err == "network error")
-                   return callback(err);
+                 // /!\ error handling after i18n
+
                  // internationalization.
-                 var i18nOptions = { lng: "fr-FR" };
+                 var i18nOptions = { lng: "fr-FR", fallbackLng: "fr" };
+                 that.i18nOptions = i18nOptions;
                  /*#ifndef WP8*/
                  if (false) {
                  /*#endif*/
@@ -86,7 +84,13 @@
                  /*#ifndef WP8*/
                  }
                  /*#endif*/
-                 $.i18n.init(i18nOptions, function() {
+                 i18n.init(i18nOptions, function() {
+                   // FIXME: error handling; rework the loading process.
+                   //  if err is "deprecated" => we stop loading.
+                   //  if err is other (ex: "network connection"), we continue to load.
+                   if (err == "deprecated" || err == "network error")
+                     return callback(err);
+
                    // init router
                    that.Router.initialize();
                    console.log('router initialized');
@@ -135,11 +139,11 @@
               if (err) {
                 if (err === "deprecated") {
                   Y.Connection.forceStatus(Y.Connection.STATUS_OFFLINE);
-                  Y.GUI.displayNewVersionLayer();
+                  Y.GUI.displayLayerNewVersion();
                   return; // we do not want to continue loading.
                 }
                 if (err === "network error")
-                  Y.GUI.diplayErrorBootstrap();
+                  Y.GUI.diplayLayerNetworkError();
                   return;
               }
               // We are now ready.

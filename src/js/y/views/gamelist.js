@@ -17,6 +17,7 @@ Y.Views.GameList = Y.View.extend({
 
   pageHash : "games/list",
   filterList: "",
+  sort: "",
   
   myinitialize: function (param) {
   	
@@ -72,8 +73,10 @@ Y.Views.GameList = Y.View.extend({
 	    if (param.mode !== '')
 	      this.games.setMode(param.mode,param.id);
 	      
-	    if (param.sort !== '')
+	    if (param.sort !== '') {
 	      this.games.setSort(param.sort);
+		  this.sort = param.sort;  	  
+	    }
 	      
      }    
       
@@ -127,23 +130,14 @@ Y.Views.GameList = Y.View.extend({
 
 
   filterByLocation: function () { 
-  	$('.filters .date').removeClass('select');
-  	$('.filters .location').addClass('select');
-  	$('.filters .club').removeClass('select');   
     this.filter("location");
     Y.Router.navigate("sort/location", true);
   },
-  filterByDate: function () { 
-  	$('.filters .date').addClass('select');
-  	$('.filters .location').removeClass('select');
-  	$('.filters .club').removeClass('select');  	  	
+  filterByDate: function () {   	
   	this.filter("date");
   	Y.Router.navigate("sort/date", true);
   },
-  filterByClub: function () { 
-  	$('.filters .date').removeClass('select');
-  	$('.filters .location').removeClass('select');
-  	$('.filters .club').addClass('select');  	  
+  filterByClub: function () {  	  
     this.filter("club");
     Y.Router.navigate("sort/club", true);
   },  
@@ -193,6 +187,14 @@ Y.Views.GameList = Y.View.extend({
   render: function () {
     this.$el.html(this.templates.gamesearch({}));   
     $('a').i18n();    
+	      
+	if (this.sort==='date') 
+      $('.filters #filter-date').addClass('select');
+ 	else if (this.sort==='location') 
+  	  $('.filters #filter-location').addClass('select'); 
+ 	else if (this.sort==='club') 
+      $('.filters #filter-club').addClass('select');      
+    
     return this;
   },
 

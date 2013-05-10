@@ -41,10 +41,10 @@
     },
 
     isFast: function () {
-      switch (this.getType()) {
-        case this.types.ETHERNET:
-        case this.types.WIFI:
-        case this.types.CELL_4G:
+      switch (this.getType().toLowerCase()) {
+        case this.types.ETHERNET.toLowerCase():
+        case this.types.WIFI.toLowerCase():
+        case this.types.CELL_4G.toLowerCase():
           return true;
         default:
           return false;

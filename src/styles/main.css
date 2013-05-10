@@ -560,6 +560,8 @@ ul>li.player>a {
 /**********************************************************
 	FORM ELEMENTS
 **********************************************************/
+
+
 .success {
 	display : none;
 	width: 100%;
@@ -1085,6 +1087,12 @@ ul>li.player>a {
 	font-size: 12px;
 	color: white;
 	cursor: pointer;
+}
+
+.filters a.select {
+	color:red;
+	font-weight: bold;
+	background-color: #d0ebf6;	
 }
 
 /* playerList.html */

@@ -126,11 +126,35 @@ Y.Views.GameList = Y.View.extend({
   },
 
 
-  filterByLocation: function () { this.filter("location");Y.Router.navigate("sort/location", true);},
-  filterByDate: function () { this.filter("date");Y.Router.navigate("sort/date", true);},
-  filterByClub: function () { this.filter("club");Y.Router.navigate("sort/club", true);},  
-  filterByOngoing: function () { this.filter("ongoing");Y.Router.navigate("sort/ongoing", true); },
-  filterByFinished: function () { this.filter("finished");Y.Router.navigate("sort/finished", true); },
+  filterByLocation: function () { 
+  	$('.filters .date').removeClass('select');
+  	$('.filters .location').addClass('select');
+  	$('.filters .club').removeClass('select');   
+    this.filter("location");
+    Y.Router.navigate("sort/location", true);
+  },
+  filterByDate: function () { 
+  	$('.filters .date').addClass('select');
+  	$('.filters .location').removeClass('select');
+  	$('.filters .club').removeClass('select');  	  	
+  	this.filter("date");
+  	Y.Router.navigate("sort/date", true);
+  },
+  filterByClub: function () { 
+  	$('.filters .date').removeClass('select');
+  	$('.filters .location').removeClass('select');
+  	$('.filters .club').addClass('select');  	  
+    this.filter("club");
+    Y.Router.navigate("sort/club", true);
+  },  
+  filterByOngoing: function () { 
+    this.filter("ongoing");
+    Y.Router.navigate("sort/ongoing", true); 
+  },
+  filterByFinished: function () { 
+    this.filter("finished");
+    Y.Router.navigate("sort/finished", true); 
+  },
 
   filter: function (o) {
     // FIXME

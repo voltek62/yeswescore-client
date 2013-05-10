@@ -139,11 +139,11 @@
               if (err) {
                 if (err === "deprecated") {
                   Y.Connection.forceStatus(Y.Connection.STATUS_OFFLINE);
-                  Y.GUI.displayNewVersionLayer();
+                  Y.GUI.displayLayerNewVersion();
                   return; // we do not want to continue loading.
                 }
                 if (err === "network error")
-                  Y.GUI.diplayErrorBootstrap();
+                  Y.GUI.diplayLayerNetworkError();
                   return;
               }
               // We are now ready.

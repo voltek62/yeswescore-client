@@ -21,8 +21,9 @@ public class zeScoreActivity extends DroidGap
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        super.setIntegerProperty("splashscreen", R.drawable.splash);
-        super.loadUrl("file:///android_asset/www/index.html",2000);
+        //super.setIntegerProperty("splashscreen", R.drawable.splash);
+        //super.loadUrl(Config.getStartUrl(), 10000);
+        super.loadUrl("file:///android_asset/www/index.html");
         
         //this.appView.setWebChromeClient(new FileAttachmentChromeClient(this, this.appView));
     }

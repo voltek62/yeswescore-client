@@ -20,6 +20,7 @@
       var that = this;
       this.status = "loading";
       var onDeviceReady = function () {
+      
         // we are now "ready"
         that.status = "ready";
         // first => oninitialized

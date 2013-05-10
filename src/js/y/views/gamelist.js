@@ -77,7 +77,7 @@ Y.Views.GameList = Y.View.extend({
 
     // second: read/create player
     var playerDeferred = $.Deferred();
-    this.$el.html("please wait, loading player");
+    this.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.

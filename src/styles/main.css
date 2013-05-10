@@ -1764,3 +1764,19 @@ ul>li.player>a {
 	-moz-appearance: caret;
 	border: 0;
 }
+
+/**********************************************************
+	Bootstrap failure
+**********************************************************/
+.button.retry {
+  position: relative;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: white;
+  background-color:#41c68f;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+}

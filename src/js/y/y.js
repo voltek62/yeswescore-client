@@ -75,7 +75,7 @@
                  // error handling.
                  //  if err is "deprecated" => we stop loading.
                  //  if err is other (ex: "network connection"), we continue to load.
-                 if (err && err == "deprecated")
+                 if (err == "deprecated" || err == "network error")
                    return callback(err);
                  // internationalization.
                  var i18nOptions = { lng: "fr-FR" };
@@ -112,6 +112,10 @@
                });
     },
 
+    unload: function () {
+      Y.Connection.unload();
+    },
+
     // FIXME: should be initialized only when document is ready.
     // same as jquery ;)
     ready: (function () {
@@ -135,7 +139,8 @@
                   return; // we do not want to continue loading.
                 }
                 if (err === "network error")
-                  42; // FIXME: we should listen to Y.Connection.
+                  Y.GUI.diplayErrorBootstrap();
+                  return;
               }
               // We are now ready.
               this.status = "ready";

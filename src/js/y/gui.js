@@ -25,12 +25,23 @@
     // display an overlay asking the user to upgrade
     // FIXME: HTML should be in the .html / or in index.html
     displayNewVersionLayer: function () {
-      $('body').addClass('update'); // we don't need the overlay.
+      // we are in a dead end, unloading Y
+      Y.unload();
       $('body').html('Veuillez mettre &agrave; jour l\'application pour continuer &agrave; l\'utiliser');
+      $('body').removeClass();
+      $('body').addClass('update'); // we don't need the overlay.
     },
 
     displayErrorLayer: function () {
       $('#content').html('<span style="color:black;font-size:25px;top:80px;position:absolute;">Une erreur s\'est produite lors du lancement de l\'application</span>');
+    },
+
+    diplayErrorBootstrap: function () {
+      // we are in a dead end, unloading Y
+      Y.unload();
+      $('body').html('Veuillez vous connecter à un réseau.<div class="button retry" onclick="window.location.reload();">recharger</div>');
+      $('body').removeClass();
+      $('body').addClass('update');
     }
   };
 

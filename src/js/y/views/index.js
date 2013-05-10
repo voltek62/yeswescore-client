@@ -22,8 +22,6 @@ Y.Views.Index = Y.View.extend({
     // THEN
     //  render games & player.
 
-
-
     // second: read/create player
     var playerDeferred = $.Deferred();
     this.$el.html("please wait, loading player");

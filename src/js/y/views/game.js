@@ -668,11 +668,6 @@ Y.Views.Game = Y.View.extend({
     */
     
 	this.renderScoreBoard(game);
-		
-	//FORCE STREAMS TOTAL
-	this.streams = new StreamsCollection([], {gameid : this.gameid});
-	this.streams.once("sync",this.renderCountComment,this);
-	this.streams.fetch();		
 
     //i18n
     //PERF:on remplace que les champs du DOM concern�

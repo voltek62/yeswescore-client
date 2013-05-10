@@ -186,10 +186,6 @@ body.inputmodeon *[data-input-mode="show"] {
   display: block;
 }
 
-body.inputmodeon #content .content-container {
-  padding-top: 0px;
-}
-
 body.inputmodeon .button-form[data-input-mode="process"] {
   bottom: -50px;
 }

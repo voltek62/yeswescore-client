@@ -212,8 +212,8 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 	/*opacity: 0; performance issues, disabled */
 	top: 13px;
 	left: 7px;
-	width: 30px;
-	height: 22px;
+	width: 50px;
+	height: 30px;
 	z-index: 1000;
 	cursor: pointer;
 	/*transition: opacity 1s;  performance issues, disabled */

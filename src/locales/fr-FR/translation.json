@@ -163,6 +163,7 @@
   "message": {
     "noresult": "Aucun resultat",
     "noresultfor": "Aucun resultat pour",  
+    "noconnection": "Impossible de se connecter",
     "results": "resultats",  
     "updateok" : "Mise à jour réussie",
     "updateerror" : "Mise à jour impossible",    

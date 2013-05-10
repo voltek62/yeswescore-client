@@ -15,7 +15,6 @@ Y.Views.GameList = Y.View.extend({
 
   listview: "#listGamesView",
 
-  pageName: "gameList",
   pageHash : "games/list",
   filterList: "",
   
@@ -23,16 +22,23 @@ Y.Views.GameList = Y.View.extend({
   	
 	//header 
     if (param!=='undefined') { 
-      if (param.mode==="me")
+      if (param.mode==="me") {
         Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
-      else if (param.mode==="club")
-        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames'));   
-      else
-        Y.GUI.header.title(i18n.t('gamelist.titlegames'));     
+        this.pageName = "gameListByMe";
+      }
+      else if (param.mode==="club") {
+        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
+        this.pageName = "gameListByClub";        
+      }  
+      else {
+        Y.GUI.header.title(i18n.t('gamelist.titlegames'));  
+        this.pageName = "gameList";
+      }  
     }
-	else
+	else {
 	  Y.GUI.header.title(i18n.t('gamelist.titlegames'));
-	  
+      this.pageName = "gameList";	  
+    }
 	
     var that = this;
     //  
@@ -77,7 +83,7 @@ Y.Views.GameList = Y.View.extend({
 
     // second: read/create player
     var playerDeferred = $.Deferred();
-    this.$el.html("please wait, loading player");
+    this.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.

@@ -31,9 +31,9 @@
     },
 
     isOnline: function () {
-      switch (this.getType()) {
-        case this.types.UNKNOWN: // unknown <=> offline ?
-        case this.types.NONE:
+      switch (this.getType().toLowerCase()) {
+        case this.types.UNKNOWN.toLowerCase(): // unknown <=> offline ?
+        case this.types.NONE.toLowerCase():
           return false;
         default:
           return true;

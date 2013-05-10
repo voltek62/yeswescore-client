@@ -3,6 +3,8 @@
   "use strict";
   /*#endif*/
 
+  var poolingId = null;
+
   var Connection = {
     STATUS_ONLINE: "ONLINE",
     STATUS_OFFLINE: "OFFLINE",
@@ -77,6 +79,13 @@
         this.status = newStatus;
         this.trigger("change", [newStatus]);
       }
+    },
+
+    unload: function () {
+      if (poolingId) {
+        clearInterval(poolingId);
+        poolingId = null;
+      }
     }
   };
 
@@ -84,7 +93,7 @@
   _.extend(Connection, Backbone.Events);
 
   // pooling cordova to auto-update connection status
-  setInterval(function () { Connection.update(); }, Y.Conf.get("pooling.connection"));
+  poolingId = setInterval(function () { Connection.update(); }, Y.Conf.get("pooling.connection"));
 
   // exporting to global scope
   Y.Connection = Connection;

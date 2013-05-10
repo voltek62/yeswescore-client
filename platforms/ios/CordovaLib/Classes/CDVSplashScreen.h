@@ -20,12 +20,7 @@
 #import <Foundation/Foundation.h>
 #import "CDVPlugin.h"
 
-@interface CDVSplashScreen : CDVPlugin {
-    UIActivityIndicatorView* _activityView;
-    UIImageView* _imageView;
-    NSString* _curImageName;
-    BOOL _visible;
-}
+@interface CDVSplashScreen : CDVPlugin {}
 
 - (void)show:(CDVInvokedUrlCommand*)command;
 - (void)hide:(CDVInvokedUrlCommand*)command;

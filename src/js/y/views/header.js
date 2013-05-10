@@ -78,13 +78,25 @@ Y.Views.Header = Y.View.extend({
       "images/header-logo-on-animate-4.png",
       "images/header-logo-on.png"
     ];
+    var animationImagesLag = [
+      //"images/header-logo-on-lag-animate-1.png",
+      //"images/header-logo-on-lag-animate-2.png",
+      "images/pixel.png",
+      "images/header-logo-on-lag-animate-3.png",
+      "images/header-logo-on-lag-animate-4.png",
+      "images/header-logo-on-lag.png"
+    ];
     var animationIndex = 0;
     //
     return function (status) {
       var connectionStatus = this.$(".connectionStatus");
       // animation repaint 
       var repaint = function () {
-        var animationImage = animationImages[animationIndex % animationImages.length];
+        var animationImage;
+        if (Y.Connection.isFast())
+          animationImage = animationImages[animationIndex % animationImages.length];
+        else
+          animationImage = animationImagesLag[animationIndex % animationImages.length];
         connectionStatus.attr("src", animationImage);
         animationIndex++;
         if (animationIndex % animationImages.length == 0 && i == 0) {

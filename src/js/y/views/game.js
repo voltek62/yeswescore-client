@@ -621,7 +621,9 @@ Y.Views.Game = Y.View.extend({
       var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);  
       
       if (timer>0)       
-        timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+        timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);  
+      else
+         timer = '00:00';      
         
     }
     else if ( game.get('status') === "ongoing" ) {
@@ -633,15 +635,19 @@ Y.Views.Game = Y.View.extend({
        	
       timer = dateEnd - dateStart;
       
-      console.log('timer',timer);
+      //console.log('timer',timer);
           
       if (timer>0)
       {
-	      //console.log('timer ongoing',timer);
-	          
-	      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-	      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+	    //console.log('timer positif',timer);	          
+	    var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+	    timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
       }
+      else {
+        timer = '00:00';  
+	    //console.log('timer negatif',timer);      
+      }
+      
       //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
       //setInterval ( this.refreshTimer, 1000 );
       

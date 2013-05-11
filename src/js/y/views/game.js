@@ -825,7 +825,8 @@ Y.Views.Game = Y.View.extend({
             that.statusScore = "finished"; 	 
             
             // On efface la cache
-            this.DB.remove("sets");
+            if (this.DB!==undefined)
+              this.DB.remove("sets");
              
           }
 	    });

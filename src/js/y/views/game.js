@@ -207,11 +207,11 @@ Y.Views.Game = Y.View.extend({
     messages['[sets]'] = this.game.get('options').sets;
 
     // hate toi de consulter 
-    messages['[time]'] = ""; // FIXME: temps �coul�
+    messages['[time]'] = ""; // FIXME: temps écoulé
 
     // FIXME: message promo en conf
     // FIXME: url facebook doit pointer vers la game
-    messages['[PROMO]'] = "\n"+i18n.t('game.fbpromo');
+    messages['[PROMO]'] = "\n\n"+i18n.t('game.fbpromo');
 
     var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
     var message = _.reduce(_.keys(messages), function (result, token) {

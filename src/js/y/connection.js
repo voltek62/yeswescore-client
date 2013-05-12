@@ -62,7 +62,6 @@
     setSpeed: function (speed) {
       assert(speed == this.SPEED_FAST ||
              speed == this.SPEED_SLOW);
-      console.log("speed : "+speed);
       this.speed = speed;
     },
 

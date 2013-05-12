@@ -162,6 +162,11 @@
     <Content Include="www\images\header-logo-on-animate-2.png" />
     <Content Include="www\images\header-logo-on-animate-3.png" />
     <Content Include="www\images\header-logo-on-animate-4.png" />
+    <Content Include="www\images\header-logo-on-lag-animate-1.png" />
+    <Content Include="www\images\header-logo-on-lag-animate-2.png" />
+    <Content Include="www\images\header-logo-on-lag-animate-3.png" />
+    <Content Include="www\images\header-logo-on-lag-animate-4.png" />
+    <Content Include="www\images\header-logo-on-lag.png" />
     <Content Include="www\images\header-logo-on.png" />
     <Content Include="www\images\house.png" />
     <Content Include="www\images\ico-magnifier-glass.jpg" />

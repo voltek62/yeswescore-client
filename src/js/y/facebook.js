@@ -55,7 +55,15 @@
         url: "https://graph.facebook.com/" + fbid + "/feed",
         type: 'POST',
         dataType: "JSON",
-        data: {message: message, target_id: fbid, access_token: fbtoken, format: "json"},
+        // @see: http://developers.facebook.com/docs/reference/api/publishing/
+        data: {
+          message: message,
+          //picture: Y.Conf.get('fb.image.logo'),
+          //description: message,
+          target_id: fbid,
+          access_token: fbtoken,
+          format: "json"
+        },
         success: function (data) { callback(null) },
         error: function (jqXHR, satus, error) {
           var o = JSON.tryParse(jqXHR.responseText);

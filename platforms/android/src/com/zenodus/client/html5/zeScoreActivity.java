@@ -1,11 +1,13 @@
 package com.zenodus.client.html5;
 
+import android.os.Bundle;
 import org.apache.cordova.*;
-import org.apache.cordova.api.CordovaInterface;
+import com.zenodus.client.html5.R;
 
+import org.apache.cordova.api.CordovaInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
+
 import android.webkit.ValueCallback;
 
 
@@ -21,11 +23,12 @@ public class zeScoreActivity extends DroidGap
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //super.setIntegerProperty("splashscreen", R.drawable.splash);
-        //super.loadUrl(Config.getStartUrl(), 10000);
-        super.loadUrl("file:///android_asset/www/index.html");
+
+        //super.setStringProperty("loadingDialog", "Starting your app...");
+        super.setIntegerProperty("splashscreen", R.drawable.splash);
         
-        //this.appView.setWebChromeClient(new FileAttachmentChromeClient(this, this.appView));
+        super.loadUrl(Config.getStartUrl(), 10000);
+
     }
     
     

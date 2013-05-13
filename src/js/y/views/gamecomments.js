@@ -217,6 +217,7 @@ Y.Views.GameComments = Y.View.extend({
     });
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
+      that.$('#messageText').val('');
       that.scrollTop();
     }).fail(function (err) {
 	    that.$(".button.send").addClass("ko");

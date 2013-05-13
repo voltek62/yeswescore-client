@@ -68,6 +68,7 @@
   "gameadd": {
     "title": "CREER UNE PARTIE",
     "player1": "Joueur 1",
+    "player1_holder": "Moi",    
     "player2": "Joueur 2",    
     "other": "Autre",
     "plus": "Plus",

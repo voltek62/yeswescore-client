@@ -46,6 +46,7 @@
     <plugin name="Storage" value="org.apache.cordova.Storage"/>
     <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer"/>
     <plugin name="Capture" value="org.apache.cordova.Capture"/>
+    <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser" />
 	</plugins>    
 
 </cordova>

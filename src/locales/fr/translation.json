@@ -184,8 +184,9 @@
     "signinok":"Chargement réussi",
     "signinerror":"Chargement impossible",    
     "loading":"CHARGEMENT",       
-    "bad_name":"Le nom peut contenir seulement des lettres",
-    "bad_password":"Votre mot de passe contient des caractères interdits",    
+    "bad_rank":"Le classement est invalide",    
+    "bad_name":"Le nom peut contenir seulement des lettres et au moins 3 caractères",
+    "bad_password":"Votre mot de passe contient des caractères interdits ou il est inférieur à 6 caractères",    
     "bad_mail":"Votre mail est invalide"     
   },
   "player": {

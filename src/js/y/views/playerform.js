@@ -150,6 +150,16 @@ Y.Views.PlayerForm = Y.View.extend({
       , clubid = this.clubid
       , idlicense = $('#idlicense').val()
       , player = null;
+      
+    
+    if (checkEmail(email)) {
+
+      $('span.success').css({display:"block"});
+      $('span.success').html(i18n.t('message.bad_mail')).show();
+	  $('span.success').i18n();      
+      
+      return false;	   
+    }
            
 
     var player = new PlayerModel({

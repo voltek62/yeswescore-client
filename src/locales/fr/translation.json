@@ -183,7 +183,10 @@
     "mailerror":"Mail inconnu",
     "signinok":"Chargement réussi",
     "signinerror":"Chargement impossible",    
-    "loading":"CHARGEMENT"       
+    "loading":"CHARGEMENT",       
+    "bad_name":"Le nom peut contenir seulement des lettres",
+    "bad_password":"Votre mot de passe contient des caractères interdits",    
+    "bad_mail":"Votre mail est invalide"     
   },
   "player": {
     "title": "JOUEUR",

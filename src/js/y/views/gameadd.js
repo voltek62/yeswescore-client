@@ -69,6 +69,7 @@ Y.Views.GameAdd = Y.View.extend({
     var team1 = $('#team1').val()    
       , team1_id = $('#team1_id').val()
       , team2 = $('#team2').val()
+      , city = $('#city').val()
       , team2_id = $('#team2_id').val();
 
     if ( ( team1.length < 3 || team1.indexOf('  ')!==-1 ) && !$('#team1').is(':disabled') ) {
@@ -94,6 +95,31 @@ Y.Views.GameAdd = Y.View.extend({
       return false;
     }
 
+    if (checkName(team1)) {
+      $('span.team2_error').html('').hide();
+      $('span.city_error').html('').hide();      
+	  $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team1').val('');        
+      return false;	   
+    }
+    
+    if (checkName(team2)) {
+      $('span.team1_error').html('').hide(); 
+      $('span.city_error').html('').hide();         
+	  $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#name').val('');        
+      return false;	   
+    }
+    
+    if (checkName(city)) {
+      $('span.team1_error').html('').hide();   
+      $('span.team2_error').html('').hide();              
+	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#city').val('');        
+      return false;	   
+    }        
+
+
     var game = {
 		team1 : team1
       , rank1 : $('#rank1').val()
@@ -101,7 +127,7 @@ Y.Views.GameAdd = Y.View.extend({
       , team2 : team2
       , rank2 : $('#rank2').val()
       , team2_id : team2_id
-      , city : $('#city').val()
+      , city : city
       , court : $('#court').val()
       , surface : $('#surface').val()
       , tour : $('#tour').val()

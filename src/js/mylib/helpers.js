@@ -1,4 +1,45 @@
 // ALL USEFUL FCTS
+var checkName =  function(input) {
+  var ck_name = /^[A-Za-z0-9 ]{3,20}$/;
+  if (!ck_name.test(input)) 
+	return true;
+	
+  return false;
+};
+
+var checkPassword =  function(input) {
+  var ck_password =  /^[A-Za-z0-9!@#$%^&*()_]{6,20}$/;
+  if (!ck_password.test(input)) 
+	return true;
+	
+  return false;
+};
+
+var checkRank =  function(input) {
+  var ck_rank =  /^[A-Za-z0-9!@#$%^&*\/()_]{2,5}$/;
+  if (!ck_rank.test(input)) 
+	return true;
+	
+  return false;
+};
+
+var checkEmail =  function(input) {
+  var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i; 
+  if (!ck_email.test(input)) 
+	return true;
+	
+  return false;
+};
+
+var checkComment = function(input){
+ var ck_comment = /[~#$%\^&*\-\[\]\\';{}|<>\]/g;
+
+  if (!ck_comment.test(input)) 
+	return true;
+	
+  return false; 
+};
+
 JSON.tryParse = function(o, undefined) {
   try {
     return JSON.parse(o);

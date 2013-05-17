@@ -17,7 +17,7 @@
     "sport":"Sport",
     "city":"Ville",
     "site":"Site",
-    "listplayers":"Liste des jougameeurs",
+    "listplayers":"Liste des joueurs",
     "lastresult":"Dernier résultat"            
   },
   "clubadd": {
@@ -187,7 +187,8 @@
     "loading":"CHARGEMENT",       
     "bad_rank":"Le classement est invalide",
     "bad_name":"Le nom peut contenir seulement des lettres et au moins 3 caractères",
-    "bad_password":"Votre mot de passe contient des caractères interdits ou il est inférieur à 6 caractères",      
+    "bad_password":"Votre mot de passe contient des caractères interdits ( Autorisé : A-Z a-z 0-9 !@#$%^&*()_ ) ou il est inférieur à 6 caractères",
+    "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",        
     "bad_mail":"Votre mail est invalide"     
   },
   "player": {

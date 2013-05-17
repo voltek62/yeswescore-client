@@ -153,6 +153,8 @@ var GameModel = Backbone.Model.extend({
     
       console.log('create Game', JSON.stringify(object));
 	  var that = this;
+	  
+	  object.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 		
       return Backbone.ajax({
         dataType : 'json',
@@ -180,6 +182,8 @@ var GameModel = Backbone.Model.extend({
     } else if (method === 'update' && this.get('playerid') !== undefined) {
         
         var gameid = this.get('id');
+        
+        object.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
     
         console.log('update Game', JSON.stringify(object));    	
 		var that = this;

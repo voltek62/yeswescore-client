@@ -74,12 +74,12 @@ var PlayerModel = Backbone.Model.extend({
         name: (this.get('name') || ''),
         email: { address: (this.get('email') || '') },
         rank: (this.get('rank') || ''),
-        idlicense: (this.get('idlicense') || ''),
+        idlicense: (this.get('idlicence') || ''),
         language: Y.language,
         games: [],
         token: (this.get('token') || ''),
         location: {
-          currentPos: [(this.get('latitude') || 0), (this.get('longitude') || 0), ]
+          currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
         }
       };
 

@@ -1,5 +1,6 @@
 <div class="scoreBoard">
   <div class="playerInfos">
+  
     <a href="#players/<%= game.teams[0].players[0].id %>" class="player-name"> 
       <%= game.teams[0].players[0].name %>
     </a>
@@ -15,8 +16,12 @@
         <%= game.teams[0].players[0].rank %>
       </span>
     </div>
-  </div>
-
+    <!-- 
+    <span class="player-info"></span>   
+    <span class="clear"></span>    
+       -->
+  </div> 
+    
   <div class="score-grid">
     <div class="ui-grid-c">
         <div class="ui-block-a legend">1</div>

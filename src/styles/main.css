@@ -269,7 +269,7 @@ body.inputmodeon .button-form[data-input-mode="process"] {
   position: fixed;
   z-index: 12;
   width: 100%;
-  bottom: 0px;
+  bottom: 54px;
   text-align: center;
 }
 

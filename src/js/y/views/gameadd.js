@@ -163,7 +163,16 @@ Y.Views.GameAdd = Y.View.extend({
       data: { q: input }
     }).done(function (players) {
       if (players && _.isArray(players) && players.length>0) {
-        callback(null, players.splice(0, 3).map(function (p) { p.text = p.name; return p; }));
+        callback(null, players.splice(0, 3).map(function (p) {
+           p.text = p.name; 
+           
+           //FIXME : add rank
+           if (p.club.name !== undefined) {
+             p.text += " ( "+p.club.name+" )";
+           };
+           
+           return p; 
+         }));
       } else {
         callback(null, []);
       }
@@ -177,7 +186,7 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   autocompleteTeam1: function (data) {
-    console.log("autocomplete data: " + JSON.stringify(data));
+    //console.log("autocomplete data: " + JSON.stringify(data));
     if (data && data.name) {
       this.$("#team1").val(data.name);
       this.$("#team1_id").val(data.id);
@@ -185,7 +194,7 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   autocompleteTeam2: function (data) {
-    console.log("autocomplete data: " + JSON.stringify(data));
+    //console.log("autocomplete data: " + JSON.stringify(data));
     if (data && data.name) {
       this.$("#team2").val(data.name);
       this.$("#team2_id").val(data.id);      

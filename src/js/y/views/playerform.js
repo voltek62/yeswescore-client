@@ -157,37 +157,37 @@ Y.Views.PlayerForm = Y.View.extend({
 	  $('span.email_error').html(i18n.t('message.bad_mail')+' !').show();
       $('#email').val('');        
       return false;	   
-    }
+    };
 
     if (checkRank(rank) && rank.length>0) {
 	  $('span.rank_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank').val('');        
       return false;	   
-    }
+    };
            
     if (checkPassword(password) && password.length>0) {
 	  $('span.password_error').html(i18n.t('message.bad_password')+' !').show();
       $('#password').val('');        
       return false;	   
-    }
+    };
     
     if (checkName(name) && name.length>0) {
 	  $('span.name_error').html(i18n.t('message.bad_name')+' !').show();
       $('#name').val('');        
       return false;	   
-    }
+    };
 
     if (checkLicence(idlicence) && idlicence.length>0) {
 	  $('span.idlicence_error').html(i18n.t('message.bad_licence')+' !').show();
       $('#idlicence').val('');        
       return false;	   
-    }
+    };
 
     if (checkName(club) && club.length>0) {
 	  $('span.club_error').html(i18n.t('message.bad_name')+' !').show();
       $('#club').val('');        
       return false;	   
-    }
+    };
         
     var player = new PlayerModel({
         name: name

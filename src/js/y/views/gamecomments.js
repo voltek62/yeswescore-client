@@ -208,6 +208,11 @@ Y.Views.GameComments = Y.View.extend({
 
     if (comment.length === 0)
       return; // empty => doing nothing.
+      
+    //filter
+    //comment = comment.replace(/<script/gi, '&lt;script').replace(/\son[a-z]+=/gi, 'XXXX_BLOCKED=');
+    comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");  
+      
     var stream = new StreamModel({
           type : "comment",
           playerid : playerid,

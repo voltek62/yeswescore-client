@@ -69,6 +69,7 @@ Y.Views.GameAdd = Y.View.extend({
     var team1 = $('#team1').val()    
       , team1_id = $('#team1_id').val()
       , team2 = $('#team2').val()
+      , rank2 = $('#rank2').val()
       , city = $('#city').val()
       , team2_id = $('#team2_id').val();
 
@@ -89,30 +90,35 @@ Y.Views.GameAdd = Y.View.extend({
     //return false;
     $("span[class*='_error']").hide();
 
+    if (checkName(team1) && team1.length>0) {     
+	  $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team1').val('');        
+      return false;	   
+    };
+    
+    if (checkName(team2) && team2.length>0) { 
+	  $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team2').val('');        
+      return false;	   
+    };
+    
+    if (checkRank(rank2) && rank2.length>0) {
+	  $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+      $('#rank2').val('');        
+      return false;	   
+    };    
+
     if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && team2_id === '' ) {
       $('span.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       $('#team2').val('');
       return false;
-    }
-
-    if (checkName(team1)) {     
-	  $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
-      $('#team1').val('');        
-      return false;	   
-    }
+    };
     
-    if (checkName(team2)) { 
-	  $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
-      $('#name').val('');        
-      return false;	   
-    }
-    
-    if (checkName(city)) {             
+    if (checkName(city) && city.length>0) {             
 	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
       return false;	   
-    }        
-
+    };        
 
     var game = {
 		team1 : team1

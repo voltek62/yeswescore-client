@@ -1,6 +1,7 @@
 // ALL USEFUL FCTS
 var checkName =  function(input) {
-  var ck_name = /^[A-Za-z ]{3,40}$/;
+  //var ck_name = /^[A-Za-z ]{3,40}$/;
+  var ck_name = /^[a-zA-ZàáâäãåąćęèéêëìíîïłńòóôöõøùúûüÿýżźñçčšžÀÁÂÄÃÅĄĆĘÈÉÊËÌÍÎÏŁŃÒÓÔÖÕØÙÚÛÜŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{3,40}$/;
   if (!ck_name.test(input)) 
 	return true;
 	

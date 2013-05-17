@@ -87,33 +87,27 @@ Y.Views.GameAdd = Y.View.extend({
     
     //console.log(team2.length);
     //return false;
+    $("span[class*='_error']").hide();
 
     if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && team2_id === '' ) {
-      $('span.team1_error').html('').hide();
       $('span.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       $('#team2').val('');
       return false;
     }
 
-    if (checkName(team1)) {
-      $('span.team2_error').html('').hide();
-      $('span.city_error').html('').hide();      
+    if (checkName(team1)) {     
 	  $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team1').val('');        
       return false;	   
     }
     
-    if (checkName(team2)) {
-      $('span.team1_error').html('').hide(); 
-      $('span.city_error').html('').hide();         
+    if (checkName(team2)) { 
 	  $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
       $('#name').val('');        
       return false;	   
     }
     
-    if (checkName(city)) {
-      $('span.team1_error').html('').hide();   
-      $('span.team2_error').html('').hide();              
+    if (checkName(city)) {             
 	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
       return false;	   

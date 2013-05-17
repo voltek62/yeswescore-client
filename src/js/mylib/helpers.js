@@ -1,6 +1,6 @@
 // ALL USEFUL FCTS
 var checkName =  function(input) {
-  var ck_name = /^[A-Za-z0-9 ]{3,20}$/;
+  var ck_name = /^[A-Za-z ]{3,40}$/;
   if (!ck_name.test(input)) 
 	return true;
 	
@@ -16,7 +16,7 @@ var checkPassword =  function(input) {
 };
 
 var checkRank =  function(input) {
-  var ck_rank =  /^[A-Za-z0-9!@#$%^&*\/()_]{2,5}$/;
+  var ck_rank =  /^[A-Za-z0-9!\/\_-]{1,5}$/;
   if (!ck_rank.test(input)) 
 	return true;
 	
@@ -31,8 +31,17 @@ var checkEmail =  function(input) {
   return false;
 };
 
+var checkLicence = function(input){
+ var ck_licence = /^[A-Za-z0-9 ]{4,16}$/;
+
+  if (!ck_licence.test(input)) 
+	return true;
+	
+  return false; 
+};
+
 var checkComment = function(input){
- var ck_comment = /[~#$%\^&*\-\[\]\\';{}|<>\]/g;
+ var ck_comment = /^[A-Za-z0-9 ]{2,300}$/;
 
   if (!ck_comment.test(input)) 
 	return true;

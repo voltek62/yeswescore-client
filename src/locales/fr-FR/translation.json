@@ -187,7 +187,8 @@
     "loading":"CHARGEMENT",       
     "bad_rank":"Le classement est invalide",
     "bad_name":"Le nom peut contenir seulement des lettres et au moins 3 caractères",
-    "bad_password":"Votre mot de passe contient des caractères interdits ou il est inférieur à 6 caractères",      
+    "bad_password":"Votre mot de passe contient des caractères interdits ou il est inférieur à 6 caractères",
+    "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",        
     "bad_mail":"Votre mail est invalide"     
   },
   "player": {

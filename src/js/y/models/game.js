@@ -128,6 +128,11 @@ var GameModel = Backbone.Model.extend({
      if (this.get('country') !== undefined)  
        if (this.get('country') !== "") 
          object.location.country = this.get('country');
+         
+         
+      object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+	  
+	  //console.log(object.location.pos);    
        
      if (this.get('city') !== undefined)  
        if (this.get('city') !== "") 
@@ -154,7 +159,6 @@ var GameModel = Backbone.Model.extend({
       console.log('create Game', JSON.stringify(object));
 	  var that = this;
 	  
-	  object.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 		
       return Backbone.ajax({
         dataType : 'json',

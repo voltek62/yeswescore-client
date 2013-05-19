@@ -1,6 +1,7 @@
 <div class="comment" id="comment<%= streamItem.id %>">
   <% 
-    var startConvert = new Date(streamItem.dates.creation);
+    //var startConvert = new Date(streamItem.dates.creation);
+    var startConvert = Date.fromString(streamItem.dates.creation);
     var startDate = String(startConvert.getDate()).padLeft(2, "0") +' '+startConvert.getMonthName()+' '+startConvert.getFullYear();
     var startTime = ' '+String(startConvert.getHours()).padLeft(2, "0") + ':' + String(startConvert.getMinutes()).padLeft(2, "0");
     var now = new Date();

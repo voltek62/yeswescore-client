@@ -576,7 +576,8 @@ Y.Views.Game = Y.View.extend({
 
   refreshTimer : function() {
     var dateEnd = new Date();
-    var dateStart = new Date(this.dateStart);
+    //var dateStart = new Date(this.dateStart);
+    var dateStart = Date.fromString(this.dateStart);
           	
     timer = dateEnd - dateStart;
           
@@ -623,8 +624,11 @@ Y.Views.Game = Y.View.extend({
         
     if ( game.get('status') === "finished" ) {
        
-      var dateEnd = new Date(game.get('dates').end);
-      var dateStart = new Date(game.get('dates').start);
+      //var dateEnd = new Date(game.get('dates').end);
+      //var dateStart = new Date(game.get('dates').start);
+
+      var dateEnd = Date.fromString(game.get('dates').end);      
+      var dateStart = Date.fromString(game.get('dates').start);
           	
       timer = dateEnd - dateStart;
       var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);  
@@ -639,8 +643,8 @@ Y.Views.Game = Y.View.extend({
         
       //comment connaitre la date actuelle par rapport au serveur ?
       var dateEnd = new Date();
-      var dateStart = new Date(game.get('dates').start);
-      //this.dateStart = game.dates.start;
+      //var dateStart = new Date(game.get('dates').start);
+      var dateStart = Date.fromString(game.get('dates').start);
        	
       timer = dateEnd - dateStart;
       

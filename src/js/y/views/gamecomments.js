@@ -87,9 +87,11 @@ Y.Views.GameComments = Y.View.extend({
         
     if ( game.status === "finished" ) {
        
+      //var dateEnd = new Date(game.dates.end);
+      //var dateStart = new Date(game.dates.start);
 
-      var dateEnd = new Date(game.dates.end);
-      var dateStart = new Date(game.dates.start);
+      var dateEnd = Date.fromString(game.dates.end);      
+      var dateStart = Date.fromString(game.dates.start);
           	
       timer = dateEnd - dateStart;
       var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
@@ -100,15 +102,13 @@ Y.Views.GameComments = Y.View.extend({
       
       //comment connaitre la date actuelle par rapport au serveur ?
       var dateEnd = new Date();
-      var dateStart = new Date(game.dates.start);
-      //this.dateStart = this.game.dates.start;
+      //var dateStart = new Date(game.dates.start);
+      var dateStart = Date.fromString(game.dates.start);
           	
       timer = dateEnd - dateStart;
           
       if (timer>0)
       {
-	      console.log('timer ongoing',timer);
-	          
 	      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
 	      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
       }

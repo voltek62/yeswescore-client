@@ -19,7 +19,8 @@ var StreamsCollection = Backbone.Collection.extend({
   comparator: function (item) {
     var dates = item.get("dates");
     if (dates && dates.creation)
-      return new Date(dates.creation).getTime();
+      //return new Date(dates.creation).getTime();
+      return Date.fromString(dates.creation).getTime();
     assert(false);
     return 0; // at the end of the list.
   },

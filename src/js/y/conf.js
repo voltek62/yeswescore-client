@@ -106,7 +106,7 @@
         }
 
         // Parametrage des variables non dependantes d'un environnement
-        this.set("game.refresh", 30000);        // default 30000 (30sec)
+        this.set("game.refresh", 10000);        // default 30000 (30sec) //test 10s
         this.set("pooling.geolocation", 10000); // default 10000 (10sec)
         this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
         this.set("version", Y.App.VERSION); // will be usefull on update.

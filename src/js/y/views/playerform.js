@@ -38,8 +38,6 @@ Y.Views.PlayerForm = Y.View.extend({
     this.playerid = this.owner.get('id');
     this.clubid = this.owner.get('club').id;
     
-    console.log('ANDROID playerform playerid '+JSON.stringify(this.owner));
-    
     
     // we render immediatly
     this.render();    
@@ -148,17 +146,56 @@ Y.Views.PlayerForm = Y.View.extend({
       , token = this.token
       , club = $('#club').val()
       , clubid = this.clubid
-      , idlicense = $('#idlicense').val()
+      , idlicence = $('#idlicence').val()
       , player = null;
-           
+      
+    //On cache toutes les erreurs 
+    $("span[class*='_error']").hide();
+    $("span.success").hide();
+          
+    if (checkEmail(email) && email.length>0) {
+	  $('span.email_error').html(i18n.t('message.bad_mail')+' !').show();
+      $('#email').val('');        
+      return false;	   
+    };
 
+    if (checkRank(rank) && rank.length>0) {
+	  $('span.rank_error').html(i18n.t('message.bad_rank')+' !').show();
+      $('#rank').val('');        
+      return false;	   
+    };
+           
+    if (checkPassword(password) && password.length>0) {
+	  $('span.password_error').html(i18n.t('message.bad_password')+' !').show();
+      $('#password').val('');        
+      return false;	   
+    };
+    
+    if (checkName(name) && name.length>0) {
+	  $('span.name_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#name').val('');        
+      return false;	   
+    };
+
+    if (checkLicence(idlicence) && idlicence.length>0) {
+	  $('span.idlicence_error').html(i18n.t('message.bad_licence')+' !').show();
+      $('#idlicence').val('');        
+      return false;	   
+    };
+
+    if (checkName(club) && club.length>0) {
+	  $('span.club_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#club').val('');        
+      return false;	   
+    };
+        
     var player = new PlayerModel({
         name: name
       , password: password
       , email: email
       , rank: rank                  	
       , playerid: playerid
-      , idlicense:idlicense
+      , idlicence:idlicence
       , token: token
       , club: club
       , clubid:clubid            
@@ -194,7 +231,7 @@ Y.Views.PlayerForm = Y.View.extend({
 	      name:player.name
 	    , rank:player.rank
 	    , password:player.password
-	    , idlicense:player.idlicense
+	    , idlicence:player.idlicense
 	    , playerid:this.playerid
 	    , token:this.token
     };

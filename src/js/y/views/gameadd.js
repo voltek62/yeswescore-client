@@ -39,6 +39,7 @@ Y.Views.GameAdd = Y.View.extend({
     $(".ui-grid-b.first-team").removeClass("me");
     $("#team1").prop("disabled", false);
     $("#team1_id").val('');
+    $("#team1").attr("placeholder", "");
     // on force l'input mode
     $("#team1").focus();
     this.$("#team1").trigger("click");
@@ -58,6 +59,7 @@ Y.Views.GameAdd = Y.View.extend({
       $(".form-button.other-team").removeClass("selected");
       $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
+      $("#team1").attr("placeholder", i18n.t("gameadd.player1_holder"));
       $("#team1_id").val(this.owner.get('id'));
     }
   },
@@ -67,6 +69,8 @@ Y.Views.GameAdd = Y.View.extend({
     var team1 = $('#team1').val()    
       , team1_id = $('#team1_id').val()
       , team2 = $('#team2').val()
+      , rank2 = $('#rank2').val()
+      , city = $('#city').val()
       , team2_id = $('#team2_id').val();
 
     if ( ( team1.length < 3 || team1.indexOf('  ')!==-1 ) && !$('#team1').is(':disabled') ) {
@@ -84,13 +88,37 @@ Y.Views.GameAdd = Y.View.extend({
     
     //console.log(team2.length);
     //return false;
+    $("span[class*='_error']").hide();
+
+    if (checkName(team1) && team1.length>0) {     
+	  $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team1').val('');        
+      return false;	   
+    };
+    
+    if (checkName(team2) && team2.length>0) { 
+	  $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team2').val('');        
+      return false;	   
+    };
+    
+    if (checkRank(rank2) && rank2.length>0) {
+	  $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+      $('#rank2').val('');        
+      return false;	   
+    };    
 
     if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && team2_id === '' ) {
-      $('span.team1_error').html('').hide();
       $('span.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       $('#team2').val('');
       return false;
-    }
+    };
+    
+    if (checkName(city) && city.length>0) {             
+	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#city').val('');        
+      return false;	   
+    };        
 
     var game = {
 		team1 : team1
@@ -99,7 +127,7 @@ Y.Views.GameAdd = Y.View.extend({
       , team2 : team2
       , rank2 : $('#rank2').val()
       , team2_id : team2_id
-      , city : $('#city').val()
+      , city : city
       , court : $('#court').val()
       , surface : $('#surface').val()
       , tour : $('#tour').val()
@@ -135,7 +163,16 @@ Y.Views.GameAdd = Y.View.extend({
       data: { q: input }
     }).done(function (players) {
       if (players && _.isArray(players) && players.length>0) {
-        callback(null, players.splice(0, 3).map(function (p) { p.text = p.name; return p; }));
+        callback(null, players.splice(0, 3).map(function (p) {
+           p.text = p.name; 
+           
+           //FIXME : add rank
+           if (p.club.name !== undefined) {
+             p.text += " ( "+p.club.name+" )";
+           };
+           
+           return p; 
+         }));
       } else {
         callback(null, []);
       }
@@ -149,7 +186,7 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   autocompleteTeam1: function (data) {
-    console.log("autocomplete data: " + JSON.stringify(data));
+    //console.log("autocomplete data: " + JSON.stringify(data));
     if (data && data.name) {
       this.$("#team1").val(data.name);
       this.$("#team1_id").val(data.id);
@@ -157,7 +194,7 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   autocompleteTeam2: function (data) {
-    console.log("autocomplete data: " + JSON.stringify(data));
+    //console.log("autocomplete data: " + JSON.stringify(data));
     if (data && data.name) {
       this.$("#team2").val(data.name);
       this.$("#team2_id").val(data.id);      

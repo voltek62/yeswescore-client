@@ -269,7 +269,7 @@ body.inputmodeon .button-form[data-input-mode="process"] {
   position: fixed;
   z-index: 12;
   width: 100%;
-  bottom: 0px;
+  bottom: 54px;
   text-align: center;
 }
 
@@ -1446,6 +1446,26 @@ ul>li.player>a {
 	text-align: center;
 }
 
+.scoreBoard .player-info {
+	position: relative;
+	/*margin-top: 0px;
+	margin-left: 310px;	*/	
+	/*left:310px;
+	top:0px;*/
+	float:right;
+	display:block;
+	width:32px;
+	height:32px;
+	background-image: url(images/info-player.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/info-player.png);
+	/*#endif*/	
+}
+
+.scoreBoard .clear {
+	clear:right;
+}
+	
 .scoreBoard .playerInfos .player-name {
 	display: block;
 	color: #000;
@@ -1460,6 +1480,7 @@ ul>li.player>a {
 	line-height: 10px;
 	height: 11px;
 	/* allow empty scoreboard height to equal full scoreboard */
+	clear:left;
 }
 
 .scoreBoard .playerInfos .club {
@@ -1471,6 +1492,8 @@ ul>li.player>a {
 	font-family: Open Sans;
 	font-size: 10px;
 }
+
+
 
 .scoreBoard .score-grid {
 	position: relative;

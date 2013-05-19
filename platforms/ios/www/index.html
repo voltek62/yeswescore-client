@@ -3,6 +3,7 @@
 <head>
   <title>YesWeScore</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no"/>
   <meta charset="utf-8">
   <!-- @see http://stackoverflow.com/questions/13529777/ie10-gray-square-on-click-in-windows-8 -->
   <meta name="msapplication-tap-highlight" content="no" /> 
@@ -11129,7 +11130,6 @@ var assert = function () { };
     setSpeed: function (speed) {
       assert(speed == this.SPEED_FAST ||
              speed == this.SPEED_SLOW);
-      console.log("speed : "+speed);
       this.speed = speed;
     },
 
@@ -11222,7 +11222,15 @@ var assert = function () { };
         url: "https://graph.facebook.com/" + fbid + "/feed",
         type: 'POST',
         dataType: "JSON",
-        data: {message: message, target_id: fbid, access_token: fbtoken, format: "json"},
+        // @see: http://developers.facebook.com/docs/reference/api/publishing/
+        data: {
+          message: message,
+          //picture: Y.Conf.get('fb.image.logo'),
+          //description: message,
+          target_id: fbid,
+          access_token: fbtoken,
+          format: "json"
+        },
         success: function (data) { callback(null) },
         error: function (jqXHR, satus, error) {
           var o = JSON.tryParse(jqXHR.responseText);
@@ -13588,11 +13596,11 @@ Y.Views.Game = Y.View.extend({
     messages['[sets]'] = this.game.get('options').sets;
 
     // hate toi de consulter 
-    messages['[time]'] = ""; // FIXME: temps �coul�
+    messages['[time]'] = ""; // FIXME: temps écoulé
 
     // FIXME: message promo en conf
     // FIXME: url facebook doit pointer vers la game
-    messages['[PROMO]'] = "\n"+i18n.t('game.fbpromo');
+    messages['[PROMO]'] = "\n\n"+i18n.t('game.fbpromo');
 
     var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
     var message = _.reduce(_.keys(messages), function (result, token) {
@@ -14002,7 +14010,9 @@ Y.Views.Game = Y.View.extend({
       var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);  
       
       if (timer>0)       
-        timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+        timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);  
+      else
+         timer = '00:00';      
         
     }
     else if ( game.get('status') === "ongoing" ) {
@@ -14014,15 +14024,19 @@ Y.Views.Game = Y.View.extend({
        	
       timer = dateEnd - dateStart;
       
-      console.log('timer',timer);
+      //console.log('timer',timer);
           
       if (timer>0)
       {
-	      //console.log('timer ongoing',timer);
-	          
-	      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-	      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+	    //console.log('timer positif',timer);	          
+	    var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+	    timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
       }
+      else {
+        timer = '00:00';  
+	    //console.log('timer negatif',timer);      
+      }
+      
       //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
       //setInterval ( this.refreshTimer, 1000 );
       
@@ -14206,7 +14220,8 @@ Y.Views.Game = Y.View.extend({
             that.statusScore = "finished"; 	 
             
             // On efface la cache
-            this.DB.remove("sets");
+            if (this.DB!==undefined)
+              this.DB.remove("sets");
              
           }
 	    });

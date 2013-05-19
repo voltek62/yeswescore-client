@@ -140,8 +140,13 @@ Y.Views.GameComments = Y.View.extend({
         // small fade-in effect using an hidden container.
         var divHiddenContainer = document.createElement("div");
         divHiddenContainer.style.display = "none";
+        
+        //filter
+        streamItem = streamItem.toJSON();
+        streamItem.data.text = streamItem.data.text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
+        
         $(divHiddenContainer).html(this.templates.comment({
-          streamItem  : streamItem.toJSON(),
+          streamItem  : streamItem,
           owner : (this.owner) ? this.owner.toJSON() : null
         }));
         $listComment.prepend(divHiddenContainer);
@@ -208,6 +213,10 @@ Y.Views.GameComments = Y.View.extend({
 
     if (comment.length === 0)
       return; // empty => doing nothing.
+      
+    //filter
+    comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");  
+      
     var stream = new StreamModel({
           type : "comment",
           playerid : playerid,
@@ -217,6 +226,7 @@ Y.Views.GameComments = Y.View.extend({
     });
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
+      that.$('#messageText').val('');
       that.scrollTop();
     }).fail(function (err) {
 	    that.$(".button.send").addClass("ko");

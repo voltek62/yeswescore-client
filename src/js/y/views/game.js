@@ -8,6 +8,8 @@ Y.Views.Game = Y.View.extend({
       
   events : {
     'click #facebook'       : 'share',
+    'click .player-info'    : 'viewPlayer',    
+    'click .playerInfos'    : 'viewPlayer',   
     'click #statusButton'   : 'statusGame',
     'click #followButton'   : 'followGame',
     'click #cancelButton'   : 'cancelGame',
@@ -128,6 +130,13 @@ Y.Views.Game = Y.View.extend({
       that.$(".facebook").removeClass("ko");
       that.shareTimeout = null;
     }, 5000);
+  },
+
+  viewPlayer: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }    
   },
 
   shareSuccess: function () {

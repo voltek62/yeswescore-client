@@ -1,9 +1,13 @@
 <div class="scoreBoard">
-  <div class="playerInfos">
+
+  <div class="player-info" id="#players/<%= game.teams[0].players[0].id %>"></div>
+
+  <div class="playerInfos" id="#players/<%= game.teams[0].players[0].id %>">
   
-    <a href="#players/<%= game.teams[0].players[0].id %>" class="player-name"> 
+    <span class="player-name"> 
       <%= game.teams[0].players[0].name %>
-    </a>
+    </span>
+  
     <div class="other">
       <span class="club">
         <%
@@ -16,11 +20,8 @@
         <%= game.teams[0].players[0].rank %>
       </span>
     </div>
-    <!-- 
-    <span class="player-info"></span>   
-    <span class="clear"></span>    
-       -->
   </div> 
+   
     
   <div class="score-grid">
     <div class="ui-grid-c">
@@ -50,10 +51,12 @@
     <div class="separator"></div>
   </div>
 
-  <div class="playerInfos">
-    <a href="#players/<%= game.teams[1].players[0].id %>" class="player-name"> 
+  <div class="player-info" id="#players/<%= game.teams[1].players[0].id %>"></div>
+
+  <div class="playerInfos" id="#players/<%= game.teams[1].players[0].id %>">
+    <span class="player-name"> 
       <%= game.teams[1].players[0].name %>
-    </a>
+    </span>
     <div class="other">
       <span class="club">
       <% 
@@ -67,5 +70,6 @@
       </span>
     </div>
   </div>
+  
  
 </div>

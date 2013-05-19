@@ -1442,29 +1442,32 @@ ul>li.player>a {
 	box-sizing: border-box;
 }
 
+
 .scoreBoard .playerInfos {
 	text-align: center;
 }
 
 .scoreBoard .player-info {
-	position: relative;
-	/*margin-top: 0px;
-	margin-left: 310px;	*/	
-	/*left:310px;
-	top:0px;*/
-	float:right;
 	display:block;
-	width:32px;
-	height:32px;
+	float:right;
+	width:25px;
+	height:25px;
+	cursor:pointer;
 	background-image: url(images/info-player.png);
 	/*#ifdef NOCORDOVA*/
 	background-image: url(/images/info-player.png);
 	/*#endif*/	
 }
 
-.scoreBoard .clear {
-	clear:right;
+
+
+.scoreBoard .playerInfos .other {
+	line-height: 10px;
+	height: 11px;
+	/* allow empty scoreboard height to equal full scoreboard */
 }
+
+
 	
 .scoreBoard .playerInfos .player-name {
 	display: block;
@@ -1476,12 +1479,7 @@ ul>li.player>a {
 	line-height: 16px;
 }
 
-.scoreBoard .playerInfos .other {
-	line-height: 10px;
-	height: 11px;
-	/* allow empty scoreboard height to equal full scoreboard */
-	clear:left;
-}
+
 
 .scoreBoard .playerInfos .club {
 	font-family: Open Sans;

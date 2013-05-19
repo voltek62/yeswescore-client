@@ -167,9 +167,11 @@ Y.Views.GameAdd = Y.View.extend({
            p.text = p.name; 
            
            //FIXME : add rank
-           if (p.club.name !== undefined) {
-             p.text += " ( "+p.club.name+" )";
-           };
+           if (p.club !== undefined) {
+	           if (p.club.name !== undefined) {
+	             p.text += " ( "+p.club.name+" )";
+	           };
+	       };
            
            return p; 
          }));

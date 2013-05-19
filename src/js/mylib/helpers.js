@@ -9,7 +9,7 @@ var checkName =  function(input) {
 };
 
 var checkPassword =  function(input) {
-  var ck_password =  /^[A-Za-z0-9!@#$%^&*()_]{6,20}$/;
+  var ck_password =  /^[A-Za-z0-9!@#$%^&* ()_]{6,20}$/;
   if (!ck_password.test(input)) 
 	return true;
 	

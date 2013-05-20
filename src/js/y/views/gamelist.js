@@ -21,6 +21,10 @@ Y.Views.GameList = Y.View.extend({
   
   myinitialize: function (param) {
   	
+  	//FIXME: refacto
+  	param.mode = Y.User.getFilters();
+  	param.search = Y.User.getSearchBy();
+  	
 	//header 
     if (param!=='undefined') { 
       if (param.mode==="me") {
@@ -135,18 +139,22 @@ Y.Views.GameList = Y.View.extend({
   },
   filterByDate: function () {   	
   	this.filter("date");
+  	Y.User.setFilters('date');
   	Y.Router.navigate("sort/date", true);
   },
   filterByClub: function () {  	  
     this.filter("club");
+  	Y.User.setFilters('club');
     Y.Router.navigate("sort/club", true);
   },  
   filterByOngoing: function () { 
     this.filter("ongoing");
+  	Y.User.setFilters('ongoing');
     Y.Router.navigate("sort/ongoing", true); 
   },
   filterByFinished: function () { 
-    this.filter("finished");
+    this.filter("finished");    
+  	Y.User.setFilters('finished');
     Y.Router.navigate("sort/finished", true); 
   },
 

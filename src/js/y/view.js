@@ -78,7 +78,7 @@
         }
         console.log('View.js: => input mode off ' + activeElement.nodeName + ' => on bascule en input mode off');
         Y.GUI.inputMode(false);
-        $(document.activeElement).blur(); // On ferme le clavier
+        $(activeElement).blur(); // On ferme le clavier
       }, 100);
       // au cas ou ... on n'a pas d'autres moyens de toute façon..
       this.autocompleteStopDelayed(e);

@@ -1094,6 +1094,7 @@ ul>li.player>a {
 	top:42px;
 	width: 100%;
 	height: 250px;
+	padding-top:10px;
 	background-color: #46b1db;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
@@ -1108,7 +1109,7 @@ ul>li.player>a {
 	height: 33px;
 	line-height: 30px;
 	width: 100%;
-	border-bottom: 1px solid white;
+	/*border-bottom: 1px solid white;*/
 	font-family: 'Open Sans', sans-serif;
 	font-weight: normal;
 	font-size: 12px;

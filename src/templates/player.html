@@ -11,9 +11,16 @@
         </div>
     </div> 
      
+     <%
+     if (player.club.length>0) 
+     {
+     %>
     <hr/>
     <b><label data-i18n="playerform.club"></label> :</b> <%= player.club.name %>
     <br/><a href="#clubs/<%= player.club.id %>" data-i18n="player.more"></a>
+    <%
+    }
+    %>
     <hr/>
     <b><label data-i18n="playerform.rank"></label> :</b> <%= player.rank %>
     <br/>

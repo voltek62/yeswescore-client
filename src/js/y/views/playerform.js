@@ -141,7 +141,7 @@ Y.Views.PlayerForm = Y.View.extend({
     var name = $('#name').val()
       , password = $('#password').val().replace(/ /g, "")
       , email = $('#email').val().replace(/ /g, "")
-      , rank = $('#rank').val()
+      , rank = $('#rank').val().val().replace(/ /g, "")
       , playerid = this.playerid
       , token = this.token
       , club = $('#club').val()
@@ -226,7 +226,7 @@ Y.Views.PlayerForm = Y.View.extend({
   renderPlayer: function(){
     	
     player = this.player.toJSON();
-    
+        
     var dataDisplay = {
 	      name:player.name
 	    , rank:player.rank

@@ -111,7 +111,6 @@
     trySend: (function () {
       var sending = false; // semaphore
       return function () {
-        return; // FIXME: remove before prod.
         if (stack.length == 0 || sending)
           return;
         sending = true;
@@ -133,7 +132,7 @@
               stack.unshift(msg);
               sending = false;
               Y.Stats.trySend();
-            }, 3000);
+            }, 20000);
           }
         });
       }

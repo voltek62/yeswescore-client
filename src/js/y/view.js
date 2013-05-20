@@ -20,6 +20,9 @@
   };
 
   var View = Backbone.View.extend({
+  
+    lastInput : null,
+  
     initialize: function () {
       // before anything, linking the DOM to this view.
       this.el.view = this;
@@ -56,7 +59,11 @@
     },
 
     inputModeOn: function (e) {
-      console.log('View.js: input mode on');
+      console.log('View.js: input mode on ',document.activeElement);
+      
+      this.lastInput = document.activeElement.id;
+	  console.log('lastInput ',this.lastInput);
+		      
       this.clearInputModeOffDelayed();
       if ($(e.target).attr("data-autocomplete"))
         this.autocompleteStart(e);
@@ -69,6 +76,8 @@
     inputModeOffDelayed: function (e) {
       console.log('View.js: input mode off delayed');
       this.clearInputModeOffDelayed();
+      
+      var that = this;
       this.inputModeOffTimeout = window.setTimeout(function () {
         console.log('View.js: input mode off delayed suite');
         var activeElement = document.activeElement;
@@ -77,8 +86,33 @@
           return; // security...
         }
         console.log('View.js: => input mode off ' + activeElement.nodeName + ' => on bascule en input mode off');
+
+		/*console.log('lastInput ',that.lastInput);*/
+		
+		/*
+		if (that.lastInput !== null)
+		{
+			var element = $('#'+that.lastInput);
+			console.log('element où on force blur ',element)
+			
+			if (element.is('input')) element.attr('readonly', 'readonly'); // Force keyboard to hide on input field.
+		    if (element.is('textarea')) element.attr('disabled', 'true'); // Force keyboard to hide on textarea field.
+		    setTimeout(function() {
+		        element.blur();  //actually close the keyboard
+		        // Remove readonly attribute after keyboard is hidden.
+		        if (element.is('input')) element.removeAttr('readonly');
+		        if (element.is('textarea')) element.removeAttr('disabled');
+		        console.log('View.js on cache le clavier');
+		        
+		    }, 100);
+		};*/
+		
+		/*
+		console.log('View.js action ');
+		$(activeElement).filter(':input:focus').blur();
+		*/
+		   
         Y.GUI.inputMode(false);
-        $(activeElement).blur(); // On ferme le clavier
       }, 100);
       // au cas ou ... on n'a pas d'autres moyens de toute façon..
       this.autocompleteStopDelayed(e);

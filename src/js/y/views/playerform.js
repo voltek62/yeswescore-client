@@ -139,8 +139,8 @@ Y.Views.PlayerForm = Y.View.extend({
     //$.ui.toggleNavMenu(true);
   
     var name = $('#name').val()
-      , password = $('#password').val()
-      , email = $('#email').val()
+      , password = $('#password').val().replace(/ /g, "")
+      , email = $('#email').val().replace(/ /g, "")
       , rank = $('#rank').val()
       , playerid = this.playerid
       , token = this.token

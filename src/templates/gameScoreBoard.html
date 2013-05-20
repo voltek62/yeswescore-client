@@ -1,8 +1,19 @@
 <div class="scoreBoard">
 
+   <%
+   if (game.teams[0].players[0].owner === undefined) 
+   { 
+   %>     
   <div class="player-info" id="#players/<%= game.teams[0].players[0].id %>"></div>
-
-  <div class="playerInfos" id="#players/<%= game.teams[0].players[0].id %>">
+     <div class="playerInfos" id="#players/<%= game.teams[0].players[0].id %>">  
+  <%
+   }
+   else {
+   %>
+     <div class="playerInfos">     
+   <%
+   }
+  %>
   
     <span class="player-name"> 
       <%= game.teams[0].players[0].name %>
@@ -51,9 +62,22 @@
     <div class="separator"></div>
   </div>
 
-  <div class="player-info" id="#players/<%= game.teams[1].players[0].id %>"></div>
+   <%
+   if (game.teams[1].players[0].owner === undefined) 
+   { 
+   %>     
+    <div class="player-info" id="#players/<%= game.teams[1].players[0].id %>"></div>
+      <div class="playerInfos" id="#players/<%= game.teams[1].players[0].id %>">  
+  <%
+   }
+   else {
+   %>
+      <div class="playerInfos">     
+   <%
+   }
+  %>
 
-  <div class="playerInfos" id="#players/<%= game.teams[1].players[0].id %>">
+
     <span class="player-name"> 
       <%= game.teams[1].players[0].name %>
     </span>

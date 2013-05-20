@@ -206,7 +206,7 @@
   "playerform": {
     "title": "MON PROFIL",
     "firstconnection" : "Merci d'indiquer au moins votre nom et prénom :",
-    "name":"Nom",
+    "name":"Nom Prénom",
     "mail":"Email",
     "password":"Mot de passe",
     "rank":"Classement",

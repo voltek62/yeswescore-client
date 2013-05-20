@@ -15,6 +15,7 @@ Y.Views.PlayerForm = Y.View.extend({
   clubs:null,
   useSearch:0,	     
   mode:'',
+  shareTimeout: null,    
 
   myinitialize:function(obj) {
   
@@ -141,7 +142,7 @@ Y.Views.PlayerForm = Y.View.extend({
     var name = $('#name').val()
       , password = $('#password').val().replace(/ /g, "")
       , email = $('#email').val().replace(/ /g, "")
-      , rank = $('#rank').val().val().replace(/ /g, "")
+      , rank = $('#rank').val().replace(/ /g, "")
       , playerid = this.playerid
       , token = this.token
       , club = $('#club').val()
@@ -215,6 +216,11 @@ Y.Views.PlayerForm = Y.View.extend({
 		if (that.mode === 'first') {
 		  Y.Router.navigate("games/add", {trigger: true});	   
 		}
+		
+	   that.shareTimeout = window.setTimeout(function () {
+      		Y.Router.navigate("account", {trigger: true});
+      		that.shareTimeout = null;
+    	}, 2000);		
       
     });
    
@@ -269,5 +275,10 @@ Y.Views.PlayerForm = Y.View.extend({
     
     this.player.off("sync", this.renderPlayer, this);	
     if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );
+    
+     if (this.shareTimeout) {
+      window.clearTimeout(this.shareTimeout);
+      this.shareTimeout = null;
+    }    
   }
 });

@@ -13,6 +13,7 @@ Y.Views.PlayerSignin = Y.View.extend({
 
   pageName: "playerSignin",
   pageHash : "players/signin", 
+  shareTimeout: null,  
 
   initialize : function() {
   
@@ -34,6 +35,7 @@ Y.Views.PlayerSignin = Y.View.extend({
   
     var mail = $('#email').val().replace(/ /g, "");
     var password = $('#password').val().replace(/ /g, "");
+    var that = this;
 
 	Backbone.ajax({
       dataType: 'json',
@@ -51,6 +53,11 @@ Y.Views.PlayerSignin = Y.View.extend({
 		
 		var player = new PlayerModel(result);	
 		Y.User.setPlayer(player);
+		
+	   that.shareTimeout = window.setTimeout(function () {
+      		Y.Router.navigate("players/form", {trigger: true});
+      		that.shareTimeout = null;
+    	}, 2000);
 
 		//console.log('ANDROID result '+JSON.stringify(result));		
 		//console.log('ANDROID player'+player.toJSON());
@@ -80,5 +87,10 @@ Y.Views.PlayerSignin = Y.View.extend({
 
   onClose : function() {
     this.undelegateEvents();
+    
+     if (this.shareTimeout) {
+      window.clearTimeout(this.shareTimeout);
+      this.shareTimeout = null;
+    }
   }
 });

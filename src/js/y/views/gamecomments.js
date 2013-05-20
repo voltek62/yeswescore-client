@@ -200,6 +200,11 @@ Y.Views.GameComments = Y.View.extend({
         type : 'GET',
         success : function(result) { 
           console.log('report '+id, result); 
+          
+          elmt.html(i18n.t('gamecomment.alerted'));
+          elmt.removeAttr('href');
+          elmt.removeAttr('data-js-call');
+          
         }
       });
   },

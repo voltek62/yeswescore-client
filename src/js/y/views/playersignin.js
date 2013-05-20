@@ -33,7 +33,7 @@ Y.Views.PlayerSignin = Y.View.extend({
   signin : function(event) {
   
     var mail = $('#email').val();
-    var password = $('#password').val();
+    var password = $('#password').val().replace(/ /g, "");
 
 	Backbone.ajax({
       dataType: 'json',

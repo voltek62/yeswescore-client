@@ -216,11 +216,12 @@ Y.Views.PlayerForm = Y.View.extend({
 		if (that.mode === 'first') {
 		  Y.Router.navigate("games/add", {trigger: true});	   
 		}
-		
-	   that.shareTimeout = window.setTimeout(function () {
-      		Y.Router.navigate("account", {trigger: true});
-      		that.shareTimeout = null;
-    	}, 2000);		
+		else {
+		   that.shareTimeout = window.setTimeout(function () {
+	      		Y.Router.navigate("account", {trigger: true});
+	      		that.shareTimeout = null;
+	    	}, 2000);	
+    	}	
       
     });
    

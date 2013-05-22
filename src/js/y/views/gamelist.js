@@ -14,21 +14,23 @@ Y.Views.GameList = Y.View.extend({
         
     'click a[data-filter="filter-date"]': 'filterByDate',
     'click a[data-filter="filter-location"]': 'filterByLocation',    
-    'click a[data-filter="filter-club"]': 'filterByClub'
+    'click a[data-filter="filter-status"]': 'filterByStatus'
   },
 
   listview: "#listGamesView",
 
   pageHash : "games/list",
-  filterList: "",
-  searchBy: "",  
-  sort: "",
-  
+
+  sortOption: "",
+  searchOption: "",  
+  clubid: "",
+      
   myinitialize: function (param) {
   	
   	//FIXME: refacto
-  	param.mode = Y.User.getFilters();
-  	param.search = Y.User.getSearchBy();
+  	this.sortOption = Y.User.getFilters();
+  	this.searchOption = Y.User.getSearchBy();
+  	this.clubid = Y.User.getClub();
   	
 	//header 
     if (param!=='undefined') { 
@@ -78,13 +80,12 @@ Y.Views.GameList = Y.View.extend({
 
     if (param!=='undefined') {
     
-    	// Mode : my games, games followed /
-	    if (param.mode !== '')
-	      this.games.setMode(param.mode,param.id);
+	    if (param.search !== '')
+	      this.games.setSearch(param.search,param.id);
 	      
 	    if (param.sort !== '') {
 	      this.games.setSort(param.sort);
-		  this.sort = param.sort;  	  
+		  this.sortOption = param.sort;  	  
 	    }
 	      
      }    
@@ -137,75 +138,89 @@ Y.Views.GameList = Y.View.extend({
     this.$(".filters").hide();
   },
 
-
-  filterByLocation: function () { 
-    this.filter("location");
-    Y.Router.navigate("sort/location", true);
-  },
   
   searchWithGeo: function () {   	
-  	//this.filter("date");
+  	this.setSearch("geolocation");
   	Y.User.setSearchBy('geo');
   	//Y.Router.navigate("sort/date", true);
   },
   
   searchWithFollowed: function () {   	
-  	//this.filter("date");
+  	this.setSearch("followed");
   	Y.User.setSearchBy('followed');
   	//Y.Router.navigate("sort/date", true);
   },
   
   searchWithClub: function () {   	
-  	//this.filter("date");
+  	this.setSearch("club");
   	Y.User.setSearchBy('club');
   	//Y.Router.navigate("sort/date", true);
-  },    
+  }, 
+  
+  filterByLocation: function () { 
+    this.setSort("location");
+  	Y.User.setFilters('location');    
+    Y.Router.navigate("sort/location", true);
+  },     
   
   filterByDate: function () {   	
-  	this.filter("date");
+  	this.setSort("date");
   	Y.User.setFilters('date');
   	Y.Router.navigate("sort/date", true);
   },
-  
-  filterByClub: function () {  	  
-    this.filterBy("club");
-  	Y.User.setFilters('club');
-    Y.Router.navigate("sort/club", true);
-  },  
-  filterByOngoing: function () { 
-    this.filterBy("ongoing");
-  	Y.User.setFilters('ongoing');
-    Y.Router.navigate("sort/ongoing", true); 
+   
+  filterByStatus: function () { 
+    this.setSort("status");
+  	Y.User.setFilters('status');
+    Y.Router.navigate("sort/status", true); 
   },
+  
   filterByFinished: function () { 
-    this.filterBy("finished");    
+    this.setSort("finished");    
   	Y.User.setFilters('finished');
     Y.Router.navigate("sort/finished", true); 
   },
 
-  filter: function (o) {
+  setSort: function (o) {
     // FIXME
+    
+	if (this.sortOption==='date') 
+      $('.filters #filter-date').addClass('select');
+ 	else if (this.sortOption==='location') 
+  	  $('.filters #filter-location').addClass('select'); 
+ 	else if (this.sortOption==='club') 
+      $('.filters #filter-status').addClass('select');  
+          
     //console.log('FIXME: filter by ' + o);
-    this.filterList = o;
+    this.sortOption = o;
     this.hideFilters();
   },
 
-  filterBy: function (o) {
+  setSearch: function (o) {
     // FIXME
+    
+	if (this.searchOption==='geo') 
+      $('.filters #match-geo').addClass('select');
+ 	else if (this.searchOption==='followed') 
+  	  $('.filters #match-followed').addClass('select'); 
+ 	else if (this.searchOption==='club') 
+      $('.filters #match-club').addClass('select'); 
+      
+          
     //console.log('FIXME: filter by ' + o);
-    this.searchBy = o;
+    this.searchOption = o;
     this.hideFilters();
   },
 
   searchButton: function () {
     this.inputModeOff();
-    this.search();
+    this.searchOption();
   },
 
   searchOnKey: function (event) {
     if(event.keyCode == 13){
       // the user has pressed on ENTER
-      this.search();
+      this.searchOption();
     }
     return this;
   },
@@ -227,13 +242,24 @@ Y.Views.GameList = Y.View.extend({
   render: function () {
     this.$el.html(this.templates.gamesearch({}));   
     $('a').i18n();    
+
+	if (this.searchOption==='geo') 
+      $('.filters #match-geo').addClass('select');
+ 	else if (this.searchOption==='followed') 
+  	  $('.filters #match-followed').addClass('select'); 
+ 	else if (this.searchOption==='club') 
+      $('.filters #match-club').addClass('select'); 
 	      
-	if (this.sort==='date') 
+	if (this.sortOption==='date') 
       $('.filters #filter-date').addClass('select');
- 	else if (this.sort==='location') 
+ 	else if (this.sortOption==='location') 
   	  $('.filters #filter-location').addClass('select'); 
- 	else if (this.sort==='club') 
-      $('.filters #filter-club').addClass('select');      
+ 	else if (this.sortOption==='club') 
+      $('.filters #filter-status').addClass('select');      
+      
+    if (this.clubid === undefined ) {
+    	$('.filters #match-club').prop("disabled", true);
+    }
     
     return this;
   },

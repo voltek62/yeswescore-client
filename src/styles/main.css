@@ -1224,6 +1224,14 @@ ul>li.player>a {
 	padding-left: 40px;
 }
 
+.filters a[data-filter='filter-status'] {
+	background: url(images/ico-match-club.png) no-repeat left center;
+	/*#ifdef NOCORDOVA*/
+	background: url(/images/ico-match-club.png) no-repeat left center;
+	/*#endif*/
+	padding-left: 40px;
+}
+
 .filters a.select {
 	color:#44b1da;
 	font-weight: bold;

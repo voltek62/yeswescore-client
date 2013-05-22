@@ -2,8 +2,8 @@ var GamesCollection = Backbone.Collection.extend({
   	 
 	model:GameModel, 
 	
-	mode:'default',
-	sortMode:'',
+	searchOption:'default',
+	sortOption:'',
 	pos: null,
 	
 	initialize: function (param) {	
@@ -12,50 +12,50 @@ var GamesCollection = Backbone.Collection.extend({
 	
 		  
   url:function() {
-    // console.log('mode de games',this.mode); 	
-    //console.log('sort de games',this.sortMode); 	
+    // console.log('mode de games',this.searchOption); 	
+    //console.log('sort de games',this.sortOption); 	
         
     var url='';
     
-    if (this.mode === 'club') 
+    if (this.searchOption === 'club' && this.query!== '') 
       url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
-    else if (this.mode === 'player') 
+    else if (this.searchOption === 'player') 
       url = Y.Conf.get("api.url.games") + "?q=" + this.query;
-    else if (this.mode === 'me') {      
+    else if (this.searchOption === 'me') {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)
       url = Y.Conf.get("api.url.players") + this.query + "/games/?owned=true";
     }
-    else if (this.mode === 'geolocation' && this.pos !==null) { 
+    else if (this.searchOption === 'geolocation' && this.pos !==null) { 
       url =  Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
     }
     else 
       url =  Y.Conf.get("api.url.games");	
     
-    if (this.sortMode==='date')
-      url = url  + "?sort=-dates.start";   
-       		
-    if (this.sortMode==='location')
+    if (this.sortOption==='date')
+      url = url  + "?sort=-dates.start";         		
+    else if (this.sortOption==='location')
       url = url  + "?sort=location.city";    	    
-
-	//FIXME : trie par club
-    if (this.sortMode==='club')
-      url = url  + "";    	
+    else if (this.sortOption==='status')
+      url = url  + "?sort=status";
+	//FIXME : don't work
+    else if (this.sortOption==='club')
+      url = url  + "?sort=teams.players.club.name";    	
          	          
-    //console.log('sortMode',this.sortMode);
+    //console.log('sortMode',this.sortOption);
     //console.log('URL',url);
-    //console.log('sortMode',this.sortMode);
+    //console.log('sortMode',this.sortOption);
         
     return url;
   },
 
   setSort:function(s) {  	
   	//console.log('On passe sortMode sur '+s);
-    this.sortMode=s;
+    this.sortOption=s;
   },
   
-  setMode:function(m, q) {
-    this.mode=m;
+  setSearch:function(m, q) {
+    this.searchOption=m;
     if (typeof q !== "undefined")
       this.setQuery(q); // compatibility ...
   },
@@ -85,7 +85,7 @@ var GamesCollection = Backbone.Collection.extend({
     
   /* ON AFFICHE QUE EN FCT DES IDS */
   //filterWithIds: function(ids) {
-  //	return _(this.models.filter(function(c) { return _.include(ids, Game.id); }));
+  //	return _(this.searchOptionls.filter(function(c) { return _.include(ids, Game.id); }));
 //},
     
   /*

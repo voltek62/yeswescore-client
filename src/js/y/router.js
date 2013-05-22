@@ -18,7 +18,7 @@
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
       'games/:id/comments/': 'gameComment',
-      'games/club/:id': 'gameClub',
+      //'games/club/:id': 'gameClub',
       'games/list': 'gameList',   
       'games/:id': 'game', 
       'games/': 'gameList',        

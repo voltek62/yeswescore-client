@@ -7,10 +7,10 @@ Y.Views.GameList = Y.View.extend({
     "mousedown .button-search": "searchButton",
     "click li": "goToGame",
 
-    'click .button-filter': 'showFilters',
-    'click .filters a[data-filter="date"]': 'filterByDate',
-    'click .filters a[data-filter="location"]': 'filterByLocation',    
-    'click .filters a[data-filter="club"]': 'filterByClub'
+    'click .button-option-down': 'showFilters',
+    'click a[data-filter="date"]': 'filterByDate',
+    'click a[data-filter="location"]': 'filterByLocation',    
+    'click a[data-filter="club"]': 'filterByClub'
   },
 
   listview: "#listGamesView",

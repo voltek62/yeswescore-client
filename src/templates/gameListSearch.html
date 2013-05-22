@@ -8,16 +8,25 @@
         <span class="button-search" style=""><!-- magnifier glass @see http://tenbytwenty.com/?xxxx_posts=sosa --></span>
       </div>
       <div class="ui-block-b">
-        <div class="button-filter">
-          <div class="oval"></div>
-          <div class="oval"></div>
-          <div class="oval"></div>
-        </div>
+        <div class="button-option-down"></div>
       </div>
       <div class="filters">
-          <a data-filter="date" data-i18n="search.filterdate" id="filter-date"></a>
-          <a data-filter="location" data-i18n="search.filterlocation" id="filter-location"></a>
-          <a data-filter="club" data-i18n="search.filterclub" id="filter-club"></a>
+            
+        <div class="ui-grid-a">
+          <div class="ui-block-a">
+            <div class="title-menu">FILTRE :</div>         
+            <a data-filter="match-geo" data-i18n="search.filtermatchgeo" id="filter-match-geo"></a>
+            <a data-filter="match-followed" data-i18n="search.filtermatchfollowed" id="filter-match-followed"></a>
+            <a data-filter="match-club" data-i18n="search.filtermatchclub" id="filter-match-club"></a>
+          </div>
+          <div class="ui-block-b">
+	        <div class="title-menu">TRIER :</div>         
+	        <a data-filter="filter-date" data-i18n="search.filterdate" id="filter-date"></a>
+	        <a data-filter="filter-location" data-i18n="search.filterlocation" id="filter-location"></a>
+	        <a data-filter="filter-club" data-i18n="search.filterclub" id="filter-club"></a>          
+          </div>
+        </div>
+    
        </div>
     </div>
     <ul id="listGamesView" class="ui-listview results"></ul>

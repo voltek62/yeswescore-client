@@ -235,10 +235,13 @@
   "search": {
     "gameplaceholder": "Rechercher par nom, par club",
     "playerplaceholder": "Rechercher par nom",  
-    "clubplaceholder": "Rechercher par nom",       
-    "filterdate" : "Afficher par date",
-    "filterlocation" : "Afficher par ville",
-    "filterclub" : "Afficher par club"    
+    "clubplaceholder": "Rechercher par nom",  
+    "filtermatchgeo" : "Matchs à proximité",
+    "filtermatchclub" : "Matchs du club",
+    "filtermatchfollowed" : "Matchs suivis",                    
+    "filterdate" : "par date",
+    "filterlocation" : "par ville",
+    "filterclub" : "par club"    
   },
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

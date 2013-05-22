@@ -1112,13 +1112,22 @@ ul>li.player>a {
 	line-height: 14px;
 }
 
+.ui-grid-a .menu-options>.ui-block-a {
+	width: 60%;
+}
+
+.ui-grid-a .menu-options>.ui-block-b {
+	width: 40%;
+	padding-left: 3px;
+}
+
 .indexViewTemplate .filters .title-menu {
-	text-align:center;	
 	font-family: 'Open Sans', sans-serif;
 	font-weight: bold;
 	font-size: 14px;
 	text-decoration:underline;	
-	padding-bottom:15px;
+	padding-bottom:8px;
+	padding-left: 40px;	
 }
 
 .indexViewTemplate .filters {
@@ -1127,8 +1136,7 @@ ul>li.player>a {
 	left : 0px;
 	top:44px;
 	width: 100%;
-	height: 150px;
-	padding-top:10px;
+	height: 170px;
 	background-color: #ededed;
 	-webkit-bottom-right-radius: 10px;
 	-webkit-bottom-left-radius: 10px;	
@@ -1138,75 +1146,82 @@ ul>li.player>a {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border:1px solid #44b1da;
+	padding-top:10px;	
+	padding-left:3px;
+	padding-right:3px;
 }
 
 .indexViewTemplate .filters a {
 	display: block;
-	text-align: center;
-	height: 33px;
-	line-height: 20px;
+
+	height: 34px;
+	line-height: 34px;
 	width: 100%;
-	/*border-bottom: 1px solid white;*/
+
 	font-family: 'Open Sans', sans-serif;
 	font-weight: normal;
-	font-size: 14px;
+	font-size: 12px;
 	color: #0000;
 	cursor: pointer;
+	/*padding: 2px 0px 2px 60px;*/
+	padding-bottom:5px;
 }
 
 .filters a[data-filter^='match'] {
-display:inline-block;
-line-height:18px;
-padding-left:10px;
+	
 }
 
-.filters a[data-filter^='match-geo'] {
-background: url(images/ico-match-geo.png) center left no-repeat;
-/*#ifdef NOCORDOVA*/
-background: url(/images/ico-match-geo.png) center left no-repeat;
-/*#endif*/
+
+.filters a[data-filter='match-geo'] {
+	background: url(images/ico-match-geo.png) scroll no-repeat left center;
+	/*#ifdef NOCORDOVA*/
+	background: url(/images/ico-match-geo.png) scroll no-repeat left center;
+	/*#endif*/
+	padding-left: 40px;
 }
 
-.filters a[data-filter^='match-followed'] {
-/*background:transparent url(images/mail_to.gif) center left no-repeat;*/
-background: url(images/ico-match-followed.png) center left no-repeat;
-/*#ifdef NOCORDOVA*/
-background: url(/images/ico-match-followed.png) center left no-repeat;
-/*#endif*/
+.filters a[data-filter='match-followed'] {
+	background: url(images/ico-match-followed.png) scroll no-repeat left center;
+	/*#ifdef NOCORDOVA*/
+	background: url(/images/ico-match-followed.png) scroll no-repeat left center;
+	/*#endif*/
+	padding-left: 40px;
 }
 
 .filters a[data-filter='match-club'] {
-background: url(images/ico-match-club.png) center left no-repeat;
-/*#ifdef NOCORDOVA*/
-background: url(/images/ico-match-club.png) center left no-repeat;
-/*#endif*/
+	background: url(images/ico-match-club.png) scroll no-repeat left center;
+	/*#ifdef NOCORDOVA*/
+	background: url(/images/ico-match-club.png) scroll no-repeat left center;
+	/*#endif*/
+	padding-left: 40px;
 }
 
 .filters a[data-filter^='filter'] {
-display:inline-block;
-line-height:18px;
-padding-right:10px;
+
 }
 
 .filters a[data-filter='filter-date'] {
-background: url(images/ico-filter-date.png) center right no-repeat;
-/*#ifdef NOCORDOVA*/
-background: url(/images/ico-filter-date.png) center right no-repeat;
-/*#endif*/
+	background: url(images/ico-filter-date.png) scroll no-repeat left center;
+	/*#ifdef NOCORDOVA*/
+	background: url(/images/ico-filter-date.png) scroll no-repeat left center;
+	/*#endif*/
+	padding-left: 40px;
 }
 
 .filters a[data-filter='filter-location'] {
-background: url(images/ico-match-city.png) center right no-repeat;
-/*#ifdef NOCORDOVA*/
-background: url(/images/ico-match-city.png) center right no-repeat;
-/*#endif*/
+	background: url(images/ico-match-city.png) scroll no-repeat left center;
+	/*#ifdef NOCORDOVA*/
+	background: url(/images/ico-match-city.png) scroll no-repeat left center;
+	/*#endif*/
+	padding-left: 40px;
 }
 
 .filters a[data-filter='filter-club'] {
-background: url(images/ico-match-club.png) center right no-repeat;
-/*#ifdef NOCORDOVA*/
-background: url(/images/ico-match-club.png) center right no-repeat;
-/*#endif*/
+	background: url(images/ico-match-club.png) no-repeat left center;
+	/*#ifdef NOCORDOVA*/
+	background: url(/images/ico-match-club.png) no-repeat left center;
+	/*#endif*/
+	padding-left: 40px;
 }
 
 .filters a.select {

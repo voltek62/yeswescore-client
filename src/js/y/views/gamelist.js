@@ -6,17 +6,22 @@ Y.Views.GameList = Y.View.extend({
     "keyup input#search-basic": "searchOnKey",
     "mousedown .button-search": "searchButton",
     "click li": "goToGame",
-
     'click .button-option-down': 'showFilters',
-    'click a[data-filter="date"]': 'filterByDate',
-    'click a[data-filter="location"]': 'filterByLocation',    
-    'click a[data-filter="club"]': 'filterByClub'
+    
+    'click a[data-filter="match-geo"]': 'searchWithGeo',
+    'click a[data-filter="match-followed"]': 'searchWithFollowed',    
+    'click a[data-filter="match-club"]': 'searchWithClub',
+        
+    'click a[data-filter="filter-date"]': 'filterByDate',
+    'click a[data-filter="filter-location"]': 'filterByLocation',    
+    'click a[data-filter="filter-club"]': 'filterByClub'
   },
 
   listview: "#listGamesView",
 
   pageHash : "games/list",
   filterList: "",
+  searchBy: "",  
   sort: "",
   
   myinitialize: function (param) {
@@ -137,23 +142,43 @@ Y.Views.GameList = Y.View.extend({
     this.filter("location");
     Y.Router.navigate("sort/location", true);
   },
+  
+  searchWithGeo: function () {   	
+  	//this.filter("date");
+  	Y.User.setSearchBy('geo');
+  	//Y.Router.navigate("sort/date", true);
+  },
+  
+  searchWithFollowed: function () {   	
+  	//this.filter("date");
+  	Y.User.setSearchBy('followed');
+  	//Y.Router.navigate("sort/date", true);
+  },
+  
+  searchWithClub: function () {   	
+  	//this.filter("date");
+  	Y.User.setSearchBy('club');
+  	//Y.Router.navigate("sort/date", true);
+  },    
+  
   filterByDate: function () {   	
   	this.filter("date");
   	Y.User.setFilters('date');
   	Y.Router.navigate("sort/date", true);
   },
+  
   filterByClub: function () {  	  
-    this.filter("club");
+    this.filterBy("club");
   	Y.User.setFilters('club');
     Y.Router.navigate("sort/club", true);
   },  
   filterByOngoing: function () { 
-    this.filter("ongoing");
+    this.filterBy("ongoing");
   	Y.User.setFilters('ongoing');
     Y.Router.navigate("sort/ongoing", true); 
   },
   filterByFinished: function () { 
-    this.filter("finished");    
+    this.filterBy("finished");    
   	Y.User.setFilters('finished');
     Y.Router.navigate("sort/finished", true); 
   },
@@ -162,6 +187,13 @@ Y.Views.GameList = Y.View.extend({
     // FIXME
     //console.log('FIXME: filter by ' + o);
     this.filterList = o;
+    this.hideFilters();
+  },
+
+  filterBy: function (o) {
+    // FIXME
+    //console.log('FIXME: filter by ' + o);
+    this.searchBy = o;
     this.hideFilters();
   },
 

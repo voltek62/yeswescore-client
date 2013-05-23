@@ -48,9 +48,9 @@ var GamesCollection = Backbone.Collection.extend({
     else if (this.sortOption==='club')
       url = url  + "?sort=teams.players.club.name";    	
          	          
-    //console.log('sortMode',this.sortOption);
-    //console.log('URL',url);
-    //console.log('sortMode',this.sortOption);
+    console.log('sortMode',this.sortOption);
+    console.log('URL',url);
+    console.log('sortSearch',this.searchOption);
         
     return url;
   },

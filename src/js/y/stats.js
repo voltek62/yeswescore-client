@@ -149,6 +149,9 @@
 
   // starting stats.
   Cordova.ready(function () {
+    /*#ifdef DEV*/
+    return;
+    /*#endif*/
     Stats.startup();
     Stats.cordova();
   });

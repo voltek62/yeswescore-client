@@ -173,11 +173,11 @@ Y.Views.GameList = Y.View.extend({
   
      $(".filters a[class*='#filter-']").hide();
      
-	if (this.sortOption==='date') 
+	if (o==='date') 
       $('.filters #filter-date').addClass('select');
- 	else if (this.sortOption==='location') 
+ 	else if (o==='location') 
   	  $('.filters #filter-location').addClass('select'); 
- 	else if (this.sortOption==='live') 
+ 	else if (o==='live') 
       $('.filters #filter-status').addClass('select');  
           
     //console.log('FIXME: filter by ' + o);
@@ -190,11 +190,13 @@ Y.Views.GameList = Y.View.extend({
   setSearch: function (o) {
     // FIXME
     
-	if (this.searchOption==='geolocation') 
+    $(".filters a[class*='#match-']").hide();
+    
+	if (o==='geolocation') 
       $('.filters #match-geo').addClass('select');
- 	else if (this.searchOption==='followed') 
+ 	else if (o==='followed') 
   	  $('.filters #match-followed').addClass('select'); 
- 	else if (this.searchOption==='club') 
+ 	else if (o==='club') 
       $('.filters #match-club').addClass('select'); 
       
     this.searchOption = o;  

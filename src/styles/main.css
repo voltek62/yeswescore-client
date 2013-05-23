@@ -1130,6 +1130,12 @@ ul>li.player>a {
 	padding-left: 40px;	
 }
 
+.indexViewTemplate .filters a.disabled {
+	color: #b0b0b0;
+	pointer-events: none;
+	cursor: default;
+}
+
 .indexViewTemplate .filters {
 	display: none; /* default=invisible */
 	position: absolute;

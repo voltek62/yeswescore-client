@@ -32,6 +32,10 @@ Y.Views.GameList = Y.View.extend({
   	this.searchOption = Y.User.getFiltersSearch();
   	this.clubid = Y.User.getClub();
   	
+  	console.log('init sortOption',this.sortOption);
+  	console.log('init searchOption',this.searchOption);
+   	console.log('init clubid',this.clubid); 	  	
+  	
 	//header 
     if (param!=='undefined') { 
       if (param.mode==="me") {
@@ -82,13 +86,11 @@ Y.Views.GameList = Y.View.extend({
     if (param!=='undefined') {
     
 	    if (param.search !== '') {
-	      this.games.setSearch(param.search,param.id);
-		  this.searchOption = param.search;  	      
+	      this.games.setSearch(param.search,param.id);		      
 	    }
 	    
 	    if (param.sort !== '') {
-	      this.games.setSort(param.sort);
-		  this.sortOption = param.sort;  	  
+	      this.games.setSort(param.sort);  	  
 	    }
 	      
      }    
@@ -171,7 +173,7 @@ Y.Views.GameList = Y.View.extend({
 
   setSort: function (o) {
   
-     $(".filters a[class*='#filter-']").hide();
+     $(".filters a[data-filter*='filter-']").removeClass('select');
      
 	if (o==='date') 
       $('.filters #filter-date').addClass('select');
@@ -190,14 +192,14 @@ Y.Views.GameList = Y.View.extend({
   setSearch: function (o) {
     // FIXME
     
-    $(".filters a[class*='#match-']").hide();
+    $(".filters a[data-filter*='match-']").removeClass('select');
     
 	if (o==='geolocation') 
-      $('.filters #match-geo').addClass('select');
+      $('.filters #filter-match-geo').addClass('select');
  	else if (o==='followed') 
-  	  $('.filters #match-followed').addClass('select'); 
+  	  $('.filters #filter-match-followed').addClass('select'); 
  	else if (o==='club') 
-      $('.filters #match-club').addClass('select'); 
+      $('.filters #filter-match-club').addClass('select'); 
       
     this.searchOption = o;  
     Y.User.setFiltersSearch(o);         
@@ -226,21 +228,41 @@ Y.Views.GameList = Y.View.extend({
     if (this.sortOption !=="") 
       this.games.setSort(this.sortOption);  
     
-    /*
-    if (this.searchOption !=="")     
-      this.games.setSearch(this.searchOption,this.clubid);    
-    else 
-    	this.games.setSearch('player');
-    */
     
-    //FIXME: on passe option de recherche
-    //this.games.setQuery(q);
+    if (this.searchOption !=="") {     
+      
+      if(this.searchOption==="club")
+        this.games.setSearch(this.searchOption,this.clubid);  
+
+      if(this.searchOption==="geolocation") {
+        this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
+        this.games.setSearch(this.searchOption,'');  
+      }
+      
+      if(this.searchOption==="followed") {
+		//FIXME:comment recup les matchs suivis
+        
+      }
+      
+      if (q !== '')
+      	this.games.setQuery(q);
+    
+    }  
+    else {
+      if (q !== '')
+    	this.games.setSearch('player',q);   
+    }
+    
     
     this.games.fetch().done($.proxy(function () {    
     
-      //FIXME si nul, on affiche pas de resultat
+      if (this.games.toJSON().length === 0)
+        $(this.listview).html(this.templates.error());
+      else
+        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
+    	
+      $(this.listview).i18n();
     
-      $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
     }, this));
     
     return this;
@@ -266,8 +288,17 @@ Y.Views.GameList = Y.View.extend({
       $('.filters #filter-status').addClass('select');      
       
     if (this.clubid === undefined ) {
-    	$('.filters #match-club').prop("disabled", true);
+    	console.log('on desactive recherche par club car pas de club');
+    	//$('.filters #filter-match-club').prop("disabled", true);
+    	$('.filters #filter-match-club').addClass('disabled');
     }
+    
+    if (Y.Geolocation.longitude === 0) {
+    	console.log('on desactive recherche proximité car pas de gps');    
+    	//$('.filters #filter-match-geo').prop("disabled", true);	
+    	$('.filters #filter-match-geo').addClass('disabled');
+    }
+    
     
     return this;
   },

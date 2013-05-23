@@ -33,7 +33,7 @@
           "clubAdd", "clubListAutoComplete", "club", "clubList","clubListSearch", 
           "gameAdd", "gameComments","gameEnd", "gameListSearch", "gameList",
           "gameCommentsScore", "gameCommentsComment","gameScoreBoard", "game", "gameForm",
-          "index", "empty", "error",
+          "index", "empty", "error","ongoing",
           "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList",
           "playerListSearch", "playerSignin",
         ];

@@ -18,9 +18,15 @@ var GamesCollection = Backbone.Collection.extend({
     var url='';
     
     if (this.searchOption === 'club' && this.query!== '') 
-      url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
+      //url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";   
+      url = Y.Conf.get("api.url.games") + "?club=" + this.query;     
+         
     else if (this.searchOption === 'player') 
       url = Y.Conf.get("api.url.games") + "?q=" + this.query;
+      
+    else if (this.searchOption === 'live') 
+      url = Y.Conf.get("api.url.games") + "?status=ongoing"; 
+           
     else if (this.searchOption === 'me') {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)

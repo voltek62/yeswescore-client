@@ -9,8 +9,8 @@
   var playerIdConfKey = 'player.id';
   var playerTokenConfKey = 'player.token';
   var playerClubIdConfKey = 'player.club.id';
-  var playerFiltersConfKey = 'player.filters';
-  var playerSearchByConfKey = 'player.searchby';  
+  var playerFiltersSortConfKey = 'player.filters.sort';
+  var playerFiltersSearchConfKey = 'player.filters.search';  
   
   var User = {
     // @return PlayerModel/null   Player
@@ -73,20 +73,20 @@
       });
     },
     
-	setSearchBy: function (searchby) {	
-      Y.Conf.set(playerSearchByConfKey, searchby, { permanent: true });		
+	setFiltersSearch: function (filter) {	
+      Y.Conf.set(playerFiltersSearchConfKey, filter, { permanent: true });		
 	},
 	
-	getSearchBy: function () {	
-      return Y.Conf.get(playerSearchByConfKey);		
+	getFiltersSearch: function () {	
+      return Y.Conf.get(playerFiltersSearchConfKey);		
 	},	    
     
-	setFilters: function (filter) {	
-      Y.Conf.set(playerFiltersConfKey, filter, { permanent: true });		
+	setFiltersSort: function (filter) {	
+      Y.Conf.set(playerFiltersSortConfKey, filter, { permanent: true });		
 	},
 	
-	getFilters: function () {	
-      return Y.Conf.get(playerFiltersConfKey);		
+	getFiltersSort: function () {	
+      return Y.Conf.get(playerFiltersSortConfKey);		
 	},	
 	
 	setClub: function (clubid) {	

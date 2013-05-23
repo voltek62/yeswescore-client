@@ -243,8 +243,9 @@
     "filterdate" : "par date",
     "filterlocation" : "par ville",
     "filterclub" : "par club",
-    "filterstatus" : "par status",     
-    "filtername" : "par nom"      
+    "filterstatus" : "en cours",     
+    "filtername" : "par nom",
+    "ongoing" : "Recherche en cours"      
   },
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

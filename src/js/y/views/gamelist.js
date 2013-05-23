@@ -28,8 +28,8 @@ Y.Views.GameList = Y.View.extend({
   myinitialize: function (param) {
   	
   	//FIXME: refacto
-  	this.sortOption = Y.User.getFilters();
-  	this.searchOption = Y.User.getSearchBy();
+  	this.sortOption = Y.User.getFiltersSort();
+  	this.searchOption = Y.User.getFiltersSearch();
   	this.clubid = Y.User.getClub();
   	
 	//header 
@@ -59,7 +59,8 @@ Y.Views.GameList = Y.View.extend({
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
       gamesearch: Y.Templates.get('gameListSearch'),
-      error: Y.Templates.get('error')      
+      error: Y.Templates.get('error'),
+      ongoing: Y.Templates.get('ongoing')      
     };
     
 
@@ -80,9 +81,11 @@ Y.Views.GameList = Y.View.extend({
 
     if (param!=='undefined') {
     
-	    if (param.search !== '')
+	    if (param.search !== '') {
 	      this.games.setSearch(param.search,param.id);
-	      
+		  this.searchOption = param.search;  	      
+	    }
+	    
 	    if (param.sort !== '') {
 	      this.games.setSort(param.sort);
 		  this.sortOption = param.sort;  	  
@@ -141,97 +144,100 @@ Y.Views.GameList = Y.View.extend({
   
   searchWithGeo: function () {   	
   	this.setSearch("geolocation");
-  	Y.User.setSearchBy('geo');
-  	//Y.Router.navigate("sort/date", true);
   },
   
   searchWithFollowed: function () {   	
   	this.setSearch("followed");
-  	Y.User.setSearchBy('followed');
-  	//Y.Router.navigate("sort/date", true);
   },
   
   searchWithClub: function () {   	
-  	this.setSearch("club");
-  	Y.User.setSearchBy('club');
-  	//Y.Router.navigate("sort/date", true);
+  	if (this.clubid !== "") {
+	  	this.setSearch("club");
+	}
   }, 
   
   filterByLocation: function () { 
     this.setSort("location");
-  	Y.User.setFilters('location');    
-    Y.Router.navigate("sort/location", true);
   },     
   
   filterByDate: function () {   	
-  	this.setSort("date");
-  	Y.User.setFilters('date');
-  	Y.Router.navigate("sort/date", true);
+  	this.setSort("date");	
   },
    
   filterByStatus: function () { 
-    this.setSort("status");
-  	Y.User.setFilters('status');
-    Y.Router.navigate("sort/status", true); 
+    this.setSort("live");
   },
   
-  filterByFinished: function () { 
-    this.setSort("finished");    
-  	Y.User.setFilters('finished');
-    Y.Router.navigate("sort/finished", true); 
-  },
 
   setSort: function (o) {
-    // FIXME
-    
+  
+     $(".filters a[class*='#filter-']").hide();
+     
 	if (this.sortOption==='date') 
       $('.filters #filter-date').addClass('select');
  	else if (this.sortOption==='location') 
   	  $('.filters #filter-location').addClass('select'); 
- 	else if (this.sortOption==='club') 
+ 	else if (this.sortOption==='live') 
       $('.filters #filter-status').addClass('select');  
           
     //console.log('FIXME: filter by ' + o);
-    this.sortOption = o;
+    this.sortOption = o;   
+    Y.User.setFiltersSort(o);
+    this.search();     
     this.hideFilters();
   },
 
   setSearch: function (o) {
     // FIXME
     
-	if (this.searchOption==='geo') 
+	if (this.searchOption==='geolocation') 
       $('.filters #match-geo').addClass('select');
  	else if (this.searchOption==='followed') 
   	  $('.filters #match-followed').addClass('select'); 
  	else if (this.searchOption==='club') 
       $('.filters #match-club').addClass('select'); 
       
-          
-    //console.log('FIXME: filter by ' + o);
-    this.searchOption = o;
-    this.hideFilters();
+    this.searchOption = o;  
+    Y.User.setFiltersSearch(o);         
+    this.search();    
+    this.hideFilters();      
   },
 
   searchButton: function () {
     this.inputModeOff();
-    this.searchOption();
+    this.search();
   },
 
   searchOnKey: function (event) {
     if(event.keyCode == 13){
       // the user has pressed on ENTER
-      this.searchOption();
+      this.search();
     }
     return this;
   },
 
   search: function () {
     var q = $("#search-basic").val();
-    $(this.listview).html(this.templates.error());
+    $(this.listview).html(this.templates.ongoing());
     $('p').i18n(); 
-    this.games.setMode('player');
-    this.games.setQuery(q);
+    
+    if (this.sortOption !=="") 
+      this.games.setSort(this.sortOption);  
+    
+    /*
+    if (this.searchOption !=="")     
+      this.games.setSearch(this.searchOption,this.clubid);    
+    else 
+    	this.games.setSearch('player');
+    */
+    
+    //FIXME: on passe option de recherche
+    //this.games.setQuery(q);
+    
     this.games.fetch().done($.proxy(function () {    
+    
+      //FIXME si nul, on affiche pas de resultat
+    
       $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
     }, this));
     
@@ -244,17 +250,17 @@ Y.Views.GameList = Y.View.extend({
     $('a').i18n();    
 
 	if (this.searchOption==='geo') 
-      $('.filters #match-geo').addClass('select');
+      $('.filters #filter-match-geo').addClass('select');
  	else if (this.searchOption==='followed') 
-  	  $('.filters #match-followed').addClass('select'); 
+  	  $('.filters #filter-match-followed').addClass('select'); 
  	else if (this.searchOption==='club') 
-      $('.filters #match-club').addClass('select'); 
+      $('.filters #filter-match-club').addClass('select'); 
 	      
 	if (this.sortOption==='date') 
       $('.filters #filter-date').addClass('select');
  	else if (this.sortOption==='location') 
   	  $('.filters #filter-location').addClass('select'); 
- 	else if (this.sortOption==='club') 
+ 	else if (this.sortOption==='status') 
       $('.filters #filter-status').addClass('select');      
       
     if (this.clubid === undefined ) {

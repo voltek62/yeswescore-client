@@ -118,6 +118,7 @@
         Backbone.ajax({
           url: Y.Conf.get("api.url.stats") + "?q=" + encodeURIComponent(msg),
           type: 'GET',
+          dataType: 'html',
           success: function () {
             // everything went ok, next stat in 1 sec.
             setTimeout(function () {
@@ -125,7 +126,7 @@
               Y.Stats.trySend();
             }, 1000);
           },
-          error: function () {
+          error: function (xhrStatus, textStatus, errorThrown) {
             // retry after 5 sec.
             setTimeout(function () {
               // msg again in the stack

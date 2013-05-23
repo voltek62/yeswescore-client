@@ -237,6 +237,7 @@
     "gameplaceholder": "Rechercher par nom, par club",
     "playerplaceholder": "Rechercher par nom",  
     "clubplaceholder": "Rechercher par nom",  
+    "filtermatchnot" : "Aucun",    
     "filtermatchgeo" : "Matchs à proximité",
     "filtermatchclub" : "Matchs de mon club",
     "filtermatchfollowed" : "Matchs suivis",                    

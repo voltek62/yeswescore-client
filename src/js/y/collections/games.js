@@ -2,7 +2,7 @@ var GamesCollection = Backbone.Collection.extend({
   	 
 	model:GameModel, 
 	
-	searchOption:'default',
+	searchOption:'',
 	searchOptionParam:'',	
 	sortOption:'',
 	query:'',
@@ -14,12 +14,14 @@ var GamesCollection = Backbone.Collection.extend({
 	
 		  
   url:function() {
-    // console.log('mode de games',this.searchOption); 	
-    //console.log('sort de games',this.sortOption); 	
+    
+    console.log('mode de games',this.searchOption); 	
+    console.log('sort de games',this.sortOption); 	
+   
         
     var url='';
     
-    if (this.searchOption === 'club' && this.query!== '') 
+    if (this.searchOption === 'club' && this.searchOptionParam!== '') 
       //url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";   
       url = Y.Conf.get("api.url.games") + "?club=" + this.searchOptionParam;     
          
@@ -45,7 +47,7 @@ var GamesCollection = Backbone.Collection.extend({
     else
     	url += "&";  	
     	
-	if (this.query!=="") {
+	if (this.query!=="" && this.searchOption !== 'player') {
 		url +="q="+this.query+"&";
 	};
     
@@ -60,10 +62,8 @@ var GamesCollection = Backbone.Collection.extend({
 	//FIXME : don't work
     else if (this.sortOption==='club')
       url = url  + "sort=teams.players.club.name";    	
-         	          
-    console.log('sortMode',this.sortOption);
-    console.log('URL',url);
-    console.log('sortSearch',this.searchOption);
+
+    console.log('URL',url);        
         
     return url;
   },

@@ -1186,7 +1186,7 @@ ul>li.player>a {
 	padding-left: 40px;
 }
 
-.filters a[data-filter='match-followed'] {
+.filters a[data-filter='match-not'] {
 	background: url(images/ico-match-followed.png) scroll no-repeat left center;
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-match-followed.png) scroll no-repeat left center;

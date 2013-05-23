@@ -7,9 +7,10 @@ Y.Views.GameList = Y.View.extend({
     "mousedown .button-search": "searchButton",
     "click li": "goToGame",
     'click .button-option-down': 'showFilters',
+    'click .button-option-up': 'hideFilters',
     
     'click a[data-filter="match-geo"]': 'searchWithGeo',
-    'click a[data-filter="match-followed"]': 'searchWithFollowed',    
+    'click a[data-filter="match-not"]': 'searchWithout',    
     'click a[data-filter="match-club"]': 'searchWithClub',
         
     'click a[data-filter="filter-date"]': 'filterByDate',
@@ -137,10 +138,15 @@ Y.Views.GameList = Y.View.extend({
   },
 
   showFilters: function () {
+    
+    this.$('.button-option-down').addClass('button-option-up').removeClass('button-option-down');
     this.$(".filters").show();
   },
   hideFilters: function () {
+
+    this.$('.button-option-up').addClass('button-option-down').removeClass('button-option-up');   
     this.$(".filters").hide();
+      
   },
 
   
@@ -148,8 +154,8 @@ Y.Views.GameList = Y.View.extend({
   	this.setSearch("geolocation");
   },
   
-  searchWithFollowed: function () {   	
-  	this.setSearch("followed");
+  searchWithout: function () {   	
+  	this.setSearch("not");
   },
   
   searchWithClub: function () {   	
@@ -196,8 +202,8 @@ Y.Views.GameList = Y.View.extend({
     
 	if (o==='geolocation') 
       $('.filters #filter-match-geo').addClass('select');
- 	else if (o==='followed') 
-  	  $('.filters #filter-match-followed').addClass('select'); 
+ 	else if (o==='not') 
+  	  $('.filters #filter-match-not').addClass('select'); 
  	else if (o==='club') 
       $('.filters #filter-match-club').addClass('select'); 
       
@@ -239,12 +245,11 @@ Y.Views.GameList = Y.View.extend({
         this.games.setSearch(this.searchOption,'');  
       }
       
-      if(this.searchOption==="followed") {
-		//FIXME:comment recup les matchs suivis
-        
+      if(this.searchOption==="not") {
+	      if (q !== '')
+	    	this.games.setSearch('player',q);         
       }
-      
-      if (q !== '')
+      else if (q !== '')
       	this.games.setQuery(q);
     
     }  
@@ -275,17 +280,21 @@ Y.Views.GameList = Y.View.extend({
 
 	if (this.searchOption==='geo') 
       $('.filters #filter-match-geo').addClass('select');
- 	else if (this.searchOption==='followed') 
-  	  $('.filters #filter-match-followed').addClass('select'); 
+ 	else if (this.searchOption==='not') 
+  	  $('.filters #filter-match-not').addClass('select'); 
  	else if (this.searchOption==='club') 
       $('.filters #filter-match-club').addClass('select'); 
+    else
+  	  $('.filters #filter-match-not').addClass('select');       
 	      
 	if (this.sortOption==='date') 
       $('.filters #filter-date').addClass('select');
  	else if (this.sortOption==='location') 
   	  $('.filters #filter-location').addClass('select'); 
  	else if (this.sortOption==='status') 
-      $('.filters #filter-status').addClass('select');      
+      $('.filters #filter-status').addClass('select'); 
+    else
+      $('.filters #filter-date').addClass('select');           
       
     if (this.clubid === undefined ) {
     	console.log('on desactive recherche par club car pas de club');

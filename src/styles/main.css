@@ -1160,7 +1160,7 @@ div.additionnal-options { overflow-x: visible; }
 .indexViewTemplate .filters {
 	display: none; /* default=invisible */
 	position: absolute;
-	left : 0px;
+	left : 4px;
 	top:44px;
 	width: 99%;
 	height: 130px;
@@ -1189,8 +1189,8 @@ div.additionnal-options { overflow-x: visible; }
 .indexViewTemplate .filters a {
 	display: block;
 
-	height: 25px;
-	line-height: 25px;
+	height: 26px;
+	line-height: 26px;
 	width: 100%;
 
 	font-family: 'Open Sans', sans-serif;

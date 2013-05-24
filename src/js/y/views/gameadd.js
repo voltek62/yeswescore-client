@@ -23,6 +23,7 @@ Y.Views.GameAdd = Y.View.extend({
     Y.GUI.header.title(i18n.t('gameadd.title'));
   	this.templates = {
 	    gameadd:  Y.Templates.get('gameAdd'),
+	    gameselect:  Y.Templates.get('gameSelect'),	    
 	    playerlist: Y.Templates.get('playerListAutoComplete')
 	  };
 	this.owner = Y.User.getPlayer();    
@@ -205,16 +206,23 @@ Y.Views.GameAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.templates.gameadd({ 
-	    selection : i18n.t('gameadd.selection')
-	    , surface : i18n.t('gameadd.surface')
-     }));
+    this.$el.html(this.templates.gameadd());
     
     //this.$el.i18n();
-	  $('#content').i18n();
+
 	 
 	 if ( this.owner.get('name') !== "" ) $("#team1").val(this.owner.get('name')); 
 	 if ( this.owner.get('id') !== "" ) $("#team1_id").val(this.owner.get('id')); 	
+	 
+	 /*
+	 debug android 2.2 to 2.3.6
+	 */
+	 $('#inject-select').prepend(this.templates.gameselect({ 
+	    selection : i18n.t('gameadd.selection')
+	    , surface : i18n.t('gameadd.surface')
+     })); 
+     
+     $('#content').i18n();
 		
     return this;
   },

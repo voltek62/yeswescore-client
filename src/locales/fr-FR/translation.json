@@ -244,7 +244,7 @@
     "filterdate" : "par date",
     "filterlocation" : "par ville",
     "filterclub" : "par club",
-    "filterstatus" : "en cours",     
+    "filterstatus" : "match en cours",     
     "filtername" : "par nom",
     "ongoing" : "Recherche en cours"      
   },

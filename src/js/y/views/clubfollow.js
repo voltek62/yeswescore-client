@@ -20,7 +20,8 @@ Y.Views.ClubFollow = Y.View.extend({
     this.templates = {
       clublist:  Y.Templates.get('clubList'),
       clubsearch: Y.Templates.get('clubListSearch'),
-      error: Y.Templates.get('error') 
+      error: Y.Templates.get('error'),
+      ongoing: Y.Templates.get('ongoing') 
     };
     
 
@@ -95,7 +96,16 @@ Y.Views.ClubFollow = Y.View.extend({
     this.clubs = new ClubsCollection();  	  
     this.clubs.setMode('search',q);
     this.clubs.fetch().done($.proxy(function () {        
-      $(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
+      
+      //$(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
+      if (this.clubs.toJSON().length === 0) {
+        $(this.listview).html(this.templates.error());
+      }
+      else
+        $(this.listview).html(this.templates.clublist({ clubs: this.clubs.toJSON(), query: q }));
+    	
+      $(this.listview).i18n();
+            
     }, this));
     
     return this;

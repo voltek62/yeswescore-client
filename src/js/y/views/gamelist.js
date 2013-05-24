@@ -261,8 +261,10 @@ Y.Views.GameList = Y.View.extend({
     
     this.games.fetch().done($.proxy(function () {    
     
-      if (this.games.toJSON().length === 0)
+      if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
+        this.hideFilters();  
+      }
       else
         $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
     	

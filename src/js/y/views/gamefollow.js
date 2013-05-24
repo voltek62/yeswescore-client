@@ -5,7 +5,8 @@ Y.Views.GameFollow = Y.View.extend({
     
   events: {
     "click li": "goToGame",
-    "blur input#search-basic": "search"
+    "blur input#search-basic": "search",
+    "click button-option-down": "search"
   },
 
   pageName: "gameFollow",
@@ -19,7 +20,8 @@ Y.Views.GameFollow = Y.View.extend({
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
       gamesearch: Y.Templates.get('gameListSearch'),
-      error: Y.Templates.get('error')
+      error: Y.Templates.get('error'),
+      ongoing: Y.Templates.get('ongoing')      
     };
       
 	//render immediately
@@ -90,12 +92,20 @@ Y.Views.GameFollow = Y.View.extend({
     
   search:function() {
     var q = $("#search-basic").val();
-    $(this.listview).html(this.templates.error()); 
+    $(this.listview).html(this.templates.ongoing()); 
     $('p').i18n();     
     this.games = new GamesCollection();      
-    this.games.setMode('player',q);
+    this.games.setSearch('player',q);
     this.games.fetch().done($.proxy(function () {  
-      $(this.listview).html(this.templates.gamelist({games:this.games.toJSON(), query:q}));
+
+      if (this.games.toJSON().length === 0) {
+        $(this.listview).html(this.templates.error());
+      }
+      else
+        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
+    	
+      $(this.listview).i18n();
+      
     }, this));
 
 	return this;

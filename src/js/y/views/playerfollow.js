@@ -20,7 +20,8 @@ Y.Views.PlayerFollow = Y.View.extend({
     this.templates = {
       playerlist:  Y.Templates.get('playerList'),
       playersearch: Y.Templates.get('playerListSearch'),
-      error: Y.Templates.get('error') 
+      error: Y.Templates.get('error'),
+      ongoing: Y.Templates.get('ongoing')
     };
     
 
@@ -97,8 +98,18 @@ Y.Views.PlayerFollow = Y.View.extend({
     $(this.listview).html(this.templates.error()); 
     this.players = new PlayersCollection();   	  
     this.players.setMode('search',q);
-    this.games.fetch().done($.proxy(function () { 
-      $(this.listview).html(this.templates.playerlist({players:this.playersfollow.toJSON(), query:q}));
+    this.players.fetch().done($.proxy(function () { 
+      
+      //$(this.listview).html(this.templates.playerlist({players:this.playersfollow.toJSON(), query:q}));
+      if (this.players.toJSON().length === 0) {
+        $(this.listview).html(this.templates.error());
+      }
+      else
+        $(this.listview).html(this.templates.playerlist({ players: this.players.toJSON(), query: q }));
+    	
+      $(this.listview).i18n();
+            
+      
     }, this));
     
     return this;

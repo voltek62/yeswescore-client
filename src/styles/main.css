@@ -700,6 +700,18 @@ ul>li.player>a {
 	font-size: 12px;
 	color: white;
 }
+
+.form-radio-android * {
+  vertical-align: middle;
+}
+.form-radio-android input {
+  clear:left;
+}
+.form-radio-android label { 
+  width:18px;
+  display:inline-block;
+}
+
 /* */
 .form-button {
 	position: absolute;
@@ -756,26 +768,15 @@ ul>li.player>a {
 }
 
 .gameAdd .simple .ui-grid-b .ui-block-c,.gameAdd .ui-grid-b.me .ui-block-c
-	{
+{
 	width: 20%;
 }
 
 .gameAdd .simple .additionnal-options {
-	/*display: none;*/
+  display: none;
 }
 
-.gameAdd .simple .additionnal-options select{
-	position: relative; 
-	z-index: 10000;
-	height:100%;
-	visibility:visible;
-}
 
-/* Correct Bug Android with select 2.3 */
-/*
-div.additionnal-options { overflow-x: visible; }
-#content { overflow-x: visible; }
-*/
 
 /**********************************************************
 	TABLE

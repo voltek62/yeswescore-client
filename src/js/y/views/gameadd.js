@@ -24,6 +24,7 @@ Y.Views.GameAdd = Y.View.extend({
   	this.templates = {
 	    gameadd:  Y.Templates.get('gameAdd'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
+	    gameinput:  Y.Templates.get('gameInput'),	      
 	    playerlist: Y.Templates.get('playerListAutoComplete')
 	  };
 	this.owner = Y.User.getPlayer();    
@@ -217,10 +218,20 @@ Y.Views.GameAdd = Y.View.extend({
 	 /*
 	 debug android 2.2 to 2.3.6
 	 */
-	 $('#inject-select').prepend(this.templates.gameselect({ 
-	    selection : i18n.t('gameadd.selection')
-	    , surface : i18n.t('gameadd.surface')
-     })); 
+	 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	 var isGingerbread = /android 2\.3/i.test(userAgent);
+	 
+	 if (!isGingerbread) {
+		 $('#inject-select').prepend(this.templates.gameselect({ 
+		    selection : i18n.t('gameadd.selection')
+		    , surface : i18n.t('gameadd.surface')
+	     })); 
+	 }
+	 else {
+		 $('#inject-select').prepend(this.templates.gameinput()); 	   
+	 
+	 }
+     
      
      $('#content').i18n();
 		

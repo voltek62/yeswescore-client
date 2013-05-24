@@ -29,8 +29,15 @@ Y.Views.GameForm = Y.View.extend({
     //no search
     this.useSearch=0;
   
-    this.gameFormTemplate = Y.Templates.get('gameForm');
-    this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
+    //this.gameFormTemplate = Y.Templates.get('gameForm');
+    //this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
+    
+  	this.templates = {
+	    gameform:  Y.Templates.get('gameForm'),
+	    gameselect:  Y.Templates.get('gameSelect'),	    
+	    gameinput:  Y.Templates.get('gameInput'),	      
+	    playerlist: Y.Templates.get('playerListAutoComplete')
+	  };    
     
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
@@ -148,23 +155,39 @@ Y.Views.GameForm = Y.View.extend({
   
    this.team1_id = game.teams[0].players[0].id; 
    this.team2_id = game.teams[1].players[0].id;
-     
-    this.$el.html(this.gameFormTemplate({
+   
+
+    this.$el.html(this.templates.gameform({
           game : game
           , selection : i18n.t('gameadd.selection')
 	      , surface : i18n.t('gameadd.surface')
     }));
-
+    
+   	 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	 var isGingerbread = /android 2\.3/i.test(userAgent);
+	 if (!isGingerbread) {
+		 $('#inject-select').prepend(this.templates.gameselect({ 
+		    selection : i18n.t('gameadd.selection')
+		    , surface : i18n.t('gameadd.surface')
+	     })); 
+	 }
+	 else {
+		 $('#inject-select').prepend(this.templates.gameinput()); 	   
+	 
+	 }
+	 
 
     if ( game.teams[0].players[0].name !== undefined ) $("#team1").val(game.teams[0].players[0].name);    
     if ( game.teams[0].players[0].rank !== undefined ) $("#rank1").val(game.teams[0].players[0].rank);    
     if ( game.teams[1].players[0].name !== undefined ) $("#team2").val(game.teams[1].players[0].name);    
     if ( game.teams[1].players[0].rank !== undefined ) $("#rank2").val(game.teams[1].players[0].rank);                
     
-    if ( game.location.city !== undefined ) $("#city").val(game.location.city);    
-    if ( game.options.surface !== undefined ) $("#surface").val(game.options.surface);
-    if ( game.options.tour !== undefined ) $("#tour").val(game.options.tour);
-    if ( game.options.court !== undefined ) $("#court").val(game.options.court);
+    if (!isGingerbread) {
+	    if ( game.location.city !== undefined ) $("#city").val(game.location.city);    
+	    if ( game.options.surface !== undefined ) $("#surface").val(game.options.surface);
+	    if ( game.options.tour !== undefined ) $("#tour").val(game.options.tour);
+	    if ( game.options.court !== undefined ) $("#court").val(game.options.court);
+    }
     if ( game.options.competition !== undefined ) $("#competition").val(game.options.competition);        
         
     this.$el.i18n();

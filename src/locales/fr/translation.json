@@ -76,7 +76,7 @@
     "city" : "Ville",    
     "court" : "Court", 
     "tour" : "Tour",
-    "surface" : "Terrain",
+    "surface" : "Surface",
     "official" : "Officiel",
 	"selection":"Selection",
 	"poule":"Poule",

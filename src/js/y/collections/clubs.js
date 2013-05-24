@@ -13,7 +13,7 @@ var ClubsCollection = Backbone.Collection.extend({
   url : function() {
 
     if (this.mode === 'search')
-      return Y.Conf.get("api.url.clubs") + 'autocomplete/?q=' + this.query;
+      return Y.Conf.get("api.url.clubs") + 'autocomplete/?q=' + this.query+'&limit=15';
     else
       return Y.Conf.get("api.url.clubs");
 

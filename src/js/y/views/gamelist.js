@@ -192,7 +192,7 @@ Y.Views.GameList = Y.View.extend({
     this.sortOption = o;   
     Y.User.setFiltersSort(o);
     this.search();     
-    this.hideFilters();
+    //this.hideFilters();
   },
 
   setSearch: function (o) {
@@ -210,7 +210,7 @@ Y.Views.GameList = Y.View.extend({
     this.searchOption = o;  
     Y.User.setFiltersSearch(o);         
     this.search();    
-    this.hideFilters();      
+    //this.hideFilters();      
   },
 
   searchButton: function () {

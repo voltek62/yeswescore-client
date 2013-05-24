@@ -243,7 +243,7 @@
     "filterdate" : "par date",
     "filterlocation" : "par ville",
     "filterclub" : "par club",
-    "filterstatus" : "match en cours",  
+    "filterstatus" : "jeux en cours",  
     "filtername" : "par nom",
     "ongoing" : "Recherche en cours"       
   },

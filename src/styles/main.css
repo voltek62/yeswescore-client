@@ -761,10 +761,18 @@ ul>li.player>a {
 }
 
 .gameAdd .simple .additionnal-options {
-	display: none;
+	/*display: none;*/
 }
 
+.gameAdd .simple .additionnal-options select{
+	position: relative; z-index: 999;
+}
 
+/* Correct Bug Android with select 2.3 */
+/*
+div.additionnal-options { overflow-x: visible; }
+#content { overflow-x: visible; }
+*/
 
 /**********************************************************
 	TABLE
@@ -1132,13 +1140,15 @@ ul>li.player>a {
 	padding-left: 3px;
 }
 
+
+
 .indexViewTemplate .filters .title-menu {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: bold;
 	font-size: 14px;
-	text-decoration:underline;	
+	/*text-decoration:underline;*/
 	padding-bottom:8px;
-	padding-left: 40px;	
+	padding-left: 30px;	
 }
 
 .indexViewTemplate .filters a.disabled {
@@ -1152,8 +1162,8 @@ ul>li.player>a {
 	position: absolute;
 	left : 0px;
 	top:44px;
-	width: 100%;
-	height: 170px;
+	width: 99%;
+	height: 130px;
 	background-color: #ededed;
 	-webkit-bottom-right-radius: 10px;
 	-webkit-bottom-left-radius: 10px;	
@@ -1163,16 +1173,24 @@ ul>li.player>a {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border:1px solid #44b1da;
-	padding-top:10px;	
+	padding-top:2px;	
 	padding-left:3px;
 	padding-right:3px;
+}
+
+.indexViewTemplate .filters .separator {
+	position: absolute;
+	top: 34px;
+	left: 5%;
+	height: 94px;
+	border-right: 2px solid #44b1da;
 }
 
 .indexViewTemplate .filters a {
 	display: block;
 
-	height: 34px;
-	line-height: 34px;
+	height: 25px;
+	line-height: 25px;
 	width: 100%;
 
 	font-family: 'Open Sans', sans-serif;
@@ -1194,7 +1212,7 @@ ul>li.player>a {
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-match-geo.png) scroll no-repeat left center;
 	/*#endif*/
-	padding-left: 40px;
+	padding-left: 30px;
 }
 
 .filters a[data-filter='match-not'] {
@@ -1202,7 +1220,7 @@ ul>li.player>a {
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-match-followed.png) scroll no-repeat left center;
 	/*#endif*/
-	padding-left: 40px;
+	padding-left: 30px;
 }
 
 .filters a[data-filter='match-club'] {
@@ -1210,7 +1228,7 @@ ul>li.player>a {
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-match-club.png) scroll no-repeat left center;
 	/*#endif*/
-	padding-left: 40px;
+	padding-left: 30px;
 }
 
 .filters a[data-filter^='filter'] {
@@ -1222,7 +1240,7 @@ ul>li.player>a {
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-filter-date.png) scroll no-repeat left center;
 	/*#endif*/
-	padding-left: 40px;
+	padding-left: 30px;
 }
 
 .filters a[data-filter='filter-location'] {
@@ -1230,7 +1248,7 @@ ul>li.player>a {
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-match-city.png) scroll no-repeat left center;
 	/*#endif*/
-	padding-left: 40px;
+	padding-left: 30px;
 }
 
 .filters a[data-filter='filter-club'] {
@@ -1238,7 +1256,7 @@ ul>li.player>a {
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-match-club.png) no-repeat left center;
 	/*#endif*/
-	padding-left: 40px;
+	padding-left: 30px;
 }
 
 .filters a[data-filter='filter-status'] {
@@ -1246,12 +1264,56 @@ ul>li.player>a {
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-filter-status.png) no-repeat left center;
 	/*#endif*/
-	padding-left: 40px;
+	padding-left: 30px;
 }
 
 .filters a.select {
 	color:#44b1da;
 	font-weight: bold;
+}
+
+/* playerlist.html */
+#listPlayersView .game-player {
+	font-family: Open Sans;
+	font-size: 14px;
+	line-height: 14px;
+	/* trunk text */
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#listPlayersView .infos {
+	font-family: Open Sans;
+	font-size: 10px;
+	line-height: 10px;
+	/* trunk text */
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	margin-top: 5px;
+}
+
+/* clubList.html */
+#listClubsView .game-player {
+	font-family: Open Sans;
+	font-size: 14px;
+	line-height: 14px;
+	/* trunk text */
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#listClubsView .infos {
+	font-family: Open Sans;
+	font-size: 10px;
+	line-height: 10px;
+	/* trunk text */
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	margin-top: 5px;
 }
 
 /* playerList.html */

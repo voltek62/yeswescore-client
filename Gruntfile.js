@@ -98,10 +98,10 @@ module.exports = function (grunt) {
       },
       locales: {
         files: [
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/android/assets/www/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/ios/www/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/wp8/build/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/web/build/locales/fr-FR/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/locales/*'], dest: 'platforms/android/assets/www/locales/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/*'], dest: 'platforms/ios/www/locales/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/*'], dest: 'platforms/wp8/build/locales/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/*'], dest: 'platforms/web/build/locales/', filter: 'isFile' }
         ]
       },	  
       fonts: {

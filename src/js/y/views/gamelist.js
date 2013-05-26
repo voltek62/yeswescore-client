@@ -39,11 +39,11 @@ Y.Views.GameList = Y.View.extend({
   	
 	//header 
     if (param!=='undefined') { 
-      if (param.mode==="me") {
+      if (param.search==="me") {
         Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
         this.pageName = "gameListByMe";
       }
-      else if (param.mode==="club") {
+      else if (param.search==="club") {
         Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
         this.pageName = "gameListByClub";        
       }  

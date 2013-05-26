@@ -17,9 +17,9 @@
       'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
-      'games/:id/comments/': 'gameComment',
-      //'games/club/:id': 'gameClub',
-      'games/list': 'gameList',   
+      'games/club/:id': 'gameClub',
+      'games/list': 'gameList',  
+      'games/:id/comments/': 'gameComment', 
       'games/:id': 'game', 
       'games/': 'gameList',        
       'players/list': 'playerList',
@@ -78,15 +78,15 @@
 
     gameList: function (sort) {
       if (typeof sort === "undefined") sort='';
-      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: '', id: '', sort: sort }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: '', id: '', sort: sort }));
     },
     
     gameMe: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'me', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'me', id: id, sort: '' }));
     },
 
     gameClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { mode: 'club', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'club', id: id, sort: '' }));
     },    
 
     gameAdd: function () {

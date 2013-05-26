@@ -114,6 +114,11 @@
       // saving playerid in file (permanent)
       Y.Conf.set(playerIdConfKey, player.get('id'), { permanent: true });
       Y.Conf.set(playerTokenConfKey, player.get('token'), { permanent: true });
+      
+      //On init son club
+      if (player.get('club') !== undefined)
+      	Y.User.setClub(player.get('club').id);
+      
     },
 
     createPlayerAsync: function (callback) {

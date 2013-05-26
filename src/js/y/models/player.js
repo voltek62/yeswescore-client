@@ -95,6 +95,9 @@ var PlayerModel = Backbone.Model.extend({
         //On met en cache le numero de club
         Y.User.setClub(this.get('clubid'));
       }
+      else {
+      	Y.User.removeClub();
+      }
 
       console.log('Send Player', dataSend);
       

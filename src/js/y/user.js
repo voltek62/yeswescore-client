@@ -92,6 +92,10 @@
 	setClub: function (clubid) {	
       Y.Conf.set(playerClubIdConfKey, clubid, { permanent: true });		
 	},
+
+	removeClub: function () {	
+      Y.Conf.del(playerClubIdConfKey);		
+	},
 	
 	getClub: function () {	
       return Y.Conf.get(playerClubIdConfKey);		

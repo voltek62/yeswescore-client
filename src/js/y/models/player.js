@@ -88,7 +88,9 @@ var PlayerModel = Backbone.Model.extend({
         dataSend.uncryptedPassword = this.get('password');
       }
       // si club non nul
-      if (typeof this.get('clubid') === "string" && this.get('clubid') !== '') {
+      
+      
+      if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {
         dataSend.club = {
           id: (this.get('clubid') || undefined)
         };
@@ -96,7 +98,14 @@ var PlayerModel = Backbone.Model.extend({
         Y.User.setClub(this.get('clubid'));
       }
       else {
+      	console.log('removeClub');
       	Y.User.removeClub();
+      	
+      	 dataSend.club = {
+          id: undefined,
+          name : ''
+        };
+      	
       }
 
       console.log('Send Player', dataSend);

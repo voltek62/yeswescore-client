@@ -94,7 +94,8 @@
 	},
 
 	removeClub: function () {	
-      Y.Conf.del(playerClubIdConfKey);		
+	  // Y.Conf.del('player.club.id');
+      Y.Conf.del('Y.Conf.'+playerClubIdConfKey);		
 	},
 	
 	getClub: function () {	

@@ -20,6 +20,8 @@ Y.Views.GameForm = Y.View.extend({
     
   clubs:null,
   useSearch:null,
+  
+    shareTimeout: null,    
 
   initialize:function() {
 
@@ -136,7 +138,10 @@ Y.Views.GameForm = Y.View.extend({
 	    $('span.success').html(i18n.t('message.updateok')).show();
 	    that.game = model;
 	    
-	    console.log("new model",model.toJSON());
+		that.shareTimeout = window.setTimeout(function () {
+	      		Y.Router.navigate("games/"+that.gameid, {trigger: true});
+	      		that.shareTimeout = null;
+	    	}, 2000);
 	                 
       }
     });
@@ -200,5 +205,10 @@ Y.Views.GameForm = Y.View.extend({
 
     this.game.off("sync",this.render,this);
     if (this.useSearch===1) this.clubs.off("sync",this.renderList,this);
+    
+    if (this.shareTimeout) {
+      window.clearTimeout(this.shareTimeout);
+      this.shareTimeout = null;
+    }    
   }
 });

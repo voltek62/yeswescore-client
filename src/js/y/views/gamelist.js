@@ -145,6 +145,9 @@ Y.Views.GameList = Y.View.extend({
   hideFilters: function () {
 
     this.$('.button-option-up').addClass('button-option-down').removeClass('button-option-up');   
+    
+    $('.message').removeAttr('style');
+    
     this.$(".filters").hide();
       
   },
@@ -262,7 +265,9 @@ Y.Views.GameList = Y.View.extend({
     
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
-        this.hideFilters();  
+        //this.hideFilters();  
+        //style="padding-top:150px;"
+        $('.message').attr('style','padding-top:150px');
       }
       else
         $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));

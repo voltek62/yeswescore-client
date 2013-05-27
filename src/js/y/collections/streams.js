@@ -13,7 +13,7 @@ var StreamsCollection = Backbone.Collection.extend({
       var lastid = this.at(0).id;
       return Y.Conf.get("api.url.games")+this.gameid+"/stream/?lastid="+lastid;
     }
-    return Y.Conf.get("api.url.games")+this.gameid+"/stream/"; 
+    return Y.Conf.get("api.url.games")+this.gameid+"/stream/?limit=50"; 
   },
 	
   comparator: function (item) {

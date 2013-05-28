@@ -110,8 +110,9 @@ Y.Views.Game = Y.View.extend({
     // rerender on game update
     this.game.on('sync', this.render, this);
     // grabbing comments & display nb
-	  this.streams.once("sync", this.renderCountComment, this);
-
+	//this.streams.once("sync", this.renderCountComment, this);
+    //this.streams.fetch();
+    
     // Fetching data.
     // Pooling du model game & affichage.
     // FIXME: SI ONLINE
@@ -119,7 +120,7 @@ Y.Views.Game = Y.View.extend({
     var pollingOptions = { delay: Y.Conf.get("game.refresh") };
     this.poller = Backbone.Poller.get(this.game, pollingOptions)
     this.poller.start();
-    this.streams.fetch();
+
   },
 
   shareError: function (err) {
@@ -563,6 +564,8 @@ Y.Views.Game = Y.View.extend({
   
   renderCountComment : function() {
 	  var nbComments = this.streams.length;
+	  
+	  console.log('on met à jour les comments');
       
     if (nbComments > 10)
       this.$(".link-comments").html(i18n.t('game.10lastcomments'));
@@ -761,7 +764,9 @@ Y.Views.Game = Y.View.extend({
     }));
 		
 
-    this.renderCountComment();
+    //this.renderCountComment();
+    this.streams.once("sync", this.renderCountComment, this);
+    this.streams.fetch();
 
     //i18n
     //PERF:on remplace que les champs du DOM concernés

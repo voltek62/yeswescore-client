@@ -281,7 +281,7 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
-    this.$el.html(this.templates.gamesearch({}));   
+    this.$el.html(this.templates.gamesearch({ button:true }));   
     $('a').i18n();    
 
 	if (this.searchOption==='geo') 

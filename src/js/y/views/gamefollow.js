@@ -113,7 +113,7 @@ Y.Views.GameFollow = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.templates.gamesearch(), {});
+    this.$el.html(this.templates.gamesearch({ button:false }));
 	$('a').i18n(); 
 	return this;
   },

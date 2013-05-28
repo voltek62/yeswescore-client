@@ -125,9 +125,14 @@ Y.Views.GameList = Y.View.extend({
     ).done(function () {
       that.render();
       that.renderList();
+      
+      
+      
     });
       
   },
+  
+
 
 
   goToGame: function (elmt) {
@@ -282,7 +287,8 @@ Y.Views.GameList = Y.View.extend({
   // should not take any parameters
   render: function () {
     this.$el.html(this.templates.gamesearch({ button:true }));   
-    $('a').i18n();    
+    //$('a').i18n(); 
+    this.$el.i18n();   
 
 	if (this.searchOption==='geo') 
       $('.filters #filter-match-geo').addClass('select');

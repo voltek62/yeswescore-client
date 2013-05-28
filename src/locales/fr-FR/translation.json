@@ -52,7 +52,8 @@
     "public" : "Public",
     "private" : "Privé",
     "comments" : "COMMENTAIRES", 
-    "10lastcomments" : "DERNIERS COMMENTAIRES",
+    "50lastcomments" : "DERNIERS COMMENTAIRES",
+    "10lastcomments" : "DERNIERS COMMENTAIRES",    
     "1comment" : "1 COMMENTAIRE",    
     "0comment" : "0 COMMENTAIRE",
     "fbversus1" : "va bientot jouer contre",
@@ -71,6 +72,7 @@
   },
   "gameadd": {
     "title": "CREER UNE PARTIE",
+    "refresh": "Rafraichir",        
     "player1": "Joueur 1",
     "player1_holder": "Moi",    
     "player2": "Joueur 2",    

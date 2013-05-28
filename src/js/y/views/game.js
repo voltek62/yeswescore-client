@@ -567,8 +567,8 @@ Y.Views.Game = Y.View.extend({
 	  
 	  console.log('on met à jour les comments');
       
-    if (nbComments > 10)
-      this.$(".link-comments").html(i18n.t('game.10lastcomments'));
+    if (nbComments > Y.Conf.get("game.max.comments") )
+      this.$(".link-comments").html(i18n.t('game.50lastcomments'));
     else if (nbComments == 1)
       this.$(".link-comments").html(i18n.t('game.1comment'));
     else if (nbComments > 0)

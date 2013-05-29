@@ -524,6 +524,8 @@ Y.Views.Game = Y.View.extend({
     var game = {
       team1_id : this.game.get('teams')[0].players[0].id
 	  , team2_id : this.game.get('teams')[1].players[0].id
+      , team1 : this.game.get('teams')[0].players[0].name
+	  , team2 : this.game.get('teams')[1].players[0].name	  
 	  , id : this.gameid 			      
 	  , playerid : this.playerid
 	  , token : this.token			      			      			      
@@ -542,6 +544,7 @@ Y.Views.Game = Y.View.extend({
     this.game = new GameModel(game);
     this.game.save({}, {success: function(model, response){ 
       that.game = model;
+      
     }}); 
   },
 

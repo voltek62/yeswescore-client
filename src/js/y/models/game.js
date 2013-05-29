@@ -28,12 +28,12 @@ var GameModel = Backbone.Model.extend({
     teams : [ {
       points : "",
       players : [ {
-        name : "A"
+        name : ""
       } ]
     }, {
       points : "",
       players : [ {
-        name : "B"
+        name : ""
       } ]
     } ],
     options : {

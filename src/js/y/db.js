@@ -37,7 +37,9 @@
   _.forEach(Drivers, function (driver, driverName) {
     if (!defaultDriver && driver.isUsable()) {
       defaultDriver = driver;
+      /*#ifdef DEV*/
       console.log("USING driver : " + driverName);
+      /*#endif*/
     }
   });
 

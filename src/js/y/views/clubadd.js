@@ -31,7 +31,7 @@ Y.Views.ClubAdd = Y.View.extend({
     jq("#content").css("bottom", "48px");
     //$.ui.showNavMenu = true;
 
-    console.log('add Club');
+
     
     var name = $('#name').val()
     , city = $('#city').val();

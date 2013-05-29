@@ -1213,27 +1213,36 @@ ul>li.player>a {
 
 
 .filters a[data-filter='match-geo'] {
-	background: url(images/ico-match-geo.png) scroll no-repeat left center;
+	background-image: url(images/ico-match-geo.png);
 	/*#ifdef NOCORDOVA*/
-	background: url(/images/ico-match-geo.png) scroll no-repeat left center;
+	background-image: url(/images/ico-match-geo.png);
 	/*#endif*/
 	padding-left: 30px;
+	background-size:26px 26px;
+    background-repeat: no-repeat;	
+    background-position: left center;
 }
 
 .filters a[data-filter='match-not'] {
-	background: url(images/icon-match-nofilter.png) scroll no-repeat left center;
+	background: url(images/icon-match-nofilter.png);
 	/*#ifdef NOCORDOVA*/
-	background: url(/images/icon-match-nofilter.png) scroll no-repeat left center;
+	background: url(/images/icon-match-nofilter.png);
 	/*#endif*/
 	padding-left: 30px;
+	background-size:26px 26px;
+    background-repeat: no-repeat;	
+    background-position: left center;
 }
 
 .filters a[data-filter='match-club'] {
-	background: url(images/ico-match-club.png) scroll no-repeat left center;
+	background: url(images/ico-match-club.png);
 	/*#ifdef NOCORDOVA*/
-	background: url(/images/ico-match-club.png) scroll no-repeat left center;
+	background: url(/images/ico-match-club.png);
 	/*#endif*/
 	padding-left: 30px;
+	background-size:26px 26px;
+    background-repeat: no-repeat;	
+    background-position: left center;	
 }
 
 .filters a[data-filter^='filter'] {
@@ -1241,35 +1250,47 @@ ul>li.player>a {
 }
 
 .filters a[data-filter='filter-date'] {
-	background: url(images/ico-filter-date.png) scroll no-repeat left center;
+	background: url(images/ico-filter-date.png);
 	/*#ifdef NOCORDOVA*/
-	background: url(/images/ico-filter-date.png) scroll no-repeat left center;
+	background: url(/images/ico-filter-date.png);
 	/*#endif*/
 	padding-left: 30px;
+	background-size:26px 26px;
+    background-repeat: no-repeat;	
+    background-position: left center;
 }
 
 .filters a[data-filter='filter-location'] {
-	background: url(images/ico-match-city.png) scroll no-repeat left center;
+	background: url(images/ico-match-city.png);
 	/*#ifdef NOCORDOVA*/
-	background: url(/images/ico-match-city.png) scroll no-repeat left center;
+	background: url(/images/ico-match-city.png);
 	/*#endif*/
 	padding-left: 30px;
+	background-size:26px 26px;
+    background-repeat: no-repeat;	
+    background-position: left center;
 }
 
 .filters a[data-filter='filter-club'] {
-	background: url(images/ico-match-club.png) no-repeat left center;
+	background: url(images/ico-match-club.png);
 	/*#ifdef NOCORDOVA*/
-	background: url(/images/ico-match-club.png) no-repeat left center;
+	background: url(/images/ico-match-club.png) ;
 	/*#endif*/
 	padding-left: 30px;
+	background-size:26px 26px;
+    background-repeat: no-repeat;	
+    background-position: left center;	
 }
 
 .filters a[data-filter='filter-status'] {
-	background: url(images/ico-filter-status.png) no-repeat left center;
+	background: url(images/ico-filter-status.png);
 	/*#ifdef NOCORDOVA*/
-	background: url(/images/ico-filter-status.png) no-repeat left center;
+	background: url(/images/ico-filter-status.png);
 	/*#endif*/
 	padding-left: 30px;
+	background-size:26px 26px;
+    background-repeat: no-repeat;	
+    background-position: left center;	
 }
 
 .filters a.select {
@@ -1684,6 +1705,9 @@ ul>li.player>a {
 	/*#ifdef NOCORDOVA*/
 	background-image: url(/images/info-player.png);
 	/*#endif*/	
+	
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 
 

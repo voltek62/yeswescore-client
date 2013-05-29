@@ -39,7 +39,6 @@ var PlayerModel = Backbone.Model.extend({
 
   sync: function (method, model, options) {
 
-    console.log('Player sync:' + method + " playerid:" + this.get('playerid') + " id:" + this.id);
 
     if (method === 'create' && this.get('playerid') === undefined) {
       var that = this;
@@ -98,7 +97,7 @@ var PlayerModel = Backbone.Model.extend({
         Y.User.setClub(this.get('clubid'));
       }
       else {
-      	console.log('removeClub');
+   
       	Y.User.removeClub();
       	
       	 dataSend.club = {
@@ -108,7 +107,7 @@ var PlayerModel = Backbone.Model.extend({
       	
       }
 
-      console.log('Send Player', dataSend);
+
       
       return Backbone.ajax({
         dataType: 'json',
@@ -119,14 +118,13 @@ var PlayerModel = Backbone.Model.extend({
         data: dataSend,
         success : function(player) {
           //MAJ cache ???
-          console.log('Update Player Ok',player);
-          
+ 
         }
       });
     }
     else {
       model.url = Y.Conf.get("api.url.players") + this.id;
-      //console.log('model.url : ', model.url);
+
 
       return Backbone.sync(method, model, options);
 

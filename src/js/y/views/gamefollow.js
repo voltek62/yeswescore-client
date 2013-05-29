@@ -46,7 +46,6 @@ Y.Views.GameFollow = Y.View.extend({
   
   refresh: function () {
   
-  	console.log('refresh');
   	
 	var games = Y.Conf.get("owner.games.followed");
 	

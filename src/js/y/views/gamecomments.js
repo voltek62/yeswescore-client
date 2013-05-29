@@ -119,8 +119,6 @@ Y.Views.GameComments = Y.View.extend({
   
 	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
 	  
-	  console.log('renderScore on met à jour le tDb');
-	  
 	  return this;
   },
 
@@ -205,8 +203,7 @@ Y.Views.GameComments = Y.View.extend({
         url : Y.Conf.get("api.url.reports.games")+ this.gameid + '/stream/'+ id + '/',
         type : 'GET',
         success : function(result) { 
-          console.log('report '+id, result); 
-          
+
           elmt.html(i18n.t('gamecomment.alerted'));
           elmt.removeAttr('href');
           elmt.removeAttr('data-js-call');
@@ -250,7 +247,6 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   onClose: function(){
-    console.log('onClose !');
 
     this.undelegateEvents();
     

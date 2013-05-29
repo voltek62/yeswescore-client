@@ -109,6 +109,7 @@
 
         // Parametrage des variables non dependantes d'un environnement
         this.set("game.refresh", 10000);        // default 30000 (30sec) //test 10s
+        this.set("games.refresh", 20000);        // default 30000 (30sec) //test 30s        
         this.set("game.max.comments", 20); 
         this.set("pooling.geolocation", 10000); // default 10000 (10sec)
         this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
@@ -152,9 +153,9 @@
           var deprecated = false;
           infos.forEach(function (info) {      
             if (info.key.indexOf("app.deprecated") !== -1) {
-            	console.log('on detecte app deprecated');
+            	//console.log('on detecte app deprecated');
             	if (info.value === true) {
-            		console.log('Il faut mettre à jour l\'apps');
+            		//console.log('Il faut mettre à jour l\'apps');
                 deprecated = true;
             	}
             } else {
@@ -166,7 +167,7 @@
           return callback(); // everything was ok.
         },
         error: function (err) {
-          console.log('err Connection', err);
+          //console.log('err Connection', err);
           Y.Connection.setOffline(); // usefull ?
           return callback("network error");
         },

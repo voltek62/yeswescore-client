@@ -59,11 +59,10 @@
     },
 
     inputModeOn: function (e) {
-      console.log('View.js: input mode on ',document.activeElement);
+
       
       this.lastInput = document.activeElement.id;
-	  console.log('lastInput ',this.lastInput);
-		      
+     
       this.clearInputModeOffDelayed();
       if ($(e.target).attr("data-autocomplete"))
         this.autocompleteStart(e);
@@ -74,18 +73,18 @@
     inputModeOffTimeout: null,
 
     inputModeOffDelayed: function (e) {
-      console.log('View.js: input mode off delayed');
+
       this.clearInputModeOffDelayed();
       
       var that = this;
       this.inputModeOffTimeout = window.setTimeout(function () {
-        console.log('View.js: input mode off delayed suite');
+
         var activeElement = document.activeElement;
         if (activeElement && activeElement.nodeName.toLowerCase() === "input") {
-          console.log('View.js: new activeElement is an input');
+          //console.log('View.js: new activeElement is an input');
           return; // security...
         }
-        console.log('View.js: => input mode off ' + activeElement.nodeName + ' => on bascule en input mode off');
+        //console.log('View.js: => input mode off ' + activeElement.nodeName + ' => on bascule en input mode off');
 
 		/*console.log('lastInput ',that.lastInput);*/
 		
@@ -120,7 +119,7 @@
     },
 
     inputModeOff: function (e) {
-      console.log('View.js: input mode off');
+      //console.log('View.js: input mode off');
       this.clearInputModeOffDelayed();
       Y.GUI.inputMode(false);
       return true;
@@ -179,7 +178,7 @@
       if (selectedFunctionName) {
         assert(typeof this[selectedFunctionName] === "function");
         this.autocompleteObj.on("selected", function (val) {
-          console.log('View.js: onselected (autocomplete)');
+          //console.log('View.js: onselected (autocomplete)');
           this[selectedFunctionName](val);
         }, this);
       }

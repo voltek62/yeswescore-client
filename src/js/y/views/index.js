@@ -28,11 +28,11 @@ Y.Views.Index = Y.View.extend({
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
-        console.log('error reading player ', err);
+     
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           // FIXME: err, reject deferred
-          console.log('player created', player);
+      
           playerDeferred.resolve();
         });
         return;

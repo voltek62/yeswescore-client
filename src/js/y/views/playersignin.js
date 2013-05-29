@@ -59,14 +59,11 @@ Y.Views.PlayerSignin = Y.View.extend({
       		that.shareTimeout = null;
     	}, 2000);
 
-		//console.log('ANDROID result '+JSON.stringify(result));		
-		//console.log('ANDROID player'+player.toJSON());
 		
       },
       error: function (err) {
 
 	    $('span.success').css({display:"block"});
-	    console.log('erreur',err);
 		$('span.success').html(i18n.t('message.signinerror')).show();
 		$('span.success').i18n();
      

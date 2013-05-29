@@ -104,6 +104,22 @@ input.mylib-forms {
 	-webkit-appearance: none;
 }
 
+input[type="password"] {
+	color: #000;
+	background: #fff;
+	border: 0;
+	border-radius: 12px;
+	padding-left: 10px;
+	height: 30px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	width: 100%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 input[type="text"] {
 	color: #000;
 	background: #fff;

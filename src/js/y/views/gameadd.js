@@ -42,7 +42,7 @@ Y.Views.GameAdd = Y.View.extend({
     $("#team1").prop("disabled", false);
     $("#team1_id").val('');
     $("#team1").attr("placeholder", "");
-    //$("#team1").val('');
+    $("#team1").val('');
     // on force l'input mode
     $("#team1").focus();
     this.$("#team1").trigger("click");
@@ -58,12 +58,12 @@ Y.Views.GameAdd = Y.View.extend({
   },
     
   changeTeam1: function () {
-    if ($("#team1").val() == "") {
+    if ($("#team1").val() === "") {
       $(".form-button.other-team").removeClass("selected");
       $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
-      $("#team1").attr("placeholder", i18n.t("gameadd.player1_holder"));
-      $("#team1").val('');
+      //$("#team1").attr("placeholder", i18n.t("gameadd.player1_holder"));
+      if (this.owner.get('name').length>1) $("#team1").val(this.owner.get('name'));
       $("#team1_id").val(this.owner.get('id'));
     }
   },

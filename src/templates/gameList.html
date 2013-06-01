@@ -83,7 +83,12 @@ else if (game.status === "created") game.status = i18n.t('game.created');
 
 <div class="ui-grid-a">
 	<div class="ui-block-a game-location" style="width: 80%;"> 
-    <%= game.dates.startDate %> - <%= game.location.city %>
+    <%= game.dates.startDate %> - <%= game.location.city %> 
+    <% 
+      if (game.options.tour !== "")  
+        if (game.options.tour > 0)     
+         print(" - "+i18n.t("gameadd.select"+game.options.tour))     
+    %> 
 	</div>
 	<div class="ui-block-b game-status" style="width: 20%;">
 	<%= game.status %>

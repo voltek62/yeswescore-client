@@ -42,6 +42,7 @@ Y.Views.GameAdd = Y.View.extend({
     $("#team1").prop("disabled", false);
     $("#team1_id").val('');
     $("#team1").attr("placeholder", "");
+    //$("#team1").val('');
     // on force l'input mode
     $("#team1").focus();
     this.$("#team1").trigger("click");
@@ -62,6 +63,7 @@ Y.Views.GameAdd = Y.View.extend({
       $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
       $("#team1").attr("placeholder", i18n.t("gameadd.player1_holder"));
+      $("#team1").val('');
       $("#team1_id").val(this.owner.get('id'));
     }
   },

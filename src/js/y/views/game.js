@@ -303,7 +303,7 @@ Y.Views.Game = Y.View.extend({
             	  success: function(model, response) {
 			        			        
 			        //that.lastScore.push(model.get('options').sets);	    
-			        that.currentScore = model.get('options').sets;  
+			        that.currentScore = model.get('infos').sets;  
 			        		
 			        that.DB.saveJSON("sets",that.lastScore);         			        	              
 		

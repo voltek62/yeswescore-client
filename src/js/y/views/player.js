@@ -16,7 +16,7 @@ Y.Views.Player = Y.View.extend({
   
     this.playerViewTemplate = Y.Templates.get('player');
 
-	  //console.log('player init '+this.id);
+
 
     this.player = new PlayerModel({id:this.id});
     //change
@@ -90,9 +90,9 @@ Y.Views.Player = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    console.log('render player view ',this.player.toJSON());  
-   
-     
+  
+    console.log('players',this.player.toJSON());
+
     this.$el.html(this.playerViewTemplate({
       player:this.player.toJSON(),follow:this.follow
     }));

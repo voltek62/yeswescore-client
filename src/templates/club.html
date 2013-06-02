@@ -12,17 +12,25 @@
     </div> 
      
     <hr/>
-    <b data-i18n="club.sport"></b> : <%= club.sport %>
+    <b data-i18n="club.sport"></b> : <span style="text-transform:uppercase;"><%= club.sport %></span>
     <hr/>
     <b data-i18n="club.city"></b> : <%= club.location.city %>
     <hr/>
-    <b data-i18n="club.site"></b> :
+    <b data-i18n="club.outdoor"></b> : <%= club.outdoor %>
     <hr/>
-    
+    <b data-i18n="club.indoor"></b> : <%= club.indoor %>
+    <hr/>
+    <b data-i18n="club.countPlayers"></b> : <%= club.countPlayers %>
+    <hr/>
+    <b data-i18n="club.countTeams"></b> : <%= club.countTeams %>
+    <hr/>    
+            
     <div class="account">
       <a href="#players/club/<%= club.id %>" class="button" id="listPlayer" data-i18n="club.listplayers" data-js-navigate></a>  
       <a href="#games/club/<%= club.id %>" class="button" id="lastResult" data-i18n="club.lastresult" data-js-navigate></a>
     </div>
+    
+    <div style="padding:40px"></div>
   
   </div>
 </div>

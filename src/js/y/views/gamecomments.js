@@ -44,8 +44,8 @@ Y.Views.GameComments = Y.View.extend({
       that.renderScore(); // might be later.   	
    	};
    	
-    this.game.once("sync", this.syncGame, this);
-    this.game.fetch();
+    //this.game.once("sync", this.syncGame, this);
+    //this.game.fetch();
 
     // updating comment list when collection is updated
     this.streamItemsCollection = new StreamsCollection([], {gameid : this.gameid});
@@ -118,6 +118,7 @@ Y.Views.GameComments = Y.View.extend({
     }  
   
 	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
+	  
 	  return this;
   },
 
@@ -156,6 +157,9 @@ Y.Views.GameComments = Y.View.extend({
     
     $('a').i18n();
     $('span').i18n();
+    
+    this.game.once("sync", this.syncGame, this);
+    this.game.fetch();
         
     return this;
   }, 
@@ -199,8 +203,7 @@ Y.Views.GameComments = Y.View.extend({
         url : Y.Conf.get("api.url.reports.games")+ this.gameid + '/stream/'+ id + '/',
         type : 'GET',
         success : function(result) { 
-          console.log('report '+id, result); 
-          
+
           elmt.html(i18n.t('gamecomment.alerted'));
           elmt.removeAttr('href');
           elmt.removeAttr('data-js-call');
@@ -244,7 +247,6 @@ Y.Views.GameComments = Y.View.extend({
   },
 
   onClose: function(){
-    console.log('onClose !');
 
     this.undelegateEvents();
     

@@ -110,8 +110,9 @@ Y.Views.Game = Y.View.extend({
     // rerender on game update
     this.game.on('sync', this.render, this);
     // grabbing comments & display nb
-	  this.streams.once("sync", this.renderCountComment, this);
-
+	//this.streams.once("sync", this.renderCountComment, this);
+    //this.streams.fetch();
+    
     // Fetching data.
     // Pooling du model game & affichage.
     // FIXME: SI ONLINE
@@ -119,7 +120,7 @@ Y.Views.Game = Y.View.extend({
     var pollingOptions = { delay: Y.Conf.get("game.refresh") };
     this.poller = Backbone.Poller.get(this.game, pollingOptions)
     this.poller.start();
-    this.streams.fetch();
+
   },
 
   shareError: function (err) {
@@ -241,18 +242,17 @@ Y.Views.Game = Y.View.extend({
  
 
   undoAction: function () {
-    console.log('undo');
+
     	   	  
     if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {
     
     	this.lastScore = this.DB.readJSON("sets");
     	
-    	console.log('lastScore',this.lastScore);
-    	console.log('currentScore',this.currentScore);
+
     	      
 	    if (this.lastScore !== undefined) {
 	      var sets_undo = this.lastScore.pop();
-	      console.log("premier pop : ",sets_undo); 
+
 	
 	      //S'il s'agit du meme score
 	      if (sets_undo !== undefined)
@@ -263,11 +263,11 @@ Y.Views.Game = Y.View.extend({
 		        this.DB.saveJSON("sets",this.lastScore);
 		        
 			    sets_undo = this.lastScore.pop();	    	  
-			    console.log("idem donc second pop : ",sets_undo);  	
+	
 			    	
 		      }
 		      else {
-		      	console.log('diff on continue');
+
 		      }
 		  }
 		  else 
@@ -275,10 +275,6 @@ Y.Views.Game = Y.View.extend({
 	    	  
 	      var gameid = this.gameid;   
 	    	  	  
-	      //console.log("sets : ",sets_undo[0]);  
-	      //console.log("score : ",sets_undo[1]);  	      
-	      //console.log("sets_undo : ",sets_undo); 
-	      //console.log("sets_undo length: ",sets_undo.length); 
 	      
 	      if (sets_undo !== 'undefined') {
 	      
@@ -499,7 +495,7 @@ Y.Views.Game = Y.View.extend({
 		 || (team1_set3>=7 && diff_sets3>2)
 		 || (team2_set3>=7 && diff_sets3>2)				 		 
 		 ) {    
-    	  console.log('impossible');
+
     	  //On remet à jour
     	  this.renderScoreBoard(this.game);
     	  return;
@@ -528,6 +524,8 @@ Y.Views.Game = Y.View.extend({
     var game = {
       team1_id : this.game.get('teams')[0].players[0].id
 	  , team2_id : this.game.get('teams')[1].players[0].id
+      , team1 : this.game.get('teams')[0].players[0].name
+	  , team2 : this.game.get('teams')[1].players[0].name	  
 	  , id : this.gameid 			      
 	  , playerid : this.playerid
 	  , token : this.token			      			      			      
@@ -546,6 +544,7 @@ Y.Views.Game = Y.View.extend({
     this.game = new GameModel(game);
     this.game.save({}, {success: function(model, response){ 
       that.game = model;
+      
     }}); 
   },
 
@@ -563,9 +562,10 @@ Y.Views.Game = Y.View.extend({
   
   renderCountComment : function() {
 	  var nbComments = this.streams.length;
+	  
       
-    if (nbComments > 10)
-      this.$(".link-comments").html(i18n.t('game.10lastcomments'));
+    if (nbComments > Y.Conf.get("game.max.comments") )
+      this.$(".link-comments").html(i18n.t('game.50lastcomments'));
     else if (nbComments == 1)
       this.$(".link-comments").html(i18n.t('game.1comment'));
     else if (nbComments > 0)
@@ -652,20 +652,16 @@ Y.Views.Game = Y.View.extend({
           
       if (timer>0)
       {
-	    //console.log('timer positif',timer);	          
+          
 	    var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
 	    timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
       }
       else {
         timer = '00:00';  
-	    //console.log('timer negatif',timer);      
+    
       }
       
-      //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
-      //setInterval ( this.refreshTimer, 1000 );
-      
-      
-       
+  
           
     }
                 
@@ -761,7 +757,9 @@ Y.Views.Game = Y.View.extend({
     }));
 		
 
-    this.renderCountComment();
+    //this.renderCountComment();
+    this.streams.once("sync", this.renderCountComment, this);
+    this.streams.fetch();
 
     //i18n
     //PERF:on remplace que les champs du DOM concernés
@@ -774,7 +772,7 @@ Y.Views.Game = Y.View.extend({
       
        
     if (total_sets >= 2)  {
-          console.log('total_sets',total_sets);
+
 	      $('#team1_set1_div .score').removeClass('ongoing');	
 	      $('#team2_set1_div .score').removeClass('ongoing');	
 		  $('#team1_set2_div .score').removeClass('ongoing');
@@ -783,7 +781,7 @@ Y.Views.Game = Y.View.extend({
 		  $('#team3_set3_div .score').addClass('ongoing');	
     }             
     else if (total_sets === 1)  {
-          console.log('total_sets',total_sets);
+   
 	      $('#team1_set1_div .score').removeClass('ongoing');	
 	      $('#team2_set1_div .score').removeClass('ongoing');	
 		  $('#team1_set2_div .score').addClass('ongoing');
@@ -792,7 +790,7 @@ Y.Views.Game = Y.View.extend({
 		  $('#team3_set3_div .score').removeClass('ongoing');
     }
     else {
-      	  console.log('total_sets',total_sets);
+    
 	      $('#team1_set1_div .score').addClass('ongoing');	
 	      $('#team2_set1_div .score').addClass('ongoing');	
 		  $('#team1_set2_div .score').removeClass('ongoing');

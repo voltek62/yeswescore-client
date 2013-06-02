@@ -36,8 +36,6 @@ Y.Views.PlayerForget = Y.View.extend({
       },
       success: function (data) {
 
-        console.log('data result Reset Password', data);
-
 		$('span.success').css({display:"block"});
         $('span.success').html(i18n.t('message.mailspam')).show();
         $('span.success_sentence').html(i18n.t('message.mailspam_sentence')).show();
@@ -46,7 +44,7 @@ Y.Views.PlayerForget = Y.View.extend({
       error: function (err) {
 
 	    $('span.success').css({display:"block"});
-	    console.log('erreur',err);
+
 		$('span.success').html(i18n.t('message.mailerror')).show();
 		$('span.success').i18n();
             

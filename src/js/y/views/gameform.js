@@ -68,7 +68,7 @@ Y.Views.GameForm = Y.View.extend({
     
   renderList: function () {
     var q = $("#club").val();
-    //console.log(this.clubs.toJSON());   	
+ 	
 	$(this.listview).html(this.clubListAutoCompleteViewTemplate({clubs:this.clubs.toJSON(), query:q}));
 
   },
@@ -96,8 +96,7 @@ Y.Views.GameForm = Y.View.extend({
       url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.playerid+'&token='+this.token+'&_method=delete',
       type : 'POST',
       success : function(result) {
-        console.log('data success delete Game', result);
-        
+
         Y.Router.navigate('/games/add', {trigger: true});	   
       }
     });  
@@ -105,9 +104,7 @@ Y.Views.GameForm = Y.View.extend({
   },
       
   update: function (event) {
-  
-    console.log('update');  
-    
+
     //FIXME : gestion date de debut
     var game = {
       team1_id : this.team1_id
@@ -156,8 +153,6 @@ Y.Views.GameForm = Y.View.extend({
   
    var game = this.game.toJSON();
    
-   console.log('game render',game);
-  
    this.team1_id = game.teams[0].players[0].id; 
    this.team2_id = game.teams[1].players[0].id;
    

@@ -42,7 +42,6 @@ Y.Views.PlayerList = Y.View.extend({
 
   choosePlayer : function(elmt) { 
     var ref = elmt.currentTarget.id;
-    console.log(ref);
 	Y.Router.navigate(ref, {trigger: true});  
   },
 
@@ -61,7 +60,7 @@ Y.Views.PlayerList = Y.View.extend({
 	    });
     }
     catch(e) {
-     console.log('error ',e);
+
     }
     
 

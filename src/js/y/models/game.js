@@ -28,12 +28,12 @@ var GameModel = Backbone.Model.extend({
     teams : [ {
       points : "",
       players : [ {
-        name : "A"
+        name : ""
       } ]
     }, {
       points : "",
       players : [ {
-        name : "B"
+        name : ""
       } ]
     } ],
     options : {
@@ -73,7 +73,6 @@ var GameModel = Backbone.Model.extend({
         id : this.get('team2_id')
     };
     
-	//console.log("1.1");
 	
     var object = {
       teams : [ {
@@ -87,17 +86,7 @@ var GameModel = Backbone.Model.extend({
       , options : {}
       , location : {}
      };
-
-	/*
-	 console.log("subtype",this.get('subtype'));
-	 console.log("sets",this.get('sets'));
-	 console.log("score",this.get('score'));
-	 console.log("court",this.get('court'));
-	 console.log("surface",this.get('surface'));
-	 console.log("tour",this.get('tour'));	
-	 console.log("country",this.get('country'));	
-	 console.log("city",this.get('city'));	
-	 */	 	  	 	 	 
+	  	 	 	 
 
 	 object.options.type = "singles";	
 	 	 
@@ -132,7 +121,7 @@ var GameModel = Backbone.Model.extend({
          
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 	  
-	  //console.log(object.location.pos);    
+   
        
      if (this.get('city') !== undefined)  
        if (this.get('city') !== "") 
@@ -150,13 +139,11 @@ var GameModel = Backbone.Model.extend({
        if (this.get('status') !== "") 
          object.status = this.get('status');  
          
-     //console.log("1.4");          
-     //,pos : [ appConfig.longitude, appConfig.latitude ]
 
       
     if (method === 'create' && this.get('playerid') !== undefined) {
     
-      console.log('create Game', JSON.stringify(object));
+
 	  var that = this;
 	  
 		
@@ -170,14 +157,14 @@ var GameModel = Backbone.Model.extend({
           // FIXME : on redirige sur //si offline id , si online sid  
           that.set(data);         
           if (options && options.success) {
-              console.log('success create in backbone ajax model');
+
               options.success(data);
           }
           
         },
         error: function (message) {
             if (options && options.error)
-              console.log('error create in backbone ajax model');              
+             
               options.error(message);
         }
 
@@ -189,7 +176,7 @@ var GameModel = Backbone.Model.extend({
         
         object.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
     
-        console.log('update Game', JSON.stringify(object));    	
+  	
 		var that = this;
 		
         return Backbone.ajax({
@@ -201,13 +188,13 @@ var GameModel = Backbone.Model.extend({
           success: function (data) {
             that.set(data);
             if (options && options.success) {
-              console.log('success update in backbone ajax model');
+
               options.success(data);
             }
           },
           error: function (message) {
             if (options && options.error)
-              console.log('error update in backbone ajax model');              
+            
               options.error(message);
           }               
        });

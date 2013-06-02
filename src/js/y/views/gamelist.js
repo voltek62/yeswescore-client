@@ -33,9 +33,6 @@ Y.Views.GameList = Y.View.extend({
   	this.searchOption = Y.User.getFiltersSearch();
   	this.clubid = Y.User.getClub();
   	
-  	console.log('init sortOption',this.sortOption);
-  	console.log('init searchOption',this.searchOption);
-   	console.log('init clubid',this.clubid); 	  	
   	
 	//header 
     if (param!=='undefined') { 
@@ -98,6 +95,7 @@ Y.Views.GameList = Y.View.extend({
       
             
     this.games.on('sync', this.gameDeferred.resolve, this.gameDeferred);
+    //disable
     this.games.fetch();
 
     // second: read/create player
@@ -106,11 +104,11 @@ Y.Views.GameList = Y.View.extend({
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
-        //console.log('error reading player ', err);
+    
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           // FIXME: err, reject deferred
-          //console.log('player created', player);
+         
           playerDeferred.resolve();
         });
         return;
@@ -125,9 +123,13 @@ Y.Views.GameList = Y.View.extend({
     ).done(function () {
       that.render();
       that.renderList();
+            
     });
+       
       
   },
+  
+
 
 
   goToGame: function (elmt) {
@@ -145,6 +147,9 @@ Y.Views.GameList = Y.View.extend({
   hideFilters: function () {
 
     this.$('.button-option-up').addClass('button-option-down').removeClass('button-option-up');   
+    
+    $('.message').removeAttr('style');
+    
     this.$(".filters").hide();
       
   },
@@ -188,7 +193,6 @@ Y.Views.GameList = Y.View.extend({
  	else if (o==='live') 
       $('.filters #filter-status').addClass('select');  
           
-    console.log('FIXME: filter by ' + o);
     this.sortOption = o;   
     Y.User.setFiltersSort(o);
     this.search();     
@@ -206,8 +210,7 @@ Y.Views.GameList = Y.View.extend({
   	  $('.filters #filter-match-not').addClass('select'); 
  	else if (o==='club') 
       $('.filters #filter-match-club').addClass('select'); 
- 
-    console.log('FIXME: search by ' + o);      
+      
     this.searchOption = o;  
     Y.User.setFiltersSearch(o);         
     this.search();    
@@ -262,7 +265,9 @@ Y.Views.GameList = Y.View.extend({
     
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
-        this.hideFilters();  
+        //this.hideFilters();  
+        //style="padding-top:150px;"
+        $('.message').attr('style','padding-top:150px');
       }
       else
         $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
@@ -276,8 +281,9 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
-    this.$el.html(this.templates.gamesearch({}));   
-    $('a').i18n();    
+    this.$el.html(this.templates.gamesearch({ button:true }));   
+    //$('a').i18n(); 
+    this.$el.i18n();   
 
 	if (this.searchOption==='geo') 
       $('.filters #filter-match-geo').addClass('select');
@@ -298,12 +304,12 @@ Y.Views.GameList = Y.View.extend({
       $('.filters #filter-date').addClass('select');           
       
     if (this.clubid === undefined ) {
-    	console.log('on desactive recherche par club car pas de club');
+
     	$('.filters #filter-match-club').addClass('disabled');
     }
     
     if (Y.Geolocation.longitude === 0) {
-    	console.log('on desactive recherche proximité car pas de gps');    	
+    	
     	$('.filters #filter-match-geo').addClass('disabled');
     }
     
@@ -321,5 +327,6 @@ Y.Views.GameList = Y.View.extend({
   onClose: function () {
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
+       
   }
 });

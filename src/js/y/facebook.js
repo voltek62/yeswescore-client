@@ -174,7 +174,9 @@
       var playerId = player.get('id');
       var playerToken = player.get('token');
       
+      /*#ifdef DEV*/
       console.log("fb playerid:"+playerId+" playertoken:"+playerToken+" token:"+token);
+      /*#endif*/
       
       //
       Backbone.ajax({

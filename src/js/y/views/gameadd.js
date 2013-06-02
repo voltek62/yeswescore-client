@@ -42,6 +42,7 @@ Y.Views.GameAdd = Y.View.extend({
     $("#team1").prop("disabled", false);
     $("#team1_id").val('');
     $("#team1").attr("placeholder", "");
+    $("#team1").val('');
     // on force l'input mode
     $("#team1").focus();
     this.$("#team1").trigger("click");
@@ -57,11 +58,12 @@ Y.Views.GameAdd = Y.View.extend({
   },
     
   changeTeam1: function () {
-    if ($("#team1").val() == "") {
+    if ($("#team1").val() === "") {
       $(".form-button.other-team").removeClass("selected");
       $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
-      $("#team1").attr("placeholder", i18n.t("gameadd.player1_holder"));
+      //$("#team1").attr("placeholder", i18n.t("gameadd.player1_holder"));
+      if (this.owner.get('name').length>1) $("#team1").val(this.owner.get('name'));
       $("#team1_id").val(this.owner.get('id'));
     }
   },
@@ -88,7 +90,7 @@ Y.Views.GameAdd = Y.View.extend({
       return false;
     }    
     
-    //console.log(team2.length);
+
     //return false;
     $("span[class*='_error']").hide();
 
@@ -142,7 +144,7 @@ Y.Views.GameAdd = Y.View.extend({
     var game = new GameModel(game);    
     game.save({}, {  
       success: function(model, response){
-	    console.log('success '+'games/'+model.id);
+
         Y.Router.navigate('games/'+model.id, {trigger: true});	
 	    //Mis par defaut dans mes matchs
         //Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })              
@@ -153,7 +155,6 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   autocompletePlayers: function (input, callback) {
-    console.log('input temporized: ' + input);
     
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
       callback('empty');		
@@ -190,7 +191,7 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   autocompleteTeam1: function (data) {
-    //console.log("autocomplete data: " + JSON.stringify(data));
+  
     if (data && data.name) {
       this.$("#team1").val(data.name);
       this.$("#team1_id").val(data.id);
@@ -198,7 +199,7 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   autocompleteTeam2: function (data) {
-    //console.log("autocomplete data: " + JSON.stringify(data));
+
     if (data && data.name) {
       this.$("#team2").val(data.name);
       this.$("#team2_id").val(data.id);      

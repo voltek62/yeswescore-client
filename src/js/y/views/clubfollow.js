@@ -85,7 +85,7 @@ Y.Views.ClubFollow = Y.View.extend({
   
   chooseClub : function(elmt) { 
     var ref = elmt.currentTarget.id;
-    console.log(ref);
+
 	Y.Router.navigate(ref, {trigger: true});  
   },  
   

@@ -42,7 +42,6 @@ Y.Views.Header = Y.View.extend({
   },
 
   goBack: function () {
-    console.log("Y.Views.Header: goBack()");
     window.history.go(-1);
     return false;
   },

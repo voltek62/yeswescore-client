@@ -14,11 +14,7 @@ var GamesCollection = Backbone.Collection.extend({
 	
 		  
   url:function() {
-    
-    console.log('mode de games',this.searchOption); 	
-    console.log('sort de games',this.sortOption); 	
-   
-        
+       
     var url='';
     
     if (this.searchOption === 'club' && this.searchOptionParam!== '') 
@@ -69,7 +65,6 @@ var GamesCollection = Backbone.Collection.extend({
   },
 
   setSort:function(s) {  	
-  	//console.log('On passe sortMode sur '+s);
     this.sortOption=s;
   },
   

@@ -6,11 +6,14 @@ Y.Views.GameFollow = Y.View.extend({
   events: {
     "click li": "goToGame",
     "blur input#search-basic": "search",
+    "click .refresh" : "refresh",
     "click button-option-down": "search"
   },
 
   pageName: "gameFollow",
   pageHash : "games/follow",
+  
+  games : null,
 
   initialize:function() {
   
@@ -27,8 +30,25 @@ Y.Views.GameFollow = Y.View.extend({
 	//render immediately
     this.render();   
         
-    var games = Y.Conf.get("owner.games.followed");
-    	    
+	//this.displayGames();
+	this.refresh();
+    
+
+  },
+  
+
+  goToGame: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
+  },
+  
+  refresh: function () {
+  
+  	
+	var games = Y.Conf.get("owner.games.followed");
+	
     if (games!==undefined) {   
     	this.gameLast = games[games.length-1];     
 	    this.collection = new GamesCollection();	    
@@ -46,6 +66,7 @@ Y.Views.GameFollow = Y.View.extend({
            //si dernier element du tableau
            if (that.gameLast === game.get('id')) {
 	    	 $(that.listview).html(that.templates.gamelist({games:that.collection.toJSON(),query:' '}));
+	         
 	       }			
 	     };	    
 	    
@@ -79,16 +100,9 @@ Y.Views.GameFollow = Y.View.extend({
 	 else {
 	   $(this.listview).html(this.templates.gamelist({games:[],query:' '}));
 	   $('p.message').i18n();
-	 }
-
-  },
+	 }  	
   
-  goToGame: function (elmt) {
-    if (elmt.currentTarget.id) {
-      var route = elmt.currentTarget.id;
-      Y.Router.navigate(route, {trigger: true}); 
-    }
-  },
+  },  
     
   search:function() {
     var q = $("#search-basic").val();
@@ -113,8 +127,8 @@ Y.Views.GameFollow = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.templates.gamesearch(), {});
-	$('a').i18n(); 
+    this.$el.html(this.templates.gamesearch({ button:false }));
+	this.$el.i18n(); 
 	return this;
   },
 
@@ -133,5 +147,9 @@ Y.Views.GameFollow = Y.View.extend({
 		   game.off("sync", this.syncGame, this);
 		}, this);
 	}
+	
+	
   }
+  
+
 });

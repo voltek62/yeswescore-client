@@ -51,8 +51,7 @@ Y.Views.PlayerForm = Y.View.extend({
   },
   
   autocompleteClubs: function (input, callback) {
-    console.log('input temporized: ' + input);
-    
+  
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
       callback('empty');		
     
@@ -74,12 +73,12 @@ Y.Views.PlayerForm = Y.View.extend({
   },
 
   autocompleteChoose: function (data) {
-    console.log("autocomplete data: " + JSON.stringify(data));
+
     if (data && data.name) {
       this.$("#club").val(data.name);
       this.clubid = data.id; 
       
-      console.log(this.clubid);
+
            
       this.$('club_error').html('');      
     }
@@ -96,7 +95,7 @@ Y.Views.PlayerForm = Y.View.extend({
     $('#clubid').val(selectedId); 
     $('club_error').html('');
     	
-    //console.log('selected '+selectedId+' '+selectedName);
+   
     	
     $(this.listview).html('');
   },  
@@ -210,7 +209,7 @@ Y.Views.PlayerForm = Y.View.extend({
       	$('span.success').html(i18n.t('message.updateok')).show();
 		$('span.success').i18n();
 		
-		console.log(new PlayerModel(result));
+
 		Y.User.setPlayer(new PlayerModel(result));
 		
 		if (that.mode === 'first') {
@@ -254,8 +253,6 @@ Y.Views.PlayerForm = Y.View.extend({
     else 
       dataDisplay.email = '';
     
-
-	//console.log('ANDROID dataDisplay '+JSON.stringify(dataDisplay));
 
     this.$el.html(this.templates.playerform({data : dataDisplay}));
     

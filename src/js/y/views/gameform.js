@@ -106,16 +106,16 @@ Y.Views.GameForm = Y.View.extend({
   update: function (event) {
 
     //FIXME : gestion date de debut
+    var owner1 = $('#owner1').val();
+    var owner2 = $('#owner2').val();    
+    
     var game = {
       team1_id : this.team1_id
 	  , team1 : $('#team1').val()
       , rank1 : $('#rank1').val()
       , team2_id : this.team2_id            
       , team2 : $('#team2').val()
-      , rank2 : $('#rank2').val()
-      , owner1 : $('#owner1').val()
-      , owner2 : $('#owner2').val()            
-      //, country : $('#country').val()	      
+      , rank2 : $('#rank2').val()     
       , city : $('#city').val()
       , playerid : this.playerid
       , token : this.token
@@ -126,6 +126,31 @@ Y.Views.GameForm = Y.View.extend({
       , id : this.gameid 
 	};
     
+    
+    if (checkName(team1) && team1.length>0) {     
+	  $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team1').val('');        
+      return false;	   
+    };
+    
+    if (checkName(team2) && team2.length>0) { 
+	  $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team2').val('');        
+      return false;	   
+    };
+    
+    
+    if (checkRank(rank1) && rank1.length>0) {
+	  $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
+      $('#rank1').val('');        
+      return false;	   
+    };    
+    
+    if (checkRank(rank2) && rank2.length>0) {
+	  $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+      $('#rank2').val('');        
+      return false;	   
+    };          
 
     var game = new GameModel(game);   
     var that = this;
@@ -135,10 +160,11 @@ Y.Views.GameForm = Y.View.extend({
     this.owner1Deferred = $.Deferred();
     this.owner2Deferred = $.Deferred();
     
+    console.log();
     
     game.save({}, {  
       success: function(model, response){	    
-		this.gameDeferred.resolve();	                 
+		that.gameDeferred.resolve();	                 
       }
     });
     
@@ -148,20 +174,15 @@ Y.Views.GameForm = Y.View.extend({
       var player1 = new PlayerModel({
         name: team1
       , rank: rank1                  	
-      , playerid: owner1
-      , token: token       
+      , playerid: this.playerid
+      , playeridupdated : owner1
+      , token: this.token       
       });
       
-      var player1 = new PlayerModel({
-        name: team1
-      , rank: rank1                  	
-      , playerid: owner1
-      , token: token       
-      });
 
 	    player1.save({}, {  
 	      success: function(model, response){	    
-			this.owner1Deferred.resolve();	                 
+			that.owner1Deferred.resolve();	                 
 	      }
 	    });
       
@@ -174,13 +195,14 @@ Y.Views.GameForm = Y.View.extend({
       var player2 = new PlayerModel({
         name: team2
       , rank: rank2                  	
-      , playerid: owner2
-      , token: token       
+      , playerid: this.playerid
+      , playeridupdated : owner2
+      , token: this.token       
       });
       
 	    player2.save({}, {  
 	      success: function(model, response){	    
-			this.owner2Deferred.resolve();	                 
+			that.owner2Deferred.resolve();	                 
 	      }
 	    });      
       

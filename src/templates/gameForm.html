@@ -31,13 +31,15 @@
 
     <div class="ui-grid-b">
 	  <div class="ui-block-a">
-		  <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1;" value=""/>
-	  </div>
+		  <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1;" value=""/> 
+    </div>
 	  <div class="ui-block-b">
 		  <input type="text" id="rank1" name="rank1" data-i18n="[placeholder]gameadd.rank;" value="" />
           <input type="text" id="owner1" name="owner1" value="" />      
 	  </div>
     </div> 
+    
+    <span class="team1_error label label-info hide"></span> 
      
     <div class="ui-grid-b" style="padding-top: 10px">
 	  <div class="ui-block-a">
@@ -47,7 +49,9 @@
 		  <input type="text" id="rank2" name="rank2" data-i18n="[placeholder]gameadd.rank;" value="" />
           <input type="text" id="owner2" name="owner2" value="" />      
 	  </div>
-    </div>     
+    </div>  
+    
+    <span class="team2_error label label-info hide"></span>    
 
     <div style="padding-top: 10px">
       <label class="form-label" for="city" data-i18n="gameform.city"></label>

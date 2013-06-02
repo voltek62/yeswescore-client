@@ -27,17 +27,17 @@ set_current = 1;
 team1_sets = '0'; 
 team2_sets = '0'; 
 
-if (game.options.score !== null ) { 
-  if(game.options.score.indexOf('/')!=-1) { 
-    scoreboard = game.options.score.split('/'); 
+if (game.infos.score !== null ) { 
+  if(game.infos.score.indexOf('/')!=-1) { 
+    scoreboard = game.infos.score.split('/'); 
     team1_sets = scoreboard[0]; 
     team2_sets = scoreboard[1]; 
     } 
 } 
   
-if (game.options.sets !== null ) { 
-  if (game.options.sets.indexOf(';')!=-1) { 
-    scoreboard = game.options.sets.split(';'); 
+if (game.infos.sets !== null ) { 
+  if (game.infos.sets.indexOf(';')!=-1) { 
+    scoreboard = game.infos.sets.split(';'); 
     
     if (scoreboard.length==2 ||scoreboard.length==3) { 
       scoreboard1 = scoreboard[0].split('/');
@@ -57,8 +57,8 @@ if (game.options.sets !== null ) {
   } 
   // 1 set 
   else { 
-    if (game.options.sets.indexOf('/')!=-1) { 
-      scoreboard1 = game.options.sets.split('/'); 
+    if (game.infos.sets.indexOf('/')!=-1) { 
+      scoreboard1 = game.infos.sets.split('/'); 
       team1_set1 = scoreboard1[0]; 
       team2_set1 = scoreboard1[1]; 
     } 
@@ -85,9 +85,9 @@ else if (game.status === "created") game.status = i18n.t('game.created');
 	<div class="ui-block-a game-location" style="width: 80%;"> 
     <%= game.dates.startDate %> - <%= game.location.city %> 
     <% 
-      if (game.options.tour !== "")  
-        if (game.options.tour > 0)     
-         print(" - "+i18n.t("gameadd.select"+game.options.tour))     
+      if (game.infos.tour !== "")  
+        if (game.infos.tour > 0)     
+         print(" - "+i18n.t("gameadd.select"+game.infos.tour))     
     %> 
 	</div>
 	<div class="ui-block-b game-status" style="width: 20%;">

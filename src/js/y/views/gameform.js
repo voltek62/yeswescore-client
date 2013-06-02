@@ -251,11 +251,11 @@ Y.Views.GameForm = Y.View.extend({
     
     if (!isGingerbread) {
 	    if ( game.location.city !== undefined ) $("#city").val(game.location.city);    
-	    if ( game.options.surface !== undefined ) $("#surface").val(game.options.surface);
-	    if ( game.options.tour !== undefined ) $("#tour").val(game.options.tour);
-	    if ( game.options.court !== undefined ) $("#court").val(game.options.court);
+	    if ( game.infos.surface !== undefined ) $("#surface").val(game.infos.surface);
+	    if ( game.infos.tour !== undefined ) $("#tour").val(game.infos.tour);
+	    if ( game.infos.court !== undefined ) $("#court").val(game.infos.court);
     }
-    if ( game.options.competition !== undefined ) $("#competition").val(game.options.competition);        
+    if ( game.infos.competition !== undefined ) $("#competition").val(game.infos.competition);        
         
     this.$el.i18n();
       

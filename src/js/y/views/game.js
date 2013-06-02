@@ -213,8 +213,8 @@ Y.Views.Game = Y.View.extend({
     messages['[winningPlayers]'] = winningPlayers;
     messages['[scoreInfos]'] = scoreInfos;
     //
-    messages['[score]'] = this.game.get('options').score;
-    messages['[sets]'] = this.game.get('options').sets;
+    messages['[score]'] = this.game.get('infos').score;
+    messages['[sets]'] = this.game.get('infos').sets;
 
     // hate toi de consulter 
     messages['[time]'] = ""; // FIXME: temps écoulé
@@ -286,10 +286,10 @@ Y.Views.Game = Y.View.extend({
 			      , token : this.token			      			      			      
 			      , country : this.game.get('location').country	      
 			      , city : this.game.get('location').city
-			      , court : this.game.get('options').court
-			      , surface : this.game.get('options').surface
-			      , tour : this.game.get('options').tour
-			      , subtype : this.game.get('options').subtype			      
+			      , court : this.game.get('infos').court
+			      , surface : this.game.get('infos').surface
+			      , tour : this.game.get('infos').tour
+			      , subtype : this.game.get('infos').subtype			      
 			      , sets :  sets_undo[0]
 			      , score : sets_undo[1]
 		      };
@@ -303,7 +303,7 @@ Y.Views.Game = Y.View.extend({
             	  success: function(model, response) {
 			        			        
 			        //that.lastScore.push(model.get('options').sets);	    
-			        that.currentScore = model.get('options').sets;  
+			        that.currentScore = model.get('infos').sets;  
 			        		
 			        that.DB.saveJSON("sets",that.lastScore);         			        	              
 		
@@ -531,10 +531,10 @@ Y.Views.Game = Y.View.extend({
 	  , token : this.token			      			      			      
 	  , country : this.game.get('location').country	      
 	  , city : this.game.get('location').city
-	  , court : this.game.get('options').court
-	  , surface : this.game.get('options').surface
-	  , tour : this.game.get('options').tour
-	  , subtype : this.game.get('options').subtype			      
+	  , court : this.game.get('infos').court
+	  , surface : this.game.get('infos').surface
+	  , tour : this.game.get('infos').tour
+	  , subtype : this.game.get('infos').subtype			      
 	  , sets : sets_update
 	  , score : score
     };
@@ -598,15 +598,15 @@ Y.Views.Game = Y.View.extend({
     //si premiere init et lastScore null, on stock le score en cours
     if (this.lastScore.length === 0) {
 	    if (game.get('owner') !== "") {	          
-	      //console.log('sets ',game.options.sets);	        
-	      if (game.get('options').sets !== undefined) {
+      
+	      if (game.get('infos').sets !== undefined) {
 	          
 	        this.statusScore = game.get('status');      
 
 	          
-	        if (game.get('options').sets!=="") {
-		        //this.lastScore.push(game.get('options').sets);	    
-		        this.currentScore = game.get('options').sets;  
+	        if (game.get('infos').sets!=="") {
+		        //this.lastScore.push(game.get('infos').sets);	    
+		        this.currentScore = game.get('infos').sets;  
 	        }
 	        else {
 		        //this.lastScore.push("0/0");	    
@@ -695,17 +695,17 @@ Y.Views.Game = Y.View.extend({
 
   renderScoreBoard : function(game) {
   
-	  if (game.get('options').score !== null ) { 
-	    if(game.get('options').score.indexOf('/')!=-1) { 
-	      var scoreboard = game.get('options').score.split('/'); 
+	  if (game.get('infos').score !== null ) { 
+	    if(game.get('infos').score.indexOf('/')!=-1) { 
+	      var scoreboard = game.get('infos').score.split('/'); 
 	      this.team1_sets = scoreboard[0]; 
 	      this.team2_sets = scoreboard[1]; 
 	      } 
 	  } 
 	  
-	  if (game.get('options').sets !== null ) { 
-	    if (game.get('options').sets.indexOf(';')!=-1) { 
-	      var scoreboard = game.get('options').sets.split(';'); 
+	  if (game.get('infos').sets !== null ) { 
+	    if (game.get('infos').sets.indexOf(';')!=-1) { 
+	      var scoreboard = game.get('infos').sets.split(';'); 
 	    
 	      if (scoreboard.length==2 ||scoreboard.length==3) { 
 	        var scoreboard1 = scoreboard[0].split('/');
@@ -731,8 +731,8 @@ Y.Views.Game = Y.View.extend({
 	    } 
 	    // 1 set 
 	    else { 
-	      if (game.get('options').sets.indexOf('/')!=-1) { 
-	        var scoreboard1 = game.get('options').sets.split('/'); 
+	      if (game.get('infos').sets.indexOf('/')!=-1) { 
+	        var scoreboard1 = game.get('infos').sets.split('/'); 
 	        this.team1_set1 = scoreboard1[0]; 
 	        this.team2_set1 = scoreboard1[1]; 
 	        this.team1_set2 = "&nbsp;";

@@ -9,6 +9,13 @@ package com.zenodus.client.html5;
 
 public final class Manifest {
     public static final class permission {
+        /** 
+  	Creates a custom permission so only this app can receive its messages.
+ 
+    NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
+        where PACKAGE is the application's package name.
+ 	
+         */
         public static final String C2D_MESSAGE="com.zenodus.client.html5.permission.C2D_MESSAGE";
     }
 }

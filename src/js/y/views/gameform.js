@@ -113,6 +113,8 @@ Y.Views.GameForm = Y.View.extend({
       , team2_id : this.team2_id            
       , team2 : $('#team2').val()
       , rank2 : $('#rank2').val()
+      , owner1 : $('#owner1').val()
+      , owner2 : $('#owner2').val()            
       //, country : $('#country').val()	      
       , city : $('#city').val()
       , playerid : this.playerid
@@ -125,12 +127,73 @@ Y.Views.GameForm = Y.View.extend({
 	};
     
 
-    var game = new GameModel(game);
-    
+    var game = new GameModel(game);   
     var that = this;
+    
+    //3 defered
+    this.gameDeferred = $.Deferred();
+    this.owner1Deferred = $.Deferred();
+    this.owner2Deferred = $.Deferred();
+    
+    
     game.save({}, {  
-      success: function(model, response){
-	    
+      success: function(model, response){	    
+		this.gameDeferred.resolve();	                 
+      }
+    });
+    
+    if (owner1 !== "") {
+      //FIXME : load player
+      
+      var player1 = new PlayerModel({
+        name: team1
+      , rank: rank1                  	
+      , playerid: owner1
+      , token: token       
+      });
+      
+      var player1 = new PlayerModel({
+        name: team1
+      , rank: rank1                  	
+      , playerid: owner1
+      , token: token       
+      });
+
+	    player1.save({}, {  
+	      success: function(model, response){	    
+			this.owner1Deferred.resolve();	                 
+	      }
+	    });
+      
+    }
+    else 
+      this.owner1Deferred.resolve();
+      
+    if (owner2 !== "") {
+    
+      var player2 = new PlayerModel({
+        name: team2
+      , rank: rank2                  	
+      , playerid: owner2
+      , token: token       
+      });
+      
+	    player2.save({}, {  
+	      success: function(model, response){	    
+			this.owner2Deferred.resolve();	                 
+	      }
+	    });      
+      
+    }
+    else 
+      this.owner2Deferred.resolve();      
+    
+    $.when(
+      this.gameDeferred,
+      this.owner1Deferred,
+      this.owner2Deferred
+    ).done(function () {
+
 	    $('span.success').css({display:"block"});
 	    $('span.success').html(i18n.t('message.updateok')).show();
 	    that.game = model;
@@ -139,8 +202,7 @@ Y.Views.GameForm = Y.View.extend({
 	      		Y.Router.navigate("games/"+that.gameid, {trigger: true});
 	      		that.shareTimeout = null;
 	    	}, 2000);
-	                 
-      }
+            
     });
 
 	return this;
@@ -181,6 +243,11 @@ Y.Views.GameForm = Y.View.extend({
     if ( game.teams[0].players[0].rank !== undefined ) $("#rank1").val(game.teams[0].players[0].rank);    
     if ( game.teams[1].players[0].name !== undefined ) $("#team2").val(game.teams[1].players[0].name);    
     if ( game.teams[1].players[0].rank !== undefined ) $("#rank2").val(game.teams[1].players[0].rank);                
+
+    if ( game.teams[0].players[0].owner !== undefined && this.playerid === game.teams[0].players[0].owner ) 
+      $("#owner1").val(game.teams[0].players[0].owner);    
+    if ( game.teams[1].players[0].owner !== undefined && this.playerid === game.teams[1].players[0].owner ) 
+      $("#owner2").val(game.teams[1].players[0].owner);  
     
     if (!isGingerbread) {
 	    if ( game.location.city !== undefined ) $("#city").val(game.location.city);    

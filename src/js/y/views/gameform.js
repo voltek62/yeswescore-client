@@ -108,14 +108,18 @@ Y.Views.GameForm = Y.View.extend({
     //FIXME : gestion date de debut
     var owner1 = $('#owner1').val();
     var owner2 = $('#owner2').val();    
+    var team1 = $('#team1').val();
+    var team2 = $('#team2').val();    
+    var rank1 = $('#rank1').val();
+    var rank2 = $('#rank2').val();        
     
     var game = {
       team1_id : this.team1_id
-	  , team1 : $('#team1').val()
-      , rank1 : $('#rank1').val()
+	  , team1 : team1
+      , rank1 : rank1
       , team2_id : this.team2_id            
-      , team2 : $('#team2').val()
-      , rank2 : $('#rank2').val()     
+      , team2 : team2
+      , rank2 : rank2     
       , city : $('#city').val()
       , playerid : this.playerid
       , token : this.token
@@ -160,7 +164,7 @@ Y.Views.GameForm = Y.View.extend({
     this.owner1Deferred = $.Deferred();
     this.owner2Deferred = $.Deferred();
     
-    console.log();
+    //console.log();
     
     game.save({}, {  
       success: function(model, response){	    
@@ -173,12 +177,13 @@ Y.Views.GameForm = Y.View.extend({
       
       var player1 = new PlayerModel({
         name: team1
-      , rank: rank1                  	
+      , rank: rank1            
+      , playeridupdated : owner1            	
       , playerid: this.playerid
-      , playeridupdated : owner1
       , token: this.token       
       });
       
+      console.log('player1',player1.toJSON());
 
 	    player1.save({}, {  
 	      success: function(model, response){	    
@@ -194,11 +199,13 @@ Y.Views.GameForm = Y.View.extend({
     
       var player2 = new PlayerModel({
         name: team2
-      , rank: rank2                  	
+      , rank: rank2            
+      , playeridupdated : owner2            	
       , playerid: this.playerid
-      , playeridupdated : owner2
       , token: this.token       
       });
+      
+      console.log('player2',player2.toJSON());
       
 	    player2.save({}, {  
 	      success: function(model, response){	    
@@ -267,9 +274,9 @@ Y.Views.GameForm = Y.View.extend({
     if ( game.teams[1].players[0].rank !== undefined ) $("#rank2").val(game.teams[1].players[0].rank);                
 
     if ( game.teams[0].players[0].owner !== undefined && this.playerid === game.teams[0].players[0].owner ) 
-      $("#owner1").val(game.teams[0].players[0].owner);    
+      $("#owner1").val(game.teams[0].players[0].id);    
     if ( game.teams[1].players[0].owner !== undefined && this.playerid === game.teams[1].players[0].owner ) 
-      $("#owner2").val(game.teams[1].players[0].owner);  
+      $("#owner2").val(game.teams[1].players[0].id);  
     
     if (!isGingerbread) {
 	    if ( game.location.city !== undefined ) $("#city").val(game.location.city);    

@@ -35,6 +35,7 @@ Y.Views.Game = Y.View.extend({
   dateStart: null,
 
   shareTimeout: null,
+  senderTimeout : null,
   sharing: false,
   
   team1_set1 : '&nbsp;'
@@ -351,7 +352,7 @@ Y.Views.Game = Y.View.extend({
 		    //FIXME : NO HTML IN CODE
 		    div.html('<div class="score sets">'+score+'</div>');
 		        
-		    this.sendUpdater();
+		    this.bufferedSendUpdater();
 	    }
 	  }
 	  
@@ -388,7 +389,7 @@ Y.Views.Game = Y.View.extend({
 		    
 	
 		        
-		    this.sendUpdater();
+		    this.bufferedSendUpdater();
 	    }
 	  }
 	  
@@ -426,6 +427,16 @@ Y.Views.Game = Y.View.extend({
     this.setTeamSet(this.team2_set3, $('#team2_set3_div'));
   },
 
+
+  bufferedSendUpdater: function () {
+
+	if (this.senderTimeout) {
+	  window.clearTimeout(this.senderTimeout);
+	  this.senderTimeout = null;
+	}
+	this.senderTimeout = setTimeout(_.bind(this.sendUpdater, this), 1500);
+
+   },
 
 
   sendUpdater : function() {
@@ -902,6 +913,13 @@ Y.Views.Game = Y.View.extend({
   onClose : function() {
     // Clean
     this.undelegateEvents();
+    
+     if (this.senderTimeout) {
+       window.clearTimeout(this.senderTimeout);
+       this.sendUpdater();
+       this.senderTimeout = null;
+     }
+      
     // desabonnements
     this.game.off("sync", this.render, this);
     this.streams.off("sync",this.renderCountComment, this);
@@ -912,5 +930,6 @@ Y.Views.Game = Y.View.extend({
     }
     // 
     this.poller.stop();
+        
   }
 });

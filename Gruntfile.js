@@ -166,6 +166,9 @@ module.exports = function (grunt) {
       wp8Alpha: {
         WP8: true,
         DEV: true
+      },	  
+      wp8Beta: {
+        WP8: true
       }
     }
   });
@@ -209,7 +212,7 @@ module.exports = function (grunt) {
   grunt.registerTask('android-alpha', ['clean', 'env:cordova', 'env:androidAlpha', 'copy-cordova-android-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
   grunt.registerTask('ios-beta', ['clean', 'env:cordova', 'copy-cordova-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);  
   grunt.registerTask('ios-alpha', ['clean', 'env:cordova', 'env:iosAlpha', 'copy-cordova-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);
-  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
+  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'env:wp8Beta', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
   grunt.registerTask('wp8-alpha', ['clean', 'env:cordova', 'env:wp8Alpha', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
   grunt.registerTask('web', ['clean', 'env:web', 'copy-cordova-web-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-web']);
   grunt.registerTask('default', 'android');

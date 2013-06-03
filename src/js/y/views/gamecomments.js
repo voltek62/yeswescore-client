@@ -6,6 +6,7 @@ Y.Views.GameComments = Y.View.extend({
   pageHash : "games/comment/",
 
   shareTimeout: null,
+  isSend : false,
 
   events: {
     'mousedown .button.send' : 'sendComment'
@@ -225,6 +226,9 @@ Y.Views.GameComments = Y.View.extend({
     //filter
     comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");  
       
+    //on bloque le textarea  
+    $('.button').addClass('disabled');
+      
     var stream = new StreamModel({
           type : "comment",
           playerid : playerid,
@@ -236,11 +240,14 @@ Y.Views.GameComments = Y.View.extend({
       that.streamItemsCollection.fetch();
       that.$('#messageText').val('');
       that.scrollTop();
+      that.$('.button').removeClass("disabled");
+      
     }).fail(function (err) {
 	    that.$(".button.send").addClass("ko");
 	    that.shareTimeout = window.setTimeout(function () {
 	      that.$(".button.send").removeClass("ko");
 	      that.shareTimeout = null;
+	  	  that.$('.button').removeClass("disabled");    
 	    }, 4000);
     });   
     

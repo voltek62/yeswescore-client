@@ -1082,6 +1082,8 @@ ul>li.player>a {
   background-color:#41c68f;
   border: 1px solid #96e1c3;
 }
+
+
 .link-form .button.send.ko {
   background-color: #f2734c;
 	border: 1px solid #f2734c;
@@ -1216,6 +1218,12 @@ ul>li.player>a {
 	color: #b0b0b0;
 	pointer-events: none;
 	cursor: default;
+}
+
+.link-form .button.send .disabled {
+	pointer-events: none;
+	cursor: default;
+	color: #000000;
 }
 
 .indexViewTemplate .filters {

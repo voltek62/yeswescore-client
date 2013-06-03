@@ -396,11 +396,11 @@ Y.Views.Game = Y.View.extend({
   },
 
    setTeam1Score : function() {
-    this.setTeamScore(this.team1_sets, $('#team1_sets_div'));
+    //this.setTeamScore(this.team1_sets, $('#team1_sets_div'));
   },
   
    setTeam2Score : function() {
-    this.setTeamScore(this.team2_sets, $('#team2_sets_div'));
+    //this.setTeamScore(this.team2_sets, $('#team2_sets_div'));
   }, 
 
   setTeam1Set1 : function() {
@@ -429,17 +429,7 @@ Y.Views.Game = Y.View.extend({
 
 
   bufferedSendUpdater: function () {
-
-	if (this.senderTimeout) {
-	  window.clearTimeout(this.senderTimeout);
-	  this.senderTimeout = null;
-	}
-	this.senderTimeout = setTimeout(_.bind(this.sendUpdater, this), 1500);
-
-   },
-
-
-  sendUpdater : function() {
+  
     var gameid = this.gameid
     , team1_set1 = this.team1_set1
     , team1_set2 = this.team1_set2
@@ -451,9 +441,7 @@ Y.Views.Game = Y.View.extend({
     , team1_sets = this.team1_sets
     , team2_sets = this.team2_sets
     ;
-    
-
-
+   
     if ($.isNumeric(team1_set1) === false)
       team1_set1 = '0';
     if ($.isNumeric(team2_set1) === false)
@@ -482,14 +470,8 @@ Y.Views.Game = Y.View.extend({
 
       sets_update += ";" + team1_set3 + '/' + team2_set3;
     }
-
-    /* controle si possible */
-    /* on met "ongoing" sur la class "score" en cours*/
-    
-
+          
     /* regle de gestion */
-    
-    
     // add diff de 2 max si superieur à 6
     // add force score if diff de 2 ou on peut mettre à jour les scores ? on controle si 0,1,2,3
      var total_sets = parseInt(this.team1_sets) + parseInt(this.team2_sets);    
@@ -510,7 +492,69 @@ Y.Views.Game = Y.View.extend({
     	  //On remet à jour
     	  this.renderScoreBoard(this.game);
     	  return;
+    }    
+
+	if (this.senderTimeout) {
+	  window.clearTimeout(this.senderTimeout);
+	  this.senderTimeout = null;
+	}
+	
+	this.senderTimeout = setTimeout(_.bind(this.sendUpdater, this), 1500);
+
+   },
+
+
+  sendUpdater : function() {
+    var gameid = this.gameid
+    , team1_set1 = this.team1_set1
+    , team1_set2 = this.team1_set2
+    , team1_set3 = this.team1_set3
+    , team2_set1 = this.team2_set1
+    , team2_set2 = this.team2_set2
+    , team2_set3 = this.team2_set3                                
+    , tennis_update = null
+    , team1_sets = this.team1_sets
+    , team2_sets = this.team2_sets
+    ;
+    
+
+
+    if ($.isNumeric(team1_set1) === false)
+      team1_set1 = '0';
+    if ($.isNumeric(team2_set1) === false)
+      team2_set1 = '0';
+
+    var sets_update = team1_set1 + '/' + team2_set1;
+    var score = this.calculScore();
+      
+
+    if (team1_set2 > 0 || team2_set2 > 0) {
+    
+      if ($.isNumeric(team1_set2) === false)
+        team1_set2 = '0';
+      if ($.isNumeric(team2_set2) === false)
+        team2_set2 = '0';
+
+      sets_update += ";" + team1_set2 + '/' + team2_set2;
+      
+      
+      
     }
+    if (team1_set3 > 0 || team2_set3 > 0) {
+
+      if ($.isNumeric(team1_set3) === false)
+        team1_set3 = '0';
+      if ($.isNumeric(team2_set3) === false)
+        team2_set3 = '0';
+
+      sets_update += ";" + team1_set3 + '/' + team2_set3;
+    }
+
+    /* controle si possible */
+    /* on met "ongoing" sur la class "score" en cours*/
+    
+
+
     
     this.currentScore = sets_update;        
 
@@ -814,7 +858,42 @@ Y.Views.Game = Y.View.extend({
   },
 
     
+  calculScore : function() { 
+  
+     var sets1 = 0;
+     var sets2 = 0;
+     
+     var diff_sets1 = Math.abs(parseInt(this.team1_set1)-parseInt(this.team2_set1));
+     var diff_sets2 = Math.abs(parseInt(this.team1_set2)-parseInt(this.team2_set2));
+     var diff_sets3 = Math.abs(parseInt(this.team1_set3)-parseInt(this.team2_set3));
+              	
+		/*
+		 || (team1_set1>=7 && diff_sets1>2)
+		 || (team2_set1>=7 && diff_sets1>2)		 
+		 || (team1_set2>=7 && diff_sets2>2)
+		 || (team2_set2>=7 && diff_sets2>2)		
+		 || (team1_set3>=7 && diff_sets3>2)
+		 || (team2_set3>=7 && diff_sets3>2)				 		 
+		*/
+     
+  	 if ( this.team1_set1 < this.team2_set1 && this.team2_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 ))
+  	   sets2++;
+  	 else if (this.team1_set1 > this.team2_set1 && this.team1_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 ) )
+  	   sets1++;
 
+  	 if (this.team1_set2 < this.team2_set2 && this.team2_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 ))
+  	   sets2++;
+  	 else if (this.team1_set2 > this.team2_set2 && this.team2_set1>=6 && ( this.team2_set3>0 || this.team1_set3>0 ))
+  	   sets1++;
+  	   
+  	 if (this.team1_set3 < this.team2_set3 && this.team2_set3>=6 && this.statusScore==="finished")  	       
+       sets2++;
+     else if (this.team1_set3 > this.team2_set3 && this.team2_set3>=6 && this.statusScore==="finished")
+       sets1++;
+       
+    return sets1+"/"+sets2;     
+  
+  },
 
   statusGame : function() {    
 
@@ -843,14 +922,19 @@ Y.Views.Game = Y.View.extend({
 	    });
     }
     else if ( this.statusScore === "ongoing"  ) {
-      game.status = "finished";    	          
+      game.status = "finished";    	 
+      //On met à jour les sets 
+     this.statusScore = "finished";  
+     game.sets = this.calculScore();      
+      
+               
       var tennis_update = new GameModel(game);
+      
       var that = this;
 	    tennis_update.save({}, {
         success: function(model, response){
 	        console.log('success ');	        
-            $("#statusButton").html(i18n.t('game.finished'));
-            that.statusScore = "finished"; 	 
+            $("#statusButton").html(i18n.t('game.finished'));	 
             
             // On efface la cache
             if (this.DB!==undefined)
@@ -858,6 +942,8 @@ Y.Views.Game = Y.View.extend({
              
           }
 	    });
+	    
+	    
     }   
   },      
 

@@ -234,7 +234,7 @@
       DB.saveJSON(key, obj);
 
       // events
-      this.trigger("set", [obj]);
+      this.trigger("set", obj);
 
       // permanent keys (cost a lot).
       if (metadata && metadata.permanent) {

@@ -171,6 +171,12 @@ Y.Views.PlayerForm = Y.View.extend({
       return false;	   
     };
     
+    if (name.length==0) {
+	  $('span.name_error').html(i18n.t('message.empty_name')+' !').show();      
+      return false;	   
+    };
+    
+    
     if (checkName(name) && name.length>0) {
 	  $('span.name_error').html(i18n.t('message.bad_name')+' !').show();
       $('#name').val('');        

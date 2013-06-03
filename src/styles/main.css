@@ -729,6 +729,14 @@ ul>li.player>a {
 	color: white;
 }
 
+.label-info {
+	padding-left: 10px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color: #ffff;
+}
+
 .form-radio-android * {
   vertical-align: middle;
 }
@@ -1107,13 +1115,15 @@ ul>li.player>a {
 /* search */
 .indexViewTemplate>.search {
 	width: 100%;
-	height: 15px;
+	height: 24px;
 	text-align:center;
 	cursor:pointer;
-	font-family: Open Sans;
-	font-size: 12px;
-	line-height: 10px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 12px;
 	white-space: nowrap;
+	padding-top:10px;
 }
 
 .indexViewTemplate>.search .ui-block-a{

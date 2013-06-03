@@ -193,6 +193,7 @@
     "signinerror":"Chargement impossible",    
     "loading":"CHARGEMENT",       
     "bad_rank":"Le classement est invalide",
+    "empty_name":"Vous devez indiquer au moins un nom et/ou prénom",    
     "bad_name":"Le nom peut contenir seulement des lettres et au moins 3 caractères",
     "bad_password":"Votre mot de passe contient des caractères interdits ( Autorisé : A-Z a-z 0-9 !@#$%^&*()_ ) ou il est inférieur à 6 caractères",
     "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",        

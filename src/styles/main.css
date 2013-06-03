@@ -1089,6 +1089,12 @@ ul>li.player>a {
 	border: 1px solid #f2734c;
 }
 
+.link-form .disabled {
+	pointer-events: none;
+	cursor: default;
+	color: #0000;
+}
+
 /*
   indexViewTemplate.html
 */
@@ -1220,11 +1226,7 @@ ul>li.player>a {
 	cursor: default;
 }
 
-.link-form .button.send .disabled {
-	pointer-events: none;
-	cursor: default;
-	color: #000000;
-}
+
 
 .indexViewTemplate .filters {
 	display: none; /* default=invisible */

@@ -164,11 +164,13 @@ Y.Views.GameForm = Y.View.extend({
     this.owner1Deferred = $.Deferred();
     this.owner2Deferred = $.Deferred();
     
-    //console.log();
+    
     
     game.save({}, {  
       success: function(model, response){	    
-		that.gameDeferred.resolve();	                 
+		that.gameDeferred.resolve();	        
+		
+	    console.log('game defered');	         
       }
     });
     
@@ -183,13 +185,12 @@ Y.Views.GameForm = Y.View.extend({
       , token: this.token       
       });
       
-      console.log('player1',player1.toJSON());
-
-	    player1.save({}, {  
-	      success: function(model, response){	    
-			that.owner1Deferred.resolve();	                 
+	 player1.save().done(function (result) {  
+			that.owner1Deferred.resolve();	   
+			console.log('player1 defered');	   
+			           
 	      }
-	    });
+	    );
       
     }
     else 
@@ -205,13 +206,13 @@ Y.Views.GameForm = Y.View.extend({
       , token: this.token       
       });
       
-      console.log('player2',player2.toJSON());
-      
-	    player2.save({}, {  
-	      success: function(model, response){	    
-			that.owner2Deferred.resolve();	                 
+
+	 player2.save().done(function (result) {  
+			that.owner2Deferred.resolve();	   
+			console.log('player2 defered');	   
+			           
 	      }
-	    });      
+	    );     
       
     }
     else 
@@ -221,11 +222,11 @@ Y.Views.GameForm = Y.View.extend({
       this.gameDeferred,
       this.owner1Deferred,
       this.owner2Deferred
-    ).done(function () {
+    ).done(function (result) {
 
 	    $('span.success').css({display:"block"});
 	    $('span.success').html(i18n.t('message.updateok')).show();
-	    that.game = model;
+	    //that.game = result;
 	    
 		that.shareTimeout = window.setTimeout(function () {
 	      		Y.Router.navigate("games/"+that.gameid, {trigger: true});
@@ -273,7 +274,8 @@ Y.Views.GameForm = Y.View.extend({
     if ( game.teams[1].players[0].name !== undefined ) $("#team2").val(game.teams[1].players[0].name);    
     if ( game.teams[1].players[0].rank !== undefined ) $("#rank2").val(game.teams[1].players[0].rank);                
 
-    if ( game.teams[0].players[0].owner !== undefined && this.playerid === game.teams[0].players[0].owner ) 
+    if ( ( game.teams[0].players[0].owner !== undefined && this.playerid === game.teams[0].players[0].owner )  
+    || this.playerid === game.teams[0].players[0].id ) 
       $("#owner1").val(game.teams[0].players[0].id);    
     if ( game.teams[1].players[0].owner !== undefined && this.playerid === game.teams[1].players[0].owner ) 
       $("#owner2").val(game.teams[1].players[0].id);  

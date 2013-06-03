@@ -23,9 +23,6 @@ var GamesCollection = Backbone.Collection.extend({
          
     else if (this.searchOption === 'player') 
       url = Y.Conf.get("api.url.games") + "?q=" + this.searchOptionParam;
-      
-    else if (this.searchOption === 'live') 
-      url = Y.Conf.get("api.url.games") + "?status=ongoing"; 
            
     else if (this.searchOption === 'me') {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
@@ -47,17 +44,16 @@ var GamesCollection = Backbone.Collection.extend({
 		url +="q="+this.query+"&";
 	};
     
-    if (this.sortOption==='date')
-      url = url  + "sort=-dates.start";         		
-    else if (this.sortOption==='location')
-      url = url  + "sort=location.city";    	    
-    else if (this.sortOption==='status')
-      url = url  + "sort=status";
-    else if (this.sortOption==='live')
+    
+    if (this.sortOption==='ongoing')
       url = url  + "status=ongoing";
-	//FIXME : don't work
-    else if (this.sortOption==='club')
-      url = url  + "sort=teams.players.club.name";    	
+    else if (this.sortOption==='finished')
+      url = url  + "status=finished";
+    else if (this.sortOption==='created')
+      url = url  + "status=created";
+           
+	
+	url = url  + "&sort=-dates.start";   
 
     console.log('URL',url);        
         
@@ -70,6 +66,9 @@ var GamesCollection = Backbone.Collection.extend({
   
   setSearch:function(m, q) {
     this.searchOption=m;
+    
+    console.log('games.js setSearch searchOption=',this.searchOption);
+    
     if (typeof q !== "undefined")
       this.searchOptionParam=q;
   },

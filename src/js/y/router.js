@@ -12,6 +12,7 @@
       '': 'gameList',
       'index': 'gameList',
       'sort/:id': 'gameList',
+      'search/form': 'searchForm',      
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/form/:id': 'gameForm',      
@@ -108,6 +109,10 @@
     gameForm: function (id) {
       this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
     },    
+
+    searchForm: function () {
+      this.changePage(this.createViewFactory(Y.Views.SearchForm ));
+    }, 
 
     player: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));

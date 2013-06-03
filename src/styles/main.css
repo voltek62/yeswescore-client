@@ -484,6 +484,18 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 	cursor: pointer;
 }
 
+.button-option-right {
+	width: 69px;
+	height: 32px;
+	background-image: url(images/button-option-right.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/button-option-right.png);
+	/*#endif*/
+	background-size: 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
 .button-search {
 	/*font-family: 'Sosa', sans-serif;
   font-size: 20px;
@@ -1084,6 +1096,35 @@ ul>li.player>a {
 	padding-right: 3px;
 }
 
+/* search */
+.indexViewTemplate>.search {
+	width: 100%;
+	height: 15px;
+	text-align:center;
+	cursor:pointer;
+	font-family: Open Sans;
+	font-size: 12px;
+	line-height: 10px;
+	white-space: nowrap;
+}
+
+.indexViewTemplate>.search .ui-block-a{
+	border-right: 2px solid #c5c5c5;
+}
+
+.indexViewTemplate>.search .ui-block-b{
+	border-right: 2px solid #c5c5c5;
+	padding-left:2px;	
+	padding-right:2px;
+}
+
+.indexViewTemplate>.search .ui-block-c{
+	border-right: 2px solid #c5c5c5;
+	padding-left:2px;		
+	padding-right:2px;
+}
+
+
 /* layout grille */
 .indexViewTemplate>.ui-grid-a {
 	width: 100%;
@@ -1309,7 +1350,7 @@ ul>li.player>a {
     background-position: left center;	
 }
 
-.filters a.select {
+.search a.select {
 	color:#44b1da;
 	font-weight: bold;
 }

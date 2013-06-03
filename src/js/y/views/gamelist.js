@@ -6,16 +6,20 @@ Y.Views.GameList = Y.View.extend({
     "keyup input#search-basic": "searchOnKey",
     "mousedown .button-search": "searchButton",
     "click li": "goToGame",
-    'click .button-option-down': 'showFilters',
-    'click .button-option-up': 'hideFilters',
+    //'click .button-option-down': 'showFilters',
+    'click .button-option-right': 'showFilters',
+    //'click .button-option-up': 'hideFilters',
+
     
     'click a[data-filter="match-geo"]': 'searchWithGeo',
-    'click a[data-filter="match-not"]': 'searchWithout',    
+    'click a[data-filter="match-all"]': 'searchWithAll',    
     'click a[data-filter="match-club"]': 'searchWithClub',
         
-    'click a[data-filter="filter-date"]': 'filterByDate',
-    'click a[data-filter="filter-location"]': 'filterByLocation',    
-    'click a[data-filter="filter-status"]': 'filterByStatus'
+    'click a[data-filter="filter-status-all"]': 'filterByStatusAll',
+    'click a[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
+    'click a[data-filter="filter-status-finished"]': 'filterByStatusFinished',      
+    'click a[data-filter="filter-status-created"]': 'filterByStatusCreated'
+    
   },
 
   listview: "#listGamesView",
@@ -141,8 +145,10 @@ Y.Views.GameList = Y.View.extend({
 
   showFilters: function () {
     
-    this.$('.button-option-down').addClass('button-option-up').removeClass('button-option-down');
-    this.$(".filters").show();
+    //this.$('.button-option-down').addClass('button-option-up').removeClass('button-option-down');
+    //this.$(".filters").show();
+    Y.Router.navigate("search/form", {trigger: true}); 
+    
   },
   hideFilters: function () {
 
@@ -159,7 +165,7 @@ Y.Views.GameList = Y.View.extend({
   	this.setSearch("geolocation");
   },
   
-  searchWithout: function () {   	
+  searchWithAll: function () {   	
   	this.setSearch("not");
   },
   
@@ -177,21 +183,38 @@ Y.Views.GameList = Y.View.extend({
   	this.setSort("date");	
   },
    
-  filterByStatus: function () { 
-    this.setSort("live");
+  filterByStatusAll: function () { 
+    console.log('filterByStatusAll');
+    this.setSort("all");
   },
   
-
+  filterByStatusOngoing: function () { 
+    console.log('filterByStatusOngoing');
+    this.setSort("ongoing");
+  },
+  
+  filterByStatusFinished: function () { 
+    console.log('filterByStatusFinished');
+    this.setSort("finished");
+  },
+  
+  filterByStatusCreated: function () { 
+    console.log('filterByStatusCreated');
+    this.setSort("created");
+  },
+      
   setSort: function (o) {
   
-     $(".filters a[data-filter*='filter-']").removeClass('select');
+     $(".search a[data-filter*='filter-status']").removeClass('select');
      
-	if (o==='date') 
-      $('.filters #filter-date').addClass('select');
- 	else if (o==='location') 
-  	  $('.filters #filter-location').addClass('select'); 
- 	else if (o==='live') 
-      $('.filters #filter-status').addClass('select');  
+	if (o==='all') 
+      $(".search a[data-filter='filter-status-all']").addClass('select');
+ 	else if (o==='ongoing') 
+  	  $(".search a[data-filter='filter-status-ongoing']").addClass('select'); 
+ 	else if (o==='finished') 
+      $(".search a[data-filter='filter-status-finished']").addClass('select'); 
+ 	else if (o==='created') 
+      $(".search a[data-filter='filter-status-created']").addClass('select');        
           
     this.sortOption = o;   
     Y.User.setFiltersSort(o);
@@ -199,23 +222,6 @@ Y.Views.GameList = Y.View.extend({
     //this.hideFilters();
   },
 
-  setSearch: function (o) {
-    // FIXME
-    
-    $(".filters a[data-filter*='match-']").removeClass('select');
-    
-	if (o==='geolocation') 
-      $('.filters #filter-match-geo').addClass('select');
- 	else if (o==='not') 
-  	  $('.filters #filter-match-not').addClass('select'); 
- 	else if (o==='club') 
-      $('.filters #filter-match-club').addClass('select'); 
-      
-    this.searchOption = o;  
-    Y.User.setFiltersSearch(o);         
-    this.search();    
-    //this.hideFilters();      
-  },
 
   searchButton: function () {
     this.inputModeOff();
@@ -235,6 +241,8 @@ Y.Views.GameList = Y.View.extend({
     $(this.listview).html(this.templates.ongoing());
     $('p').i18n(); 
     
+    
+    
     if (this.sortOption !=="") 
       this.games.setSort(this.sortOption);  
     
@@ -249,7 +257,7 @@ Y.Views.GameList = Y.View.extend({
         this.games.setSearch(this.searchOption,'');  
       }
       
-      else if(this.searchOption==="not") {
+      else  {
 	    this.games.setSearch('player',q);         
       }
 
@@ -267,7 +275,7 @@ Y.Views.GameList = Y.View.extend({
         $(this.listview).html(this.templates.error());
         //this.hideFilters();  
         //style="padding-top:150px;"
-        $('.message').attr('style','padding-top:150px');
+        //$('.message').attr('style','padding-top:150px');
       }
       else
         $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
@@ -292,16 +300,19 @@ Y.Views.GameList = Y.View.extend({
  	else if (this.searchOption==='club') 
       $('.filters #filter-match-club').addClass('select'); 
     else
-  	  $('.filters #filter-match-not').addClass('select');       
-	      
-	if (this.sortOption==='date') 
-      $('.filters #filter-date').addClass('select');
- 	else if (this.sortOption==='location') 
-  	  $('.filters #filter-location').addClass('select'); 
- 	else if (this.sortOption==='status') 
-      $('.filters #filter-status').addClass('select'); 
+  	  $('.filters #filter-match-not').addClass('select');    
+  	  
+  	     
+
+	if (this.sortOption==='ongoing') 
+  	  $(".search a[data-filter='filter-status-ongoing']").addClass('select'); 
+ 	else if (this.sortOption==='finished') 
+      $(".search a[data-filter='filter-status-finished']").addClass('select'); 
+ 	else if (this.sortOption==='created') 
+      $(".search a[data-filter='filter-status-created']").addClass('select');  
     else
-      $('.filters #filter-date').addClass('select');           
+      $(".search a[data-filter='filter-status-all']").addClass('select');
+            
       
     if (this.clubid === undefined ) {
 

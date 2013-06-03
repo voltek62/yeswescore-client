@@ -240,6 +240,13 @@
     "account": "Mon Compte"
   },
   "search": {
+    "title": "Recherche",
+ 	"introform": "Personnalisez votre accueil",   
+ 	"geo": "A proximité",   
+ 	"myclub": "Mon Club",   
+ 	"clubfollowed": "Club suivis",   
+ 	"gamefollowed": "Matchs suivis",   
+ 	"playerfollowed": "Joueurs suivis",     
     "gameplaceholder": "Rechercher par nom, par club",
     "playerplaceholder": "Rechercher par nom",  
     "clubplaceholder": "Rechercher par nom",  
@@ -250,9 +257,18 @@
     "filterdate" : "par date",
     "filterlocation" : "par ville",
     "filterclub" : "par club",
-    "filterstatus" : "jeux en cours",     
+    "filterstatusall" : "Tous",  
+    "filterstatusongoing" : "En direct",
+    "filterstatusfinished" : "Terminé",
+    "filterstatuscreated" : "A venir",               
     "filtername" : "par nom",
-    "ongoing" : "Recherche en cours"      
+    "ongoing" : "Recherche en cours",
+    "update" : "Enregistrer,
+	"infogeo": "Activer votre GPS",   
+ 	"infomyclub": "Indiquer votre club",   
+ 	"infoclubfollowed": "Gérer les clubs suivis",   
+ 	"infogamefollowed": "Gérer les matchs suivis",   
+ 	"infoplayerfollowed": "Gérer les joueurs suivis"        
   },
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

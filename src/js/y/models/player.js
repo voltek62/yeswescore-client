@@ -107,11 +107,20 @@ var PlayerModel = Backbone.Model.extend({
       	
       }
 
+	  var playeridupdated='';
+	  if (this.get('playeridupdated') === undefined)
+	    playeridupdated = this.get('playerid');
+	  else
+	    playeridupdated = this.get('playeridupdated');    
 
+      
+      console.log(Y.Conf.get("api.url.players") + playeridupdated
+            + '/?playerid=' + (this.get('playerid') || '') + '&token='
+            + (this.get('token') || ''));
       
       return Backbone.ajax({
         dataType: 'json',
-        url: Y.Conf.get("api.url.players") + (this.get('playerid') || '')
+        url: Y.Conf.get("api.url.players") + playeridupdated
             + '/?playerid=' + (this.get('playerid') || '') + '&token='
             + (this.get('token') || ''),
         type: 'POST',

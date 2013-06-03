@@ -36,7 +36,7 @@ var GameModel = Backbone.Model.extend({
         name : ""
       } ]
     } ],
-    options : {
+    infos : {
       type : "singles",
       subtype : "A",
       sets : "0/0",
@@ -83,36 +83,36 @@ var GameModel = Backbone.Model.extend({
       players : [ team2_json ]
       } ]
       //, dates : {}
-      , options : {}
+      , infos : {}
       , location : {}
      };
 	  	 	 	 
 
-	 object.options.type = "singles";	
+	 object.infos.type = "singles";	
 	 	 
 	 if (this.get('subtype') !== undefined)
 	   if (this.get('subtype') !== "") 
-	     object.options.subtype = this.get('subtype');
+	     object.infos.subtype = this.get('subtype');
 	   
 	 if (this.get('sets') !== undefined)
        if (this.get('sets') !== "") 
-         object.options.sets = this.get('sets');
+         object.infos.sets = this.get('sets');
        
      if (this.get('score') !== undefined)  
        if (this.get('score') !== "") 
-         object.options.score = this.get('score');
+         object.infos.score = this.get('score');
      
      if (this.get('court') !== undefined)  
        if (this.get('court') !== "") 
-         object.options.court = this.get('court');
+         object.infos.court = this.get('court');
        
      if (this.get('surface') !== undefined)  
        if (this.get('surface') !== "")
-         object.options.surface = this.get('surface');
+         object.infos.surface = this.get('surface');
        
      if (this.get('tour') !== undefined)  
        if (this.get('tour') !== "") 
-         object.options.tour = this.get('tour');
+         object.infos.tour = this.get('tour');
        
      if (this.get('country') !== undefined)  
        if (this.get('country') !== "") 
@@ -220,7 +220,7 @@ var GameModel = Backbone.Model.extend({
 
   // @return 0,1, -1 if draw / null if error or non defined
   getIndexWinningTeam: function () {
-    var score = this.get("options").score; 
+    var score = this.get("infos").score; 
     if (typeof score !== "string")
       return null;
     var scoreDetails = score.split("/");

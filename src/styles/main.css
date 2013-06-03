@@ -1902,6 +1902,12 @@ ul>li.player>a {
 	width: 100%;
 }
 
+.comments .zone-score {
+	position:fixed;
+	top:44; left:0;
+	width:100%;
+}
+
 .comments.background {
 	background-color: #41c68f;
 }
@@ -1958,6 +1964,7 @@ ul>li.player>a {
   width:100%;
   min-height: 100%;
   padding: 9px;
+  padding-top:54px;
   padding-bottom: 110px;
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;

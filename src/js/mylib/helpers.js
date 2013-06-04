@@ -50,6 +50,40 @@ var checkComment = function(input){
   return false; 
 };
 
+var whoServe = function(sets,whobegin){
+
+   console.log('whoServe', sets);
+   var total=0; 
+    
+    
+  if (sets.indexOf(';')!=-1) { 
+    var tab = sets.split(';');
+	for (var i = 0; i < tab.length; i++) {
+	    var tab2 = tab[i].split('/');
+		for (var j = 0; j < tab2.length; j++) {
+		  total += parseInt(tab2[j]); 
+		}   	  
+	}	
+   }
+   else {
+    var tab2 = sets.split('/');
+	for (var i = 0; i < tab2.length; i++) {
+	  total += parseInt(tab2[i]); 
+	}   
+   }
+	
+	
+  console.log('total',total);
+  console.log('modulo',total%2);
+	
+	
+  if (total%2 === 0)
+    return whobegin;
+
+  
+  return "";
+};
+
 JSON.tryParse = function(o, undefined) {
   try {
     return JSON.parse(o);

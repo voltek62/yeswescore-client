@@ -622,6 +622,8 @@ Y.Views.Game = Y.View.extend({
     $(this.displayViewScoreBoard).html(this.templates.game({
       game : this.game.toJSON(),
       owner : this.owner.toJSON(),
+      server1 : "o",
+      server2 : "",
       follow : this.follow
     }));
      
@@ -771,6 +773,8 @@ Y.Views.Game = Y.View.extend({
 	      } 
 	  } 
 	  
+	  
+	  
 	  if (game.get('infos').sets !== null ) { 
 	    if (game.get('infos').sets.indexOf(';')!=-1) { 
 	      var scoreboard = game.get('infos').sets.split(';'); 
@@ -811,9 +815,45 @@ Y.Views.Game = Y.View.extend({
 	    } 
 	  }        
 	
+	var startTeam = game.get('infos').startTeam;
+	var server1 = "";
+	var server2 = "";
+	
+	if ( whoServe(game.get('infos').sets,startTeam) === startTeam ) {
+	  if (game.get('teams')[0].id === startTeam) 
+	  {
+		$('.server1').addClass('server1-ball');
+		$('.server2').removeClass('server2-ball');
+		server1="o";
+		server2="";		
+	  }
+	  else {
+		$('.server1').removeClass('server1-ball');
+		$('.server2').addClass('server2-ball');		
+		server1="";
+		server2="o";				  
+	  }
+	}
+	else {
+	  if (game.get('teams')[0].id === startTeam) 
+	  {
+		$('.server1').removeClass('server1-ball');
+		$('.server2').addClass('server2-ball');		
+		server1="";
+		server2="o";			
+	  }
+	  else {
+		$('.server1').addClass('server1-ball');
+		$('.server2').removeClass('server2-ball');	
+		server1="o";
+		server2="";				  
+	  }
+	}
 	
     $(this.displayViewScoreBoard).html(this.templates.scoreboard({
       game : game.toJSON(),
+      server1 : server1, 
+      server2 : server2,
   	  team1_set1 : this.team1_set1
   	  , team1_set2 : this.team1_set2
       , team1_set3 : this.team1_set3

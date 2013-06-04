@@ -1708,6 +1708,20 @@ ul>li.player>a {
 	position: relative;
 }
 
+.game .socialbar label {
+	display: table-cell;
+	vertical-align: middle;
+	text-align:center;
+	margin: 0 auto;
+	font-size: 12px;
+	font-family: Open Sans;
+	font-weight: 400;
+	color: #0000;
+	/* hack, pour monter legerement le texte */
+	/*top: -2px;*/
+	/*position: relative;*/
+}
+
 .game .socialbar .buttonSpecial span {
 	display: table-cell;
 	vertical-align: middle;

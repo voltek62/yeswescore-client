@@ -98,7 +98,7 @@
     <!--
       SOCIAL BAR
     -->
-    <div class="socialbar">
+    <div class="">
       <% if (game.owner === playerid) { %>
 	      <div class="ui-grid-b">
 		   <div class="ui-block-a button">
@@ -181,10 +181,31 @@
           </div>
        </div>
       <% } %>
+      
+      
       <br/>
     </div>
+    <% if (game.owner === playerid) { %>
+    <div class="socialbar">
+      <div class="ui-grid-b">
+		<div class="ui-block-a button">
+		<a><%= game.teams[0].players[0].name %></a>
+		</div>
+        <div class="ui-block-b">
+        <label>Qui sert en Premier?</label>
+        </div>
+		<div class="ui-block-c button">
+		<a><%= game.teams[1].players[0].name %></a>		
+		</div>
+      </div>      
+    </div>
+    <% } %>
+    
+    
   </div>
 </div>
+
+
 <!--
   COMMENT BUTTON
 -->

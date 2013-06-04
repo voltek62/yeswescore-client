@@ -30,6 +30,9 @@ Y.Views.GameAdd = Y.View.extend({
 	this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');
+	
+	this.DB = new Y.DB("Y.GameAdd.");
+		
 	this.render();
   },
 
@@ -86,6 +89,26 @@ Y.Views.GameAdd = Y.View.extend({
     //On redirige vers le formulaire special
     if ( team1 === ''   && $('#team1').is(':disabled') ) {
       //$('span.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();
+            
+      //On sauvegarde les infos de la partie
+	  var game = {
+		team1 : team1
+	    , rank1 : $('#rank1').val()
+	    , team1_id : team1_id
+	    , team2 : team2
+	    , rank2 : $('#rank2').val()
+	    , team2_id : team2_id
+	    , city : city
+	    , court : $('#court').val()
+	    , surface : $('#surface').val()
+	    , tour : $('#tour').val()
+	    , subtype : $('#subtype').val()
+	    , playerid : this.playerid
+	    , token : this.token      
+	  };
+	  
+	  this.DB.saveJSON("game",game);
+	         
       Y.Router.navigate("players/form/me", {trigger: true});	  
       return false;
     }    
@@ -210,9 +233,7 @@ Y.Views.GameAdd = Y.View.extend({
   render: function () {
     this.$el.html(this.templates.gameadd());
     
-    //this.$el.i18n();
-
-	 
+    //this.$el.i18n(); 
 	 if ( this.owner.get('name') !== "" ) $("#team1").val(this.owner.get('name')); 
 	 if ( this.owner.get('id') !== "" ) $("#team1_id").val(this.owner.get('id')); 	
 	 
@@ -232,9 +253,38 @@ Y.Views.GameAdd = Y.View.extend({
 		 $('#inject-select').prepend(this.templates.gameinput()); 	   
 	 
 	 }
+         
+    //fill with last data 
+    if (this.DB !== undefined) {
+      
+      console.log('DB defined');
+    
+      var game = this.DB.readJSON("game"); 
+      
+      console.log('game json',game);
+      
+      if (game!==undefined) {
+      
+	    $("#team2").val(game.team2); 
+	    $("#team2_id").val(game.team2_id); 	       
+	    $("#rank2").val(game.rank2);                
+	 
+	    if (!isGingerbread) {
+		    if ( game.city !== "" ) $("#city").val(game.city);    
+		    if ( game.surface !== "" ) $("#surface").val(game.surface);
+		    if ( game.tour !== "" ) $("#tour").val(game.tour);
+		    if ( game.court !== "" ) $("#court").val(game.court);
+	    }
+	    if ( game.competition !== "" ) $("#competition").val(game.competition);      
      
-     
-     $('#content').i18n();
+        this.DB.remove("game"); 
+      }
+    }
+    else
+      console.log('DB not defined');
+    
+    
+    $('#content').i18n();
 		
     return this;
   },

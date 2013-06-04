@@ -256,12 +256,8 @@ Y.Views.GameAdd = Y.View.extend({
          
     //fill with last data 
     if (this.DB !== undefined) {
-      
-      console.log('DB defined');
     
       var game = this.DB.readJSON("game"); 
-      
-      console.log('game json',game);
       
       if (game!==undefined) {
       
@@ -280,9 +276,7 @@ Y.Views.GameAdd = Y.View.extend({
         this.DB.remove("game"); 
       }
     }
-    else
-      console.log('DB not defined');
-    
+ 
     
     $('#content').i18n();
 		

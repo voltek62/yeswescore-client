@@ -13,6 +13,8 @@ Y.Views.Game = Y.View.extend({
     'click #statusButton'   : 'statusGame',
     'click #statusRestart'  : 'restartGame',
     'click #followButton'   : 'followGame',
+    'click #startTeam1'     : 'startTeam1',
+    'click #startTeam2'     : 'startTeam2',        
     'click #cancelButton'   : 'cancelGame',
     'click #optionButton'   : 'optionGame',
     'click .undoSelect'     : 'undoAction',    
@@ -946,6 +948,52 @@ Y.Views.Game = Y.View.extend({
     }    	
   
   },
+  
+  startTeam1 : function() {
+
+    var game = {
+    	startTeam : 0 
+	    , team1_id : this.game.get('teams')[0].players[0].id
+	    , team2_id : this.game.get('teams')[1].players[0].id	      
+	    , playerid : this.playerid
+	    , token : this.token
+	    , id : this.gameid 
+    };
+    
+	var that = this;
+	
+	var tennis_update = new GameModel(game);
+	tennis_update.save({}, {
+      success: function(model, response){      
+	      //on cache le barre
+	      $('.serverbar').hide();
+      }
+	});      
+  
+  },
+  
+  startTeam2 : function() {
+  
+    var game = {
+    	startTeam : 1     	
+	    , team1_id : this.game.get('teams')[0].players[0].id
+	    , team2_id : this.game.get('teams')[1].players[0].id	      
+	    , playerid : this.playerid
+	    , token : this.token
+	    , id : this.gameid 
+    };
+    
+	var that = this;
+	
+	var tennis_update = new GameModel(game);
+	tennis_update.save({}, {
+      success: function(model, response){
+	      //on cache le barre
+	      $('.serverbar').hide();	      
+      }
+	});      
+  
+  },  
 
   statusGame : function() {    
 

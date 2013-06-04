@@ -39,6 +39,7 @@
 	  </div>
     </div> 
     
+        
     <span class="team1_error label label-info hide"></span> 
      
     <div class="ui-grid-b" style="padding-top: 10px">
@@ -60,7 +61,20 @@
       <input type="text" id="city" name="city" data-i18n="[placeholder]gameform.city;" value="<%= game.location.city %>" /> 
         <span class="city_error label label-info hide"></span>
     </div>
-    
+
+    <div style="padding-top: 10px">
+      <label class="form-label" data-i18n="gameform.whoserverdfirst"></label>
+    </div>    
+    <div class="serverbar">
+      <div class="ui-grid-a">
+        <div class="ui-block-a button">
+          <a id="startTeam1"><%= game.teams[0].players[0].name %></a>
+        </div>
+        <div class="ui-block-c button">
+          <a id="startTeam2"><%= game.teams[1].players[0].name %></a>   
+        </div>
+      </div>      
+    </div>    
     
     <div id="inject-select"></div>
     

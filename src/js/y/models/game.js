@@ -118,6 +118,10 @@ var GameModel = Backbone.Model.extend({
        if (this.get('country') !== "") 
          object.location.country = this.get('country');
          
+
+     if (this.get('startTeam') !== undefined)  
+       if (this.get('startTeam') !== "") 
+         object.infos.startTeam = this.get('startTeam');
          
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 	  
@@ -175,6 +179,8 @@ var GameModel = Backbone.Model.extend({
         var gameid = this.get('id');
         
         object.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+        
+        console.log('on met à jour game avec ',object); 
     
   	
 		var that = this;

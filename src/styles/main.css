@@ -1662,7 +1662,6 @@ ul>li.player>a {
 }
 
 
-
 .game .socialbar .button {
 	display: table;
 	height: 100%;
@@ -1708,19 +1707,6 @@ ul>li.player>a {
 	position: relative;
 }
 
-.game .socialbar label {
-	display: table-cell;
-	vertical-align: middle;
-	text-align:center;
-	margin: 0 auto;
-	font-size: 12px;
-	font-family: Open Sans;
-	font-weight: 400;
-	color: #0000;
-	/* hack, pour monter legerement le texte */
-	/*top: -2px;*/
-	/*position: relative;*/
-}
 
 .game .socialbar .buttonSpecial span {
 	display: table-cell;
@@ -1732,6 +1718,63 @@ ul>li.player>a {
 	/* hack, pour monter legerement le texte */
 	top: -2px;
 	position: relative;
+}
+
+.serverbar {
+	width: 100%;
+	height: 44px;
+	padding: 0;
+	padding-top: 5px;
+}
+
+.serverbar .ui-grid-b {
+	height: 100%;
+}
+
+
+.serverbar .button {
+	display: table;
+	height: 100%;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #46b1dd;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+	border: 1px solid #74c5e3;
+	cursor: pointer;
+}
+
+.serverbar .select { 
+	background-color: #f2734c; 
+}
+
+
+.serverbar .button a {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 12px;
+	font-family: Open Sans;
+	font-weight: 700;
+	color: white;
+	/* hack, pour monter legerement le texte */
+	top: -2px;
+	position: relative;
+}
+
+.serverbar .question {
+	display: table;
+	height: 100%;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.serverbar label {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 12px;
+	font-family: Open Sans;
+	font-weight: 700;
+	color: #0000;
 }
 
 .game .facebook {

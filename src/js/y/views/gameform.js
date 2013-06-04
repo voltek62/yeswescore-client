@@ -6,6 +6,8 @@ Y.Views.GameForm = Y.View.extend({
     'focus input[type="text"]': 'inputModeOn',
     'blur input[type="text"]': 'inputModeOff',
     //
+    'click #startTeam1'     : 'startTeam1',
+    'click #startTeam2'     : 'startTeam2',      
     'click #deleteMatch':'deleteMatch',    
     'click #updateGame':'update',
     'keyup #club': 'updateList',
@@ -102,6 +104,52 @@ Y.Views.GameForm = Y.View.extend({
     });  
   
   },
+      
+  startTeam1 : function() {
+
+    var game = {
+    	startTeam : 0    
+	    , team1_id : this.team1_id
+	    , team2_id : this.team2_id	    	  
+	    , playerid : this.playerid
+	    , token : this.token
+	    , id : this.gameid 
+    };
+    
+	var that = this;
+	
+	var tennis_update = new GameModel(game);
+	tennis_update.save({}, {
+      success: function(model, response){      
+		$('#startTeam1').parent().addClass("select");
+		$('#startTeam2').parent().removeClass("select");
+      }
+	});      
+  
+  },
+  
+  startTeam2 : function() {
+  
+    var game = {
+    	startTeam : 1   
+	    , team1_id : this.team1_id
+	    , team2_id : this.team2_id	    	  	      
+	    , playerid : this.playerid
+	    , token : this.token
+	    , id : this.gameid 
+    };
+    
+	var that = this;
+	
+	var tennis_update = new GameModel(game);
+	tennis_update.save({}, {
+      success: function(model, response){
+		$('#startTeam2').parent().addClass("select");
+		$('#startTeam1').parent().removeClass("select");			      
+      }
+	});      
+  
+  },        
       
   update: function (event) {
 
@@ -268,6 +316,17 @@ Y.Views.GameForm = Y.View.extend({
 	 
 	 }
 	 
+
+	if ( game.infos.startTeam !== undefined ) {
+	
+	 if (game.teams[0].id === game.infos.startTeam) {
+	   $('#startTeam1').parent().addClass("select");
+	 }
+	 else if (game.teams[1].id === game.infos.startTeam) {
+	   $('#startTeam2').parent().addClass("select");
+	 }
+	 	 
+	} 
 
     if ( game.teams[0].players[0].name !== undefined ) $("#team1").val(game.teams[0].players[0].name);    
     if ( game.teams[0].players[0].rank !== undefined ) $("#rank1").val(game.teams[0].players[0].rank);    

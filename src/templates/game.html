@@ -98,7 +98,7 @@
     <!--
       SOCIAL BAR
     -->
-    <div class="">
+    <div class="socialbar">
       <% if (game.owner === playerid) { %>
 	      <div class="ui-grid-b">
 		   <div class="ui-block-a button">
@@ -185,17 +185,17 @@
       
       <br/>
     </div>
-    <% if (game.owner === playerid) { %>
-    <div class="socialbar">
+    <% if (game.owner === playerid && game.infos.startTeam === undefined) { %>
+    <div class="serverbar">
       <div class="ui-grid-b">
 		<div class="ui-block-a button">
-		<a><%= game.teams[0].players[0].name %></a>
+		<a id="startTeam1"><%= game.teams[0].players[0].name %></a>
 		</div>
-        <div class="ui-block-b">
+        <div class="ui-block-b question">
         <label>Qui sert en Premier?</label>
         </div>
 		<div class="ui-block-c button">
-		<a><%= game.teams[1].players[0].name %></a>		
+		<a id="startTeam2"><%= game.teams[1].players[0].name %></a>		
 		</div>
       </div>      
     </div>

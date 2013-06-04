@@ -155,6 +155,7 @@
   },  	 
   "gameform": {
     "title": "MES OPTIONS",
+    "whoserverdfirst" : "Qui a servi en premier ?",
     "delete": "Supprimer le match",
     "date":"Date du match",
     "time":"Heure du match",

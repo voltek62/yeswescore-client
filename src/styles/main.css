@@ -1675,6 +1675,11 @@ ul>li.player>a {
 	cursor: pointer;
 }
 
+.game .socialbar .ko { 
+	background-color: #f2734c; 
+	border: 1px solid #f2734c; 
+}
+
 .game .socialbar .buttonSpecial {
 	display: table;
 	height: 100%;
@@ -1741,6 +1746,7 @@ ul>li.player>a {
 	top: 9px;
 	left: 15px;
 }
+
 
 .game .facebook.ok { background-color: #41c68f; border: 1px solid #41c68f; }
 .game .facebook.ko { background-color: #f2734c; border: 1px solid #f2734c; }

@@ -11,6 +11,7 @@ Y.Views.Game = Y.View.extend({
     'click .player-info'    : 'viewPlayer',    
     'click .playerInfos'    : 'viewPlayer',   
     'click #statusButton'   : 'statusGame',
+    'click #statusRestart'  : 'restartGame',
     'click #followButton'   : 'followGame',
     'click #cancelButton'   : 'cancelGame',
     'click #optionButton'   : 'optionGame',
@@ -392,6 +393,16 @@ Y.Views.Game = Y.View.extend({
 		    this.bufferedSendUpdater();
 	    }
 	  }
+	  else if ( this.statusScore === "created"  ) {
+	  
+	    var that = this;
+		this.$(".status").addClass("ko");
+	    this.shareTimeout = window.setTimeout(function () {
+	      that.$(".status").removeClass("ko");
+	      that.shareTimeout = null;
+	    }, 3000);	   
+	  
+	  } 
 	  
   },
 
@@ -895,9 +906,49 @@ Y.Views.Game = Y.View.extend({
   
   },
 
+  restartGame : function() {  
+  
+    var game = {
+	    team1_id : this.game.get('teams')[0].players[0].id
+	    , team2_id : this.game.get('teams')[1].players[0].id	      
+	    , playerid : this.playerid
+	    , token : this.token
+	    , id : this.gameid 
+    };  
+  
+	if ( this.statusScore === "finished"  ) {
+      game.status = "ongoing";    	 
+      //On met à jour les sets 
+     this.statusScore = "ongoing";  
+     game.sets = this.calculScore();      
+      
+               
+      var tennis_update = new GameModel(game);
+      
+      var that = this;
+	    tennis_update.save({}, {
+        success: function(model, response){
+	        
+            $("#statusButton").html(i18n.t('game.finish'));
+            
+            // statusRestart to optionButton
+            $("#statusRestart").attr("id","optionButton");
+ 			$("#optionButton").html(i18n.t('game.options'));
+            
+            // On efface la cache
+            if (this.DB!==undefined)
+              this.DB.remove("sets");
+             
+          }
+	    });
+	    
+	    
+    }    	
+  
+  },
+
   statusGame : function() {    
 
-    console.log('statusGame '+this.gameid+'  status '+this.statusScore);
 
     var game = {
 	    team1_id : this.game.get('teams')[0].players[0].id
@@ -907,7 +958,7 @@ Y.Views.Game = Y.View.extend({
 	    , id : this.gameid 
     };
     	
-    console.log('game',game);
+
 
     if ( this.statusScore === "created"  ) {
       game.status = "ongoing";    	          
@@ -935,6 +986,9 @@ Y.Views.Game = Y.View.extend({
         success: function(model, response){
 	        console.log('success ');	        
             $("#statusButton").html(i18n.t('game.finished'));	 
+         
+            $("#optionButton").attr("id","statusRestart");
+ 			$("#statusRestart").html(i18n.t('game.restart'));
             
             // On efface la cache
             if (this.DB!==undefined)

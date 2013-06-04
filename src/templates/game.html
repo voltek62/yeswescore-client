@@ -101,13 +101,25 @@
     <div class="socialbar">
       <% if (game.owner === playerid) { %>
 	      <div class="ui-grid-b">
-		      <div class="ui-block-a button">
-            <a id="optionButton" data-i18n="game.options"></a> 
-		      </div>
+		   <div class="ui-block-a button">
+		   <%
+		     if (game.status === "finished" || game.status === "canceled") 
+             {
+             %>
+              <a id ="statusRestart" data-i18n="game.restart"></a>
+             <%
+             }
+             else {
+             %>
+              <a id="optionButton" data-i18n="game.options"></a>
+             <%
+             }
+             %>
+		   </div>
           <div id="facebook" class="ui-block-b share">
             <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
           </div>
-		      <div class="ui-block-c button">
+		      <div class="ui-block-c button status">
                 <% if (game.status === "created" ) { %>
 		        <a id="statusButton" data-i18n="game.begin"></a>
                 <% }

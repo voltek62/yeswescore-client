@@ -37,6 +37,7 @@
   },   
   "game": {
     "title": "MATCH",  
+    "restart" : "Reprendre",
     "spectators" : "Mode Spectateur",
     "finish": "Terminer match",
     "ongoing": "En direct",

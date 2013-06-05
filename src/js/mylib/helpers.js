@@ -52,15 +52,23 @@ var checkComment = function(input){
 
 var whoServe = function(sets,whobegin){
 
-   console.log('whoServe', sets);
+   //console.log('whoServe', sets);
+   
+   if (sets==="") sets="0/0";
+   
    var total=0; 
     
+ /*
+ if ($.isNumeric(team2_set1) === false)
+ */
     
   if (sets.indexOf(';')!=-1) { 
     var tab = sets.split(';');
 	for (var i = 0; i < tab.length; i++) {
 	    var tab2 = tab[i].split('/');
 		for (var j = 0; j < tab2.length; j++) {
+		 
+     
 		  total += parseInt(tab2[j]); 
 		}   	  
 	}	
@@ -73,8 +81,8 @@ var whoServe = function(sets,whobegin){
    }
 	
 	
-  console.log('total',total);
-  console.log('modulo',total%2);
+  //console.log('total',total);
+  //console.log('modulo',total%2);
 	
 	
   if (total%2 === 0)

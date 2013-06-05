@@ -118,7 +118,34 @@ Y.Views.GameComments = Y.View.extend({
           
     }  
   
-	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
+	this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
+	  
+	var startTeam = this.game.get('infos').startTeam;
+	this.server1 = "";
+	this.server2 = "";	  
+	  
+	if ( whoServe(this.game.get('infos').sets,startTeam) === startTeam ) {
+	  if (this.game.get('teams')[0].id === startTeam) 
+	  {
+		$('.server1').addClass('server-ball');
+		$('.server2').removeClass('server-ball');	
+	  }
+	  else {
+		$('.server1').removeClass('server-ball');
+		$('.server2').addClass('server-ball');						  
+	  }
+	}
+	else {
+	  if (this.game.get('teams')[0].id === startTeam) 
+	  {
+		$('.server1').removeClass('server-ball');
+		$('.server2').addClass('server-ball');				
+	  }
+	  else {
+		$('.server1').addClass('server-ball');
+		$('.server2').removeClass('server-ball');				  
+	  }
+	}	  
 	  
 	  return this;
   },

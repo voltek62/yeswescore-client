@@ -71,7 +71,7 @@
           <div class="ui-block-a player-name" style="width:58%;">
     	<% 
     	if (game.teams[0].players[0]!== undefined) { 
-    		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+    		print('<b>'+game.teams[0].players[0].name+'</b>&nbsp;<b class="server1">&nbsp;&nbsp;&nbsp;</b><br/>');
     	}
     	%>         
           </div>
@@ -89,9 +89,8 @@
      
           <div class="ui-block-a player-name" style="width:58%;">
     	<% 
-    	if (game.teams[1].players[0]!== undefined) { 
-    		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
-    			
+    	if (game.teams[1].players[0]!== undefined) { 	
+            print('<b>'+game.teams[1].players[0].name+'</b>&nbsp;<b class="server2">&nbsp;&nbsp;&nbsp;</b><br/>');    			
     	}
     	%>         
           </div>

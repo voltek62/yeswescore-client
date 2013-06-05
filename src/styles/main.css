@@ -1860,7 +1860,7 @@ ul>li.player>a {
 }
 
 
-.server1-ball {
+.server-ball {
 	width:25px;
 	height:25px;
 	background-image: url(images/ball.png);
@@ -1871,16 +1871,6 @@ ul>li.player>a {
 	background-repeat: no-repeat;	
 }
 
-.server2-ball {
-	width:25px;
-	height:25px;
-	background-image: url(images/ball.png);
-	/*#ifdef NOCORDOVA*/
-	background-image: url(/images/ball.png);
-	/*#endif*/	
-	background-size: 100%;
-	background-repeat: no-repeat;	
-}
 
 .scoreBoard .playerInfos .player-name {
 	display: block;

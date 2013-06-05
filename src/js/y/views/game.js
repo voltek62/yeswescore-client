@@ -40,6 +40,8 @@ Y.Views.Game = Y.View.extend({
   shareTimeout: null,
   senderTimeout : null,
   sharing: false,
+  server1: false,
+  server2: false,  
   
   team1_set1 : '&nbsp;'
   , team1_set2 : '&nbsp;'
@@ -336,6 +338,7 @@ Y.Views.Game = Y.View.extend({
 
  setTeamScore : function(input, div) {
   
+  /*
      var score = '';	
         
     if ($.isNumeric(input))
@@ -358,6 +361,7 @@ Y.Views.Game = Y.View.extend({
 		    this.bufferedSendUpdater();
 	    }
 	  }
+	*/
 	  
   },
 
@@ -386,13 +390,29 @@ Y.Views.Game = Y.View.extend({
 		     this.team2_set2 = set;
 		    else if (div.attr('id').indexOf('team2_set3')!==-1)
 		     this.team2_set3 = set;
-		     		     		     		     		        
-		    //FIXME : NO HTML IN CODE
-		    div.html('<div class="score ongoing">'+set+'</div>');
-		    
-	
-		        
+		     		     		     		     		        		        
 		    this.bufferedSendUpdater();
+		    
+		     //CHANGE SERVER
+		     console.log('server1',this.server1);
+		     console.log('server2',this.server2);
+		     
+			if (this.server1==true) {
+			  $('.server1').removeClass('server-ball');
+			  $('.server2').addClass('server-ball');		
+			  this.server1=false;
+			  this.server2=true;		
+			}
+			else if (this.server2==true) {
+			  $('.server1').addClass('server-ball');
+			  $('.server2').removeClass('server-ball');	
+			  this.server1=true;
+			  this.server2=false;			  					
+			}
+			
+			//FIXME : NO HTML IN CODE
+		    div.html('<div class="score ongoing">'+set+'</div>');
+			
 	    }
 	  }
 	  else if ( this.statusScore === "created"  ) {
@@ -622,8 +642,6 @@ Y.Views.Game = Y.View.extend({
     $(this.displayViewScoreBoard).html(this.templates.game({
       game : this.game.toJSON(),
       owner : this.owner.toJSON(),
-      server1 : "o",
-      server2 : "",
       follow : this.follow
     }));
      
@@ -815,45 +833,11 @@ Y.Views.Game = Y.View.extend({
 	    } 
 	  }        
 	
-	var startTeam = game.get('infos').startTeam;
-	var server1 = "";
-	var server2 = "";
+
 	
-	if ( whoServe(game.get('infos').sets,startTeam) === startTeam ) {
-	  if (game.get('teams')[0].id === startTeam) 
-	  {
-		$('.server1').addClass('server1-ball');
-		$('.server2').removeClass('server2-ball');
-		server1="o";
-		server2="";		
-	  }
-	  else {
-		$('.server1').removeClass('server1-ball');
-		$('.server2').addClass('server2-ball');		
-		server1="";
-		server2="o";				  
-	  }
-	}
-	else {
-	  if (game.get('teams')[0].id === startTeam) 
-	  {
-		$('.server1').removeClass('server1-ball');
-		$('.server2').addClass('server2-ball');		
-		server1="";
-		server2="o";			
-	  }
-	  else {
-		$('.server1').addClass('server1-ball');
-		$('.server2').removeClass('server2-ball');	
-		server1="o";
-		server2="";				  
-	  }
-	}
 	
     $(this.displayViewScoreBoard).html(this.templates.scoreboard({
       game : game.toJSON(),
-      server1 : server1, 
-      server2 : server2,
   	  team1_set1 : this.team1_set1
   	  , team1_set2 : this.team1_set2
       , team1_set3 : this.team1_set3
@@ -905,8 +889,43 @@ Y.Views.Game = Y.View.extend({
 		  $('#team2_set2_div .score').removeClass('ongoing');		  
 		  $('#team3_set3_div .score').removeClass('ongoing');
 		  $('#team3_set3_div .score').removeClass('ongoing');              
-    }    
-
+    } 
+    
+    
+    
+	var startTeam = game.get('infos').startTeam;
+	
+	if ( whoServe(game.get('infos').sets,startTeam) === startTeam ) {
+	  if (game.get('teams')[0].id === startTeam) 
+	  {
+		$('.server1').addClass('server-ball');
+		$('.server2').removeClass('server-ball');
+		this.server1=true;
+		this.server2=false;		
+	  }
+	  else {
+		$('.server1').removeClass('server-ball');
+		$('.server2').addClass('server-ball');		
+		this.server1=false;
+		this.server2=true;				  
+	  }
+	}
+	else {
+	  if (game.get('teams')[0].id === startTeam) 
+	  {
+		$('.server1').removeClass('server-ball');
+		$('.server2').addClass('server-ball');		
+		this.server1=false;
+		this.server2=true;			
+	  }
+	  else {
+		$('.server1').addClass('server-ball');
+		$('.server2').removeClass('server-ball');	
+		this.server1=true;
+		this.server2=false;				  
+	  }
+	}
+	
     return this;
   },
 
@@ -928,21 +947,44 @@ Y.Views.Game = Y.View.extend({
 		 || (team1_set3>=7 && diff_sets3>2)
 		 || (team2_set3>=7 && diff_sets3>2)				 		 
 		*/
-     
-  	 if ( this.team1_set1 < this.team2_set1 && this.team2_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 ))
-  	   sets2++;
-  	 else if (this.team1_set1 > this.team2_set1 && this.team1_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 ) )
-  	   sets1++;
+	
+	/*	
+	 console.log('team1_set1',this.team1_set1);	
+	 console.log('team2_set1',this.team2_set1);	 
+	 
+	 console.log('team1_set2',this.team1_set2);	 
+	 console.log('team2_set2',this.team2_set2);
 
-  	 if (this.team1_set2 < this.team2_set2 && this.team2_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 ))
+	 console.log('team1_set3',this.team1_set3);
+	 console.log('team2_set3',this.team2_set3);	 
+	 */	 	 	 	 	
+     
+  	 if ( this.team1_set1 < this.team2_set1 && this.team2_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 )) {
   	   sets2++;
-  	 else if (this.team1_set2 > this.team2_set2 && this.team2_set1>=6 && ( this.team2_set3>0 || this.team1_set3>0 ))
+  	   //console.log('mode 1');
+  	 }
+  	 else if (this.team1_set1 > this.team2_set1 && this.team1_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 ) ) {
   	   sets1++;
+  	   //console.log('mode 2');
+  	 }
+
+  	 if (this.team1_set2 < this.team2_set2 && this.team2_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 )) {
+  	   sets2++;
+  	   //console.log('mode 3');
+  	 }
+  	 else if (this.team1_set2 > this.team2_set2 && this.team1_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 )) {
+  	   sets1++;
+  	   //console.log('mode 4');
+  	 }
   	   
-  	 if (this.team1_set3 < this.team2_set3 && this.team2_set3>=6 && this.statusScore==="finished")  	       
+  	 if (this.team1_set3 < this.team2_set3 && this.team2_set3>=6 && this.statusScore==="finished") {	       
        sets2++;
-     else if (this.team1_set3 > this.team2_set3 && this.team2_set3>=6 && this.statusScore==="finished")
+       //console.log('mode 5');
+     }
+     else if (this.team1_set3 > this.team2_set3 && this.team1_set3>=6 && this.statusScore==="finished") {
        sets1++;
+       //console.log('mode 6');
+     }
        
     return sets1+"/"+sets2;     
   
@@ -962,9 +1004,8 @@ Y.Views.Game = Y.View.extend({
       game.status = "ongoing";    	 
       //On met à jour les sets 
      this.statusScore = "ongoing";  
-     game.sets = this.calculScore();      
-      
-               
+     game.score = this.calculScore();      
+                
       var tennis_update = new GameModel(game);
       
       var that = this;
@@ -1064,9 +1105,8 @@ Y.Views.Game = Y.View.extend({
       game.status = "finished";    	 
       //On met à jour les sets 
      this.statusScore = "finished";  
-     game.sets = this.calculScore();      
+     game.score = this.calculScore();      
       
-               
       var tennis_update = new GameModel(game);
       
       var that = this;
@@ -1077,7 +1117,15 @@ Y.Views.Game = Y.View.extend({
          
             $("#optionButton").attr("id","statusRestart");
  			$("#statusRestart").html(i18n.t('game.restart'));
-            
+ 			
+ 			//On met à jour le score
+ 			var score = that.calculScore();
+ 			console.log('match fini on calcule le score:',score);
+ 			
+	        var scoreboard = score.split('/'); 
+ 			$('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');
+ 			$('#team2_sets_div').html('<div class="score sets">'+scoreboard[1]+'</div>');
+ 			      
             // On efface la cache
             if (this.DB!==undefined)
               this.DB.remove("sets");

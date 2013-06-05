@@ -722,7 +722,6 @@ Y.Views.Game = Y.View.extend({
 		      this.DB.saveJSON("sets", [["0/0","0/0"]]);		      	         
 			}
 	        
-	        
 	        this.init = false;
 	      }
 	      
@@ -802,6 +801,10 @@ Y.Views.Game = Y.View.extend({
     */
     
 	this.renderScoreBoard(game);
+	
+	
+	if (game.get('infos').startTeam === undefined)
+	     $('.button-comments').css('display', 'none');
 
     //i18n
     //PERF:on remplace que les champs du DOM concern�
@@ -1082,7 +1085,9 @@ Y.Views.Game = Y.View.extend({
 		  $('.server1').addClass('server-ball');
 		  $('.server2').removeClass('server-ball');			  		
 		  this.server1=false;
-		  this.server2=true;		      
+		  this.server2=true;		
+		  
+		  $('.button-comments').show();      
       }
 	});      
   
@@ -1109,7 +1114,9 @@ Y.Views.Game = Y.View.extend({
 		  $('.server1').removeClass('server-ball');
 		  $('.server2').addClass('server-ball');
 		  this.server1=true;
-		  this.server2=false;	           
+		  this.server2=false;	
+		  
+		  $('.button-comments').show();             
       }
 	});      
   

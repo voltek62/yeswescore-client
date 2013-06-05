@@ -701,6 +701,44 @@ ul>li.player>a {
   box-sizing:        border-box;
 }
 
+.blue-screen .ui-grid-b .ui-block-a {
+	width: 45%;
+	height: 30px;
+	padding-right: 10px;
+}
+
+.blue-screen .ui-grid-b .ui-block-b {
+	width: 35%;
+	padding-right: 10px;
+}
+
+.blue-screen .ui-grid-b .ui-block-c {
+	width: 20%;
+}
+
+/* option formulaire simple */
+.blue-screen .simple .ui-grid-b .ui-block-a,.gameAdd .ui-grid-b.me .ui-block-a
+	{
+	width: 80%;
+}
+
+.blue-screen .simple .ui-grid-b .ui-block-b,.gameAdd .ui-grid-b.me .ui-block-b
+	{
+	display: none;
+	width: 0%;
+	padding: 0;
+}
+
+.blue-screen .simple .ui-grid-b .ui-block-c,.gameAdd .ui-grid-b.me .ui-block-c
+{
+	width: 20%;
+}
+
+.blue-screen .serverbar a
+{
+	height:30px;
+}
+
 .gameAdd .zone-list {
   background-color:#45b1db;  
   width:100%;

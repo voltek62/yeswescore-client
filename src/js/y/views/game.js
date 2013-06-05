@@ -39,7 +39,9 @@ Y.Views.Game = Y.View.extend({
 
   shareTimeout: null,
   senderTimeout : null,
+  undoTimeout : null,
   sharing: false,
+  init: true,
   server1: false,
   server2: false,  
   
@@ -245,9 +247,21 @@ Y.Views.Game = Y.View.extend({
       that.shareSuccess();
     });
   },
+  
+  
+  undoAction: function() {
+  
+	  if (this.undoTimeout) {
+		window.clearTimeout(this.undoTimeout);
+		this.undoTimeout = null;
+	  }
+		
+	  this.undoTimeout = setTimeout(_.bind(this.bufferedUndoAction, this), 1500);
+			    
+  },
  
 
-  undoAction: function () {
+  bufferedUndoAction: function () {
 
     	   	  
     if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {
@@ -303,7 +317,9 @@ Y.Views.Game = Y.View.extend({
 	
 		      this.game = new GameModel(game);	    
 		      var that = this;
-	
+			  
+				
+			  
 		      this.game.save({}, {
 		      
             	  success: function(model, response) {
@@ -324,7 +340,9 @@ Y.Views.Game = Y.View.extend({
             		
             	
             	}
-          });   
+            });   
+            
+            
 	      } 
 	    }
     }
@@ -504,6 +522,19 @@ Y.Views.Game = Y.View.extend({
       sets_update += ";" + team1_set3 + '/' + team2_set3;
     }
           
+
+	/* MAJ cache */
+    var setsCache = this.DB.readJSON("sets");
+    if (setsCache !== undefined)
+    {
+      setsCache.push([sets_update,score]);
+      this.DB.saveJSON("sets", setsCache);
+    }
+    else {
+      this.DB.saveJSON("sets", [[sets_update,score]]);
+      	         
+	}          
+          
     /* regle de gestion */
     // add diff de 2 max si superieur à 6
     // add force score if diff de 2 ou on peut mettre à jour les scores ? on controle si 0,1,2,3
@@ -533,6 +564,8 @@ Y.Views.Game = Y.View.extend({
 	}
 	
 	this.senderTimeout = setTimeout(_.bind(this.sendUpdater, this), 1500);
+	
+	
 
    },
 
@@ -585,30 +618,8 @@ Y.Views.Game = Y.View.extend({
 
     /* controle si possible */
     /* on met "ongoing" sur la class "score" en cours*/
-    
-
-
-    
     this.currentScore = sets_update;        
 
-    var setsCache = this.DB.readJSON("sets");
-    if (setsCache !== undefined)
-    {
-      setsCache.push([sets_update,score]);
-      //Y.Conf.set("owner.games."+this.gameid+".sets", setsCache );
-        
-      //FIXME : use Y.DB
-      this.DB.saveJSON("sets", setsCache);
-  
-    }
-    else {
-      //Y.Conf.set("owner.games."+this.gameid+".sets", [[sets_update,score]]);	
-      
-      //FIXME : use Y.DB
-      this.DB.saveJSON("sets", [[sets_update,score]]);
-      	         
-	}
-        
     var game = {
       team1_id : this.game.get('teams')[0].players[0].id
 	  , team2_id : this.game.get('teams')[1].players[0].id
@@ -683,29 +694,44 @@ Y.Views.Game = Y.View.extend({
     
     console.log('render game',game);
 
-    //si premiere init et lastScore null, on stock le score en cours
-    if (this.lastScore.length === 0) {
+    //si premiere init, on stock le score en cours
+    if (this.init === true) {
 	    if (game.get('owner') !== "") {	          
       
 	      if (game.get('infos').sets !== undefined) {
 	          
 	        this.statusScore = game.get('status');      
 
-	          
-	        if (game.get('infos').sets!=="") {
-		        //this.lastScore.push(game.get('infos').sets);	    
+	        var sets = game.get('infos').sets;
+	        var score = game.get('infos').score;
+	           
+	        if (sets!=="") {	    
 		        this.currentScore = game.get('infos').sets;  
 	        }
-	        else {
-		        //this.lastScore.push("0/0");	    
+	        else {	    
 		        this.currentScore = "0/0";  	         
 	        }
+	        
+		    var setsCache = this.DB.readJSON("sets");
+		    if (setsCache !== undefined)
+		    {
+		      setsCache.push([sets,score]);
+		      this.DB.saveJSON("sets", setsCache);  
+		    }
+		    else {
+		      this.DB.saveJSON("sets", [[sets,score]]);		      	         
+			}
+	        
+	        
+	        this.init = false;
 	      }
 	      
 	      this.gameid = game.id;
 
 	     
 	    }
+	    
+	    
     }
         
     var timer = '';
@@ -1202,6 +1228,11 @@ Y.Views.Game = Y.View.extend({
        window.clearTimeout(this.senderTimeout);
        this.sendUpdater();
        this.senderTimeout = null;
+     }
+
+     if (this.undoTimeout) {
+       window.clearTimeout(this.undoTimeout);
+       this.undoTimeout = null;
      }
       
     // desabonnements

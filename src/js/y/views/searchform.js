@@ -44,18 +44,18 @@ Y.Views.SearchForm = Y.View.extend({
       
   update: function (event) {
 
-    $(".filters a[data-filter*='match-']").removeClass('select');
     
 	if (o==='geolocation') 
       $('.filters #filter-match-geo').addClass('select');
- 	else if (o==='not') 
+ 	
+ 	if (o==='not') 
   	  $('.filters #filter-match-not').addClass('select'); 
- 	else if (o==='club') 
+ 	
+ 	if (o==='club') 
       $('.filters #filter-match-club').addClass('select'); 
       
-    this.searchOption = o;  
     Y.User.setFiltersSearch(o);         
-    this.search();  
+
     
   },     
     
@@ -64,9 +64,10 @@ Y.Views.SearchForm = Y.View.extend({
   render: function(){
   
     this.$el.html(this.templates.searchform({}));
-        
-        
+  
     this.$el.i18n();
+    
+    $(".filters a[data-filter*='match-']").removeClass('select');
       
    
   },

@@ -1048,8 +1048,8 @@ Y.Views.Game = Y.View.extend({
       success: function(model, response){      
 	      //on cache le barre
 	      $('.serverbar').hide();
-		  $('.server1').removeClass('server-ball');
-		  $('.server2').addClass('server-ball');		
+		  $('.server1').addClass('server-ball');
+		  $('.server2').removeClass('server-ball');			  		
 		  this.server1=false;
 		  this.server2=true;		      
       }
@@ -1075,8 +1075,8 @@ Y.Views.Game = Y.View.extend({
       success: function(model, response){
 	      //on cache le barre
 	      $('.serverbar').hide();	 
-		  $('.server1').addClass('server-ball');
-		  $('.server2').removeClass('server-ball');	
+		  $('.server1').removeClass('server-ball');
+		  $('.server2').addClass('server-ball');
 		  this.server1=true;
 		  this.server2=false;	           
       }

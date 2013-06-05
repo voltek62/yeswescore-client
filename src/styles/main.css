@@ -1323,12 +1323,8 @@ ul>li.player>a {
 	padding-bottom:5px;
 }
 
-.filters a[data-filter^='match'] {
-	
-}
 
-
-.filters a[data-filter='match-geo'] {
+a[data-filter='match-geo'] {
 	background-image: url(images/ico-match-geo.png);
 	/*#ifdef NOCORDOVA*/
 	background-image: url(/images/ico-match-geo.png);
@@ -1339,7 +1335,7 @@ ul>li.player>a {
     background-position: left center;
 }
 
-.filters a[data-filter='match-not'] {
+a[data-filter='match-not'] {
 	background: url(images/icon-match-nofilter.png);
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/icon-match-nofilter.png);
@@ -1350,10 +1346,22 @@ ul>li.player>a {
     background-position: left center;
 }
 
-.filters a[data-filter='match-club'] {
+a[data-filter='match-club'] {
 	background: url(images/ico-match-club.png);
 	/*#ifdef NOCORDOVA*/
 	background: url(/images/ico-match-club.png);
+	/*#endif*/
+	padding-left: 30px;
+	background-size:26px 26px;
+    background-repeat: no-repeat;	
+    background-position: left center;	
+}
+
+
+a[data-filter='match-followed'] {
+	background: url(images/ico-match-followed.png);
+	/*#ifdef NOCORDOVA*/
+	background: url(/images/ico-match-followed.png);
 	/*#endif*/
 	padding-left: 30px;
 	background-size:26px 26px;
@@ -1931,6 +1939,31 @@ ul>li.player>a {
 	font-family: Open Sans;
 	font-size: 10px;
 }
+
+
+
+
+
+.search-grid {
+	position: relative;
+	width: 100%;
+	margin-top: 8px;
+	margin-bottom: 13px;
+}
+
+.search-grid .ui-grid-a .ui-block-a
+{
+	width: 80%;
+	height:26px;
+}
+
+.search-grid .ui-grid-a .ui-block-b {
+	width: 20%;
+	height:26px;
+	padding-bottom:20px;
+}
+
+
 
 
 

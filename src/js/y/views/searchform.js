@@ -5,6 +5,9 @@ Y.Views.SearchForm = Y.View.extend({
   
     'click #updateSearch':'update',
     'keyup #club': 'updateList',
+    "click #searchgeo":"update",
+    "click #searchclub":"update", 
+    "click #searchgamefollowed":"update",        
     'click #club_choice' : 'displayClub'
       
   },
@@ -44,7 +47,11 @@ Y.Views.SearchForm = Y.View.extend({
       
   update: function (event) {
 
-    
+	console.log("event: "+event.currentTarget.id);
+	console.log("state: ",event.currentTarget);	
+	
+	
+    /*
 	if (o==='geolocation') 
       $('.filters #filter-match-geo').addClass('select');
  	
@@ -53,8 +60,9 @@ Y.Views.SearchForm = Y.View.extend({
  	
  	if (o==='club') 
       $('.filters #filter-match-club').addClass('select'); 
+      */
       
-    Y.User.setFiltersSearch(o);         
+    Y.User.setFiltersSearch(event.currentTarget.id);         
 
     
   },     

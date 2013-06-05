@@ -141,8 +141,10 @@ Y.Views.GameFollow = Y.View.extend({
   
   onClose: function() {
     this.undelegateEvents();
+    
+    console.log('onClose',this.games);
 
-	if (this.games!==undefined) {
+	if (this.games!==undefined && this.games!==null) {
 		this.games.forEach(function (game) {
 		   game.off("sync", this.syncGame, this);
 		}, this);

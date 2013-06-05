@@ -394,8 +394,8 @@ Y.Views.Game = Y.View.extend({
 		    this.bufferedSendUpdater();
 		    
 		     //CHANGE SERVER
-		     console.log('server1',this.server1);
-		     console.log('server2',this.server2);
+		     //console.log('server1',this.server1);
+		     //console.log('server2',this.server2);
 		     
 			if (this.server1==true) {
 			  $('.server1').removeClass('server-ball');
@@ -1048,6 +1048,10 @@ Y.Views.Game = Y.View.extend({
       success: function(model, response){      
 	      //on cache le barre
 	      $('.serverbar').hide();
+		  $('.server1').removeClass('server-ball');
+		  $('.server2').addClass('server-ball');		
+		  this.server1=false;
+		  this.server2=true;		      
       }
 	});      
   
@@ -1070,7 +1074,11 @@ Y.Views.Game = Y.View.extend({
 	tennis_update.save({}, {
       success: function(model, response){
 	      //on cache le barre
-	      $('.serverbar').hide();	      
+	      $('.serverbar').hide();	 
+		  $('.server1').addClass('server-ball');
+		  $('.server2').removeClass('server-ball');	
+		  this.server1=true;
+		  this.server2=false;	           
       }
 	});      
   

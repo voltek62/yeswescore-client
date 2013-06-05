@@ -256,7 +256,7 @@ Y.Views.Game = Y.View.extend({
 		this.undoTimeout = null;
 	  }
 		
-	  this.undoTimeout = setTimeout(_.bind(this.bufferedUndoAction, this), 1500);
+	  this.undoTimeout = setTimeout(_.bind(this.bufferedUndoAction, this), 500);
 			    
   },
  
@@ -719,7 +719,7 @@ Y.Views.Game = Y.View.extend({
 		      this.DB.saveJSON("sets", setsCache);  
 		    }
 		    else {
-		      this.DB.saveJSON("sets", [[sets,score]]);		      	         
+		      this.DB.saveJSON("sets", [["0/0","0/0"]]);		      	         
 			}
 	        
 	        

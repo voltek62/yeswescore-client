@@ -738,9 +738,6 @@ Y.Views.Game = Y.View.extend({
         
     if ( game.get('status') === "finished" ) {
        
-      //var dateEnd = new Date(game.get('dates').end);
-      //var dateStart = new Date(game.get('dates').start);
-
       var dateEnd = Date.fromString(game.get('dates').end);      
       var dateStart = Date.fromString(game.get('dates').start);
           	
@@ -750,7 +747,15 @@ Y.Views.Game = Y.View.extend({
       if (timer>0)       
         timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);  
       else
-         timer = '00:00';      
+         timer = '00:00';   
+         
+      $("#statusButton").html(i18n.t('game.finished'));	         
+      $("#optionButton").attr("id","statusRestart");
+ 	  $("#statusRestart").html(i18n.t('game.restart'));
+ 	  var score = this.calculScore();
+ 	  var scoreboard = score.split('/'); 
+ 	  $('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');
+ 	  $('#team2_sets_div').html('<div class="score sets">'+scoreboard[1]+'</div>');            
         
     }
     else if ( game.get('status') === "ongoing" ) {
@@ -1146,7 +1151,7 @@ Y.Views.Game = Y.View.extend({
       var that = this;
 	    tennis_update.save({}, {
         success: function(model, response){
-	        console.log('success ');	        
+	        	        
             $("#statusButton").html(i18n.t('game.finished'));	 
          
             $("#optionButton").attr("id","statusRestart");
@@ -1154,7 +1159,6 @@ Y.Views.Game = Y.View.extend({
  			
  			//On met à jour le score
  			var score = that.calculScore();
- 			console.log('match fini on calcule le score:',score);
  			
 	        var scoreboard = score.split('/'); 
  			$('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');

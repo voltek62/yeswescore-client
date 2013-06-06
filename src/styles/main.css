@@ -693,9 +693,20 @@ ul>li.player>a {
 }
 
 .blue-screen.content-container {
-	padding-left: 0px;
-	padding-right: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
 	padding-bottom: 0px;
+}
+
+.blue-screen .container {
+  background-color:#45b1db;  
+  width:100%;
+  min-height: 100%;
+  padding: 9px;
+  padding-bottom: 110px;
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:        border-box;
 }
 
 .blue-screen .zone-list {
@@ -1062,10 +1073,10 @@ ul>li.player>a {
 /*
   playerForm.html
 */
-.simple .show-if-first {
+.container .show-if-first {
   display: none;
 }
-.simple.first .show-if-first {
+.container.first .show-if-first {
   display: inline-block;
 }
 
@@ -1205,7 +1216,6 @@ ul>li.player>a {
 	padding-left:2px;		
 	padding-right:2px;
 }
-
 
 /* layout grille */
 .indexViewTemplate>.ui-grid-a {
@@ -1444,7 +1454,6 @@ a[data-filter='match-followed'] {
 
 .search a.select {
 	color:#44b1da;
-	font-weight: bold;
 }
 
 /* playerlist.html */
@@ -2292,6 +2301,23 @@ a[data-filter='match-followed'] {
 	-moz-appearance: caret;
 	border: 0;
 }
+
+/*
+  players/signin
+  singin
+  
+  3 states :
+   - simple
+   - signin.
+  */
+.signin.content-container {
+	padding-bottom: 0px;
+}
+
+.signin.background {
+	background-color: #45b1db;
+}
+
 
 /**********************************************************
 	Bootstrap failure

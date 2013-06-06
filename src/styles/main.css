@@ -773,7 +773,15 @@ ul>li.player>a {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: bold;
 	font-size: 12px;
-	color: #ffff;
+	color: #fff;
+}
+
+.label-error {
+	padding-left: 10px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color: #6e3321;
 }
 
 .form-radio-android * {

@@ -18,13 +18,11 @@ Y.Views.PlayerForm = Y.View.extend({
   shareTimeout: null,    
 
   myinitialize:function(obj) {
-  
     this.player = null;  
     this.useSearch = 0;	
-    
     this.mode = obj.mode;
-          
-	//header
+  
+	  //header
     Y.GUI.header.title(i18n.t('playerform.title')); 
   
     // loading templates.
@@ -39,19 +37,15 @@ Y.Views.PlayerForm = Y.View.extend({
     this.playerid = this.owner.get('id');
     this.clubid = this.owner.get('club').id;
     
-    
     // we render immediatly
     this.render();    
     
     this.player = new PlayerModel({id : this.owner.id});
     this.player.once("sync", this.renderPlayer, this);	
     this.player.fetch();
-     	
-
   },
   
   autocompleteClubs: function (input, callback) {
-  
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
       callback('empty');		
     
@@ -69,17 +63,12 @@ Y.Views.PlayerForm = Y.View.extend({
     }).fail(function (xhr, error) { 
       callback(error);
     });
-
   },
 
   autocompleteChoose: function (data) {
-
     if (data && data.name) {
       this.$("#club").val(data.name);
-      this.clubid = data.id; 
-      
-
-           
+      this.clubid = data.id;
       this.$('club_error').html('');      
     }
   },
@@ -121,23 +110,12 @@ Y.Views.PlayerForm = Y.View.extend({
 	  return this;
   },
   
-    
   renderList: function () {
     var q = $("#club").val();  	
-  	
-	$(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
-	
-
-	
-
+	  $(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
   },
-    
-    
-      
+  
   add: function (event) {
-  
-    //$.ui.toggleNavMenu(true);
-  
     var name = $('#name').val()
       , password = $('#password').val().replace(/ /g, "")
       , email = $('#email').val().replace(/ /g, "")
@@ -150,47 +128,45 @@ Y.Views.PlayerForm = Y.View.extend({
       , player = null;
       
     //On cache toutes les erreurs 
-    $("span[class*='_error']").hide();
     $("span.success").hide();
           
     if (checkEmail(email) && email.length>0) {
-	  $('span.email_error').html(i18n.t('message.bad_mail')+' !').show();
+	    $('.email_error').html(i18n.t('message.bad_mail')+' !').show();
       $('#email').val('');        
       return false;	   
     };
 
     if (checkRank(rank) && rank.length>0) {
-	  $('span.rank_error').html(i18n.t('message.bad_rank')+' !').show();
+	    $('.rank_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank').val('');        
       return false;	   
     };
            
     if (checkPassword(password) && password.length>0) {
-	  $('span.password_error').html(i18n.t('message.bad_password')+' !').show();
+	    $('.password_error').html(i18n.t('message.bad_password')+' !').show();
       $('#password').val('');        
       return false;	   
     };
     
     if (name.length==0) {
-	  $('span.name_error').html(i18n.t('message.empty_name')+' !').show();      
+	    $('.name_error').html(i18n.t('message.empty_name')+' !').show();      
       return false;	   
     };
     
-    
     if (checkName(name) && name.length>0) {
-	  $('span.name_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('.name_error').html(i18n.t('message.bad_name')+' !').show();
       $('#name').val('');        
       return false;	   
     };
 
     if (checkLicence(idlicence) && idlicence.length>0) {
-	  $('span.idlicence_error').html(i18n.t('message.bad_licence')+' !').show();
+	    $('.idlicence_error').html(i18n.t('message.bad_licence')+' !').show();
       $('#idlicence').val('');        
       return false;	   
     };
 
     if (checkName(club) && club.length>0) {
-	  $('span.club_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('.club_error').html(i18n.t('message.bad_name')+' !').show();
       $('#club').val('');        
       return false;	   
     };
@@ -207,27 +183,21 @@ Y.Views.PlayerForm = Y.View.extend({
       , clubid:clubid            
     });
 
-	//FIXME :  add control error
+	  //FIXME :  add control error
     var that = this;
     player.save().done(function (result) {
-      
-        $('span.success').css({display:"block"});
-      	$('span.success').html(i18n.t('message.updateok')).show();
-		$('span.success').i18n();
-		
-
-		Y.User.setPlayer(new PlayerModel(result));
-		
-		if (that.mode === 'first') {
-		  Y.Router.navigate("games/add", {trigger: true});	   
-		}
-		else {
+      $('span.success').css({display:"block"});
+      $('span.success').html(i18n.t('message.updateok')).show();
+		  $('span.success').i18n();
+		  Y.User.setPlayer(new PlayerModel(result));
+		  if (that.mode === 'first') {
+		    Y.Router.navigate("games/add", {trigger: true});	   
+		  } else {
 		   that.shareTimeout = window.setTimeout(function () {
 	      		Y.Router.navigate("account", {trigger: true});
 	      		that.shareTimeout = null;
 	    	}, 2000);	
-    	}	
-      
+    	}
     });
    
     return false;
@@ -263,13 +233,13 @@ Y.Views.PlayerForm = Y.View.extend({
     this.$el.html(this.templates.playerform({data : dataDisplay}));
     
     if (this.mode === 'first') {
-		$('#form_firstconnection').hide();
-	}
-	else {
-		$('#intro_firstconnection').hide();
-	}
+		  $('#form_firstconnection').hide();
+	  }
+	  else {
+		  $('#intro_firstconnection').hide();
+	  }
 
-	this.$el.i18n();
+	  this.$el.i18n();
 
     return this;
   },

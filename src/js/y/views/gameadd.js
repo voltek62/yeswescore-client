@@ -11,8 +11,6 @@ Y.Views.GameAdd = Y.View.extend({
   pageName: "gameAdd",
   pageHash : "games/add",  
 
-  listview1: "#team1_suggestions",
-  listview2: "#team2_suggestions",
   playerid: "",
   token: "",
   
@@ -27,18 +25,16 @@ Y.Views.GameAdd = Y.View.extend({
 	    gameinput:  Y.Templates.get('gameInput'),	      
 	    playerlist: Y.Templates.get('playerListAutoComplete')
 	  };
-	this.owner = Y.User.getPlayer();    
+	  this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');
-	
-	this.DB = new Y.DB("Y.GameAdd.");
-		
-	this.render();
+	  this.DB = new Y.DB("Y.GameAdd.");
+	  this.render();
   },
 
   otherTeam: function () {
-    $('span.team1_error').hide();
-    $('span.team2_error').hide();
+    $('.team1_error').hide();
+    $('.team2_error').hide();
     
     $(".form-button.other-team").addClass("selected");
     $(".ui-grid-b.first-team").removeClass("me");
@@ -53,8 +49,8 @@ Y.Views.GameAdd = Y.View.extend({
 
   moreOption: function () {
   
-    $('span.team1_error').hide();
-    $('span.team2_error').hide();  
+    $('.team1_error').hide();
+    $('.team2_error').hide();  
   
     $(".form-button.more-options").toggleClass("selected");
     $("#gameAddForm").toggleClass("simple");
@@ -72,7 +68,6 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   addGame: function (event) {
-  
     var team1 = $('#team1').val()    
       , team1_id = $('#team1_id').val()
       , team2 = $('#team2').val()
@@ -81,34 +76,32 @@ Y.Views.GameAdd = Y.View.extend({
       , team2_id = $('#team2_id').val();
 
     if ( ( team1.length < 3 || team1.indexOf('  ')!==-1 ) && !$('#team1').is(':disabled') ) {
-      $('span.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
+      $('.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       $('#team1').val('');
       return false;
     }
     
     //On redirige vers le formulaire special
     if ( team1 === ''   && $('#team1').is(':disabled') ) {
-      //$('span.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();
-            
+      //$('.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();      
       //On sauvegarde les infos de la partie
-	  var game = {
-		team1 : team1
-	    , rank1 : $('#rank1').val()
-	    , team1_id : team1_id
-	    , team2 : team2
-	    , rank2 : $('#rank2').val()
-	    , team2_id : team2_id
-	    , city : city
-	    , court : $('#court').val()
-	    , surface : $('#surface').val()
-	    , tour : $('#tour').val()
-	    , subtype : $('#subtype').val()
-	    , playerid : this.playerid
-	    , token : this.token      
-	  };
+	    var game = {
+		      team1 : team1
+	      , rank1 : $('#rank1').val()
+	      , team1_id : team1_id
+	      , team2 : team2
+	      , rank2 : $('#rank2').val()
+	      , team2_id : team2_id
+	      , city : city
+	      , court : $('#court').val()
+	      , surface : $('#surface').val()
+	      , tour : $('#tour').val()
+	      , subtype : $('#subtype').val()
+	      , playerid : this.playerid
+	      , token : this.token      
+	    };
 	  
-	  this.DB.saveJSON("game",game);
-	         
+	    this.DB.saveJSON("game",game);
       Y.Router.navigate("players/form/me", {trigger: true});	  
       return false;
     }    
@@ -118,25 +111,25 @@ Y.Views.GameAdd = Y.View.extend({
     $("span[class*='_error']").hide();
 
     if (checkName(team1) && team1.length>0) {     
-	  $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+	  $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team1').val('');        
       return false;	   
     };
     
     if (checkName(team2) && team2.length>0) { 
-	  $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+	  $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team2').val('');        
       return false;	   
     };
     
     if (checkRank(rank2) && rank2.length>0) {
-	  $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+	  $('.team2_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank2').val('');        
       return false;	   
     };    
 
     if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && team2_id === '' ) {
-      $('span.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
+      $('.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       $('#team2').val('');
       return false;
     };

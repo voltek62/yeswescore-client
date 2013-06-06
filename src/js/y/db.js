@@ -73,8 +73,7 @@
 
   DB.prototype.remove = function (k) {
     assert(typeof k === "string");
-
-    return this.driver.removeItem(k);
+    return this.driver.removeItem(this.prefix +k);
   };
 
   // 

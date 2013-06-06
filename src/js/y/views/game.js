@@ -1062,8 +1062,8 @@ Y.Views.Game = Y.View.extend({
  			$("#optionButton").html(i18n.t('game.options'));
             
             // On efface la cache
-            if (this.DB!==undefined)
-              this.DB.remove("sets");
+            //if (this.DB!==undefined)
+            //  this.DB.remove("sets");
              
           }
 	    });

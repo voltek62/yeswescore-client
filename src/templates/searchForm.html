@@ -16,10 +16,10 @@
         <label class="form-label" data-i18n="search.geo"></label>
       </div>
 	  <div class="ui-block-b">
-        <input id="searchgeo" type="checkbox" name="searchgeo" value="checkbox" />         
+        <input id="searchgeo" type="checkbox" name="searchgeo" value="" />         
 	  </div>
       <div class="ui-block-a">
-        <span data-i18n="search.infogeo"></span>
+        <span data-i18n="search.infogeo"></span> [<%= gps %>]
       </div>    
       <div class="ui-block-b">
        
@@ -30,10 +30,10 @@
         <label class="form-label" data-i18n="search.myclub"></label> 
         </div>
       <div class="ui-block-b">
-        <input id="searchclub" type="checkbox" name="searchmyclub" value="checkbox" />         
+        <input id="searchclub" type="checkbox" name="searchmyclub" value="" />         
       </div>
       <div class="ui-block-a">
-        <span data-i18n="search.infomyclub"></span>
+        <a href="#players/form" data-i18n="search.infomyclub" data-js-navigate></a>
       </div>
       <div class="ui-block-b">
          
@@ -43,10 +43,10 @@
         <label class="form-label" data-i18n="search.gamefollowed"></label>
         </div>
       <div class="ui-block-b">
-        <input id="searchgamefollowed" type="checkbox" name="searchgamefollowed" value="checkbox" />         
+        <input id="searchgamefollowed" type="checkbox" name="searchgamefollowed" value="" />         
       </div> 
       <div class="ui-block-a">
-        <span data-i18n="search.infogamefollowed"></span>      
+        <a href="#games/follow" data-i18n="search.infogamefollowed" data-js-navigate></a>   
       </div>
       <div class="ui-block-b">
              
@@ -57,7 +57,7 @@
         <label class="form-label" data-i18n="search.clubfollowed"></label> 
         </div>
       <div class="ui-block-b">
-          <input type="checkbox" name="searchclubfollowed" value="checkbox">         
+          <input type="checkbox" name="searchclubfollowed" value="">         
       </div>  
       <div class="ui-block-a">
       <span data-i18n="search.infoclubfollowed"></span>
@@ -69,7 +69,7 @@
         <label class="form-label" data-i18n="search.playerfollowed"></label>
         </div>
       <div class="ui-block-b">
-          <input type="checkbox" name="searchplayerfollowed" value="checkbox">         
+          <input type="checkbox" name="searchplayerfollowed" value="">         
       </div>    
       <div class="ui-block-a">
       <span data-i18n="search.infoplayerfollowed"></span>      

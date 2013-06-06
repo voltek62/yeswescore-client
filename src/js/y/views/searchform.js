@@ -48,23 +48,8 @@ Y.Views.SearchForm = Y.View.extend({
    
       
   update: function (event) {
-
-	console.log("event: "+event.currentTarget.id);
-	//console.log("state: ",event.currentTarget);	
-
-    /*
-	if (o==='geolocation') 
-      $('.filters #filter-match-geo').addClass('select');
- 	
- 	if (o==='not') 
-  	  $('.filters #filter-match-not').addClass('select'); 
- 	
- 	if (o==='club') 
-      $('.filters #filter-match-club').addClass('select'); 
-      */
       
     Y.User.setFiltersSearch(event.currentTarget.id);         
-
     
   },     
     

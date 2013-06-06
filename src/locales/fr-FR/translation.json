@@ -7,7 +7,8 @@
     "playersfollowed": "Joueurs Suivis",
     "myclub": "Mon Club",
     "myprofil": "Mon profil",
-    "connect": "Connectez-vous"    
+    "connect": "Connexion",
+    "disconnect": "Deconnexion"
   },
   "app": {
     "name": "Yes We Score"

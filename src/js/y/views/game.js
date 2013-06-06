@@ -743,6 +743,8 @@ Y.Views.Game = Y.View.extend({
     }
         
     var timer = '';
+    
+    //console.log('STATUS GAME ',game.get('status'));
         
     if ( game.get('status') === "finished" ) {
        
@@ -757,7 +759,7 @@ Y.Views.Game = Y.View.extend({
       else
          timer = '00:00';   
          
-      $("#statusButton").html(i18n.t('game.finished'));	         
+      $("#statusButton").html(i18n.t('game.gamefinished'));	         
       $("#optionButton").attr("id","statusRestart");
  	  $("#statusRestart").html(i18n.t('game.restart'));
  	  var score = this.calculScore();
@@ -978,18 +980,6 @@ Y.Views.Game = Y.View.extend({
      var sets1 = 0;
      var sets2 = 0;
      
-     var diff_sets1 = Math.abs(parseInt(this.team1_set1)-parseInt(this.team2_set1));
-     var diff_sets2 = Math.abs(parseInt(this.team1_set2)-parseInt(this.team2_set2));
-     var diff_sets3 = Math.abs(parseInt(this.team1_set3)-parseInt(this.team2_set3));
-              	
-		/*
-		 || (team1_set1>=7 && diff_sets1>2)
-		 || (team2_set1>=7 && diff_sets1>2)		 
-		 || (team1_set2>=7 && diff_sets2>2)
-		 || (team2_set2>=7 && diff_sets2>2)		
-		 || (team1_set3>=7 && diff_sets3>2)
-		 || (team2_set3>=7 && diff_sets3>2)				 		 
-		*/
 	
 	/*	
 	 console.log('team1_set1',this.team1_set1);	
@@ -1002,20 +992,20 @@ Y.Views.Game = Y.View.extend({
 	 console.log('team2_set3',this.team2_set3);	 
 	 */	 	 	 	 	
      
-  	 if ( this.team1_set1 < this.team2_set1 && this.team2_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 )) {
+  	 if ( this.team1_set1 < this.team2_set1 && this.team2_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 || this.statusScore==="finished")) {
   	   sets2++;
   	   //console.log('mode 1');
   	 }
-  	 else if (this.team1_set1 > this.team2_set1 && this.team1_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 ) ) {
+  	 else if (this.team1_set1 > this.team2_set1 && this.team1_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 || this.statusScore==="finished") ) {
   	   sets1++;
   	   //console.log('mode 2');
   	 }
 
-  	 if (this.team1_set2 < this.team2_set2 && this.team2_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 )) {
+  	 if (this.team1_set2 < this.team2_set2 && this.team2_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 || this.statusScore==="finished")) {
   	   sets2++;
   	   //console.log('mode 3');
   	 }
-  	 else if (this.team1_set2 > this.team2_set2 && this.team1_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 )) {
+  	 else if (this.team1_set2 > this.team2_set2 && this.team1_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 || this.statusScore==="finished")) {
   	   sets1++;
   	   //console.log('mode 4');
   	 }
@@ -1156,6 +1146,16 @@ Y.Views.Game = Y.View.extend({
         }
 	    });
     }
+    else if ( this.statusScore === "finished"  ) {    
+    
+	    var that = this;
+		this.$(".buttonleft").addClass("ko");
+	    this.shareTimeout = window.setTimeout(function () {
+	      that.$(".buttonleft").removeClass("ko");
+	      that.shareTimeout = null;
+	    }, 2000);	
+	        
+    }
     else if ( this.statusScore === "ongoing"  ) {
       game.status = "finished";    	 
       //On met à jour les sets 
@@ -1168,7 +1168,7 @@ Y.Views.Game = Y.View.extend({
 	    tennis_update.save({}, {
         success: function(model, response){
 	        	        
-            $("#statusButton").html(i18n.t('game.finished'));	 
+            $("#statusButton").html(i18n.t('game.gamefinished'));	 
          
             $("#optionButton").attr("id","statusRestart");
  			$("#statusRestart").html(i18n.t('game.restart'));

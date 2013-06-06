@@ -1,27 +1,30 @@
 <div class="gameAdd background"></div>
 <div class="gameAdd content-container">
   <div class="simple" style="padding-top:40px">
+	  <div class="success label label-info hide"></div>
+    <div class="error label label-error hide"></div>
 
-	<span class="success label label-info hide" style="color: red"></span>
-
-	<div>
-		<label class="form-label" data-i18n="playersignin.email"></label>
-	</div>
+	  <div>
+		  <label class="form-label" data-i18n="playersignin.email"></label>
+	  </div>
 	
-	<div>
-	  <input type="text" id="email" name="email" data-i18n="[placeholder]playersignin.email;" value="" /> 
-	  <span class="email_error label label-info hide"></span>
-	</div>
+	  <div>
+	    <input type="text" id="email" name="email" data-i18n="[placeholder]playersignin.email;" value="" /> 
+	  
+	  </div>
 
-	<div>
-	  <label class="form-label" for="password" data-i18n="playersignin.password"></label>
-	</div>
+    <div class="email_error label label-error hide"></div>
+
+	  <div>
+	    <label class="form-label" for="password" data-i18n="playersignin.password"></label>
+	  </div>
   
-	<div>
-	  <input type="password" id="password" name="password" data-i18n="[placeholder]playersignin.password" value="" /> 
-	  <span class="password_error label label-info hide"></span>
-	</div>
+	  <div>
+	    <input type="password" id="password" name="password" data-i18n="[placeholder]playersignin.password" value="" /> 
+	  </div>
   
+    <div class="password_error label label-error hide"></div>
+
     <div class="form-button-black"> 
       <span id="signinUser" data-i18n="playersignin.connexion"></span>
     </div>
@@ -29,8 +32,5 @@
     <div class="form-button-white">      
       <span id="forgetPassword" data-i18n="playersignin.passwordforgotten"></span>
     </div>  
-
-
- </div>
- 
+  </div>
 </div>

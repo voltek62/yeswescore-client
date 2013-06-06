@@ -8,7 +8,8 @@ Y.Views.SearchForm = Y.View.extend({
     "click #searchgeo":"update",
     "click #searchclub":"update", 
     "click #searchgamefollowed":"update",        
-    'click #club_choice' : 'displayClub'
+    'click #club_choice' : 'displayClub',
+    'click #linkprofil' : ''
       
   },
   
@@ -39,6 +40,7 @@ Y.Views.SearchForm = Y.View.extend({
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');  
+    this.clubid = this.owner.get('club').id;
 
 	this.render();
   
@@ -70,13 +72,22 @@ Y.Views.SearchForm = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-  
-    this.$el.html(this.templates.searchform({}));
+  	
+  	var long = Math.floor(Y.Geolocation.longitude*10000)/10000;
+  	var lat  = Math.floor(Y.Geolocation.latitude*10000)/10000;
+  	  
+    this.$el.html(this.templates.searchform({gps:long+","+lat}));
   
     this.$el.i18n();
     
     $(".filters a[data-filter*='match-']").removeClass('select');
-      
+    
+    /*
+    $("input.group1").removeAttr("disabled");
+    $("input.group1").attr("disabled", true);
+    */
+    //FIXME : si pas de club  
+    $("#searchclub").attr("disabled", true);
    
   },
 

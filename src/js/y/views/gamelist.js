@@ -252,7 +252,7 @@ Y.Views.GameList = Y.View.extend({
       if(this.searchOption==="club")
         this.games.setSearch(this.searchOption,this.clubid);  
 
-      else if(this.searchOption==="geolocation") {
+      else if(this.searchOption==="geolocation" && Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null) {
         this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
         this.games.setSearch(this.searchOption,'');  
       }
@@ -319,7 +319,7 @@ Y.Views.GameList = Y.View.extend({
     	$('.filters #filter-match-club').addClass('disabled');
     }
     
-    if (Y.Geolocation.longitude === 0) {
+    if (Y.Geolocation.longitude === null) {
     	
     	$('.filters #filter-match-geo').addClass('disabled');
     }

@@ -6,7 +6,7 @@ Y.Views.SearchForm = Y.View.extend({
     'click #updateSearch':'update',
     'keyup #club': 'updateList',
     "click #searchgeo":"update",
-    "click #searchclub":"update", 
+    "click #searchmyclub":"update", 
     "click #searchgamefollowed":"update",        
     'click #club_choice' : 'displayClub',
     'click #linkprofil' : ''
@@ -50,9 +50,8 @@ Y.Views.SearchForm = Y.View.extend({
   update: function (event) {
 
 	console.log("event: "+event.currentTarget.id);
-	console.log("state: ",event.currentTarget);	
-	
-	
+	//console.log("state: ",event.currentTarget);	
+
     /*
 	if (o==='geolocation') 
       $('.filters #filter-match-geo').addClass('select');
@@ -73,10 +72,19 @@ Y.Views.SearchForm = Y.View.extend({
   //render the content into div of view
   render: function(){
   	
-  	var long = Math.floor(Y.Geolocation.longitude*10000)/10000;
-  	var lat  = Math.floor(Y.Geolocation.latitude*10000)/10000;
+  	var gps_state = "";
+    if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)	
+    {
+  	  long = Math.floor(Y.Geolocation.longitude*10000)/10000;
+  	  lat = Math.floor(Y.Geolocation.latitude*10000)/10000;
   	  
-    this.$el.html(this.templates.searchform({gps:long+","+lat}));
+  	  gps_state = long+","+lat;
+  	}
+  	else {
+  	  gps_state = i18n.t('search.gpsoff');
+  	}
+  	
+    this.$el.html(this.templates.searchform({gps:gps_state}));
   
     this.$el.i18n();
     
@@ -86,9 +94,32 @@ Y.Views.SearchForm = Y.View.extend({
     $("input.group1").removeAttr("disabled");
     $("input.group1").attr("disabled", true);
     */
-    //FIXME : si pas de club  
-    $("#searchclub").attr("disabled", true);
-   
+    
+    console.log('clubid',this.clubid);
+    
+    console.log('search',Y.User.getFiltersSearch());   
+    
+    var filters = Y.User.getFiltersSearch();
+    
+    if (filters!=undefined) {
+	    if (filters.indexOf('searchgeo')!==-1) {
+	      $('#searchgeo').attr('checked', true);		  
+		  if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null)
+		  {
+		    $("#searchgeo").attr("disabled", true);  
+		  }	      
+	    } 
+	    if (filters.indexOf('searchmyclub')!==-1) {
+	      $('#searchmyclub').attr('checked', true);
+	      if (this.clubid === undefined || this.clubid === '') {
+            $("#searchclub").attr("disabled", true);
+          }
+	 	}
+	    if (filters.indexOf('searchgamefollowed')!==-1) {
+	      $('#searchgamefollowed').attr('checked', true);
+	 	}
+ 	} 	
+ 	 	   
   },
 
   onClose: function(){

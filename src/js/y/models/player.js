@@ -39,6 +39,16 @@ var PlayerModel = Backbone.Model.extend({
 
   sync: function (method, model, options) {
 
+      var dataSend = {
+        id: (this.get('playerid') || ''),
+        language: Y.language,
+        location : {},
+        club: (this.get('club') || '')  
+      };
+      
+      if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
+        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+             
 
     if (method === 'create' && this.get('playerid') === undefined) {
       var that = this;
@@ -46,13 +56,7 @@ var PlayerModel = Backbone.Model.extend({
         dataType: 'json',
         url: Y.Conf.get("api.url.players"),
         type: 'POST',
-        data: {
-          language: Y.language,
-          location: {
-            currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
-          },
-          club: (this.get('club') || '')
-        },
+        data:dataSend,
         // WHYYYYY ?????
         success: function (data) {
           that.set(data);
@@ -76,11 +80,13 @@ var PlayerModel = Backbone.Model.extend({
         idlicense: (this.get('idlicence') || ''),
         language: Y.language,
         games: [],
-        token: (this.get('token') || ''),
-        location: {
-          currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
-        }
+        location : {},
+        token: (this.get('token') || '')
       };
+      
+      
+      if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
+        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 
       // si mot de passe defini
       if (typeof this.get('password') === "string" && this.get('password') !== '') {

@@ -8,12 +8,12 @@ Y.Views.Account = Y.View.extend({
     Y.GUI.header.title(i18n.t('account.title'));
     this.accountViewTemplate = Y.Templates.get('account');
     this.clubid = Y.User.getClub();
-    this.owner = Y.User.getPlayer()
+    this.player = Y.User.getPlayer()
     this.render();
   },
 
   render: function () {
-	  $(this.el).html(this.accountViewTemplate({owner: this.owner, clubid: this.clubid}));
+	  $(this.el).html(this.accountViewTemplate({player: this.player, clubid: this.clubid}));
 	  $('a').i18n();
   },
 

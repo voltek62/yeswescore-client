@@ -15,7 +15,6 @@ Y.Views.PlayerForm = Y.View.extend({
   clubs:null,
   useSearch:0,	     
   mode:'',
-  shareTimeout: null,    
 
   myinitialize:function(obj) {
     this.player = null;  
@@ -92,7 +91,7 @@ Y.Views.PlayerForm = Y.View.extend({
   updateList: function (event) {
     var q = $("#club").val();
    	
-    this.clubs = new ClubsCollection();
+    this.clubs = new ClubsCollection();108
     this.clubs.setMode('search',q);
     if (q.length>2) {
       this.useSearch=1;
@@ -107,6 +106,7 @@ Y.Views.PlayerForm = Y.View.extend({
   render: function () {
     // empty page.
 	  this.$el.html(this.templates.layout());
+    this.$(".simple").addClass(this.mode);
 	  return this;
   },
   
@@ -128,7 +128,7 @@ Y.Views.PlayerForm = Y.View.extend({
       , player = null;
       
     //On cache toutes les erreurs 
-    $("span.success").hide();
+    $("div.success").hide();
           
     if (checkEmail(email) && email.length>0) {
 	    $('.email_error').html(i18n.t('message.bad_mail')+' !').show();
@@ -186,17 +186,14 @@ Y.Views.PlayerForm = Y.View.extend({
 	  //FIXME :  add control error
     var that = this;
     player.save().done(function (result) {
-      $('span.success').css({display:"block"});
-      $('span.success').html(i18n.t('message.updateok')).show();
-		  $('span.success').i18n();
+      $('div.success').css({display:"block"});
+      $('div.success').html(i18n.t('message.updateok')).show();
+		  $('div.success').i18n();
 		  Y.User.setPlayer(new PlayerModel(result));
 		  if (that.mode === 'first') {
 		    Y.Router.navigate("games/add", {trigger: true});	   
 		  } else {
-		   that.shareTimeout = window.setTimeout(function () {
-	      		Y.Router.navigate("account", {trigger: true});
-	      		that.shareTimeout = null;
-	    	}, 2000);	
+		    Y.Router.navigate("account", {trigger: true});
     	}
     });
    
@@ -206,7 +203,6 @@ Y.Views.PlayerForm = Y.View.extend({
 
   //render the content into div of view
   renderPlayer: function(){
-    	
     player = this.player.toJSON();
         
     var dataDisplay = {
@@ -231,13 +227,8 @@ Y.Views.PlayerForm = Y.View.extend({
     
 
     this.$el.html(this.templates.playerform({data : dataDisplay}));
-    
-    if (this.mode === 'first') {
-		  $('#form_firstconnection').hide();
-	  }
-	  else {
-		  $('#intro_firstconnection').hide();
-	  }
+
+    this.$(".simple").addClass(this.mode);
 
 	  this.$el.i18n();
 
@@ -249,10 +240,5 @@ Y.Views.PlayerForm = Y.View.extend({
     
     this.player.off("sync", this.renderPlayer, this);	
     if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );
-    
-     if (this.shareTimeout) {
-      window.clearTimeout(this.shareTimeout);
-      this.shareTimeout = null;
-    }    
   }
 });

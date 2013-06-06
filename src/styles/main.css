@@ -161,6 +161,14 @@ input:-ms-input-placeholder {
   display: none;
 }
 
+/* be carefull */
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
+
 /**********************************************************
 	WP8 specifics.
 **********************************************************/
@@ -1051,7 +1059,16 @@ ul>li.player>a {
 /* club.html */
 
 
-/* playerForm.html */
+/*
+  playerForm.html
+*/
+.simple .show-if-first {
+  display: none;
+}
+.simple.first .show-if-first {
+  display: inline-block;
+}
+
 .button-form {
 	position: fixed;
 	left: 0px;

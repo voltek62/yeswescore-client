@@ -44,6 +44,8 @@ Y.Views.Game = Y.View.extend({
   init: true,
   server1: false,
   server2: false,  
+  version:0,
+  versionUndo:0,
   
   team1_set1 : '&nbsp;'
   , team1_set2 : '&nbsp;'
@@ -266,32 +268,31 @@ Y.Views.Game = Y.View.extend({
     	   	  
     if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {
     
+    	$('.undoSelect').hide();
+    
     	this.lastScore = this.DB.readJSON("sets");
-    	
-
-    	      
+	      
 	    if (this.lastScore !== undefined) {
+	    
+	      console.log('LASTSCORE length',this.lastScore.length);
+	      
+	      if (this.lastScore.length<=1)
+	      	return;
+	      
 	      var sets_undo = this.lastScore.pop();
-
-	
-	      //S'il s'agit du meme score
+       
+       	  
 	      if (sets_undo !== undefined)
 	      {
-		      if (sets_undo[0] === this.currentScore ) {
-		             
-		        //lastScore.splice(lastScore.indexOf(sets_undo), 1);
-		        this.DB.saveJSON("sets",this.lastScore);
-		        
-			    sets_undo = this.lastScore.pop();	    	  
-	
-			    	
-		      }
-		      else {
-
-		      }
+	        //S'il s'agit du meme score
+		    if (sets_undo[0] === this.currentScore) {
+		      this.DB.saveJSON("sets",this.lastScore);		        
+			  sets_undo = this.lastScore.pop();
+			}	    	  			    	
 		  }
 		  else 
 		    return;
+		   
 	    	  
 	      var gameid = this.gameid;   
 	    	  	  
@@ -318,26 +319,27 @@ Y.Views.Game = Y.View.extend({
 		      this.game = new GameModel(game);	    
 		      var that = this;
 			  
-				
+			  //this.versionUndo++;
+			  //var versionUndo = this.versionUndo;	
 			  
 		      this.game.save({}, {
 		      
             	  success: function(model, response) {
-			        			        
-			        //that.lastScore.push(model.get('options').sets);	    
-			        that.currentScore = model.get('infos').sets;  
-			        		
-			        that.DB.saveJSON("sets",that.lastScore);         			        	              
-		
-	  				that.game = model;
-	  				
-	  				//refresh scoreboard
-		    	    that.renderScoreBoard(model);
+			        	
+			        //if (that.versionUndo!==versionUndo) {			        
+			          that.currentScore = model.get('infos').sets; 		
+			          if (that.lastScore.length>1)
+			            that.DB.saveJSON("sets",that.lastScore);         			        	              
+	  				  that.game = model;
+		    	      that.renderScoreBoard(model);
+		    	    //}
+		    	    
+		    	    $('.undoSelect').show();
+		    	    
             	},
             	error : function(err) {
             	
-            		console.log('erreur',err);
-            		
+            		$('.undoSelect').show();
             	
             	}
             });   
@@ -408,12 +410,8 @@ Y.Views.Game = Y.View.extend({
 		     this.team2_set2 = set;
 		    else if (div.attr('id').indexOf('team2_set3')!==-1)
 		     this.team2_set3 = set;
-		     		     		     		     		        		        
+		      		     		     		        		        
 		    this.bufferedSendUpdater();
-		    
-		     //CHANGE SERVER
-		     //console.log('server1',this.server1);
-		     //console.log('server2',this.server2);
 		     
 			if (this.server1==true) {
 			  $('.server1').removeClass('server-ball');
@@ -525,10 +523,13 @@ Y.Views.Game = Y.View.extend({
 
 	/* MAJ cache */
     var setsCache = this.DB.readJSON("sets");
-    if (setsCache !== undefined)
+    if (setsCache !== undefined && setsCache.length>0)
     {
-      setsCache.push([sets_update,score]);
-      this.DB.saveJSON("sets", setsCache);
+      //on lit le dernier pour ne pas mettre deux fois le meme resultat en cache
+      if(setsCache[setsCache.length-1][0]!==sets_update) {
+        setsCache.push([sets_update,score]);
+        this.DB.saveJSON("sets", setsCache);
+      }
     }
     else {
       this.DB.saveJSON("sets", [[sets_update,score]]);
@@ -618,8 +619,8 @@ Y.Views.Game = Y.View.extend({
 
     /* controle si possible */
     /* on met "ongoing" sur la class "score" en cours*/
-    this.currentScore = sets_update;        
-
+    this.currentScore = sets_update;
+    
     var game = {
       team1_id : this.game.get('teams')[0].players[0].id
 	  , team2_id : this.game.get('teams')[1].players[0].id
@@ -639,10 +640,14 @@ Y.Views.Game = Y.View.extend({
     };
      
     var that = this;
-      
+    this.version++; 
+    var version = this.version;
+    
     this.game = new GameModel(game);
     this.game.save({}, {success: function(model, response){ 
-      that.game = model;
+    
+      if (that.version===version)  
+      	that.game = model;
       
     }}); 
   },
@@ -713,10 +718,14 @@ Y.Views.Game = Y.View.extend({
 	        }
 	        
 		    var setsCache = this.DB.readJSON("sets");
-		    if (setsCache !== undefined)
+		    if (setsCache !== undefined && setsCache.length>0)
 		    {
-		      setsCache.push([sets,score]);
-		      this.DB.saveJSON("sets", setsCache);  
+		      //si dernier score déjà dans undo , on recopie pas 
+			  if(setsCache[setsCache.length-1][0]!==sets) {
+			    setsCache.push([sets,score]);
+			    this.DB.saveJSON("sets", setsCache);
+			  }		      
+		    	
 		    }
 		    else {
 		      this.DB.saveJSON("sets", [["0/0","0/0"]]);		      	         

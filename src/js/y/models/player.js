@@ -71,7 +71,7 @@ var PlayerModel = Backbone.Model.extend({
             options.error(message);
         }
       });
-    } else if (this.get('id') !== undefined) {
+    } else if (method === 'update' && this.get('id') !== undefined) {
       // Update
       var dataSend = {
         id: (this.get('id') || ''),

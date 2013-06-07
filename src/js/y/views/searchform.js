@@ -88,23 +88,26 @@ Y.Views.SearchForm = Y.View.extend({
     
     if (filters!=undefined) {
 	    if (filters.indexOf('searchgeo')!==-1) {
-	      $('#searchgeo').attr('checked', true);		  
-		  if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null)
-		  {
-		    $("#searchgeo").attr("disabled", true);  
-		  }	      
+	      $('#searchgeo').attr('checked', true);		        
 	    } 
 	    if (filters.indexOf('searchmyclub')!==-1) {
 	      $('#searchmyclub').attr('checked', true);
-	      if (this.clubid === undefined || this.clubid === '') {
-            $("#searchclub").attr("disabled", true);
-          }
 	 	}
 	    if (filters.indexOf('searchgamefollowed')!==-1) {
 	      $('#searchgamefollowed').attr('checked', true);
 	 	}
  	} 	
- 	 	   
+ 	
+ 	if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null)
+	{
+	  $('#searchgeo').attr('checked', false);
+	  $("#searchgeo").attr("disabled", true);  
+	}	  
+ 
+	if (this.clubid === undefined || this.clubid === '') {
+	  $('#searchclub').attr('checked', false);	
+      $("#searchclub").attr("disabled", true);
+    } 	 	   
   },
 
   onClose: function(){

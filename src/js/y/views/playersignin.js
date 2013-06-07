@@ -46,14 +46,39 @@ Y.Views.PlayerSignin = Y.View.extend({
     return this;
   },
 
+  forgetting: false, // lol
   forget : function(event) {
-   	Y.Router.navigate("/players/forget", {trigger: true}); 
+    var that = this;
+    if (this.forgetting)
+      return;
+    // security.
+    var email = $('#email').val().trim();
+    if (!email.isEmail())
+      return this.displayError(i18n.t("message.bad_mail"));
+
+    this.forgetting = true;
+	  Backbone.ajax({
+      dataType: 'json',
+      url: Y.Conf.get("api.url.auth") + "resetPassword/",
+      type: 'POST',
+      data: {
+        email: { address: email }
+      },
+      success: function (data) {
+        that.forgetting = false;
+        that.displayMsg(i18n.t('message.mailspam')+". "+i18n.t('message.mailspam_sentence'));
+      },
+      error: function (err) {
+        that.forgetting = false;
+        that.displayError(i18n.t('message.mailerror'));
+      }
+    });
   }, 
 
+  hideMessages : function () { this.$(".error,.msg").hide(); },
   hideError: function () { this.$(".error").hide(); },
-  displayError: function (msg) {
-    this.$(".error").html(msg).show();
-  },
+  displayMsg: function (msg) { this.hideMessages(); this.$(".msg").html(msg).show(); },
+  displayError: function (msg) { this.hideMessages(); this.$(".error").html(msg).show(); },
 
   connexion : function(event) {
     if (this.status.current === this.status.UNREGISTERED)
@@ -90,6 +115,7 @@ Y.Views.PlayerSignin = Y.View.extend({
     //
     var that = this;
     this.checkingEmail = true;
+    this.hideMessages();
     Backbone.ajax({
       dataType: 'json',
       url: Y.Conf.get('api.url.auth.registered'),
@@ -121,11 +147,16 @@ Y.Views.PlayerSignin = Y.View.extend({
     });
   },
 
+  logging: false,
   login: function () {
+    if (this.logging)
+      return;
     var mail = $('#email').val().trim()
       , password = $('#password').val().trim()
       , that = this;
 
+    this.logging = true;
+    this.hideMessages();
 	  Backbone.ajax({
       dataType: 'json',
       url: Y.Conf.get("api.url.auth"),
@@ -135,6 +166,7 @@ Y.Views.PlayerSignin = Y.View.extend({
         uncryptedPassword: password
       },
       success: function (result) {
+        that.logging = false;
 		    var player = new PlayerModel(result);	
 		    Y.User.setPlayer(player);
         if (that.unloaded)
@@ -143,8 +175,10 @@ Y.Views.PlayerSignin = Y.View.extend({
       	that.updateStatus(that.status.REGISTERED);
       },
       error: function (err) {
+        that.logging = false;
         if (that.unloaded)
           return; // prevent errors.
+        that.$("#forgetPassword").show();
 		    that.displayError(i18n.t('message.signinerror'));
       }
     });
@@ -163,6 +197,7 @@ Y.Views.PlayerSignin = Y.View.extend({
       , password = $('#password').val().trim()
       , passwordConfirm = $('#password_confirm').val().trim();
 
+    this.hideMessages();
     if (!email.isEmail())
       return this.displayError(i18n.t("message.bad_mail"));
     if (this.checkPassword(password))

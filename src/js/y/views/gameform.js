@@ -152,7 +152,6 @@ Y.Views.GameForm = Y.View.extend({
   },        
       
   update: function (event) {
-
     //FIXME : gestion date de debut
     var owner1 = $('#owner1').val();
     var owner2 = $('#owner2').val();    
@@ -162,8 +161,8 @@ Y.Views.GameForm = Y.View.extend({
     var rank2 = $('#rank2').val();        
     
     var game = {
-      team1_id : this.team1_id
-	  , team1 : team1
+        team1_id : this.team1_id
+	    , team1 : team1
       , rank1 : rank1
       , team2_id : this.team2_id            
       , team2 : team2
@@ -176,123 +175,80 @@ Y.Views.GameForm = Y.View.extend({
       , tour : $('#tour').val()
       //, subtype : $('#subtype').val()
       , id : this.gameid 
-	};
-    
+	  };
     
     if (checkName(team1) && team1.length>0) {     
-	  $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team1').val('');        
       return false;	   
     };
     
     if (checkName(team2) && team2.length>0) { 
-	  $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team2').val('');        
       return false;	   
     };
     
-    
     if (checkRank(rank1) && rank1.length>0) {
-	  $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
+	    $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank1').val('');        
       return false;	   
     };    
     
     if (checkRank(rank2) && rank2.length>0) {
-	  $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+	    $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank2').val('');        
       return false;	   
     };          
 
-    var game = new GameModel(game);   
     var that = this;
-    
+    var game = new GameModel(game);   
     //3 defered
-    this.gameDeferred = $.Deferred();
-    this.owner1Deferred = $.Deferred();
-    this.owner2Deferred = $.Deferred();
+    var owner1Deferred = $.Deferred();
+    var owner2Deferred = $.Deferred();
     
-    
-    
-    game.save({}, {  
-      success: function(model, response){	    
-		that.gameDeferred.resolve();	        
-		
-	    console.log('game defered');	         
-      }
-    });
+    var promises = [], promise;
+    promise = game.save();
+    promises.push(promise);
     
     if (owner1 !== "") {
-      //FIXME : load player
-      
       var player1 = new PlayerModel({
-        name: team1
-      , rank: rank1            
-      , playeridupdated : owner1            	
-      , playerid: this.playerid
-      , token: this.token       
+        id: owner1
+      , name: team1
+      , rank: rank1
       });
-      
-	 player1.save().done(function (result) {  
-			that.owner1Deferred.resolve();	   
-			console.log('player1 defered');	   
-			           
-	      }
-	    );
-      
+	    promise = player1.save(null, { playerid: playerid, token: token}); 
+      promises.push(promise);
     }
-    else 
-      this.owner1Deferred.resolve();
-      
     if (owner2 !== "") {
-    
       var player2 = new PlayerModel({
-        name: team2
-      , rank: rank2            
-      , playeridupdated : owner2            	
-      , playerid: this.playerid
-      , token: this.token       
+        id : owner2
+      , name: team2
+      , rank: rank2s
       });
-      
-
-	 player2.save().done(function (result) {  
-			that.owner2Deferred.resolve();	   
-			console.log('player2 defered');	   
-			           
-	      }
-	    );     
-      
+	    promise = player2.save(null, { playerid: playerid, token: token}); 
+      promises.push(promise);
     }
-    else 
-      this.owner2Deferred.resolve();      
     
     $.when(
       this.gameDeferred,
       this.owner1Deferred,
       this.owner2Deferred
     ).done(function (result) {
-
 	    $('span.success').css({display:"block"});
 	    $('span.success').html(i18n.t('message.updateok')).show();
-	    //that.game = result;
-	    
-		that.shareTimeout = window.setTimeout(function () {
-	      		Y.Router.navigate("games/"+that.gameid, {trigger: true});
-	      		that.shareTimeout = null;
-	    	}, 2000);
-            
+		  that.shareTimeout = window.setTimeout(function () {
+	      Y.Router.navigate("games/"+that.gameid, {trigger: true});
+	      that.shareTimeout = null;
+	    }, 2000);
     });
 
-	return this;
-    
-  },     
-    
-
+	  return this;
+  },
+  
   //render the content into div of view
   render: function(){
-  
    var game = this.game.toJSON();
-   
    this.team1_id = game.teams[0].players[0].id; 
    this.team2_id = game.teams[1].players[0].id;
    

@@ -181,6 +181,7 @@
     "error": "Une erreur s'est produite",
     "error_emptyplayer" : "Vous devez indiquer un joueur",
     "error_emptyyou" : "Vous devez indiquer au moins un nom et un classement pour vous",    
+    "error_deconnexion": "Erreur de deconnexion",
     "nofollowplayerok":"Vous ne suivez plus ce joueur",
     "followplayerok":"Vous suivez ce joueur",
     "nofollowgameok":"Vous ne suivez plus ce match",
@@ -192,6 +193,8 @@
     "mailspam":"Mail envoyé",
     "mailspam_sentence":"Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.",
     "mailerror":"Mail inconnu",
+    "password_mismatch":"Erreur, les mots de passe ne sont pas identiques",
+    "registering_error":"Erreur d'enregistrement",
     "signinok":"Chargement réussi",
     "signinerror":"Chargement impossible",    
     "loading":"CHARGEMENT",       
@@ -235,8 +238,12 @@
     "email": "Email",
     "emailplaceholder": "Email",    
     "password": "Mot de passe",
+    "passwordconfirm": "Confirmez votre mot de passe",
     "passwordforgotten": "Mot de passe oublié",    
-    "connexion": "Connexion"   
+    "connexion": "Connexion",
+    "deconnexion": "Deconnexion",
+    "registered": "Vous êtes enregistré",
+    "registering": "Vous pouvez vous enregistrer en choisissant un mot de passe."
   },   
   "nav": {
     "matchs": "Matchs",

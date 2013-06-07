@@ -106,7 +106,7 @@ Y.Views.PlayerForm = Y.View.extend({
   render: function () {
     // empty page.
 	  this.$el.html(this.templates.layout());
-    this.$(".simple").addClass(this.mode);
+    this.$(".container").addClass(this.mode);
 	  return this;
   },
   
@@ -117,8 +117,6 @@ Y.Views.PlayerForm = Y.View.extend({
   
   add: function (event) {
     var name = $('#name').val()
-      , password = $('#password').val().replace(/ /g, "")
-      , email = $('#email').val().replace(/ /g, "")
       , rank = $('#rank').val().replace(/ /g, "")
       , playerid = this.playerid
       , token = this.token
@@ -129,22 +127,10 @@ Y.Views.PlayerForm = Y.View.extend({
       
     //On cache toutes les erreurs 
     $("div.success").hide();
-          
-    if (checkEmail(email) && email.length>0) {
-	    $('.email_error').html(i18n.t('message.bad_mail')+' !').show();
-      $('#email').val('');        
-      return false;	   
-    };
 
     if (checkRank(rank) && rank.length>0) {
 	    $('.rank_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank').val('');        
-      return false;	   
-    };
-           
-    if (checkPassword(password) && password.length>0) {
-	    $('.password_error').html(i18n.t('message.bad_password')+' !').show();
-      $('#password').val('');        
       return false;	   
     };
     
@@ -173,8 +159,6 @@ Y.Views.PlayerForm = Y.View.extend({
         
     var player = new PlayerModel({
         name: name
-      , password: password
-      , email: email
       , rank: rank                  	
       , playerid: playerid
       , idlicence:idlicence
@@ -208,7 +192,6 @@ Y.Views.PlayerForm = Y.View.extend({
     var dataDisplay = {
 	      name:player.name
 	    , rank:player.rank
-	    , password:player.password
 	    , idlicence:player.idlicense
 	    , playerid:this.playerid
 	    , token:this.token
@@ -219,16 +202,9 @@ Y.Views.PlayerForm = Y.View.extend({
       dataDisplay.idclub = player.club.id;      	
     }
     
-    if (player.email!== undefined) {    
-      dataDisplay.email = player.email.address;    
-    }
-    else 
-      dataDisplay.email = '';
-    
-
     this.$el.html(this.templates.playerform({data : dataDisplay}));
 
-    this.$(".simple").addClass(this.mode);
+    this.$(".container").addClass(this.mode);
 
 	  this.$el.i18n();
 

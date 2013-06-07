@@ -91,6 +91,8 @@ Y.Views.SearchForm = Y.View.extend({
     */
     
     console.log('clubid',this.clubid);
+    console.log('clubid',this.clubid === undefined);
+    console.log('clubid',this.clubid === '');        
     
     console.log('search',Y.User.getFiltersSearch());   
     

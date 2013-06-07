@@ -48,7 +48,7 @@ var GameModel = Backbone.Model.extend({
   },
 
   sync : function(method, model, options) {
-
+    var that = this;
     var team1_json = '';
     var team2_json = '';
     
@@ -73,146 +73,77 @@ var GameModel = Backbone.Model.extend({
         id : this.get('team2_id')
     };
     
-	
     var object = {
       teams : [ {
-      id : null,
-      players : [ team1_json ]
+        id : null,
+        players : [ team1_json ]
       }, {
-      id : null,
-      players : [ team2_json ]
+        id : null,
+        players : [ team2_json ]
       } ]
-      //, dates : {}
       , infos : {}
       , location : {}
-     };
-	  	 	 	 
+    };
+	 
+    object.infos.type = "singles";	
+     if (this.get('city')) 
+       object.location.city = this.get('city');
+     if (this.get('start'))
+       object.dates.start = this.get('start');
+     if (this.get('end'))
+       object.dates.end = this.get('end');
+     if (this.get('status'))
+       object.status = this.get('status');
+    ['subtype', 'sets', 'score', 'court', 'surface',
+     'tour', 'country', 'startTeam'].forEach(function (k) {
+      if (this.get(k))
+        object.infos[k] = this.get(k);
+    }, this);
+    if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
+      object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 
-	 object.infos.type = "singles";	
-	 	 
-	 if (this.get('subtype') !== undefined)
-	   if (this.get('subtype') !== "") 
-	     object.infos.subtype = this.get('subtype');
-	   
-	 if (this.get('sets') !== undefined)
-       if (this.get('sets') !== "") 
-         object.infos.sets = this.get('sets');
-       
-     if (this.get('score') !== undefined)  
-       if (this.get('score') !== "") 
-         object.infos.score = this.get('score');
-     
-     if (this.get('court') !== undefined)  
-       if (this.get('court') !== "") 
-         object.infos.court = this.get('court');
-       
-     if (this.get('surface') !== undefined)  
-       if (this.get('surface') !== "")
-         object.infos.surface = this.get('surface');
-       
-     if (this.get('tour') !== undefined)  
-       if (this.get('tour') !== "") 
-         object.infos.tour = this.get('tour');
-       
-     if (this.get('country') !== undefined)  
-       if (this.get('country') !== "") 
-         object.location.country = this.get('country');
-         
-
-     if (this.get('startTeam') !== undefined)  
-       if (this.get('startTeam') !== "") 
-         object.infos.startTeam = this.get('startTeam');
-      
-     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
-       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
-
-     if (this.get('city') !== undefined)  
-       if (this.get('city') !== "") 
-         object.location.city = this.get('city'); 
-
-     if (this.get('start') !== undefined)  
-       if (this.get('start') !== "") 
-         object.dates.start = this.get('start');     
-         
-     if (this.get('end') !== undefined)  
-       if (this.get('end') !== "") 
-         object.dates.end = this.get('end');          
-
-     if (this.get('status') !== undefined)  
-       if (this.get('status') !== "") 
-         object.status = this.get('status');  
-         
-
-      
-    if (method === 'create' && this.get('playerid') !== undefined) {
-    
-
-	  var that = this;
-	  
-		
+    if (method === 'create' && options.playerid !== undefined) {
       return Backbone.ajax({
         dataType : 'json',
-        url : Y.Conf.get("api.url.games") + '?playerid=' + (this.get('playerid') || '')
-            + '&token=' + (this.get('token') || ''),
+        url : Y.Conf.get("api.url.games") + '?playerid=' + options.playerid + '&token=' + options.token,
         type : 'POST',
         data : object,
         success : function(data) {
           // FIXME : on redirige sur //si offline id , si online sid  
           that.set(data);         
-          if (options && options.success) {
-
-              options.success(data);
-          }
-          
+          if (options && options.success)
+            options.success(data);
         },
         error: function (message) {
-            if (options && options.error)
-             
-              options.error(message);
+          if (options && options.error)
+            options.error(message);
         }
-
       });
-
-    } else if (method === 'update' && this.get('playerid') !== undefined) {
-        
-        var gameid = this.get('id');
-        
-        if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
-          object.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
-        
-        console.log('on met à jour game avec ',object); 
-    
-  	
-		var that = this;
-		
-        return Backbone.ajax({
-          dataType : 'json',
-          url : Y.Conf.get("api.url.games") + gameid + '/?playerid=' + (this.get('playerid') || '')
-            + '&token=' + (this.get('token') || ''),
-          type : 'POST',
-          data : object,
-          success: function (data) {
-            that.set(data);
-            if (options && options.success) {
-
-              options.success(data);
-            }
-          },
-          error: function (message) {
-            if (options && options.error)
-            
-              options.error(message);
-          }               
-       });
-
-    } else {
+    } else if (method === 'update' && options.playerid !== undefined) {
+      if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
+        object.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
       
+      console.log('on met à jour game avec ',object); 
+		
+      return Backbone.ajax({
+        dataType : 'json',
+        url : Y.Conf.get("api.url.games") + this.get('id') + '/?playerid=' + options.playerid + '&token=' + options.token,
+        type : 'POST',
+        data : object,
+        success: function (data) {
+          that.set(data);
+          if (options && options.success)
+            options.success(data);
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
+        }
+      });
+    } else {
       model.url = Y.Conf.get("api.url.games")+this.id;
       return Backbone.sync(method, model, options);
-      
-    }      
-    
-    
+    }
   },
 
   getPlayersNamesByTeam: function (teamIndex) {

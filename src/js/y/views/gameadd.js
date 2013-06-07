@@ -96,34 +96,31 @@ Y.Views.GameAdd = Y.View.extend({
 	      , court : $('#court').val()
 	      , surface : $('#surface').val()
 	      , tour : $('#tour').val()
-	      , subtype : $('#subtype').val()
-	      , playerid : this.playerid
-	      , token : this.token      
+	      , subtype : $('#subtype').val()  
 	    };
 	  
 	    this.DB.saveJSON("game",game);
       Y.Router.navigate("players/form/me", {trigger: true});	  
       return false;
-    }    
-    
+    }
 
     //return false;
     $("span[class*='_error']").hide();
 
     if (checkName(team1) && team1.length>0) {     
-	  $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
+	   $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team1').val('');        
       return false;	   
     };
     
     if (checkName(team2) && team2.length>0) { 
-	  $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team2').val('');        
       return false;	   
     };
     
     if (checkRank(rank2) && rank2.length>0) {
-	  $('.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+  	  $('.team2_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank2').val('');        
       return false;	   
     };    
@@ -135,13 +132,13 @@ Y.Views.GameAdd = Y.View.extend({
     };
     
     if (checkName(city) && city.length>0) {             
-	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
       return false;	   
     };        
 
     var game = {
-		team1 : team1
+		    team1 : team1
       , rank1 : $('#rank1').val()
       , team1_id : team1_id
       , team2 : team2
@@ -152,20 +149,16 @@ Y.Views.GameAdd = Y.View.extend({
       , surface : $('#surface').val()
       , tour : $('#tour').val()
       , subtype : $('#subtype').val()
-      , playerid : this.playerid
-      , token : this.token      
     };
     
     //On sauve dans Collections
     var game = new GameModel(game);    
-    game.save({}, {  
-      success: function(model, response){
-
-        Y.Router.navigate('games/'+model.id, {trigger: true});	
-	    //Mis par defaut dans mes matchs
-        //Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })              
-      }
-  	});   
+    game.save(null, {
+      playerid: this.playerid,
+      token: this.token
+    }).done(function(model, response){
+      Y.Router.navigate('games/'+model.id, {trigger: true});
+    });   
 
     return false;
   },

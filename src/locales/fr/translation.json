@@ -252,6 +252,10 @@
   },
   "search": {
     "title": "Recherche",
+    "zone": "Zone",
+    "filters":"Filtres :",    
+    "filtergps":"GPS",
+    "filtermyclub":"Mon Club",    
  	"introform": "Personnalisez votre accueil",   
  	"geo": "A proximité",   
  	"myclub": "Mon Club",   

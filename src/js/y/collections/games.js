@@ -2,11 +2,12 @@ var GamesCollection = Backbone.Collection.extend({
   	 
 	model:GameModel, 
 	
-	searchOption:'',
-	searchOptionParam:'',	
+	searchOption:[],
+	//searchOptionParam:'',	
 	sortOption:'',
 	query:'',
 	pos: null,
+	club:'',
 	
 	initialize: function (param) {	
 		this.changeSort("city");		
@@ -16,11 +17,12 @@ var GamesCollection = Backbone.Collection.extend({
   url:function() {
        
     var url='';
+    
+    console.log('url searchOption',this.searchOption);
+    console.log('url sortOption',this.sortOption);
+    
 
-    if (this.searchOption === 'player') 
-      url = Y.Conf.get("api.url.games") + "?q=" + this.searchOptionParam;
-           
-    else if (this.searchOption === 'me') {      
+    if (this.searchOption.indexOf('me') !== -1) {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)
       url = Y.Conf.get("api.url.players") + this.searchOptionParam + "/games/?owned=true";
@@ -33,29 +35,42 @@ var GamesCollection = Backbone.Collection.extend({
     else
     	url += "&";      
     
-    if (this.searchOption === 'club' && this.searchOptionParam!== '')   
-      url += "club=" + this.searchOptionParam;     
+    if (this.searchOption.indexOf('club') !== -1 && this.club!=='') {
+      url += "club=" + this.club; 
+      url += "&"; 
+    }
+      
+    if (url === Y.Conf.get("api.url.games")  ) 
+    	url += "?";
+   
         
-    if (this.searchOption === 'geolocation' && this.pos !==null) { 
+    if (this.searchOption.indexOf('geo') !== -1 && this.pos !==null) { 
      if (this.pos[1]!==null && this.pos[0]!==null)   
-      url +=  "distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
+      url +=  "distance=50&latitude="+this.pos[1]+"&longitude="+this.pos[0];
+      url += "&";
     }        
+
+    if (url === Y.Conf.get("api.url.games") ) 
+    	url += "?";
            	
     	
-	if (this.query!=="" && this.searchOption !== 'player') {
-		url +="q="+this.query+"&";
+	if (this.query!=="" && this.searchOption.indexOf('player') !== -1 ) {
+		url +="q="+this.query+"";
+		url += "&";
 	};
     
-    
+    if (url === Y.Conf.get("api.url.games") ) 
+    	url += "?";
+    	    
     if (this.sortOption==='ongoing')
-      url = url  + "status=ongoing";
+      url += "status=ongoing&";
     else if (this.sortOption==='finished')
-      url = url  + "status=finished";
+      url += "status=finished&";
     else if (this.sortOption==='created')
-      url = url  + "status=created";
+      url += "status=created&";
            
 	
-	url = url  + "&sort=-dates.start";   
+	url += "sort=-dates.start";   
 
     console.log('URL',url);        
         
@@ -66,11 +81,32 @@ var GamesCollection = Backbone.Collection.extend({
     this.sortOption=s;
   },
   
-  setSearch:function(m, q) {
-    this.searchOption=m;
+  removeSearch:function(m) {
 
-    if (typeof q !== "undefined")
-      this.searchOptionParam=q;
+     if (this.searchOption!==undefined) {      	  
+        if (this.searchOption.indexOf(m) !== -1) {
+          this.searchOption.splice(this.searchOption.indexOf(m), 1);
+        }
+     }
+  
+  },
+  
+  addSearch:function(m) {
+    //this.searchOption=m;
+    
+     if (this.searchOption!==undefined) {      	  
+        if (this.searchOption.indexOf(m) === -1) {
+           this.searchOption.push(m);      
+       }        
+      }
+      else {
+         this.searchOption = [m];
+      }   
+      
+      console.log('on passe setSearch sur ',this.searchOption);  
+
+    //if (typeof q !== "undefined")
+    //  this.searchOptionParam=q;
   },
 
   setQuery:function (q) {
@@ -83,7 +119,9 @@ var GamesCollection = Backbone.Collection.extend({
     this.pos = pos;
   },  
   
-	
+  setClub:function(club) {
+    this.club = club;
+  }, 	
     
   comparator: function (property) {
     return selectedStrategy.apply(Game.get(property));

@@ -25,8 +25,9 @@
       'games/': 'gameList',        
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
-      'players/form/me': 'playerFormFirst',        
-      'players/form': 'playerForm',     
+      'players/form/me': 'playerFormFirst',
+      'players/form/search': 'playerFormSearch',                 
+      'players/form': 'playerForm',          
       'players/signin': 'playerSignin',
       'players/forget': 'playerForget',
       'players/follow': 'playerFollow',                                              
@@ -132,6 +133,10 @@
     
     playerForm: function () {
       this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: ''}));
+    },
+
+    playerFormSearch: function () {
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
     },
 
     playerList: function () {

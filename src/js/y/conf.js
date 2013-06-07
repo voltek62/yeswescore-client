@@ -43,7 +43,7 @@
       {
         // loading default keys (temporary)
         // Parametrage des variables dependantes d'un environnement
-        Y.Env.user = "marc";
+        Y.Env.user = "vincent";
        
         switch (env) {
           case Y.Env.DEV:

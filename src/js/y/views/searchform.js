@@ -9,7 +9,7 @@ Y.Views.SearchForm = Y.View.extend({
     "click #searchmyclub":"update", 
     "click #searchgamefollowed":"update",        
     'click #club_choice' : 'displayClub',
-    'click #linkprofil' : ''
+    'click #linkprofil' : 'goProfil'
       
   },
   
@@ -41,6 +41,8 @@ Y.Views.SearchForm = Y.View.extend({
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');  
     this.clubid = this.owner.get('club').id;
+    
+    console.log('club',this.owner.toJSON());
 
 	this.render();
   
@@ -51,9 +53,12 @@ Y.Views.SearchForm = Y.View.extend({
       
     Y.User.setFiltersSearch(event.currentTarget.id);         
     
-  },     
-    
-
+  },
+       
+  goProfil: function(){
+    Y.Router.navigate('players/form/search', {trigger: true});  	    
+  },
+	
   //render the content into div of view
   render: function(){
   	
@@ -69,7 +74,12 @@ Y.Views.SearchForm = Y.View.extend({
   	  gps_state = i18n.t('search.gpsoff');
   	}
   	
-    this.$el.html(this.templates.searchform({gps:gps_state}));
+  	var clubname='';
+	if (this.clubid === undefined || this.clubid === '') {
+		clubname = this.owner.get('club').name;
+	}  	
+  	
+    this.$el.html(this.templates.searchform({gps:gps_state,clubname:clubname}));
   
     this.$el.i18n();
     
@@ -88,23 +98,26 @@ Y.Views.SearchForm = Y.View.extend({
     
     if (filters!=undefined) {
 	    if (filters.indexOf('searchgeo')!==-1) {
-	      $('#searchgeo').attr('checked', true);		  
-		  if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null)
-		  {
-		    $("#searchgeo").attr("disabled", true);  
-		  }	      
+	      $('#searchgeo').attr('checked', true);		        
 	    } 
 	    if (filters.indexOf('searchmyclub')!==-1) {
 	      $('#searchmyclub').attr('checked', true);
-	      if (this.clubid === undefined || this.clubid === '') {
-            $("#searchclub").attr("disabled", true);
-          }
 	 	}
 	    if (filters.indexOf('searchgamefollowed')!==-1) {
 	      $('#searchgamefollowed').attr('checked', true);
 	 	}
  	} 	
- 	 	   
+ 	
+ 	if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null)
+	{
+	  $('#searchgeo').attr('checked', false);
+	  $("#searchgeo").attr("disabled", true);  
+	}	  
+ 
+	if (this.clubid === undefined || this.clubid === '') {
+	  $('#searchclub').attr('checked', false);	
+      $("#searchclub").attr("disabled", true);
+    } 	 	   
   },
 
   onClose: function(){

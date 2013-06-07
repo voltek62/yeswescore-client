@@ -98,7 +98,7 @@ Y.Views.GameAdd = Y.View.extend({
 	      , subtype : $('#subtype').val()  
 	    };
 	  
-	    this.DB.saveJSON("game",game);
+	    this.DB.saveJSON("game", game);
       Y.Router.navigate("players/form/me", {trigger: true});	  
       return false;
     }

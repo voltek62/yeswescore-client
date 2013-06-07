@@ -53,25 +53,27 @@ var GameModel = Backbone.Model.extend({
     var team2_json = '';
     
     // if player exists / not exists
-    if (this.get('team1_id') === '')
+    if (this.get('team1_id')) {
+      team1_json = {
+        id : this.get('team1_id')
+      };
+    } else {
       team1_json = {
         name : this.get('team1'),
         rank : this.get('rank1')
-    };
-    else
-      team1_json = {
-        id : this.get('team1_id')
-    };
+      };
+    }
 
-    if (this.get('team2_id') === '')
+    if (this.get('team2_id')) {
+      team2_json = {
+        id : this.get('team2_id')
+      };
+    } else {
       team2_json = {
         name : this.get('team2'),
         rank : this.get('rank2')
-    };
-    else
-      team2_json = {
-        id : this.get('team2_id')
-    };
+      };
+    }
     
     var object = {
       teams : [ {

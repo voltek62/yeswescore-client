@@ -4,8 +4,8 @@
   /*#endif*/
 
   var Geolocation = {
-    longitude: 4.879303,
-    latitude: 45.732307,
+    longitude: null,
+    latitude: null,
 
     update: (function () {
       var pooling = false; // avoiding pooling twice

@@ -30,6 +30,7 @@ var GamesCollection = Backbone.Collection.extend({
       url = Y.Conf.get("api.url.players") + this.searchOptionParam + "/games/?owned=true";
     }
     else if (this.searchOption === 'geolocation' && this.pos !==null) { 
+     if (this.pos[1]!==null && this.pos[0]!==null)   
       url =  Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
     }
     else 

@@ -44,17 +44,21 @@ var PlayerModel = Backbone.Model.extend({
     var token = options.token || this.get('token') || '';
     //
     if (method === 'create' && this.get('id') === undefined) {
+      var dataSend = {
+        id: (this.get('id') || ''),
+        language: Y.language,
+        location : {},
+        club: (this.get('club') || '')  
+      };
+      
+      if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
+        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+      
       return Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players"),
         type: 'POST',
-        data: {
-          language: Y.language,
-          location: {
-            currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
-          },
-          club: (this.get('club') || '')
-        },
+        data:dataSend,
         // WHYYYYY ?????
         success: function (data) {
           that.set(data);
@@ -77,11 +81,12 @@ var PlayerModel = Backbone.Model.extend({
         idlicense: (this.get('idlicence') || ''),
         language: Y.language,
         games: [],
-        token: (this.get('token') || ''),
-        location: {
-          currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
-        }
+        location : {},
+        token: (this.get('token') || '')
       };
+
+      if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
+        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
       
       // si club non nul
       if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {

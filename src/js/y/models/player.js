@@ -80,13 +80,15 @@ var PlayerModel = Backbone.Model.extend({
         rank: (this.get('rank') || ''),
         idlicense: (this.get('idlicence') || ''),
         language: Y.language,
-        games: [],
         location : {},
         token: (this.get('token') || '')
       };
 
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+
+      if (this.get('uncryptedPassword'))
+        dataSend.uncryptedPassword = this.get('uncryptedPassword');
       
       // si club non nul
       if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {

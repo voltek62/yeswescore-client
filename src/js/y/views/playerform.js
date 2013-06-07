@@ -16,8 +16,7 @@ Y.Views.PlayerForm = Y.View.extend({
   useSearch:0,	     
   mode:'',
 
-  myinitialize:function(obj) {
-    this.player = null;  
+  myinitialize:function(obj) { 
     this.useSearch = 0;	
     this.mode = obj.mode;
   
@@ -30,18 +29,14 @@ Y.Views.PlayerForm = Y.View.extend({
       playerform:  Y.Templates.get('playerForm'),
       clublist: Y.Templates.get('clubListAutoComplete')
     };
-       
-    this.owner = Y.User.getPlayer();    
-    this.token = this.owner.get('token');
-    this.playerid = this.owner.get('id');
-    this.clubid = this.owner.get('club').id;
     
-    // we render immediatly
-    this.render();    
-    
-    this.player = new PlayerModel({id : this.owner.id});
+    this.player = Y.User.getPlayer();
+    this.clubid = this.player.get('club').id;
     this.player.once("sync", this.renderPlayer, this);	
     this.player.fetch();
+
+    // we render immediatly
+    this.render();
   },
   
   autocompleteClubs: function (input, callback) {

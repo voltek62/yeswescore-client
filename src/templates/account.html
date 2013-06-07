@@ -14,9 +14,9 @@
     %>
     <a class="button" href="#players/form" data-i18n="account.myprofil" data-js-navigate></a>
     <%
-     if( player && player.email &&
-         (player.email.status == "pending-confirmation" || 
-          player.email.status == "confirmed")) { 
+     if( player && player.get('email') &&
+         (player.get('email').status == "pending-confirmation" || 
+          player.get('email').status == "confirmed")) { 
     %>
     <a class="button" href="#players/signin" data-i18n="account.disconnect" data-js-navigate></a>
     <% } else { %>

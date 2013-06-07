@@ -27,8 +27,8 @@ Y.Views.PlayerSignin = Y.View.extend({
     // loading status
     this.player = Y.User.getPlayer();
     if (this.player &&
-        this.player.email &&
-        this.player.email.address) {
+        this.player.get('email') &&
+        this.player.get('email').address) {
       this.status.current = this.status.REGISTERED;
     } else {
       this.status.current = this.status.UNREGISTERED;

@@ -38,10 +38,12 @@ var PlayerModel = Backbone.Model.extend({
 
 
   sync: function (method, model, options) {
-
-
-    if (method === 'create' && this.get('playerid') === undefined) {
-      var that = this;
+    // allowing playerid & token overload.
+    var that = this;
+    var playerid = options.playerid || this.get('id') || '';
+    var token = options.token || this.get('token') || '';
+    //
+    if (method === 'create' && this.get('id') === undefined) {
       return Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players"),
@@ -65,11 +67,10 @@ var PlayerModel = Backbone.Model.extend({
             options.error(message);
         }
       });
-    } else if (this.get('playerid') !== undefined) {
+    } else if (this.get('id') !== undefined) {
       // Update
-
       var dataSend = {
-        id: (this.get('playerid') || ''),
+        id: (this.get('id') || ''),
         name: (this.get('name') || ''),
         email: { address: (this.get('email') || '') },
         rank: (this.get('rank') || ''),
@@ -81,66 +82,43 @@ var PlayerModel = Backbone.Model.extend({
           currentPos: [Y.Geolocation.longitude, Y.Geolocation.latitude]
         }
       };
-
-      // si mot de passe defini
-      if (typeof this.get('password') === "string" && this.get('password') !== '') {
-        dataSend.uncryptedPassword = this.get('password');
-      }
+      
       // si club non nul
-      
-      
       if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {
         dataSend.club = {
           id: (this.get('clubid') || undefined)
         };
         //On met en cache le numero de club
         Y.User.setClub(this.get('clubid'));
-      }
-      else {
-   
+      } else {
       	Y.User.removeClub();
-      	
       	 dataSend.club = {
           id: undefined,
           name : ''
         };
-      	
       }
 
-	  var playeridupdated='';
-	  if (this.get('playeridupdated') === undefined)
-	    playeridupdated = this.get('playerid');
-	  else
-	    playeridupdated = this.get('playeridupdated');    
-
-      
-      console.log(Y.Conf.get("api.url.players") + playeridupdated
-            + '/?playerid=' + (this.get('playerid') || '') + '&token='
-            + (this.get('token') || ''));
-      
+      var url = Y.Conf.get("api.url.players") + this.get('id')
+            + '/?playerid=' + playerid + '&token=' + token;
       return Backbone.ajax({
         dataType: 'json',
-        url: Y.Conf.get("api.url.players") + playeridupdated
-            + '/?playerid=' + (this.get('playerid') || '') + '&token='
-            + (this.get('token') || ''),
+        url: url,
         type: 'POST',
         data: dataSend,
-        success : function(player) {
-          //MAJ cache ???
- 
+        success: function (data) {
+          that.set(data);
+          if (options && options.success) {
+            options.success(data);
+          }
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
         }
       });
-    }
-    else {
+    } else {
       model.url = Y.Conf.get("api.url.players") + this.id;
-
-
       return Backbone.sync(method, model, options);
-
     }
-
-
-
   }
-
 });

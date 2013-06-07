@@ -233,7 +233,7 @@ Y.Views.GameAdd = Y.View.extend({
       
       if (game!==undefined) {
 	      $("#team2").val(game.team2); 
-	      $("#team2_id").val(game.team2_id); 	       
+	      this.team2_id = game.team2_id;
 	      $("#rank2").val(game.rank2);                
 	    
 	      if (!isGingerbread) {

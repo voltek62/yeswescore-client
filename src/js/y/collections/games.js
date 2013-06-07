@@ -16,12 +16,8 @@ var GamesCollection = Backbone.Collection.extend({
   url:function() {
        
     var url='';
-    
-    if (this.searchOption === 'club' && this.searchOptionParam!== '') 
-      //url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";   
-      url = Y.Conf.get("api.url.games") + "?club=" + this.searchOptionParam;     
-         
-    else if (this.searchOption === 'player') 
+
+    if (this.searchOption === 'player') 
       url = Y.Conf.get("api.url.games") + "?q=" + this.searchOptionParam;
            
     else if (this.searchOption === 'me') {      
@@ -29,17 +25,22 @@ var GamesCollection = Backbone.Collection.extend({
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)
       url = Y.Conf.get("api.url.players") + this.searchOptionParam + "/games/?owned=true";
     }
-    else if (this.searchOption === 'geolocation' && this.pos !==null) { 
-     if (this.pos[1]!==null && this.pos[0]!==null)   
-      url =  Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
-    }
     else 
       url =  Y.Conf.get("api.url.games");
       
     if (url === Y.Conf.get("api.url.games") ) 
     	url += "?";
     else
-    	url += "&";  	
+    	url += "&";      
+    
+    if (this.searchOption === 'club' && this.searchOptionParam!== '')   
+      url += "club=" + this.searchOptionParam;     
+        
+    if (this.searchOption === 'geolocation' && this.pos !==null) { 
+     if (this.pos[1]!==null && this.pos[0]!==null)   
+      url +=  "distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
+    }        
+           	
     	
 	if (this.query!=="" && this.searchOption !== 'player') {
 		url +="q="+this.query+"&";
@@ -67,9 +68,7 @@ var GamesCollection = Backbone.Collection.extend({
   
   setSearch:function(m, q) {
     this.searchOption=m;
-    
-    console.log('games.js setSearch searchOption=',this.searchOption);
-    
+
     if (typeof q !== "undefined")
       this.searchOptionParam=q;
   },

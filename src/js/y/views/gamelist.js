@@ -80,6 +80,9 @@ Y.Views.GameList = Y.View.extend({
     this.gameDeferred = $.Deferred();
     this.games = new GamesCollection();
 
+/*
+     console.log('  param  ',param);
+
     if (param!==undefined) {
     
 	    if (param.search !== '') {
@@ -91,6 +94,7 @@ Y.Views.GameList = Y.View.extend({
 	    }
 	      
      }    
+ */
      
      //FIXME
      console.log('  this.searchOption  ',this.searchOption);
@@ -104,7 +108,8 @@ Y.Views.GameList = Y.View.extend({
         this.games.setSearch('club',this.clubid);  
         
 	  }
-      else if(this.searchOption.indexOf('searchgeo')!==-1 && Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null) {
+      
+	  if(this.searchOption.indexOf('searchgeo')!==-1 && Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null) {
         console.log('gamelist searchgeo');
         this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
         this.games.setSearch('geolocation','');  
@@ -236,7 +241,9 @@ Y.Views.GameList = Y.View.extend({
     $(this.listview).html(this.templates.ongoing());
     $('p').i18n(); 
     
-    
+    console.log('gamelist search avec sortOption',this.sortOption);
+    console.log('gamelist search avec searchOption',this.searchOption);
+        
     
     if (this.sortOption !=="") 
       this.games.setSort(this.sortOption);  

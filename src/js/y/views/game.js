@@ -264,47 +264,34 @@ Y.Views.Game = Y.View.extend({
  
 
   bufferedUndoAction: function () {
-
+		var that = this;
     	   	  
     if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {
-    
     	$('.undoSelect').hide();
-    
     	this.lastScore = this.DB.readJSON("sets");
-	      
 	    if (this.lastScore !== undefined) {
-	    
 	      console.log('LASTSCORE length',this.lastScore.length);
-	      
 	      if (this.lastScore.length<=1)
 	      	return;
-	      
 	      var sets_undo = this.lastScore.pop();
-       
-       	  
 	      if (sets_undo !== undefined)
 	      {
 	        //S'il s'agit du meme score
-		    if (sets_undo[0] === this.currentScore) {
-		      this.DB.saveJSON("sets",this.lastScore);		        
-			  sets_undo = this.lastScore.pop();
-			}	    	  			    	
-		  }
-		  else 
-		    return;
-		   
-	    	  
+		      if (sets_undo[0] === this.currentScore) {
+		        this.DB.saveJSON("sets",this.lastScore);		        
+			      sets_undo = this.lastScore.pop();
+			    }	    	  			    	
+		    }
+		    else {
+  		    return;
+        }
+	    	
 	      var gameid = this.gameid;   
-	    	  	  
-	      
-	      if (sets_undo !== 'undefined') {
-	      
-		      var game = {
+	    	if (sets_undo !== 'undefined') {
+		      this.game = new GameModel({
 				    team1_id : this.game.get('teams')[0].players[0].id
 			      , team2_id : this.game.get('teams')[1].players[0].id
-			      , id : this.gameid 			      
-			      , playerid : this.playerid
-			      , token : this.token			      			      			      
+			      , id : this.gameid
 			      , country : this.game.get('location').country	      
 			      , city : this.game.get('location').city
 			      , court : this.game.get('infos').court
@@ -313,38 +300,20 @@ Y.Views.Game = Y.View.extend({
 			      , subtype : this.game.get('infos').subtype			      
 			      , sets :  sets_undo[0]
 			      , score : sets_undo[1]
-		      };
-		        
-	
-		      this.game = new GameModel(game);	    
-		      var that = this;
-			  
-			  //this.versionUndo++;
-			  //var versionUndo = this.versionUndo;	
-			  
-		      this.game.save({}, {
-		      
-            	  success: function(model, response) {
-			        	
-			        //if (that.versionUndo!==versionUndo) {			        
-			          that.currentScore = model.get('infos').sets; 		
-			          if (that.lastScore.length>1)
-			            that.DB.saveJSON("sets",that.lastScore);         			        	              
-	  				  that.game = model;
-		    	      that.renderScoreBoard(model);
-		    	    //}
-		    	    
-		    	    $('.undoSelect').show();
-		    	    
-            	},
-            	error : function(err) {
-            	
-            		$('.undoSelect').show();
-            	
-            	}
-            });   
-            
-            
+		      });
+		      this.game.save(null, {
+            playerid: this.playerid,
+            token: this.token
+          }).done(function (model, response) {        
+			      that.currentScore = model.get('infos').sets; 		
+			      if (that.lastScore.length>1)
+			        that.DB.saveJSON("sets",that.lastScore);         			        	              
+	  				that.game = model;
+		    	  that.renderScoreBoard(model);
+		    	  $('.undoSelect').show();
+		    	}).fail(function(err) {
+            $('.undoSelect').show();
+          });
 	      } 
 	    }
     }
@@ -624,11 +593,9 @@ Y.Views.Game = Y.View.extend({
     var game = {
       team1_id : this.game.get('teams')[0].players[0].id
 	  , team2_id : this.game.get('teams')[1].players[0].id
-      , team1 : this.game.get('teams')[0].players[0].name
+    , team1 : this.game.get('teams')[0].players[0].name
 	  , team2 : this.game.get('teams')[1].players[0].name	  
-	  , id : this.gameid 			      
-	  , playerid : this.playerid
-	  , token : this.token			      			      			      
+	  , id : this.gameid
 	  , country : this.game.get('location').country	      
 	  , city : this.game.get('location').city
 	  , court : this.game.get('infos').court
@@ -644,12 +611,13 @@ Y.Views.Game = Y.View.extend({
     var version = this.version;
     
     this.game = new GameModel(game);
-    this.game.save({}, {success: function(model, response){ 
-    
-      if (that.version===version)  
+    this.game.save({}, {
+      playerid: this.playerid,
+      token: this.token
+    }).done(function(model, response){ 
+      if (that.version === version)
       	that.game = model;
-      
-    }}); 
+    });
   },
 
   // renderRefresh : refresh only scoreboard
@@ -1024,184 +992,137 @@ Y.Views.Game = Y.View.extend({
   },
 
   restartGame : function() {  
-  
+    var that = this;
     var game = {
-	    team1_id : this.game.get('teams')[0].players[0].id
-	    , team2_id : this.game.get('teams')[1].players[0].id	      
-	    , playerid : this.playerid
-	    , token : this.token
+	      team1_id : this.game.get('teams')[0].players[0].id
+	    , team2_id : this.game.get('teams')[1].players[0].id
 	    , id : this.gameid 
     };  
   
-	if ( this.statusScore === "finished"  ) {
+	  if ( this.statusScore === "finished"  ) {
       game.status = "ongoing";    	 
       //On met à jour les sets 
-     this.statusScore = "ongoing";  
-     game.score = this.calculScore();      
-                
+      this.statusScore = "ongoing";  
+      game.score = this.calculScore();
       var tennis_update = new GameModel(game);
-      
-      var that = this;
-	    tennis_update.save({}, {
-        success: function(model, response){
-	        
-            $("#statusButton").html(i18n.t('game.finish'));
-            
-            // statusRestart to optionButton
-            $("#statusRestart").attr("id","optionButton");
- 			$("#optionButton").html(i18n.t('game.options'));
-            
-            // On efface la cache
-            //if (this.DB!==undefined)
-            //  this.DB.remove("sets");
-             
-          }
+	    tennis_update.save(null, {
+	      playerid : this.playerid
+	    , token : this.token
+      }).done(function(model, response){
+        $("#statusButton").html(i18n.t('game.finish'));
+        // statusRestart to optionButton
+        $("#statusRestart").attr("id","optionButton");
+        $("#optionButton").html(i18n.t('game.options'));
 	    });
-	    
-	    
-    }    	
-  
+    }
   },
   
   startTeam1 : function() {
-
+    var that = this;
     var game = {
-    	startTeam : 0 
+    	  startTeam : 0 
 	    , team1_id : this.game.get('teams')[0].players[0].id
-	    , team2_id : this.game.get('teams')[1].players[0].id	      
-	    , playerid : this.playerid
-	    , token : this.token
+	    , team2_id : this.game.get('teams')[1].players[0].id
 	    , id : this.gameid 
     };
-    
-	var that = this;
-	
-	var tennis_update = new GameModel(game);
-	tennis_update.save({}, {
-      success: function(model, response){      
-	      //on cache le barre
-	      $('.serverbar').hide();
-		  $('.server1').addClass('server-ball');
-		  $('.server2').removeClass('server-ball');			  		
-		  this.server1=false;
-		  this.server2=true;		
-		  
-		  $('.button-comments').show();      
-      }
-	});      
-  
+	  var tennis_update = new GameModel(game);
+	  tennis_update.save(null, {
+      playerid : this.playerid
+	  , token : this.token
+    }).done(function(model, response){      
+      //on cache le barre
+      $('.serverbar').hide();
+      $('.server1').addClass('server-ball');
+      $('.server2').removeClass('server-ball');
+      this.server1=false;
+      this.server2=true;
+      $('.button-comments').show();
+  	});
   },
   
   startTeam2 : function() {
-  
+    var that = this;
     var game = {
-    	startTeam : 1     	
+    	  startTeam : 1
 	    , team1_id : this.game.get('teams')[0].players[0].id
-	    , team2_id : this.game.get('teams')[1].players[0].id	      
-	    , playerid : this.playerid
-	    , token : this.token
+	    , team2_id : this.game.get('teams')[1].players[0].id
 	    , id : this.gameid 
     };
-    
-	var that = this;
-	
-	var tennis_update = new GameModel(game);
-	tennis_update.save({}, {
-      success: function(model, response){
-	      //on cache le barre
-	      $('.serverbar').hide();	 
+
+	  var tennis_update = new GameModel(game);
+	  tennis_update.save(null, {
+	      playerid : this.playerid
+	    , token : this.token
+    }).done(function(model, response){
+	    //on cache le barre
+	    $('.serverbar').hide();	 
 		  $('.server1').removeClass('server-ball');
 		  $('.server2').addClass('server-ball');
 		  this.server1=true;
 		  this.server2=false;	
-		  
-		  $('.button-comments').show();             
-      }
-	});      
-  
+		  $('.button-comments').show();
+	  });
   },  
 
-  statusGame : function() {    
-
-
+  statusGame : function() {
+    var that = this;
     var game = {
 	    team1_id : this.game.get('teams')[0].players[0].id
-	    , team2_id : this.game.get('teams')[1].players[0].id	      
-	    , playerid : this.playerid
-	    , token : this.token
+	    , team2_id : this.game.get('teams')[1].players[0].id
 	    , id : this.gameid 
     };
-    	
+    var tennis_update;
 
-
-    if ( this.statusScore === "created"  ) {
+    if ( this.statusScore === "created") {
       game.status = "ongoing";    	          
-      var tennis_update = new GameModel(game);
-      var that = this;
-	    tennis_update.save({}, {
-        success: function(model, response){
-	        console.log('success ');
-          $("#statusButton").html(i18n.t('game.finish'));
-          that.statusScore = "ongoing";	      
-        }
+      tennis_update = new GameModel(game);
+	    tennis_update.save(null, {
+	      playerid : this.playerid
+	    , token : this.token
+      }).done(function(model, response){
+	      console.log('success ');
+        $("#statusButton").html(i18n.t('game.finish'));
+        that.statusScore = "ongoing";
 	    });
     }
-    else if ( this.statusScore === "finished"  ) {    
-    
-	    var that = this;
-		this.$(".buttonleft").addClass("ko");
+    else if ( this.statusScore === "finished") {
+		  this.$(".buttonleft").addClass("ko");
 	    this.shareTimeout = window.setTimeout(function () {
 	      that.$(".buttonleft").removeClass("ko");
 	      that.shareTimeout = null;
-	    }, 2000);	
-	        
+	    }, 2000);	    
     }
-    else if ( this.statusScore === "ongoing"  ) {
-      game.status = "finished";    	 
-      //On met à jour les sets 
-     this.statusScore = "finished";  
-     game.score = this.calculScore();      
-      
-      var tennis_update = new GameModel(game);
-      
-      var that = this;
-	    tennis_update.save({}, {
-        success: function(model, response){
-	        	        
-            $("#statusButton").html(i18n.t('game.gamefinished'));	 
-         
-            $("#optionButton").attr("id","statusRestart");
- 			$("#statusRestart").html(i18n.t('game.restart'));
- 			
- 			//On met à jour le score
- 			var score = that.calculScore();
- 			
-	        var scoreboard = score.split('/'); 
- 			$('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');
- 			$('#team2_sets_div').html('<div class="score sets">'+scoreboard[1]+'</div>');
- 			      
-            // On efface la cache
-            if (this.DB!==undefined)
-              this.DB.remove("sets");
-             
-          }
+    else if ( this.statusScore === "ongoing") {
+      game.status = "finished";
+      //On met à jour les sets
+      this.statusScore = "finished";
+      game.score = this.calculScore();
+      tennis_update = new GameModel(game);
+	    tennis_update.save(null, {
+	      playerid : this.playerid
+	    , token : this.token
+      }).done(function(model, response){
+	      $("#statusButton").html(i18n.t('game.gamefinished'));	 
+        $("#optionButton").attr("id","statusRestart");
+ 			  $("#statusRestart").html(i18n.t('game.restart'));
+ 			  //On met à jour le score
+ 			  var score = that.calculScore();
+	      var scoreboard = score.split('/'); 
+ 			  $('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');
+ 			  $('#team2_sets_div').html('<div class="score sets">'+scoreboard[1]+'</div>');
+ 			  // On efface la cache
+        if (this.DB!==undefined)
+          this.DB.remove("sets");
 	    });
-	    
-	    
-    }   
+    }
   },      
-
-      
+   
   optionGame : function() {
-
     Y.Router.navigate("/games/form/"+this.id,{trigger:true});
-    
   },      
 
   followGame : function() {
-
     if (this.follow === 'true') {
-
       var games_follow = Y.Conf.get("owner.games.followed");
       if (games_follow !== undefined)
       {
@@ -1229,16 +1150,10 @@ Y.Views.Game = Y.View.extend({
       }
       else
         Y.Conf.set("owner.games.followed", [this.id]);
-
       $("#followButton").text(i18n.t('message.nofollow'));
-
       this.follow = 'true';
-
     }
-
   },
-
-
 
   onClose : function() {
     // Clean

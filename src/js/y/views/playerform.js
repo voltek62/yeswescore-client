@@ -167,8 +167,12 @@ Y.Views.PlayerForm = Y.View.extend({
 		  $('div.success').i18n();
 		  Y.User.setPlayer(new PlayerModel(result));
 		  if (that.mode === 'first') {
-		    Y.Router.navigate("games/add", {trigger: true});	   
-		  } else {
+		    Y.Router.navigate("games/add", {trigger: true});  	   
+		  }
+		  else if (that.mode === 'search') {
+		    Y.Router.navigate("search/form", {trigger: true});  	   
+		  }		  
+		  else {
 		    Y.Router.navigate("account", {trigger: true});
     	}
     });

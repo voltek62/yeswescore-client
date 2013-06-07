@@ -647,6 +647,21 @@ ul>li.player>a {
 	box-sizing: border-box;	
 }
 
+.form-button-black-club {
+	position: relative;
+	height: 25px;
+	width: 130px;
+	line-height: 28px;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color: white;
+	background-color: #19171c;
+	border-radius: 15px;
+	cursor: pointer;
+}
+
 .form-button-black {
 	margin-top: 15px;
 	position: relative;
@@ -1267,6 +1282,7 @@ ul>li.player>a {
 	padding-left:2px;		
 	padding-right:2px;
 }
+
 
 /* layout grille */
 .indexViewTemplate>.ui-grid-a {

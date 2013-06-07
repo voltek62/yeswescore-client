@@ -9,7 +9,7 @@ Y.Views.SearchForm = Y.View.extend({
     "click #searchmyclub":"update", 
     "click #searchgamefollowed":"update",        
     'click #club_choice' : 'displayClub',
-    'click #linkprofil' : ''
+    'click #linkprofil' : 'goProfil'
       
   },
   
@@ -42,7 +42,7 @@ Y.Views.SearchForm = Y.View.extend({
     this.playerid = this.owner.get('id');  
     this.clubid = this.owner.get('club').id;
     
-    console.log('clubid',this.clubid);
+    console.log('club',this.owner.toJSON());
 
 	this.render();
   
@@ -53,9 +53,12 @@ Y.Views.SearchForm = Y.View.extend({
       
     Y.User.setFiltersSearch(event.currentTarget.id);         
     
-  },     
-    
-
+  },
+       
+  goProfil: function(){
+    Y.Router.navigate('players/form/search', {trigger: true});  	    
+  },
+	
   //render the content into div of view
   render: function(){
   	
@@ -71,7 +74,12 @@ Y.Views.SearchForm = Y.View.extend({
   	  gps_state = i18n.t('search.gpsoff');
   	}
   	
-    this.$el.html(this.templates.searchform({gps:gps_state}));
+  	var clubname='';
+	if (this.clubid === undefined || this.clubid === '') {
+		clubname = this.owner.get('club').name;
+	}  	
+  	
+    this.$el.html(this.templates.searchform({gps:gps_state,clubname:clubname}));
   
     this.$el.i18n();
     

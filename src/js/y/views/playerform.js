@@ -156,19 +156,16 @@ Y.Views.PlayerForm = Y.View.extend({
       $('#club').val('');        
       return false;	   
     };
-        
-    var player = new PlayerModel({
-        name: name
-      , rank: rank                  	
-      , playerid: playerid
-      , idlicence:idlicence
-      , token: token
-      , club: club
-      , clubid:clubid            
-    });
+    
+    var that = this;
+    var player = Y.User.getPlayer();
+    player.set('name', name);
+    player.set('rank', rank);
+    player.set('idlicence', idlicence);
+    player.set('club', club);
+    player.set('clubid', clubid);
 
 	  //FIXME :  add control error
-    var that = this;
     player.save().done(function (result) {
       $('div.success').css({display:"block"});
       $('div.success').html(i18n.t('message.updateok')).show();

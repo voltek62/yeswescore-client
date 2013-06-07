@@ -11,10 +11,10 @@ Y.Views.GameAdd = Y.View.extend({
   pageName: "gameAdd",
   pageHash : "games/add",  
 
-  playerid: "",
-  token: "",
-  
   useSearch:0,
+
+  team1_id: null,
+  team2_id: null,
 
   myinitialize: function () {
     this.useSearch = 0;	
@@ -25,21 +25,22 @@ Y.Views.GameAdd = Y.View.extend({
 	    gameinput:  Y.Templates.get('gameInput'),	      
 	    playerlist: Y.Templates.get('playerListAutoComplete')
 	  };
-	  this.owner = Y.User.getPlayer();    
-    this.token = this.owner.get('token');
-    this.playerid = this.owner.get('id');
+	  this.player = Y.User.getPlayer();
 	  this.DB = new Y.DB("Y.GameAdd.");
+    this.team1_id = this.player.get('id');
+    this.team2_id = null;
 	  this.render();
   },
 
   otherTeam: function () {
+    this.team1_id = null;
+    // 
     $('.team1_error').hide();
     $('.team2_error').hide();
     
     $(".form-button.other-team").addClass("selected");
     $(".ui-grid-b.first-team").removeClass("me");
     $("#team1").prop("disabled", false);
-    $("#team1_id").val('');
     $("#team1").attr("placeholder", "");
     $("#team1").val('');
     // on force l'input mode
@@ -48,10 +49,8 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   moreOption: function () {
-  
     $('.team1_error').hide();
     $('.team2_error').hide();  
-  
     $(".form-button.more-options").toggleClass("selected");
     $("#gameAddForm").toggleClass("simple");
   },
@@ -62,18 +61,18 @@ Y.Views.GameAdd = Y.View.extend({
       $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
       //$("#team1").attr("placeholder", i18n.t("gameadd.player1_holder"));
-      if (this.owner.get('name').length>1) $("#team1").val(this.owner.get('name'));
-      $("#team1_id").val(this.owner.get('id'));
+      if (this.player.get('name').length > 1)
+        $("#team1").val(this.player.get('name'));
+      this.team1_id = this.player.get('id');
     }
   },
 
   addGame: function (event) {
     var team1 = $('#team1').val()    
-      , team1_id = $('#team1_id').val()
       , team2 = $('#team2').val()
       , rank2 = $('#rank2').val()
       , city = $('#city').val()
-      , team2_id = $('#team2_id').val();
+      , game;
 
     if ( ( team1.length < 3 || team1.indexOf('  ')!==-1 ) && !$('#team1').is(':disabled') ) {
       $('.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
@@ -85,93 +84,84 @@ Y.Views.GameAdd = Y.View.extend({
     if ( team1 === ''   && $('#team1').is(':disabled') ) {
       //$('.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();      
       //On sauvegarde les infos de la partie
-	    var game = {
+	    game = {
 		      team1 : team1
 	      , rank1 : $('#rank1').val()
-	      , team1_id : team1_id
+	      , team1_id : this.team1_id
 	      , team2 : team2
 	      , rank2 : $('#rank2').val()
-	      , team2_id : team2_id
+	      , team2_id : this.team2_id
 	      , city : city
 	      , court : $('#court').val()
 	      , surface : $('#surface').val()
 	      , tour : $('#tour').val()
-	      , subtype : $('#subtype').val()
-	      , playerid : this.playerid
-	      , token : this.token      
+	      , subtype : $('#subtype').val()  
 	    };
 	  
 	    this.DB.saveJSON("game",game);
       Y.Router.navigate("players/form/me", {trigger: true});	  
       return false;
-    }    
-    
+    }
 
     //return false;
     $("span[class*='_error']").hide();
 
     if (checkName(team1) && team1.length>0) {     
-	  $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
+	   $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team1').val('');        
       return false;	   
     };
     
     if (checkName(team2) && team2.length>0) { 
-	  $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team2').val('');        
       return false;	   
     };
     
     if (checkRank(rank2) && rank2.length>0) {
-	  $('.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+  	  $('.team2_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank2').val('');        
       return false;	   
     };    
 
-    if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && team2_id === '' ) {
+    if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && this.team2_id === null ) {
       $('.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       $('#team2').val('');
       return false;
     };
     
     if (checkName(city) && city.length>0) {             
-	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
       return false;	   
-    };        
+    };
 
-    var game = {
-		team1 : team1
+    //On sauve dans Collections
+    game = new GameModel({
+		    team1 : team1
       , rank1 : $('#rank1').val()
-      , team1_id : team1_id
+      , team1_id : this.team1_id
       , team2 : team2
       , rank2 : $('#rank2').val()
-      , team2_id : team2_id
+      , team2_id : this.team2_id
       , city : city
       , court : $('#court').val()
       , surface : $('#surface').val()
       , tour : $('#tour').val()
       , subtype : $('#subtype').val()
-      , playerid : this.playerid
-      , token : this.token      
-    };
-    
-    //On sauve dans Collections
-    var game = new GameModel(game);    
-    game.save({}, {  
-      success: function(model, response){
-
-        Y.Router.navigate('games/'+model.id, {trigger: true});	
-	    //Mis par defaut dans mes matchs
-        //Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })              
-      }
-  	});   
+    });
+      
+    game.save(null, {
+      playerid: this.player.get('id'),
+      token: this.player.get('token')
+    }).done(function(model, response){
+      Y.Router.navigate('games/'+model.id, {trigger: true});
+    });
 
     return false;
   },
 
   autocompletePlayers: function (input, callback) {
-    
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
       callback('empty');		
     
@@ -183,34 +173,25 @@ Y.Views.GameAdd = Y.View.extend({
     }).done(function (players) {
       if (players && _.isArray(players) && players.length>0) {
         callback(null, players.splice(0, 3).map(function (p) {
-           p.text = p.name; 
-           
-           //FIXME : add rank
-           if (p.club !== undefined) {
-	           if (p.club.name !== undefined) {
-	             p.text += " ( "+p.club.name+" )";
-	           };
-	       };
-           
-           return p; 
-         }));
+          p.text = p.name; 
+          //FIXME : add rank
+          if (p.club !== undefined && p.club.name !== undefined) {
+	          p.text += " ( "+p.club.name+" )";
+	        }
+          return p; 
+        }));
       } else {
         callback(null, []);
       }
     }).fail(function (xhr, error) { 
       callback(error);
     });
-
-    /*setTimeout(function () { 
-      callback(null, [{text: "titi"}, {text: String(Math.random())}]);
-    }, 3000);*/
   },
 
   autocompleteTeam1: function (data) {
-  
     if (data && data.name) {
       this.$("#team1").val(data.name);
-      this.$("#team1_id").val(data.id);
+      this.team1_id = data.id;
     }
   },
 
@@ -218,17 +199,17 @@ Y.Views.GameAdd = Y.View.extend({
 
     if (data && data.name) {
       this.$("#team2").val(data.name);
-      this.$("#team2_id").val(data.id);      
+      this.team2_id = data.id;
     }
   },
 
   //render the content into div of view
   render: function () {
     this.$el.html(this.templates.gameadd());
-    
-    //this.$el.i18n(); 
-	 if ( this.owner.get('name') !== "" ) $("#team1").val(this.owner.get('name')); 
-	 if ( this.owner.get('id') !== "" ) $("#team1_id").val(this.owner.get('id')); 	
+    if (this.player.get('name'))
+      $("#team1").val(this.player.get('name')); 
+    if (this.player.get('id') !== "")
+      this.team1_id = this.player.get('id');
 	 
 	 /*
 	 debug android 2.2 to 2.3.6
@@ -243,36 +224,31 @@ Y.Views.GameAdd = Y.View.extend({
 	     })); 
 	 }
 	 else {
-		 $('#inject-select').prepend(this.templates.gameinput()); 	   
-	 
+		 $('#inject-select').prepend(this.templates.gameinput());
 	 }
          
     //fill with last data 
     if (this.DB !== undefined) {
-    
       var game = this.DB.readJSON("game"); 
       
       if (game!==undefined) {
-      
-	    $("#team2").val(game.team2); 
-	    $("#team2_id").val(game.team2_id); 	       
-	    $("#rank2").val(game.rank2);                
-	 
-	    if (!isGingerbread) {
-		    if ( game.city !== "" ) $("#city").val(game.city);    
-		    if ( game.surface !== "" ) $("#surface").val(game.surface);
-		    if ( game.tour !== "" ) $("#tour").val(game.tour);
-		    if ( game.court !== "" ) $("#court").val(game.court);
-	    }
-	    if ( game.competition !== "" ) $("#competition").val(game.competition);      
-     
+	      $("#team2").val(game.team2); 
+	      $("#team2_id").val(game.team2_id); 	       
+	      $("#rank2").val(game.rank2);                
+	    
+	      if (!isGingerbread) {
+		      if ( game.city !== "" ) $("#city").val(game.city);    
+		      if ( game.surface !== "" ) $("#surface").val(game.surface);
+		      if ( game.tour !== "" ) $("#tour").val(game.tour);
+		      if ( game.court !== "" ) $("#court").val(game.court);
+	      }
+	      if ( game.competition !== "" )
+          $("#competition").val(game.competition);
+        
         this.DB.remove("game"); 
       }
     }
- 
-    
     $('#content').i18n();
-		
     return this;
   },
 

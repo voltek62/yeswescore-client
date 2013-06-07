@@ -41,6 +41,8 @@ Y.Views.SearchForm = Y.View.extend({
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');  
     this.clubid = this.owner.get('club').id;
+    
+    console.log('clubid',this.clubid);
 
 	this.render();
   

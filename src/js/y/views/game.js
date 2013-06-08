@@ -465,24 +465,24 @@ Y.Views.Game = Y.View.extend({
       game.status = "finished";
       //On met à jour les sets
       this.statusScore = "finished";
-      game.score = this.calculScore();
+      game.score = this.computeScore();
       tennis_update = new GameModel(game);
 	    tennis_update.save(null, {
 	      playerid : this.player.get('id')
 	    , token : this.player.get('token')
       }).done(function(model, response){
 	      $("#statusButton").html(i18n.t('game.gamefinished'));	 
-        $("#optionButton").attr("id","statusRestart");
- 			  $("#statusRestart").html(i18n.t('game.restart'));
- 			  //On met à jour le score
- 			  var score = that.calculScore();
+          $("#optionButton").attr("id","statusRestart");
+ 		  $("#statusRestart").html(i18n.t('game.restart'));
+ 		  //On met à jour le score			
+ 		  var score = that.computeScore();
 	      var scoreboard = score.split('/'); 
- 			  $('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');
- 			  $('#team2_sets_div').html('<div class="score sets">'+scoreboard[1]+'</div>');
- 			  // On efface la cache
-        if (this.DB!==undefined)
-          this.DB.remove("sets");
-	    });
+ 		  $('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');
+ 		  $('#team2_sets_div').html('<div class="score sets">'+scoreboard[1]+'</div>');
+ 		  // On efface la cache
+          if (this.DB!==undefined)
+            this.DB.remove("sets");
+	   });
     }
   },
 

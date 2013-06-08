@@ -237,10 +237,12 @@ Y.Views.GameForm = Y.View.extend({
     ).done(function (result) {
 	    $('span.success').css({display:"block"});
 	    $('span.success').html(i18n.t('message.updateok')).show();
-		  that.shareTimeout = window.setTimeout(function () {
+	    /*
+		that.shareTimeout = window.setTimeout(function () {
 	      Y.Router.navigate("games/"+that.gameid, {trigger: true});
 	      that.shareTimeout = null;
 	    }, 2000);
+	    */
     });
 
 	  return this;

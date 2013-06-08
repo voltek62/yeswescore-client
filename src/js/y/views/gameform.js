@@ -217,16 +217,16 @@ Y.Views.GameForm = Y.View.extend({
       , name: team1
       , rank: rank1
       });
-	    promise = player1.save(null, { playerid: playerid, token: token}); 
+	    promise = player1.save(null, { playerid: this.playerid, token: this.token}); 
       promises.push(promise);
     }
     if (owner2 !== "") {
       var player2 = new PlayerModel({
         id : owner2
       , name: team2
-      , rank: rank2s
+      , rank: rank2
       });
-	    promise = player2.save(null, { playerid: playerid, token: token}); 
+	    promise = player2.save(null, { playerid: this.playerid, token: this.token}); 
       promises.push(promise);
     }
     

@@ -28,6 +28,7 @@ Y.Views.Game = Y.View.extend({
   pageHash : "games/",
 
   shareTimeout: null,
+  infoTimeout: null,  
   sharing: false,
 
   gameid : null,
@@ -72,7 +73,7 @@ Y.Views.Game = Y.View.extend({
     // first: we render immediatly
     this.render();
     // 
-    this.game.once('sync', this.startPooling, this);
+    this.game.once('sync', this.onGameInit, this);
     // rerender on game update
     this.game.on('sync', this.onGameSynched, this);
     // Fetching data the fist time
@@ -83,7 +84,7 @@ Y.Views.Game = Y.View.extend({
     this.streams.fetch();
   },
 
-  startPooling: function () {
+  onGameInit: function () {
     // Pooling du model game & affichage.
     // FIXME: SI ONLINE
     // FIXME : temps de rafrichissement selon batterie et selon forfait  
@@ -421,15 +422,15 @@ Y.Views.Game = Y.View.extend({
   },
   
   startTeam2 : function() {
-    this.gameid.set('startTeam', 1);
+    this.game.set('startTeam', 1);
     this.renderAndSave();
   },
 
   // immediatly render & save in the background
   renderAndSave: function () {
     this.render();
-	  this.game.save(null, {
-	    playerid : this.player.get('id')
+	this.game.save(null, {
+	  playerid : this.player.get('id')
 	  , token : this.player.get('token')
     });
   },
@@ -457,9 +458,9 @@ Y.Views.Game = Y.View.extend({
     }
     else if ( this.statusScore === "finished") {
 		  this.$(".buttonleft").addClass("ko");
-	    this.shareTimeout = window.setTimeout(function () {
+	    this.infoTimeout = window.setTimeout(function () {
 	      that.$(".buttonleft").removeClass("ko");
-	      that.shareTimeout = null;
+	      that.infoTimeout = null;
 	    }, 2000);	    
     }
     else if ( this.statusScore === "ongoing") {
@@ -538,14 +539,18 @@ Y.Views.Game = Y.View.extend({
   onClose : function() {
     // desabonnements
     this.game.off("sync", this.onGameSynched, this);
-    this.game.off("sync", this.startPooling, this);
+    this.game.off("sync", this.onGameInit, this);
     this.streams.off("sync", this.renderCountComment, this);
     //
+    if (this.infoTimeout) {
+      window.clearTimeout(this.infoTimeout);
+      this.infoTimeout = null;
+    }
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
       this.shareTimeout = null;
     }
     // 
-    this.poller.stop();
+    if (!this.game.isMine()) this.poller.stop();
   }
 });

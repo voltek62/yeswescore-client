@@ -31,6 +31,7 @@ Y.Views.Game = Y.View.extend({
   sharing: false,
 
   gameid : null,
+  saveBufferTimeoutId: null,
 
   initialize : function() {
     this.pageHash += this.id;
@@ -252,6 +253,11 @@ Y.Views.Game = Y.View.extend({
     var set = $(ev.currentTarget).data('set');
     var team = $(ev.currentTarget).data('team');
 
+    if (sets.length < set) {
+      // incrementation impossible
+      return;
+    }
+
     /* regle de gestion */
     // add diff de 2 max si superieur à 6
     // add force score if diff de 2 ou on peut mettre à jour les scores ? on controle si 0,1,2,3
@@ -293,6 +299,7 @@ Y.Views.Game = Y.View.extend({
 
     // update en DB
     this.game.setSets(sets);
+
     //
     this.renderAndSave();
   },
@@ -436,10 +443,22 @@ Y.Views.Game = Y.View.extend({
   // immediatly render & save in the background
   renderAndSave: function () {
     this.render();
+    this.saveBuffered();
+  },
+
+  saveBuffered: function () {
+    if (this.saveBufferTimeoutId) {
+      window.clearTimeout(this.saveBufferTimeoutId);
+    }
+    this.saveBufferTimeoutId = window.setTimeout(_.bind(this.save, this), 1000);
+  },
+
+  save: function () {
 	  this.game.save(null, {
 	    playerid : this.player.get('id')
 	  , token : this.player.get('token')
     });
+    this.saveBufferTimeoutId = null;
   },
 
   changeGameStatus : function() {
@@ -509,6 +528,11 @@ Y.Views.Game = Y.View.extend({
     this.game.off("sync", this.onGameSynched, this);
     this.game.off("sync", this.onGameInit, this);
     this.streams.off("sync", this.renderCountComment, this);
+    // on trigger immediatement la sauvegarde
+    if (this.saveBufferTimeoutId) {
+      window.clearTimeout(this.saveBufferTimeoutId);
+      this.save();
+    }
     //
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);

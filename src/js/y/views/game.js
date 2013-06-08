@@ -236,9 +236,9 @@ Y.Views.Game = Y.View.extend({
       return;
 
     if (this.game.get('status') === "created") {
-		  this.$(".status").addClass("ko"); // on highlight le bouton
+      this.$(".status").addClass("ko"); // on highlight le bouton
       return;
-	  }
+    }
 
     // on modifie le score du set en question dans l'objet game.
     var sets = this.game.getSets();
@@ -257,11 +257,11 @@ Y.Views.Game = Y.View.extend({
     var diff_sets3 = Math.abs(parseInt(team1_set3, 10)-parseInt(team2_set3, 10));
 
     if ((team1_set1>=7 && diff_sets1>2) ||
-		    (team2_set1>=7 && diff_sets1>2) ||
-		    (team1_set2>=7 && diff_sets2>2) ||
-		    (team2_set2>=7 && diff_sets2>2) ||
-		    (team1_set3>=7 && diff_sets3>2) ||
-		    (team2_set3>=7 && diff_sets3>2)) {
+        (team2_set1>=7 && diff_sets1>2) ||
+        (team1_set2>=7 && diff_sets2>2) ||
+        (team2_set2>=7 && diff_sets2>2) ||
+        (team1_set3>=7 && diff_sets3>2) ||
+        (team2_set3>=7 && diff_sets3>2)) {
       // incrementation impossible
       return;
     }
@@ -272,7 +272,7 @@ Y.Views.Game = Y.View.extend({
       throw "FIXME: upgrade sur set+1";
     }
 
-	  // MAJ cache
+    // MAJ cache
     var setsCache = this.DB.readJSON("sets");
     var newData = [this.game.get('infos').sets, this.game.get('infos').score];
     if (setsCache === undefined) {
@@ -362,28 +362,28 @@ Y.Views.Game = Y.View.extend({
     
 	  var total_sets = parseInt(score[0]) + parseInt(score[1]);
     if (total_sets >= 2)  {
-	    $('#team1_set1_div .score').removeClass('ongoing');
-	    $('#team2_set1_div .score').removeClass('ongoing');
-		  $('#team1_set2_div .score').removeClass('ongoing');
-		  $('#team2_set2_div .score').removeClass('ongoing');
-		  $('#team3_set3_div .score').addClass('ongoing');
-		  $('#team3_set3_div .score').addClass('ongoing');
+      $('#team1_set1_div .score').removeClass('ongoing');
+      $('#team2_set1_div .score').removeClass('ongoing');
+      $('#team1_set2_div .score').removeClass('ongoing');
+      $('#team2_set2_div .score').removeClass('ongoing');
+      $('#team3_set3_div .score').addClass('ongoing');
+      $('#team3_set3_div .score').addClass('ongoing');
     }             
     else if (total_sets === 1)  {
-	    $('#team1_set1_div .score').removeClass('ongoing');
-	    $('#team2_set1_div .score').removeClass('ongoing');
-		  $('#team1_set2_div .score').addClass('ongoing');
-		  $('#team2_set2_div .score').addClass('ongoing');
-		  $('#team3_set3_div .score').removeClass('ongoing');
-		  $('#team3_set3_div .score').removeClass('ongoing');
+      $('#team1_set1_div .score').removeClass('ongoing');
+      $('#team2_set1_div .score').removeClass('ongoing');
+      $('#team1_set2_div .score').addClass('ongoing');
+      $('#team2_set2_div .score').addClass('ongoing');
+      $('#team3_set3_div .score').removeClass('ongoing');
+      $('#team3_set3_div .score').removeClass('ongoing');
     }
     else {
-	    $('#team1_set1_div .score').addClass('ongoing');
-	    $('#team2_set1_div .score').addClass('ongoing');
-		  $('#team1_set2_div .score').removeClass('ongoing');
-		  $('#team2_set2_div .score').removeClass('ongoing');
-		  $('#team3_set3_div .score').removeClass('ongoing');
-		  $('#team3_set3_div .score').removeClass('ongoing');
+      $('#team1_set1_div .score').addClass('ongoing');
+      $('#team2_set1_div .score').addClass('ongoing');
+      $('#team1_set2_div .score').removeClass('ongoing');
+      $('#team2_set2_div .score').removeClass('ongoing');
+      $('#team3_set3_div .score').removeClass('ongoing');
+      $('#team3_set3_div .score').removeClass('ongoing');
     }
 
 	  var startTeam = game.get('infos').startTeam;

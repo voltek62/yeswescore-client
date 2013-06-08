@@ -224,9 +224,9 @@ Y.Views.Game = Y.View.extend({
     // pop du dernier score
     var lastInfo = lastInfos.pop();
     this.DB.saveJSON("sets", lastInfos);
-    // 
-    this.game.get('infos').set('sets', lastInfo[0]);
-    this.game.get('infos').set('score', lastInfo[1]);
+    // FIXME: good backbone way of saving attributes ???
+    this.game.get('infos').sets = lastInfo[0];
+    this.game.get('infos').score = lastInfo[1];
     //
     this.renderAndSave();
   },

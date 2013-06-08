@@ -49,15 +49,15 @@ var GameModel = Backbone.Model.extend({
     this.version++;
     options.version = this.version;
     var that = this;
-    var team1_json = '';
-    var team2_json = '';
+    var team1_json = null;
+    var team2_json = null;
     
     // if player exists / not exists
     if (this.get('team1_id')) {
       team1_json = {
         id : this.get('team1_id')
       };
-    } else {
+    } else if (this.get('team1')) {
       team1_json = {
         name : this.get('team1'),
         rank : this.get('rank1')
@@ -68,7 +68,7 @@ var GameModel = Backbone.Model.extend({
       team2_json = {
         id : this.get('team2_id')
       };
-    } else {
+    } else if (this.get('team2')) {
       team2_json = {
         name : this.get('team2'),
         rank : this.get('rank2')
@@ -76,16 +76,19 @@ var GameModel = Backbone.Model.extend({
     }
     
     var object = {
-      teams : [ {
+      infos : {}
+    , location : {}
+    };
+
+    if (team1_json && team2_json) {
+      object.teams = [ {
         id : null,
         players : [ team1_json ]
       }, {
         id : null,
         players : [ team2_json ]
-      } ]
-      , infos : {}
-      , location : {}
-    };
+      } ];
+    }
 	 
     object.infos.type = "singles";	
      if (this.get('city')) 
@@ -98,8 +101,8 @@ var GameModel = Backbone.Model.extend({
        object.status = this.get('status');
     ['subtype', 'sets', 'score', 'court', 'surface',
      'tour', 'country', 'startTeam'].forEach(function (k) {
-      if (this.get(k))
-        object.infos[k] = this.get(k);
+      if (this.get('infos')[k])
+        object.infos[k] = this.get('infos')[k];
     }, this);
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];

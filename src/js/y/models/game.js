@@ -1,17 +1,13 @@
 var GameModel = Backbone.Model.extend({
-
   urlRoot : Y.Conf.get("api.url.games"),
 
   initialize : function() {
-
     this.updated_at = new Date();
-
   },
 
   setSets : function(s) {
     this.sets = s;
   },
-
 
   defaults : {
     owner: "",
@@ -122,10 +118,8 @@ var GameModel = Backbone.Model.extend({
         }
       });
     } else if (method === 'update' && options.playerid !== undefined) {
-      if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
-        object.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
       
-      console.log('on met à jour game avec ',object); 
+      console.log('on met à jour game avec ', object); 
 		
       return Backbone.ajax({
         dataType : 'json',
@@ -174,6 +168,10 @@ var GameModel = Backbone.Model.extend({
     if (scoreTeamA < scoreTeamB)
       return 1; // team B is winning
     return 0; // team A is winning
+  },
+
+  isMine: function () {
+    return this.get('owner') === Y.User.getPlayer().get('id');
   },
 
   // @return bool

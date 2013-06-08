@@ -254,14 +254,18 @@ Y.Views.Game = Y.View.extend({
     var team1_set = sets_tmp[set][0];
     var team2_set = sets_tmp[set][1];
     var total_sets = parseInt(team1_set, 10) + parseInt(team2_set, 10);
+
+    // incrementation
+	  sets = this.game.getSets();
+	  if (typeof sets[set] === "undefined")
+	    sets[set] = [ 0, 0 ];
+	  sets[set][team]++;
+    sets_tmp[set][team]++;
+
+    // limitation
     var diff_sets1 = Math.abs(parseInt(sets_tmp[0][0], 10)-parseInt(sets_tmp[0][1], 10));
     var diff_sets2 = Math.abs(parseInt(sets_tmp[1][0], 10)-parseInt(sets_tmp[1][1], 10));
     var diff_sets3 = Math.abs(parseInt(sets_tmp[2][0], 10)-parseInt(sets_tmp[2][1], 10));
-
-	sets = this.game.getSets(0);
-	if (typeof sets[set] === "undefined")
-	  sets[set] = [ 0, 0 ];
-	sets[set][team]++;
 
     if ((sets_tmp[0][0]>=7 && diff_sets1>2) ||
         (sets_tmp[0][1]>=7 && diff_sets1>2) ||
@@ -272,7 +276,6 @@ Y.Views.Game = Y.View.extend({
       // incrementation impossible
       return;
     }
-    
     
     // MAJ cache
     var setsCache = this.DB.readJSON("sets");

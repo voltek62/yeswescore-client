@@ -17,15 +17,11 @@ var GamesCollection = Backbone.Collection.extend({
   url:function() {
        
     var url='';
-    
-    console.log('url searchOption',this.searchOption);
-    console.log('url sortOption',this.sortOption);
-    
 
     if (this.searchOption.indexOf('me') !== -1) {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)
-      url = Y.Conf.get("api.url.players") + this.searchOptionParam + "/games/?owned=true";
+      url = Y.Conf.get("api.url.players") + this.query + "/games/?owned=true";
     }
     else 
       url =  Y.Conf.get("api.url.games");

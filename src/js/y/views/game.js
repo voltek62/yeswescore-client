@@ -241,6 +241,11 @@ Y.Views.Game = Y.View.extend({
       return;
     }
 
+    if (this.game.get('status') === "finished") {
+      this.$(".buttonleft").addClass("ko"); // on highlight le bouton
+      return;
+    }
+
     // on modifie le score du set en question dans l'objet game.
     var sets = this.game.getSets();
     var sets_tmp = this.game.getSets(0);

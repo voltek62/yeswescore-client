@@ -108,46 +108,45 @@ Y.Views.GameForm = Y.View.extend({
   startTeam1 : function() {
 
     var game = {
-    	startTeam : 0    
+    	infos : {startTeam : 0 }    
 	    , team1_id : this.team1_id
 	    , team2_id : this.team2_id	    	  
-	    , playerid : this.playerid
-	    , token : this.token
 	    , id : this.gameid 
     };
-    
-	var that = this;
+
+	var game = new GameModel(game);
+	game.get('infos').startTeam = 0;
 	
-	var tennis_update = new GameModel(game);
-	tennis_update.save({}, {
-      success: function(model, response){      
-		$('#startTeam1').parent().addClass("select");
-		$('#startTeam2').parent().removeClass("select");
-      }
-	});      
+	game.save(null, { playerid: this.playerid, token: this.token }).done(
+	  function () { 
+	    $('#startTeam1').parent().addClass("select");
+		$('#startTeam2').parent().removeClass("select");	
+	});    
   
   },
   
   startTeam2 : function() {
   
     var game = {
-    	startTeam : 1   
+    	infos : {startTeam : 1 }   
 	    , team1_id : this.team1_id
 	    , team2_id : this.team2_id	    	  	      
-	    , playerid : this.playerid
-	    , token : this.token
 	    , id : this.gameid 
     };
     
-	var that = this;
+   
+	var game = new GameModel(game);	
+	game.get('infos').startTeam = 1;	
 	
-	var tennis_update = new GameModel(game);
-	tennis_update.save({}, {
-      success: function(model, response){
-		$('#startTeam2').parent().addClass("select");
-		$('#startTeam1').parent().removeClass("select");			      
-      }
-	});      
+	console.log(game);
+	
+	
+	game.save(null, { playerid: this.playerid, token: this.token }).done(
+	  function () { 
+	    $('#startTeam2').parent().addClass("select");
+		$('#startTeam1').parent().removeClass("select");	
+	});
+	 
   
   },        
       
@@ -168,12 +167,11 @@ Y.Views.GameForm = Y.View.extend({
       , team2 : team2
       , rank2 : rank2     
       , location : { city : $('#city').val() }
-      , playerid : this.playerid
-      , token : this.token
-      , infos : { court : $('#court').val() }
-      , infos : { surface : $('#surface').val() }
-      , infos : { tour : $('#tour').val() }
-      //, subtype : $('#subtype').val()
+      , infos : { 
+        court : $('#court').val() 
+      	, surface : $('#surface').val()
+      	, tour : $('#tour').val() 
+      }
       , id : this.gameid 
 	  };
     
@@ -208,7 +206,9 @@ Y.Views.GameForm = Y.View.extend({
     var owner2Deferred = $.Deferred();
     
     var promises = [], promise;
-    promise = game.save();
+    
+    promise = game.save(null, { playerid: this.playerid, token: this.token});
+    
     promises.push(promise);
     
     if (owner1 !== "") {

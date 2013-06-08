@@ -278,7 +278,7 @@ Y.Views.Game = Y.View.extend({
     var setsCache = this.DB.readJSON("sets");
     var newData = [this.game.get('infos').sets, this.game.get('infos').score];
     if (setsCache === undefined) {
-      setsCache = [newData];
+      setsCache = [[0, 0], newData];
     } else {
       setsCache.push(newData);
     }

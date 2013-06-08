@@ -1,6 +1,8 @@
 var GameModel = Backbone.Model.extend({
   urlRoot : Y.Conf.get("api.url.games"),
 
+  version: 0,
+
   initialize : function() {
     this.updated_at = new Date();
   },
@@ -44,6 +46,8 @@ var GameModel = Backbone.Model.extend({
   },
 
   sync : function(method, model, options) {
+    this.version++;
+    options.version = this.version;
     var that = this;
     var team1_json = '';
     var team2_json = '';
@@ -127,7 +131,12 @@ var GameModel = Backbone.Model.extend({
         type : 'POST',
         data : object,
         success: function (data) {
-          that.set(data);
+          // WARNING WARNING
+          // tricky: on aura des effets de bord un jour ...
+          //  on rend l'update des données du modèle conditionnelle à la version
+          if (options.version === that.version)
+            that.set(data);
+          //
           if (options && options.success)
             options.success(data);
         },
@@ -174,6 +183,120 @@ var GameModel = Backbone.Model.extend({
     return this.get('owner') === Y.User.getPlayer().get('id');
   },
 
+  whoServe: function () {
+    var sets = this.get('infos').sets || "0/0";
+    var startTeam = this.get('infos').startTeam;
+    var total; 
+    
+    if (sets.indexOf(';') !== -1) {
+      total = _.reduce(sets.split(';'), function (p, tab) {
+        return _.reduce(tab.split('/'), function (p, val) {
+          return p + parseInt(val, 10);
+        }, p);
+      }, 0);
+    } else {
+      total = _.reduce(sets.split('/'), function (p, val) {
+        return p + parseInt(val, 10);
+      }, 0);
+    }
+
+    if (total % 2 === 0)
+      return startTeam;
+    return ""; // FIXME, should be the other team.
+  },
+
+  getSet: function (index) {
+
+  },
+
+  // transform internal format : 6/2;2/2 into [ [ 6, 2 ], [ 2, 2 ] ]
+  getSets: function () {
+    var sets = this.get("infos").sets || "0/0";
+    return sets.split(';').map(function (set) {
+      return set.split('/').map(function (num) {
+        return parseInt(num, 10);
+      });
+    });
+  },
+
+  setSets: function (sets) {
+    sets = sets.map(function (set) { return set.join('/') }).join(';');
+    this.get("infos").set("sets", sets);
+  },
+
+  getScore: function () {
+    var score = this.get("infos").score || "0/0";
+    return score.split('/').map(function (num) {
+      return parseInt(num, 10);
+    });
+  },
+
+  // compute score based on sets.
+  // @return "scoreTeam1/scoreTeam2"
+  computeScore : function() { 
+    var scoreTeam1 = 0;
+    var scoreTeam2 = 0;
+    var sets = this.getSets();
+    
+    // set1 : only if game is finished or set2 exists & not empty
+    if (this.isFinished() || (sets.length > 1 && sets[1][0] + sets[1][1] !== 0)) {
+      // team 2 < team 1 && team 1 >= 6
+      if (sets[0][1] < sets[0][0] && sets[0][0] >= 6)
+        scoreTeam1++;
+      // team 1 < team 2 && team 2 >= 6
+      if (sets[0][0] < sets[0][1] && sets[0][1] >= 6)
+        scoreTeam2++;
+    }
+
+    // set2 : only if game is finished or set3 exists & not empty
+    if (this.isFinished() || (sets.length > 2 && sets[2][0] + sets[2][1] !== 0)) {
+      // team 2 < team 1 && team 1 >= 6
+      if (sets[1][1] < sets[1][0] && sets[1][0] >= 6)
+        scoreTeam1++;
+      // team 1 < team 2 && team 2 >= 6
+      if (sets[1][0] < sets[1][1] && sets[1][1] >= 6)
+        scoreTeam2++;
+    }
+
+    // set3 : only if game is finished.
+    if (this.isFinished) { 
+      // team 2 < team 1 && team 1 >= 6
+      if (sets[2][1] < sets[2][0] && sets[2][0] >= 6)
+        scoreTeam1++;
+      // team 1 < team 2 && team 2 >= 6
+      if (sets[2][0] < sets[2][1] && sets[2][1] >= 6)
+        scoreTeam2++;
+    }
+
+    return scoreTeam1+"/"+scoreTeam2;
+  },
+
+  getElapsedTime: function () {
+    var dateEnd, dateStart, elapsed;
+
+    if (this.isFinished()) {
+      dateEnd = Date.fromString(this.get('dates').end);      
+      dateStart = Date.fromString(this.get('dates').start);
+      elapsed = dateEnd - dateStart;
+      if (elapsed > 0) {
+        elapsed = new Date(0, 0, 0, 0, 0, 0, elapsed);
+        return ('0'+elapsed.getHours()).slice(-2)+':'+('0'+elapsed.getMinutes()).slice(-2);  
+      }
+    }
+    if (this.isOngoing()) {
+      //comment connaitre la date actuelle par rapport au serveur ?
+      dateEnd = new Date();
+      dateStart = Date.fromString(this.get('dates').start);
+      elapsed = dateEnd - dateStart;
+      if (elapsed>0)
+      {
+	      elapsed = new Date(0, 0, 0, 0, 0, 0, elapsed);         
+	      return ('0'+elapsed.getHours()).slice(-2)+':'+('0'+elapsed.getMinutes()).slice(-2);
+      }
+    }
+    return '00:00';
+  },
+
   // @return bool
   isFinished: function () {
     switch (this.get("status")) {
@@ -183,5 +306,9 @@ var GameModel = Backbone.Model.extend({
       default:
         return true;
     }
+  },
+
+  isOngoing: function () {
+    return this.get("status") === "ongoing";
   }
 });

@@ -125,6 +125,7 @@
     },
 
     close : function () {
+      this.undelegateEvents();
       this.unloaded = true;
       this.inputModeOff();
       this.autocompleteStop();

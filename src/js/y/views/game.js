@@ -8,53 +8,28 @@ Y.Views.Game = Y.View.extend({
       
   events : {
     'click #facebook'       : 'share',
-    'click .player-info'    : 'viewPlayer',    
-    'click .playerInfos'    : 'viewPlayer',   
+    'click .player-info'    : 'goToPlayerProfile',    
+    'click .playerInfos'    : 'goToPlayerProfile',   
     'click #statusButton'   : 'statusGame',
     'click #statusRestart'  : 'restartGame',
     'click #followButton'   : 'followGame',
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',        
     'click #cancelButton'   : 'cancelGame',
-    'click #optionButton'   : 'optionGame',
+    'click #optionButton'   : 'goToOptions',
     'click .undoSelect'     : 'undoAction',    
     'click #team1_sets_div' : 'setTeam1Score',
     'click #team2_sets_div' : 'setTeam2Score',          
-    'click #team1_set1_div' : 'setTeam1Set1',
-    'click #team1_set2_div' : 'setTeam1Set2',
-    'click #team1_set3_div' : 'setTeam1Set3',
-    'click #team2_set1_div' : 'setTeam2Set1',
-    'click #team2_set2_div' : 'setTeam2Set2',
-    'click #team2_set3_div' : 'setTeam2Set3',
+    'click .set'            : 'incrementTeamSet',
     'click .button-comments': 'goToComment'    
   },
 
   pageName: "game",
   pageHash : "games/",
-      
-  lastScore: null,
-  currentScore: null,
-  statusScore: null,
-  dateStart: null,
 
   shareTimeout: null,
-  senderTimeout : null,
-  undoTimeout : null,
   sharing: false,
-  init: true,
-  server1: false,
-  server2: false,  
-  version:0,
-  versionUndo:0,
-  
-  team1_set1 : '&nbsp;',
-  team1_set2 : '&nbsp;',
-  team1_set3 : '&nbsp;',
-  team2_set1 : '&nbsp;',
-  team2_set2 : '&nbsp;',
-  team2_set3 : '&nbsp;',
-  team1_sets : '0',
-  team2_sets : '0',
+
   gameid : null,
 
   initialize : function() {
@@ -70,8 +45,7 @@ Y.Views.Game = Y.View.extend({
 	    scoreboard: Y.Templates.get('gameScoreBoard')
 	  };
 	          	
-	  // On stock les dernieres modifs		
-    this.lastScore = new Array();
+	  // On stock les dernieres modifs
     this.DB = new Y.DB("Y.Games."+this.gameid+".");
 		
     // loading owner
@@ -100,10 +74,13 @@ Y.Views.Game = Y.View.extend({
     // 
     this.game.once('sync', this.startPooling, this);
     // rerender on game update
-    this.game.on('sync', this.render, this);
-    
+    this.game.on('sync', this.onGameSynched, this);
     // Fetching data the fist time
     this.game.fetch();
+
+    //
+    this.streams.once("sync", this.renderCountComment, this);
+    this.streams.fetch();
   },
 
   startPooling: function () {
@@ -116,7 +93,13 @@ Y.Views.Game = Y.View.extend({
       this.poller = Backbone.Poller.get(this.game, pollingOptions)
       this.poller.start();
     } else {
-      // mode edition.
+      // mode edition: no pooling
+    }
+  },
+
+  onGameSynched: function (model, resp, options) {
+    if (this.game.version == options.version) {
+      this.render();
     }
   },
 
@@ -128,13 +111,6 @@ Y.Views.Game = Y.View.extend({
       that.$(".facebook").removeClass("ko");
       that.shareTimeout = null;
     }, 5000);
-  },
-
-  viewPlayer: function (elmt) {
-    if (elmt.currentTarget.id) {
-      var route = elmt.currentTarget.id;
-      Y.Router.navigate(route, {trigger: true}); 
-    }    
   },
 
   shareSuccess: function () {
@@ -237,339 +213,84 @@ Y.Views.Game = Y.View.extend({
     });
   },
   
-  
   undoAction: function() {
-  
-	  if (this.undoTimeout) {
-		window.clearTimeout(this.undoTimeout);
-		this.undoTimeout = null;
-	  }
-		
-	  this.undoTimeout = setTimeout(_.bind(this.bufferedUndoAction, this), 500);
-			    
-  },
- 
-
-  bufferedUndoAction: function () {
-		var that = this
-      , game;
-    	   	  
-    if ( this.statusScore !== "finished" && this.game.isMine()) {
-    	$('.undoSelect').hide();
-    	this.lastScore = this.DB.readJSON("sets");
-	    if (this.lastScore !== undefined) {
-	      console.log('LASTSCORE length',this.lastScore.length);
-	      if (this.lastScore.length<=1)
-	      	return;
-	      var sets_undo = this.lastScore.pop();
-	      if (sets_undo !== undefined)
-	      {
-	        //S'il s'agit du meme score
-		      if (sets_undo[0] === this.currentScore) {
-		        this.DB.saveJSON("sets",this.lastScore);		        
-			      sets_undo = this.lastScore.pop();
-			    }	    	  			    	
-		    }
-		    else {
-  		    return;
-        }
-	    	
-	      var gameid = this.gameid;   
-	    	if (sets_undo !== 'undefined') {
-		      game = {
-				    team1_id : this.game.get('teams')[0].players[0].id
-			      , team2_id : this.game.get('teams')[1].players[0].id
-			      , id : this.gameid
-			      , country : this.game.get('location').country	      
-			      , city : this.game.get('location').city
-			      , court : this.game.get('infos').court
-			      , surface : this.game.get('infos').surface
-			      , tour : this.game.get('infos').tour
-			      , subtype : this.game.get('infos').subtype			      
-			      , sets :  sets_undo[0]
-			      , score : sets_undo[1]
-		      };
-		      this.game.save(game, {
-            playerid: this.player.get('id'),
-            token: this.player.get('token')
-          }).done(function (model, response) {        
-			      that.currentScore = model.get('infos').sets; 		
-			      if (that.lastScore.length>1)
-			        that.DB.saveJSON("sets",that.lastScore);         			        	              
-		    	  that.renderScoreBoard(model);
-		    	  $('.undoSelect').show();
-		    	}).fail(function(err) {
-            $('.undoSelect').show();
-          });
-	      } 
-	    }
-    }
-  },
-      
-  goToComment: function (elmt) {
-    var route = $(elmt.currentTarget).attr("data-js-href");
-    Y.Router.navigate(route, {trigger: true}); 
+    // mode lecture ou game finie => rien
+    if (!this.game.isMine() || this.game.get('status') === "finished")
+      return;
+    // il n'est plus possible d'undo => rien
+    var lastInfos = this.DB.readJSON("sets");
+    if (lastInfos === undefined || lastInfos.length <= 1)
+      return;
+    // pop du dernier score
+    var lastInfo = lastInfos.pop();
+    this.DB.saveJSON("sets", lastInfos);
+    // 
+    this.game.get('infos').set('sets', lastInfo[0]);
+    this.game.get('infos').set('score', lastInfo[1]);
+    //
+    this.renderAndSave();
   },
 
-  setTeamSet : function(input, div) {
+  incrementTeamSet : function(ev) {
     if (!this.game.isMine())
       return;
 
-    var that = this;
-    var set = '';	    
-    if ($.isNumeric(input))
-      set = parseInt(input, 10) + 1;
-    else
-      set = '1';          	
-    
-    if ( this.statusScore === "ongoing") {  
-			if (div.attr('id').indexOf('team1_set1')!==-1)
-		     this.team1_set1 = set;
-		  else if (div.attr('id').indexOf('team1_set2')!==-1)
-		    this.team1_set2 = set;
-		  else if (div.attr('id').indexOf('team1_set3')!==-1)
-		    this.team1_set3 = set;
-		  else if (div.attr('id').indexOf('team2_set1')!==-1)
-		    this.team2_set1 = set;
-		  else if (div.attr('id').indexOf('team2_set2')!==-1)
-		    this.team2_set2 = set;
-		  else if (div.attr('id').indexOf('team2_set3')!==-1)
-		    this.team2_set3 = set;
-		      		     		     		        		        
-		  this.bufferedSendUpdater();
-		     
-			if (this.server1==true) {
-			  $('.server1').removeClass('server-ball');
-			  $('.server2').addClass('server-ball');		
-			  this.server1=false;
-			  this.server2=true;		
-			} else if (this.server2==true) {
-			  $('.server1').addClass('server-ball');
-			  $('.server2').removeClass('server-ball');	
-			  this.server1=true;
-			  this.server2=false;			  					
-			}
-			
-			//FIXME : NO HTML IN CODE
-		  div.html('<div class="score ongoing">'+set+'</div>');
-	  } else if ( this.statusScore === "created"  ) {
-		  this.$(".status").addClass("ko");
-	    this.shareTimeout = window.setTimeout(function () {
-	      that.$(".status").removeClass("ko");
-	      that.shareTimeout = null;
-	    }, 3000);
+    if (this.game.get('status') === "created") {
+		  this.$(".status").addClass("ko"); // on highlight le bouton
+      return;
 	  }
-  },
 
-  setTeam1Set1 : function() {
-    this.setTeamSet(this.team1_set1, $('#team1_set1_div'));
-  },
+    // on modifie le score du set en question dans l'objet game.
+    var sets = this.game.getSets();
+    var score = this.game.getScore();
+    var set = $(ev.currentTarget).data('set');
+    var team = $(ev.currentTarget).data('team');
 
-  setTeam1Set2 : function(options) {
-    this.setTeamSet(this.team1_set2, $('#team1_set2_div'));
-  },
-
-  setTeam1Set3 : function() {
-    this.setTeamSet(this.team1_set3, $('#team1_set3_div'));
-  },
-
-  setTeam2Set1 : function() {  
-    this.setTeamSet(this.team2_set1, $('#team2_set1_div'));
-  },
-
-  setTeam2Set2 : function() { 
-    this.setTeamSet(this.team2_set2, $('#team2_set2_div'));
-  },
-
-  setTeam2Set3 : function() { 
-    this.setTeamSet(this.team2_set3, $('#team2_set3_div'));
-  },
-
-
-  bufferedSendUpdater: function () {
-  
-    var gameid = this.gameid
-    , team1_set1 = this.team1_set1
-    , team1_set2 = this.team1_set2
-    , team1_set3 = this.team1_set3
-    , team2_set1 = this.team2_set1
-    , team2_set2 = this.team2_set2
-    , team2_set3 = this.team2_set3                                
-    , tennis_update = null
-    , team1_sets = this.team1_sets
-    , team2_sets = this.team2_sets
-    ;
-   
-    if ($.isNumeric(team1_set1) === false)
-      team1_set1 = '0';
-    if ($.isNumeric(team2_set1) === false)
-      team2_set1 = '0';
-
-    var sets_update = team1_set1 + '/' + team2_set1;
-    var score = team1_sets + '/' + team2_sets;
-     
-    
-
-    if (team1_set2 > 0 || team2_set2 > 0) {
-    
-      if ($.isNumeric(team1_set2) === false)
-        team1_set2 = '0';
-      if ($.isNumeric(team2_set2) === false)
-        team2_set2 = '0';
-
-      sets_update += ";" + team1_set2 + '/' + team2_set2;
-    }
-    if (team1_set3 > 0 || team2_set3 > 0) {
-
-      if ($.isNumeric(team1_set3) === false)
-        team1_set3 = '0';
-      if ($.isNumeric(team2_set3) === false)
-        team2_set3 = '0';
-
-      sets_update += ";" + team1_set3 + '/' + team2_set3;
-    }
-          
-
-	/* MAJ cache */
-    var setsCache = this.DB.readJSON("sets");
-    if (setsCache !== undefined && setsCache.length>0)
-    {
-      //on lit le dernier pour ne pas mettre deux fois le meme resultat en cache
-      if(setsCache[setsCache.length-1][0]!==sets_update) {
-        setsCache.push([sets_update,score]);
-        this.DB.saveJSON("sets", setsCache);
-      }
-    }
-    else {
-      this.DB.saveJSON("sets", [[sets_update,score]]);
-      	         
-	}          
-          
     /* regle de gestion */
     // add diff de 2 max si superieur à 6
     // add force score if diff de 2 ou on peut mettre à jour les scores ? on controle si 0,1,2,3
-     var total_sets = parseInt(this.team1_sets) + parseInt(this.team2_sets);    
-     var diff_sets1 = Math.abs(parseInt(team1_set1)-parseInt(team2_set1));
-     var diff_sets2 = Math.abs(parseInt(team1_set2)-parseInt(team2_set2));
-     var diff_sets3 = Math.abs(parseInt(team1_set3)-parseInt(team2_set3));
-              	
-	if ( 
-		 total_sets > 3		
-		 || (team1_set1>=7 && diff_sets1>2)
-		 || (team2_set1>=7 && diff_sets1>2)		 
-		 || (team1_set2>=7 && diff_sets2>2)
-		 || (team2_set2>=7 && diff_sets2>2)		
-		 || (team1_set3>=7 && diff_sets3>2)
-		 || (team2_set3>=7 && diff_sets3>2)				 		 
-		 ) {    
+    var team1_set = sets[set][0];
+    var team2_set = sets[set][1];
+    var total_sets = parseInt(team1_set, 10) + parseInt(team2_set, 10);
+    var diff_sets1 = Math.abs(parseInt(team1_set1, 10)-parseInt(team2_set1, 10));
+    var diff_sets2 = Math.abs(parseInt(team1_set2, 10)-parseInt(team2_set2, 10));
+    var diff_sets3 = Math.abs(parseInt(team1_set3, 10)-parseInt(team2_set3, 10));
 
-    	  //On remet à jour
-    	  this.renderScoreBoard(this.game);
-    	  return;
-    }    
-
-	if (this.senderTimeout) {
-	  window.clearTimeout(this.senderTimeout);
-	  this.senderTimeout = null;
-	}
-	
-	this.senderTimeout = setTimeout(_.bind(this.sendUpdater, this), 1500);
-	
-	
-
-   },
-
-
-  sendUpdater : function() {
-    var gameid = this.gameid
-    , team1_set1 = this.team1_set1
-    , team1_set2 = this.team1_set2
-    , team1_set3 = this.team1_set3
-    , team2_set1 = this.team2_set1
-    , team2_set2 = this.team2_set2
-    , team2_set3 = this.team2_set3                                
-    , tennis_update = null
-    , team1_sets = this.team1_sets
-    , team2_sets = this.team2_sets
-    ;
-    
-
-
-    if ($.isNumeric(team1_set1) === false)
-      team1_set1 = '0';
-    if ($.isNumeric(team2_set1) === false)
-      team2_set1 = '0';
-
-    var sets_update = team1_set1 + '/' + team2_set1;
-    var score = this.calculScore();
-      
-
-    if (team1_set2 > 0 || team2_set2 > 0) {
-    
-      if ($.isNumeric(team1_set2) === false)
-        team1_set2 = '0';
-      if ($.isNumeric(team2_set2) === false)
-        team2_set2 = '0';
-
-      sets_update += ";" + team1_set2 + '/' + team2_set2;
-      
-      
-      
+    if ((team1_set1>=7 && diff_sets1>2) ||
+		    (team2_set1>=7 && diff_sets1>2) ||
+		    (team1_set2>=7 && diff_sets2>2) ||
+		    (team2_set2>=7 && diff_sets2>2) ||
+		    (team1_set3>=7 && diff_sets3>2) ||
+		    (team2_set3>=7 && diff_sets3>2)) {
+      // incrementation impossible
+      return;
     }
-    if (team1_set3 > 0 || team2_set3 > 0) {
-
-      if ($.isNumeric(team1_set3) === false)
-        team1_set3 = '0';
-      if ($.isNumeric(team2_set3) === false)
-        team2_set3 = '0';
-
-      sets_update += ";" + team1_set3 + '/' + team2_set3;
+    
+    if (typeof sets[set] !== "undefined") {
+      sets[set][team]++;
+    } else {
+      throw "FIXME: upgrade sur set+1";
     }
 
-    /* controle si possible */
-    /* on met "ongoing" sur la class "score" en cours*/
-    this.currentScore = sets_update;
-    
-    var game = {
-      team1_id : this.game.get('teams')[0].players[0].id
-	  , team2_id : this.game.get('teams')[1].players[0].id
-    , team1 : this.game.get('teams')[0].players[0].name
-	  , team2 : this.game.get('teams')[1].players[0].name	  
-	  , id : this.gameid
-	  , country : this.game.get('location').country	      
-	  , city : this.game.get('location').city
-	  , court : this.game.get('infos').court
-	  , surface : this.game.get('infos').surface
-	  , tour : this.game.get('infos').tour
-	  , subtype : this.game.get('infos').subtype			      
-	  , sets : sets_update
-	  , score : score
-    };
-    
-    this.game.save(game, {
-      playerid: this.player.get('id'),
-      token: this.player.get('token')
-    }).done(function(model, response){ 
-      // anciennement versions
-    });
-  },
+	  // MAJ cache
+    var setsCache = this.DB.readJSON("sets");
+    var newData = [this.game.get('infos').sets, this.game.get('infos').score];
+    if (setsCache === undefined) {
+      setsCache = [newData];
+    } else {
+      setsCache.push(newData);
+    }
+    this.DB.saveJSON("sets", setsCache);
 
-  // renderRefresh : refresh only scoreboard
-  renderRefresh : function() {
-     
-    $(this.displayViewScoreBoard).html(this.templates.game({
-      game : this.game.toJSON(),
-      owner : this.owner.toJSON(),
-      follow : this.follow
-    }));
-     
-    return false;
+    // update en DB
+    this.game.setSets(sets);
+    //
+    this.renderAndSave();
   },
   
   renderCountComment : function() {
 	  var nbComments = this.streams.length;
-	  
-      
+
     if (nbComments > Y.Conf.get("game.max.comments") )
       this.$(".link-comments").html(i18n.t('game.50lastcomments'));
     else if (nbComments == 1)
@@ -578,425 +299,140 @@ Y.Views.Game = Y.View.extend({
       this.$(".link-comments").html(nbComments + " "+i18n.t('game.comments'));
     else
       this.$(".link-comments").html(i18n.t('game.0comment'));
-  },
-
-  refreshTimer : function() {
-    var dateEnd = new Date();
-    //var dateStart = new Date(this.dateStart);
-    var dateStart = Date.fromString(this.dateStart);
-          	
-    timer = dateEnd - dateStart;
-          
-    if (timer>0)
-    {     
-	    var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-	    timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);       
-	    $('.timer').html(timer); 
-    }      
-  },		
+  },	
 
   render : function() {
-
-    var game = this.game;
-    
-    console.log('render game',game);
-
-    //si premiere init, on stock le score en cours
-    if (this.init === true) {
-	    if (game.get('owner') !== "") {	          
-      
-	      if (game.get('infos').sets !== undefined) {
-	          
-	        this.statusScore = game.get('status');      
-
-	        var sets = game.get('infos').sets;
-	        var score = game.get('infos').score;
-	           
-	        if (sets!=="") {	    
-		        this.currentScore = game.get('infos').sets;  
-	        }
-	        else {	    
-		        this.currentScore = "0/0";  	         
-	        }
-	        
-		    var setsCache = this.DB.readJSON("sets");
-		    if (setsCache !== undefined && setsCache.length>0)
-		    {
-		      //si dernier score déjà dans undo , on recopie pas 
-			  if(setsCache[setsCache.length-1][0]!==sets) {
-			    setsCache.push([sets,score]);
-			    this.DB.saveJSON("sets", setsCache);
-			  }		      
-		    	
-		    }
-		    else {
-		      this.DB.saveJSON("sets", [["0/0","0/0"]]);		      	         
-			}
-	        
-	        this.init = false;
-	      }
-	      
-	      this.gameid = game.id;
-
-	     
-	    }
-	    
-	    
-    }
-        
-    var timer = '';
-    
-    //console.log('STATUS GAME ',game.get('status'));
-        
-    if ( game.get('status') === "finished" ) {
-       
-      var dateEnd = Date.fromString(game.get('dates').end);      
-      var dateStart = Date.fromString(game.get('dates').start);
-          	
-      timer = dateEnd - dateStart;
-      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);  
-      
-      if (timer>0)       
-        timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);  
-      else
-         timer = '00:00';   
-         
+    if (this.game.isFinished()) {
       $("#statusButton").html(i18n.t('game.gamefinished'));	         
-      $("#optionButton").attr("id","statusRestart");
- 	  $("#statusRestart").html(i18n.t('game.restart'));
- 	  var score = this.calculScore();
- 	  var scoreboard = score.split('/'); 
- 	  $('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');
- 	  $('#team2_sets_div').html('<div class="score sets">'+scoreboard[1]+'</div>');            
-        
+      $("#optionButton").attr('id', 'statusRestart');
+ 	    $("#statusRestart").html(i18n.t('game.restart'));
     }
-    else if ( game.get('status') === "ongoing" ) {
-        
-      //comment connaitre la date actuelle par rapport au serveur ?
-      var dateEnd = new Date();
-      //var dateStart = new Date(game.get('dates').start);
-      var dateStart = Date.fromString(game.get('dates').start);
-       	
-      timer = dateEnd - dateStart;
-      
-      //console.log('timer',timer);
-          
-      if (timer>0)
-      {
-          
-	    var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-	    timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
-      }
-      else {
-        timer = '00:00';  
     
-      }
-      
-  
-          
-    }
-                
     // FIXME: refresh only input and id
-    
     this.$el.html(this.templates.game({
-      game : game.toJSON(),
-      timer : timer,
+      game : this.game.toJSON(),
+      timer : this.game.getElapsedTime(),
       playerid : this.player.get('id'),      
       follow : this.follow
     }));
-
-
-    /* css transition: performance issues: disabled
-    var $buttonCommentaires = this.$(".button-commentaires");
-    setTimeout(function () {
-      $buttonCommentaires.css("height", "87px");
-    }, 100);
-    */
     
-	this.renderScoreBoard(game);
+    this.renderScoreBoard(this.game);
+    if (this.streams)
+      this.renderCountComment();
 	
-	
-	if (game.get('infos').startTeam === undefined)
-	     $('.button-comments').css('display', 'none');
+	  if (this.game.get('infos').startTeam === undefined) {
+	    $('.button-comments').css('display', 'none');
+    }
 
     //i18n
-    //PERF:on remplace que les champs du DOM concern�
+    //PERF:on remplace que les champs du DOM concernés
     $('a').i18n();
-    $('span').i18n();    
-    //this.$el.i18n();
+    $('span').i18n();
 
     return this;
   },
 
   renderScoreBoard : function(game) {
-  
-	  if (game.get('infos').score !== null ) { 
-	    if(game.get('infos').score.indexOf('/')!=-1) { 
-	      var scoreboard = game.get('infos').score.split('/'); 
-	      this.team1_sets = scoreboard[0]; 
-	      this.team2_sets = scoreboard[1]; 
-	      } 
-	  } 
-	  
-	  
-	  
-	  if (game.get('infos').sets !== null ) { 
-	    if (game.get('infos').sets.indexOf(';')!=-1) { 
-	      var scoreboard = game.get('infos').sets.split(';'); 
-	    
-	      if (scoreboard.length==2 ||scoreboard.length==3) { 
-	        var scoreboard1 = scoreboard[0].split('/');
-	        this.team1_set1 = scoreboard1[0]; 
-	        this.team2_set1 = scoreboard1[1]; 
-	        var scoreboard2 = scoreboard[1].split('/'); 
-	        this.team1_set2 = scoreboard2[0]; 
-	        this.team2_set2 = scoreboard2[1]; 
-	        this.set_current=2; 
-	        
-	      } 
-	    
-	      if (scoreboard.length==3) { 
-	        var scoreboard3 = scoreboard[2].split('/'); 
-	        this.team1_set3 = scoreboard3[0]; 
-	        this.team2_set3 = scoreboard3[1]; 
-	        this.set_current=3; 
-	      }
-	      else {
-	        this.team1_set3 = "&nbsp;";
-	        this.team2_set3 = "&nbsp;";		      
-	      } 
-	    } 
-	    // 1 set 
-	    else { 
-	      if (game.get('infos').sets.indexOf('/')!=-1) { 
-	        var scoreboard1 = game.get('infos').sets.split('/'); 
-	        this.team1_set1 = scoreboard1[0]; 
-	        this.team2_set1 = scoreboard1[1]; 
-	        this.team1_set2 = "&nbsp;";
-	        this.team2_set2 = "&nbsp;";
-	        this.team1_set3 = "&nbsp;";
-	        this.team2_set3 = "&nbsp;";	        	        
-	      } 
-	    } 
-	  }        
-	
-
-	
-	
+    var sets = game.getSets()
+      , score = game.getScore();
+    
+    // padding sets with &nbsp;
+    for (var i = 0; i < 3; ++i) {
+      if (typeof sets[i] === "undefined") {
+        sets[i] = [ '&nbsp', '&nbsp' ];
+      }
+    }
+    //
     $(this.displayViewScoreBoard).html(this.templates.scoreboard({
-      game : game.toJSON(),
-  	  team1_set1 : this.team1_set1
-  	  , team1_set2 : this.team1_set2
-      , team1_set3 : this.team1_set3
-      , team2_set1 : this.team2_set1
-      , team2_set2 : this.team2_set2
-      , team2_set3 : this.team2_set3
-      , team1_sets : this.team1_sets
-      , team2_sets : this.team2_sets      
+        game : game.toJSON()
+  	  , team1_set1 : sets[0][0]
+  	  , team1_set2 : sets[1][0]
+      , team1_set3 : sets[2][0]
+      , team2_set1 : sets[0][1]
+      , team2_set2 : sets[1][1]
+      , team2_set3 : sets[2][1]
+      , team1_sets : String(score[0]) || '&nbsp'
+      , team2_sets : String(score[1]) || '&nbsp'
     }));
 		
-
-    //this.renderCountComment();
-    this.streams.once("sync", this.renderCountComment, this);
-    this.streams.fetch();
-
     //i18n
     //PERF:on remplace que les champs du DOM concernés
     $('a').i18n();
-    $('span').i18n();    
-    //this.$el.i18n();
+    $('span').i18n();
     
-    
-	var total_sets = parseInt(this.team1_sets) + parseInt(this.team2_sets);
-      
-       
+	  var total_sets = parseInt(score[0]) + parseInt(score[1]);
     if (total_sets >= 2)  {
-
-	      $('#team1_set1_div .score').removeClass('ongoing');	
-	      $('#team2_set1_div .score').removeClass('ongoing');	
+	    $('#team1_set1_div .score').removeClass('ongoing');
+	    $('#team2_set1_div .score').removeClass('ongoing');
 		  $('#team1_set2_div .score').removeClass('ongoing');
-		  $('#team2_set2_div .score').removeClass('ongoing');		  
+		  $('#team2_set2_div .score').removeClass('ongoing');
 		  $('#team3_set3_div .score').addClass('ongoing');
-		  $('#team3_set3_div .score').addClass('ongoing');	
+		  $('#team3_set3_div .score').addClass('ongoing');
     }             
     else if (total_sets === 1)  {
-   
-	      $('#team1_set1_div .score').removeClass('ongoing');	
-	      $('#team2_set1_div .score').removeClass('ongoing');	
+	    $('#team1_set1_div .score').removeClass('ongoing');
+	    $('#team2_set1_div .score').removeClass('ongoing');
 		  $('#team1_set2_div .score').addClass('ongoing');
-		  $('#team2_set2_div .score').addClass('ongoing');		  
+		  $('#team2_set2_div .score').addClass('ongoing');
 		  $('#team3_set3_div .score').removeClass('ongoing');
 		  $('#team3_set3_div .score').removeClass('ongoing');
     }
     else {
-    
-	      $('#team1_set1_div .score').addClass('ongoing');	
-	      $('#team2_set1_div .score').addClass('ongoing');	
+	    $('#team1_set1_div .score').addClass('ongoing');
+	    $('#team2_set1_div .score').addClass('ongoing');
 		  $('#team1_set2_div .score').removeClass('ongoing');
-		  $('#team2_set2_div .score').removeClass('ongoing');		  
+		  $('#team2_set2_div .score').removeClass('ongoing');
 		  $('#team3_set3_div .score').removeClass('ongoing');
-		  $('#team3_set3_div .score').removeClass('ongoing');              
-    } 
-    
-    
-    
-	var startTeam = game.get('infos').startTeam;
-	
-	if ( whoServe(game.get('infos').sets,startTeam) === startTeam ) {
-	  if (game.get('teams')[0].id === startTeam) 
-	  {
-		$('.server1').addClass('server-ball');
-		$('.server2').removeClass('server-ball');
-		this.server1=true;
-		this.server2=false;		
+		  $('#team3_set3_div .score').removeClass('ongoing');
+    }
+
+	  var startTeam = game.get('infos').startTeam;
+	  if (game.whoServe() === startTeam) {
+	    if (game.get('teams')[0].id === startTeam) {
+		    $('.server1').addClass('server-ball');
+		    $('.server2').removeClass('server-ball');
+	    } else {
+		    $('.server1').removeClass('server-ball');
+		    $('.server2').addClass('server-ball');	  
+	    }
+	  } else {
+	    if (game.get('teams')[0].id === startTeam) {
+		    $('.server1').removeClass('server-ball');
+		    $('.server2').addClass('server-ball');
+	    } else {
+		    $('.server1').addClass('server-ball');
+		    $('.server2').removeClass('server-ball');
+	    }
 	  }
-	  else {
-		$('.server1').removeClass('server-ball');
-		$('.server2').addClass('server-ball');		
-		this.server1=false;
-		this.server2=true;				  
-	  }
-	}
-	else {
-	  if (game.get('teams')[0].id === startTeam) 
-	  {
-		$('.server1').removeClass('server-ball');
-		$('.server2').addClass('server-ball');		
-		this.server1=false;
-		this.server2=true;			
-	  }
-	  else {
-		$('.server1').addClass('server-ball');
-		$('.server2').removeClass('server-ball');	
-		this.server1=true;
-		this.server2=false;				  
-	  }
-	}
-	
     return this;
   },
 
-    
-  calculScore : function() { 
-  
-     var sets1 = 0;
-     var sets2 = 0;
-     
-	
-	/*	
-	 console.log('team1_set1',this.team1_set1);	
-	 console.log('team2_set1',this.team2_set1);	 
-	 
-	 console.log('team1_set2',this.team1_set2);	 
-	 console.log('team2_set2',this.team2_set2);
-
-	 console.log('team1_set3',this.team1_set3);
-	 console.log('team2_set3',this.team2_set3);	 
-	 */	 	 	 	 	
-     
-  	 if ( this.team1_set1 < this.team2_set1 && this.team2_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 || this.statusScore==="finished")) {
-  	   sets2++;
-  	   //console.log('mode 1');
-  	 }
-  	 else if (this.team1_set1 > this.team2_set1 && this.team1_set1>=6 && ( this.team2_set2>0 || this.team1_set2>0 || this.statusScore==="finished") ) {
-  	   sets1++;
-  	   //console.log('mode 2');
-  	 }
-
-  	 if (this.team1_set2 < this.team2_set2 && this.team2_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 || this.statusScore==="finished")) {
-  	   sets2++;
-  	   //console.log('mode 3');
-  	 }
-  	 else if (this.team1_set2 > this.team2_set2 && this.team1_set2>=6 && ( this.team2_set3>0 || this.team1_set3>0 || this.statusScore==="finished")) {
-  	   sets1++;
-  	   //console.log('mode 4');
-  	 }
-  	   
-  	 if (this.team1_set3 < this.team2_set3 && this.team2_set3>=6 && this.statusScore==="finished") {	       
-       sets2++;
-       //console.log('mode 5');
-     }
-     else if (this.team1_set3 > this.team2_set3 && this.team1_set3>=6 && this.statusScore==="finished") {
-       sets1++;
-       //console.log('mode 6');
-     }
-       
-    return sets1+"/"+sets2;     
-  
-  },
-
+  // fixme: on risque de passer de closed => ongoing ?
   restartGame : function() {  
-    var that = this;
-    var game = {
-	      team1_id : this.game.get('teams')[0].players[0].id
-	    , team2_id : this.game.get('teams')[1].players[0].id
-	    , id : this.gameid 
-    };  
-  
-	  if ( this.statusScore === "finished"  ) {
-      game.status = "ongoing";    	 
-      //On met à jour les sets 
-      this.statusScore = "ongoing";  
-      game.score = this.calculScore();
-      var tennis_update = new GameModel(game);
-	    tennis_update.save(null, {
-	      playerid : this.player.get('id')
-	    , token : this.player.get('token')
-      }).done(function(model, response){
-        $("#statusButton").html(i18n.t('game.finish'));
-        // statusRestart to optionButton
-        $("#statusRestart").attr("id","optionButton");
-        $("#optionButton").html(i18n.t('game.options'));
-	    });
-    }
+    if (!this.game.isFinished())
+      return;
+    this.game.set('status', 'ongoing');
+	  this.renderAndSave();
   },
   
   startTeam1 : function() {
-    var that = this;
-    var game = {
-    	  startTeam : 0 
-	    , team1_id : this.game.get('teams')[0].players[0].id
-	    , team2_id : this.game.get('teams')[1].players[0].id
-	    , id : this.gameid 
-    };
-	  var tennis_update = new GameModel(game);
-	  tennis_update.save(null, {
-      playerid : this.player.get('id')
-	  , token : this.player.get('token')
-    }).done(function(model, response){      
-      //on cache le barre
-      $('.serverbar').hide();
-      $('.server1').addClass('server-ball');
-      $('.server2').removeClass('server-ball');
-      this.server1=false;
-      this.server2=true;
-      $('.button-comments').show();
-  	});
+    this.game.set('startTeam', 0);
+	  this.renderAndSave();
   },
   
   startTeam2 : function() {
-    var that = this;
-    var game = {
-    	  startTeam : 1
-	    , team1_id : this.game.get('teams')[0].players[0].id
-	    , team2_id : this.game.get('teams')[1].players[0].id
-	    , id : this.gameid 
-    };
+    this.gameid.set('startTeam', 1);
+    this.renderAndSave();
+  },
 
-	  var tennis_update = new GameModel(game);
-	  tennis_update.save(null, {
-	      playerid : this.player.get('id')
-	    , token : this.player.get('token')
-    }).done(function(model, response){
-	    //on cache le barre
-	    $('.serverbar').hide();	 
-		  $('.server1').removeClass('server-ball');
-		  $('.server2').addClass('server-ball');
-		  this.server1=true;
-		  this.server2=false;	
-		  $('.button-comments').show();
-	  });
-  },  
+  // immediatly render & save in the background
+  renderAndSave: function () {
+    this.render();
+	  this.game.save(null, {
+	    playerid : this.player.get('id')
+	  , token : this.player.get('token')
+    });
+  },
 
   statusGame : function() {
     var that = this;
@@ -1007,7 +443,7 @@ Y.Views.Game = Y.View.extend({
     };
     var tennis_update;
 
-    if ( this.statusScore === "created") {
+    if (this.game.get('status') === "created") {
       game.status = "ongoing";    	          
       tennis_update = new GameModel(game);
 	    tennis_update.save(null, {
@@ -1049,11 +485,7 @@ Y.Views.Game = Y.View.extend({
           this.DB.remove("sets");
 	    });
     }
-  },      
-   
-  optionGame : function() {
-    Y.Router.navigate("/games/form/"+this.id,{trigger:true});
-  },      
+  },
 
   followGame : function() {
     if (this.follow === 'true') {
@@ -1066,13 +498,9 @@ Y.Views.Game = Y.View.extend({
           Y.Conf.set("owner.games.followed", games_follow, { permanent: true });
         }
       }
-          
       $("#followButton").text(i18n.t('message.follow'));
-
       this.follow = 'false';
-
     } else {
-        
       //Via localStorage
       var games_follow = Y.Conf.get("owner.games.followed");
       if (games_follow !== undefined)
@@ -1089,25 +517,29 @@ Y.Views.Game = Y.View.extend({
     }
   },
 
-  onClose : function() {
-    // Clean
-    this.undelegateEvents();
-    
-     if (this.senderTimeout) {
-       window.clearTimeout(this.senderTimeout);
-       this.sendUpdater();
-       this.senderTimeout = null;
-     }
+  // ROUTING FUNCTIONS
+  goToComment: function (elmt) {
+    var route = $(elmt.currentTarget).attr("data-js-href");
+    Y.Router.navigate(route, {trigger: true}); 
+  },
 
-     if (this.undoTimeout) {
-       window.clearTimeout(this.undoTimeout);
-       this.undoTimeout = null;
-     }
-      
+  goToOptions : function() {
+    Y.Router.navigate("/games/form/"+this.id, {trigger:true});
+  },   
+
+  goToPlayerProfile: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
+  },
+
+  // CLEAN
+  onClose : function() {
     // desabonnements
-    this.game.off("sync", this.render, this);
+    this.game.off("sync", this.onGameSynched, this);
     this.game.off("sync", this.startPooling, this);
-    this.streams.off("sync",this.renderCountComment, this);
+    this.streams.off("sync", this.renderCountComment, this);
     //
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
@@ -1115,6 +547,5 @@ Y.Views.Game = Y.View.extend({
     }
     // 
     this.poller.stop();
-        
   }
 });

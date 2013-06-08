@@ -246,7 +246,7 @@ var GameModel = Backbone.Model.extend({
   computeScore : function() { 
     var scoreTeam1 = 0;
     var scoreTeam2 = 0;
-    var sets = this.getSets();
+    var sets = this.getSets(0);
     
     // set1 : only if game is finished or set2 exists & not empty
     if (this.isFinished() || (sets.length > 1 && sets[1][0] + sets[1][1] !== 0)) {

@@ -210,18 +210,25 @@ var GameModel = Backbone.Model.extend({
   },
 
   // transform internal format : 6/2;2/2 into [ [ 6, 2 ], [ 2, 2 ] ]
-  getSets: function () {
+  getSets: function (padding) {
     var sets = this.get("infos").sets || "0/0";
-    return sets.split(';').map(function (set) {
+    sets = sets.split(';').map(function (set) {
       return set.split('/').map(function (num) {
         return parseInt(num, 10);
       });
     });
+    if (typeof padding !== "undefined") {
+      for (var i = 0; i < 3; ++i) {
+        if (typeof sets[i] === "undefined")
+          sets[i] = [padding, padding];
+      }
+    }
+    return sets;
   },
 
   setSets: function (sets) {
     sets = sets.map(function (set) { return set.join('/') }).join(';');
-    this.get("infos").set("sets", sets);
+    this.get("infos").sets = sets; //FIXME: might not be the right "backbone way of doing things"
   },
 
   getScore: function () {

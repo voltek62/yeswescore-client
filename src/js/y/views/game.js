@@ -241,7 +241,7 @@ Y.Views.Game = Y.View.extend({
     }
 
     // on modifie le score du set en question dans l'objet game.
-    var sets = this.game.getSets();
+    var sets = this.game.getSets(0);
     var score = this.game.getScore();
     var set = $(ev.currentTarget).data('set');
     var team = $(ev.currentTarget).data('team');
@@ -252,16 +252,16 @@ Y.Views.Game = Y.View.extend({
     var team1_set = sets[set][0];
     var team2_set = sets[set][1];
     var total_sets = parseInt(team1_set, 10) + parseInt(team2_set, 10);
-    var diff_sets1 = Math.abs(parseInt(team1_set1, 10)-parseInt(team2_set1, 10));
-    var diff_sets2 = Math.abs(parseInt(team1_set2, 10)-parseInt(team2_set2, 10));
-    var diff_sets3 = Math.abs(parseInt(team1_set3, 10)-parseInt(team2_set3, 10));
+    var diff_sets1 = Math.abs(parseInt(sets[0][0], 10)-parseInt(sets[0][1], 10));
+    var diff_sets2 = Math.abs(parseInt(sets[1][0], 10)-parseInt(sets[1][1], 10));
+    var diff_sets3 = Math.abs(parseInt(sets[2][0], 10)-parseInt(sets[2][1], 10));
 
-    if ((team1_set1>=7 && diff_sets1>2) ||
-        (team2_set1>=7 && diff_sets1>2) ||
-        (team1_set2>=7 && diff_sets2>2) ||
-        (team2_set2>=7 && diff_sets2>2) ||
-        (team1_set3>=7 && diff_sets3>2) ||
-        (team2_set3>=7 && diff_sets3>2)) {
+    if ((sets[0][0]>=7 && diff_sets1>2) ||
+        (sets[0][1]>=7 && diff_sets1>2) ||
+        (sets[1][0]>=7 && diff_sets2>2) ||
+        (sets[1][1]>=7 && diff_sets2>2) ||
+        (sets[2][0]>=7 && diff_sets3>2) ||
+        (sets[2][1]>=7 && diff_sets3>2)) {
       // incrementation impossible
       return;
     }
@@ -333,15 +333,9 @@ Y.Views.Game = Y.View.extend({
   },
 
   renderScoreBoard : function(game) {
-    var sets = game.getSets()
+    var sets = game.getSets('&nbsp')
       , score = game.getScore();
     
-    // padding sets with &nbsp;
-    for (var i = 0; i < 3; ++i) {
-      if (typeof sets[i] === "undefined") {
-        sets[i] = [ '&nbsp', '&nbsp' ];
-      }
-    }
     //
     $(this.displayViewScoreBoard).html(this.templates.scoreboard({
         game : game.toJSON()

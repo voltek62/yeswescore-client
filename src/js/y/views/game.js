@@ -8,19 +8,19 @@ Y.Views.Game = Y.View.extend({
       
   events : {
     'click #facebook'       : 'share',
-    'click .player-info'    : 'goToPlayerProfile',    
-    'click .playerInfos'    : 'goToPlayerProfile',   
-    'click #statusButton'   : 'statusGame',
+    'click #statusButton'   : 'changeGameStatus',
     'click #statusRestart'  : 'restartGame',
     'click #followButton'   : 'followGame',
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',        
     'click #cancelButton'   : 'cancelGame',
-    'click #optionButton'   : 'goToOptions',
     'click .undoSelect'     : 'undoAction',    
     'click #team1_sets_div' : 'setTeam1Score',
     'click #team2_sets_div' : 'setTeam2Score',          
     'click .set'            : 'incrementTeamSet',
+    'click .player-info'    : 'goToPlayerProfile',    
+    'click .playerInfos'    : 'goToPlayerProfile',   
+    'click #optionButton'   : 'goToOptions',
     'click .button-comments': 'goToComment'    
   },
 
@@ -329,6 +329,12 @@ Y.Views.Game = Y.View.extend({
 	    $('.button-comments').css('display', 'none');
     }
 
+    if (this.game.get('status') === "created") {
+      this.$("#statusButton").html(i18n.t('game.begin'));
+    } else if (this.game.get('status') === "ongoing") {
+      this.$("#statusButton").html(i18n.t('game.finish'));
+    }
+
     //i18n
     //PERF:on remplace que les champs du DOM concernés
     $('a').i18n();
@@ -375,8 +381,7 @@ Y.Views.Game = Y.View.extend({
       $('#team2_set2_div .score').addClass('ongoing');
       $('#team3_set3_div .score').removeClass('ongoing');
       $('#team3_set3_div .score').removeClass('ongoing');
-    }
-    else {
+    } else {
       $('#team1_set1_div .score').addClass('ongoing');
       $('#team2_set1_div .score').addClass('ongoing');
       $('#team1_set2_div .score').removeClass('ongoing');
@@ -427,62 +432,23 @@ Y.Views.Game = Y.View.extend({
   // immediatly render & save in the background
   renderAndSave: function () {
     this.render();
-	this.game.save(null, {
-	  playerid : this.player.get('id')
+	  this.game.save(null, {
+	    playerid : this.player.get('id')
 	  , token : this.player.get('token')
     });
   },
 
-  statusGame : function() {
-    var that = this;
-    var game = {
-	    team1_id : this.game.get('teams')[0].players[0].id
-	    , team2_id : this.game.get('teams')[1].players[0].id
-	    , id : this.gameid 
-    };
-    var tennis_update;
-
+  changeGameStatus : function() {
     if (this.game.get('status') === "created") {
-      game.status = "ongoing";    	          
-      tennis_update = new GameModel(game);
-	    tennis_update.save(null, {
-	      playerid : this.player.get('id')
-	    , token : this.player.get('token')
-      }).done(function(model, response){
-	      console.log('success ');
-        $("#statusButton").html(i18n.t('game.finish'));
-        that.statusScore = "ongoing";
-	    });
-    }
-    else if ( this.statusScore === "finished") {
-		  this.$(".buttonleft").addClass("ko");
-	    this.infoTimeout = window.setTimeout(function () {
-	      that.$(".buttonleft").removeClass("ko");
-	      that.infoTimeout = null;
-	    }, 2000);	    
-    }
-    else if ( this.statusScore === "ongoing") {
-      game.status = "finished";
-      //On met à jour les sets
-      this.statusScore = "finished";
-      game.score = this.computeScore();
-      tennis_update = new GameModel(game);
-	    tennis_update.save(null, {
-	      playerid : this.player.get('id')
-	    , token : this.player.get('token')
-      }).done(function(model, response){
-	      $("#statusButton").html(i18n.t('game.gamefinished'));	 
-          $("#optionButton").attr("id","statusRestart");
- 		  $("#statusRestart").html(i18n.t('game.restart'));
- 		  //On met à jour le score			
- 		  var score = that.computeScore();
-	      var scoreboard = score.split('/'); 
- 		  $('#team1_sets_div').html('<div class="score sets">'+scoreboard[0]+'</div>');
- 		  $('#team2_sets_div').html('<div class="score sets">'+scoreboard[1]+'</div>');
+      this.game.set('status', 'ongoing');
+      this.renderAndSave();
+    } else if (this.game.get('status') === "ongoing") {
+      this.game.set('status', 'finished');
+      this.game.get('infos').score = this.game.computeScore();
  		  // On efface la cache
-          if (this.DB!==undefined)
-            this.DB.remove("sets");
-	   });
+      if (this.DB!==undefined)
+        this.DB.remove("sets");
+      this.renderAndSave();
     }
   },
 

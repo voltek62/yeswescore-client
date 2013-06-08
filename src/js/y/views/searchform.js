@@ -117,8 +117,8 @@ Y.Views.SearchForm = Y.View.extend({
 	}	  
  
 	if (this.clubid === undefined || this.clubid === '') {
-	  $('#searchclub').attr('checked', false);	
-      $("#searchclub").attr("disabled", true);
+	  $('#searchmyclub').attr('checked', false);	
+      $("#searchmyclub").attr("disabled", true);
     } 	 	   
   },
 

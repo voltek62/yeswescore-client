@@ -103,6 +103,8 @@ var GameModel = Backbone.Model.extend({
     }, this);
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+      
+
 
     if (method === 'create' && options.playerid !== undefined) {
       return Backbone.ajax({

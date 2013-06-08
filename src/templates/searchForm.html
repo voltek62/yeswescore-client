@@ -4,8 +4,8 @@
 
     <span class="success label label-info hide"></span>
     
-    <div style="padding-top:10px;padding-bottom:10px;">
-    <span data-i18n="search.introform"></span>    
+    <div style="padding-top:10px;">
+    <span data-i18n="search.introform" class="label label-info"></span>    
     </div>
 
 
@@ -19,11 +19,10 @@
         <input id="searchgeo" type="checkbox" name="searchgeo" value="" />         
 	  </div>
       <div class="ui-block-a">
-        <span data-i18n="search.infogeo"></span> (<%= gps %>) <span data-i18n="search.zone"></span> : 50Km
-      </div>    
-      <div class="ui-block-b">
-       
-      </div>      
+        <div class="label label-info">
+          <span data-i18n="search.infogeo"></span> (<%= gps %>) <span data-i18n="search.zone"></span> : 50Km
+        </div>
+      </div>
       
           
       <div class="ui-block-a">

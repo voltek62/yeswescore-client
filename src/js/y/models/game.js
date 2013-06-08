@@ -41,7 +41,8 @@ var GameModel = Backbone.Model.extend({
       score : "0/0",
       court : "",
       surface : "",
-      tour : ""
+      tour : "",
+      startTeam : ""
     }
   },
 
@@ -78,6 +79,7 @@ var GameModel = Backbone.Model.extend({
     var object = {
       infos : {}
     , location : {}
+    , dates : {}
     };
 
     if (team1_json && team2_json) {
@@ -91,19 +93,23 @@ var GameModel = Backbone.Model.extend({
     }
 	 
     object.infos.type = "singles";	
-     if (this.get('city')) 
-       object.location.city = this.get('city');
-     if (this.get('start'))
-       object.dates.start = this.get('start');
-     if (this.get('end'))
-       object.dates.end = this.get('end');
+     if (this.get('location').city) 
+       object.location.city = this.get('location').city;
+     if (this.get('location').country) 
+       object.location.country = this.get('location').country;       
+     if (this.get('dates').start)
+       object.dates.start = this.get('dates').start;
+     if (this.get('dates').end)
+       object.dates.end = this.get('dates').end;
      if (this.get('status'))
        object.status = this.get('status');
-    ['subtype', 'sets', 'score', 'court', 'surface',
-     'tour', 'country', 'startTeam'].forEach(function (k) {
-      if (this.get('infos')[k])
-        object.infos[k] = this.get('infos')[k];
-    }, this);
+       
+     _.forEach( ['subtype', 'sets', 'score', 'court', 'surface',
+     'tour', 'country', 'startTeam'] , function (k) {
+	   if (this.get('infos')[k])
+	      object.infos[k] = this.get('infos')[k];
+	  }, this )
+     
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 
@@ -227,6 +233,11 @@ var GameModel = Backbone.Model.extend({
       }
     }
     return sets;
+  },
+
+
+  setScore: function (score) {
+    this.get("infos").score = score; //FIXME: might not be the right "backbone way of doing things"
   },
 
   setSets: function (sets) {

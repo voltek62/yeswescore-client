@@ -299,7 +299,7 @@ Y.Views.Game = Y.View.extend({
 
     // update en DB
     this.game.setSets(sets);
-
+    this.game.setScore(this.game.computeScore());
     //
     this.renderAndSave();
   },
@@ -324,6 +324,11 @@ Y.Views.Game = Y.View.extend({
  	    $("#statusRestart").html(i18n.t('game.restart'));
     }
     
+    if (this.game.get('infos').startTeam!==undefined) {
+      $(".serverbar").hide();
+      $('.button-comments').css('display', 'block');
+    }
+    
     // FIXME: refresh only input and id
     this.$el.html(this.templates.game({
       game : this.game.toJSON(),
@@ -336,7 +341,7 @@ Y.Views.Game = Y.View.extend({
     if (this.streams)
       this.renderCountComment();
 	
-	  if (this.game.get('infos').startTeam === undefined) {
+	  if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
 	    $('.button-comments').css('display', 'none');
     }
 
@@ -431,12 +436,12 @@ Y.Views.Game = Y.View.extend({
   },
   
   startTeam1 : function() {
-    this.game.set('startTeam', 0);
-	  this.renderAndSave();
+    this.game.get('infos').startTeam = 0;
+	this.renderAndSave();
   },
   
   startTeam2 : function() {
-    this.game.set('startTeam', 1);
+    this.game.get('infos').startTeam = 1;
     this.renderAndSave();
   },
 

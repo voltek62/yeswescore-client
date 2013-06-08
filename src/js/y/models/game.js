@@ -93,22 +93,23 @@ var GameModel = Backbone.Model.extend({
     }
 	 
     object.infos.type = "singles";	
-     if (this.get('location').city) 
+     if (typeof this.get('location').city !== "undefined") 
        object.location.city = this.get('location').city;
-     if (this.get('location').country) 
+     if (typeof this.get('location').country !== "undefined") 
        object.location.country = this.get('location').country;       
-     if (this.get('dates').start)
+     if (typeof this.get('dates').start !== "undefined") 
        object.dates.start = this.get('dates').start;
-     if (this.get('dates').end)
+     if (typeof this.get('dates').end !== "undefined") 
        object.dates.end = this.get('dates').end;
-     if (this.get('status'))
+     if (typeof this.get('status') !== "undefined")
        object.status = this.get('status');
        
-     _.forEach( ['subtype', 'sets', 'score', 'court', 'surface',
-     'tour', 'country', 'startTeam'] , function (k) {
-	   if (this.get('infos')[k])
-	      object.infos[k] = this.get('infos')[k];
-	  }, this )
+     _.forEach(
+      ['subtype', 'sets', 'score', 'court', 'surface',
+       'tour', 'country', 'startTeam'] , function (k) {
+	     if (typeof this.get('infos')[k] !== "undefined")
+	       object.infos[k] = this.get('infos')[k];
+	   }, this);
      
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];

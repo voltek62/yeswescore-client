@@ -289,6 +289,7 @@ Y.Views.Game = Y.View.extend({
 
     // update en DB
     this.game.setSets(sets);
+    this.game.setScore(this.game.computeScore());
     //
     this.renderAndSave();
   },

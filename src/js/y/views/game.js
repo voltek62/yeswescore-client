@@ -28,7 +28,6 @@ Y.Views.Game = Y.View.extend({
   pageHash : "games/",
 
   shareTimeout: null,
-  infoTimeout: null,  
   sharing: false,
 
   gameid : null,
@@ -511,10 +510,6 @@ Y.Views.Game = Y.View.extend({
     this.game.off("sync", this.onGameInit, this);
     this.streams.off("sync", this.renderCountComment, this);
     //
-    if (this.infoTimeout) {
-      window.clearTimeout(this.infoTimeout);
-      this.infoTimeout = null;
-    }
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
       this.shareTimeout = null;

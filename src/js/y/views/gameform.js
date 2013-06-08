@@ -162,17 +162,17 @@ Y.Views.GameForm = Y.View.extend({
     
     var game = {
         team1_id : this.team1_id
-	    , team1 : team1
+	  , team1 : team1
       , rank1 : rank1
       , team2_id : this.team2_id            
       , team2 : team2
       , rank2 : rank2     
-      , city : $('#city').val()
+      , location : { city : $('#city').val() }
       , playerid : this.playerid
       , token : this.token
-      , court : $('#court').val()
-      , surface : $('#surface').val()
-      , tour : $('#tour').val()
+      , infos : { court : $('#court').val() }
+      , infos : { surface : $('#surface').val() }
+      , infos : { tour : $('#tour').val() }
       //, subtype : $('#subtype').val()
       , id : this.gameid 
 	  };

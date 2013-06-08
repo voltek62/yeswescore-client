@@ -320,6 +320,7 @@ Y.Views.Game = Y.View.extend({
     
     if (this.game.get('infos').startTeam!==undefined) {
       $(".serverbar").hide();
+      $('.button-comments').css('display', 'block');
     }
     
     // FIXME: refresh only input and id
@@ -334,7 +335,7 @@ Y.Views.Game = Y.View.extend({
     if (this.streams)
       this.renderCountComment();
 	
-	  if (this.game.get('infos').startTeam === undefined) {
+	  if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
 	    $('.button-comments').css('display', 'none');
     }
 

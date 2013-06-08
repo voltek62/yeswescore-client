@@ -79,6 +79,7 @@ var GameModel = Backbone.Model.extend({
     var object = {
       infos : {}
     , location : {}
+    , dates : {}
     };
 
     if (team1_json && team2_json) {
@@ -92,18 +93,19 @@ var GameModel = Backbone.Model.extend({
     }
 	 
     object.infos.type = "singles";	
-     if (this.get('city')) 
-       object.location.city = this.get('city');
-     if (this.get('start'))
-       object.dates.start = this.get('start');
-     if (this.get('end'))
-       object.dates.end = this.get('end');
+     if (this.get('location').city) 
+       object.location.city = this.get('location').city;
+     if (this.get('location').country) 
+       object.location.country = this.get('location').country;       
+     if (this.get('dates').start)
+       object.dates.start = this.get('dates').start;
+     if (this.get('dates').end)
+       object.dates.end = this.get('dates').end;
      if (this.get('status'))
        object.status = this.get('status');
        
      _.forEach( ['subtype', 'sets', 'score', 'court', 'surface',
      'tour', 'country', 'startTeam'] , function (k) {
-       console.log(k+" "+this.get('infos')[k]);
 	   if (this.get('infos')[k])
 	      object.infos[k] = this.get('infos')[k];
 	  }, this )

@@ -47,35 +47,17 @@ Y.Views.Game = Y.View.extend({
   version:0,
   versionUndo:0,
   
-  team1_set1 : '&nbsp;'
-  , team1_set2 : '&nbsp;'
-  , team1_set3 : '&nbsp;'
-  , team2_set1 : '&nbsp;'
-  , team2_set2 : '&nbsp;'
-  , team2_set3 : '&nbsp;'
-  , team1_sets : '0'
-  , team2_sets : '0'
-  , playerid : null
-  , gameid : null
-  , token : null
-  
-  /*
-  , team1 : null
-  , rank1 : null
-  , team1_id : null
-  , team2 : null
-  , rank2 : null
-  , team2_id : null
-  , country : null	      
-  , city : null
-  , playerid : null
-  , token : null
-  , court : null
-  , surface : null
-  , tour : null
-  , subtype : null*/
+  team1_set1 : '&nbsp;',
+  team1_set2 : '&nbsp;',
+  team1_set3 : '&nbsp;',
+  team2_set1 : '&nbsp;',
+  team2_set2 : '&nbsp;',
+  team2_set3 : '&nbsp;',
+  team1_sets : '0',
+  team2_sets : '0',
+  gameid : null,
 
-  ,initialize : function() {
+  initialize : function() {
     this.pageHash += this.id;
     this.gameid = this.id;
 
@@ -93,9 +75,7 @@ Y.Views.Game = Y.View.extend({
     this.DB = new Y.DB("Y.Games."+this.gameid+".");
 		
     // loading owner
-    this.owner = Y.User.getPlayer();
-    this.token = this.owner.get('token');
-    this.playerid = this.owner.get('id');    
+    this.player = Y.User.getPlayer();   
     
     //loading followed
     var games_follow = Y.Conf.get("owner.games.followed");
@@ -117,20 +97,27 @@ Y.Views.Game = Y.View.extend({
     // Rendering.
     // first: we render immediatly
     this.render();
+    // 
+    this.game.once('sync', this.startPooling, this);
     // rerender on game update
     this.game.on('sync', this.render, this);
-    // grabbing comments & display nb
-	//this.streams.once("sync", this.renderCountComment, this);
-    //this.streams.fetch();
     
-    // Fetching data.
+    // Fetching data the fist time
+    this.game.fetch();
+  },
+
+  startPooling: function () {
     // Pooling du model game & affichage.
     // FIXME: SI ONLINE
     // FIXME : temps de rafrichissement selon batterie et selon forfait  
-    var pollingOptions = { delay: Y.Conf.get("game.refresh") };
-    this.poller = Backbone.Poller.get(this.game, pollingOptions)
-    this.poller.start();
-
+    if (!this.game.isMine()) {
+      // mode lecture.
+      var pollingOptions = { delay: Y.Conf.get("game.refresh"), delayed: true };
+      this.poller = Backbone.Poller.get(this.game, pollingOptions)
+      this.poller.start();
+    } else {
+      // mode edition.
+    }
   },
 
   shareError: function (err) {
@@ -264,9 +251,10 @@ Y.Views.Game = Y.View.extend({
  
 
   bufferedUndoAction: function () {
-		var that = this;
+		var that = this
+      , game;
     	   	  
-    if ( this.statusScore !== "finished"  && this.game.get('owner') === this.playerid ) {
+    if ( this.statusScore !== "finished" && this.game.isMine()) {
     	$('.undoSelect').hide();
     	this.lastScore = this.DB.readJSON("sets");
 	    if (this.lastScore !== undefined) {
@@ -288,7 +276,7 @@ Y.Views.Game = Y.View.extend({
 	    	
 	      var gameid = this.gameid;   
 	    	if (sets_undo !== 'undefined') {
-		      this.game = new GameModel({
+		      game = {
 				    team1_id : this.game.get('teams')[0].players[0].id
 			      , team2_id : this.game.get('teams')[1].players[0].id
 			      , id : this.gameid
@@ -300,15 +288,14 @@ Y.Views.Game = Y.View.extend({
 			      , subtype : this.game.get('infos').subtype			      
 			      , sets :  sets_undo[0]
 			      , score : sets_undo[1]
-		      });
-		      this.game.save(null, {
-            playerid: this.playerid,
-            token: this.token
+		      };
+		      this.game.save(game, {
+            playerid: this.player.get('id'),
+            token: this.player.get('token')
           }).done(function (model, response) {        
 			      that.currentScore = model.get('infos').sets; 		
 			      if (that.lastScore.length>1)
 			        that.DB.saveJSON("sets",that.lastScore);         			        	              
-	  				that.game = model;
 		    	  that.renderScoreBoard(model);
 		    	  $('.undoSelect').show();
 		    	}).fail(function(err) {
@@ -324,71 +311,39 @@ Y.Views.Game = Y.View.extend({
     Y.Router.navigate(route, {trigger: true}); 
   },
 
-
- setTeamScore : function(input, div) {
-  
-  /*
-     var score = '';	
-        
-    if ($.isNumeric(input))
-      score = parseInt(input, 10) + 1;
-    else
-      score = '1';          	
-    
-    if ( this.statusScore === "ongoing"  ) {
-	    if (this.game.get('owner') === this.playerid ) {  
-		    //input.val(set);
-		    
-			if (div.attr('id').indexOf('team1_sets')!==-1)
-		     this.team1_sets = score;
-		    else if (div.attr('id').indexOf('team2_sets')!==-1)
-		     this.team2_sets = score;
-		     		     		     		     		        
-		    //FIXME : NO HTML IN CODE
-		    div.html('<div class="score sets">'+score+'</div>');
-		        
-		    this.bufferedSendUpdater();
-	    }
-	  }
-	*/
-	  
-  },
-
   setTeamSet : function(input, div) {
-  
-     var set = '';	
-        
+    if (!this.game.isMine())
+      return;
+
+    var that = this;
+    var set = '';	    
     if ($.isNumeric(input))
       set = parseInt(input, 10) + 1;
     else
       set = '1';          	
     
-    if ( this.statusScore === "ongoing"  ) {
-	    if (this.game.get('owner') === this.playerid ) {  
-		    //input.val(set);
-		    
+    if ( this.statusScore === "ongoing") {  
 			if (div.attr('id').indexOf('team1_set1')!==-1)
 		     this.team1_set1 = set;
-		    else if (div.attr('id').indexOf('team1_set2')!==-1)
-		     this.team1_set2 = set;
-		    else if (div.attr('id').indexOf('team1_set3')!==-1)
-		     this.team1_set3 = set;
-		    else if (div.attr('id').indexOf('team2_set1')!==-1)
-		     this.team2_set1 = set;
-		    else if (div.attr('id').indexOf('team2_set2')!==-1)
-		     this.team2_set2 = set;
-		    else if (div.attr('id').indexOf('team2_set3')!==-1)
-		     this.team2_set3 = set;
+		  else if (div.attr('id').indexOf('team1_set2')!==-1)
+		    this.team1_set2 = set;
+		  else if (div.attr('id').indexOf('team1_set3')!==-1)
+		    this.team1_set3 = set;
+		  else if (div.attr('id').indexOf('team2_set1')!==-1)
+		    this.team2_set1 = set;
+		  else if (div.attr('id').indexOf('team2_set2')!==-1)
+		    this.team2_set2 = set;
+		  else if (div.attr('id').indexOf('team2_set3')!==-1)
+		    this.team2_set3 = set;
 		      		     		     		        		        
-		    this.bufferedSendUpdater();
+		  this.bufferedSendUpdater();
 		     
 			if (this.server1==true) {
 			  $('.server1').removeClass('server-ball');
 			  $('.server2').addClass('server-ball');		
 			  this.server1=false;
 			  this.server2=true;		
-			}
-			else if (this.server2==true) {
+			} else if (this.server2==true) {
 			  $('.server1').addClass('server-ball');
 			  $('.server2').removeClass('server-ball');	
 			  this.server1=true;
@@ -396,30 +351,15 @@ Y.Views.Game = Y.View.extend({
 			}
 			
 			//FIXME : NO HTML IN CODE
-		    div.html('<div class="score ongoing">'+set+'</div>');
-			
-	    }
-	  }
-	  else if ( this.statusScore === "created"  ) {
-	  
-	    var that = this;
-		this.$(".status").addClass("ko");
+		  div.html('<div class="score ongoing">'+set+'</div>');
+	  } else if ( this.statusScore === "created"  ) {
+		  this.$(".status").addClass("ko");
 	    this.shareTimeout = window.setTimeout(function () {
 	      that.$(".status").removeClass("ko");
 	      that.shareTimeout = null;
-	    }, 3000);	   
-	  
-	  } 
-	  
+	    }, 3000);
+	  }
   },
-
-   setTeam1Score : function() {
-    //this.setTeamScore(this.team1_sets, $('#team1_sets_div'));
-  },
-  
-   setTeam2Score : function() {
-    //this.setTeamScore(this.team2_sets, $('#team2_sets_div'));
-  }, 
 
   setTeam1Set1 : function() {
     this.setTeamSet(this.team1_set1, $('#team1_set1_div'));
@@ -605,18 +545,12 @@ Y.Views.Game = Y.View.extend({
 	  , sets : sets_update
 	  , score : score
     };
-     
-    var that = this;
-    this.version++; 
-    var version = this.version;
     
-    this.game = new GameModel(game);
-    this.game.save({}, {
-      playerid: this.playerid,
-      token: this.token
+    this.game.save(game, {
+      playerid: this.player.get('id'),
+      token: this.player.get('token')
     }).done(function(model, response){ 
-      if (that.version === version)
-      	that.game = model;
+      // anciennement versions
     });
   },
 
@@ -767,7 +701,7 @@ Y.Views.Game = Y.View.extend({
     this.$el.html(this.templates.game({
       game : game.toJSON(),
       timer : timer,
-      playerid : this.playerid,      
+      playerid : this.player.get('id'),      
       follow : this.follow
     }));
 
@@ -1006,8 +940,8 @@ Y.Views.Game = Y.View.extend({
       game.score = this.calculScore();
       var tennis_update = new GameModel(game);
 	    tennis_update.save(null, {
-	      playerid : this.playerid
-	    , token : this.token
+	      playerid : this.player.get('id')
+	    , token : this.player.get('token')
       }).done(function(model, response){
         $("#statusButton").html(i18n.t('game.finish'));
         // statusRestart to optionButton
@@ -1027,8 +961,8 @@ Y.Views.Game = Y.View.extend({
     };
 	  var tennis_update = new GameModel(game);
 	  tennis_update.save(null, {
-      playerid : this.playerid
-	  , token : this.token
+      playerid : this.player.get('id')
+	  , token : this.player.get('token')
     }).done(function(model, response){      
       //on cache le barre
       $('.serverbar').hide();
@@ -1051,8 +985,8 @@ Y.Views.Game = Y.View.extend({
 
 	  var tennis_update = new GameModel(game);
 	  tennis_update.save(null, {
-	      playerid : this.playerid
-	    , token : this.token
+	      playerid : this.player.get('id')
+	    , token : this.player.get('token')
     }).done(function(model, response){
 	    //on cache le barre
 	    $('.serverbar').hide();	 
@@ -1077,8 +1011,8 @@ Y.Views.Game = Y.View.extend({
       game.status = "ongoing";    	          
       tennis_update = new GameModel(game);
 	    tennis_update.save(null, {
-	      playerid : this.playerid
-	    , token : this.token
+	      playerid : this.player.get('id')
+	    , token : this.player.get('token')
       }).done(function(model, response){
 	      console.log('success ');
         $("#statusButton").html(i18n.t('game.finish'));
@@ -1099,8 +1033,8 @@ Y.Views.Game = Y.View.extend({
       game.score = this.calculScore();
       tennis_update = new GameModel(game);
 	    tennis_update.save(null, {
-	      playerid : this.playerid
-	    , token : this.token
+	      playerid : this.player.get('id')
+	    , token : this.player.get('token')
       }).done(function(model, response){
 	      $("#statusButton").html(i18n.t('game.gamefinished'));	 
         $("#optionButton").attr("id","statusRestart");
@@ -1172,6 +1106,7 @@ Y.Views.Game = Y.View.extend({
       
     // desabonnements
     this.game.off("sync", this.render, this);
+    this.game.off("sync", this.startPooling, this);
     this.streams.off("sync",this.renderCountComment, this);
     //
     if (this.shareTimeout) {

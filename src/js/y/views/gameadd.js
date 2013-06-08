@@ -74,14 +74,15 @@ Y.Views.GameAdd = Y.View.extend({
       , city = $('#city').val()
       , game;
 
-    if ( ( team1.length < 3 || team1.indexOf('  ')!==-1 ) && !$('#team1').is(':disabled') ) {
+    if (( team1.length < 3 || team1.indexOf('  ')!==-1 ) &&
+        this.team1_id != this.player.get('id')) {
       $('.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
       $('#team1').val('');
       return false;
     }
     
     //On redirige vers le formulaire special
-    if ( team1 === ''   && $('#team1').is(':disabled') ) {
+    if (team1 === '' && this.team1_id == this.player.get('id')) {
       //$('.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();      
       //On sauvegarde les infos de la partie
 	    game = {

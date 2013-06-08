@@ -242,7 +242,8 @@ Y.Views.Game = Y.View.extend({
     }
 
     // on modifie le score du set en question dans l'objet game.
-    var sets = this.game.getSets(0);
+    var sets = this.game.getSets();
+    var sets_tmp = this.game.getSets(0);
     var score = this.game.getScore();
     var set = $(ev.currentTarget).data('set');
     var team = $(ev.currentTarget).data('team');
@@ -250,29 +251,29 @@ Y.Views.Game = Y.View.extend({
     /* regle de gestion */
     // add diff de 2 max si superieur à 6
     // add force score if diff de 2 ou on peut mettre à jour les scores ? on controle si 0,1,2,3
-    var team1_set = sets[set][0];
-    var team2_set = sets[set][1];
+    var team1_set = sets_tmp[set][0];
+    var team2_set = sets_tmp[set][1];
     var total_sets = parseInt(team1_set, 10) + parseInt(team2_set, 10);
-    var diff_sets1 = Math.abs(parseInt(sets[0][0], 10)-parseInt(sets[0][1], 10));
-    var diff_sets2 = Math.abs(parseInt(sets[1][0], 10)-parseInt(sets[1][1], 10));
-    var diff_sets3 = Math.abs(parseInt(sets[2][0], 10)-parseInt(sets[2][1], 10));
+    var diff_sets1 = Math.abs(parseInt(sets_tmp[0][0], 10)-parseInt(sets_tmp[0][1], 10));
+    var diff_sets2 = Math.abs(parseInt(sets_tmp[1][0], 10)-parseInt(sets_tmp[1][1], 10));
+    var diff_sets3 = Math.abs(parseInt(sets_tmp[2][0], 10)-parseInt(sets_tmp[2][1], 10));
 
-    if ((sets[0][0]>=7 && diff_sets1>2) ||
-        (sets[0][1]>=7 && diff_sets1>2) ||
-        (sets[1][0]>=7 && diff_sets2>2) ||
-        (sets[1][1]>=7 && diff_sets2>2) ||
-        (sets[2][0]>=7 && diff_sets3>2) ||
-        (sets[2][1]>=7 && diff_sets3>2)) {
+	sets = this.game.getSets(0);
+	if (typeof sets[set] === "undefined")
+	  sets[set] = [ 0, 0 ];
+	sets[set][team]++;
+
+    if ((sets_tmp[0][0]>=7 && diff_sets1>2) ||
+        (sets_tmp[0][1]>=7 && diff_sets1>2) ||
+        (sets_tmp[1][0]>=7 && diff_sets2>2) ||
+        (sets_tmp[1][1]>=7 && diff_sets2>2) ||
+        (sets_tmp[2][0]>=7 && diff_sets3>2) ||
+        (sets_tmp[2][1]>=7 && diff_sets3>2)) {
       // incrementation impossible
       return;
     }
     
-    if (typeof sets[set] !== "undefined") {
-      sets[set][team]++;
-    } else {
-      throw "FIXME: upgrade sur set+1";
-    }
-
+    
     // MAJ cache
     var setsCache = this.DB.readJSON("sets");
     var newData = [this.game.get('infos').sets, this.game.get('infos').score];

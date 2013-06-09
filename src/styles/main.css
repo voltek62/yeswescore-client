@@ -43,23 +43,35 @@
 /*******************
 no connection
 ******************/
-.overlay {
+#offline {
   display: none;
 }
-.offline #overlay {
+.offline #offline {
+	padding-top: 60px; /* #header */
   display: block;
-  position:fixed;
-  top: 0px;
-	left:0px;
-	height:100%;
-	width:100%;
-	background-color:#a0a0a0;
-	-moz-opacity:0.38;
-	opacity:0.38;
-	filter:alpha(opacity=38);
-	z-index: 20000;
+  
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+  text-align: center;
+  
+  color: white;
+  
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+  
+  height: 1000px;
+  
+	z-index: 5;
+	width: 100%;
+}
+.offline {
   pointer-events: none;
-  cursor: default;
+  background-color: #f2734c;
+}
+.offline #content {
+  display: none;
 }
 
 /*******************

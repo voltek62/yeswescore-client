@@ -15,8 +15,8 @@
 	  <div class="ui-block-a">
         <label class="form-label" data-i18n="search.geo"></label>
       </div>
-	  <div class="ui-block-b">
-        <span role="checkbox" id="searchgeo"/>         
+	  <div class="ui-block-b" id="searchgeo">
+        <span role="checkbox"/>         
 	  </div>
       <div class="ui-block-a">
         <div class="label label-info">
@@ -28,11 +28,11 @@
       <div class="ui-block-a">
         <label class="form-label" data-i18n="search.myclub"></label> 
         </div>
-      <div class="ui-block-b">
+      <div class="ui-block-b" id="searchmyclub">
         <!-- 
         <input id="searchmyclub" type="checkbox" name="searchmyclub" class="regular-checkbox big-checkbox"/>  
          -->
-        <span role="checkbox" id="searchmyclub"/>       
+        <span role="checkbox"/>       
       </div>
       <div class="ui-block-a">
         <!-- 
@@ -44,7 +44,7 @@
         else 
         {
         %>
-        <div id="linkprofil" class="label label-info"><%= clubname %></div>
+        <div id="linkprofil" class="label label-info clickable"><%= clubname %></div>
         <%
         }
         %>

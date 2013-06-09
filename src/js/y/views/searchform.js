@@ -51,7 +51,7 @@ Y.Views.SearchForm = Y.View.extend({
       
   update: function (event) {
   
-    $('#'+event.currentTarget.id).toggleClass('checked');
+    $('#'+event.currentTarget.id+' span').toggleClass('checked');
       
     Y.User.setFiltersSearch(event.currentTarget.id);         
     
@@ -82,7 +82,6 @@ Y.Views.SearchForm = Y.View.extend({
 		clubname = this.owner.get('club').name;
 	}  	
   	
-  	console.log('clubname',clubname);
   	
     this.$el.html(this.templates.searchform({gps:gps_state,clubname:clubname}));
   
@@ -94,31 +93,31 @@ Y.Views.SearchForm = Y.View.extend({
     
     if (filters!=undefined) {
 	    if (filters.indexOf('searchgeo')!==-1) {
-	      $('#searchgeo').addClass('checked');		        
+	      $('#searchgeo span').addClass('checked');		        
 	    } 
 	    if (filters.indexOf('searchmyclub')!==-1) {
-	      $('#searchmyclub').addClass('checked');
+	      $('#searchmyclub span').addClass('checked');
 	 	}
 	    if (filters.indexOf('searchgamefollowed')!==-1) {
-	      $('#searchgamefollowed').addClass('checked');
+	      $('#searchgamefollowed span').addClass('checked');
 	 	}
  	} 	
  	
  	if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null)
 	{
-	  $('#searchgeo').removeClass('checked');
-	  $("#searchgeo").addClass("disabled");  
+	  $('#searchgeo span').removeClass('checked');
+	  $("#searchgeo span").addClass("disabled");  
 	}	  
  
 	if (this.owner.get('club') !== undefined ) {
 	  if (this.owner.get('club').name === '') {
-	    $('#searchmyclub').removeClass('checked');
-        $("#searchmyclub").addClass("disabled"); 
+	    $('#searchmyclub span').removeClass('checked');
+        $("#searchmyclub span").addClass("disabled"); 
       }
     }
     else {
-	    $('#searchmyclub').removeClass('checked');	
-        $("#searchmyclub").addClass("disabled");     
+	    $('#searchmyclub span').removeClass('checked');	
+        $("#searchmyclub span").addClass("disabled");     
     } 	 	   
   },
 

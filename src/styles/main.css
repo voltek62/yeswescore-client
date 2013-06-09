@@ -647,6 +647,10 @@ ul>li.player>a {
 	box-sizing: border-box;	
 }
 
+.clickable {
+	cursor: pointer;		
+}
+
 .form-button-black-club {
 	position: relative;
 	height: 25px;
@@ -2075,8 +2079,7 @@ a[data-filter='match-followed'] {
 
 .search-grid .ui-grid-a .ui-block-b {
 	width: 20%;
-	height:26px;
-	padding-bottom:20px;
+	height:100%;
 }
 
 

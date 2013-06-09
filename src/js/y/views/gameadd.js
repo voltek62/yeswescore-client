@@ -92,12 +92,14 @@ Y.Views.GameAdd = Y.View.extend({
 	      , team2 : team2
 	      , rank2 : $('#rank2').val()
 	      , team2_id : this.team2_id
-	      , city : city
-	      , court : $('#court').val()
-	      , surface : $('#surface').val()
-	      , tour : $('#tour').val()
-	      , subtype : $('#subtype').val()  
+	      , location : { city : $('#city').val() }
+	      , infos : { 
+        	court : $('#court').val() 
+      		, surface : $('#surface').val()
+      		, tour : $('#tour').val() 
+      		} 
 	    };
+	    
 	  
 	    this.DB.saveJSON("game", game);
       Y.Router.navigate("players/form/me", {trigger: true});	  

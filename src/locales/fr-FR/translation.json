@@ -1,4 +1,10 @@
 {
+  "about": {
+    "title": "A PROPOS",
+    "informations": "Informations:",
+    "submitidea": "Soumettre une suggestion",
+    "submitbug": "Rapporter un bug"
+  },
   "account": {
     "title": "PROFIL",
     "mymatch": "Mes Matchs",
@@ -8,7 +14,8 @@
     "myclub": "Mon Club",
     "myprofil": "Mon profil",
     "connect": "Connexion / Enregistrement",
-    "disconnect": "Deconnexion"
+    "disconnect": "Deconnexion",
+    "about": "A propos"
   },
   "app": {
     "name": "Yes We Score"

@@ -35,7 +35,8 @@
       'clubs/add': 'clubAdd',
       'clubs/follow': 'clubFollow',      
       'clubs/:id': 'club',
-      'account': 'account'
+      'account': 'account',
+      'about': 'about'
     },
 
     initialize: function (options) {
@@ -52,6 +53,10 @@
       return function () {
         return new view(params);
       };
+    },
+
+    about: function () {
+      this.changePage(this.createViewFactory(Y.Views.About));
     },
 
     account: function () {

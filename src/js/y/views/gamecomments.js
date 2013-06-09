@@ -240,6 +240,7 @@ Y.Views.GameComments = Y.View.extend({
       });
   },
 
+  sendingComment: false,
   sendComment : function() {
     var playerid = this.owner.id
     , token  = this.owner.get('token')
@@ -249,12 +250,16 @@ Y.Views.GameComments = Y.View.extend({
 
     if (comment.length === 0)
       return; // empty => doing nothing.
+    if (this.sendingComment)
+      return; // already sending => disabled.
       
     //filter
     comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");  
       
     //on bloque le textarea  
     $('.button').addClass('disabled');
+    // on evite que l'utilisateur qui double tap, envoie 2 comments
+    this.sendingComment = true;
       
     var stream = new StreamModel({
           type : "comment",
@@ -268,7 +273,7 @@ Y.Views.GameComments = Y.View.extend({
       that.$('#messageText').val('');
       that.scrollTop();
       that.$('.button').removeClass("disabled");
-      
+      that.sendingComment = false;
     }).fail(function (err) {
 	    that.$(".button.send").addClass("ko");
 	    that.shareTimeout = window.setTimeout(function () {
@@ -276,6 +281,7 @@ Y.Views.GameComments = Y.View.extend({
 	      that.shareTimeout = null;
 	  	  that.$('.button').removeClass("disabled");    
 	    }, 4000);
+      that.sendingComment = false;
     });   
     
   },

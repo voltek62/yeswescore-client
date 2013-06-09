@@ -55,7 +55,7 @@ no connection
 	font-weight: bold;
   text-align: center;
   
-  color: white;
+  color: black;
   
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -68,7 +68,6 @@ no connection
 }
 .offline {
   pointer-events: none;
-  background-color: #f2734c;
 }
 .offline #content {
   display: none;

@@ -8,7 +8,7 @@
 	font-weight: 400;
 	src: /*#ifdef NOCORDOVA*/ url(/styles/webfonts/opensans-400.ttf) format(
 		'truetype'), /*#endif*/ 
-     url(styles/webfonts/opensans-400.ttf) format( 'truetype');
+     url(styles/webfonts/opensanswind-400.ttf) format( 'truetype');
 }
 
 @font-face {
@@ -169,6 +169,12 @@ input:-ms-input-placeholder {
 }
 .show {
   display: block;
+}
+
+.unselectable {
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: -moz-none;
 }
 
 /**********************************************************

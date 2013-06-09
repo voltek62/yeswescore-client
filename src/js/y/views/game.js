@@ -351,6 +351,12 @@ Y.Views.Game = Y.View.extend({
       this.$("#statusButton").html(i18n.t('game.finish'));
     }
 
+    if (this.game.isMine()) {
+      this.$("#scoreBoard").addClass("unselectable");
+    } else {
+      this.$("#scoreBoard").removeClass("unselectable");
+    }
+
     //i18n
     //PERF:on remplace que les champs du DOM concernés
     $('a').i18n();

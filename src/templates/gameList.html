@@ -79,7 +79,7 @@ else if (game.status === "finished") game.status = i18n.t('game.finished');
 else if (game.status === "created") game.status = i18n.t('game.created');
  
 %>
-<li id="#games/<%= game.id %>">
+<li id="#games/<%= game.id %>" class="unselectable">
 
 <div class="ui-grid-a">
 	<div class="ui-block-a game-location" style="width: 80%;"> 

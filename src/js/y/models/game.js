@@ -14,6 +14,7 @@ var GameModel = Backbone.Model.extend({
   defaults : {
     owner: "",
     sport : "tennis",
+    status : "",
     dates : {
       end : "",
       start : ""

@@ -41,7 +41,6 @@
     }
   };
 
-  /*
   Y.Connection.on("change", function (state) {
       if (state[0] === Y.Connection.STATUS_ONLINE) {
       	$('body').removeClass("offline");   
@@ -49,7 +48,6 @@
       	$('body').addClass("offline"); 
       }
   });
-  */
 
   Y.GUI = GUI;
 })(Y);

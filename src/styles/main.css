@@ -1537,6 +1537,7 @@ a[data-filter='match-followed'] {
 	color:#44b1da;
 }
 
+
 /* playerlist.html */
 #listPlayersView .game-player {
 	font-family: Open Sans;
@@ -2431,4 +2432,40 @@ a[data-filter='match-followed'] {
   background-color:#41c68f;
 	-webkit-border-radius: 20px;
 	border-radius: 20px;
+}
+
+
+/****************
+
+***************/
+/* checkbox */
+
+[role=checkbox]{
+	background-image: url(images/checkbox_nc.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/checkbox_nc.png);
+	/*#endif*/    
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    margin: 0 5px 0 5px;
+    cursor: pointer;
+    background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.checked[role=checkbox]{
+	background-image: url(images/checkbox_c.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/checkbox_c.png);
+	/*#endif*/	
+}
+
+.disabled[role=checkbox]{
+	background-image: url(images/checkbox_nc_disabled.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/checkbox_nc_disabled.png);
+	/*#endif*/	
+	pointer-events: none;
+	cursor: default;
 }

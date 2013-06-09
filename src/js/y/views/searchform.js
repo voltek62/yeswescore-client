@@ -40,9 +40,9 @@ Y.Views.SearchForm = Y.View.extend({
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');  
-    this.clubid = this.owner.get('club').id;
+    //this.clubid = this.owner.get('club').id;
     
-    console.log('club',this.owner.toJSON());
+    //console.log('club',this.owner.get('club'));
 
 	this.render();
   
@@ -50,6 +50,8 @@ Y.Views.SearchForm = Y.View.extend({
    
       
   update: function (event) {
+  
+    $('#'+event.currentTarget.id).toggleClass('checked');
       
     Y.User.setFiltersSearch(event.currentTarget.id);         
     
@@ -75,9 +77,12 @@ Y.Views.SearchForm = Y.View.extend({
   	}
   	
   	var clubname='';
-	if (this.clubid === undefined || this.clubid === '') {
+	if (this.owner.get('club') !== undefined ) {
+	  if (this.owner.get('club').name !== '')
 		clubname = this.owner.get('club').name;
 	}  	
+  	
+  	console.log('clubname',clubname);
   	
     this.$el.html(this.templates.searchform({gps:gps_state,clubname:clubname}));
   
@@ -85,40 +90,35 @@ Y.Views.SearchForm = Y.View.extend({
     
     $(".filters a[data-filter*='match-']").removeClass('select');
     
-    /*
-    $("input.group1").removeAttr("disabled");
-    $("input.group1").attr("disabled", true);
-    */
-    
-    console.log('clubid',this.clubid);
-    console.log('clubid',this.clubid === undefined);
-    console.log('clubid',this.clubid === '');        
-    
-    console.log('search',Y.User.getFiltersSearch());   
-    
     var filters = Y.User.getFiltersSearch();
     
     if (filters!=undefined) {
 	    if (filters.indexOf('searchgeo')!==-1) {
-	      $('#searchgeo').attr('checked', true);		        
+	      $('#searchgeo').addClass('checked');		        
 	    } 
 	    if (filters.indexOf('searchmyclub')!==-1) {
-	      $('#searchmyclub').attr('checked', true);
+	      $('#searchmyclub').addClass('checked');
 	 	}
 	    if (filters.indexOf('searchgamefollowed')!==-1) {
-	      $('#searchgamefollowed').attr('checked', true);
+	      $('#searchgamefollowed').addClass('checked');
 	 	}
  	} 	
  	
  	if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null)
 	{
-	  $('#searchgeo').attr('checked', false);
-	  $("#searchgeo").attr("disabled", true);  
+	  $('#searchgeo').removeClass('checked');
+	  $("#searchgeo").addClass("disabled");  
 	}	  
  
-	if (this.clubid === undefined || this.clubid === '') {
-	  $('#searchmyclub').attr('checked', false);	
-      $("#searchmyclub").attr("disabled", true);
+	if (this.owner.get('club') !== undefined ) {
+	  if (this.owner.get('club').name === '') {
+	    $('#searchmyclub').removeClass('checked');
+        $("#searchmyclub").addClass("disabled"); 
+      }
+    }
+    else {
+	    $('#searchmyclub').removeClass('checked');	
+        $("#searchmyclub").addClass("disabled");     
     } 	 	   
   },
 

@@ -1,4 +1,7 @@
 {
+  "about": {
+    "title": "A PROPOS"
+  },
   "account": {
     "title": "PROFIL",
     "mymatch": "Mes Matchs",
@@ -8,7 +11,8 @@
     "myclub": "Mon Club",
     "myprofil": "Mon profil",
     "connect": "Connexion / Enregistrement",
-    "disconnect": "Deconnexion"
+    "disconnect": "Deconnexion",
+    "about": "A propos"
   },
   "app": {
     "name": "Yes We Score"

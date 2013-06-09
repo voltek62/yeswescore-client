@@ -2230,8 +2230,12 @@ a[data-filter='match-followed'] {
 
 .comments .zone-score {
 	position:fixed;
-	top:44; left:0;
+	left:0;
 	width:100%;
+	display: block;
+    top:44px;
+    /*position: absolute;*/
+    
 }
 
 .comments.background {

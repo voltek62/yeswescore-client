@@ -333,13 +333,13 @@ Y.Views.GameList = Y.View.extend({
   
 
 	if (this.sortOption==='ongoing') 
-  	  $(".search a[data-filter='filter-status-ongoing']").addClass('select'); 
+  	  $(".search div[data-filter='filter-status-ongoing'] span").addClass('select'); 
  	else if (this.sortOption==='finished') 
-      $(".search a[data-filter='filter-status-finished']").addClass('select'); 
+      $(".search div[data-filter='filter-status-finished'] span").addClass('select'); 
  	else if (this.sortOption==='created') 
-      $(".search a[data-filter='filter-status-created']").addClass('select');  
+      $(".search div[data-filter='filter-status-created'] span").addClass('select');  
     else
-      $(".search a[data-filter='filter-status-all']").addClass('select');
+      $(".search div[data-filter='filter-status-all'] span").addClass('select');
             
  
     var filters = Y.User.getFiltersSearch();

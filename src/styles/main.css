@@ -1269,20 +1269,30 @@ ul>li.player>a {
 
 .indexViewTemplate>.search .ui-block-a{
 	border-right: 2px solid #c5c5c5;
+	height:80%;
+	cursor:pointer;
 }
 
 .indexViewTemplate>.search .ui-block-b{
 	border-right: 2px solid #c5c5c5;
 	padding-left:2px;	
 	padding-right:2px;
+	height:80%;	
+	cursor:pointer;	
 }
 
 .indexViewTemplate>.search .ui-block-c{
 	border-right: 2px solid #c5c5c5;
 	padding-left:2px;		
 	padding-right:2px;
+	height:80%;
+	cursor:pointer;	
 }
 
+.indexViewTemplate>.search .ui-block-d{
+	height:80%;
+	cursor:pointer;	
+}
 
 /* layout grille */
 .indexViewTemplate>.ui-grid-a {
@@ -1520,6 +1530,10 @@ a[data-filter='match-followed'] {
 }
 
 .search a.select {
+	color:#44b1da;
+}
+
+.search span.select {
 	color:#44b1da;
 }
 

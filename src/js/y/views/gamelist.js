@@ -11,10 +11,10 @@ Y.Views.GameList = Y.View.extend({
     'click a[data-filter="searchmyclub"]':'deleteFilter', 
     'click a[data-filter="searchgeo"]':'deleteFilter',    
         
-    'click a[data-filter="filter-status-all"]': 'filterByStatusAll',
-    'click a[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
-    'click a[data-filter="filter-status-finished"]': 'filterByStatusFinished',      
-    'click a[data-filter="filter-status-created"]': 'filterByStatusCreated'
+    'click div[data-filter="filter-status-all"]': 'filterByStatusAll',
+    'click div[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
+    'click div[data-filter="filter-status-finished"]': 'filterByStatusFinished',      
+    'click div[data-filter="filter-status-created"]': 'filterByStatusCreated'
     
   },
 
@@ -227,37 +227,33 @@ Y.Views.GameList = Y.View.extend({
  
    
   filterByStatusAll: function () { 
-    console.log('filterByStatusAll');
     this.setSort("all");
   },
   
   filterByStatusOngoing: function () { 
-    console.log('filterByStatusOngoing');
     this.setSort("ongoing");
   },
   
   filterByStatusFinished: function () { 
-    console.log('filterByStatusFinished');
     this.setSort("finished");
   },
   
   filterByStatusCreated: function () { 
-    console.log('filterByStatusCreated');
     this.setSort("created");
   },
       
   setSort: function (o) {
   
-     $(".search a[data-filter*='filter-status']").removeClass('select');
+     $(".search div[data-filter*='filter-status'] span").removeClass('select');
      
 	if (o==='all') 
-      $(".search a[data-filter='filter-status-all']").addClass('select');
+      $(".search div[data-filter='filter-status-all'] span").addClass('select');
  	else if (o==='ongoing') 
-  	  $(".search a[data-filter='filter-status-ongoing']").addClass('select'); 
+  	  $(".search div[data-filter='filter-status-ongoing'] span").addClass('select'); 
  	else if (o==='finished') 
-      $(".search a[data-filter='filter-status-finished']").addClass('select'); 
+      $(".search div[data-filter='filter-status-finished'] span").addClass('select'); 
  	else if (o==='created') 
-      $(".search a[data-filter='filter-status-created']").addClass('select');        
+      $(".search div[data-filter='filter-status-created'] span").addClass('select');        
           
     this.sortOption = o;   
     Y.User.setFiltersSort(o);

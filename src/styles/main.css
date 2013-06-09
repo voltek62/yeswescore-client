@@ -2228,14 +2228,12 @@ a[data-filter='match-followed'] {
 	width: 100%;
 }
 
+
 .comments .zone-score {
-	position:fixed;
-	left:0;
+	position:relative;
 	width:100%;
-	display: block;
-    top:44px;
-    /*position: absolute;*/
-    
+	display: block;  
+	height:5px; 
 }
 
 .comments.background {

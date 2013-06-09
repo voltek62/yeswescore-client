@@ -14,7 +14,6 @@ var GameModel = Backbone.Model.extend({
   defaults : {
     owner: "",
     sport : "tennis",
-    status : "",
     dates : {
       end : "",
       start : ""
@@ -93,16 +92,20 @@ var GameModel = Backbone.Model.extend({
     }
 	 
     object.infos.type = "singles";	
+    
      if (typeof this.get('location').city !== "undefined") 
        object.location.city = this.get('location').city;
-     if (typeof this.get('location').country !== "undefined") 
+     if (typeof this.get('location').country !== "undefined")
        object.location.country = this.get('location').country;       
-     if (typeof this.get('dates').start !== "undefined") 
-       object.dates.start = this.get('dates').start;
-     if (typeof this.get('dates').end !== "undefined") 
-       object.dates.end = this.get('dates').end;
-     if (typeof this.get('status') !== "undefined")
-       object.status = this.get('status');
+     if (typeof this.get('dates').start !== "undefined")
+       if (this.get('dates').start !== "")      
+         object.dates.start = this.get('dates').start;
+     if (typeof this.get('dates').end !== "undefined")
+       if (this.get('dates').end !== "")      
+         object.dates.end = this.get('dates').end;
+     if (typeof this.get('status') !== "undefined") 
+       if (this.get('status') !== "")
+         object.status = this.get('status');
        
      _.forEach(
       ['subtype', 'sets', 'score', 'court', 'surface',
@@ -133,7 +136,7 @@ var GameModel = Backbone.Model.extend({
       });
     } else if (method === 'update' && options.playerid !== undefined) {
       
-      console.log('on met à jour game avec ', object); 
+      console.log('on met à jour game avec '+ JSON.stringify(object)); 
 		
       return Backbone.ajax({
         dataType : 'json',

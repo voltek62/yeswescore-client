@@ -35,6 +35,7 @@ Y.Views.GameList = Y.View.extend({
 
   	this.clubid = Y.User.getClub();
   	
+  	console.log('clubid ',this.clubid);
   	
 	//header 
     if (param!=='undefined') { 
@@ -91,11 +92,13 @@ Y.Views.GameList = Y.View.extend({
 	      this.player = Y.User.getPlayer();
 	      this.playerid = this.player.id;
 	      this.games.setQuery(this.playerid);	      
-	    }    
+	    }
+	    else
+	      this.searchOption = Y.User.getFiltersSearch();     
      }
      else 
        	this.searchOption = Y.User.getFiltersSearch();    
- 
+  
      
      if (this.searchOption!==undefined) {
      
@@ -281,16 +284,20 @@ Y.Views.GameList = Y.View.extend({
     $('p').i18n(); 
     
     console.log('gamelist search avec sortOption',this.sortOption);
-    console.log('gamelist search avec searchOption',this.searchOption);
-        
+    console.log('gamelist search avec searchOption',this.searchOption);       
     
     if (this.sortOption !=="") 
       this.games.setSort(this.sortOption);  
     
+
+      console.log('search clubid ',this.clubid);
+      console.log('this.searchOption.indexOf(searchmyclub) ',this.searchOption.indexOf('searchmyclub'));
     
     if (this.searchOption !== undefined) {     
       
       //FIXME : cumul search et trier par date
+
+      
       if(this.searchOption.indexOf('searchmyclub')!==-1 && this.clubid === '') {
         console.log('gamelist searchmyclub');
         this.games.addSearch('club');  

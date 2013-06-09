@@ -458,10 +458,13 @@ Y.Views.Game = Y.View.extend({
   },
 
   saveBuffered: function () {
+  	/*
     if (this.saveBufferTimeoutId) {
       window.clearTimeout(this.saveBufferTimeoutId);
     }
     this.saveBufferTimeoutId = window.setTimeout(_.bind(this.save, this), 1000);
+    */
+    this.save();
   },
 
   save: function () {

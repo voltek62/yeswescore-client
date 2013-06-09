@@ -124,7 +124,7 @@ Y.Views.GameComments = Y.View.extend({
 	this.server1 = "";
 	this.server2 = "";	  
 	  
-	if ( whoServe(this.game.get('infos').sets,startTeam) === startTeam ) {
+	if ( this.game.whoServe() === startTeam ) {
 	  if (this.game.get('teams')[0].id === startTeam) 
 	  {
 		$('.server1').addClass('server-ball');

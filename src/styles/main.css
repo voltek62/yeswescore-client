@@ -43,8 +43,12 @@
 /*******************
 no connection
 ******************/
-.offline {
-	position:absolute;
+.overlay {
+  display: none;
+}
+.offline #overlay {
+  display: block;
+  position:fixed;
   top: 0px;
 	left:0px;
 	height:100%;
@@ -54,7 +58,7 @@ no connection
 	opacity:0.38;
 	filter:alpha(opacity=38);
 	z-index: 20000;
-	pointer-events: none;
+  pointer-events: none;
   cursor: default;
 }
 

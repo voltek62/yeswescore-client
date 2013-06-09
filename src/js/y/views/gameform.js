@@ -85,8 +85,6 @@ Y.Views.GameForm = Y.View.extend({
     $('#clubid').val(selectedId); 
     $('club_error').html('');
     	
-    //console.log('selected '+selectedId+' '+selectedName);
-    	
     $(this.listview).html('');
     //$(this.listview).listview('refresh');
   },
@@ -115,8 +113,6 @@ Y.Views.GameForm = Y.View.extend({
     };
 
 	var game = new GameModel(game);
-
-	console.log('gameForm envoie',game);
 	
 	game.save(null, { playerid: this.playerid, token: this.token }).done(
 	  function () { 
@@ -138,8 +134,6 @@ Y.Views.GameForm = Y.View.extend({
    
 	var game = new GameModel(game);	
 	//game.get('infos').startTeam = 1;	
-	
-	console.log('gameForm envoie',game);	
 	
 	game.save(null, { playerid: this.playerid, token: this.token }).done(
 	  function () { 

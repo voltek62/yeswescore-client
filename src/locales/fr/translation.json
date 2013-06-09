@@ -1,6 +1,9 @@
 {
   "about": {
-    "title": "A PROPOS"
+    "title": "A PROPOS",
+    "informations": "Informations:",
+    "submitidea": "Soumettre une suggestion",
+    "submitbug": "Rapporter un bug"
   },
   "account": {
     "title": "PROFIL",

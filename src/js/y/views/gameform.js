@@ -115,7 +115,8 @@ Y.Views.GameForm = Y.View.extend({
     };
 
 	var game = new GameModel(game);
-	game.get('infos').startTeam = 0;
+
+	console.log('gameForm envoie',game);
 	
 	game.save(null, { playerid: this.playerid, token: this.token }).done(
 	  function () { 
@@ -136,10 +137,9 @@ Y.Views.GameForm = Y.View.extend({
     
    
 	var game = new GameModel(game);	
-	game.get('infos').startTeam = 1;	
+	//game.get('infos').startTeam = 1;	
 	
-	console.log(game);
-	
+	console.log('gameForm envoie',game);	
 	
 	game.save(null, { playerid: this.playerid, token: this.token }).done(
 	  function () { 
@@ -200,7 +200,10 @@ Y.Views.GameForm = Y.View.extend({
     };          
 
     var that = this;
-    var game = new GameModel(game);   
+    var game = new GameModel(game);  
+    
+    console.log('gameform.js gameModel  '+game.toJSON());
+     
     //3 defered
     var owner1Deferred = $.Deferred();
     var owner2Deferred = $.Deferred();

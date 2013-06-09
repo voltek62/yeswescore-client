@@ -141,18 +141,19 @@ Y.Views.GameAdd = Y.View.extend({
 
     //On sauve dans Collections
     game = new GameModel({
-		    team1 : team1
+		team1 : team1
       , rank1 : $('#rank1').val()
       , team1_id : this.team1_id
       , team2 : team2
       , rank2 : $('#rank2').val()
       , team2_id : this.team2_id
-      , city : city
-      , court : $('#court').val()
-      , surface : $('#surface').val()
-      , tour : $('#tour').val()
-      , subtype : $('#subtype').val()
-    });
+      , location : { city : $('#city').val() }
+      , infos : { 
+        	court : $('#court').val() 
+      		, surface : $('#surface').val()
+      		, tour : $('#tour').val() 
+      }
+    });   
       
     game.save(null, {
       playerid: this.player.get('id'),

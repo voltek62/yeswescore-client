@@ -14,15 +14,8 @@ var GameModel = Backbone.Model.extend({
   defaults : {
     owner: "",
     sport : "tennis",
-    status : "",
-    dates : {
-      end : "",
-      start : ""
-    },   
-    location : {
-      country : "",
-      city : ""
-    },
+    dates : {},   
+    location : {},
     teams : [ {
       points : "",
       players : [ {
@@ -34,16 +27,7 @@ var GameModel = Backbone.Model.extend({
         name : ""
       } ]
     } ],
-    infos : {
-      type : "singles",
-      subtype : "A",
-      sets : "0/0",
-      score : "0/0",
-      court : "",
-      surface : "",
-      tour : "",
-      startTeam : ""
-    }
+    infos : {}
   },
 
   sync : function(method, model, options) {
@@ -93,6 +77,7 @@ var GameModel = Backbone.Model.extend({
     }
 	 
     object.infos.type = "singles";	
+    
      if (typeof this.get('location').city !== "undefined") 
        object.location.city = this.get('location').city;
      if (typeof this.get('location').country !== "undefined") 
@@ -133,7 +118,7 @@ var GameModel = Backbone.Model.extend({
       });
     } else if (method === 'update' && options.playerid !== undefined) {
       
-      console.log('on met à jour game avec ', object); 
+      console.log('on met à jour game avec '+ JSON.stringify(object)); 
 		
       return Backbone.ajax({
         dataType : 'json',

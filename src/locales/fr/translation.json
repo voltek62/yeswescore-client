@@ -172,7 +172,10 @@
   },
   "gamefollow": {
     "title": "MATCHS SUIVIS"
-  },      
+  },
+  "home": {
+    "connexionlost": "Connexion perdue"
+  },
   "index": {
     "title": "ACCUEIL",
     "games": "Matchs",

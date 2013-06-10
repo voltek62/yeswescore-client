@@ -17,7 +17,7 @@ Y.Views.Game = Y.View.extend({
     'click .undoSelect'     : 'undoAction',    
     'click #team1_sets_div' : 'setTeam1Score',
     'click #team2_sets_div' : 'setTeam2Score',          
-    'click .set'            : 'incrementTeamSet',
+    'vclick .set'            : 'incrementTeamSet',
     'click .player-info'    : 'goToPlayerProfile',    
     'click .playerInfos'    : 'goToPlayerProfile',   
     'click #optionButton'   : 'goToOptions',

@@ -165,6 +165,7 @@
     "title": "MES OPTIONS",
     "whoserverdfirst" : "Qui a servi en premier ?",
     "delete": "Supprimer le match",
+    "confirmdelete": "Confirmer la suppression",
     "date":"Date du match",
     "time":"Heure du match",
     "city":"Ville",

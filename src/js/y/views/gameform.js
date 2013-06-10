@@ -21,8 +21,6 @@ Y.Views.GameForm = Y.View.extend({
     
   clubs:null,
   useSearch:null,
-  
-    shareTimeout: null,    
 
   initialize:function() {
 
@@ -303,10 +301,5 @@ Y.Views.GameForm = Y.View.extend({
 
     this.game.off("sync",this.render,this);
     if (this.useSearch===1) this.clubs.off("sync",this.renderList,this);
-    
-    if (this.shareTimeout) {
-      window.clearTimeout(this.shareTimeout);
-      this.shareTimeout = null;
-    }    
   }
 });

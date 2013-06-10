@@ -208,7 +208,7 @@ Y.Views.GameForm = Y.View.extend({
     
     promises.push(promise);
     
-    if (owner1 !== "") {
+    if (owner1 !== "" && owner1 != this.playerid) {
       var player1 = new PlayerModel({
         id: owner1
       , name: team1
@@ -217,7 +217,7 @@ Y.Views.GameForm = Y.View.extend({
 	    promise = player1.save(null, { playerid: this.playerid, token: this.token}); 
       promises.push(promise);
     }
-    if (owner2 !== "") {
+    if (owner2 !== "" && owner2 != this.playerid) {
       var player2 = new PlayerModel({
         id : owner2
       , name: team2
@@ -228,18 +228,10 @@ Y.Views.GameForm = Y.View.extend({
     }
     
     $.when(
-      this.gameDeferred,
-      this.owner1Deferred,
-      this.owner2Deferred
+      promises
     ).done(function (result) {
 	    $('span.success').css({display:"block"});
 	    $('span.success').html(i18n.t('message.updateok')).show();
-	    /*
-		that.shareTimeout = window.setTimeout(function () {
-	      Y.Router.navigate("games/"+that.gameid, {trigger: true});
-	      that.shareTimeout = null;
-	    }, 2000);
-	    */
     });
 
 	  return this;

@@ -249,8 +249,8 @@ Y.Views.GameForm = Y.View.extend({
   isTeamEditable: function (teamId) {
     var teamPlayer = this.game.get('teams')[teamId].players[0];
     return teamPlayer.id !== this.player.get('id') &&
-           (teamPlayer.owner === undefined ||
-            teamPlayer.owner === this.player.get('id'));
+           teamPlayer.owner !== undefined &&
+           teamPlayer.owner === this.player.get('id');
   },
 
   onClose: function() {

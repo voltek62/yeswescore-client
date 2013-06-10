@@ -11,7 +11,7 @@ Y.Views.About = Y.View.extend({
   },
 
   render: function () {
-	  $(this.el).html(this.aboutViewTemplate({version:Y.App.VERSION}));
+	  $(this.el).html(this.aboutViewTemplate({versionapp:Y.App.VERSION}));
     this.$(".about").i18n();
   }
 });

@@ -151,10 +151,13 @@ Y.Views.GameForm = Y.View.extend({
       // enregistrement de la modif sur ce player owned.
       ownedPlayer = new PlayerModel({ 
         id: this.game.get('teams')[0].players[0].id,
-        name: this.game.get('teams')[0].players[0].name,
-        rank: this.game.get('teams')[0].players[0].rank
+        name: team1,
+        rank: rank1
       });
-      promises.push(ownedPlayer.save());
+      promises.push(ownedPlayer.save(null, {
+        playerid: this.player.get('id'),
+        token: this.player.get('token')
+      }));
     }
 
     if (this.isTeamEditable(1) &&
@@ -163,10 +166,13 @@ Y.Views.GameForm = Y.View.extend({
       // enregistrement de la modif sur ce player owned.
       ownedPlayer = new PlayerModel({ 
         id: this.game.get('teams')[1].players[0].id,
-        name: this.game.get('teams')[1].players[0].name,
-        rank: this.game.get('teams')[1].players[0].rank
+        name: team2,
+        rank: rank2
       });
-      promises.push(ownedPlayer.save());
+      promises.push(ownedPlayer.save(null, {
+        playerid: this.player.get('id'),
+        token: this.player.get('token')
+      }));
     }
 
     // une fois les players enregistrés, on peut enregistrer la game.

@@ -2,9 +2,9 @@ Y.Views.Navbar = Y.View.extend({
   el: "#navbar",
 
   events: {
-    'click a[href="#games/list"]': "goToGames",
-    'click a[href="#games/add"]': "goToGamesAdd",
-    'click a[href="#account"]': "goToAccount"
+    'vclick a[href="#games/list"]': "goToGames",
+    'vclick a[href="#games/add"]': "goToGamesAdd",
+    'vclick a[href="#account"]': "goToAccount"
   },
 
   initialize: function () {
@@ -49,7 +49,7 @@ Y.Views.Navbar = Y.View.extend({
 	  this.$el.hide();
   },
 
-  goToGames: function () { console.log('goToGames'); Y.Router.navigate("games/list", {trigger: true}); },
-  goToGamesAdd: function () { console.log('goToGamesAdd'); Y.Router.navigate("games/add", {trigger: true}); },
-  goToAccount: function () { console.log('goToAccount'); Y.Router.navigate("account", {trigger: true}); }
+  goToGames: function () { Y.Router.navigate("games/list", {trigger: true}); },
+  goToGamesAdd: function () { Y.Router.navigate("games/add", {trigger: true}); },
+  goToAccount: function () { Y.Router.navigate("account", {trigger: true}); }
 });

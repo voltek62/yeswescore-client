@@ -18,7 +18,19 @@ Y.Views.Header = Y.View.extend({
     Backbone.on("request.end", function () { that.animateConnection("off"); });
 
     // on s'abonne a la classe de connexion pour signifier les changements
-
+    Y.Connection.on("change", function (state) {
+      if (state[0] === Y.Connection.STATUS_ONLINE) {
+      	var connectionStatus = $(".connectionStatus");
+      	connectionStatus.attr("src", "images/header-logo-on.png");
+      	connectionStatus.attr("width", "23");
+      	connectionStatus.attr("height", "17");
+      } else {
+      	var connectionStatus = $(".connectionStatus");
+      	connectionStatus.attr("src", "images/header-logo-off.png");
+      	connectionStatus.attr("width", "35");
+      	connectionStatus.attr("height", "17");
+      }
+    });
   },
   render: function () { },
 
@@ -30,17 +42,16 @@ Y.Views.Header = Y.View.extend({
   },
 
   goBack: function () {
-    console.log("Y.Views.Header: goBack()");
     window.history.go(-1);
     return false;
   },
-
+  
   showBack: function () { this.$(".backButton").show() },
   hideBack: function () { this.$(".backButton").hide() },
   repaintBack: function () {
     var pageName = Y.GUI.content.pageName;
     
-    if (pageName == "games" || pageName == "account" || pageName == "gameAdd")
+    if (pageName == "gameList" || pageName == "account" || pageName == "gameAdd")
       this.hideBack();
     else
       this.showBack();
@@ -66,13 +77,25 @@ Y.Views.Header = Y.View.extend({
       "images/header-logo-on-animate-4.png",
       "images/header-logo-on.png"
     ];
+    var animationImagesLag = [
+      //"images/header-logo-on-lag-animate-1.png",
+      //"images/header-logo-on-lag-animate-2.png",
+      "images/pixel.png",
+      "images/header-logo-on-lag-animate-3.png",
+      "images/header-logo-on-lag-animate-4.png",
+      "images/header-logo-on-lag.png"
+    ];
     var animationIndex = 0;
     //
     return function (status) {
       var connectionStatus = this.$(".connectionStatus");
       // animation repaint 
       var repaint = function () {
-        var animationImage = animationImages[animationIndex % animationImages.length];
+        var animationImage;
+        if (Y.Connection.isFast())
+          animationImage = animationImages[animationIndex % animationImages.length];
+        else
+          animationImage = animationImagesLag[animationIndex % animationImages.length];
         connectionStatus.attr("src", animationImage);
         animationIndex++;
         if (animationIndex % animationImages.length == 0 && i == 0) {

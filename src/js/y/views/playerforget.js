@@ -2,49 +2,49 @@ Y.Views.PlayerForget = Y.View.extend({
   el : "#content",
 
   events: {
-  
     'focus input[type="text"]': 'inputModeOn',
     'blur input[type="text"]': 'inputModeOff',
-  
-    'submit form#frmForgetPlayer' : 'forget',
-    'click input' :'hideFooter'
+    'click #forgetPlayer' : 'forget'
   },
 
   pageName: "playerForget",
   pageHash : "players/forget",
   
   initialize : function() {
-  
-    Y.GUI.header.title("MOT DE PASSE OUBLIE");     
+    Y.GUI.header.title(i18n.t('playerforget.title'));     
   
     this.playerForgetTemplate = Y.Templates.get('playerForget');
     this.render();
-    //$.mobile.hidePageLoadingMsg();
   },
   
-  hideFooter:function() {
-  	console.log('hideFooter');
-  	//$.ui.toggleNavMenu(false);
-  },    
-
   forget : function(event) {
-  
-    //$.ui.toggleNavMenu(true);
-  
-    var email = $('#email').val();
+    var mail = $('#email').val();
 
-    console.log('test mot de passe oublie avec ' + email);
-    
-    this.player = new PlayerModel();
-    this.player.newpass(email);
-    
-    return false;
+	  Backbone.ajax({
+      dataType: 'json',
+      url: Y.Conf.get("api.url.auth") + "resetPassword/",
+      type: 'POST',
+      data: {
+        email: { address: mail }
+      },
+      success: function (data) {
+		    $('span.success').css({display:"block"});
+        $('span.success').html(i18n.t('message.mailspam')).show();
+        $('span.success_sentence').html(i18n.t('message.mailspam_sentence')).show();
+      },
+      error: function (err) {
+	      $('span.error').css({display:"block"});
+		    $('span.error').html(i18n.t('message.mailerror')).show();
+		    $('span.error').i18n();
+      }
+    });
+    return this;
   },
 
   // render the content into div of view
   render : function() {
     this.$el.html(this.playerForgetTemplate({}));
-    //this.$el.trigger('pagecreate');
+    this.$el.i18n();
     return this;
   },
 

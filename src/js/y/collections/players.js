@@ -17,7 +17,7 @@ var PlayersCollection = Backbone.Collection.extend({
     if (this.mode === 'club')
       return Y.Conf.get("api.url.players")+'?club='+this.query;
     else if (this.mode === 'search'  )
-      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query;        
+      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query+'&limit=15';        
     else	
       return Y.Conf.get("api.url.players");
   },
@@ -33,7 +33,6 @@ var PlayersCollection = Backbone.Collection.extend({
 
   strategies : {
     name : function(item) { return [ item.get("name") ] }
-  , nickname : function(item) { return [ item.get("nickname") ] }
   , rank : function(item) { return [ item.get("rank") ] }
   },
 

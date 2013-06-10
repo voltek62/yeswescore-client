@@ -1,18 +1,11 @@
 Y.Views.Index = Y.View.extend({
   el: "#content",
 
-  events: {
-    "click #games-follow": "goTo",
-    "click #clubs-follow": "goTo",
-    "click #players-follow": "goTo"
-  },
-
-
   pageName: "index",
   pageHash : "index",  
   
-  initialize: function () {
-    Y.GUI.header.title("ACCUEIL");
+  myinitialize: function () {
+    Y.GUI.header.title(i18n.t('index.title'));
 
     var that = this;
     //
@@ -29,19 +22,17 @@ Y.Views.Index = Y.View.extend({
     // THEN
     //  render games & player.
 
-
-
     // second: read/create player
     var playerDeferred = $.Deferred();
     this.$el.html("please wait, loading player");
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
-        console.log('error reading player ', err);
+     
         // creating the player.
         Y.User.createPlayerAsync(function (err, player) {
           // FIXME: err, reject deferred
-          console.log('player created', player);
+      
           playerDeferred.resolve();
         });
         return;
@@ -56,15 +47,6 @@ Y.Views.Index = Y.View.extend({
       that.render();
 
     });
-  },
-
-
-  goTo: function (elmt) {
-    if (elmt.currentTarget.href) {
-      var route = elmt.currentTarget.data-input;
-      console.log(route);
-      Y.Router.navigate(route, {trigger: true}); 
-    }
   },
 
   // should not take any parameters

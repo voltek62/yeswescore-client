@@ -2,29 +2,28 @@ Y.Views.ClubAdd = Y.View.extend({
   el: "#content",
 
   events: {
-    'submit form#frmAddClub': 'addClub',
-    'click input' :'hideFooter'
+    'submit form#frmAddClub': 'addClub'
   },
 
   pageName: "clubAdd",
   pageHash : "clubs/add",
+  playerid : "",
+  token : "",
 
   initialize: function () {
   
-    Y.GUI.header.title("AJOUTER UN CLUB");
+    Y.GUI.header.title(i18n.t('clubadd.title'));
 
     this.clubAddTemplate = Y.Templates.get('clubAdd');
 
-    this.Owner = Y.User.getPlayer();
+    this.owner = Y.User.getPlayer();    
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');  
 
     this.render();
-    //$.mobile.hidePageLoadingMsg();
+
   },
 
-  hideFooter:function() {
-  	console.log('hideFooter');
-  	//$.ui.toggleNavMenu(false);
-  },   
 
   addClub: function (event) {
   
@@ -32,7 +31,7 @@ Y.Views.ClubAdd = Y.View.extend({
     jq("#content").css("bottom", "48px");
     //$.ui.showNavMenu = true;
 
-    console.log('add Club');
+
     
     var name = $('#name').val()
     , city = $('#city').val();
@@ -42,8 +41,6 @@ Y.Views.ClubAdd = Y.View.extend({
     , city: city          
     });
 
-    console.log('club form envoie ',club.toJSON());
-  
     club.save();    
    
     return false;
@@ -51,8 +48,8 @@ Y.Views.ClubAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.clubAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
-    //this.$el.trigger('pagecreate');
+    this.$el.html(this.clubAddTemplate({}));
+    
     return this;
   },
 

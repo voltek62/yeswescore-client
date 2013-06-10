@@ -34,7 +34,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using System.Threading.Tasks;
 
-namespace YesWeScore
+namespace yeswescore
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -42,13 +42,7 @@ namespace YesWeScore
         public MainPage()
         {
             InitializeComponent();
-            this.CordovaView.Loaded += CordovaView_Loaded;
             this.CordovaView.Loaded += Splash_Completed;
-        }
-
-        private void CordovaView_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.CordovaView.Loaded -= CordovaView_Loaded;
         }
 
         async void Splash_Completed(object sender, EventArgs e)

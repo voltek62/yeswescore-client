@@ -9,6 +9,8 @@
   var playerIdConfKey = 'player.id';
   var playerTokenConfKey = 'player.token';
   var playerClubIdConfKey = 'player.club.id';
+  var playerFiltersSortConfKey = 'player.filters.sort';
+  var playerFiltersSearchConfKey = 'player.filters.search';  
   
   var User = {
     // @return PlayerModel/null   Player
@@ -70,27 +72,71 @@
         }
       });
     },
+    
+	setFiltersSearch: function (filter) {	
+	
+	  var filters = Y.Conf.get(playerFiltersSearchConfKey);	  
+      if (filters!==undefined) {      	  
+        if (filters.indexOf(filter) !== -1) {
+          filters.splice(filters.indexOf(filter), 1);
 
+          Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });
+        } 
+       else {
+           filters.push(filter);
+           Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });      
+       }        
+      }
+      else {
+         Y.Conf.set(playerFiltersSearchConfKey, [filter], { permanent: true });
+      }  
+      	
+	},
+	
+	getFiltersSearch: function () {	
+	
+      return Y.Conf.get(playerFiltersSearchConfKey);
+      		
+	},	    
+    
+	setFiltersSort: function (filter) {	
+      Y.Conf.set(playerFiltersSortConfKey, filter, { permanent: true });		
+	},
+	
+	getFiltersSort: function () {	
+      return Y.Conf.get(playerFiltersSortConfKey);		
+	},	
+	
 	setClub: function (clubid) {	
       Y.Conf.set(playerClubIdConfKey, clubid, { permanent: true });		
+	},
+
+	removeClub: function () {	
+	  // Y.Conf.del('player.club.id');
+      Y.Conf.del('Y.Conf.'+playerClubIdConfKey);		
 	},
 	
 	getClub: function () {	
       return Y.Conf.get(playerClubIdConfKey);		
 	},	
 
-    setPlayer: function (player) {
-      assert(player instanceof PlayerModel);
-      assert(player.get('id') !== undefined);
-      assert(player.get('token') !== undefined);
+    setPlayer: function (newplayer) {
+      assert(newplayer instanceof PlayerModel);
+      assert(newplayer.get('id') !== undefined);
+      assert(newplayer.get('token') !== undefined);
 
       // saving in memory
-      player = player;
+      player = newplayer;
       // saving in local storage for future session
       DB.saveJSON("Player", player);
       // saving playerid in file (permanent)
       Y.Conf.set(playerIdConfKey, player.get('id'), { permanent: true });
       Y.Conf.set(playerTokenConfKey, player.get('token'), { permanent: true });
+      
+      //On init son club
+      if (player.get('club') !== undefined)
+      	Y.User.setClub(player.get('club').id);
+      
     },
 
     createPlayerAsync: function (callback) {
@@ -105,6 +151,25 @@
         },
         error: function (e) { callback(e); }
       });
+    },
+
+    // will update player in cache
+    updatePlayer: function (properties) {
+      assert(properties && typeof properties === "object");
+      assert(typeof properties.id === "string");
+
+      // we will do some checks...
+      if (!player || !properties ||
+           player.get('id') !== properties.id)
+        return;
+      // blacklist
+      delete(properties['id']);
+      delete(properties['token']);
+      // saving properties
+      player.set(properties);
+      // updating cache.
+      DB.saveJSON("Player", player);
+      // do not update permanent keys.
     }
   };
 

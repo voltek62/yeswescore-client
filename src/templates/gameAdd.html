@@ -1,177 +1,65 @@
 <div class="gameAdd background"></div>
 <div class="gameAdd content-container">
-  <div id="gameAddForm" class="simple">
-      <span class="success label label-info hide"></span>
-  
-      <div class="form-label">Joueur 1</div>
 
-      <div class="ui-grid-b first-team me">
-        <div class="ui-block-a">
-          <input type="text" id="team1" name="team1" placeholder="Moi" value="" disabled/>
-        </div>
-        <div class="ui-block-b">
-          <input type="text" id="rank1" name="rank1" placeholder="Classement" class='jq-ui-forms-white' value="" />
-        </div>
+  <div id="gameAddForm" class="zone-list simple">
+	    <span class="success label label-info hide"></span>
+	
+      <div class="form-label" data-i18n="gameadd.player1"></div>
+
+		  <div class="ui-grid-b first-team me">
+			  <div class="ui-block-a">
+				  <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1_holder;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
+			  </div>
+			  <div class="ui-block-b">
+				  <input type="text" id="rank1" name="rank1" data-i18n="[placeholder]gameadd.rank;" class='jq-ui-forms-white' value="" />
+			  </div>
+        <div class="ui-block-c" data-input-mode="hide">
+				  <span class="form-button other-team" data-i18n="gameadd.other"></span>
+			  </div>
+		  </div>
+		
+		  <div class="team1_error label label-error hide"></div>
+	
+      <div class="form-label" data-i18n="gameadd.player2"></div>
+
+		  <div class="ui-grid-b">
+			  <div class="ui-block-a">
+				  <input type="text" id="team2" name="team2" data-i18n="[placeholder]gameadd.player2;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
+			  </div>
+			  <div class="ui-block-b">
+				  <input type="text" id="rank2" name="rank2" data-i18n="[placeholder]gameadd.rank;" value="" />
+			  </div>
         <div class="ui-block-c">
-          <span class="form-button other-team">Autre</span>
+          <span class="form-button more-options" data-i18n="gameadd.plus"></span>
         </div>
-      </div>
+		  </div>
+		
+      <div class="team2_error label label-error hide"></div>  
     
-      <div>       
-        <ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
-        <input type='hidden' id='team1_id' class='input' value='' /> 
-        <span class="team1_error label label-info hide"></span>
-      </div>
-  
-      <div class="form-label">Joueur 2</div>
+      <div class="additionnal-options">	
 
-      <div class="ui-grid-b">
-        <div class="ui-block-a">
-          <input type="text" id="team2" name="team2" placeholder="Joueur 2" value="" />
-        </div>
-        <div class="ui-block-b">
-          <input type="text" id="rank2" name="rank2" placeholder="Classement" value="" />
-        </div>
-        <div class="ui-block-c">
-          <span class="form-button more-options">Plus?</span>
-        </div>
-      </div>
-    
-        <div>
-          <ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
-          <input type='hidden' id='team2_id' class='input' value='' /> 
-          <span class="team2_error label label-info hide"></span>
-        </div>  
-    
-      <div class="additionnal-options"> 
-
-        <div class="form-label" style="position:relative">Ville</div>
+        <div class="form-label" style="position:relative" data-i18n="gameadd.city"></div>
         
-        <div>
-          <input type="text" id="city" name="city" placeholder="Ville" value="" /> 
-          <span class="city_error label label-info hide"></span>
-        </div>
-
-        <!-- 
-        <div style="padding-top:10px">
-          <label for="subtype" class="select">Type</label>
-        </div>
-        <div>
-          <select name="subtype" id="subtype" class="jq-ui-forms-white">
-            <option value="A">A - Normal</option>
-            <option value="B">B - Traditionnel (3 sets &agrave; 6 jeux pt d&eacute;cisif)</option>
-            <option value="C">C - 3 sets &agrave; 4 jeux - jeu décisif à 4/4</option>
-            <option value="D">D - 3 sets &agrave; 4 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
-            <option value="E">E - 3 sets &agrave; 3 jeux - jeu décisif à 2/2</option>
-            <option value="F">F - 3 sets &agrave; 3 jeux - jeu décisif à 2/2 pt d&eacute;cisif</option>
-            <option value="G">G - 3 jeux d&eacute:cisifs</option>
-            <option value="H">H - 3 Sets &agrave; 4 jeux - jeu décisif à 3/3 pt d&eacute;cisif</option>
-            <option value="I">I - 3 sets &agrave; 5 jeux - jeu décisif à 4/4 pt d&eacute;cisif</option>
-          </select>
-        </div>
-          -->
-    
-        <div class="ui-grid-a">
-          <div class="ui-block-a">
-            <div class="form-label">Court</div>
-          </div>
-          <div class="ui-block-b">
-            <div class="form-label">Tour</div>
-          </div>
-          <div class="ui-block-a" style="padding-right:5px;">
-            <select name="court" id="court" style="width:100%">
-              <option value="">Selection</option>
-              <option value="1">Terrain 1</option>
-              <option value="2">Terrain 2</option>
-              <option value="3">Terrain 3</option>
-              <option value="4">Terrain 4</option>
-              <option value="5">Terrain 5</option>
-              <option value="6">Terrain 6</option>
-              <option value="7">Terrain 7</option>
-              <option value="8">Terrain 8</option>
-              <option value="9">Terrain 9</option>
-              <option value="10">Terrain 10</option>
-              <option value="11">Terrain 11</option>
-              <option value="">---</option>
-              <option value="A">Terrain A</option>
-              <option value="B">Terrain B</option>
-              <option value="C">Terrain C</option>
-              <option value="D">Terrain D</option>
-              <option value="E">Terrain E</option>
-              <option value="F">Terrain F</option>
-            </select>
-          </div>
-          <div class="ui-block-b" style="padding-left:5px;">
-            <select name="tour" id="tour" style="width:100%">
-              <option value="">Selection</option>
-              <option value="">Poule</option>
-              <option value="">Consolante</option>
-              <option value="">1er tour</option>
-              <option value="">2e tour</option>
-              <option value="">3e tour</option>
-              <option value="">4e tour</option>
-              <option value="">5e tour</option>
-              <option value="">6e tour</option>
-              <option value="">7e tour</option>
-              <option value="">8e tour</option>
-              <option value="">9e tour</option>
-              <option value="">1/256 finale</option>
-              <option value="">1/128 finale</option>
-              <option value="">1/64 finale</option>
-              <option value="">1/32 finale</option>
-              <option value="">1/16 finale</option>
-              <option value="">1/8 finale</option>
-              <option value="">1/4 finale</option>
-              <option value="">1/2 finale</option>
-              <option value="">Finale</option>
-              <option value="">Journ&eacute;e 1</option>
-              <option value="">Journ&eacute;e 2</option>
-              <option value="">Journ&eacute;e 3</option>
-              <option value="">Journ&eacute;e 4</option>
-              <option value="">Journ&eacute;e 5</option>
-              <option value="">Journ&eacute;e 6</option>
-              <option value="">Journ&eacute;e 7</option>
-              <option value="">Journ&eacute;e 8</option>
-              <option value="">Journ&eacute;e 9</option>
-              <option value="">Journ&eacute;e 10</option>
-            </select>
-          </div>
-        </div>
-
-
-		    <div>	
-			    <div class="form-label">Surface</div>
+		    <div>
+			    <input type="text" id="city" name="city" data-i18n="[placeholder]gameadd.city;" value="" /> 
+			    
 		    </div>
-		    <div>	
-			    <select name="surface" id="surface" style="width:60%">
-				    <option value="">Selection</option>
-				    <option value="BP">B&eacute;ton poreux (quick) - BP</option>
-				    <option value="EP">Enrob&eacute; poreux - EP</option>
-				    <option value="EPDM">Granulats caoutchouc - EPDM</option>
-				    <option value="GAS">Gazon synth&eacute;tique - GAS</option>
-				    <option value="GAZ">Gazon naturel - GAZ</option>
-				    <option value="MOQ">Moquette - MOQ</option>
-				    <option value="NVTB">Terre battue non g&eacute;live - NVTB</option>
-				    <option value="PAR">Parquet (bois) - PAR</option>
-				    <option value="RES">R&eacute;sine (greenset) - RES</option>
-				    <option value="TB">Terre-battue - TB</option>
-			    </select>
-		    </div>
+        
+        <div class="city_error label label-error hide"></div>
 
-
-        <input type="hidden" id="playerid" value="<%= playerid %>" class="input" /> 
-        <input type="hidden" id="token" value="<%= token %>" class="input" />
+        <div id="inject-select"></div>
       </div>
+      
+        <div style="padding:20px"></div>
+        
     </div>
 </div>
 
 <!--
-  COMMENT SAVE
+  LINKS TO COMMENTS
 -->
-<div class="button-form" data-input-mode="none">
+<div class="button-form" data-input-mode="process">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form"><div class="button" id="addGame">ENREGISTRER</div></div>
+  <div class="link-form"><div class="button" id="addGame" data-i18n="gameadd.submit"></div></div>
 </div>
-
-

@@ -1,33 +1,23 @@
 <div class="gameAdd background"></div>
 <div class="gameAdd content-container">
-  <div class="simple">
+  <div class="simple" style="padding-top:60px">
+  
+  	<div>
+  		<label class="form-label" data-i18n="playerforget.email"></label>
+  	</div>
+  	<div>
+  		<input type="text" id="email" name="email" data-i18n="[placeholder]playerforget.email;" class='jq-ui-forms-white' value="" /> 
+  	</div>
 
-  	<span class="success label label-info hide" style="color: red"></span>
+    <div class="email_error label label-error hide"></div>
   
-  	<div>
-  		<label class="form-label" for="pseudo">Email</label>
-  	</div>
-  	<div>
-  		<input type="text" id="email" name="email" placeholder="Email" class='jq-ui-forms-white' value="" /> 
-  		<span class="email_error label label-info hide"></span>
-  	</div>
+    <div class="form-button-black"> 
+      <span id="forgetPlayer" data-i18n="playerforget.send"></span>
+    </div>    
   
-  
-  <br/>
-  
-  <div align="center">
-  	<a href="#players/form" class="ui-input-text">S'enregistrer</a>
-  </div>
+    <span class="success label label-info hide"></span>
+    <span class="error label label-error hide"></span>
+    <span class="success_sentence label label-info hide"></span>   
 
   </div>
 </div>
-
-<!--
-  COMMENT SAVE
--->
-<div class="button-form" data-input-mode="none">
-  <div class="background rounded"></div>
-  <div class="background trapeze"></div>
-  <div class="link-form"><div class="button">RECEVOIR</div></div>  
-</div>
-

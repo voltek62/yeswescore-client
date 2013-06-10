@@ -2,9 +2,12 @@ var GamesCollection = Backbone.Collection.extend({
   	 
 	model:GameModel, 
 	
-	mode:'default',
-	sortMode:'',
+	searchOption:[],
+	//searchOptionParam:'',	
+	sortOption:'',
+	query:'',
 	pos: null,
+	club:'',
 	
 	initialize: function (param) {	
 		this.changeSort("city");		
@@ -12,88 +15,109 @@ var GamesCollection = Backbone.Collection.extend({
 	
 		  
   url:function() {
-    // console.log('mode de games',this.mode); 	
-    //console.log('sort de games',this.sortMode); 	
-        
+       
     var url='';
-    
-    if (this.mode === 'club') 
-      url = Y.Conf.get("api.url.clubs") + "" + this.query + "/games/";    
-    else if (this.mode === 'player') 
-      url = Y.Conf.get("api.url.games") + "?q=" + this.query;
-    else if (this.mode === 'me') {      
-      // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a joué
-	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player possède (qu'il a créé)
-      url = Y.Conf.get("api.url.players") + this.query + "/games/";
-    }
-    else if (this.mode === 'geolocation' && this.pos !==null) { 
-      url =  Y.Conf.get("api.url.games") + "?distance=30&latitude="+this.pos[1]+"&longitude="+this.pos[0];
+
+    if (this.searchOption.indexOf('me') !== -1) {      
+      // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jouï¿½
+	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player possï¿½de (qu'il a crï¿½ï¿½)
+      url = Y.Conf.get("api.url.players") + this.query + "/games/?owned=true";
     }
     else 
-      url =  Y.Conf.get("api.url.games");	
+      url =  Y.Conf.get("api.url.games");
+      
+    if (url === Y.Conf.get("api.url.games") ) 
+    	url += "?";
+    else
+    	url += "&";      
     
-    if (this.sortMode==='date')
-      url = url  + "?sort=-dates.start";   
-       		
-    if (this.sortMode==='location')
-      url = url  + "?sort=location.city";    	    
+    if (this.searchOption.indexOf('club') !== -1 && this.club!=='') {
+      url += "club=" + this.club; 
+      url += "&"; 
+    }
+      
+    if (url === Y.Conf.get("api.url.games")  ) 
+    	url += "?";
+   
+        
+    if (this.searchOption.indexOf('geo') !== -1 && this.pos !==null) { 
+     if (this.pos[1]!==null && this.pos[0]!==null)   
+      url +=  "distance=50&latitude="+this.pos[1]+"&longitude="+this.pos[0];
+      url += "&";
+    }        
 
-	//FIXME : trie par club
-    if (this.sortMode==='club')
-      url = url  + "";    	
-         	          
-    console.log('sortMode',this.sortMode);
-    console.log('URL',url);
-    //console.log('sortMode',this.sortMode);
+    if (url === Y.Conf.get("api.url.games") ) 
+    	url += "?";
+           	
+    	
+	if (this.query!=="" && this.searchOption.indexOf('player') !== -1 ) {
+		url +="q="+this.query+"";
+		url += "&";
+	};
+    
+    if (url === Y.Conf.get("api.url.games") ) 
+    	url += "?";
+    	    
+    if (this.sortOption==='ongoing')
+      url += "status=ongoing&";
+    else if (this.sortOption==='finished')
+      url += "status=finished&";
+    else if (this.sortOption==='created')
+      url += "status=created&";
+           
+	
+	url += "sort=-dates.start";   
+
+    console.log('URL',url);        
         
     return url;
   },
 
   setSort:function(s) {  	
-  	//console.log('On passe sortMode sur '+s);
-    this.sortMode=s;
+    this.sortOption=s;
   },
   
-  setMode:function(m, q) {
-    this.mode=m;
-    if (typeof q !== "undefined")
-      this.setQuery(q); // compatibility ...
+  removeSearch:function(m) {
+
+     if (this.searchOption!==undefined) {      	  
+        if (this.searchOption.indexOf(m) !== -1) {
+          this.searchOption.splice(this.searchOption.indexOf(m), 1);
+        }
+     }
+  
+  },
+  
+  addSearch:function(m) {
+    //this.searchOption=m;
+    
+     if (this.searchOption!==undefined) {      	  
+        if (this.searchOption.indexOf(m) === -1) {
+           this.searchOption.push(m);      
+       }        
+      }
+      else {
+         this.searchOption = [m];
+      }   
+      
+      console.log('on passe setSearch sur ',this.searchOption);  
+
+    //if (typeof q !== "undefined")
+    //  this.searchOptionParam=q;
   },
 
   setQuery:function (q) {
     this.query=q;
   },
+
+  
   
   setPos:function(pos) {
     this.pos = pos;
   },  
   
-	//FIXME : if exists in localStorage, don't request
-	/*
-  sync: function(method, model, options) {
-    
-  //checkConnection();
-  //console.log('etat du tel ',appConfig.networkState);
-    
-  console.log(' On est dans Games Collection avec '+model.url());
-    
-    return Backbone.sync(method, model, options); 
-      
-  },
-  */
-    
-    
-  /* ON AFFICHE QUE EN FCT DES IDS */
-  //filterWithIds: function(ids) {
-  //	return _(this.models.filter(function(c) { return _.include(ids, Game.id); }));
-//},
-    
-  /*
-  comparator: function(item) {
-    //POSSIBLE MULTI FILTER [a,b,..]
-      return [item.get("city")];
-    },
-  */
+  setClub:function(club) {
+    this.club = club;
+  }, 	
     
   comparator: function (property) {
     return selectedStrategy.apply(Game.get(property));

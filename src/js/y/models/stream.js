@@ -22,14 +22,14 @@ var StreamModel = Backbone.Model.extend({
 
   sync : function(method, model, options) {
 
-    console.log('method Stream', method);
+
 
 
     if (method === 'update' || method === 'create') {
     
-    console.log('url', Y.Conf.get("api.url.games") + (this.get('gameid') || '')
-        + '/stream/?playerid=' + (this.get('playerid') || '') + '&token='
-        + (this.get('token') || ''));    
+    
+
+	  var that = this;
 
       return Backbone.ajax({
         dataType : 'json',
@@ -47,12 +47,21 @@ var StreamModel = Backbone.Model.extend({
             text : (this.get('text') || '')
           }
         },
-        success : function(result) {
+        success : function(data) {
           // put your code after the game is saved/updated.
 
-          console.log('data Stream OK', result);
+          that.set(data);         
+          if (options && options.success) {
 
-        }
+              options.success(data);
+          }          
+
+        },
+        error: function (message) {
+            if (options && options.error)
+              
+              options.error(message);
+        }        
       });
 
     } 

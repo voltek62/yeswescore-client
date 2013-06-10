@@ -17,94 +17,163 @@
       return this; // chainable
     },
 
+    // Processus de chargement 
+    //  - si clefs de conf pas encore en cache => chargement
+    //  - appel au bootstrap.
     load: function (env, callback) {
       assert(env === Y.Env.DEV ||
              env === Y.Env.PROD);
 
-      var version = "1";
-
-      // conf already loaded => we directly return
-      if (this.get("_env") === env &&
-          this.get('version') === version)
-        return callback();
-
-      // Paramétrage des variables dependantes d'un environnement
-      switch (env) {
-        case Y.Env.DEV:
-          /*#ifdef DEV*/
-          switch (Y.Env.user) {
-            case "marc":
-              var apiBaseUrl = "http://plic.no-ip.org:22222";
-              var fbBaseUrl = "http://plic.no-ip.org:9091";
-              var fbAppId = "618522421507840";
-              break;
-            case "vincent":
-              var apiBaseUrl = "http://plic.no-ip.org:1024";
-              var fbBaseUrl = "http://plic.no-ip.org:9090";
-              var fbAppId = "408897482525651";
-              break;
-            default:
-            case "alpha":
-              var apiBaseUrl = "http://plic.no-ip.org:20080";
-              var fbBaseUrl = "http://plic.no-ip.org:20081";
-              var fbAppId = "FIXME";
-              break;
-          }
-
-          this.set("api.url.auth", apiBaseUrl + "/v1/auth/");
-          this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
-          this.set("api.url.games", apiBaseUrl + "/v1/games/");
-          this.set("api.url.players", apiBaseUrl + "/v1/players/");
-          this.set("api.url.clubs", apiBaseUrl + "/v1/clubs/");
-          this.set("api.url.stats", apiBaseUrl + "/v1/stats/");
-          this.set("api.url.reports", apiBaseUrl + "/v1/report/");
-          this.set("api.url.reports.games", apiBaseUrl + "/v1/report/games/");
-          this.set("api.url.reports.players", apiBaseUrl + "/v1/report/players/");
-          this.set("api.url.reports.clubs", apiBaseUrl + "/v1/report/clubs/");
-          this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
-          this.set("facebook.app.id", fbAppId);
-          this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
-          /*#endif*/
-          break;
-        case Y.Env.PROD:
-          this.set("api.url.auth", "http://api.yeswescore.com/v1/auth/");
-          this.set("api.url.bootstrap", "http://91.121.184.177:1024/bootstrap/conf.json?version=%VERSION%");
-          this.set("api.url.games", "http://api.yeswescore.com/v1/games/");
-          this.set("api.url.players", "http://api.yeswescore.com/v1/players/");
-          this.set("api.url.clubs", "http://api.yeswescore.com/v1/clubs/");
-          this.set("api.url.stats", "http://api.yeswescore.com/v1/stats/");
-          this.set("api.url.reports", "http://api.yeswescore.com/v1/report/");
-          this.set("api.url.reports.games", "http://api.yeswescore.com/v1/report/games/");
-          this.set("api.url.reports.players", "http://api.yeswescore.com/v1/report/players/");
-          this.set("api.url.reports.clubs", "http://api.yeswescore.com/v1/report/clubs/");
-          this.set("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v1/inappbrowser/redirect.html?playerid=[playerid]&token=[token]");
-          this.set("facebook.app.id", "447718828610668");
-          this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?%20client_id=[fb_app_id]&scope=email&redirect_uri=[redirect_uri]&response_type=token");
-          break;
-        default:
-          break;
-      }
-
-      // Paramétrage des variables non dépendantes d'un environnement
-      this.set("game.refresh", 5000); // gameRefresh
-      this.set("pooling.geolocation", 5000);
-      this.set("pooling.connection", 1000);
-      this.set("version", version); // will be usefull on update.
-
-      // loading permanent keys
-      //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
-      Cordova.ready(function () {
-        Cordova.File.read(filename, function (err, data) {
+      // this function will be executed when keys (temporary & permanent) are loaded.
+      var onKeysLoaded = _.bind(function (err) {
+        // error handling.
+        if (err)
+          return callback(err);
+        // une fois les clefs chargÃ©es, on appelle le bootstrap.
+        this.loadBootstrap(function (err) {
           if (err)
-            return callback(); // FIXME
-          var k = [];
-          try { k = JSON.parse(data); } catch (e) { }
-          _.forEach(k, function (o) {
-            var obj = { key: o.key, value: o.value, metadata: o.metadata };
-            DB.saveJSON(key, obj);
-          });
+            return callback(err); // might be a "network error" or "deprecated"
           callback();
         });
+      }, this);
+
+      // conf not loaded => we load temporary keys & permanent keys
+      if (this.get("_env") !== env ||
+          this.get('version') !== Y.App.VERSION)
+      {
+        // loading default keys (temporary)
+        // Parametrage des variables dependantes d'un environnement
+        //Y.Env.user = "vincent";
+    
+        switch (env) {
+          case Y.Env.DEV:
+            /*#ifdef DEV*/
+            switch (Y.Env.user) {
+              case "marc":
+                var apiBaseUrl = "http://plic.no-ip.org:22222";
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "618522421507840";
+                break;
+              case "vincent":
+                var apiBaseUrl = "http://plic.no-ip.org:1024";
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "408897482525651";
+                break;
+              case "alpha":
+              default:
+                var apiBaseUrl = "http://plic.no-ip.org:20080";
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "FIXME";
+                break;
+            }
+
+            this.set("api.url.auth", apiBaseUrl + "/v2/auth/");
+            this.set("api.url.auth.registered", apiBaseUrl + "/v2/auth/registered/");
+            this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
+            this.set("api.url.facebook.login", apiBaseUrl + "/v2/facebook/login/");
+            this.set("api.url.games", apiBaseUrl + "/v2/games/");
+            this.set("api.url.players", apiBaseUrl + "/v2/players/");
+            this.set("api.url.clubs", apiBaseUrl + "/v2/clubs/");
+            this.set("api.url.stats", apiBaseUrl + "/v2/stats/");
+            this.set("api.url.reports", apiBaseUrl + "/v2/report/");
+            this.set("api.url.reports.games", apiBaseUrl + "/v2/report/games/");
+            this.set("api.url.reports.players", apiBaseUrl + "/v2/report/players/");
+            this.set("api.url.reports.clubs", apiBaseUrl + "/v2/report/clubs/");
+            this.set("api.url.autocomplete.players", apiBaseUrl + "/v2/players/autocomplete/");
+            this.set("api.url.autocomplete.clubs", apiBaseUrl + "/v2/clubs/autocomplete/");          
+            this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v2/inappbrowser/redirect.html");
+            this.set("facebook.app.id", fbAppId);
+            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            /*#endif*/
+            break;
+          case Y.Env.PROD:
+            this.set("api.url.auth", "http://api.yeswescore.com/v2/auth/");
+            this.set("api.url.auth.registered", "http://api.yeswescore.com/v2/auth/registered/");
+            this.set("api.url.bootstrap", "http://api.yeswescore.com/bootstrap/conf.json?version=%VERSION%");
+            this.set("api.url.facebook.login", "http://api.yeswescore.com/v2/facebook/login/");
+            this.set("api.url.games", "http://api.yeswescore.com/v2/games/");
+            this.set("api.url.players", "http://api.yeswescore.com/v2/players/");
+            this.set("api.url.clubs", "http://api.yeswescore.com/v2/clubs/");
+            this.set("api.url.stats", "http://api.yeswescore.com/v2/stats/");
+            this.set("api.url.reports", "http://api.yeswescore.com/v2/report/");
+            this.set("api.url.reports.games", "http://api.yeswescore.com/v2/report/games/");
+            this.set("api.url.reports.players", "http://api.yeswescore.com/v2/report/players/");
+            this.set("api.url.reports.clubs", "http://api.yeswescore.com/v2/report/clubs/");
+            this.set("api.url.autocomplete.players", "http://api.yeswescore.com/v2/players/autocomplete/");
+            this.set("api.url.autocomplete.clubs", "http://api.yeswescore.com/v2/clubs/autocomplete/");
+            this.set("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v2/inappbrowser/redirect.html");
+            this.set("facebook.app.id", "447718828610668");
+            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            break;
+          default:
+            break;
+        }
+
+        // Parametrage des variables non dependantes d'un environnement
+        this.set("game.refresh", 10000);        // default 30000 (30sec) //test 10s
+        this.set("games.refresh", 20000);        // default 30000 (30sec) //test 30s        
+        this.set("game.max.comments", 20); 
+        this.set("pooling.geolocation", 10000); // default 10000 (10sec)
+        this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
+        this.set("version", Y.App.VERSION); // will be usefull on update.
+        this.set("_env", env);
+
+        // loading permanent keys
+        //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
+        Cordova.ready(function () {
+          Cordova.File.read(filename, function (err, data) {
+            if (err)
+              return onKeysLoaded(err); // FIXME
+            var k = [];
+            try { k = JSON.parse(data); } catch (e) { }
+            _.forEach(k, function (o) {
+              var obj = { key: o.key, value: o.value, metadata: o.metadata };
+              DB.saveJSON(key, obj);
+            });
+            onKeysLoaded();
+          });
+        });
+      } else {
+        // keys are already loaded (by previous session)
+        // FIXME: normaly, we don't need cordova to be ready to say the configuration
+        //        is ready, but there might be errors if we don't do this, no ?
+        Cordova.ready(function () {
+          onKeysLoaded();
+        });
+      }
+    },
+
+
+    // FIXME: might be in an "app" class ?
+    loadBootstrap: function (callback) {
+      // on ecrase avec les changements et on change les versions
+      // variable qui oblige Ã  mettre Ã  jour -> objet connnection toujours offline
+      Backbone.ajax({
+        type: 'GET',
+        url: this.get('api.url.bootstrap').replace("%VERSION%", Y.App.VERSION),
+        success: function (infos) { 
+          var deprecated = false;
+          infos.forEach(function (info) {      
+            if (info.key.indexOf("app.deprecated") !== -1) {
+            	//console.log('on detecte app deprecated');
+            	if (info.value === true) {
+            		//console.log('Il faut mettre Ã  jour l\'apps');
+                deprecated = true;
+            	}
+            } else {
+            	Y.Conf.set(info.key, info.value);  
+            }   	
+          });
+          if (deprecated)
+            return callback("deprecated"); // deprecated app is considered as an error.
+          return callback(); // everything was ok.
+        },
+        error: function (err) {
+          //console.log('err Connection', err);
+          Y.Connection.setOffline(); // usefull ?
+          return callback("network error");
+        },
+        dataType: "JSON"
       });
     },
 
@@ -124,6 +193,19 @@
       return _.map(this.keys(key), function (key) {
         return this.get(key);
       }, this);
+    },
+
+
+    // Del API
+    // @param string/regExp key
+    // @return [values]/value/undefined
+    del: function (key) {
+      assert(typeof key === "string" || key instanceof RegExp);
+
+      if (typeof key === "string") {
+        return DB.remove(key);
+      }
+
     },
 
     // @param string key
@@ -154,7 +236,7 @@
       DB.saveJSON(key, obj);
 
       // events
-      this.trigger("set", [obj]);
+      this.trigger("set", obj);
 
       // permanent keys (cost a lot).
       if (metadata && metadata.permanent) {

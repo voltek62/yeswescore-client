@@ -29,17 +29,24 @@
         // dev environment, loading template using $.get()
         // pas trouvé mieux pour l'instant...
         var templates = [
-          "account", "clubAdd", "clubListAutoComplete", "club", "clubList", "clubListAutoComplete", 
-          "games","gameAdd", "gameComment","gameEnd", "gameSearch", "gameList", "gameCommentList",
-          "gameScoreBoard", "game", "gameForm",
-          "index", 
-          "playerForget","playerForm", "playerListAutoComplete", "playerList",
-          "players", "playerSignin", "player"
+          "about", "account", 
+          "clubAdd", "clubListAutoComplete", "club", "clubList","clubListSearch", 
+          "gameAdd", "gameComments","gameEnd", "gameListSearch", "gameList","gameSelect","gameInput",
+          "gameCommentsScore", "gameCommentsComment","gameScoreBoard", "game", "gameForm",
+          "index", "empty", "error","ongoing",
+          "searchForm",
+          "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList",
+          "playerListSearch", "playerSignin",
         ];
-        var timeoutid = setTimeout(function () { throw "cannot load some template.. "; }, 2000);
+        var timeoutid = setTimeout(function () {
+           var harvestedTemplates = _.keys(html);
+           var missingTemplates = _.filter(templates, function (t) {
+             return harvestedTemplates.indexOf(t) === -1;
+           });
+           throw "cannot load some template.. "+missingTemplates.join(",");
+        }, 2000);
         var i = 0;
         templates.forEach(function (template) {
-          console.log('harvesting template ' + "templates/"+template+".html");
           $.get("templates/"+template+".html", function (text) {
             html[template] = text;
             i++;
@@ -67,7 +74,7 @@
       var html = this.templates.HTML
         , compiled = this.templates.compiled;
       if (typeof html[templateId] === "undefined")
-        throw "unknown template "+templateId;
+        throw "unknown template "+templateId+" ; have you included the template in y/templates.js#loadAsync() ?";
       if (typeof compiled[templateId] === "undefined")
         compiled[templateId] = _.template(html[templateId]);
       return compiled[templateId];

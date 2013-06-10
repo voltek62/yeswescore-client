@@ -1,4 +1,39 @@
 // ALL USEFUL FCTS
+var checkName =  function(input) {
+  //var ck_name = /^[A-Za-z ]{3,40}$/;
+  var ck_name = /^[a-zA-ZàáâäãåąćęèéêëìíîïłńòóôöõøùúûüÿýżźñçčšžÀÁÂÄÃÅĄĆĘÈÉÊËÌÍÎÏŁŃÒÓÔÖÕØÙÚÛÜŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{3,40}$/;
+  if (!ck_name.test(input)) 
+	  return true;
+  return false;
+};
+
+var checkRank =  function(input) {
+  var ck_rank =  /^[A-Za-z0-9!\/\_-]{1,5}$/;
+  if (!ck_rank.test(input)) 
+	  return true;
+  return false;
+};
+
+
+
+var checkLicence = function(input){
+ var ck_licence = /^[A-Za-z0-9 ]{4,16}$/;
+
+  if (!ck_licence.test(input)) 
+	return true;
+	
+  return false; 
+};
+
+var checkComment = function(input){
+ var ck_comment = /^[A-Za-z0-9 ]{2,300}$/;
+
+  if (!ck_comment.test(input)) 
+	return true;
+	
+  return false; 
+};
+
 JSON.tryParse = function(o, undefined) {
   try {
     return JSON.parse(o);
@@ -9,6 +44,48 @@ JSON.tryParse = function(o, undefined) {
 
 String.prototype.startsWith = function (subString) {
     return this.indexOf(subString) === 0;
+};
+
+String.prototype.padLeft = function (size, padString) {
+    var n = String(this);
+    padString = padString || " ";
+    while (n.length < size) {
+        n = padString + n;
+    }
+    return n;
+};
+
+String.prototype.padRight = function(size, padString) {
+  var t = String(this), l = padString.length;
+  while (t.length + l <= size)
+    t += padString;
+  if (t.length < size)
+    t += padString.substring(0, size - t);
+  return t;
+};
+
+String.prototype.toRegExp = function () {
+    return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+};
+
+String.prototype.isEmail = function() {
+  return /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(this);
+};
+
+if(!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g,'');
+  };
+}
+
+// for old browser : parse a date in yyyy-mm-dd format
+var parseDate = function(input) {
+  var parts = input.match(/(\d+)/g);
+  
+  //console.log('ANDROID parts',parts);
+  
+  // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+  return new Date(parts[0], parts[1]-1, parts[2], parts[3], parts[4], parts[5]); // months are 0-based
 };
 
 Date.prototype.getMonthName = function(lang) {
@@ -35,8 +112,8 @@ Date.locale = {
 window.isMobileBrowser = (function () {
   // detect lots of mobile browser (not ipad/tablet/..)
   // isMobileBrowser copyright to http://detectmobilebrowsers.com/ (@chadsmith)
-  var isMobileBrowser = true;
-  /*#ifdef WEB*/
+  var isMobileBrowser = null;
+  /*#ifndef WEB*/
   isMobileBrowser = true; // WEB => null => dynamic computation.
   /*#endif*/
   return function () {
@@ -52,4 +129,32 @@ window.isMobileBrowser = (function () {
 var assert = function () { };
 /*#ifdef DEV*/
 assert = function (t) { if (!t) throw "assert false " };
+/*#endif*/
+
+/*#ifdef DEV*/
+if (false) {
+/*endif*/
+  // we do not want any console.log in production environment.
+  setTimeout(function () {
+    var f = console.log;
+    console.log = function () {
+      return;
+    };
+    console.log.f = f;
+  }, 5000);
+/*#ifdef DEV*/
+} else {
+  (function () {
+    var start = Date.now();
+    var f = console.log;
+    console.log = function () {
+      var a = Array.prototype.slice.apply(arguments);
+      var now = Date.now() - start;
+      now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');
+      a.unshift(now);
+      f.apply(console, a);
+    };
+    console.log.f = f;
+  })();
+}
 /*#endif*/

@@ -3,43 +3,40 @@
   "use strict";
   /*#endif*/
 
-  // overloading backbone close.
-  Backbone.View.prototype.close = function () {
-    this.off();
-    if (typeof this.onClose === "function")
-      this.onClose();
-  };
-
   var Router = Backbone.Router.extend({
     history: [ /* { pageName: ..., pageHash: ... } */ ],
 
     currentView: null,
 
     routes: {
-      '': 'games',
-      'index': 'games',
-      'sort/:id': 'games',
+      '': 'gameList',
+      'index': 'gameList',
+      'sort/:id': 'gameList',
+      'search/form': 'searchForm',      
       'games/me/:id': 'gameMe',
       'games/add': 'gameAdd',
       'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
-      'games/comment/:id': 'gameComment',
       'games/club/:id': 'gameClub',
-      'games/list': 'games',   
+      'games/list': 'gameList',  
+      'games/:id/comments/': 'gameComment', 
       'games/:id': 'game', 
-      'games/': 'games',        
+      'games/': 'gameList',        
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
-      'players/form': 'playerForm',
+      'players/form/me': 'playerFormFirst',
+      'players/form/search': 'playerFormSearch',                 
+      'players/form': 'playerForm',          
       'players/signin': 'playerSignin',
       'players/forget': 'playerForget',
-      'players/follow': 'playerFollow',                                    
+      'players/follow': 'playerFollow',                                              
       'players/:id': 'player',
       'clubs/add': 'clubAdd',
-      'clubs/follow': 'clubAdd',      
+      'clubs/follow': 'clubFollow',      
       'clubs/:id': 'club',
-      'account': 'account'
+      'account': 'account',
+      'about': 'about'
     },
 
     initialize: function (options) {
@@ -52,9 +49,14 @@
     * @return function returning a view object.
     */
     createViewFactory: function (view, params) {
+      assert(typeof view !== "undefined");
       return function () {
         return new view(params);
       };
+    },
+
+    about: function () {
+      this.changePage(this.createViewFactory(Y.Views.About));
     },
 
     account: function () {
@@ -69,6 +71,10 @@
       this.changePage(this.createViewFactory(Y.Views.ClubAdd));
     },
 
+    clubFollow: function () {
+      this.changePage(this.createViewFactory(Y.Views.ClubFollow));
+    },
+
     index: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Index, { sort: id }));
     },
@@ -77,20 +83,17 @@
       this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
     },
 
-    games: function (sort) {
-      console.log('on demande la vue games');
+    gameList: function (sort) {
       if (typeof sort === "undefined") sort='';
-      this.changePage(this.createViewFactory(Y.Views.Games, { mode: '', id: '', sort: sort }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: '', id: '', sort: sort }));
     },
     
     gameMe: function (id) {
-      console.log('on demande la vue my games');
-      this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'me', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'me', id: id, sort: '' }));
     },
 
     gameClub: function (id) {
-     console.log('on demande la vue games club');
-      this.changePage(this.createViewFactory(Y.Views.Games, { mode: 'club', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'club', id: id, sort: '' }));
     },    
 
     gameAdd: function () {
@@ -102,7 +105,7 @@
     },
 
     gameComment: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameComment, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.GameComments, { id: id }));
     },
 
     gameFollow: function () {
@@ -110,9 +113,12 @@
     },
     
     gameForm: function (id) {
-      console.log('gameForm');
       this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
     },    
+
+    searchForm: function () {
+      this.changePage(this.createViewFactory(Y.Views.SearchForm ));
+    }, 
 
     player: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
@@ -126,8 +132,16 @@
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: 'false' }));
     },
 
+    playerFormFirst: function () {
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'first'}));
+    },
+    
     playerForm: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForm));
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: ''}));
+    },
+
+    playerFormSearch: function () {
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
     },
 
     playerList: function () {
@@ -135,7 +149,6 @@
     },
 
     playerListByClub: function (id) {
-      //console.log("playerListByClub "+id);
       this.changePage(this.createViewFactory(Y.Views.PlayerList, { id: id }));
     },
 
@@ -178,8 +191,10 @@
 
       // closing current view (still in the DOM)
       try {
-        if (this.currentView)
+        if (this.currentView) {
           this.currentView.close();
+          // this.currentView.remove(); // FIXME. gc: should we call remove ?
+        }
       } catch (e) {
         assert(false);
       };
@@ -198,11 +213,22 @@
       //
       var next = function () {
         // creating view
-        try {
+
+        /*#ifdef DEV*/
+        if (true) {
+          // in dev, directly call viewFactory, to be able to debug exceptions.
           view = viewFactory();
-        } catch (e) {
-          assert(false);
-        };
+        } else {
+        /*#endif*/
+          try {
+            // avoiding exception in view.
+            view = viewFactory();
+          } catch (e) {
+            assert(false);
+          };
+        /*#ifdef DEV*/
+        }
+        /*#endif*/
 
         // next page name, page hash
         if (view && view.pageName)
@@ -244,6 +270,5 @@
       }
     }
   });
-
   Y.Router = new Router();
 })(Y);

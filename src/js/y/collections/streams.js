@@ -1,36 +1,34 @@
 var StreamsCollection = Backbone.Collection.extend({
   model: StreamModel, 
-  		
   mode: 'default',
   gameid:'', 
-  	
   query: '',
  	
-  initialize: function (param) {
-  		this.changeSort("date");
-  				
-  		//console.log('constructeur avec ',param);
-		this.gameid = param.id;
+  initialize: function (streamItems, options) {
+		this.gameid = options.gameid;
   },
-	  
-  url:function() {
-     
-     // http://api.yeswescore.com/v1/games/511d31971ad3857d0a0000f8/stream/
-	//console.log('StreamModel default '+Y.Conf.get("api.url.games")+this.gameid+"/stream/");
-    return Y.Conf.get("api.url.games")+this.gameid+"/stream/";
-     
+
+  url: function() {
+    if (this.length > 0) {
+      var lastid = this.at(0).id;
+      return Y.Conf.get("api.url.games")+this.gameid+"/stream/?lastid="+lastid;
+    }
+    return Y.Conf.get("api.url.games")+this.gameid+"/stream/?limit=50"; 
   },
 	
-  comparator: function (property) {
-    return selectedStrategy.apply(Game.get(property));
+  comparator: function (item) {
+    var dates = item.get("dates");
+    if (dates && dates.creation)
+      //return new Date(dates.creation).getTime();
+      return Date.fromString(dates.creation).getTime();
+    assert(false);
+    return 0; // at the end of the list.
   },
-    
-  strategies: {
-      date: function (item) { return [item.get("dates.creation")]; }
-  },
-    
-  changeSort: function (sortProperty) {
-      this.comparator = this.strategies[sortProperty];
+
+  // default behaviour: remove = false.
+  fetch: function (o) {
+    o = o || {};
+    o.remove = o.remove || false;
+    return Backbone.Collection.prototype.fetch.call(this, o);
   }
-	
 });

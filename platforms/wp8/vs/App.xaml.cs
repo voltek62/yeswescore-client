@@ -32,7 +32,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace YesWeScore
+namespace yeswescore
 {
     public partial class App : Application
     {

@@ -6,24 +6,20 @@
 <span class="success label label-info hide" style="color: red"></span>
 
 <div>
-      <label class="ui-input-text" for="name">* Nom</label>
+      <label class="ui-input-text" for="name">* <span data-i18n="clubadd.name"></span></label>
 </div>
 <div>
-		<input type="text" id="name" name="name" placeholder="Nom du Club" class='jq-ui-forms' value="" /> 
+		<input type="text" id="name" name="name" data-i18n="[placeholder]clubadd.name;" class='jq-ui-forms' value="" /> 
 		<span class="name_error label label-info hide"></span>
 </div>
 
 <div>
-      <label class="ui-input-text " for="city">* Ville</label>
+      <label class="ui-input-text " for="city">* <span data-i18n="clubadd.city"></span></label>
 </div>
 <div>
-		<input type="text" id="city" name="city" placeholder="Ville" class='jq-ui-forms' value="" /> 
+		<input type="text" id="city" name="city" data-i18n="[placeholder]clubadd.city;" class='jq-ui-forms' value="" /> 
 		<span class="city_error label label-info hide"></span>
 </div>
-
-
-<input type="hidden" id="playerid" value="<%= playerid %>"/> 
-<input type="hidden" id="token" value="<%= token %>"/>
 
 </div>
 </div>
@@ -31,9 +27,9 @@
 <!--
   COMMENT SAVE
 -->
-<div class="button-form" data-input-mode="none">
+<div class="button-form" data-input-mode="hide">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form"><div class="button">Ajouter un club</div></div>  
+  <div class="link-form"><div class="button" data-i18n="clubadd.add"></div></div>  
 </div>
 

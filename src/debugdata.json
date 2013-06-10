@@ -138,9 +138,7 @@
   },
   "connection":{
     "type":[
-      "wifi",
-      "3g",
-      "none"
+      "WIFI"
     ]
   },
   "contacts":{
@@ -314,39 +312,17 @@
   },
   "geolocation":{
     "arraySequence":false,
-    "error":[
-      {
-        "code":1,
-        "message":"Permission was denied"
-      },
-      {
-        "code":3,
-        "message":"Timed-out"
-      }
-    ],
     "position":[
       {
         "timestamp":12335,
         "coords":{
-          "latitude":23,
-          "longitude":120,
-          "altitude":200,
-          "accuracy":3,
-          "altitudeAccuracy":10,
-          "heading":200,
-          "speed":4
-        }
-      },
-      {
-        "timestamp":12335,
-        "coords":{
-          "latitude":-20,
-          "longitude":60,
-          "altitude":150,
+          "latitude":48.640,
+          "longitude": 1.888,
+          "altitude":2,
           "accuracy":4,
           "altitudeAccuracy":7,
           "heading":180,
-          "speed":6
+          "speed":2
         }
       }
     ]

@@ -2,7 +2,7 @@
 
 //     (c) 2012 Raymond Julin, Keyteq AS
 //     Backbone.touch may be freely distributed under the MIT license.
-(function (factory) {
+;(function (factory) {
 
     "use strict";
 
@@ -34,38 +34,43 @@
         // event with listening for touch(start|move|end) in order to
         // quickly trigger touch taps
         delegateEvents: function(events) {
-            if (!(events || (events = _.result(this, 'events')))) return;
-            this.undelegateEvents();
+          if (!(events || (events = _.result(this, 'events')))) return this;
+          this.undelegateEvents();
+          for (var key in events) {
+            var method = events[key];
+            if (!_.isFunction(method)) method = this[events[key]];
+            if (!method) continue;
+            var match = key.match(delegateEventSplitter);
+            var eventName = match[1], selector = match[2];
+            method = _.bind(method, this);
 
-            for (var key in events) {
-              var method = events[key];
-              if (!_.isFunction(method)) method = this[events[key]];
-              if (!method) throw new Error('Method "' + events[key] + '" does not exist');
-              var match = key.match(delegateEventSplitter);
-              var eventName = match[1], selector = match[2];
-              method = _.bind(method, this);
-
-              var that = this;
-              var boundHandler = function (e) {
-                  that._touchHandler(e, {method:method});
+            // begin hack
+            var that = this;
+            var boundHandler = (function (method) {
+              return function (e) {
+                that._touchHandler(e, {method:method});
               };
-              if (this.isTouch && eventName === 'click') {
-                if (window.navigator.msPointerEnabled) {
-                    this.$el.on('MSPointerDown' + suffix, selector, boundHandler);
-                    this.$el.on('MSPointerUp' + suffix, selector, boundHandler);
-                }
-                this.$el.on('touchstart' + suffix, selector, boundHandler);
-                this.$el.on('touchend' + suffix, selector, boundHandler);
-              } else {
-                eventName += '.delegateEvents' + this.cid;
-                // backbone code.
-                if (selector === '') {
-                  this.$el.on(eventName, method);
-                } else {
-                  this.$el.on(eventName, selector, method);
-                }
+            })(method);
+            if (this.isTouch && eventName === 'vclick') {
+              if (window.navigator.msPointerEnabled) {
+                  this.$el.on('MSPointerDown', selector, boundHandler);
+                  this.$el.on('MSPointerUp', selector, boundHandler);
               }
+              this.$el.on('touchstart', selector, boundHandler);
+              this.$el.on('touchend', selector, boundHandler);
+            } else {
+              eventName = (eventName === 'vclick') ? 'click' : eventName;
+              // backbone code.
+              eventName += '.delegateEvents' + this.cid;
+              if (selector === '') {
+                this.$el.on(eventName, method);
+              } else {
+                this.$el.on(eventName, selector, method);
+              }
+
             }
+          }
+          return this;
         },
 
         // At the first touchstart we register touchevents as ongoing
@@ -79,6 +84,7 @@
         // for *button* and *a* elements
         _touchHandler : function(e, data) {
             if (window.navigator.msPointerEnabled) { // ie10.
+            console.log(e.type);
                 switch (e.type) {
                     case 'MSPointerUp':
                         if (this.touchPrevents) {

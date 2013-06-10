@@ -1,189 +1,340 @@
 var GameModel = Backbone.Model.extend({
-
   urlRoot : Y.Conf.get("api.url.games"),
 
+  version: 0,
+
   initialize : function() {
-
     this.updated_at = new Date();
-
   },
 
   setSets : function(s) {
     this.sets = s;
   },
 
-
   defaults : {
     owner: "",
     sport : "tennis",
-    status : "ongoing",
+    status : "",
     dates : {
       end : "",
       start : ""
     },   
     location : {
       country : "",
-      city : "",
-      pos : []
+      city : ""
     },
     teams : [ {
       points : "",
       players : [ {
-        name : "A"
+        name : ""
       } ]
     }, {
       points : "",
       players : [ {
-        name : "B"
+        name : ""
       } ]
     } ],
-    options : {
+    infos : {
       type : "singles",
       subtype : "A",
       sets : "0/0",
       score : "0/0",
       court : "",
       surface : "",
-      tour : ""
+      tour : "",
+      startTeam : ""
     }
   },
 
   sync : function(method, model, options) {
-
-    var team1_json = '';
-    var team2_json = '';
+    this.version++;
+    options.version = this.version;
+    var that = this;
+    var team1_json = null;
+    var team2_json = null;
     
-	console.log("1.0");
-
     // if player exists / not exists
-    if (this.get('team1_id') === '')
-      team1_json = {
-        name : this.get('team1'),
-        rank : 'NC'
-    };
-    else
+    if (this.get('team1_id')) {
       team1_json = {
         id : this.get('team1_id')
-    };
+      };
+    } else if (this.get('team1')) {
+      team1_json = {
+        name : this.get('team1'),
+        rank : this.get('rank1')
+      };
+    }
 
-    if (this.get('team2_id') === '')
-      team2_json = {
-        name : this.get('team2'),
-        rank : 'NC'
-    };
-    else
+    if (this.get('team2_id')) {
       team2_json = {
         id : this.get('team2_id')
-    };
+      };
+    } else if (this.get('team2')) {
+      team2_json = {
+        name : this.get('team2'),
+        rank : this.get('rank2')
+      };
+    }
     
-	//console.log("1.1");
-	
     var object = {
-      teams : [ {
-      id : null,
-      players : [ team1_json ]
+      infos : {}
+    , location : {}
+    , dates : {}
+    };
+
+    if (team1_json && team2_json) {
+      object.teams = [ {
+        id : null,
+        players : [ team1_json ]
       }, {
-      id : null,
-      players : [ team2_json ]
-      } ], 
-      options : {},
-      location : {}
-     };
-
-	/*
-	 console.log("subtype",this.get('subtype'));
-	 console.log("sets",this.get('sets'));
-	 console.log("score",this.get('score'));
-	 console.log("court",this.get('court'));
-	 console.log("surface",this.get('surface'));
-	 console.log("tour",this.get('tour'));	
-	 console.log("country",this.get('country'));	
-	 console.log("city",this.get('city'));	
-	 */	 	  	 	 	 
-
-	 object.options.type = "singles";	
-	 	 
-	 if (this.get('subtype') !== undefined)
-	   if (this.get('subtype') !== "") 
-	     object.options.subtype = this.get('subtype');
-	   
-	 if (this.get('sets') !== undefined)
-       if (this.get('sets') !== "") 
-         object.options.sets = this.get('sets');
-       
-     if (this.get('score') !== undefined)  
-       if (this.get('score') !== "") 
-         object.options.score = this.get('score');
-     
-     if (this.get('court') !== undefined)  
-       if (this.get('court') !== "") 
-         object.options.court = this.get('court');
-       
-     if (this.get('surface') !== undefined)  
-       if (this.get('surface') !== "")
-         object.options.surface = this.get('surface');
-       
-     if (this.get('tour') !== undefined)  
-       if (this.get('tour') !== "") 
-         object.options.tour = this.get('tour');
-       
-     if (this.get('country') !== undefined)  
-       if (this.get('country') !== "") 
-         object.location.country = this.get('country');
-       
-     if (this.get('city') !== undefined)  
-       if (this.get('city') !== "") 
-         object.location.city = this.get('city'); 
-     
-         
-     //console.log("1.4");          
-     //,pos : [ appConfig.longitude, appConfig.latitude ]
-
-      
-    if (method === 'create' && this.get('playerid') !== undefined) {
+        id : null,
+        players : [ team2_json ]
+      } ];
+    }
+	 
+    object.infos.type = "singles";	
     
-      console.log('create Game', JSON.stringify(object));
+     if (typeof this.get('location').city !== "undefined") 
+       object.location.city = this.get('location').city;
+     if (typeof this.get('location').country !== "undefined")
+       object.location.country = this.get('location').country;       
+     if (typeof this.get('dates').start !== "undefined")
+       if (this.get('dates').start !== "")      
+         object.dates.start = this.get('dates').start;
+     if (typeof this.get('dates').end !== "undefined")
+       if (this.get('dates').end !== "")      
+         object.dates.end = this.get('dates').end;
+     if (typeof this.get('status') !== "undefined") 
+       if (this.get('status') !== "")
+         object.status = this.get('status');
+       
+     _.forEach(
+      ['subtype', 'sets', 'score', 'court', 'surface',
+       'tour', 'country', 'startTeam'] , function (k) {
+	     if (typeof this.get('infos')[k] !== "undefined")
+	       object.infos[k] = this.get('infos')[k];
+	   }, this);
+     
+    if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
+      object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 
+    if (method === 'create' && options.playerid !== undefined) {
       return Backbone.ajax({
         dataType : 'json',
-        url : Y.Conf.get("api.url.games") + '?playerid=' + (this.get('playerid') || '')
-            + '&token=' + (this.get('token') || ''),
+        url : Y.Conf.get("api.url.games") + '?playerid=' + options.playerid + '&token=' + options.token,
         type : 'POST',
         data : object,
-        success : function(result) {
-          console.log('data success create Game', result);
-          // FIXME : on redirige sur //si offline id , si online sid
-          window.location.href = '#games/' + result.id;
+        success : function(data) {
+          // FIXME : on redirige sur //si offline id , si online sid  
+          that.set(data);         
+          if (options && options.success)
+            options.success(data);
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
         }
-
       });
-
-    } else if (method === 'update' && this.get('playerid') !== undefined) {
-        
-        var gameid = this.get('id');
-    
-        console.log('update Game', JSON.stringify(object));    	
-
-        return Backbone.ajax({
-          dataType : 'json',
-          url : Y.Conf.get("api.url.games") + gameid + '/?playerid=' + (this.get('playerid') || '')
-            + '&token=' + (this.get('token') || ''),
-          type : 'POST',
-          data : object,
-          success : function(result) {
-            console.log('data success update Game', result);
-        }
-
-      });
-
-    } else {
+    } else if (method === 'update' && options.playerid !== undefined) {
       
+      console.log('on met à jour game avec '+ JSON.stringify(object)); 
+		
+      return Backbone.ajax({
+        dataType : 'json',
+        url : Y.Conf.get("api.url.games") + this.get('id') + '/?playerid=' + options.playerid + '&token=' + options.token,
+        type : 'POST',
+        data : object,
+        success: function (data) {
+          // WARNING WARNING
+          // tricky: on aura des effets de bord un jour ...
+          //  on rend l'update des données du modèle conditionnelle à la version
+          if (options.version === that.version)
+            that.set(data);
+          //
+          if (options && options.success)
+            options.success(data);
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
+        }
+      });
+    } else {
       model.url = Y.Conf.get("api.url.games")+this.id;
       return Backbone.sync(method, model, options);
-      
-    }      
-    
-    
-  }
+    }
+  },
 
+  getPlayersNamesByTeam: function (teamIndex) {
+    var team = _.isArray(this.get("teams")) ? this.get("teams")[teamIndex] : null;
+    if (!team)
+      return "";
+    return _.reduce(team.players, function (result, player) {
+      return result ? result + ", " + player.name : player.name;
+    }, "");
+  },
+
+  // @return 0,1, -1 if draw / null if error or non defined
+  getIndexWinningTeam: function () {
+    var score = this.get("infos").score; 
+    if (typeof score !== "string")
+      return null;
+    var scoreDetails = score.split("/");
+    if (scoreDetails.length !== 2)
+      return null;
+    var scoreTeamA = parseInt(scoreDetails[0], 10);
+    var scoreTeamB = parseInt(scoreDetails[1], 10)
+    if (scoreTeamA == NaN || scoreTeamB == NaN)
+      return null;
+    if (scoreTeamA == scoreTeamB)
+      return -1; // draw
+    if (scoreTeamA < scoreTeamB)
+      return 1; // team B is winning
+    return 0; // team A is winning
+  },
+
+  isMine: function () {
+    return this.get('owner') === Y.User.getPlayer().get('id');
+  },
+
+  whoServe: function () {
+    var sets = this.get('infos').sets || "0/0";
+    var startTeam = this.get('infos').startTeam;
+    var total; 
+    
+    if (sets.indexOf(';') !== -1) {
+      total = _.reduce(sets.split(';'), function (p, tab) {
+        return _.reduce(tab.split('/'), function (p, val) {
+          return p + parseInt(val, 10);
+        }, p);
+      }, 0);
+    } else {
+      total = _.reduce(sets.split('/'), function (p, val) {
+        return p + parseInt(val, 10);
+      }, 0);
+    }
+
+    if (total % 2 === 0)
+      return startTeam;
+    return ""; // FIXME, should be the other team.
+  },
+
+  getSet: function (index) {
+
+  },
+
+  // transform internal format : 6/2;2/2 into [ [ 6, 2 ], [ 2, 2 ] ]
+  getSets: function (padding) {
+    var sets = this.get("infos").sets || "0/0";
+    sets = sets.split(';').map(function (set) {
+      return set.split('/').map(function (num) {
+        return parseInt(num, 10);
+      });
+    });
+    if (typeof padding !== "undefined") {
+      for (var i = 0; i < 3; ++i) {
+        if (typeof sets[i] === "undefined")
+          sets[i] = [padding, padding];
+      }
+    }
+    return sets;
+  },
+
+
+  setScore: function (score) {
+    this.get("infos").score = score; //FIXME: might not be the right "backbone way of doing things"
+  },
+
+  setSets: function (sets) {
+    sets = sets.map(function (set) { return set.join('/') }).join(';');
+    this.get("infos").sets = sets; //FIXME: might not be the right "backbone way of doing things"
+  },
+
+  getScore: function () {
+    var score = this.get("infos").score || "0/0";
+    return score.split('/').map(function (num) {
+      return parseInt(num, 10);
+    });
+  },
+
+  // compute score based on sets.
+  // @return "scoreTeam1/scoreTeam2"
+  computeScore : function() { 
+    var scoreTeam1 = 0;
+    var scoreTeam2 = 0;
+    var sets = this.getSets(0);
+    
+    // set1 : only if game is finished or set2 exists & not empty
+    if (this.isFinished() || (sets.length > 1 && sets[1][0] + sets[1][1] !== 0)) {
+      // team 2 < team 1 && team 1 >= 6
+      if (sets[0][1] < sets[0][0] && sets[0][0] >= 6)
+        scoreTeam1++;
+      // team 1 < team 2 && team 2 >= 6
+      if (sets[0][0] < sets[0][1] && sets[0][1] >= 6)
+        scoreTeam2++;
+    }
+
+    // set2 : only if game is finished or set3 exists & not empty
+    if (this.isFinished() || (sets.length > 2 && sets[2][0] + sets[2][1] !== 0)) {
+      // team 2 < team 1 && team 1 >= 6
+      if (sets[1][1] < sets[1][0] && sets[1][0] >= 6)
+        scoreTeam1++;
+      // team 1 < team 2 && team 2 >= 6
+      if (sets[1][0] < sets[1][1] && sets[1][1] >= 6)
+        scoreTeam2++;
+    }
+
+    // set3 : only if game is finished.
+    if (this.isFinished) { 
+      // team 2 < team 1 && team 1 >= 6
+      if (sets[2][1] < sets[2][0] && sets[2][0] >= 6)
+        scoreTeam1++;
+      // team 1 < team 2 && team 2 >= 6
+      if (sets[2][0] < sets[2][1] && sets[2][1] >= 6)
+        scoreTeam2++;
+    }
+
+    return scoreTeam1+"/"+scoreTeam2;
+  },
+
+  getElapsedTime: function () {
+    var dateEnd, dateStart, elapsed;
+
+    if (this.isFinished()) {
+      dateEnd = Date.fromString(this.get('dates').end);      
+      dateStart = Date.fromString(this.get('dates').start);
+      elapsed = dateEnd - dateStart;
+      if (elapsed > 0) {
+        elapsed = new Date(0, 0, 0, 0, 0, 0, elapsed);
+        return ('0'+elapsed.getHours()).slice(-2)+':'+('0'+elapsed.getMinutes()).slice(-2);  
+      }
+    }
+    if (this.isOngoing()) {
+      //comment connaitre la date actuelle par rapport au serveur ?
+      dateEnd = new Date();
+      dateStart = Date.fromString(this.get('dates').start);
+      elapsed = dateEnd - dateStart;
+      if (elapsed>0)
+      {
+	      elapsed = new Date(0, 0, 0, 0, 0, 0, elapsed);         
+	      return ('0'+elapsed.getHours()).slice(-2)+':'+('0'+elapsed.getMinutes()).slice(-2);
+      }
+    }
+    return '00:00';
+  },
+
+  // @return bool
+  isFinished: function () {
+    switch (this.get("status")) {
+      case "created":
+      case "ongoing":
+        return false;
+      default:
+        return true;
+    }
+  },
+
+  isOngoing: function () {
+    return this.get("status") === "ongoing";
+  }
 });

@@ -4,33 +4,17 @@ Y.Views.Account = Y.View.extend({
   pageName: "account",
   pageHash : "account", 
   
-  initialize: function () {
-    // $.ui.setTitle("PROFIL");	
-    Y.GUI.header.title("PROFIL");
-
+  myinitialize: function () {
+    Y.GUI.header.title(i18n.t('account.title'));
     this.accountViewTemplate = Y.Templates.get('account');
     this.clubid = Y.User.getClub();
-    this.Owner = Y.User.getPlayer();
-    
+    this.player = Y.User.getPlayer()
     this.render();
-    
   },
 
-  // render the content into div of view
   render: function () {
-    // $.ui.setTitle("MON COMPTE");
-    
-    console.log("clubid",this.clubid);
-    
-    console.log("1.1");    
-
-	$(this.el).html(this.accountViewTemplate({
-	  Owner : this.Owner,
-      clubid: this.clubid
-    }));
-
-    console.log("1.2");
-    
+	  $(this.el).html(this.accountViewTemplate({player: this.player, clubid: this.clubid}));
+	  $('a').i18n();
   },
 
   onClose: function () {

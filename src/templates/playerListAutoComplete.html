@@ -1,5 +1,5 @@
 <% if(players.length==0) { %>
-<li class="player"><p>Aucun resultat pour <%= query %></p></li>
+<li class="player"><p><span data-i18n="message.noresultfor"></span><%= query %></p></li>
 <% } %> 
 <% for (var i = 0; i < players.length; i++) { player = players[i]; %>
 
@@ -12,5 +12,5 @@
 
 </li>
 <% if (i>5) break; } if (players.length>5) { %>
-<li>... ( <%= players.length %> resultats)</li>
+<li>... ( <%= players.length %> <span data-i18n="message.results"></span>)</li>
 <% } %>

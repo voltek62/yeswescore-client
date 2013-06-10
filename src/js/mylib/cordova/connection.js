@@ -31,9 +31,9 @@
     },
 
     isOnline: function () {
-      switch (this.getType()) {
-        case this.types.UNKNOWN: // unknown <=> offline ?
-        case this.types.NONE:
+      switch (this.getType().toLowerCase()) {
+        case this.types.UNKNOWN.toLowerCase(): // unknown <=> offline ?
+        case this.types.NONE.toLowerCase():
           return false;
         default:
           return true;
@@ -41,9 +41,10 @@
     },
 
     isFast: function () {
-      switch (this.getType()) {
-        case this.types.ETHERNET:
-        case this.types.WIFI:
+      switch (this.getType().toLowerCase()) {
+        case this.types.ETHERNET.toLowerCase():
+        case this.types.WIFI.toLowerCase():
+        case this.types.CELL_4G.toLowerCase():
           return true;
         default:
           return false;

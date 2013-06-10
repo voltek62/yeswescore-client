@@ -1,23 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{86894d6c-5bc8-44a6-80b2-44ed45f53498}" Title="YesWeScore" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="YesWeScore author" BitsPerPixel="32" Description="YesWeScore provided to you by zeNodus SAS" Publisher="zeNodus SAS" PublisherID="{b93a0d8e-5aa9-4d9b-b232-17e2d852e779}">
-    <IconPath IsRelative="true" IsResource="false">images\tile-200x200.png</IconPath>
+  <App xmlns="" ProductID="{75ffdb70-6d0a-49e8-a2f2-ddb704aed8fa}" Title="yeswescore" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="yeswescore author" BitsPerPixel="32" Description="Apache Cordova for Windows Phone" Publisher="CordovaExample" PublisherID="{b93a0d8e-5aa9-4d9b-b232-17e2d852e779}">
+    <IconPath IsRelative="true" IsResource="false">Images\tile-200x200.png</IconPath>
     <Capabilities>
+      <Capability Name="ID_CAP_IDENTITY_DEVICE" />
+      <Capability Name="ID_CAP_IDENTITY_USER" />
+      <Capability Name="ID_CAP_LOCATION" />
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
-      <Capability Name="ID_CAP_LOCATION" />
+      <Capability Name="ID_CAP_APPOINTMENTS" />
+      <Capability Name="ID_CAP_CONTACTS" />
+      <Capability Name="ID_CAP_ISV_CAMERA" />
+      <Capability Name="ID_CAP_MICROPHONE" />
+      <Capability Name="ID_CAP_PHONEDIALER" />
+      <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
+      <Capability Name="ID_CAP_SENSORS" />
+      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
+      <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
+      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
     </Tasks>
     <Tokens>
-      <PrimaryToken TokenID="YesWeScoreToken" TaskName="_default">
+      <PrimaryToken TokenID="yeswescoreToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsResource="false" IsRelative="true">images\tile-200x200.png</SmallImageURI>
+          <SmallImageURI IsResource="false" IsRelative="true">Images\tile.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsResource="false" IsRelative="true">images\tile.png</BackgroundImageURI>
-          <Title>YesWeScore</Title>
+          <BackgroundImageURI IsResource="false" IsRelative="true">Images\tile-200x200.png</BackgroundImageURI>
+          <Title>yeswescore</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>

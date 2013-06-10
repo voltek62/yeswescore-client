@@ -14,6 +14,7 @@
   */
   var stack = [ /* String */]; // "timestamp","playerid","type","..."
 
+  var playerIdConfKey = 'player.id';
   var playerid = "";
 
   var Stats = {
@@ -25,9 +26,10 @@
     },
 
     initialize: function () {
-      playerid = Y.Conf.get("playerid") || "";
+      playerid = Y.Conf.get(playerIdConfKey) || "";
       Y.Conf.on("set", function (o) {
-        if (o.key === "playerid") {
+        console.log('key setted ' + o.key + ' ' + o.value);
+        if (o.key === playerIdConfKey) {
           playerid = o.value;
         }
       });
@@ -111,7 +113,6 @@
     trySend: (function () {
       var sending = false; // semaphore
       return function () {
-        return; // FIXME: remove before prod.
         if (stack.length == 0 || sending)
           return;
         sending = true;
@@ -119,6 +120,7 @@
         Backbone.ajax({
           url: Y.Conf.get("api.url.stats") + "?q=" + encodeURIComponent(msg),
           type: 'GET',
+          dataType: 'html',
           success: function () {
             // everything went ok, next stat in 1 sec.
             setTimeout(function () {
@@ -126,14 +128,14 @@
               Y.Stats.trySend();
             }, 1000);
           },
-          error: function () {
+          error: function (xhrStatus, textStatus, errorThrown) {
             // retry after 5 sec.
             setTimeout(function () {
               // msg again in the stack
               stack.unshift(msg);
               sending = false;
               Y.Stats.trySend();
-            }, 3000);
+            }, 20000);
           }
         });
       }
@@ -150,6 +152,9 @@
 
   // starting stats.
   Cordova.ready(function () {
+    /*#ifdef DEV*/
+    return;
+    /*#endif*/
     Stats.startup();
     Stats.cordova();
   });

@@ -7,32 +7,35 @@ Y.Views.GameEnd = Y.View.extend({
 
   pageName: "gameEnd",
   pageHash : "games/end/",
-    
+  playerid: "",
+  token: "",
+      
   initialize:function() {
   
-    Y.GUI.header.title("TERMINER LA PARTIE");	    
+    Y.GUI.header.title(i18n.t('gameend.title'));	    
   
     this.gameEndTemplate = Y.Templates.get('gameEnd');
-    //Owner = JSON.tryParse(window.localStorage.getItem("Y.Cache.Player"));
-    //this.players = new PlayersCollection("me");
-    this.Owner = Y.User.getPlayer().toJSON();
+
+    this.owner = Y.User.getPlayer();    
+    this.token = this.owner.get('token');
+    this.playerid = this.owner.get('id');
+    
     this.render();
-    //$.mobile.hidePageLoadingMsg(); 
+
   },
   
   endGame: function (event) {
     var privateNote = $('#privateNote').val(),
     fbNote = $('#fbNote').val();
         
-    //Backbone.Router.navigate("/#games/"+game.id, true);
-    alert(privateNote+' '+fbNote);
+    //Y.Router.navigate("/#games/"+game.id, true);
+    //alert(privateNote+' '+fbNote);
     return false;
   },
   
   //render the content into div of view
   render: function(){
-	  this.$el.html(this.gameEndTemplate({playerid:this.Owner.id, token:this.Owner.token}));
-	  //this.$el.trigger('pagecreate');
+	  this.$el.html(this.gameEndTemplate({playerid:this.owner.id, token:this.owner.token}));
 	  return this;
   },
 

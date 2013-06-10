@@ -1,0 +1,104 @@
+<div class="gameAdd background"></div>
+<div class="gameAdd content-container">
+  <div class="">
+
+    <span class="success label label-info hide"></span>
+    
+    <div style="padding-top:10px;">
+    <span data-i18n="search.introform" class="label label-info"></span>    
+    </div>
+
+
+    <div class="search-grid">
+    <div class="ui-grid-a">
+    
+	  <div class="ui-block-a">
+        <label class="form-label" data-i18n="search.geo"></label>
+      </div>
+	  <div class="ui-block-b" id="searchgeo">
+        <span role="checkbox"/>         
+	  </div>
+      <div class="ui-block-a">
+        <div class="label label-info">
+          <span data-i18n="search.infogeo"></span> (<%= gps %>) <span data-i18n="search.zone"></span> : 50Km
+        </div>
+      </div>
+      
+          
+      <div class="ui-block-a">
+        <label class="form-label" data-i18n="search.myclub"></label> 
+        </div>
+      <div class="ui-block-b" id="searchmyclub">
+        <!-- 
+        <input id="searchmyclub" type="checkbox" name="searchmyclub" class="regular-checkbox big-checkbox"/>  
+         -->
+        <span role="checkbox"/>       
+      </div>
+      <div class="ui-block-a">
+        <!-- 
+        <a href="#players/form" data-i18n="search.infomyclub" class="info-myclub"></a>
+         -->
+         <% if (clubname==='') { %>
+        <div id="linkprofil" class="form-button-black-club" data-i18n="search.infomyclub"></div>
+        <% }
+        else 
+        {
+        %>
+        <div id="linkprofil" class="label label-info clickable"><%= clubname %></div>
+        <%
+        }
+        %>
+      </div>
+      <div class="ui-block-b">
+         
+      </div>
+
+      <!-- 
+      <div class="ui-block-a">
+        <label class="form-label" data-i18n="search.gamefollowed"></label>
+        </div>
+      <div class="ui-block-b">
+        <input id="searchgamefollowed" type="checkbox" name="searchgamefollowed" value="" />         
+      </div> 
+      <div class="ui-block-a">
+        <a href="#games/follow" data-i18n="search.infogamefollowed" data-js-navigate></a>   
+      </div>
+      <div class="ui-block-b">             
+      </div>      
+       -->
+       
+             
+      <!--
+      <div class="ui-block-a">
+        <label class="form-label" data-i18n="search.clubfollowed"></label> 
+        </div>
+      <div class="ui-block-b">
+          <input type="checkbox" name="searchclubfollowed" value="">         
+      </div>  
+      <div class="ui-block-a">
+      <span data-i18n="search.infoclubfollowed"></span>
+      </div>
+      -->
+            
+      <!-- 
+      <div class="ui-block-a">
+        <label class="form-label" data-i18n="search.playerfollowed"></label>
+        </div>
+      <div class="ui-block-b">
+          <input type="checkbox" name="searchplayerfollowed" value="">         
+      </div>    
+      <div class="ui-block-a">
+      <span data-i18n="search.infoplayerfollowed"></span>      
+      </div>   
+      
+       -->
+              
+    </div> 
+    </div>
+    
+   
+
+  </div>
+</div>
+
+

@@ -37,7 +37,9 @@
   _.forEach(Drivers, function (driver, driverName) {
     if (!defaultDriver && driver.isUsable()) {
       defaultDriver = driver;
+      /*#ifdef DEV*/
       console.log("USING driver : " + driverName);
+      /*#endif*/
     }
   });
 
@@ -71,8 +73,7 @@
 
   DB.prototype.remove = function (k) {
     assert(typeof k === "string");
-
-    return this.driver.removeItem(k);
+    return this.driver.removeItem(this.prefix +k);
   };
 
   // 

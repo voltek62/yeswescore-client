@@ -1,487 +1,558 @@
 Y.Views.Game = Y.View.extend({
-      el : "#content",
+  el : "#content",
+  
+  displayViewScoreBoard : "#scoreBoard",
+  // Flux des commentaires
+  // FIXME: sort by priority
+  countComment : "#countComment",
       
-      displayViewScoreBoard : "#scoreBoard",
-      // Flux des commentaires
-      // FIXME: sort by priority
-      incomingComment : "#incomingComment",      
-      countComment : "#countComment",
-      
-      events : {
-        'click #facebook' : 'fbconnect',
-        'click #setPlusSetButton' : 'setPlusSet',
-        'click #setMinusSetButton' : 'setMinusSet',
-        'click #setPointWinButton' : 'setPointWin',
-        'click #setPointErrorButton' : 'setPointError',
-        'click #endButton' : 'endGame',
-        'click #followButton' : 'followGame',
-        'click #cancelButton' : 'cancelGame',
-        'click #optionButton' : 'optionGame',        
-        'click #team1_set1_div' : 'setTeam1Set1',
-        'click #team1_set2_div' : 'setTeam1Set2',
-        'click #team1_set3_div' : 'setTeam1Set3',
-        'click #team2_set1_div' : 'setTeam2Set1',
-        'click #team2_set2_div' : 'setTeam2Set2',
-        'click #team2_set3_div' : 'setTeam2Set3',
-        "click .button-comments": "goToComment",       
-      },
+  events : {
+    'click #facebook'       : 'share',
+    'click #statusButton'   : 'changeGameStatus',
+    'click #statusRestart'  : 'restartGame',
+    'click #followButton'   : 'followGame',
+    'click #startTeam1'     : 'startTeam1',
+    'click #startTeam2'     : 'startTeam2',        
+    'click #cancelButton'   : 'cancelGame',
+    'click .undoSelect'     : 'undoAction',    
+    'click #team1_sets_div' : 'setTeam1Score',
+    'click #team2_sets_div' : 'setTeam2Score',          
+    'click .set'            : 'incrementTeamSet',
+    'click .player-info'    : 'goToPlayerProfile',    
+    'click .playerInfos'    : 'goToPlayerProfile',   
+    'click #optionButton'   : 'goToOptions',
+    'click .button-comments': 'goToComment'    
+  },
 
-      pageName: "game",
-      pageHash : "games/",
+  pageName: "game",
+  pageHash : "games/",
 
-      initialize : function() {
-      
-        //$.ui.scrollToTop('#content');
-		//On met à jour le pageHash
-        this.pageHash += this.id; 
-      
+  shareTimeout: null,
+  sharing: false,
 
-        Y.GUI.header.title("MATCH");
+  gameid : null,
+  saveBufferTimeoutId: null,
+
+  initialize : function() {
+    this.pageHash += this.id;
+    this.gameid = this.id;
+
+    //header
+    Y.GUI.header.title(i18n.t('game.title'));
       	
-      	
-        // FIXME : temps de rafrichissement selon batterie et selon forfait
-        this.gameViewTemplate = Y.Templates.get('game');
-        this.gameViewScoreBoardTemplate = Y.Templates
-            .get('gameScoreBoard');
-        this.gameViewCommentListTemplate = Y.Templates
-            .get('gameCommentList');
-
-		//console.log('1.0');
-
-        this.Owner = Y.User.getPlayer();
-		this.score = new GameModel({id : this.id});
+	  // loading templates.
+	  this.templates = {
+	    game: Y.Templates.get('game'),
+	    scoreboard: Y.Templates.get('gameScoreBoard')
+	  };
+	          	
+	  // On stock les dernieres modifs
+    this.DB = new Y.DB("Y.Games."+this.gameid+".");
 		
-		//console.log('1.1');		
-		
-        this.score.fetch();
-
-		//console.log('1.2');
-
-        var games_follow = Y.Conf.get("owner.games.followed");
-        if (games_follow !== undefined)
-        {
-          if (games_follow.indexOf(this.id) === -1) {
-            this.follow = 'false';
-          }
-          else
-            this.follow = 'true';          
-        }
-        else
-          this.follow = 'false';
-          
-        
-        var options = {
-          delay : Y.Conf.get("game.refresh")
-        };
-
-
-		//console.log('1.3');
-
-        this.render();                                // rendu a vide (instantanément)
-        this.score.once("sync",this.render,this);      // rendu complet (1 seule fois)   PERFS: il faudrait un render spécial.
-        // FIXME: SI ONLINE       
-        //poller = Backbone.Poller.get(this.score, options)
-        //poller.start();
-        //poller.on('sync', this.render, this);
-        
-		//console.log('1.4');
-
-        
-        //On compte les commentaires
-        this.streams = new StreamsCollection({id : this.id});
-    	this.streams.fetch();
-    	this.streams.once("sync",this.renderCountComment,this); 
-    	
-    	//console.log('1.5');
-    	
-        
-      },
-
-
-	  fbconnect: function () {
-	    console.log('facebook connect');
-	    Y.Facebook.connect();
-	  },
- 
-      updateOnEnter : function(e) {
-        if (e.keyCode == 13) {
-          console.log('touche entrée envoie le commentaire');
-          this.commentSend();
-        }
-      },
-      
-      goToComment: function (elmt) { 
-    	console.log('goToComment',elmt.currentTarget.id); 
-    	var route = elmt.currentTarget.id;
-    	Y.Router.navigate(route, {trigger: true}); 
-  	  },
-
-      setTeamSet : function(input, div) {
-        if ($.isNumeric(input.val()))
-          set = parseInt(input.val(), 10) + 1;
-        else
-          set = '1';
-
-        input.val(set);
-        
-        //FIXME : NO HTML IN CODE
-        div.html('<div class="score">'+set+'</div>');
-        
-        this.sendUpdater();
-      },
-
-      setTeam1Set1 : function() {
-        console.log('setTeam1Set1');
-        this.setTeamSet($('#team1_set1'), $('#team1_set1_div'));
-      },
-
-      setTeam1Set2 : function(options) {
-        console.log('setTeam1Set2');        
-        this.setTeamSet($('#team1_set2'), $('#team1_set2_div'));
-      },
-
-      setTeam1Set3 : function() {
-        console.log('setTeam1Set3');
-        this.setTeamSet($('#team1_set3'), $('#team1_set3_div'));
-      },
-
-      setTeam2Set1 : function() {
-        this.setTeamSet($('#team2_set1'), $('#team2_set1_div'));
-      },
-
-      setTeam2Set2 : function() {
-        this.setTeamSet($('#team2_set2'), $('#team2_set2_div'));
-      },
-
-      setTeam2Set3 : function() {
-        this.setTeamSet($('#team2_set3'), $('#team2_set3_div'));
-      },
-
-      submitAttachment : function(data) {
-        // formData = new FormData($(this)[0]);
-        console.log('date-form', data);
-
-        /*
-         * $.ajax({ type:'POST', url:urlServiceUpload, data:formData,2
-         * contentType: false, processData: false, error:function (jqXHR,
-         * textStatus, errorThrown) { alert('Failed to upload file') },
-         * success:function () { alert('File uploaded')
-         */
-        return false;
-      },
-
-      sendUpdater : function() {
-        // console.log('action setPlusSet avec
-        // '+$('input[name=team_selected]:checked').val());
-
-        // ADD SERVICE
-        var gameid = $('#gameid').val()
-        , team1_set1 = $('#team1_set1').val()
-        , team1_set2 = $('#team1_set2').val()
-        , team1_set3 = $('#team1_set3').val()
-        , team2_set1 = $('#team2_set1').val()
-        , team2_set2 = $('#team2_set2').val()
-        , team2_set3 = $('#team2_set3').val()                                
-        , tennis_update = null;
-
-        if ($.isNumeric(team1_set1) === false)
-          team1_set1 = '0';
-        if ($.isNumeric(team2_set1) === false)
-          team2_set1 = '0';
-
-        var sets_update = team1_set1 + '/' + team2_set1;
-
-        if (team1_set2 > 0 || team2_set2 > 0) {
-          if ($.isNumeric(team1_set2) === false)
-            team1_set2 = '0';
-          if ($.isNumeric(team2_set2) === false)
-            team2_set2 = '0';
-
-          sets_update += ";" + team1_set2 + '/' + team2_set2;
-        }
-        if (team1_set3 > 0 || team2_set3 > 0) {
-
-          if ($.isNumeric(team1_set3) === false)
-            team1_set3 = '0';
-          if ($.isNumeric(team2_set3) === false)
-            team2_set3 = '0';
-
-          sets_update += ";" + team1_set3 + '/' + team2_set3;
-        }
-
-        // FIXME : On remplace les espaces par des zeros
-        // sets_update = sets_update.replace(/ /g,'0');
-
-        console.log('sets_update',sets_update);
-        
-        var game = {
-		   team1 : $('#team1').val()
-	      , rank1 : $('#rank1').val()
-	      , team1_id : $('#team1_id').val()
-	      , team2 : $('#team2').val()
-	      , rank2 : $('#rank2').val()
-	      , team2_id : $('#team2_id').val()
-	      , country : $('#country').val()	      
-	      , city : $('#city').val()
-	      , playerid : $('#playerid').val()
-	      , token : $('#token').val()
-	      , court : $('#court').val()
-	      , surface : $('#surface').val()
-	      , tour : $('#tour').val()
-	      , subtype : $('#subtype').val()
-	      , sets : sets_update
-	      , id : gameid 
-    	};
-        
-
-        tennis_update = new GameModel(game);
-        tennis_update.save();
-
-        // FIXME: on ajoute dans le stream un changement de score ???
-        /*
-        var stream = new StreamModel({
-          type : "score",
-          playerid : playerid,
-          token : token,
-          text : sets_update,
-          gameid : gameid
-        });
-        // console.log('stream',stream);
-        stream.save();
-        */
-        
-      },
-
-      setPlusSet : function() {
-        var selected = $('input[name=team_selected]:checked').val();
-        var set = parseInt($('#team' + selected + '_set1').val(), 10) + 1;
-        // console.log(set);
-
-        // FIXME : Regle de Gestion selon le score
-
-        $('#team' + selected + '_set1').val(set);
-        $('#team' + selected + '_set1_div').html(set);
-
-        this.sendUpdater();
-      },
-
-      setMinusSet : function() {
-        var selected = $('input[name=team_selected]:checked').val();
-        var set = parseInt($('#team' + selected + '_set1').val(), 10) - 1;
-        console.log(set);
-
-        if (set < 0)
-          set = 0;
-        // FIXME : Regle de Gestion selon le score
-
-        $('#team' + selected + '_set1').val(set);
-        $('#team' + selected + '_set1_div').html(set);
-
-        this.sendUpdater();
-      },
-
-      setPoint : function(mode) {
-        // 15 30 40 AV
-        var selected = $('input[name=team_selected]:checked').val(), selected_opponent = '';
-
-        // le serveur gagne un point
-        if (mode == true) {
-          if (selected == '2') {
-            selected_opponent = '2';
-          } else
-            selected_opponent = '1';
-        }
-        // le serveur perd un point
-        else {
-          if (selected == '2') {
-            selected = '1';
-            selected_opponent = '2';
-          } else
-            selected = '2';
-          selected_opponent = '1';
-        }
-
-        var set_current = $('input[name=set_current]:checked').val(), point = $(
-            '#team' + selected + '_points').val(), point_opponent = $(
-            '#team' + selected_opponent + '_points').val();
-
-        // Le serveur gagne son set
-        if (point == 'AV'
-            || (point == '40' && (point_opponent != '40' || point_opponent != 'AV'))) {
-          // On ajoute 1 set au gagnant les point repartent à zero
-          var set = parseInt(
-              $('#team' + selected + '_set' + set_current).val(), 10) + 1;
-          $('#team' + selected + '_set1').val(set);
-          $('#team' + selected + '_set1_div').html(set);
-
-          point = '00';
-          $('#team1_points').val(point);
-          $('#team1_points_div').html(point);
-          $('#team2_points').val(point);
-          $('#team2_points_div').html(point);
-        } else {
-          if (point === '00')
-            point = '15';
-          else if (point === '15')
-            point = '30';
-          else if (point === '30')
-            point = '40';
-          else if (point === '40')
-            point = 'AV';
-          else if (point === 'AV')
-            point = '00';
-          else {
-            point = '00';
-            // On met l'adversaire à zéro
-            $('#team' + selected_opponent + '_points').val(point);
-            $('#team' + selected_opponent + '_points_div').html(point);
-          }
-
-          $('#team' + selected + '_points').val(point);
-          $('#team' + selected + '_points_div').html(point);
-        }
-        this.sendUpdater();
-      },
-
-      setPointWin : function() {
-        console.log('setPointWin');
-        this.setPoint(true);
-      },
-
-      setPointError : function() {
-        console.log('setPointError');
-        this.setPoint(false);
-      },
-      
-
-      // renderRefresh : refresh only scoreboard
-      renderRefresh : function() {
-        
-        console.log('renderRefresh');
-        
-        $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
-          game : this.score.toJSON(),
-          Owner : this.Owner
-        }));
-             
-        
-        return false;
-      },
-
-	  renderCountComment : function() {
-	  
-	    var counter = 0;
-	    if (this.streams.toJSON().length>0)
-			counter = this.streams.toJSON().length;
-
-        $(this.countComment).html(counter);
-
-	  },
-
-      render : function() {
-        // On rafraichit tout
-        
-        //console.log("3.0 ",this.score.toJSON());
-        
-        // FIXME: refresh only input and id
-        this.$el.html(this.gameViewTemplate({
-          game : this.score.toJSON(),
-          Owner : this.Owner.toJSON(),
-          follow : this.follow
-        }));
-
-        /* css transition: performance issues: disabled
-        var $buttonCommentaires = this.$(".button-commentaires");
-        setTimeout(function () {
-          $buttonCommentaires.css("height", "87px");
-        }, 100);
-        */
-        
-		
-        $(this.displayViewScoreBoard).html(this.gameViewScoreBoardTemplate({
-          game : this.score.toJSON(),
-          Owner : this.Owner.toJSON()
-        }));
-		
-
-        return this;
-      },
-
-      alertDismissed : function() {
-        // do something
-      },
-
-      endGame : function() {
-        //window.location.href = '#games/end/' + this.id;
-        Y.Router.navigate("/games/end/"+this.id,{trigger:true})
-      },
-      
-      optionGame : function() {
-        //console.log('option Game /games/form/'+this.id);
-        Y.Router.navigate("/games/form/"+this.id,{trigger:true})
-      },      
-
-      followGame : function() {
-
-        if (this.follow === 'true') {
-
-          var games_follow = Y.Conf.get("owner.games.followed");
-          if (games_follow !== undefined)
-          {
-            if (games_follow.indexOf(this.id) !== -1) {
-              //On retire l'elmt
-              games_follow.splice(games_follow.indexOf(this.id), 1);
-              Y.Conf.set("owner.games.followed", games_follow, { permanent: true });
-            }
-          }
-          
-          $('span.success').html('Vous ne suivez plus ce match').show();
-          $("#followButton").text("Suivre");
-
-          this.follow = 'false';
-
-        } else {
-        
-          //Via localStorage
-          var games_follow = Y.Conf.get("owner.games.followed");
-          if (games_follow !== undefined)
-          {
-            if (games_follow.indexOf(this.id) === -1) {
-              games_follow.push(this.id);
-              Y.Conf.set("owner.games.followed", games_follow, { permanent: true });
-            }
-          }
-          else
-            Y.Conf.set("owner.games.followed", [this.id]);
-
-          $('span.success').html('Vous suivez ce joueur').show();
-
-          $("#followButton").text("Ne plus suivre");
-
-          this.follow = 'true';
-
-        }
-
-      },
-
-      cancelGame : function() {
-
-        console.log('On retire la derniere action');
-
-      },
-
-      onClose : function() {
-        // Clean
-        this.undelegateEvents();
-        this.score.off("sync",this.render,this);
-        //this.score.off("all",this.renderRefresh,this);
-        
-        // FIXME:remettre
-        //poller.stop();
-        //poller.off('sync', this.render, this);
-
-        // FIXME:
-        // poller.off('complete', this.render, this);
-        // this.$el.off('pagebeforeshow');
+    // loading owner
+    this.player = Y.User.getPlayer();   
+    
+    //loading followed
+    var games_follow = Y.Conf.get("owner.games.followed");
+    if (games_follow !== undefined)
+    {
+      if (games_follow.indexOf(this.id) === -1) {
+        this.follow = 'false';
       }
+      else
+        this.follow = 'true';          
+    }
+    else
+      this.follow = 'false';
+
+    // creating object game & stream (required by render)
+    this.game = new GameModel({id : this.gameid});
+    this.streams = new StreamsCollection([], {gameid : this.gameid});
+       
+    // Rendering.
+    // first: we render immediatly
+    this.render();
+    // 
+    this.game.once('sync', this.onGameInit, this);
+    // rerender on game update
+    this.game.on('sync', this.onGameSynched, this);
+    // Fetching data the fist time
+    this.game.fetch();
+
+    //
+    this.streams.once("sync", this.renderCountComment, this);
+    this.streams.fetch();
+  },
+
+  onGameInit: function () {
+    // Pooling du model game & affichage.
+    // FIXME: SI ONLINE
+    // FIXME : temps de rafrichissement selon batterie et selon forfait  
+    if (!this.game.isMine()) {
+      // mode lecture.
+      var pollingOptions = { delay: Y.Conf.get("game.refresh"), delayed: true };
+      this.poller = Backbone.Poller.get(this.game, pollingOptions)
+      this.poller.start();
+    } else {
+      // mode edition: no pooling
+    }
+  },
+
+  onGameSynched: function (model, resp, options) {
+    if (this.game.version == options.version) {
+      this.render();
+    }
+  },
+
+  shareError: function (err) {
+    console.log('share error: ' + err);
+    var that = this;
+    this.$(".facebook").addClass("ko");
+    this.shareTimeout = window.setTimeout(function () {
+      that.$(".facebook").removeClass("ko");
+      that.shareTimeout = null;
+    }, 5000);
+  },
+
+  shareSuccess: function () {
+    var that = this;
+    this.$(".facebook").addClass("ok");
+    this.shareTimeout = window.setTimeout(function () {
+      that.$(".facebook").removeClass("ok");
+      that.shareTimeout = null;
+    }, 5000);
+  },
+
+  share: function () {
+	  console.log('game: sharing on facebook');
+    // semaphore
+    if (this.sharing)
+      return; // cannot click on button until previous sharing is finished.
+    this.sharing = true;
+    // reseting GUI.
+    this.$(".faceboook").removeClass("ok");
+    this.$(".faceboook").removeClass("ko");
+    // clearing eventual timeouts
+    if (this.shareTimeout) {
+      window.clearTimeout(this.shareTimeout);
+      this.shareTimeout = null;
+    }
+    // 
+    var status = this.game.get("status");
+    // cannot share canceled game
+    if (status == "canceled") {
+      return this.shareError("cannot share a canceled game");
+    }
+    // we build a message for facebook.
+    // ex: [PlayersTeamA] [Versus] [PlayersTeamB]. [WinningPlayers] [scoreInfos] [score] [time]. [PROMO]
+    var messages = { };
+    // players names
+    messages['[playersTeamA]'] = this.game.getPlayersNamesByTeam(0);
+    messages['[playersTeamB]'] = this.game.getPlayersNamesByTeam(1);
+    // versus text
+    var versus;
+    if (status == "created") {
+      versus = i18n.t('game.fbversus1');
+    } else if (status == "ongoing") {
+      versus = i18n.t('game.fbversus2');
+    } else if (status == "finished") {
+      versus = i18n.t('game.fbversus3');
+    } else {
+      versus = "VS"; // neutral
+    }
+    messages['[versus]'] = versus;
+
+    var winningTeamIndex = this.game.getIndexWinningTeam();
+    var winningPlayers, scoreInfos;
+    // message : [Draw] [score] in [time]/[PlayerTeamA] wins [score] in [time]
+    switch (winningTeamIndex) {
+      case -1:
+        winningPlayers = "";
+        scoreInfos = i18n.t('game.fbegality')+" !";
+        break;
+      case 1:
+        winningPlayers = this.game.getPlayersNamesByTeam(1);
+        scoreInfos = (status == "finished") ? i18n.t('game.fbstatus1'):i18n.t('game.fbstatus2');
+        break;
+      case 0:
+        winningPlayers = this.game.getPlayersNamesByTeam(0);
+        scoreInfos = (status == "finished") ? i18n.t('game.fbstatus1'):i18n.t('game.fbstatus2');
+        break;
+      case null:
+      default:
+        winningPlayers = "";
+        scoreInfos = "";
+        break;
+    }
+    messages['[winningPlayers]'] = winningPlayers;
+    messages['[scoreInfos]'] = scoreInfos;
+    //
+    messages['[score]'] = this.game.get('infos').score;
+    messages['[sets]'] = this.game.get('infos').sets;
+
+    // hate toi de consulter 
+    messages['[time]'] = ""; // FIXME: temps Ã©coulÃ©
+
+    // FIXME: message promo en conf
+    // FIXME: url facebook doit pointer vers la game
+    messages['[PROMO]'] = "\n\n"+i18n.t('game.fbpromo');
+
+    var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
+    var message = _.reduce(_.keys(messages), function (result, token) {
+      return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
+    }, messagePattern);
+
+    // building message
+    console.log("SENDING FACEBOOK MESSAGE: " + message);
+    var that = this;
+    var id = String(this.id);
+	  Y.Facebook.shareAsync(id, message, function (err) {
+      that.sharing = false;
+      if (err)
+        return that.shareError(err);
+      that.shareSuccess();
     });
+  },
+  
+  undoAction: function() {
+    // mode lecture ou game finie => rien
+    if (!this.game.isMine() || this.game.get('status') === "finished")
+      return;
+    // il n'est plus possible d'undo => rien
+    var lastInfos = this.DB.readJSON("sets");
+    if (lastInfos === undefined || lastInfos.length <= 1)
+      return;
+    // pop du dernier score
+    var lastInfo = lastInfos.pop();
+    this.DB.saveJSON("sets", lastInfos);
+    // FIXME: good backbone way of saving attributes ???
+    this.game.get('infos').sets = lastInfo[0];
+    this.game.get('infos').score = lastInfo[1];
+    //
+    this.renderAndSave();
+  },
+
+  incrementTeamSet : function(ev) {
+    if (!this.game.isMine())
+      return;
+
+    if (this.game.get('status') === "created") {
+      this.$(".status").addClass("ko"); // on highlight le bouton
+      return;
+    }
+
+    if (this.game.get('status') === "finished") {
+      this.$(".buttonleft").addClass("ko"); // on highlight le bouton
+      return;
+    }
+
+    // on modifie le score du set en question dans l'objet game.
+    var sets = this.game.getSets();
+    var sets_tmp = this.game.getSets(0);
+    var score = this.game.getScore();
+    var set = $(ev.currentTarget).data('set');
+    var team = $(ev.currentTarget).data('team');
+
+    if (sets.length < set) {
+      // incrementation impossible
+      return;
+    }
+
+    /* regle de gestion */
+    // add diff de 2 max si superieur Ã  6
+    // add force score if diff de 2 ou on peut mettre Ã  jour les scores ? on controle si 0,1,2,3
+    var team1_set = sets_tmp[set][0];
+    var team2_set = sets_tmp[set][1];
+    var total_sets = parseInt(team1_set, 10) + parseInt(team2_set, 10);
+
+    // incrementation
+	  sets = this.game.getSets();
+	  if (typeof sets[set] === "undefined")
+	    sets[set] = [ 0, 0 ];
+	  sets[set][team]++;
+    sets_tmp[set][team]++;
+
+    // limitation
+    var diff_sets1 = Math.abs(parseInt(sets_tmp[0][0], 10)-parseInt(sets_tmp[0][1], 10));
+    var diff_sets2 = Math.abs(parseInt(sets_tmp[1][0], 10)-parseInt(sets_tmp[1][1], 10));
+    var diff_sets3 = Math.abs(parseInt(sets_tmp[2][0], 10)-parseInt(sets_tmp[2][1], 10));
+
+    if ((sets_tmp[0][0]>=7 && diff_sets1>2) ||
+        (sets_tmp[0][1]>=7 && diff_sets1>2) ||
+        (sets_tmp[1][0]>=7 && diff_sets2>2) ||
+        (sets_tmp[1][1]>=7 && diff_sets2>2) ||
+        (sets_tmp[2][0]>=7 && diff_sets3>2) ||
+        (sets_tmp[2][1]>=7 && diff_sets3>2)) {
+      // incrementation impossible
+      return;
+    }
+    
+    // MAJ cache
+    var setsCache = this.DB.readJSON("sets");
+    var newData = [this.game.get('infos').sets, this.game.get('infos').score];
+    if (setsCache === undefined) {
+      setsCache = [[0, 0], newData];
+    } else {
+      setsCache.push(newData);
+    }
+    this.DB.saveJSON("sets", setsCache);
+
+    // update en DB
+    this.game.setSets(sets);
+    this.game.setScore(this.game.computeScore());
+    //
+    this.renderAndSave();
+  },
+  
+  renderCountComment : function() {
+	  var nbComments = this.streams.length;
+
+    if (nbComments > Y.Conf.get("game.max.comments") )
+      this.$(".link-comments").html(i18n.t('game.50lastcomments'));
+    else if (nbComments == 1)
+      this.$(".link-comments").html(i18n.t('game.1comment'));
+    else if (nbComments > 0)
+      this.$(".link-comments").html(nbComments + " "+i18n.t('game.comments'));
+    else
+      this.$(".link-comments").html(i18n.t('game.0comment'));
+  },	
+
+  render : function() {
+    if (this.game.isFinished()) {
+      $("#statusButton").html(i18n.t('game.gamefinished'));	         
+      $("#optionButton").attr('id', 'statusRestart');
+ 	    $("#statusRestart").html(i18n.t('game.restart'));
+    }
+    
+    if (this.game.get('infos').startTeam!==undefined) {
+      $(".serverbar").hide();
+      $('.button-comments').css('display', 'block');
+    }
+    
+    // FIXME: refresh only input and id
+    this.$el.html(this.templates.game({
+      game : this.game.toJSON(),
+      timer : this.game.getElapsedTime(),
+      playerid : this.player.get('id'),      
+      follow : this.follow
+    }));
+    
+    this.renderScoreBoard(this.game);
+    if (this.streams)
+      this.renderCountComment();
+	
+	  if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
+	    $('.button-comments').css('display', 'none');
+    }
+
+    if (this.game.get('status') === "created") {
+      this.$("#statusButton").html(i18n.t('game.begin'));
+    } else if (this.game.get('status') === "ongoing") {
+      this.$("#statusButton").html(i18n.t('game.finish'));
+    }
+
+    if (this.game.isMine()) {
+      this.$("#scoreBoard").addClass("unselectable");
+    } else {
+      this.$("#scoreBoard").removeClass("unselectable");
+    }
+
+    //i18n
+    //PERF:on remplace que les champs du DOM concernÃ©s
+    $('a').i18n();
+    $('span').i18n();
+
+    return this;
+  },
+
+  renderScoreBoard : function(game) {
+    var sets = game.getSets('&nbsp')
+      , score = game.getScore();
+    
+    //
+    $(this.displayViewScoreBoard).html(this.templates.scoreboard({
+        game : game.toJSON()
+  	  , team1_set1 : sets[0][0]
+  	  , team1_set2 : sets[1][0]
+      , team1_set3 : sets[2][0]
+      , team2_set1 : sets[0][1]
+      , team2_set2 : sets[1][1]
+      , team2_set3 : sets[2][1]
+      , team1_sets : String(score[0]) || '&nbsp'
+      , team2_sets : String(score[1]) || '&nbsp'
+    }));
+		
+    //i18n
+    //PERF:on remplace que les champs du DOM concernÃ©s
+    $('a').i18n();
+    $('span').i18n();
+    
+	  var total_sets = parseInt(score[0]) + parseInt(score[1]);
+    if (total_sets >= 2)  {
+      $('#team1_set1_div .score').removeClass('ongoing');
+      $('#team2_set1_div .score').removeClass('ongoing');
+      $('#team1_set2_div .score').removeClass('ongoing');
+      $('#team2_set2_div .score').removeClass('ongoing');
+      $('#team3_set3_div .score').addClass('ongoing');
+      $('#team3_set3_div .score').addClass('ongoing');
+    }             
+    else if (total_sets === 1)  {
+      $('#team1_set1_div .score').removeClass('ongoing');
+      $('#team2_set1_div .score').removeClass('ongoing');
+      $('#team1_set2_div .score').addClass('ongoing');
+      $('#team2_set2_div .score').addClass('ongoing');
+      $('#team3_set3_div .score').removeClass('ongoing');
+      $('#team3_set3_div .score').removeClass('ongoing');
+    } else {
+      $('#team1_set1_div .score').addClass('ongoing');
+      $('#team2_set1_div .score').addClass('ongoing');
+      $('#team1_set2_div .score').removeClass('ongoing');
+      $('#team2_set2_div .score').removeClass('ongoing');
+      $('#team3_set3_div .score').removeClass('ongoing');
+      $('#team3_set3_div .score').removeClass('ongoing');
+    }
+
+	  var startTeam = game.get('infos').startTeam;
+	  if (game.whoServe() === startTeam) {
+	    if (game.get('teams')[0].id === startTeam) {
+		    $('.server1').addClass('server-ball');
+		    $('.server2').removeClass('server-ball');
+	    } else {
+		    $('.server1').removeClass('server-ball');
+		    $('.server2').addClass('server-ball');	  
+	    }
+	  } else {
+	    if (game.get('teams')[0].id === startTeam) {
+		    $('.server1').removeClass('server-ball');
+		    $('.server2').addClass('server-ball');
+	    } else {
+		    $('.server1').addClass('server-ball');
+		    $('.server2').removeClass('server-ball');
+	    }
+	  }
+    return this;
+  },
+
+  // fixme: on risque de passer de closed => ongoing ?
+  restartGame : function() {  
+    if (!this.game.isFinished())
+      return;
+    this.game.set('status', 'ongoing');
+	  this.renderAndSave();
+  },
+  
+  startTeam1 : function() {
+    this.game.get('infos').startTeam = 0;
+	this.renderAndSave();
+  },
+  
+  startTeam2 : function() {
+    this.game.get('infos').startTeam = 1;
+    this.renderAndSave();
+  },
+
+  // immediatly render & save in the background
+  renderAndSave: function () {
+    this.render();
+    this.saveBuffered();
+  },
+
+  saveBuffered: function () {
+  	/*
+    if (this.saveBufferTimeoutId) {
+      window.clearTimeout(this.saveBufferTimeoutId);
+    }
+    this.saveBufferTimeoutId = window.setTimeout(_.bind(this.save, this), 1000);
+    */
+    this.save();
+  },
+
+  save: function () {
+	  this.game.save(null, {
+	    playerid : this.player.get('id')
+	  , token : this.player.get('token')
+    });
+    this.saveBufferTimeoutId = null;
+  },
+
+  changeGameStatus : function() {
+    if (this.game.get('status') === "created") {
+      this.game.set('status', 'ongoing');
+      this.renderAndSave();
+    } else if (this.game.get('status') === "ongoing") {
+      this.game.set('status', 'finished');
+      this.game.get('infos').score = this.game.computeScore();
+ 		  // On efface la cache
+      if (this.DB!==undefined)
+        this.DB.remove("sets");
+      this.renderAndSave();
+    }
+  },
+
+  followGame : function() {
+    if (this.follow === 'true') {
+      var games_follow = Y.Conf.get("owner.games.followed");
+      if (games_follow !== undefined)
+      {
+        if (games_follow.indexOf(this.id) !== -1) {
+          //On retire l'elmt
+          games_follow.splice(games_follow.indexOf(this.id), 1);
+          Y.Conf.set("owner.games.followed", games_follow, { permanent: true });
+        }
+      }
+      $("#followButton").text(i18n.t('message.follow'));
+      this.follow = 'false';
+    } else {
+      //Via localStorage
+      var games_follow = Y.Conf.get("owner.games.followed");
+      if (games_follow !== undefined)
+      {
+        if (games_follow.indexOf(this.id) === -1) {
+          games_follow.push(this.id);
+          Y.Conf.set("owner.games.followed", games_follow, { permanent: true });
+        }
+      }
+      else
+        Y.Conf.set("owner.games.followed", [this.id]);
+      $("#followButton").text(i18n.t('message.nofollow'));
+      this.follow = 'true';
+    }
+  },
+
+  // ROUTING FUNCTIONS
+  goToComment: function (elmt) {
+    var route = $(elmt.currentTarget).attr("data-js-href");
+    Y.Router.navigate(route, {trigger: true}); 
+  },
+
+  goToOptions : function() {
+    Y.Router.navigate("/games/form/"+this.id, {trigger:true});
+  },   
+
+  goToPlayerProfile: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
+  },
+
+  // CLEAN
+  onClose : function() {
+    // desabonnements
+    this.game.off("sync", this.onGameSynched, this);
+    this.game.off("sync", this.onGameInit, this);
+    this.streams.off("sync", this.renderCountComment, this);
+    // on trigger immediatement la sauvegarde
+    if (this.saveBufferTimeoutId) {
+      window.clearTimeout(this.saveBufferTimeoutId);
+      this.save();
+    }
+    //
+    if (this.shareTimeout) {
+      window.clearTimeout(this.shareTimeout);
+      this.shareTimeout = null;
+    }
+    // 
+    if (!this.game.isMine()) this.poller.stop();
+  }
+});

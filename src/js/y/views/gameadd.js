@@ -2,244 +2,263 @@ Y.Views.GameAdd = Y.View.extend({
   el: "#content",
 
   events: {
-    // mode "input"
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',
-
     'click #addGame': 'addGame',
-    'keyup #team1': 'updateListTeam1',
-    'keyup #team2': 'updateListTeam2',
-    'click #team1_choice': 'displayTeam1',
-    'click #team2_choice': 'displayTeam2',
-
     'click .form-button.other-team': 'otherTeam',
     'click .form-button.more-options': 'moreOption',
-        
     'blur #team1': 'changeTeam1'
   },
 
   pageName: "gameAdd",
   pageHash : "games/add",  
 
-  listview1: "#team1_suggestions",
-  listview2: "#team2_suggestions",
+  useSearch:0,
 
-  initialize: function () {  
-    Y.GUI.header.title("CREER UNE PARTIE");
-  
-    this.playerListAutoCompleteViewTemplate = Y.Templates.get('playerListAutoComplete');
-    this.gameAddTemplate = Y.Templates.get('gameAdd');
-      
-      this.Owner = Y.User.getPlayer().toJSON();
+  team1_id: null,
+  team2_id: null,
+
+  myinitialize: function () {
+    this.useSearch = 0;	
+    Y.GUI.header.title(i18n.t('gameadd.title'));
+  	this.templates = {
+	    gameadd:  Y.Templates.get('gameAdd'),
+	    gameselect:  Y.Templates.get('gameSelect'),	    
+	    gameinput:  Y.Templates.get('gameInput'),	      
+	    playerlist: Y.Templates.get('playerListAutoComplete')
+	  };
+	  this.player = Y.User.getPlayer();
+	  this.DB = new Y.DB("Y.GameAdd.");
+    this.team1_id = this.player.get('id');
+    this.team2_id = null;
 	  this.render();
-
-  },
-
-  displayTeam1: function (li) {
-    selectedId = $('#team1_choice:checked').val();
-    selectedName = $('#team1_choice:checked').next('label').text();
-    selectedRank = $('#team1_choice:checked').next('label').next('label').text();
-    //$('label[for=pre-payment]').text();
-
-    $('#team1').val($.trim(selectedName));
-    $('#rank1').val($.trim(selectedRank));
-    $('#team1_id').val(selectedId);
-    $('team1_error').html('');
-
-    //console.log('selected '+selectedId+' '+selectedName);
-
-    $(this.listview1).html('');
-    //&$(this.listview1).listview('refresh');
-  },
-
-  displayTeam2: function (li) {
-    selectedId = $('#team2_choice:checked').val();
-    selectedName = $('#team2_choice:checked').next('label').text();
-    selectedRank = $('#team2_choice:checked').next('label').next('label').text();
-    //$('label[for=pre-payment]').text();
-
-    $('#team2').val($.trim(selectedName));
-    $('#rank2').val($.trim(selectedRank));
-    $('#team2_id').val(selectedId);
-    $('team2_error').html('');
-
-    //console.log('selected '+selectedId+' '+selectedName);
-
-    $(this.listview2).html('');
-    //$(this.listview2).listview('refresh');
   },
 
   otherTeam: function () {
+    this.team1_id = null;
+    // 
+    $('.team1_error').hide();
+    $('.team2_error').hide();
+    
     $(".form-button.other-team").addClass("selected");
     $(".ui-grid-b.first-team").removeClass("me");
     $("#team1").prop("disabled", false);
+    $("#team1").attr("placeholder", "");
+    $("#team1").val('');
+    // on force l'input mode
     $("#team1").focus();
+    this.$("#team1").trigger("click");
   },
 
   moreOption: function () {
+    $('.team1_error').hide();
+    $('.team2_error').hide();  
     $(".form-button.more-options").toggleClass("selected");
     $("#gameAddForm").toggleClass("simple");
   },
     
   changeTeam1: function () {
-    if ($("#team1").val() == "") {
+    if ($("#team1").val() === "") {
       $(".form-button.other-team").removeClass("selected");
       $(".ui-grid-b.first-team").addClass("me");
       $("#team1").prop("disabled", true);
+      //$("#team1").attr("placeholder", i18n.t("gameadd.player1_holder"));
+      if (this.player.get('name').length > 1)
+        $("#team1").val(this.player.get('name'));
+      this.team1_id = this.player.get('id');
     }
-  },
-
-  updateTeam1: function () {
-    $('#team1').val(this.Owner.name);
-    $('#rank1').val(this.Owner.rank);
-    $('#team1_id').val(this.Owner.id);
-  },
-
-  updateListTeam1: function (event) {
-    /* disabled: FIXME #myself doesn't exist.
-  	console.log('updateListTeam1');
-  
-    if ($('#myself').attr('checked') === undefined) {
-      var q = $("#team1").val();
-
-	  console.log('updateListTeam1 1');
-
-      this.playersTeam1 = new PlayersCollection();
-      this.playersTeam1.setMode('search', q);
-      if (q.length > 2) {
-        this.playersTeam1.fetch();
-        this.playersTeam1.on('all', this.renderListTeam1, this);
-      }
-    }
-    */
-  },
-
-  renderListTeam1: function () {
-    var q = $("#team1").val();
-    $(this.listview1).html(this.playerListAutoCompleteViewTemplate({ players: this.playersTeam1.toJSON(), query: q, select: 1 }));
-    //$(this.listview1).listview('refresh');
-  },
-
-
-  updateListTeam2: function (event) {
-    /*
-    var q = $("#team2").val();
-    this.playersTeam2 = new PlayersCollection();
-    this.playersTeam2.setMode('search', q);
-    if (q.length > 2) {
-      this.playersTeam2.fetch();
-
-      this.playersTeam2.on('all', this.renderListTeam2, this);
-    }
-    */
-  },
-
-  renderListTeam2: function () {
-    var q = $("#team2").val();
-    $(this.listview2).html(this.playerListAutoCompleteViewTemplate({ players: this.playersTeam2.toJSON(), query: q, select: 2 }));
-    //$(this.listview2).listview('refresh');
   },
 
   addGame: function (event) {
-  
-    //$.ui.toggleNavMenu(true);
-  
-    var team1 = $('#team1').val()
-      , rank1 = $('#rank1').val()
-      , team1_id = $('#team1_id').val()
+    var team1 = $('#team1').val()    
       , team2 = $('#team2').val()
       , rank2 = $('#rank2').val()
-      , team2_id = $('#team2_id').val()
       , city = $('#city').val()
-      , playerid = $('#playerid').val()
-      , token = $('#token').val()
-      , court = $('#court').val()
-      , surface = $('#surface').val()
-      , tour = $('#tour').val()
-      , subtype = $('#subtype').val()
-      , game = null;
+      , game;
 
-    if (team1 === '' && team1_id === '') {
-      $('span.team1_error').html('Vous devez indiquer un joueur !').show();
+    if (( team1.length < 3 || team1.indexOf('  ')!==-1 ) &&
+        this.team1_id != this.player.get('id')) {
+      $('.team1_error').html(i18n.t('message.error_emptyplayer')+' !').show();
+      $('#team1').val('');
+      return false;
+    }
+    
+    //On redirige vers le formulaire special
+    if (team1 === '' && this.team1_id == this.player.get('id')) {
+      //$('.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();      
+      //On sauvegarde les infos de la partie
+	    game = {
+		      team1 : team1
+	      , rank1 : $('#rank1').val()
+	      , team1_id : this.team1_id
+	      , team2 : team2
+	      , rank2 : $('#rank2').val()
+	      , team2_id : this.team2_id
+	      , location : { city : $('#city').val() }
+	      , infos : { 
+        	court : $('#court').val() 
+      		, surface : $('#surface').val()
+      		, tour : $('#tour').val() 
+      		} 
+	    };
+	    
+	  
+	    this.DB.saveJSON("game", game);
+      Y.Router.navigate("players/form/me", {trigger: true});	  
       return false;
     }
 
-/*
-    if (rank1 === '') {
-      $('span.team1_error').html('Vous devez indiquer le classement !').show();
-      return false;
-    }
-*/
+    //return false;
+    $("span[class*='_error']").hide();
 
-    if (team2 === '' && team2_id === '') {
-      $('span.team2_error').html('Vous devez indiquer un joueur !').show();
-      return false;
-    }
+    if (checkName(team1) && team1.length>0) {     
+	   $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team1').val('');        
+      return false;	   
+    };
+    
+    if (checkName(team2) && team2.length>0) { 
+	    $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#team2').val('');        
+      return false;	   
+    };
+    
+    if (checkRank(rank2) && rank2.length>0) {
+  	  $('.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+      $('#rank2').val('');        
+      return false;	   
+    };    
 
-/*
-    if (rank2 === '') {
-      $('span.team2_error').html('Vous devez indiquer le classement !').show();
+    if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && this.team2_id === null ) {
+      $('.team2_error').html(i18n.t('message.error_emptyplayer')+' !').show();
+      $('#team2').val('');
       return false;
-    }
-*/
-
-    var game = {
-		team1 : $('#team1').val()
-      , rank1 : $('#rank1').val()
-      , team1_id : $('#team1_id').val()
-      , team2 : $('#team2').val()
-      , rank2 : $('#rank2').val()
-      , team2_id : $('#team2_id').val()
-      , city : $('#city').val()
-      , playerid : $('#playerid').val()
-      , token : $('#token').val()
-      , court : $('#court').val()
-      , surface : $('#surface').val()
-      , tour : $('#tour').val()
-      , subtype : $('#subtype').val()
+    };
+    
+    if (checkName(city) && city.length>0) {             
+	    $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
+      $('#city').val('');        
+      return false;	   
     };
 
-	/*
-    if (team1_id.length > 2)
-      game.teams[0].players[0].id = team1_id;
-    else
-      game.teams[0].players[0].name = team1;
-
-    if (team2_id.length > 2)
-      game.teams[1].players[0].id = team2_id;
-    else
-      game.teams[1].players[0].name = team2;
-	*/
-	
-    console.log('gameadd on envoie objet ', game);
-
     //On sauve dans Collections
-    var gameNew = new GameModel(game);
-    var gameCache = gameNew.save();
+    game = new GameModel({
+		team1 : team1
+      , rank1 : $('#rank1').val()
+      , team1_id : this.team1_id
+      , team2 : team2
+      , rank2 : $('#rank2').val()
+      , team2_id : this.team2_id
+      , location : { city : $('#city').val() }
+      , infos : { 
+        	court : $('#court').val() 
+      		, surface : $('#surface').val()
+      		, tour : $('#tour').val() 
+      }
+    });   
+      
+    game.save(null, {
+      playerid: this.player.get('id'),
+      token: this.player.get('token')
+    }).done(function(model, response){
+      Y.Router.navigate('games/'+model.id, {trigger: true});
+    });
 
-	//On stocke dans le localStorage
-    //Y.Conf.set("Y.Cache.Game"+data.id, gameCache.id, { permanent: true })
-
-    //console.log('gamecache.id ', gameCache.id);
-
-    //if (gamecache.id !== 'undefined') {
-      //Backbone.Router.navigate("/#games/"+gamecache.id, true);
-      //window.location.href = '#games/' + gameCache.id;
-    //}
-    
-    
     return false;
+  },
+
+  autocompletePlayers: function (input, callback) {
+    if (input.indexOf('  ')!==-1 || input.length<= 1 )
+      callback('empty');		
+    
+    Backbone.ajax({
+      url: Y.Conf.get("api.url.autocomplete.players"),
+      type: 'GET',
+      dataType : 'json',
+      data: { q: input }
+    }).done(function (players) {
+      if (players && _.isArray(players) && players.length>0) {
+        callback(null, players.splice(0, 3).map(function (p) {
+          p.text = p.name; 
+          //FIXME : add rank
+          if (p.club !== undefined && p.club.name !== undefined) {
+	          p.text += " ( "+p.club.name+" )";
+	        }
+          return p; 
+        }));
+      } else {
+        callback(null, []);
+      }
+    }).fail(function (xhr, error) { 
+      callback(error);
+    });
+  },
+
+  autocompleteTeam1: function (data) {
+    if (data && data.name) {
+      this.$("#team1").val(data.name);
+      this.team1_id = data.id;
+    }
+  },
+
+  autocompleteTeam2: function (data) {
+
+    if (data && data.name) {
+      this.$("#team2").val(data.name);
+      this.team2_id = data.id;
+    }
   },
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.gameAddTemplate({ playerid: this.Owner.id, token: this.Owner.token }));
-    //this.$el.trigger('pagecreate');
+    this.$el.html(this.templates.gameadd());
+    if (this.player.get('name'))
+      $("#team1").val(this.player.get('name')); 
+    if (this.player.get('id') !== "")
+      this.team1_id = this.player.get('id');
+	 
+	 /*
+	 debug android 2.2 to 2.3.6
+	 */
+	 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	 var isGingerbread = /android 2\.3/i.test(userAgent);
+	 
+	 if (!isGingerbread) {
+		 $('#inject-select').prepend(this.templates.gameselect({ 
+		    selection : i18n.t('gameadd.selection')
+		    , surface : i18n.t('gameadd.surface')
+	     })); 
+	 }
+	 else {
+		 $('#inject-select').prepend(this.templates.gameinput());
+	 }
+         
+    //fill with last data 
+    if (this.DB !== undefined) {
+      var game = this.DB.readJSON("game"); 
+      
+      if (game!==undefined) {
+	      $("#team2").val(game.team2); 
+	      this.team2_id = game.team2_id;
+	      $("#rank2").val(game.rank2);                
+	    
+	      if (!isGingerbread) {
+		      if ( game.city !== "" ) $("#city").val(game.city);    
+		      if ( game.surface !== "" ) $("#surface").val(game.surface);
+		      if ( game.tour !== "" ) $("#tour").val(game.tour);
+		      if ( game.court !== "" ) $("#court").val(game.court);
+	      }
+	      if ( game.competition !== "" )
+          $("#competition").val(game.competition);
+        
+        this.DB.remove("game"); 
+      }
+    }
+    $('#content').i18n();
     return this;
   },
 
   onClose: function () {
     //Clean
+    this.autocompleteStop();
     this.undelegateEvents();
     if (this.playersTeam1 !== undefined) this.playersTeam1.off("all", this.renderListTeam1, this);
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);

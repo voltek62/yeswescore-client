@@ -8,17 +8,20 @@ Y.Views.Player = Y.View.extend({
   pageName: "player",
   pageHash : "players/",
 
-  initialize: function(options) {
+  myinitialize: function(options) {
   
     this.pageHash += this.id; 
     
-    Y.GUI.header.title("JOUEUR");	    
+    Y.GUI.header.title(i18n.t('player.title'));	    
   
     this.playerViewTemplate = Y.Templates.get('player');
 
-	//console.log('player init '+this.id);
+
 
     this.player = new PlayerModel({id:this.id});
+    //change
+    this.player.on( 'sync', this.render, this );
+        
     this.player.fetch(); 
 
     var players_follow = Y.Conf.get("owner.players.followed");
@@ -33,8 +36,7 @@ Y.Views.Player = Y.View.extend({
     else
       this.follow = 'false';
 
-    //change
-    this.player.on( 'sync', this.render, this );
+
   },
 
   followPlayer: function() {
@@ -51,8 +53,11 @@ Y.Views.Player = Y.View.extend({
             }
           }
           
-          $('span.success').html('Vous ne suivez plus ce joueur').show();
-          $("#followButton").text("Suivre");
+          $('span.success').css({display:"block"});
+          $('span.success').html(i18n.t('message.nofollowplayerok')).show();
+          $("#followButton").text(i18n.t('message.follow'));
+          $('#followButton').removeClass('button-selected');
+          $('#followButton').addClass('button'); 
 
           this.follow = 'false';
 
@@ -70,8 +75,12 @@ Y.Views.Player = Y.View.extend({
           else
             Y.Conf.set("owner.players.followed", [this.id]);
 
-          $('span.success').html('Vous suivez ce joueur').show();
-          $("#followButton").text("Ne plus suivre");
+		  $('span.success').css({display:"block"});
+          $('span.success').html(i18n.t('message.followplayerok')).show();
+          $("#followButton").text(i18n.t('message.nofollow'));
+          $('#followButton').removeClass('button');
+          $('#followButton').addClass('button-selected');          
+          
 
           this.follow = 'true';
 
@@ -81,11 +90,12 @@ Y.Views.Player = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    console.log('render player view ',this.player.toJSON());
-    
+  
     this.$el.html(this.playerViewTemplate({
       player:this.player.toJSON(),follow:this.follow
     }));
+    
+    this.$el.i18n();
 
     return this;
   },

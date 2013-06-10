@@ -1,15 +1,30 @@
 <div class="content-container">
   <div class="account">
-    <a href="#games/me/<%= Owner.id %>">Mes Matchs</a>
-    <a href="#games/follow" class="button" id="">Matchs Suivis</a>
-    <a href="#players/follow" class="button" id="">Joueurs Suivis</a>
     <%
-     if( clubid === undefined ) 
-       print ('<a href="#account" disabled>Mon Club</a>'); 
-     else
-       print ('<a href="#clubs/'+clubid+'">Mon Club</a>'); 
+     if( player && player.get('email') &&
+         (player.get('email').status == "pending-confirmation" || 
+          player.get('email').status == "confirmed")) { 
     %>
-    <a href="#players/form">Mon profil</a>
-    <a href="#players/signin">Connectez-vous</a>
+    <a class="button" href="#players/signin" data-i18n="account.disconnect" data-js-navigate></a>
+    <% } else { %>
+    <a class="button" href="#players/signin" data-i18n="account.connect" data-js-navigate></a>
+    <% } %>
+    
+    <hr/>
+    <a class="button" href="#games/me/<%= player.id %>" data-i18n="account.mymatch" data-js-navigate></a>
+    <%
+     if( clubid === '' || clubid === undefined ) 
+       print ('<a class="button" href="" data-i18n="account.myclub" data-js-navigate="" disabled></a>'); 
+     else
+       print ('<a class="button" href="#clubs/'+clubid+'" data-i18n="account.myclub" data-js-navigate></a>'); 
+    %>
+    <a class="button" href="#players/form" data-i18n="account.myprofil" data-js-navigate></a>
+    
+    <hr/>
+    <a class="button" href="#clubs/follow" data-i18n="account.clubsfollowed" data-js-navigate></a> 
+    <a class="button" href="#games/follow" data-i18n="account.gamesfollowed" data-js-navigate></a>
+    <a class="button" href="#players/follow" data-i18n="account.playersfollowed" data-js-navigate></a>    
+    <hr/>
+    <a class="button" href="#about" data-i18n="account.about" data-js-navigate></a>
   </div>
 </div>

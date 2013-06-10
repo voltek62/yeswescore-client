@@ -77,7 +77,7 @@ module.exports = function( grunt ) {
 
   (function () {
     // <!-- @include file -->
-    var regexp = /<!\-\-\s*\@include\s+([a-zA-Z0-9_\.\/]+)\s*\-\->/gm;
+    var regexp = /(<!\-\-|\/\*)\s*\@include\s+([a-zA-Z0-9_\.\/]+)\s*(\-\->|\*\/)/gm
 
     grunt.registerMultiTask('include', 'include', function() {
       // Iterate over all specified file groups.
@@ -102,8 +102,8 @@ module.exports = function( grunt ) {
           // searching includes
           var m, result;
           while (m = regexp.exec(filecontent)) {
-            grunt.log.writeln("@include file "+m[1]+" in "+filepath);
-            var includedcontent = grunt.file.read(m[1]);
+            grunt.log.writeln("@include file "+m[2]+" in "+filepath);
+            var includedcontent = grunt.file.read(m[2]);
             result = result.replace(m[0], function () { return includedcontent }); // avoid $` bugs..
           }
 

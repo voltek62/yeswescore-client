@@ -28,8 +28,6 @@ var PlayerModel = Backbone.Model.extend({
 
   },
 
-
-
   read: function () {
 
 

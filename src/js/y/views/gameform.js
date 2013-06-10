@@ -12,7 +12,6 @@ Y.Views.GameForm = Y.View.extend({
     'click #updateGame':'update',
     'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub'
-      
   },
   
   listview:"#suggestions",

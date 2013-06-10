@@ -91,15 +91,17 @@ Y.Views.GameForm = Y.View.extend({
     }
     return false;
   },
-      
+    
+  // on stoque les modifs dans la GUI.  
   startTeam1 : function() {
+    $('#startTeam1').parent().addClass("select");
+    $('#startTeam2').parent().removeClass("select");
     this.game.get('infos').startTeam = 0;
-    this.renderAndSave();
   },
   
   startTeam2 : function() {
-    this.game.get('infos').startTeam = 1;
-    this.renderAndSave();
+    $('#startTeam1').parent().removeClass("select");
+    $('#startTeam2').parent().addClass("select");
   },
 
   renderAndSave: function () {
@@ -177,6 +179,10 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').court = $('#court').val();
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
+      if ($('#startTeam1').parent().hasClass("select"))
+        this.game.get('infos').startTeam = 0;
+      if ($('#startTeam2').parent().hasClass("select"))
+        this.game.get('infos').startTeam = 1;
       this.renderAndSave().done(function (result) {
         if (!that.unloaded) {
           // uniquement si nous sommes tjs sur cette page.

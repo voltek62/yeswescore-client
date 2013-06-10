@@ -33,7 +33,17 @@ var PlayerModel = Backbone.Model.extend({
 
   },
 
+  isMe: function () {
+    return this.get('id') == Y.User.getPlayer().get('id');
+  },
 
+  isMine: function () {
+    return this.get('owner') == Y.User.getPlayer().get('id');
+  },
+
+  isOWned: function () {
+    return this.get('type') === "owned";
+  },
 
   sync: function (method, model, options) {
     // allowing playerid & token overload.

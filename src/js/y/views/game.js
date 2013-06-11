@@ -14,7 +14,7 @@ Y.Views.Game = Y.View.extend({
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',        
     'click #cancelButton'   : 'cancelGame',
-    'click .undoSelect'     : 'undoAction',    
+    'vclick .undoSelect'     : 'undoAction',    
     'click #team1_sets_div' : 'setTeam1Score',
     'click #team2_sets_div' : 'setTeam2Score',          
     'vclick .set'            : 'incrementTeamSet',
@@ -31,7 +31,6 @@ Y.Views.Game = Y.View.extend({
   sharing: false,
 
   gameid : null,
-  saveBufferTimeoutId: null,
 
   initialize : function() {
     this.pageHash += this.id;
@@ -542,11 +541,6 @@ Y.Views.Game = Y.View.extend({
     this.game.off("sync", this.onGameSynched, this);
     this.game.off("sync", this.onGameInit, this);
     this.streams.off("sync", this.renderCountComment, this);
-    // on trigger immediatement la sauvegarde
-    if (this.saveBufferTimeoutId) {
-      window.clearTimeout(this.saveBufferTimeoutId);
-      this.save();
-    }
     //
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);

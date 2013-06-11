@@ -188,7 +188,7 @@ var GameModel = Backbone.Model.extend({
     var that = this
       , delay = 1000; // 1s
 
-    if (this._bufferedDeferredPublic) {
+    if (this._bufferedDeferredPublic !== null) {
       // des appels sont déjà en attentes
       //  - saving last object & options
       //  - reseting timeouts

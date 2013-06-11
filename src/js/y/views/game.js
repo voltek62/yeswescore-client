@@ -229,7 +229,7 @@ Y.Views.Game = Y.View.extend({
     this.game.get('infos').sets = lastInfo[0];
     this.game.get('infos').score = lastInfo[1];
     //
-    this.renderAndSave();
+    this.renderAndSave({buffered:true});
   },
 
   incrementTeamSet : function(ev) {
@@ -301,7 +301,7 @@ Y.Views.Game = Y.View.extend({
     this.game.setSets(sets);
     this.game.setScore(this.game.computeScore());
     //
-    this.renderAndSave();
+    this.renderAndSave({buffered:true});
   },
   
   renderCountComment : function() {
@@ -452,27 +452,12 @@ Y.Views.Game = Y.View.extend({
   },
 
   // immediatly render & save in the background
-  renderAndSave: function () {
+  renderAndSave: function (options) {
     this.render();
-    this.saveBuffered();
-  },
-
-  saveBuffered: function () {
-  	/*
-    if (this.saveBufferTimeoutId) {
-      window.clearTimeout(this.saveBufferTimeoutId);
-    }
-    this.saveBufferTimeoutId = window.setTimeout(_.bind(this.save, this), 1000);
-    */
-    this.save();
-  },
-
-  save: function () {
-	  this.game.save(null, {
+	  this.game.save(null, _.assign({
 	    playerid : this.player.get('id')
 	  , token : this.player.get('token')
-    });
-    this.saveBufferTimeoutId = null;
+    }, options || {}));
   },
 
   changeGameStatus : function() {

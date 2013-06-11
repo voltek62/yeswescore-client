@@ -136,9 +136,12 @@ var GameModel = Backbone.Model.extend({
         }
       });
     } else if (method === 'update' && options.playerid !== undefined) {
-      
+      // tricky
+      if (options.buffered) {
+        console.log('on met à jour (DEFERRED) game avec '+ JSON.stringify(object)); 
+        return this._bufferedUpdate(object, options);
+      }
       console.log('on met à jour game avec '+ JSON.stringify(object)); 
-		
       return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") + this.get('id') + '/?playerid=' + options.playerid + '&token=' + options.token,
@@ -163,6 +166,95 @@ var GameModel = Backbone.Model.extend({
       model.url = Y.Conf.get("api.url.games")+this.id;
       return Backbone.sync(method, model, options);
     }
+  },
+
+  /*
+   * UPDATE BUFFURING
+   *  model.save(null, { }).done( ... waiting function ... )
+   *  model.save(null, { }).done( ... waiting function ... )
+   *
+   * Workflow:
+   *  model.save() will NOT call Backbone.ajax
+   *  model.save() will save the last object/options in a stack and trigger the xhr after 1 second.
+   *  model.save() is called before 1sec => delay the xhr of 1 second.
+   *
+   */
+  _bufferedDeferredPublic: null,  // launch every function waiting for the update when resolved.
+  _bufferedDeferredPrivate: null, // launch the XHR when resolved.
+  _bufferedLastObject: null,
+  _bufferedLastOptions: null,
+  _bufferedTimeoutId: null,
+  _bufferedUpdate: function (object, options) {
+    var that = this
+      , delay = 1000; // 1s
+
+    if (this._bufferedDeferredPublic) {
+      // des appels sont déjà en attentes
+      //  - saving last object & options
+      //  - reseting timeouts
+      //  - return public deferred
+      this._bufferedLastObject = object;
+      this._bufferedLastOptions = options;
+      // reseting timeouts
+      window.clearTimeout(this._bufferedTimeoutId);
+      this._bufferedTimeoutId = window.setTimeout(function () {
+        that._bufferedDeferredPrivate.resolve(); // trigger the xhr
+      }, delay);
+      // return public deferred
+      return this._bufferedDeferredPublic;
+    }
+    // saving last object & options
+    this._bufferedLastObject = object;
+    this._bufferedLastOptions = options;
+    // creating deferred
+    this._bufferedDeferredPublic = $.Deferred();
+    this._bufferedDeferredPrivate = $.Deferred();
+    // resolving private defered in 1sec
+    this._bufferedTimeoutId = window.setTimeout(function () {
+      that._bufferedDeferredPrivate.resolve(); // trigger the xhr
+    }, delay);
+    this._bufferedDeferredPrivate.done(function () {
+      // when private deferred is resolved,
+      //  - save object & options
+      //  - save public deferred
+      //  - clear private deferred
+      //  - clear timeouts
+      //  - clear public deferred
+      //  - launch the XHR
+      var object = that._bufferedLastObject;
+      var options = that._bufferedLastOptions;
+      var publicDeferred = that._bufferedDeferredPublic;
+      //
+      that._bufferedDeferredPrivate = null;
+      that._bufferedTimeoutId = null;
+      that._bufferedDeferredPublic = null;
+      //
+      Backbone.ajax({
+        dataType : 'json',
+        url : Y.Conf.get("api.url.games") + that.get('id') + '/?playerid=' + options.playerid + '&token=' + options.token,
+        type : 'POST',
+        data : object,
+        success: function (data) {
+          // WARNING WARNING
+          // tricky: on aura des effets de bord un jour ...
+          //  on rend l'update des données du modèle conditionnelle à la version
+          if (options.version === that.version)
+            that.set(data);
+          //
+          if (options && options.success)
+            options.success(data);
+          // FIXME: apply & all arguments
+          publicDeferred.resolve(data);
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
+          // FIXME: apply & all arguments
+          publicDeferred.resolve(message);
+        }
+      });
+    });
+    return this._bufferedDeferredPublic;
   },
 
   getPlayersNamesByTeam: function (teamIndex) {

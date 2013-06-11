@@ -5,11 +5,11 @@
 
   var events = {
     // input mode
+    'blur input': 'inputModeOffDelayed', //Permet de cacher le textarea          
      /*#ifndef IOS*/
     'click input': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur input': 'inputModeOffDelayed',
     'click textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur textarea': 'inputModeOffDelayed',
+    'blur textarea': 'inputModeOffDelayed', 
     /*#endif*/
     // helpers
     'click *[data-js-call]': 'mycall',

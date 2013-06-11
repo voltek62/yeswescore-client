@@ -2,7 +2,7 @@
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
   <App xmlns="" ProductID="{75ffdb70-6d0a-49e8-a2f2-ddb704aed8fa}" Title="yeswescore" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="yeswescore author" BitsPerPixel="32" Description="Apache Cordova for Windows Phone" Publisher="CordovaExample" PublisherID="{b93a0d8e-5aa9-4d9b-b232-17e2d852e779}">
-    <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Images\tile-200x200.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />
       <Capability Name="ID_CAP_IDENTITY_USER" />
@@ -26,17 +26,24 @@
     <Tokens>
       <PrimaryToken TokenID="yeswescoreToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsResource="false" IsRelative="true">Background.png</SmallImageURI>
+          <SmallImageURI IsResource="false" IsRelative="true">Images\tile.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsResource="false" IsRelative="true">Background.png</BackgroundImageURI>
+          <BackgroundImageURI IsResource="false" IsRelative="true">Images\tile-200x200.png</BackgroundImageURI>
           <Title>yeswescore</Title>
-          <BackContent></BackContent>
-          <BackBackgroundImageURI></BackBackgroundImageURI>
-          <BackTitle></BackTitle>
-          <LargeBackgroundImageURI></LargeBackgroundImageURI>
-          <LargeBackContent></LargeBackContent>
-          <LargeBackBackgroundImageURI></LargeBackBackgroundImageURI>
-          <DeviceLockImageURI></DeviceLockImageURI>
+          <BackContent>
+          </BackContent>
+          <BackBackgroundImageURI>
+          </BackBackgroundImageURI>
+          <BackTitle>
+          </BackTitle>
+          <LargeBackgroundImageURI>
+          </LargeBackgroundImageURI>
+          <LargeBackContent>
+          </LargeBackContent>
+          <LargeBackBackgroundImageURI>
+          </LargeBackBackgroundImageURI>
+          <DeviceLockImageURI>
+          </DeviceLockImageURI>
           <HasLarge>false</HasLarge>
         </TemplateFlip>
       </PrimaryToken>

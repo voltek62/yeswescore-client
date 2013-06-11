@@ -14,6 +14,7 @@
   */
   var stack = [ /* String */]; // "timestamp","playerid","type","..."
 
+  var playerIdConfKey = 'player.id';
   var playerid = "";
 
   var Stats = {
@@ -25,9 +26,10 @@
     },
 
     initialize: function () {
-      playerid = Y.Conf.get("playerid") || "";
+      playerid = Y.Conf.get(playerIdConfKey) || "";
       Y.Conf.on("set", function (o) {
-        if (o.key === "playerid") {
+        console.log('key setted ' + o.key + ' ' + o.value);
+        if (o.key === playerIdConfKey) {
           playerid = o.value;
         }
       });

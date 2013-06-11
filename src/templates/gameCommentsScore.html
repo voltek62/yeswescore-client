@@ -10,17 +10,17 @@
   var team2_sets = '0'; 
 
   if (game) {
-    if (game.options.score !== null ) { 
-      if(game.options.score.indexOf('/')!=-1) { 
-        scoreboard = game.options.score.split('/'); 
+    if (game.infos.score !== null ) { 
+      if(game.infos.score.indexOf('/')!=-1) { 
+        scoreboard = game.infos.score.split('/'); 
         team1_sets = scoreboard[0]; 
         team2_sets = scoreboard[1]; 
         } 
     } 
   
-    if (game.options.sets !== null ) { 
-      if (game.options.sets.indexOf(';')!=-1) { 
-        scoreboard = game.options.sets.split(';'); 
+    if (game.infos.sets !== null ) { 
+      if (game.infos.sets.indexOf(';')!=-1) { 
+        scoreboard = game.infos.sets.split(';'); 
     
         if (scoreboard.length==2 ||scoreboard.length==3) { 
           scoreboard1 = scoreboard[0].split('/');
@@ -40,8 +40,8 @@
       } 
       // 1 set 
       else { 
-        if (game.options.sets.indexOf('/')!=-1) { 
-          scoreboard1 = game.options.sets.split('/'); 
+        if (game.infos.sets.indexOf('/')!=-1) { 
+          scoreboard1 = game.infos.sets.split('/'); 
           team1_set1 = scoreboard1[0]; 
           team2_set1 = scoreboard1[1]; 
         } 
@@ -71,7 +71,7 @@
           <div class="ui-block-a player-name" style="width:58%;">
     	<% 
     	if (game.teams[0].players[0]!== undefined) { 
-    		print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+    		print('<b>'+game.teams[0].players[0].name+'</b>&nbsp;<b class="server1">&nbsp;&nbsp;&nbsp;</b><br/>');
     	}
     	%>         
           </div>
@@ -89,9 +89,8 @@
      
           <div class="ui-block-a player-name" style="width:58%;">
     	<% 
-    	if (game.teams[1].players[0]!== undefined) { 
-    		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
-    			
+    	if (game.teams[1].players[0]!== undefined) { 	
+            print('<b>'+game.teams[1].players[0].name+'</b>&nbsp;<b class="server2">&nbsp;&nbsp;&nbsp;</b><br/>');    			
     	}
     	%>         
           </div>

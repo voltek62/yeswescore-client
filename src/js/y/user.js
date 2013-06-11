@@ -74,11 +74,29 @@
     },
     
 	setFiltersSearch: function (filter) {	
-      Y.Conf.set(playerFiltersSearchConfKey, filter, { permanent: true });		
+	
+	  var filters = Y.Conf.get(playerFiltersSearchConfKey);	  
+      if (filters!==undefined) {      	  
+        if (filters.indexOf(filter) !== -1) {
+          filters.splice(filters.indexOf(filter), 1);
+
+          Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });
+        } 
+       else {
+           filters.push(filter);
+           Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });      
+       }        
+      }
+      else {
+         Y.Conf.set(playerFiltersSearchConfKey, [filter], { permanent: true });
+      }  
+      	
 	},
 	
 	getFiltersSearch: function () {	
-      return Y.Conf.get(playerFiltersSearchConfKey);		
+	
+      return Y.Conf.get(playerFiltersSearchConfKey);
+      		
 	},	    
     
 	setFiltersSort: function (filter) {	

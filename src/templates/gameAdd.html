@@ -8,7 +8,7 @@
 
 		  <div class="ui-grid-b first-team me">
 			  <div class="ui-block-a">
-				  <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
+				  <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1_holder;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
 			  </div>
 			  <div class="ui-block-b">
 				  <input type="text" id="rank1" name="rank1" data-i18n="[placeholder]gameadd.rank;" class='jq-ui-forms-white' value="" />
@@ -18,11 +18,7 @@
 			  </div>
 		  </div>
 		
-		  <div>				
-			  <ul id="team1_suggestions" data-role="listview" data-inset="true"></ul>
-			  <input type="hidden" id="team1_id" class="input" value="" /> 
-			  <span class="team1_error label label-info hide"></span>
-		  </div>
+		  <div class="team1_error label label-error hide"></div>
 	
       <div class="form-label" data-i18n="gameadd.player2"></div>
 
@@ -38,11 +34,7 @@
         </div>
 		  </div>
 		
-        <div>
-          <ul id="team2_suggestions" data-role="listview" data-inset="true"></ul>
-          <input type="hidden" id="team2_id" class="input" value="" /> 
-          <span class="team2_error label label-info hide"></span>
-        </div>  
+      <div class="team2_error label label-error hide"></div>  
     
       <div class="additionnal-options">	
 
@@ -50,13 +42,12 @@
         
 		    <div>
 			    <input type="text" id="city" name="city" data-i18n="[placeholder]gameadd.city;" value="" /> 
-			    <span class="city_error label label-info hide"></span>
+			    
 		    </div>
         
-            <div id="inject-select"></div>
-		
-		    
+        <div class="city_error label label-error hide"></div>
 
+        <div id="inject-select"></div>
       </div>
       
         <div style="padding:20px"></div>
@@ -72,6 +63,3 @@
   <div class="background trapeze"></div>
   <div class="link-form"><div class="button" id="addGame" data-i18n="gameadd.submit"></div></div>
 </div>
-
-
-

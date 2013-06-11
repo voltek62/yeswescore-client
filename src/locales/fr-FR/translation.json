@@ -1,4 +1,10 @@
 {
+  "about": {
+    "title": "A PROPOS",
+    "informations": "Informations:",
+    "submitidea": "Soumettre une suggestion",
+    "submitbug": "Rapporter un bug"
+  },
   "account": {
     "title": "PROFIL",
     "mymatch": "Mes Matchs",
@@ -7,7 +13,9 @@
     "playersfollowed": "Joueurs Suivis",
     "myclub": "Mon Club",
     "myprofil": "Mon profil",
-    "connect": "Connectez-vous"    
+    "connect": "Connexion / Enregistrement",
+    "disconnect": "Deconnexion",
+    "about": "A propos"
   },
   "app": {
     "name": "Yes We Score"
@@ -37,10 +45,11 @@
   },   
   "game": {
     "title": "MATCH",  
+    "restart" : "Reprendre",
     "spectators" : "Mode Spectateur",
     "finish": "Terminer match",
-    "ongoing": "En cours",
-    "finished": "Fini",
+    "ongoing": "En direct",
+    "finished": "Terminé",
     "created": "A venir",
     "undo" : "Annuler",
     "begin" : "Commencer le match",
@@ -154,7 +163,9 @@
   },  	 
   "gameform": {
     "title": "MES OPTIONS",
+    "whoserverdfirst" : "Qui a servi en premier ?",
     "delete": "Supprimer le match",
+    "confirmdelete": "Confirmer la suppression",
     "date":"Date du match",
     "time":"Heure du match",
     "city":"Ville",
@@ -162,7 +173,10 @@
   },
   "gamefollow": {
     "title": "MATCHS SUIVIS"
-  },      
+  },
+  "home": {
+    "connexionlost": "Connexion perdue"
+  },
   "index": {
     "title": "ACCUEIL",
     "games": "Matchs",
@@ -178,6 +192,7 @@
     "error": "Une erreur s'est produite",
     "error_emptyplayer" : "Vous devez indiquer un joueur",
     "error_emptyyou" : "Vous devez indiquer au moins un nom et un classement pour vous",    
+    "error_deconnexion": "Erreur de deconnexion",
     "nofollowplayerok":"Vous ne suivez plus ce joueur",
     "followplayerok":"Vous suivez ce joueur",
     "nofollowgameok":"Vous ne suivez plus ce match",
@@ -188,11 +203,14 @@
     "nofollow":"Ne plus suivre", 
     "mailspam":"Mail envoyé",
     "mailspam_sentence":"Attention, le mail qui rappelle votre mot de passe peut arriver dans le spam.",
-    "mailerror":"Mail inconnu",
+    "mailerror":"Mail inconnu, ou qui n'a pas été confirmé",
+    "password_mismatch":"Erreur, les mots de passe ne sont pas identiques",
+    "registering_error":"Erreur d'enregistrement",
     "signinok":"Chargement réussi",
-    "signinerror":"Chargement impossible",    
+    "signinerror":"Erreur, mot de passe incorrect",
     "loading":"CHARGEMENT",       
     "bad_rank":"Le classement est invalide",
+    "empty_name":"Vous devez indiquer au moins un nom et/ou prénom",    
     "bad_name":"Le nom peut contenir seulement des lettres et au moins 3 caractères",
     "bad_password":"Votre mot de passe contient des caractères interdits ( Autorisé : A-Z a-z 0-9 !@#$%^&*()_ ) ou il est inférieur à 6 caractères",
     "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",        
@@ -231,8 +249,12 @@
     "email": "Email",
     "emailplaceholder": "Email",    
     "password": "Mot de passe",
+    "passwordconfirm": "Confirmez votre mot de passe",
     "passwordforgotten": "Mot de passe oublié",    
-    "connexion": "Connexion"   
+    "connexion": "Connexion",
+    "deconnexion": "Deconnexion",
+    "registered": "Vous êtes enregistré",
+    "registering": "Vous pouvez vous enregistrer en choisissant un mot de passe."
   },   
   "nav": {
     "matchs": "Matchs",
@@ -240,6 +262,17 @@
     "account": "Mon Compte"
   },
   "search": {
+    "title": "RECHERCHE",
+    "zone": "Zone",    
+    "filters":"Filtres :",    
+    "filtergps":"GPS",
+    "filtermyclub":"Mon Club",     
+ 	"introform": "Personnalisez votre accueil",   
+ 	"geo": "A proximité",   
+ 	"myclub": "Mon Club",   
+ 	"clubfollowed": "Club suivis",   
+ 	"gamefollowed": "Matchs suivis",   
+ 	"playerfollowed": "Joueurs suivis",     
     "gameplaceholder": "Rechercher par nom, par club",
     "playerplaceholder": "Rechercher par nom",  
     "clubplaceholder": "Rechercher par nom",  
@@ -250,9 +283,19 @@
     "filterdate" : "par date",
     "filterlocation" : "par ville",
     "filterclub" : "par club",
-    "filterstatus" : "jeux en cours",     
+    "filterstatusall" : "Tous",  
+    "filterstatusongoing" : "En direct",
+    "filterstatusfinished" : "Terminé",
+    "filterstatuscreated" : "A venir",               
     "filtername" : "par nom",
-    "ongoing" : "Recherche en cours"      
+    "ongoing" : "Recherche en cours",
+    "update" : "Enregistrer,
+	"infogeo": "GPS",   
+    "gpsoff" : "desactivé",	
+ 	"infomyclub": "Indiquer votre club",   
+ 	"infoclubfollowed": "Gérer les clubs suivis",   
+ 	"infogamefollowed": "Gérer les matchs suivis",   
+ 	"infoplayerfollowed": "Gérer les joueurs suivis"        
   },
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

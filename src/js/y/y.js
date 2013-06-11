@@ -91,6 +91,8 @@
                    if (err == "deprecated" || err == "network error")
                      return callback(err);
 
+                   $("a,#offline").i18n();
+
                    // init router
                    that.Router.initialize();
                     /*#ifdef DEV*/

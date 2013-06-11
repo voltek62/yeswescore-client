@@ -6,6 +6,7 @@ Y.Views.GameComments = Y.View.extend({
   pageHash : "games/comment/",
 
   shareTimeout: null,
+  isSend : false,
 
   events: {
     'mousedown .button.send' : 'sendComment'
@@ -117,7 +118,34 @@ Y.Views.GameComments = Y.View.extend({
           
     }  
   
-	  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
+	this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
+	  
+	var startTeam = this.game.get('infos').startTeam;
+	this.server1 = "";
+	this.server2 = "";	  
+	  
+	if ( this.game.whoServe() === startTeam ) {
+	  if (this.game.get('teams')[0].id === startTeam) 
+	  {
+		$('.server1').addClass('server-ball');
+		$('.server2').removeClass('server-ball');	
+	  }
+	  else {
+		$('.server1').removeClass('server-ball');
+		$('.server2').addClass('server-ball');						  
+	  }
+	}
+	else {
+	  if (this.game.get('teams')[0].id === startTeam) 
+	  {
+		$('.server1').removeClass('server-ball');
+		$('.server2').addClass('server-ball');				
+	  }
+	  else {
+		$('.server1').addClass('server-ball');
+		$('.server2').removeClass('server-ball');				  
+	  }
+	}	  
 	  
 	  return this;
   },
@@ -212,6 +240,7 @@ Y.Views.GameComments = Y.View.extend({
       });
   },
 
+  sendingComment: false,
   sendComment : function() {
     var playerid = this.owner.id
     , token  = this.owner.get('token')
@@ -221,9 +250,16 @@ Y.Views.GameComments = Y.View.extend({
 
     if (comment.length === 0)
       return; // empty => doing nothing.
+    if (this.sendingComment)
+      return; // already sending => disabled.
       
     //filter
     comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");  
+      
+    //on bloque le textarea  
+    $('.button').addClass('disabled');
+    // on evite que l'utilisateur qui double tap, envoie 2 comments
+    this.sendingComment = true;
       
     var stream = new StreamModel({
           type : "comment",
@@ -236,12 +272,16 @@ Y.Views.GameComments = Y.View.extend({
       that.streamItemsCollection.fetch();
       that.$('#messageText').val('');
       that.scrollTop();
+      that.$('.button').removeClass("disabled");
+      that.sendingComment = false;
     }).fail(function (err) {
 	    that.$(".button.send").addClass("ko");
 	    that.shareTimeout = window.setTimeout(function () {
 	      that.$(".button.send").removeClass("ko");
 	      that.shareTimeout = null;
+	  	  that.$('.button').removeClass("disabled");    
 	    }, 4000);
+      that.sendingComment = false;
     });   
     
   },

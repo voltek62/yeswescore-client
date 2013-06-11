@@ -18,6 +18,8 @@ Y.Views.GameForm = Y.View.extend({
 
   pageName: "gameForm",
   pageHash : "games/form",  
+  
+  confirmTimeout: null,
     
   clubs:null,
   useSearch:null,
@@ -194,6 +196,12 @@ Y.Views.GameForm = Y.View.extend({
           // uniquement si nous sommes tjs sur cette page.
 	        $('span.success').css({display:"block"});
 	        $('span.success').html(i18n.t('message.updateok')).show();
+	         
+            this.confirmTimeout = window.setTimeout(function () {
+		      Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
+		      that.confirmTimeout = null;
+		    }, 2000);
+	        
         }
       });
     }, this));
@@ -263,5 +271,10 @@ Y.Views.GameForm = Y.View.extend({
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)
       this.clubs.off("sync", this.renderList,this);
+      
+    if (this.confirmTimeout) {
+      window.clearTimeout(this.confirmTimeout);
+      this.confirmTimeout = null;
+    }  
   }
 });

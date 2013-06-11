@@ -5,16 +5,16 @@ Y.Views.GameList = Y.View.extend({
     // mode "input"
     "keyup input#search-basic": "searchOnKey",
     "mousedown .button-search": "searchButton",
-    "click li": "goToGame",
+    "vclick li": "goToGame",
     'click .button-option-right': 'showFilters',
    
-    'click a[data-filter="searchmyclub"]':'deleteFilter', 
-    'click a[data-filter="searchgeo"]':'deleteFilter',    
+    'vclick a[data-filter="searchmyclub"]':'deleteFilter', 
+    'vclick a[data-filter="searchgeo"]':'deleteFilter',    
         
-    'click div[data-filter="filter-status-all"]': 'filterByStatusAll',
-    'click div[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
-    'click div[data-filter="filter-status-finished"]': 'filterByStatusFinished',      
-    'click div[data-filter="filter-status-created"]': 'filterByStatusCreated'
+    'vclick div[data-filter="filter-status-all"]': 'filterByStatusAll',
+    'vclick div[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
+    'vclick div[data-filter="filter-status-finished"]': 'filterByStatusFinished',      
+    'vclick div[data-filter="filter-status-created"]': 'filterByStatusCreated'
     
   },
 

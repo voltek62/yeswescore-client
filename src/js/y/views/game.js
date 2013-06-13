@@ -213,7 +213,7 @@ Y.Views.Game = Y.View.extend({
     });
   },
   
-  undoAction: function() {
+  undoAction: function(ev) {
     // mode lecture ou game finie => rien
     if (!this.game.isMine() || this.game.get('status') === "finished")
       return;

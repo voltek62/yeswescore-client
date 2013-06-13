@@ -6196,13 +6196,13 @@ var cordova = require("cordova");
 
 var debugConsole = {
     log:function(msg){
-        exec(null,null,"DebugConsole","log",msg);
+        //exec(null,null,"DebugConsole","log",msg);
     },
     warn:function(msg){
-        exec(null,null,"DebugConsole","warn",msg);
+        //exec(null,null,"DebugConsole","warn",msg);
     },
     error:function(msg){
-        exec(null,null,"DebugConsole","error",msg);
+        //exec(null,null,"DebugConsole","error",msg);
     }
 };
 

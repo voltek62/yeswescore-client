@@ -113,7 +113,8 @@ Y.Views.Header = Y.View.extend({
         i++;
       } else {
         // off
-        i--;
+        if (i > 0)
+          i--;
       }
     };
   })()

@@ -617,8 +617,8 @@ ul>li.player>a {
 .content-container {
 	padding-top: 44px; /* #header */
 	padding-bottom: 42px; /* #navbar */
-	padding-left: 10px;
-	padding-right: 10px;
+	/*padding-left: 10px;
+	padding-right: 10px;*/
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;

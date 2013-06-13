@@ -97,7 +97,11 @@ Y.Views.GameList = Y.View.extend({
      }
      else 
        	this.searchOption = Y.User.getFiltersSearch();    
-  
+
+     if (this.sortOption!==undefined) {
+       if (this.sortOption !=="") 
+         this.games.setSort(this.sortOption);      
+     }
      
      if (this.searchOption!==undefined) {
      

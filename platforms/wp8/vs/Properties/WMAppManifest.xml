@@ -1,24 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
-  <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{75ffdb70-6d0a-49e8-a2f2-ddb704aed8fa}" Title="yeswescore" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="yeswescore author" BitsPerPixel="32" Description="Apache Cordova for Windows Phone" Publisher="CordovaExample" PublisherID="{b93a0d8e-5aa9-4d9b-b232-17e2d852e779}">
+  <DefaultLanguage xmlns="" code="fr" />
+  <Languages xmlns="">
+    <Language code="fr" />
+    <Language code="fr-BE" />
+    <Language code="fr-CA" />
+    <Language code="fr-FR" />
+    <Language code="fr-LU" />
+    <Language code="fr-MC" />
+    <Language code="fr-CH" />
+  </Languages>
+  <App xmlns="" ProductID="{75ffdb70-6d0a-49e8-a2f2-ddb704aed8fa}" Title="YesWeScore" RuntimeType="Silverlight" Version="1.0.2.1" Genre="apps.normal" Author="yeswescore author" BitsPerPixel="32" Description="Les résultats sportifs de vos amis pour le tennis au creux de votre main ! N’importe où, n’importe quand, vous trouverez les scores de votre club sportif favori en tournoi amical ou officiel et réagissez en live sur votre smartphone." Publisher="zeNodus SAS" PublisherID="{b93a0d8e-5aa9-4d9b-b232-17e2d852e779}">
     <IconPath IsRelative="true" IsResource="false">Images\tile-200x200.png</IconPath>
     <Capabilities>
-      <Capability Name="ID_CAP_IDENTITY_DEVICE" />
-      <Capability Name="ID_CAP_IDENTITY_USER" />
       <Capability Name="ID_CAP_LOCATION" />
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
-      <Capability Name="ID_CAP_APPOINTMENTS" />
-      <Capability Name="ID_CAP_CONTACTS" />
-      <Capability Name="ID_CAP_ISV_CAMERA" />
-      <Capability Name="ID_CAP_MICROPHONE" />
-      <Capability Name="ID_CAP_PHONEDIALER" />
-      <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
-      <Capability Name="ID_CAP_SENSORS" />
-      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
-      <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
-      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
@@ -29,22 +26,16 @@
           <SmallImageURI IsResource="false" IsRelative="true">Images\tile.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsResource="false" IsRelative="true">Images\tile-200x200.png</BackgroundImageURI>
-          <Title>yeswescore</Title>
+          <Title>YesWeScore</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>
           </BackBackgroundImageURI>
           <BackTitle>
           </BackTitle>
-          <LargeBackgroundImageURI>
-          </LargeBackgroundImageURI>
-          <LargeBackContent>
-          </LargeBackContent>
-          <LargeBackBackgroundImageURI>
-          </LargeBackBackgroundImageURI>
           <DeviceLockImageURI>
           </DeviceLockImageURI>
-          <HasLarge>false</HasLarge>
+          <HasLarge>False</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>

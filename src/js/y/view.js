@@ -167,8 +167,10 @@
       assert(typeof this[fetchFunctionName] === "function");
       this.autocompleteObj = new Y.Autocomplete();
       this.autocompleteObj.on("input.temporized", function (input) {
+        if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
         // fetching data for input
         this[fetchFunctionName](input, _.bind(function (err, data) {
+          if (this.unloaded || !this.autocompleteObj) return;  // prevent execution if unloaded.
           // FIXME: this function will not be disposed :(
           if (err)
             return this.autocompleteObj.trigger("fetched.error", err);

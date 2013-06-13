@@ -49,7 +49,6 @@
     
     <!-- required plugins -->
     <plugin name="Device"/>
-    <plugin name="DebugConsole" />
     <plugin name="NetworkStatus"/>
     <plugin name="File"/>
     <plugin name="InAppBrowser"/>

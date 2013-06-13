@@ -48,18 +48,36 @@
 
           // slow if answer is taking longer than 2sec.
           var timeoutid = window.setTimeout(function () { Y.Connection.setSpeed(Y.Connection.SPEED_SLOW); timeoutid = null; }, 2000);
-          // launching xhr.
-          var xhr = $.ajax(url, options);
-          // events.
-          xhr.always($.proxy(function () { this.trigger("request.end"); }, this));
-          xhr.always(function () {
-            if (timeoutid) {
-              window.clearTimeout(timeoutid);
-              Y.Connection.setSpeed(Y.Connection.SPEED_FAST);
-            }
-          });
-          this.trigger("request.start", xhr, url, options);
-          return xhr;
+
+          // delaying result (fail / success) in dev environment
+          var d = $.Deferred();
+          var networkDelay = 10;
+          /*#ifdef DEV*/
+          networkDelay = 2000;
+          /*#endif*/
+          var that = this;
+          window.setTimeout(function () {
+            // launching xhr.
+            var xhr = $.ajax(url, options);
+            // forwarding delayed result
+            xhr.done(function () {
+              var args = Array.prototype.slice.apply(arguments);
+              d.resolve.apply(d, args);
+            });
+            xhr.fail(function () {
+              var args = Array.prototype.slice.apply(arguments);
+              d.reject.apply(d, args);
+            });
+            xhr.always(function () { that.trigger("request.end"); });
+            xhr.always(function () {
+              if (timeoutid) {
+                window.clearTimeout(timeoutid);
+                Y.Connection.setSpeed(Y.Connection.SPEED_FAST);
+              }
+            });
+          }, networkDelay);
+          that.trigger("request.start", null, url, options); // FIXME: cannot now xhr because of delaying result.
+          return d;
       };
     },
 
@@ -95,9 +113,9 @@
 
                    // init router
                    that.Router.initialize();
-                    /*#ifdef DEV*/
-    				console.log('router initialized');
-    				/*#endif*/
+                   /*#ifdef DEV*/
+                   console.log('router initialized');
+                   /*#endif*/
                    
                    // load the templates.
                    that.Templates.loadAsync(function () {

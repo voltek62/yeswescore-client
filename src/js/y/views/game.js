@@ -98,7 +98,11 @@ Y.Views.Game = Y.View.extend({
   },
 
   onGameSynched: function (model, resp, options) {
-    if (this.game.version == options.version) {
+    // we render if there is no options.version information
+    //  or if options.version == game.version
+    if (!options ||
+        typeof options.version === "undefined" ||
+        this.game.version == options.version) {
       this.render();
     }
   },

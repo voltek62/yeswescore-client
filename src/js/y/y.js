@@ -59,6 +59,13 @@
           window.setTimeout(function () {
             // launching xhr.
             var xhr = $.ajax(url, options);
+            // TRICKY: we send the event after 10ms
+            //  this might be risky, because the .done() code might not be
+            //  fully executed yet. But if we don't do this & there is JS exception
+            //  in any done handler => this event will never be executed
+            xhr.always(function () {
+              setTimeout(function () { that.trigger("request.end") }, 10);
+            });
             // forwarding delayed result
             xhr.done(function () {
               var args = Array.prototype.slice.apply(arguments);
@@ -68,7 +75,6 @@
               var args = Array.prototype.slice.apply(arguments);
               d.reject.apply(d, args);
             });
-            xhr.always(function () { that.trigger("request.end"); });
             xhr.always(function () {
               if (timeoutid) {
                 window.clearTimeout(timeoutid);

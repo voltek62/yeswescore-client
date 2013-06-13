@@ -11,6 +11,8 @@ Y.Views.GameAdd = Y.View.extend({
   pageName: "gameAdd",
   pageHash : "games/add",  
 
+  confirmGameAdd: true,
+
   useSearch:0,
 
   team1_id: null,
@@ -102,7 +104,9 @@ Y.Views.GameAdd = Y.View.extend({
 	    
 	  
 	    this.DB.saveJSON("game", game);
-      Y.Router.navigate("players/form/me", {trigger: true});	  
+      Y.Router.navigate("players/form/me", {trigger: true});	
+      
+        
       return false;
     }
 
@@ -155,12 +159,20 @@ Y.Views.GameAdd = Y.View.extend({
       }
     });   
       
-    game.save(null, {
-      playerid: this.player.get('id'),
-      token: this.player.get('token')
-    }).done(function(model, response){
-      Y.Router.navigate('games/'+model.id, {trigger: true});
-    });
+      
+    if (this.confirmGameAdd === true) {
+    	
+    	this.confirmGameAdd = false;
+    	var that = this;
+    	
+	    game.save(null, {
+	      playerid: this.player.get('id'),
+	      token: this.player.get('token')
+	    }).done(function(model, response){
+	   	  that.confirmGameAdd = true; 
+	      Y.Router.navigate('games/'+model.id, {trigger: true}); 
+	    });
+	}
 
     return false;
   },
@@ -262,5 +274,7 @@ Y.Views.GameAdd = Y.View.extend({
     this.undelegateEvents();
     if (this.playersTeam1 !== undefined) this.playersTeam1.off("all", this.renderListTeam1, this);
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
-  }
+	this.confirmGameAdd = true;  
+  } 
+  
 });

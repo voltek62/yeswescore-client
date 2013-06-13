@@ -46,9 +46,20 @@ var GameModel = Backbone.Model.extend({
     }
   },
 
+  debug: false,
+
+  validate: function (attr, options) {
+    if (options &&
+        typeof options.version !== "undefined" &&
+        options.version !== this.version) {
+        if (this.debug) console.log('outdated : ' + options.version + ' VS ' + this.version);
+        return "outdated";
+    }
+    return null;
+  },
+
   sync : function(method, model, options) {
     this.version++;
-    options.version = this.version;
     var that = this;
     var team1_json = null;
     var team2_json = null;
@@ -136,24 +147,20 @@ var GameModel = Backbone.Model.extend({
         }
       });
     } else if (method === 'update' && options.playerid !== undefined) {
+      // versioning
+      options.version = this.version;
       // tricky
       if (options.buffered) {
-        console.log('on met à jour (DEFERRED) game avec '+ JSON.stringify(object)); 
+        if (this.debug) console.log('GAME: updating game (DEFERRED) '+ JSON.stringify(object.infos)); 
         return this._bufferedUpdate(object, options);
       }
-      console.log('on met à jour game avec '+ JSON.stringify(object)); 
+      if (this.debug) console.log('on met à jour game avec '+ JSON.stringify(object)); 
       return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") + this.get('id') + '/?playerid=' + options.playerid + '&token=' + options.token,
         type : 'POST',
         data : object,
         success: function (data) {
-          // WARNING WARNING
-          // tricky: on aura des effets de bord un jour ...
-          //  on rend l'update des données du modèle conditionnelle à la version
-          if (options.version === that.version)
-            that.set(data);
-          //
           if (options && options.success)
             options.success(data);
         },
@@ -189,6 +196,7 @@ var GameModel = Backbone.Model.extend({
       , delay = 1000; // 1s
 
     if (this._bufferedDeferredPublic !== null) {
+      if (this.debug) console.log('update => stagged');
       // des appels sont déjà en attentes
       //  - saving last object & options
       //  - reseting timeouts
@@ -223,6 +231,7 @@ var GameModel = Backbone.Model.extend({
       //  - launch the XHR
       var object = that._bufferedLastObject;
       var options = that._bufferedLastOptions;
+      if (that.debug) console.log('GAME: XHR: ' + JSON.stringify(object.infos) + ' version ' + options.version);
       var publicDeferred = that._bufferedDeferredPublic;
       //
       that._bufferedDeferredPrivate = null;
@@ -238,8 +247,11 @@ var GameModel = Backbone.Model.extend({
           // WARNING WARNING
           // tricky: on aura des effets de bord un jour ...
           //  on rend l'update des données du modèle conditionnelle à la version
-          if (options.version === that.version)
+          if (that.debug) console.log('GAME: XHR SUCCESS : ' + JSON.stringify(object.infos) + ' version : ' + options.version + ' VS ' + that.version);
+          if (options.version === that.version) {
+            if (that.debug) console.log('GAME: VERSION OK => UPDATE MODEL WITH ' + JSON.stringify(object.infos));
             that.set(data);
+          }
           //
           if (options && options.success)
             options.success(data);

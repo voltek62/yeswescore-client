@@ -94,7 +94,6 @@
 	},
 	
 	getFiltersSearch: function () {	
-	
       return Y.Conf.get(playerFiltersSearchConfKey);
       		
 	},	    

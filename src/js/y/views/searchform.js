@@ -58,7 +58,7 @@ Y.Views.SearchForm = Y.View.extend({
       $('#searchmyclub span').toggleClass('checked');
       Y.User.setFiltersSearch('searchmyclub');         
     }
-    else if (event.currentTarget.id === 'searchmyclub' && filters.indexOf('searchmyclub')!==-1) {
+    else if (event.currentTarget.id === 'searchmyclub' && filters.indexOf('searchgeo')!==-1) {
       $('#searchgeo span').toggleClass('checked');
       Y.User.setFiltersSearch('searchgeo'); 
     }

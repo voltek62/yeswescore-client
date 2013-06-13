@@ -4,12 +4,13 @@ Y.Views.GameList = Y.View.extend({
   events: {
     // mode "input"
     "keyup input#search-basic": "searchOnKey",
+    "blur input#search-basic": "searchOnBlur",
     "mousedown .button-search": "searchButton",
-    "click li": "goToGame",
+    "vclick li": "goToGame",
     'click .button-option-right': 'showFilters',
    
-    'click a[data-filter="searchmyclub"]':'deleteFilter', 
-    'click a[data-filter="searchgeo"]':'deleteFilter',    
+    'vclick a[data-filter="searchmyclub"]':'deleteFilter', 
+    'vclick a[data-filter="searchgeo"]':'deleteFilter',    
         
     'click div[data-filter="filter-status-all"]': 'filterByStatusAll',
     'click div[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
@@ -96,7 +97,11 @@ Y.Views.GameList = Y.View.extend({
      }
      else 
        	this.searchOption = Y.User.getFiltersSearch();    
-  
+
+     if (this.sortOption!==undefined) {
+       if (this.sortOption !=="") 
+         this.games.setSort(this.sortOption);      
+     }
      
      if (this.searchOption!==undefined) {
      
@@ -275,6 +280,13 @@ Y.Views.GameList = Y.View.extend({
     return this;
   },
 
+  searchOnBlur: function (event) {
+
+    this.search();
+
+    return this;
+  },
+  
   search: function () {
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.ongoing());
@@ -287,7 +299,6 @@ Y.Views.GameList = Y.View.extend({
     if (this.searchOption !== undefined) {     
       
       //FIXME : cumul search et trier par date
-
       
       if(this.searchOption.indexOf('searchmyclub')!==-1 && this.clubid === '') {
         this.games.addSearch('club');  

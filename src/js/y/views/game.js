@@ -14,10 +14,10 @@ Y.Views.Game = Y.View.extend({
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',        
     'click #cancelButton'   : 'cancelGame',
-    'click .undoSelect'     : 'undoAction',    
+    'vclick .undoSelect'     : 'undoAction',    
     'click #team1_sets_div' : 'setTeam1Score',
     'click #team2_sets_div' : 'setTeam2Score',          
-    'click .set'            : 'incrementTeamSet',
+    'vclick .set'            : 'incrementTeamSet',
     'click .player-info'    : 'goToPlayerProfile',    
     'click .playerInfos'    : 'goToPlayerProfile',   
     'click #optionButton'   : 'goToOptions',
@@ -31,7 +31,6 @@ Y.Views.Game = Y.View.extend({
   sharing: false,
 
   gameid : null,
-  saveBufferTimeoutId: null,
 
   initialize : function() {
     this.pageHash += this.id;
@@ -99,7 +98,11 @@ Y.Views.Game = Y.View.extend({
   },
 
   onGameSynched: function (model, resp, options) {
-    if (this.game.version == options.version) {
+    // we render if there is no options.version information
+    //  or if options.version == game.version
+    if (!options ||
+        typeof options.version === "undefined" ||
+        this.game.version == options.version) {
       this.render();
     }
   },
@@ -214,7 +217,7 @@ Y.Views.Game = Y.View.extend({
     });
   },
   
-  undoAction: function() {
+  undoAction: function(ev) {
     // mode lecture ou game finie => rien
     if (!this.game.isMine() || this.game.get('status') === "finished")
       return;
@@ -229,7 +232,7 @@ Y.Views.Game = Y.View.extend({
     this.game.get('infos').sets = lastInfo[0];
     this.game.get('infos').score = lastInfo[1];
     //
-    this.renderAndSave();
+    this.renderAndSave({buffered:true});
   },
 
   incrementTeamSet : function(ev) {
@@ -301,7 +304,7 @@ Y.Views.Game = Y.View.extend({
     this.game.setSets(sets);
     this.game.setScore(this.game.computeScore());
     //
-    this.renderAndSave();
+    this.renderAndSave({buffered:true});
   },
   
   renderCountComment : function() {
@@ -452,27 +455,12 @@ Y.Views.Game = Y.View.extend({
   },
 
   // immediatly render & save in the background
-  renderAndSave: function () {
+  renderAndSave: function (options) {
     this.render();
-    this.saveBuffered();
-  },
-
-  saveBuffered: function () {
-  	/*
-    if (this.saveBufferTimeoutId) {
-      window.clearTimeout(this.saveBufferTimeoutId);
-    }
-    this.saveBufferTimeoutId = window.setTimeout(_.bind(this.save, this), 1000);
-    */
-    this.save();
-  },
-
-  save: function () {
-	  this.game.save(null, {
+	  this.game.save(null, _.assign({
 	    playerid : this.player.get('id')
 	  , token : this.player.get('token')
-    });
-    this.saveBufferTimeoutId = null;
+    }, options || {}));
   },
 
   changeGameStatus : function() {
@@ -542,11 +530,6 @@ Y.Views.Game = Y.View.extend({
     this.game.off("sync", this.onGameSynched, this);
     this.game.off("sync", this.onGameInit, this);
     this.streams.off("sync", this.renderCountComment, this);
-    // on trigger immediatement la sauvegarde
-    if (this.saveBufferTimeoutId) {
-      window.clearTimeout(this.saveBufferTimeoutId);
-      this.save();
-    }
     //
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);

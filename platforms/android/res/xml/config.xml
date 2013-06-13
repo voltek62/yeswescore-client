@@ -29,8 +29,6 @@
 
     <access origin="http://api.yeswescore.com" subdomains="true" />
 
-    <log level="DEBUG" />
-
     <preference name="useBrowserHistory" value="false" />
     <preference name="exit-on-suspend" value="false" />
     

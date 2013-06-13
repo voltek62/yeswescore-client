@@ -18,6 +18,8 @@ Y.Views.GameForm = Y.View.extend({
 
   pageName: "gameForm",
   pageHash : "games/form",  
+  
+  confirmTimeout: null,
     
   clubs:null,
   useSearch:null,
@@ -91,15 +93,17 @@ Y.Views.GameForm = Y.View.extend({
     }
     return false;
   },
-      
+    
+  // on stoque les modifs dans la GUI.  
   startTeam1 : function() {
+    $('#startTeam1').parent().addClass("select");
+    $('#startTeam2').parent().removeClass("select");
     this.game.get('infos').startTeam = 0;
-    this.renderAndSave();
   },
   
   startTeam2 : function() {
-    this.game.get('infos').startTeam = 1;
-    this.renderAndSave();
+    $('#startTeam1').parent().removeClass("select");
+    $('#startTeam2').parent().addClass("select");
   },
 
   renderAndSave: function () {
@@ -149,10 +153,13 @@ Y.Views.GameForm = Y.View.extend({
       // enregistrement de la modif sur ce player owned.
       ownedPlayer = new PlayerModel({ 
         id: this.game.get('teams')[0].players[0].id,
-        name: this.game.get('teams')[0].players[0].name,
-        rank: this.game.get('teams')[0].players[0].rank
+        name: team1,
+        rank: rank1
       });
-      promises.push(ownedPlayer.save());
+      promises.push(ownedPlayer.save(null, {
+        playerid: this.player.get('id'),
+        token: this.player.get('token')
+      }));
     }
 
     if (this.isTeamEditable(1) &&
@@ -161,10 +168,13 @@ Y.Views.GameForm = Y.View.extend({
       // enregistrement de la modif sur ce player owned.
       ownedPlayer = new PlayerModel({ 
         id: this.game.get('teams')[1].players[0].id,
-        name: this.game.get('teams')[1].players[0].name,
-        rank: this.game.get('teams')[1].players[0].rank
+        name: team2,
+        rank: rank2
       });
-      promises.push(ownedPlayer.save());
+      promises.push(ownedPlayer.save(null, {
+        playerid: this.player.get('id'),
+        token: this.player.get('token')
+      }));
     }
 
     // une fois les players enregistrés, on peut enregistrer la game.
@@ -177,11 +187,21 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').court = $('#court').val();
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
+      if ($('#startTeam1').parent().hasClass("select"))
+        this.game.get('infos').startTeam = 0;
+      if ($('#startTeam2').parent().hasClass("select"))
+        this.game.get('infos').startTeam = 1;
       this.renderAndSave().done(function (result) {
         if (!that.unloaded) {
           // uniquement si nous sommes tjs sur cette page.
 	        $('span.success').css({display:"block"});
 	        $('span.success').html(i18n.t('message.updateok')).show();
+	         
+            this.confirmTimeout = window.setTimeout(function () {
+		      Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
+		      that.confirmTimeout = null;
+		    }, 2000);
+	        
         }
       });
     }, this));
@@ -243,13 +263,18 @@ Y.Views.GameForm = Y.View.extend({
   isTeamEditable: function (teamId) {
     var teamPlayer = this.game.get('teams')[teamId].players[0];
     return teamPlayer.id !== this.player.get('id') &&
-           (teamPlayer.owner === undefined ||
-            teamPlayer.owner === this.player.get('id'));
+           teamPlayer.owner !== undefined &&
+           teamPlayer.owner === this.player.get('id');
   },
 
   onClose: function() {
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)
       this.clubs.off("sync", this.renderList,this);
+      
+    if (this.confirmTimeout) {
+      window.clearTimeout(this.confirmTimeout);
+      this.confirmTimeout = null;
+    }  
   }
 });

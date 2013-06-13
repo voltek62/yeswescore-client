@@ -5,11 +5,11 @@
 
   var events = {
     // input mode
+    'blur input': 'inputModeOffDelayed', //Permet de cacher le textarea          
      /*#ifndef IOS*/
     'click input': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur input': 'inputModeOffDelayed',
     'click textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur textarea': 'inputModeOffDelayed',
+    'blur textarea': 'inputModeOffDelayed', 
     /*#endif*/
     // helpers
     'click *[data-js-call]': 'mycall',
@@ -167,8 +167,10 @@
       assert(typeof this[fetchFunctionName] === "function");
       this.autocompleteObj = new Y.Autocomplete();
       this.autocompleteObj.on("input.temporized", function (input) {
+        if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
         // fetching data for input
         this[fetchFunctionName](input, _.bind(function (err, data) {
+          if (this.unloaded || !this.autocompleteObj) return;  // prevent execution if unloaded.
           // FIXME: this function will not be disposed :(
           if (err)
             return this.autocompleteObj.trigger("fetched.error", err);

@@ -2,7 +2,7 @@ Y.Views.Header = Y.View.extend({
   el: "#header",
 
   events: {
-    "click .backButton": "goBack"
+    "vclick .backButton": "goBack"
   },
 
   initialize: function () {

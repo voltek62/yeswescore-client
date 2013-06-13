@@ -131,9 +131,11 @@ var assert = function () { };
 assert = function (t) { if (!t) throw "assert false " };
 /*#endif*/
 
+var PROD = true;
 /*#ifdef DEV*/
-if (false) {
-/*endif*/
+PROD = false;
+/*#endif*/
+if (PROD) {
   // we do not want any console.log in production environment.
   setTimeout(function () {
     var f = console.log;
@@ -142,7 +144,6 @@ if (false) {
     };
     console.log.f = f;
   }, 5000);
-/*#ifdef DEV*/
 } else {
   (function () {
     var start = Date.now();
@@ -156,5 +157,19 @@ if (false) {
     };
     console.log.f = f;
   })();
+
+  /*#ifdef CORDOVA*/
+  // on prend les précautions psychologiques d'usage
+  // => on rend les consoles logs asynchrones.
+  //  car sous cordova, console.log met en attente le JS !!!
+  setTimeout(function () {
+    var f = console.log;
+    console.log = function () {
+      var a = Array.prototype.slice.apply(arguments);
+      setTimeout(function () { f.apply(console, a); }, 10);
+    };
+    console.log.f = f;
+  }, 5000);
+  /*#endif*/
 }
-/*#endif*/
+

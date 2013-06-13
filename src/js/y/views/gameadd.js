@@ -257,9 +257,6 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   onClose: function () {
-    //Clean
-    this.autocompleteStop();
-    this.undelegateEvents();
     if (this.playersTeam1 !== undefined) this.playersTeam1.off("all", this.renderListTeam1, this);
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
   }

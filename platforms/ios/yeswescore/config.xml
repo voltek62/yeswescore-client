@@ -39,20 +39,20 @@
     <content src="index.html" />
 
     <plugins>
-        <plugin name="Device" value="CDVDevice" />
-        <plugin name="Logger" value="CDVLogger" />
-        <plugin name="Camera" value="CDVCamera" />
+        <plugin name="Logger" value="CDVLogger" />         
+        <plugin name="Device" value="CDVDevice" />          
         <plugin name="NetworkStatus" value="CDVConnection" />
-        <plugin name="Echo" value="CDVEcho" />
-        <plugin name="File" value="CDVFile" />
-        <plugin name="FileTransfer" value="CDVFileTransfer" />
         <plugin name="Geolocation" value="CDVLocation" />
-        <plugin name="Notification" value="CDVNotification" />
-        <plugin name="Capture" value="CDVCapture" />
         <plugin name="SplashScreen" value="CDVSplashScreen" />
         <plugin name="Globalization" value="CDVGlobalization" />
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />
-        <!--
+        <!--               
+        <plugin name="Camera" value="CDVCamera" />
+        <plugin name="Notification" value="CDVNotification" />
+        <plugin name="Capture" value="CDVCapture" />
+        <plugin name="Echo" value="CDVEcho" />
+        <plugin name="File" value="CDVFile" />
+        <plugin name="FileTransfer" value="CDVFileTransfer" />
         <plugin name="Compass" value="CDVLocation" />
         <plugin name="Accelerometer" value="CDVAccelerometer" />
         <plugin name="Contacts" value="CDVContacts" />

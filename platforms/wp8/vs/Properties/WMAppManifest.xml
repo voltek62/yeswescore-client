@@ -10,7 +10,7 @@
     <Language code="fr-MC" />
     <Language code="fr-CH" />
   </Languages>
-  <App xmlns="" ProductID="{75ffdb70-6d0a-49e8-a2f2-ddb704aed8fa}" Title="YesWeScore" RuntimeType="Silverlight" Version="1.0.2.0" Genre="apps.normal" Author="yeswescore author" BitsPerPixel="32" Description="Les résultats sportifs de vos amis pour le tennis au creux de votre main ! N’importe où, n’importe quand, vous trouverez les scores de votre club sportif favori en tournoi amical ou officiel et réagissez en live sur votre smartphone." Publisher="zeNodus SAS" PublisherID="{b93a0d8e-5aa9-4d9b-b232-17e2d852e779}">
+  <App xmlns="" ProductID="{75ffdb70-6d0a-49e8-a2f2-ddb704aed8fa}" Title="YesWeScore" RuntimeType="Silverlight" Version="1.0.2.1" Genre="apps.normal" Author="yeswescore author" BitsPerPixel="32" Description="Les résultats sportifs de vos amis pour le tennis au creux de votre main ! N’importe où, n’importe quand, vous trouverez les scores de votre club sportif favori en tournoi amical ou officiel et réagissez en live sur votre smartphone." Publisher="zeNodus SAS" PublisherID="{b93a0d8e-5aa9-4d9b-b232-17e2d852e779}">
     <IconPath IsRelative="true" IsResource="false">Images\tile-200x200.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_LOCATION" />

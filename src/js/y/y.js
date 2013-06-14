@@ -46,8 +46,10 @@
           console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
           /*#endif*/
 
+          var that = this;
           // slow if answer is taking longer than 2sec.
           var timeoutid = window.setTimeout(function () { Y.Connection.setSpeed(Y.Connection.SPEED_SLOW); timeoutid = null; }, 2000);
+          var timeoutid2 = window.setTimeout(function () {  that.trigger("request.end"); timeoutid2 = null; }, 10000);
 
           // delaying result (fail / success) in dev environment
           var d = $.Deferred();
@@ -55,7 +57,6 @@
           /*#ifdef DEV*/
           networkDelay = 2000;
           /*#endif*/
-          var that = this;
           window.setTimeout(function () {
             // launching xhr.
             var xhr = $.ajax(url, options);
@@ -79,6 +80,9 @@
               if (timeoutid) {
                 window.clearTimeout(timeoutid);
                 Y.Connection.setSpeed(Y.Connection.SPEED_FAST);
+              }
+              if (timeoutid2) {
+                window.clearTimeout(timeoutid2);
               }
             });
           }, networkDelay);

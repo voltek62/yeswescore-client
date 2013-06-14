@@ -36,11 +36,11 @@
     </TargetFrameworkProfile>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>en-US</SupportedCultures>
+    <SupportedCultures>en-US%3bfr%3bfr-BE%3bfr-CA%3bfr-FR%3bfr-LU%3bfr-MC%3bfr-CH</SupportedCultures>
     <UICulture>en-US</UICulture>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>CordovaAppProj_$(Configuration)_$(Platform).xap</XapFilename>
+    <XapFilename>YesWeScoreAppProj_Release_AnyCPU.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>yeswescore.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>

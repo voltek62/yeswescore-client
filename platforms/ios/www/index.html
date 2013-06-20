@@ -328,7 +328,7 @@ body.inputmodeon .button-form[data-input-mode="process"] {
   position: fixed;
   z-index: 12;
   width: 100%;
-  bottom: 54px;
+  top: 46px;
   text-align: center;
 }
 
@@ -10853,6 +10853,46 @@ window.isMobileBrowser = (function () {
 var assert = function () { };
 
 
+var PROD = true;
+
+if (PROD) {
+  // we do not want any console.log in production environment.
+  setTimeout(function () {
+    var f = console.log;
+    console.log = function () {
+      return;
+    };
+    console.log.f = f;
+  }, 5000);
+} else {
+  (function () {
+    var start = Date.now();
+    var f = console.log;
+    console.log = function () {
+      var a = Array.prototype.slice.apply(arguments);
+      var now = Date.now() - start;
+      now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');
+      a.unshift(now);
+      f.apply(console, a);
+    };
+    console.log.f = f;
+  })();
+
+  /*#ifdef CORDOVA*/
+  // on prend les précautions psychologiques d'usage
+  // => on rend les consoles logs asynchrones.
+  //  car sous cordova, console.log met en attente le JS !!!
+  setTimeout(function () {
+    var f = console.log;
+    console.log = function () {
+      var a = Array.prototype.slice.apply(arguments);
+      setTimeout(function () { f.apply(console, a); }, 10);
+    };
+    console.log.f = f;
+  }, 5000);
+  /*#endif*/
+}
+
 
 // Global Object
 (function (global) {
@@ -11243,20 +11283,46 @@ var assert = function () { };
           // event system
           
 
+          var that = this;
           // slow if answer is taking longer than 2sec.
           var timeoutid = window.setTimeout(function () { Y.Connection.setSpeed(Y.Connection.SPEED_SLOW); timeoutid = null; }, 2000);
-          // launching xhr.
-          var xhr = $.ajax(url, options);
-          // events.
-          xhr.always($.proxy(function () { this.trigger("request.end"); }, this));
-          xhr.always(function () {
-            if (timeoutid) {
-              window.clearTimeout(timeoutid);
-              Y.Connection.setSpeed(Y.Connection.SPEED_FAST);
-            }
-          });
-          this.trigger("request.start", xhr, url, options);
-          return xhr;
+          var timeoutid2 = window.setTimeout(function () {  that.trigger("request.end"); timeoutid2 = null; }, 10000);
+
+          // delaying result (fail / success) in dev environment
+          var d = $.Deferred();
+          var networkDelay = 10;
+          
+          window.setTimeout(function () {
+            // launching xhr.
+            var xhr = $.ajax(url, options);
+            // TRICKY: we send the event after 10ms
+            //  this might be risky, because the .done() code might not be
+            //  fully executed yet. But if we don't do this & there is JS exception
+            //  in any done handler => this event will never be executed
+            xhr.always(function () {
+              setTimeout(function () { that.trigger("request.end") }, 10);
+            });
+            // forwarding delayed result
+            xhr.done(function () {
+              var args = Array.prototype.slice.apply(arguments);
+              d.resolve.apply(d, args);
+            });
+            xhr.fail(function () {
+              var args = Array.prototype.slice.apply(arguments);
+              d.reject.apply(d, args);
+            });
+            xhr.always(function () {
+              if (timeoutid) {
+                window.clearTimeout(timeoutid);
+                Y.Connection.setSpeed(Y.Connection.SPEED_FAST);
+              }
+              if (timeoutid2) {
+                window.clearTimeout(timeoutid2);
+              }
+            });
+          }, networkDelay);
+          that.trigger("request.start", null, url, options); // FIXME: cannot now xhr because of delaying result.
+          return d;
       };
     },
 
@@ -11292,7 +11358,7 @@ var assert = function () { };
 
                    // init router
                    that.Router.initialize();
-                    
+                   
                    
                    // load the templates.
                    that.Templates.loadAsync(function () {
@@ -12841,7 +12907,6 @@ var assert = function () { };
 	},
 	
 	getFiltersSearch: function () {	
-	
       return Y.Conf.get(playerFiltersSearchConfKey);
       		
 	},	    
@@ -12929,12 +12994,8 @@ var assert = function () { };
 
   var events = {
     // input mode
-     /*#ifndef IOS*/
-    'click input': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur input': 'inputModeOffDelayed',
-    'click textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur textarea': 'inputModeOffDelayed',
-    /*#endif*/
+    'blur input': 'inputModeOffDelayed', //Permet de cacher le textarea          
+     
     // helpers
     'click *[data-js-call]': 'mycall',
     'click a[data-js-navigate]': 'navigate',
@@ -13091,8 +13152,10 @@ var assert = function () { };
       assert(typeof this[fetchFunctionName] === "function");
       this.autocompleteObj = new Y.Autocomplete();
       this.autocompleteObj.on("input.temporized", function (input) {
+        if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
         // fetching data for input
         this[fetchFunctionName](input, _.bind(function (err, data) {
+          if (this.unloaded || !this.autocompleteObj) return;  // prevent execution if unloaded.
           // FIXME: this function will not be disposed :(
           if (err)
             return this.autocompleteObj.trigger("fetched.error", err);
@@ -13183,9 +13246,20 @@ var GameModel = Backbone.Model.extend({
     }
   },
 
+  debug: false,
+
+  validate: function (attr, options) {
+    if (options &&
+        typeof options.version !== "undefined" &&
+        options.version !== this.version) {
+        if (this.debug) console.log('outdated : ' + options.version + ' VS ' + this.version);
+        return "outdated";
+    }
+    return null;
+  },
+
   sync : function(method, model, options) {
     this.version++;
-    options.version = this.version;
     var that = this;
     var team1_json = null;
     var team2_json = null;
@@ -13273,21 +13347,20 @@ var GameModel = Backbone.Model.extend({
         }
       });
     } else if (method === 'update' && options.playerid !== undefined) {
-      
-      console.log('on met à jour game avec '+ JSON.stringify(object)); 
-		
+      // versioning
+      options.version = this.version;
+      // tricky
+      if (options.buffered) {
+        if (this.debug) console.log('GAME: updating game (DEFERRED) '+ JSON.stringify(object.infos)); 
+        return this._bufferedUpdate(object, options);
+      }
+      if (this.debug) console.log('on met à jour game avec '+ JSON.stringify(object)); 
       return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.games") + this.get('id') + '/?playerid=' + options.playerid + '&token=' + options.token,
         type : 'POST',
         data : object,
         success: function (data) {
-          // WARNING WARNING
-          // tricky: on aura des effets de bord un jour ...
-          //  on rend l'update des données du modèle conditionnelle à la version
-          if (options.version === that.version)
-            that.set(data);
-          //
           if (options && options.success)
             options.success(data);
         },
@@ -13300,6 +13373,100 @@ var GameModel = Backbone.Model.extend({
       model.url = Y.Conf.get("api.url.games")+this.id;
       return Backbone.sync(method, model, options);
     }
+  },
+
+  /*
+   * UPDATE BUFFURING
+   *  model.save(null, { }).done( ... waiting function ... )
+   *  model.save(null, { }).done( ... waiting function ... )
+   *
+   * Workflow:
+   *  model.save() will NOT call Backbone.ajax
+   *  model.save() will save the last object/options in a stack and trigger the xhr after 1 second.
+   *  model.save() is called before 1sec => delay the xhr of 1 second.
+   *
+   */
+  _bufferedDeferredPublic: null,  // launch every function waiting for the update when resolved.
+  _bufferedDeferredPrivate: null, // launch the XHR when resolved.
+  _bufferedLastObject: null,
+  _bufferedLastOptions: null,
+  _bufferedTimeoutId: null,
+  _bufferedUpdate: function (object, options) {
+    var that = this
+      , delay = 1000; // 1s
+
+    if (this._bufferedDeferredPublic !== null) {
+      if (this.debug) console.log('update => stagged');
+      // des appels sont déjà en attentes
+      //  - saving last object & options
+      //  - reseting timeouts
+      //  - return public deferred
+      this._bufferedLastObject = object;
+      this._bufferedLastOptions = options;
+      // reseting timeouts
+      window.clearTimeout(this._bufferedTimeoutId);
+      this._bufferedTimeoutId = window.setTimeout(function () {
+        that._bufferedDeferredPrivate.resolve(); // trigger the xhr
+      }, delay);
+      // return public deferred
+      return this._bufferedDeferredPublic;
+    }
+    // saving last object & options
+    this._bufferedLastObject = object;
+    this._bufferedLastOptions = options;
+    // creating deferred
+    this._bufferedDeferredPublic = $.Deferred();
+    this._bufferedDeferredPrivate = $.Deferred();
+    // resolving private defered in 1sec
+    this._bufferedTimeoutId = window.setTimeout(function () {
+      that._bufferedDeferredPrivate.resolve(); // trigger the xhr
+    }, delay);
+    this._bufferedDeferredPrivate.done(function () {
+      // when private deferred is resolved,
+      //  - save object & options
+      //  - save public deferred
+      //  - clear private deferred
+      //  - clear timeouts
+      //  - clear public deferred
+      //  - launch the XHR
+      var object = that._bufferedLastObject;
+      var options = that._bufferedLastOptions;
+      if (that.debug) console.log('GAME: XHR: ' + JSON.stringify(object.infos) + ' version ' + options.version);
+      var publicDeferred = that._bufferedDeferredPublic;
+      //
+      that._bufferedDeferredPrivate = null;
+      that._bufferedTimeoutId = null;
+      that._bufferedDeferredPublic = null;
+      //
+      Backbone.ajax({
+        dataType : 'json',
+        url : Y.Conf.get("api.url.games") + that.get('id') + '/?playerid=' + options.playerid + '&token=' + options.token,
+        type : 'POST',
+        data : object,
+        success: function (data) {
+          // WARNING WARNING
+          // tricky: on aura des effets de bord un jour ...
+          //  on rend l'update des données du modèle conditionnelle à la version
+          if (that.debug) console.log('GAME: XHR SUCCESS : ' + JSON.stringify(object.infos) + ' version : ' + options.version + ' VS ' + that.version);
+          if (options.version === that.version) {
+            if (that.debug) console.log('GAME: VERSION OK => UPDATE MODEL WITH ' + JSON.stringify(object.infos));
+            that.set(data);
+          }
+          //
+          if (options && options.success)
+            options.success(data);
+          // FIXME: apply & all arguments
+          publicDeferred.resolve(data);
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
+          // FIXME: apply & all arguments
+          publicDeferred.resolve(message);
+        }
+      });
+    });
+    return this._bufferedDeferredPublic;
   },
 
   getPlayersNamesByTeam: function (teamIndex) {
@@ -14444,10 +14611,10 @@ Y.Views.Game = Y.View.extend({
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',        
     'click #cancelButton'   : 'cancelGame',
-    'click .undoSelect'     : 'undoAction',    
+    'vclick .undoSelect'     : 'undoAction',    
     'click #team1_sets_div' : 'setTeam1Score',
     'click #team2_sets_div' : 'setTeam2Score',          
-    'click .set'            : 'incrementTeamSet',
+    'vclick .set'            : 'incrementTeamSet',
     'click .player-info'    : 'goToPlayerProfile',    
     'click .playerInfos'    : 'goToPlayerProfile',   
     'click #optionButton'   : 'goToOptions',
@@ -14461,7 +14628,6 @@ Y.Views.Game = Y.View.extend({
   sharing: false,
 
   gameid : null,
-  saveBufferTimeoutId: null,
 
   initialize : function() {
     this.pageHash += this.id;
@@ -14529,7 +14695,11 @@ Y.Views.Game = Y.View.extend({
   },
 
   onGameSynched: function (model, resp, options) {
-    if (this.game.version == options.version) {
+    // we render if there is no options.version information
+    //  or if options.version == game.version
+    if (!options ||
+        typeof options.version === "undefined" ||
+        this.game.version == options.version) {
       this.render();
     }
   },
@@ -14644,7 +14814,7 @@ Y.Views.Game = Y.View.extend({
     });
   },
   
-  undoAction: function() {
+  undoAction: function(ev) {
     // mode lecture ou game finie => rien
     if (!this.game.isMine() || this.game.get('status') === "finished")
       return;
@@ -14659,7 +14829,7 @@ Y.Views.Game = Y.View.extend({
     this.game.get('infos').sets = lastInfo[0];
     this.game.get('infos').score = lastInfo[1];
     //
-    this.renderAndSave();
+    this.renderAndSave({buffered:true});
   },
 
   incrementTeamSet : function(ev) {
@@ -14731,7 +14901,7 @@ Y.Views.Game = Y.View.extend({
     this.game.setSets(sets);
     this.game.setScore(this.game.computeScore());
     //
-    this.renderAndSave();
+    this.renderAndSave({buffered:true});
   },
   
   renderCountComment : function() {
@@ -14882,27 +15052,12 @@ Y.Views.Game = Y.View.extend({
   },
 
   // immediatly render & save in the background
-  renderAndSave: function () {
+  renderAndSave: function (options) {
     this.render();
-    this.saveBuffered();
-  },
-
-  saveBuffered: function () {
-  	/*
-    if (this.saveBufferTimeoutId) {
-      window.clearTimeout(this.saveBufferTimeoutId);
-    }
-    this.saveBufferTimeoutId = window.setTimeout(_.bind(this.save, this), 1000);
-    */
-    this.save();
-  },
-
-  save: function () {
-	  this.game.save(null, {
+	  this.game.save(null, _.assign({
 	    playerid : this.player.get('id')
 	  , token : this.player.get('token')
-    });
-    this.saveBufferTimeoutId = null;
+    }, options || {}));
   },
 
   changeGameStatus : function() {
@@ -14972,11 +15127,6 @@ Y.Views.Game = Y.View.extend({
     this.game.off("sync", this.onGameSynched, this);
     this.game.off("sync", this.onGameInit, this);
     this.streams.off("sync", this.renderCountComment, this);
-    // on trigger immediatement la sauvegarde
-    if (this.saveBufferTimeoutId) {
-      window.clearTimeout(this.saveBufferTimeoutId);
-      this.save();
-    }
     //
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
@@ -14998,6 +15148,8 @@ Y.Views.GameAdd = Y.View.extend({
 
   pageName: "gameAdd",
   pageHash : "games/add",  
+
+  confirmGameAdd: true,
 
   useSearch:0,
 
@@ -15090,7 +15242,9 @@ Y.Views.GameAdd = Y.View.extend({
 	    
 	  
 	    this.DB.saveJSON("game", game);
-      Y.Router.navigate("players/form/me", {trigger: true});	  
+      Y.Router.navigate("players/form/me", {trigger: true});	
+      
+        
       return false;
     }
 
@@ -15143,12 +15297,20 @@ Y.Views.GameAdd = Y.View.extend({
       }
     });   
       
-    game.save(null, {
-      playerid: this.player.get('id'),
-      token: this.player.get('token')
-    }).done(function(model, response){
-      Y.Router.navigate('games/'+model.id, {trigger: true});
-    });
+      
+    if (this.confirmGameAdd === true) {
+    	
+    	this.confirmGameAdd = false;
+    	var that = this;
+    	
+	    game.save(null, {
+	      playerid: this.player.get('id'),
+	      token: this.player.get('token')
+	    }).done(function(model, response){
+	   	  that.confirmGameAdd = true; 
+	      Y.Router.navigate('games/'+model.id, {trigger: true}); 
+	    });
+	}
 
     return false;
   },
@@ -15245,12 +15407,11 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   onClose: function () {
-    //Clean
-    this.autocompleteStop();
-    this.undelegateEvents();
     if (this.playersTeam1 !== undefined) this.playersTeam1.off("all", this.renderListTeam1, this);
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
-  }
+	this.confirmGameAdd = true;  
+  } 
+  
 });
 Y.Views.GameEnd = Y.View.extend({
   el:"#content",
@@ -15777,6 +15938,8 @@ Y.Views.GameForm = Y.View.extend({
 
   pageName: "gameForm",
   pageHash : "games/form",  
+  
+  confirmTimeout: null,
     
   clubs:null,
   useSearch:null,
@@ -15850,15 +16013,17 @@ Y.Views.GameForm = Y.View.extend({
     }
     return false;
   },
-      
+    
+  // on stoque les modifs dans la GUI.  
   startTeam1 : function() {
+    $('#startTeam1').parent().addClass("select");
+    $('#startTeam2').parent().removeClass("select");
     this.game.get('infos').startTeam = 0;
-    this.renderAndSave();
   },
   
   startTeam2 : function() {
-    this.game.get('infos').startTeam = 1;
-    this.renderAndSave();
+    $('#startTeam1').parent().removeClass("select");
+    $('#startTeam2').parent().addClass("select");
   },
 
   renderAndSave: function () {
@@ -15908,10 +16073,13 @@ Y.Views.GameForm = Y.View.extend({
       // enregistrement de la modif sur ce player owned.
       ownedPlayer = new PlayerModel({ 
         id: this.game.get('teams')[0].players[0].id,
-        name: this.game.get('teams')[0].players[0].name,
-        rank: this.game.get('teams')[0].players[0].rank
+        name: team1,
+        rank: rank1
       });
-      promises.push(ownedPlayer.save());
+      promises.push(ownedPlayer.save(null, {
+        playerid: this.player.get('id'),
+        token: this.player.get('token')
+      }));
     }
 
     if (this.isTeamEditable(1) &&
@@ -15920,10 +16088,13 @@ Y.Views.GameForm = Y.View.extend({
       // enregistrement de la modif sur ce player owned.
       ownedPlayer = new PlayerModel({ 
         id: this.game.get('teams')[1].players[0].id,
-        name: this.game.get('teams')[1].players[0].name,
-        rank: this.game.get('teams')[1].players[0].rank
+        name: team2,
+        rank: rank2
       });
-      promises.push(ownedPlayer.save());
+      promises.push(ownedPlayer.save(null, {
+        playerid: this.player.get('id'),
+        token: this.player.get('token')
+      }));
     }
 
     // une fois les players enregistrés, on peut enregistrer la game.
@@ -15936,11 +16107,21 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').court = $('#court').val();
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
+      if ($('#startTeam1').parent().hasClass("select"))
+        this.game.get('infos').startTeam = 0;
+      if ($('#startTeam2').parent().hasClass("select"))
+        this.game.get('infos').startTeam = 1;
       this.renderAndSave().done(function (result) {
         if (!that.unloaded) {
           // uniquement si nous sommes tjs sur cette page.
 	        $('span.success').css({display:"block"});
 	        $('span.success').html(i18n.t('message.updateok')).show();
+	         
+            this.confirmTimeout = window.setTimeout(function () {
+		      Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
+		      that.confirmTimeout = null;
+		    }, 2000);
+	        
         }
       });
     }, this));
@@ -16002,14 +16183,19 @@ Y.Views.GameForm = Y.View.extend({
   isTeamEditable: function (teamId) {
     var teamPlayer = this.game.get('teams')[teamId].players[0];
     return teamPlayer.id !== this.player.get('id') &&
-           (teamPlayer.owner === undefined ||
-            teamPlayer.owner === this.player.get('id'));
+           teamPlayer.owner !== undefined &&
+           teamPlayer.owner === this.player.get('id');
   },
 
   onClose: function() {
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)
       this.clubs.off("sync", this.renderList,this);
+      
+    if (this.confirmTimeout) {
+      window.clearTimeout(this.confirmTimeout);
+      this.confirmTimeout = null;
+    }  
   }
 });
 Y.Views.GameList = Y.View.extend({
@@ -16018,12 +16204,13 @@ Y.Views.GameList = Y.View.extend({
   events: {
     // mode "input"
     "keyup input#search-basic": "searchOnKey",
+    "blur input#search-basic": "searchOnBlur",
     "mousedown .button-search": "searchButton",
-    "click li": "goToGame",
+    "vclick li": "goToGame",
     'click .button-option-right': 'showFilters',
    
-    'click a[data-filter="searchmyclub"]':'deleteFilter', 
-    'click a[data-filter="searchgeo"]':'deleteFilter',    
+    'vclick a[data-filter="searchmyclub"]':'deleteFilter', 
+    'vclick a[data-filter="searchgeo"]':'deleteFilter',    
         
     'click div[data-filter="filter-status-all"]': 'filterByStatusAll',
     'click div[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
@@ -16110,7 +16297,11 @@ Y.Views.GameList = Y.View.extend({
      }
      else 
        	this.searchOption = Y.User.getFiltersSearch();    
-  
+
+     if (this.sortOption!==undefined) {
+       if (this.sortOption !=="") 
+         this.games.setSort(this.sortOption);      
+     }
      
      if (this.searchOption!==undefined) {
      
@@ -16289,6 +16480,13 @@ Y.Views.GameList = Y.View.extend({
     return this;
   },
 
+  searchOnBlur: function (event) {
+
+    this.search();
+
+    return this;
+  },
+  
   search: function () {
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.ongoing());
@@ -16301,7 +16499,6 @@ Y.Views.GameList = Y.View.extend({
     if (this.searchOption !== undefined) {     
       
       //FIXME : cumul search et trier par date
-
       
       if(this.searchOption.indexOf('searchmyclub')!==-1 && this.clubid === '') {
         this.games.addSearch('club');  
@@ -16397,7 +16594,7 @@ Y.Views.Header = Y.View.extend({
   el: "#header",
 
   events: {
-    "click .backButton": "goBack"
+    "vclick .backButton": "goBack"
   },
 
   initialize: function () {
@@ -16508,7 +16705,8 @@ Y.Views.Header = Y.View.extend({
         i++;
       } else {
         // off
-        i--;
+        if (i > 0)
+          i--;
       }
     };
   })()
@@ -17542,7 +17740,7 @@ Y.Views.SearchForm = Y.View.extend({
       $('#searchmyclub span').toggleClass('checked');
       Y.User.setFiltersSearch('searchmyclub');         
     }
-    else if (event.currentTarget.id === 'searchmyclub' && filters.indexOf('searchmyclub')!==-1) {
+    else if (event.currentTarget.id === 'searchmyclub' && filters.indexOf('searchgeo')!==-1) {
       $('#searchgeo span').toggleClass('checked');
       Y.User.setFiltersSearch('searchgeo'); 
     }
@@ -17686,11 +17884,11 @@ $(document).ready(function () {
       <img src="./images/logo-200x200.png" width="70%"/>
     </div>
     <div class="description" style="font-family:Open Sans;font-size:8px;text-align: center;">
-      <b data-i18n="about.informations"></b> v<br/><br/>
+      <b data-i18n="about.informations"></b> v<% print(versionapp) %><br/><br/>
     </div>
     <div class="legal" style="font-family:Open Sans;font-size:10px;text-align: center;">
       @ 2013 by zeNodus SAS.<br/>
-      Place Francois Mitterrand - 1 Tour Credit Lyonnais - 59777 Euralille<br/>
+      Place Francois Mitterrand <br/> 1 Tour Credit Lyonnais <br/> 59777 Euralille<br/>
       RCS Lille Metropole : 7905905500017
     </div>
     <br/>
@@ -17699,6 +17897,8 @@ $(document).ready(function () {
       <a href="mailto:support@yeswescore.com?subject=BUG" class="form-button" style="display:block;position:relative;width: 80%;left: 10%;margin-bottom: 5px;text-decoration: none;background-color: #46b1dd;color: white;" data-i18n="about.submitbug"></a>
     </div>
 
+  <div style="padding:10px"></div>
+  
   </div>
 </div></script>
 <script type="text/template" id="account"><div class="content-container">
@@ -17924,9 +18124,9 @@ club = clubs[i]; %>
         <div class="ui-block-d">
           <img src="./images/eye.png" width="20" height="12" style="margin-top:4px;">
         </div>
-        <div class="ui-block-e">
+        <div class="ui-block-e<% if (game.owner === playerid) { %> undoSelect<% } %>">
         <% if (game.owner === playerid) { %>
-          <img src="./images/undo.png" width="20" height="20" class="undoSelect">
+          <img src="./images/undo.png" width="20" height="20">
         <% }
            else { 
          %>
@@ -17982,9 +18182,9 @@ club = clubs[i]; %>
         <div class="ui-block-d">
         <b><span data-i18n="game.public"></span></b>
         </div>
-        <div class="ui-block-e">
+        <div class="ui-block-e unselectable<% if (game.owner === playerid) { %> undoSelect<% } %>">
         <% if (game.owner === playerid) { %>
-        <b><span data-i18n="game.undo" class="undoSelect"></span></b>
+        <b><span data-i18n="game.undo"></span></b>
         <% } 
         else { %>
         <b><span data-i18n="game.spectators"></span></b>
@@ -18385,10 +18585,8 @@ club = clubs[i]; %>
 </script>
 <script type="text/template" id="gameForm"><div class="blue-screen background"></div>
 <div class="blue-screen content-container">
-  <div class="zone-list">
+  <div class="container">
   
-    <div class="">
-
     <span class="success label label-info hide"></span>
 
 
@@ -18445,10 +18643,9 @@ club = clubs[i]; %>
     
     <div id="inject-select"></div>
     
-    </div>
-    
+    <!-- 
     <div style="padding:20px"></div>
-    
+     -->
 
   </div>
 </div>
@@ -19231,9 +19428,6 @@ if (player.error!==undefined)
         <label class="form-label" data-i18n="search.myclub"></label> 
         </div>
       <div class="ui-block-b" id="searchmyclub">
-        <!-- 
-        <input id="searchmyclub" type="checkbox" name="searchmyclub" class="regular-checkbox big-checkbox"/>  
-         -->
         <span role="checkbox"/>       
       </div>
       <div class="ui-block-a">

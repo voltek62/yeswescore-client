@@ -85,13 +85,24 @@ else if (game.status === "created") game.status = i18n.t('game.created');
 	<div class="ui-block-a game-location" style="width: 63%;"> 
     <%= game.dates.startDate %> - <%= game.location.city %> 
     <% 
-      if (game.infos.tour !== "")  
-        if (game.infos.tour > 0)     
-         print(" - "+i18n.t("gameadd.select"+game.infos.tour))     
+      if (game.infos.tour !== "") {       
+        infosTour = parseInt(game.infos.tour,10);                 
+        
+        if (infosTour >= 3) {
+          infosTour -= 2;
+          print(" - "+i18n.t("gameadd.select"+infosTour));
+        }  
+        else if (infosTour == 2) {
+          print(" - "+i18n.t("gameadd.consolante"));  
+        }
+        else if (infosTour == 1) {
+          print(" - "+i18n.t("gameadd.poule"));    
+        }                 
+      }   
     %> 
 	</div>
-    <div class="ui-block-b" style="width: 9%;">
-      <div class="button-count-comments">12</div>
+    <div class="ui-block-b" style="width: 9%;"> 
+      <div class="button-count-comments"></div>
     </div>
     <div class="ui-block-c" style="width: 9%;">
     <%

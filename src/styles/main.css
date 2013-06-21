@@ -492,6 +492,44 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 }
 
 
+.button-follow-on {
+	width: 20px;
+	height: 20px;
+	/*background-image: url(images/follow-on.png);*/
+	/*#ifdef NOCORDOVA*/
+	/*background-image: url(/images/follow-on.png);*/
+	/*#endif*/
+	background-size: 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.button-follow-off {
+	width: 20px;
+	height: 20px;
+	/*background-image: url(images/follow-off.png);*/
+	/*#ifdef NOCORDOVA*/
+	/*background-image: url(/images/follow-off.png);*/
+	/*#endif*/
+	background-size: 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.button-count-comments {
+	width: 20px;
+	height: 20px;
+	/*background-image: url(images/count-comments.png);*/
+	/*#ifdef NOCORDOVA*/
+	/*background-image: url(/images/count-comments.png);*/
+	/*#endif*/
+	background-size: 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: right;
+}
+
+
 .button-option-up {
 	width: 69px;
 	height: 32px;

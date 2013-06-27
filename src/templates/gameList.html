@@ -102,7 +102,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
     %> 
 	</div>
     <div class="ui-block-b" style="width: 9%;"> 
-      <div class="button-count-comments"></div>
+      <div class="button-count-comments">12</div>
     </div>
     <div class="ui-block-c" style="width: 9%;">
     <%
@@ -110,18 +110,18 @@ else if (game.status === "created") game.status = i18n.t('game.created');
     {
       if (games_follow.indexOf(game.id) === -1) {
       %>
-        <div class="button-follow-off"></div>
+        <div class="button-follow-off">0</div>
       <%
       }
       else {
       %>
-       <div class="button-follow-on"></div>
+       <div class="button-follow-on">1</div>
       <%
       }        
     }
     else {
     %>
-      <div class="button-follow-off"></div>
+      <div class="button-follow-off">0</div>
     <%
     }
     %>
@@ -131,7 +131,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
 	</div>
 </div>
 
- <div class="ui-grid-d" style="margin-top:5px">
+ <div class="ui-grid-d" style="margin-top:5px;">
      <div class="ui-block-a game-player" style="width:63%;">
 	<% 
 	if (game.teams[0].players[0]!== undefined) { 
@@ -157,7 +157,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
      <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
  </div>
 
- <div class="ui-grid-d" style="margin-top:5px">
+ <div class="ui-grid-d" style="margin-top:5px;">
      <div class="ui-block-a game-player" style="width:63%;">
 	<% 
 	if (game.teams[1].players[0]!== undefined) { 

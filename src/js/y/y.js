@@ -55,7 +55,7 @@
           var d = $.Deferred();
           var networkDelay = 10;
           /*#ifdef DEV*/
-          networkDelay = 2000;
+          networkDelay = 200;
           /*#endif*/
           window.setTimeout(function () {
             // launching xhr.

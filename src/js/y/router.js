@@ -22,7 +22,8 @@
       'games/list': 'gameList',  
       'games/:id/comments/': 'gameComment', 
       'games/:id': 'game', 
-      'games/': 'gameList',        
+      'games/': 'gameList',   
+      'notification': 'notificationList',              
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
       'players/form/me': 'playerFormFirst',
@@ -142,6 +143,10 @@
 
     playerFormSearch: function () {
       this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
+    },
+
+    notificationList: function () {
+      this.changePage(this.createViewFactory(Y.Views.NotificationList));
     },
 
     playerList: function () {

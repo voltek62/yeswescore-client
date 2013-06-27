@@ -110,18 +110,18 @@ else if (game.status === "created") game.status = i18n.t('game.created');
     {
       if (games_follow.indexOf(game.id) === -1) {
       %>
-        <div class="button-follow-off">0</div>
+        <div class="button-follow-off"></div>
       <%
       }
       else {
       %>
-       <div class="button-follow-on">1</div>
+       <div class="button-follow-on"></div>
       <%
       }        
     }
     else {
     %>
-      <div class="button-follow-off">0</div>
+      <div class="button-follow-off"></div>
     <%
     }
     %>

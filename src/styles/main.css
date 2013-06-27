@@ -493,53 +493,33 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 
 
 .button-follow-on {
-	width: 20px;
-	height: 20px;
+	width: 16px;
+	height: 15px;
 	background-image: url(images/follow-on.png);
 	/*#ifdef NOCORDOVA*/
 	background-image: url(/images/follow-on.png);
 	/*#endif*/
 	background-size: 100%;
 	background-repeat: no-repeat;
-	
 	position: absolute;
 	right: 0px;
-	text-align: center;
 	z-index: 1;
-	color: #000;
 	display: inline-block;
-	font-family: Open Sans;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 20px;
-	text-align: center;
-	text-overflow: ellipsis;
-	background-image: none;	
 }
 
 .button-follow-off {
-	width: 20px;
-	height: 20px;
+	width: 16px;
+	height: 15px;
 	background-image: url(images/follow-off.png);
 	/*#ifdef NOCORDOVA*/
 	background-image: url(/images/follow-off.png);
 	/*#endif*/
 	background-size: 100%;
 	background-repeat: no-repeat;
-
 	position: absolute;
 	right: 0px;
-	text-align: center;
 	z-index: 1;
-	color: #000;
 	display: inline-block;
-	font-family: Open Sans;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 20px;
-	text-align: center;
-	text-overflow: ellipsis;
-	background-image: none;	
 }
 
 .button-count-comments {
@@ -560,11 +540,10 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 	display: inline-block;
 	font-family: Open Sans;
 	font-weight: bold;
-	font-size: 14px;
-	line-height: 20px;
+	font-size: 11px;
 	text-align: center;
 	text-overflow: ellipsis;
-	background-image: none;
+	padding-bottom:10px;
 }
 
 

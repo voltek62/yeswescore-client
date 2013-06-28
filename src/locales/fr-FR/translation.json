@@ -77,7 +77,8 @@
   "gamelist": {
     "titleyourgames": "LISTE DE VOS MATCHS",
     "titleclubsgames": "LISTE DES MATCHS DU CLUB",
-    "titlegames": "LISTE DES MATCHS"           
+    "titlegames": "LISTE DES MATCHS",
+    "titleplayergames": "LISTE DES MATCHS DU JOUEUR"            
   },
   "gameadd": {
     "title": "CREER UNE PARTIE",

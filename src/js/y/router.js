@@ -14,6 +14,7 @@
       'sort/:id': 'gameList',
       'search/form': 'searchForm',      
       'games/me/:id': 'gameMe',
+      'games/player/:id': 'gamePlayer',      
       'games/add': 'gameAdd',
       'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
@@ -91,6 +92,10 @@
     
     gameMe: function (id) {
       this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'me', id: id, sort: '' }));
+    },
+
+    gamePlayer: function (id) {
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'player', id: id, sort: '' }));
     },
 
     gameClub: function (id) {

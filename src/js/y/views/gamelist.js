@@ -35,14 +35,21 @@ Y.Views.GameList = Y.View.extend({
   	this.sortOption = Y.User.getFiltersSort();
 
   	this.clubid = Y.User.getClub();
-  	
+	this.player = Y.User.getPlayer();
+	 
+	      	
 	//header 
     if (param!=='undefined') { 
-      if (param.search==="me") {
+      if (param.search==="me") {          
         Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
         this.pageName = "gameListByMe";
         this.button=false;
       }
+      else if (param.search==="player") {
+        Y.GUI.header.title(i18n.t('gamelist.titleplayergames')); 
+        this.pageName = "gameListPlayer";
+        this.button=false;       
+      }        
       else if (param.search==="club") {
         Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
         this.pageName = "gameListByClub";        
@@ -87,11 +94,15 @@ Y.Views.GameList = Y.View.extend({
 
     if (param!==undefined) { 
 	    if (param.search === 'me') {
-	      this.games.addSearch('me');	
-	      this.player = Y.User.getPlayer();
-	      this.playerid = this.player.id;
-	      this.games.setQuery(this.playerid);	      
+	      this.games.addSearch('player');	
+	      this.games.setPlayer(this.player.id);		      
+	      //console.log('on demande ses parties',this.player.id);      
 	    }
+	    else if (param.search === 'player') {
+	      this.games.addSearch('player');	
+	      this.games.setPlayer(param.id);		      
+	      //console.log('on precises les parties d\'un joueur',param.id);      
+	    }	    
 	    else
 	      this.searchOption = Y.User.getFiltersSearch();     
      }

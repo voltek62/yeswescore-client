@@ -34,6 +34,8 @@ Y.Views.PlayerForm = Y.View.extend({
     this.clubid = this.player.get('club').id;
     this.player.once("sync", this.renderPlayer, this);	
     this.player.fetch();
+    
+    $('#content').addClass('blue-screen background');
 
     // we render immediatly
     this.render();
@@ -209,6 +211,8 @@ Y.Views.PlayerForm = Y.View.extend({
 
   onClose: function(){
     this.undelegateEvents();
+    
+    $('#content').removeClass('blue-screen background');
     
     this.player.off("sync", this.renderPlayer, this);	
     if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );

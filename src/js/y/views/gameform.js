@@ -40,7 +40,7 @@ Y.Views.GameForm = Y.View.extend({
     
     this.player = Y.User.getPlayer();
   
-	  this.game = new GameModel({id : this.id});  	                  
+	this.game = new GameModel({id : this.id});  	                  
     this.game.on("sync", this.render,this);
     this.game.fetch();
   },

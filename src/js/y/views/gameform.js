@@ -197,10 +197,12 @@ Y.Views.GameForm = Y.View.extend({
 	        $('span.success').css({display:"block"});
 	        $('span.success').html(i18n.t('message.updateok')).show();
 	         
+            /*
             this.confirmTimeout = window.setTimeout(function () {
 		      Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
 		      that.confirmTimeout = null;
 		    }, 2000);
+		    */
 	        
         }
       });

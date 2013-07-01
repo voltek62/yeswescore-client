@@ -35,56 +35,62 @@ Y.Views.Player = Y.View.extend({
     }
     else
       this.follow = 'false';
+      
+    this.ownerid = Y.User.getPlayer().get('id');
+    console.log('ownerid',this.ownerid);   
 
 
   },
 
   followPlayer: function() {
   
-        if (this.follow === 'true') {
-
-          var players_follow = Y.Conf.get("owner.players.followed");
-          if (players_follow !== undefined)
-          {
-            if (players_follow.indexOf(this.id) !== -1) {
-              //On retire l'elmt
-              players_follow.splice(players_follow.indexOf(this.id), 1);
-              Y.Conf.set("owner.players.followed", players_follow, { permanent: true });
-            }
-          }
+  	//on ne peut pas se suivre
+    if (this.ownerid === this.id) return;
+  
+    if (this.follow === 'true') {
+    
+      var players_follow = Y.Conf.get("owner.players.followed");
+      if (players_follow !== undefined)
+      {
+        if (players_follow.indexOf(this.id) !== -1) {
+        //On retire l'elmt
+          players_follow.splice(players_follow.indexOf(this.id), 1);
+          Y.Conf.set("owner.players.followed", players_follow, { permanent: true });
+        }
+      }
           
-          $('span.success').css({display:"block"});
-          $('span.success').html(i18n.t('message.nofollowplayerok')).show();
-          $("#followButton").text(i18n.t('message.follow'));
-          $('#followButton').removeClass('button-selected');
-          $('#followButton').addClass('button'); 
+      $('span.success').css({display:"block"});
+      $('span.success').html(i18n.t('message.nofollowplayerok')).show();
+      $("#followButton").text(i18n.t('message.follow'));
+      $('#followButton').removeClass('button-selected');
+      $('#followButton').addClass('button'); 
 
-          this.follow = 'false';
+      this.follow = 'false';
 
-        } else {
+      } else {
         
-          //Via localStorage
-          var players_follow = Y.Conf.get("owner.players.followed");
-          if (players_follow !== undefined)
-          {
-            if (players_follow.indexOf(this.id) === -1) {
-              players_follow.push(this.id);
-              Y.Conf.set("owner.players.followed", players_follow, { permanent: true });
-            }
+        //Via localStorage
+        var players_follow = Y.Conf.get("owner.players.followed");
+        if (players_follow !== undefined)
+        {
+          if (players_follow.indexOf(this.id) === -1) {
+            players_follow.push(this.id);
+            Y.Conf.set("owner.players.followed", players_follow, { permanent: true });
           }
-          else
-            Y.Conf.set("owner.players.followed", [this.id]);
+        }
+        else
+          Y.Conf.set("owner.players.followed", [this.id]);
 
-		  $('span.success').css({display:"block"});
-          $('span.success').html(i18n.t('message.followplayerok')).show();
-          $("#followButton").text(i18n.t('message.nofollow'));
-          $('#followButton').removeClass('button');
-          $('#followButton').addClass('button-selected');          
+	   $('span.success').css({display:"block"});
+       $('span.success').html(i18n.t('message.followplayerok')).show();
+       $("#followButton").text(i18n.t('message.nofollow'));
+       $('#followButton').removeClass('button');
+       $('#followButton').addClass('button-selected');          
           
 
-          this.follow = 'true';
+      this.follow = 'true';
 
-        }	
+    }	
   
   },    
 

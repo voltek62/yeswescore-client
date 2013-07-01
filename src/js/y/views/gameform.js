@@ -209,6 +209,20 @@ Y.Views.GameForm = Y.View.extend({
     }, this));
   },
   
+  inputModeOn: function (e) {
+    // calling parent.
+    var r = Y.View.prototype.inputModeOn.apply(this, arguments);
+    this.scrollBottom();
+    return r;
+  },
+
+  inputModeOff: function (e) {
+    // calling parent.
+    var r = Y.View.prototype.inputModeOff.apply(this, arguments);
+    this.scrollBottom();
+    return r;
+  },  
+  
   //render the content into div of view
   render: function(){
     var game = this.game.toJSON();

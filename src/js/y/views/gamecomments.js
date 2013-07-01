@@ -6,7 +6,6 @@ Y.Views.GameComments = Y.View.extend({
   pageHash : "games/comment/",
 
   shareTimeout: null,
-  isSend : false,
 
   events: {
     'mousedown .button.send' : 'sendComment'
@@ -247,6 +246,8 @@ Y.Views.GameComments = Y.View.extend({
     , gameid = this.gameid
     , comment = $('#messageText').val()
     , that = this;
+    
+
 
     if (comment.length === 0)
       return; // empty => doing nothing.

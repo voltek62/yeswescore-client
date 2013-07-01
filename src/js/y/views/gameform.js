@@ -1,23 +1,19 @@
 Y.Views.GameForm = Y.View.extend({
   el:"#content",
     
+  pageName: "gameForm",
+  pageHash : "games/form",  
+      
   events: {
-    // mode "input"
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',
-    //
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',      
-    'click #deleteMatch': 'deleteMatch',    
-    'click #updateGame':'update',
+    'click #deleteMatch': 'deleteGame',    
+    'mousedown .button':'updateGame',
     'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub'
   },
   
   listview:"#suggestions",
-
-  pageName: "gameForm",
-  pageHash : "games/form",  
   
   confirmTimeout: null,
     
@@ -77,7 +73,7 @@ Y.Views.GameForm = Y.View.extend({
   },
 
   confirmDeletion: false,
-  deleteMatch: function (event) {
+  deleteGame: function (event) {
     if (!this.confirmDeletion) {
       $("#deleteMatch").text(i18n.t("gameform.confirmdelete"));
       this.confirmDeletion = true;
@@ -111,7 +107,7 @@ Y.Views.GameForm = Y.View.extend({
     return this.game.save(null, {playerid: this.player.get('id'), token: this.player.get('token')});
   },
       
-  update: function (event) {
+  updateGame: function (event) {
     // first, check the form.
     var team1 = $("#team1").val()
       , team2 = $("#team2").val()

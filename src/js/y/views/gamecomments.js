@@ -256,6 +256,18 @@ Y.Views.GameComments = Y.View.extend({
       
     //filter
     comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");  
+    
+    //ajout du score au moment du comment
+    var sets = this.game.getSets(0);
+    
+    comment += ' ( ';
+    if (sets[0][0]>0 || sets[0][1]>0)
+      comment += ' '+sets[0][0]+'/'+sets[0][1];
+    if (sets[1][0]>0 || sets[1][1]>0)
+      comment += ' '+sets[1][0]+'/'+sets[1][1];
+    if (sets[2][0]>0 || sets[2][1]>0)
+      comment += ' '+sets[2][0]+'/'+sets[2][1];
+    comment += ' ) ';    
       
     //on bloque le textarea  
     $('.button').addClass('disabled');

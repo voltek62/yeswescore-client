@@ -34,6 +34,7 @@
           "gameAdd", "gameComments","gameEnd", "gameListSearch", "gameList","gameSelect","gameInput",
           "gameCommentsScore", "gameCommentsComment","gameScoreBoard", "game", "gameForm",
           "index", "empty", "error","ongoing",
+          "notification", "notificationList",
           "searchForm",
           "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList",
           "playerListSearch", "playerSignin",

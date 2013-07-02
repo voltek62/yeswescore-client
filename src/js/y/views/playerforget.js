@@ -2,15 +2,15 @@ Y.Views.PlayerForget = Y.View.extend({
   el : "#content",
 
   events: {
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',
+    //'focus input[type="text"]': 'inputModeOn',
+    //'blur input[type="text"]': 'inputModeOff',
     'click #forgetPlayer' : 'forget'
   },
 
   pageName: "playerForget",
   pageHash : "players/forget",
   
-  initialize : function() {
+  myinitialize : function() {
     Y.GUI.header.title(i18n.t('playerforget.title'));     
   
     this.playerForgetTemplate = Y.Templates.get('playerForget');

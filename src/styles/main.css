@@ -492,6 +492,61 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 }
 
 
+.button-follow-on {
+	width: 16px;
+	height: 15px;
+	background-image: url(images/follow-on.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/follow-on.png);
+	/*#endif*/
+	background-size: 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	right: 0px;
+	z-index: 1;
+	display: inline-block;
+}
+
+.button-follow-off {
+	width: 16px;
+	height: 15px;
+	background-image: url(images/follow-off.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/follow-off.png);
+	/*#endif*/
+	background-size: 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	right: 0px;
+	z-index: 1;
+	display: inline-block;
+}
+
+.button-count-comments {
+	width: 20px;
+	height: 20px;
+	background-image: url(images/count-comments.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/count-comments.png);
+	/*#endif*/
+	background-size: 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	position: absolute;
+	right: 0px;
+	text-align: center;
+	z-index: 1;
+	color: #000;
+	display: inline-block;
+	font-family: Open Sans;
+	font-weight: bold;
+	font-size: 11px;
+	text-align: center;
+	text-overflow: ellipsis;
+	padding-bottom:10px;
+}
+
+
 .button-option-up {
 	width: 69px;
 	height: 32px;
@@ -1730,6 +1785,31 @@ a[data-filter='match-followed'] {
 }
 
 .account a {
+	display: block;
+	width: 100%;
+	height: 50px;
+	margin-top: 10px;
+	text-decoration: none;
+	text-transform: uppercase;
+	text-align: center;
+	font-family: Open Sans;
+	font-weight: 700;
+	line-height: 50px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: white;
+	background-color: #46b1db;
+	border-top: 1px solid #d0ebf6;
+	border-left: 1px solid #a3d7ed;
+	border-bottom: 1px solid #74c5e3;
+	border-right: 1px solid #74c5e3;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+.account span.button {
 	display: block;
 	width: 100%;
 	height: 50px;

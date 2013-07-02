@@ -8,6 +8,7 @@ var GamesCollection = Backbone.Collection.extend({
 	query:'',
 	pos: null,
 	club:'',
+	player:'',
 	
 	initialize: function (param) {	
 		this.changeSort("city");		
@@ -18,10 +19,10 @@ var GamesCollection = Backbone.Collection.extend({
        
     var url='';
 
-    if (this.searchOption.indexOf('me') !== -1) {      
+    if (this.searchOption.indexOf('player') !== -1 && this.player!=='' ) {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)
-      url = Y.Conf.get("api.url.players") + this.query + "/games/?owned=true";
+      url = Y.Conf.get("api.url.players") + this.player + "/games/?owned=true";
     }
     else 
       url =  Y.Conf.get("api.url.games");
@@ -109,7 +110,9 @@ var GamesCollection = Backbone.Collection.extend({
     this.query=q;
   },
 
-  
+  setPlayer:function (p) {
+    this.player=p;
+  },  
   
   setPos:function(pos) {
     this.pos = pos;

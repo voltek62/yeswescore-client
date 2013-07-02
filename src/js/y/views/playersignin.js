@@ -33,6 +33,9 @@ Y.Views.PlayerSignin = Y.View.extend({
     } else {
       this.status.current = this.status.UNREGISTERED;
     }
+    
+    $('#content').addClass('blue-screen background');
+    
     // rendering will switch between status.
     this.render();
   },
@@ -236,5 +239,7 @@ Y.Views.PlayerSignin = Y.View.extend({
 
   onClose : function() {
     this.undelegateEvents();
+    
+    $('#content').removeClass('blue-screen background');    
   }
 });

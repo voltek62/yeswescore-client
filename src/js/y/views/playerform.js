@@ -3,6 +3,7 @@ Y.Views.PlayerForm = Y.View.extend({
     
   events: {
     'click #savePlayer':'add',
+    'click #getPhoto' : 'getPhoto',
     'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub'
   },
@@ -34,6 +35,8 @@ Y.Views.PlayerForm = Y.View.extend({
     this.clubid = this.player.get('club').id;
     this.player.once("sync", this.renderPlayer, this);	
     this.player.fetch();
+    
+    $('#content').addClass('blue-screen background');
 
     // we render immediatly
     this.render();
@@ -202,13 +205,30 @@ Y.Views.PlayerForm = Y.View.extend({
 
     this.$(".container").addClass(this.mode);
 
-	  this.$el.i18n();
+	this.$el.i18n();
 
     return this;
   },
+  
+  getPhoto: function(){
+  
+  	Cordova.Camera.capturePhoto(function (img) {
+  	  //console.log("data:image/jpeg;base64,",img);  	  
+      var src = "data:image/jpeg;base64," + img;
+      $('#smallImage').attr("src", src);
+      $('#smallImage').attr("width", "300");
+      $('#smallImage').attr("height", "167");     
+      
+      
+        	  
+  	});
+  
+  },  
 
   onClose: function(){
     this.undelegateEvents();
+    
+    $('#content').removeClass('blue-screen background');
     
     this.player.off("sync", this.renderPlayer, this);	
     if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );

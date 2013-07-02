@@ -14,6 +14,7 @@
       'sort/:id': 'gameList',
       'search/form': 'searchForm',      
       'games/me/:id': 'gameMe',
+      'games/player/:id': 'gamePlayer',      
       'games/add': 'gameAdd',
       'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
@@ -22,7 +23,8 @@
       'games/list': 'gameList',  
       'games/:id/comments/': 'gameComment', 
       'games/:id': 'game', 
-      'games/': 'gameList',        
+      'games/': 'gameList',   
+      'notification': 'notificationList',              
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
       'players/form/me': 'playerFormFirst',
@@ -92,6 +94,10 @@
       this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'me', id: id, sort: '' }));
     },
 
+    gamePlayer: function (id) {
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'player', id: id, sort: '' }));
+    },
+
     gameClub: function (id) {
       this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'club', id: id, sort: '' }));
     },    
@@ -142,6 +148,10 @@
 
     playerFormSearch: function () {
       this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
+    },
+
+    notificationList: function () {
+      this.changePage(this.createViewFactory(Y.Views.NotificationList));
     },
 
     playerList: function () {

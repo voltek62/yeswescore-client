@@ -35,14 +35,21 @@ Y.Views.GameList = Y.View.extend({
   	this.sortOption = Y.User.getFiltersSort();
 
   	this.clubid = Y.User.getClub();
-  	
+	this.player = Y.User.getPlayer();
+	 
+	      	
 	//header 
     if (param!=='undefined') { 
-      if (param.search==="me") {
+      if (param.search==="me") {          
         Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
         this.pageName = "gameListByMe";
         this.button=false;
       }
+      else if (param.search==="player") {
+        Y.GUI.header.title(i18n.t('gamelist.titleplayergames')); 
+        this.pageName = "gameListPlayer";
+        this.button=false;       
+      }        
       else if (param.search==="club") {
         Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
         this.pageName = "gameListByClub";        
@@ -87,11 +94,15 @@ Y.Views.GameList = Y.View.extend({
 
     if (param!==undefined) { 
 	    if (param.search === 'me') {
-	      this.games.addSearch('me');	
-	      this.player = Y.User.getPlayer();
-	      this.playerid = this.player.id;
-	      this.games.setQuery(this.playerid);	      
+	      this.games.addSearch('player');	
+	      this.games.setPlayer(this.player.id);		      
+	      //console.log('on demande ses parties',this.player.id);      
 	    }
+	    else if (param.search === 'player') {
+	      this.games.addSearch('player');	
+	      this.games.setPlayer(param.id);		      
+	      //console.log('on precises les parties d\'un joueur',param.id);      
+	    }	    
 	    else
 	      this.searchOption = Y.User.getFiltersSearch();     
      }
@@ -322,8 +333,14 @@ Y.Views.GameList = Y.View.extend({
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
       }
-      else
-        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
+      else {
+      
+        var games_follow = Y.Conf.get("owner.games.followed");
+    	//$(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
+      
+        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: q }));
+        
+      }
     	
       $(this.listview).i18n();
     
@@ -334,6 +351,7 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
+  
     this.$el.html(this.templates.gamesearch({ button:this.button }));   
     //$('a').i18n(); 
     this.$el.i18n();   
@@ -374,7 +392,9 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   renderList: function () {
-    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: ' ' }));
+  
+    var games_follow = Y.Conf.get("owner.games.followed");
+    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
     $('p.message').i18n();
     return this;
   },

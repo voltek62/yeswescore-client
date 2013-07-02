@@ -22,7 +22,7 @@ Y.Views.SearchForm = Y.View.extend({
   
   shareTimeout: null,    
 
-  initialize:function() {
+  myinitialize:function() {
 
 	//header
     Y.GUI.header.title(i18n.t('search.title')); 

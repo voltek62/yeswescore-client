@@ -77,7 +77,8 @@
   "gamelist": {
     "titleyourgames": "LISTE DE VOS MATCHS",
     "titleclubsgames": "LISTE DES MATCHS DU CLUB",
-    "titlegames": "LISTE DES MATCHS"           
+    "titlegames": "LISTE DES MATCHS",
+    "titleplayergames": "LISTE DES MATCHS DU JOUEUR"           
   },
   "gameadd": {
     "title": "CREER UNE PARTIE",
@@ -219,7 +220,8 @@
   "player": {
     "title": "JOUEUR",
     "more":"Plus d'infos",
-    "lastresults":"Derniers résultats"
+    "lastresults":"Derniers résultats",
+    "getphoto":"Prendre une photo"
   },    
   "playerforget": {
     "title": "MOT DE PASSE OUBLIE",
@@ -261,6 +263,11 @@
     "create": "Creer",
     "account": "Mon Compte"
   },
+  "notification": {
+    "title": "Notifications",
+    "noresult": "Aucun résultat",
+    "error": "Erreur"
+  },    
   "search": {
     "title": "RECHERCHE",
     "zone": "Zone",

@@ -1,23 +1,19 @@
 Y.Views.GameForm = Y.View.extend({
   el:"#content",
     
+  pageName: "gameForm",
+  pageHash : "games/form",  
+      
   events: {
-    // mode "input"
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',
-    //
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',      
-    'click #deleteMatch': 'deleteMatch',    
-    'click #updateGame':'update',
+    'click #deleteMatch': 'deleteGame',    
+    'mousedown .button':'updateGame',
     'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub'
   },
   
   listview:"#suggestions",
-
-  pageName: "gameForm",
-  pageHash : "games/form",  
   
   confirmTimeout: null,
     
@@ -40,7 +36,7 @@ Y.Views.GameForm = Y.View.extend({
     
     this.player = Y.User.getPlayer();
   
-	  this.game = new GameModel({id : this.id});  	                  
+	this.game = new GameModel({id : this.id});  	                  
     this.game.on("sync", this.render,this);
     this.game.fetch();
   },
@@ -77,7 +73,7 @@ Y.Views.GameForm = Y.View.extend({
   },
 
   confirmDeletion: false,
-  deleteMatch: function (event) {
+  deleteGame: function (event) {
     if (!this.confirmDeletion) {
       $("#deleteMatch").text(i18n.t("gameform.confirmdelete"));
       this.confirmDeletion = true;
@@ -111,7 +107,7 @@ Y.Views.GameForm = Y.View.extend({
     return this.game.save(null, {playerid: this.player.get('id'), token: this.player.get('token')});
   },
       
-  update: function (event) {
+  updateGame: function (event) {
     // first, check the form.
     var team1 = $("#team1").val()
       , team2 = $("#team2").val()
@@ -197,15 +193,31 @@ Y.Views.GameForm = Y.View.extend({
 	        $('span.success').css({display:"block"});
 	        $('span.success').html(i18n.t('message.updateok')).show();
 	         
+            /*
             this.confirmTimeout = window.setTimeout(function () {
 		      Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
 		      that.confirmTimeout = null;
 		    }, 2000);
+		    */
 	        
         }
       });
     }, this));
   },
+  
+  inputModeOn: function (e) {
+    // calling parent.
+    var r = Y.View.prototype.inputModeOn.apply(this, arguments);
+    this.scrollBottom();
+    return r;
+  },
+
+  inputModeOff: function (e) {
+    // calling parent.
+    var r = Y.View.prototype.inputModeOff.apply(this, arguments);
+    this.scrollBottom();
+    return r;
+  },  
   
   //render the content into div of view
   render: function(){

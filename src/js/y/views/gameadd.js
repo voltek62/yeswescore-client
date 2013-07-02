@@ -1,22 +1,22 @@
 Y.Views.GameAdd = Y.View.extend({
   el: "#content",
 
-  events: {
-    'click #addGame': 'addGame',
-    'click .form-button.other-team': 'otherTeam',
-    'click .form-button.more-options': 'moreOption',
-    'blur #team1': 'changeTeam1'
-  },
-
   pageName: "gameAdd",
   pageHash : "games/add",  
 
-  confirmGameAdd: true,
-
+  shareTimeout: null,
+  
   useSearch:0,
 
   team1_id: null,
   team2_id: null,
+  
+  events: {
+    'mousedown .button': 'addGame',
+    'click .form-button.other-team': 'otherTeam',
+    'click .form-button.more-options': 'moreOption',
+    'blur #team1': 'changeTeam1'
+  },  
 
   myinitialize: function () {
     this.useSearch = 0;	
@@ -31,7 +31,7 @@ Y.Views.GameAdd = Y.View.extend({
 	  this.DB = new Y.DB("Y.GameAdd.");
     this.team1_id = this.player.get('id');
     this.team2_id = null;
-	  this.render();
+	this.render();
   },
 
   otherTeam: function () {
@@ -69,12 +69,18 @@ Y.Views.GameAdd = Y.View.extend({
     }
   },
 
+  addingGame: false,
   addGame: function (event) {
     var team1 = $('#team1').val()    
       , team2 = $('#team2').val()
       , rank2 = $('#rank2').val()
       , city = $('#city').val()
       , game;
+      
+    console.log('addGame');  
+      
+    if (this.addingGame)
+      return; // already sending => disabled.    
 
     if (( team1.length < 3 || team1.indexOf('  ')!==-1 ) &&
         this.team1_id != this.player.get('id')) {
@@ -103,7 +109,7 @@ Y.Views.GameAdd = Y.View.extend({
 	    };
 	    
 	  
-	    this.DB.saveJSON("game", game);
+	  this.DB.saveJSON("game", game);
       Y.Router.navigate("players/form/me", {trigger: true});	
       
         
@@ -143,6 +149,9 @@ Y.Views.GameAdd = Y.View.extend({
       return false;	   
     };
 
+    // on evite que l'utilisateur qui double tap, envoie 2 comments
+    this.addingGame = true;
+
     //On sauve dans Collections
     game = new GameModel({
 		team1 : team1
@@ -160,21 +169,25 @@ Y.Views.GameAdd = Y.View.extend({
     });   
       
       
-    if (this.confirmGameAdd === true) {
+    var that = this;
     	
-    	this.confirmGameAdd = false;
-    	var that = this;
-    	
-	    game.save(null, {
-	      playerid: this.player.get('id'),
-	      token: this.player.get('token')
-	    }).done(function(model, response){
-	   	  that.confirmGameAdd = true; 
-	      Y.Router.navigate('games/'+model.id, {trigger: true}); 
-	    });
-	}
-
-    return false;
+	game.save(null, {
+	  playerid: this.player.get('id'),
+	  token: this.player.get('token')
+	 }).done(function(model, response){
+	   that.addingGame = false; 
+	   
+	   Y.Router.navigate('games/'+model.id, {trigger: true}); 
+	 }).fail(function (err) {
+	    that.$(".button").addClass("ko");
+	    that.shareTimeout = window.setTimeout(function () {
+	      that.$(".button").removeClass("ko");
+	      that.shareTimeout = null;
+	  	  that.$('.button').removeClass("disabled");    
+	    }, 4000);
+        that.addingGame = false;	 
+	 });
+	
   },
 
   autocompletePlayers: function (input, callback) {
@@ -217,7 +230,7 @@ Y.Views.GameAdd = Y.View.extend({
       this.$("#team2").val(data.name);
       this.team2_id = data.id;
     }
-  },
+  }, 
 
   //render the content into div of view
   render: function () {
@@ -269,6 +282,14 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   onClose: function () {
+  
+    this.undelegateEvents();
+    
+    if (this.shareTimeout) {
+      window.clearTimeout(this.shareTimeout);
+      this.shareTimeout = null;
+    }   
+  
     if (this.playersTeam1 !== undefined) this.playersTeam1.off("all", this.renderListTeam1, this);
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
 	this.confirmGameAdd = true;  

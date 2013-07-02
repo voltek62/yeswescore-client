@@ -3,6 +3,7 @@ Y.Views.PlayerForm = Y.View.extend({
     
   events: {
     'click #savePlayer':'add',
+    'click #getPhoto' : 'getPhoto',
     'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub'
   },
@@ -208,6 +209,14 @@ Y.Views.PlayerForm = Y.View.extend({
 
     return this;
   },
+  
+  getPhoto: function(){
+  
+  	Cordova.Camera.capturePhoto(function (img) {
+  	  console.log("data:image/jpeg;base64,",img);
+  	});
+  
+  },  
 
   onClose: function(){
     this.undelegateEvents();

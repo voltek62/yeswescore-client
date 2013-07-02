@@ -220,7 +220,8 @@
   "player": {
     "title": "JOUEUR",
     "more":"Plus d'infos",
-    "lastresults":"Derniers résultats"
+    "lastresults":"Derniers résultats",
+    "getphoto":"Prendre une photo"
   },    
   "playerforget": {
     "title": "MOT DE PASSE OUBLIE",

@@ -10,7 +10,7 @@ Y.Views.ClubAdd = Y.View.extend({
   playerid : "",
   token : "",
 
-  initialize: function () {
+  minitialize: function () {
   
     Y.GUI.header.title(i18n.t('clubadd.title'));
 

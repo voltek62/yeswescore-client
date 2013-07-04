@@ -195,7 +195,7 @@
     "error_emptyyou" : "Vous devez indiquer au moins un nom et un classement pour vous",    
     "error_deconnexion": "Erreur de deconnexion",
     "nofollowplayerok":"Vous ne suivez plus ce joueur",
-    "followplayerok":"Vous suivez ce joueur",
+    "followplayerok":"Vous suivez ce joueur",   
     "nofollowgameok":"Vous ne suivez plus ce match",
     "followgameok":"Vous suivez ce match",
     "nofollowclubok":"Vous ne suivez plus ce club",

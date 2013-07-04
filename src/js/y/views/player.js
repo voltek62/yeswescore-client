@@ -17,7 +17,7 @@ Y.Views.Player = Y.View.extend({
     //myinfo
     this.myid = Y.User.getPlayer().get('id');
     this.mytoken = Y.User.getPlayer().get('token');
-    this.followings = Y.User.getPlayer().get('following');    
+    this.players_follow = Y.User.getPlayer().get('following');    
 
     this.playerViewTemplate = Y.Templates.get('player');
 
@@ -27,10 +27,9 @@ Y.Views.Player = Y.View.extend({
         
     this.player.fetch(); 
 
-    var players_follow = this.followings;
-    if (players_follow !== undefined)
+    if (this.players_follow !== undefined)
     {
-      if (players_follow.indexOf(this.id) === -1) {
+      if (this.players_follow.indexOf(this.id) === -1) {
         this.follow = 'false';
       }
       else
@@ -68,14 +67,17 @@ Y.Views.Player = Y.View.extend({
         success: function (data) {
           that.following = false;
           
-          //TODO : reload Y.User
-          //var user = Y.User.getPlayer();
-          //var data = {following: '000000'};
-		  //Y.User.updatePlayer(data);
-		  //this.followings = Y.User.getPlayer().get('following');
-		  //console.log('new following',this.followings);
+          //On supprime l'id
+	      if (that.players_follow !== undefined)
+	      {
+	        if (that.players_follow.indexOf(that.id) !== -1) {
+	        //On retire l'elmt
+	          that.players_follow.splice(that.players_follow.indexOf(that.id), 1);
+	          var data = {id: that.myid, following: that.players_follow };
+              Y.User.updatePlayer(data);
+	        }
+	      }
           
-          //console.log(i18n.t('message.nofollowplayerok'));
         },
         error: function (err) {
           that.following = false;
@@ -105,13 +107,20 @@ Y.Views.Player = Y.View.extend({
         },
         success: function (data) {
           that.following = false;
-          //that.displayMsg(i18n.t('message.followplayerok'));
-          
-          //TODO : reload Y.User
-          //var data = {following: '000000'};
-		  //Y.User.updatePlayer(data);
-		  //this.followings = Y.User.getPlayer().get('following');
-		  //console.log('new following',this.followings);
+
+		  //On ajoute l'id
+		  if (that.players_follow !== undefined)
+          {
+            if (that.players_follow.indexOf(that.id) === -1) {     
+              that.players_follow.push(that.id);
+              var data = {id: that.myid, following: that.players_follow };
+              Y.User.updatePlayer(data); 
+            }
+          }
+          else {
+            var data = {id: that.myid, following: [that.id] };            
+            Y.User.updatePlayer(data); 
+          }
 		  
         },
         error: function (err) {

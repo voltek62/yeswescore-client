@@ -197,14 +197,7 @@ Y.Views.GameForm = Y.View.extend({
 	      
 	  //on reforme la date 
 	  if (date!=='' && time!=='') {	  
-	    var date_creation = this.game.get('dates').creation;
-		//Convertit au format ISO
-		//var offset = new Date().getTimezoneOffset();
-		//console.log('offset',offset);
-        var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');
-	    //console.log('datetime',datetime);
-	    //console.log('datetime',new Date(datetime));	    
-	    //console.log('on met à jour avec datetime',datetime);	    
+        var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');    
 	    this.game.get("dates").expected = datetime;      
 	  }       
       

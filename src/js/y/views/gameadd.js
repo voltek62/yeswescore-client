@@ -185,8 +185,7 @@ Y.Views.GameAdd = Y.View.extend({
       
     //on reforme la date 
     if (date!=='' && time!=='') {
-      var datetime = new Date(date+' '+time);
-      var datetime = date.toString('yyyy-MM-dd')+'T'+time.toString('h:mm')+':00Z';      
+      var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');      
       game.get("dates").expected = datetime;      
     }
     

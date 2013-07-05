@@ -42,7 +42,8 @@ var GameModel = Backbone.Model.extend({
       court : "",
       surface : "",
       tour : "",
-      startTeam : ""
+      startTeam : "",
+      official : true
     }
   },
 
@@ -118,6 +119,9 @@ var GameModel = Backbone.Model.extend({
      if (typeof this.get('status') !== "undefined") 
        if (this.get('status') !== "")
          object.status = this.get('status');
+              
+     if (typeof this.get('dates').expected === "string") 
+         object.dates.expected = this.get('dates').expected;
        
      _.forEach(
       ['subtype', 'sets', 'score', 'court', 'surface',
@@ -125,6 +129,13 @@ var GameModel = Backbone.Model.extend({
 	     if (typeof this.get('infos')[k] !== "undefined")
 	       object.infos[k] = this.get('infos')[k];
 	   }, this);
+	 
+	 if (this.get('official') === "false") 
+	   object.infos.official = false;
+	 else
+	   object.infos.official = true;
+	   
+	 console.log('dans model, on envoie',object);  
      
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];

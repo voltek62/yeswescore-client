@@ -104,6 +104,9 @@ Y.Views.GameForm = Y.View.extend({
 
   renderAndSave: function () {
     this.render();
+    
+    console.log('renderAndSave',this.game.toJSON());
+    
     return this.game.save(null, {playerid: this.player.get('id'), token: this.player.get('token')});
   },
       
@@ -183,6 +186,28 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').court = $('#court').val();
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
+      
+      if ($('#official').val()==="false")
+        this.game.get('infos').official = false;
+      else     
+        this.game.get('infos').official = true; 
+        
+	  var date = $('#expectedDay').val();
+	  var time = $('#expectedHour').val();   
+	      
+	  //on reforme la date 
+	  if (date!=='' && time!=='') {	  
+	    var date_creation = this.game.get('dates').creation;
+		//Convertit au format ISO
+		//var offset = new Date().getTimezoneOffset();
+		//console.log('offset',offset);
+        var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');
+	    //console.log('datetime',datetime);
+	    //console.log('datetime',new Date(datetime));	    
+	    //console.log('on met à jour avec datetime',datetime);	    
+	    this.game.get("dates").expected = datetime;      
+	  }       
+      
       if ($('#startTeam1').parent().hasClass("select"))
         this.game.get('infos').startTeam = 0;
       if ($('#startTeam2').parent().hasClass("select"))
@@ -266,8 +291,29 @@ Y.Views.GameForm = Y.View.extend({
 	    if (game.infos.surface !== undefined) $("#surface").val(game.infos.surface);
 	    if (game.infos.tour !== undefined) $("#tour").val(game.infos.tour);
 	    if (game.infos.court !== undefined) $("#court").val(game.infos.court);
+	    
+	    if (game.dates.expected !== undefined) {	
+	      var dateExpected = Date.fromString(game.dates.expected);
+	      console.log('dateExpected',dateExpected);
+	      
+	      /*
+	      var date = dateExpected.toString('yyyy-MM-dd');
+	      var time = dateExpected.toString('h:mm');  
+	      */
+	      var month = dateExpected.getMonth() + 1;
+          var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
+          var time = ('0'+dateExpected.getHours()).slice(-2)+':'+('0'+dateExpected.getMinutes()).slice(-2); 
+	      
+	      console.log('date',date);
+	      console.log('time',time);
+	      	        
+	      $('#expectedDay').val(date);
+	      $('#expectedHour').val(time);
+	    }
+	    	    
     }
-    if (game.infos.competition !== undefined) $("#competition").val(game.infos.competition);
+    
+    if (game.infos.official !== undefined) $("#official").val(game.infos.official);
     
     this.$el.i18n();
   },

@@ -60,6 +60,8 @@
     "options" : "Options match",
     "public" : "Public",
     "private" : "Privé",
+    "official" : "Officiel",
+    "notofficial" : "Amical",
     "comments" : "COMMENTAIRES", 
     "50lastcomments" : "DERNIERS COMMENTAIRES",
     "10lastcomments" : "DERNIERS COMMENTAIRES",    
@@ -140,7 +142,9 @@
     "surface_tb":"Terre-battue - TB",
     "yes":"Oui",
     "no":"Non",
-    "submit" : "ENREGISTRER"        	                      
+    "submit" : "ENREGISTRER",
+    "dateday" : "Date Prévu",
+    "datehour" : "Heure Prévu"            	                      
   },
   "gameclub": {
     "title": ""

@@ -187,10 +187,19 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
       
-      if ($('#official').val()==="false")
-        this.game.get('infos').official = false;
-      else     
-        this.game.get('infos').official = true; 
+
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	  var isGingerbread = /android 2\.3/i.test(userAgent);
+	  if (!isGingerbread) {     
+        if ($('#official').val()==="false")
+          this.game.get('infos').official = false;
+        else     
+          this.game.get('infos').official = true; 
+      }
+      else {
+        this.game.get('infos').official = $("#official").prop('checked');
+      }  
+
         
 	  var date = $('#expectedDay').val();
 	  var time = $('#expectedHour').val();   
@@ -279,34 +288,45 @@ Y.Views.GameForm = Y.View.extend({
       $("#team2,#rank2").prop('disabled', true); // team1 is ME or, some player I don't own.
     }
     
-    if (!isGingerbread) {
-	    if (game.location.city !== undefined) $("#city").val(game.location.city);    
+    if (game.dates.expected !== undefined) {	
+      var dateExpected = Date.fromString(game.dates.expected);
+      var month = dateExpected.getMonth() + 1;
+      var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
+      var time = ('0'+dateExpected.getHours()).slice(-2)+':'+('0'+dateExpected.getMinutes()).slice(-2); 
+              
+      $('#expectedDay').val(date);
+      $('#expectedHour').val(time);
+    }    
+    
+    if (game.location.city !== undefined) $("#city").val(game.location.city); 
+    
+    if (!isGingerbread) {   
 	    if (game.infos.surface !== undefined) $("#surface").val(game.infos.surface);
 	    if (game.infos.tour !== undefined) $("#tour").val(game.infos.tour);
 	    if (game.infos.court !== undefined) $("#court").val(game.infos.court);
-	    
-	    if (game.dates.expected !== undefined) {	
-	      var dateExpected = Date.fromString(game.dates.expected);
-	      console.log('dateExpected',dateExpected);
-	      
-	      /*
-	      var date = dateExpected.toString('yyyy-MM-dd');
-	      var time = dateExpected.toString('h:mm');  
-	      */
-	      var month = dateExpected.getMonth() + 1;
-          var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
-          var time = ('0'+dateExpected.getHours()).slice(-2)+':'+('0'+dateExpected.getMinutes()).slice(-2); 
-	      
-	      console.log('date',date);
-	      console.log('time',time);
-	      	        
-	      $('#expectedDay').val(date);
-	      $('#expectedHour').val(time);
-	    }
 	    	    
+    	if (game.infos.official !== undefined) {
+          if (game.infos.official == false)
+            $("#official").val('false');
+          else
+            $("#official").val('true');
+        }
+    	    
     }
+    else {
     
-    if (game.infos.official !== undefined) $("#official").val(game.infos.official);
+	    if (game.infos.official !== undefined) {
+          if (game.infos.official == false) {
+            $("input#official[value=false]").attr('checked','true');
+          }
+        else {
+          $("input#official[value=true]").attr('checked','true');
+          
+        }
+                
+      }
+    }
+    	  
     
     this.$el.i18n();
   },

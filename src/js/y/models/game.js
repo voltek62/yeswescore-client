@@ -130,10 +130,12 @@ var GameModel = Backbone.Model.extend({
 	       object.infos[k] = this.get('infos')[k];
 	   }, this);
 	 
-	 if (this.get('official') === "false") 
-	   object.infos.official = false;
-	 else
-	   object.infos.official = true;
+	 //console.log('typeof this.get(infos).official',typeof this.get('infos').official);
+	 //console.log('this.get(infos).official',this.get('infos').official);	 
+	 
+     if (typeof this.get('infos').official === "boolean") 	 
+	   object.infos.official = this.get('infos').official;
+
 	   
 	 console.log('dans model, on envoie',object);  
      

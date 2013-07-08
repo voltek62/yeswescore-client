@@ -306,7 +306,8 @@
  	"infomyclub": "Indiquer votre club",   
  	"infoclubfollowed": "Gérer les clubs suivis",   
  	"infogamefollowed": "Gérer les matchs suivis",   
- 	"infoplayerfollowed": "Gérer les joueurs suivis"         
+ 	"infoplayerfollowed": "Gérer les joueurs suivis",
+ 	"priorityplayerfollowed" : "Voir les joueurs suivis en priorité"         
   },
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

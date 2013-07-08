@@ -7,7 +7,7 @@ Y.Views.SearchForm = Y.View.extend({
     'keyup #club': 'updateList',
     "click #searchgeo":"update",
     "click #searchmyclub":"update", 
-    "click #searchgamefollowed":"update",        
+    "click #searchplayerfollowed":"update",        
     'click #club_choice' : 'displayClub',
     'click #linkprofil' : 'goProfil'
       
@@ -72,6 +72,11 @@ Y.Views.SearchForm = Y.View.extend({
         Y.User.setFiltersSearch('searchmyclub');         
       }      
     }    
+
+    if (event.currentTarget.id === 'searchplayerfollowed' && $("#searchplayerfollowed span").hasClass('disabled')==false) {
+      $('#searchplayerfollowed span').toggleClass('checked');
+      Y.User.setFiltersSearch(event.currentTarget.id);   
+    }  
       
   },
        
@@ -116,8 +121,8 @@ Y.Views.SearchForm = Y.View.extend({
 	    if (filters.indexOf('searchmyclub')!==-1) {
 	      $('#searchmyclub span').addClass('checked');
 	 	}
-	    if (filters.indexOf('searchgamefollowed')!==-1) {
-	      $('#searchgamefollowed span').addClass('checked');
+	    if (filters.indexOf('searchplayerfollowed')!==-1) {
+	      $('#searchplayerfollowed span').addClass('checked');
 	 	}
  	} 	
  	

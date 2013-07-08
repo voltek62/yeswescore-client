@@ -66,7 +66,7 @@ Y.Views.GameList = Y.View.extend({
 	
     var that = this;
     //  
-    
+    this.onResume = function () { that.search(); };
     
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
@@ -173,6 +173,10 @@ Y.Views.GameList = Y.View.extend({
         });
         return;
       }
+      
+
+	  document.addEventListener("resume", that.onResume, true);
+      
       playerDeferred.resolve();
     });
 
@@ -404,6 +408,8 @@ Y.Views.GameList = Y.View.extend({
     if (this.button===false) { 
 	    this.games.removeSearch('me');	
 	}
+	
+	document.removeEventListener("resume", this.onResume, true);
     
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);

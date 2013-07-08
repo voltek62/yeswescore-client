@@ -123,7 +123,7 @@ Y.Views.GameList = Y.View.extend({
           this.games.setClub(this.clubid);
         }
         else {
-          Y.User.removeSearch('searchmyclub');
+          this.games.removeSearch('searchmyclub');
           $('#searchmyclub').html('');        
         } 
         
@@ -136,7 +136,7 @@ Y.Views.GameList = Y.View.extend({
           this.games.addSearch('geo');  
         }
         else {
-          Y.User.removeSearch('searchgeo');
+          this.games.removeSearch('searchgeo');
           $('#searchgeo').html('');
         }
         

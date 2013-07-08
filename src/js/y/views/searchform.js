@@ -48,23 +48,31 @@ Y.Views.SearchForm = Y.View.extend({
    
       
   update: function (event) {
-  
-    $('#'+event.currentTarget.id+' span').toggleClass('checked');
-    Y.User.setFiltersSearch(event.currentTarget.id);    
     
-    var filters = Y.User.getFiltersSearch();
-    
-    if (event.currentTarget.id === 'searchgeo' && filters.indexOf('searchmyclub')!==-1) {
+    if (event.currentTarget.id === 'searchmyclub' && $("#searchmyclub span").hasClass('disabled')==false) {
       $('#searchmyclub span').toggleClass('checked');
-      Y.User.setFiltersSearch('searchmyclub');         
-    }
-    else if (event.currentTarget.id === 'searchmyclub' && filters.indexOf('searchgeo')!==-1) {
-      $('#searchgeo span').toggleClass('checked');
-      Y.User.setFiltersSearch('searchgeo'); 
-    }
+      Y.User.setFiltersSearch(event.currentTarget.id);
       
-     
+      var filters = Y.User.getFiltersSearch();
     
+      if (filters.indexOf('searchgeo')!==-1) {
+        $('#searchgeo span').toggleClass('checked');
+        Y.User.setFiltersSearch('searchgeo'); 
+      }      
+    }
+    
+    if (event.currentTarget.id === 'searchgeo' && $("#searchgeo span").hasClass('disabled')==false) {
+      $('#searchgeo span').toggleClass('checked');
+      Y.User.setFiltersSearch(event.currentTarget.id);
+      
+      var filters = Y.User.getFiltersSearch();
+    
+      if (filters.indexOf('searchmyclub')!==-1) {
+        $('#searchmyclub span').toggleClass('checked');
+        Y.User.setFiltersSearch('searchmyclub');         
+      }      
+    }    
+      
   },
        
   goProfil: function(){

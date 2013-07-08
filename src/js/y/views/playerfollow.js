@@ -60,8 +60,9 @@ Y.Views.PlayerFollow = Y.View.extend({
 			var player = new PlayerModel({id : playerid});	        
 	        player.once("sync", this.syncPlayer, this);
 	        
-	        /*
-	        player.fetch().error(function (xhrResult, error) {	        
+	        console.log('player.fetch()',player.fetch());
+	        
+	        player.fetch().fail(function (xhrResult, error) {	        
 
 	        	if (players.indexOf(playerid) !== -1) {
 		          players.splice(players.indexOf(playerid), 1);
@@ -79,11 +80,8 @@ Y.Views.PlayerFollow = Y.View.extend({
 		            
 		          }
    
-		    });	 */       
-		    
-		    this.playerLast = players[players.length-1];
-	        
-	        
+		    });	       
+
 	        this.players[index] = player;	
 	        				
 	    },this);

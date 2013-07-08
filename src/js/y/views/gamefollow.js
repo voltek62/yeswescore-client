@@ -77,7 +77,7 @@ Y.Views.GameFollow = Y.View.extend({
 			var game = new GameModel({id : gameid});	        
 	        game.once("sync", this.syncGame, this);	
      
-	        game.fetch().error(function (xhrResult, error) {	        
+	        game.fetch().fail(function (xhrResult, error) {	        
 
 	        	if (games.indexOf(gameid) !== -1) {
 		          games.splice(games.indexOf(gameid), 1);

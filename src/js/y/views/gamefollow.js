@@ -5,7 +5,8 @@ Y.Views.GameFollow = Y.View.extend({
     
   events: {
     "click li": "goToGame",
-    "blur input#search-basic": "search",
+    "keyup input#search-basic": "searchOnKey",  
+    "blur input#search-basic": "searchOnBlur",
     "click .refresh" : "refresh",
     "click button-option-down": "search"
   },
@@ -102,7 +103,20 @@ Y.Views.GameFollow = Y.View.extend({
 	   $('p.message').i18n();
 	 }  	
   
-  },  
+  }, 
+  
+  searchOnKey: function (event) {
+    if(event.keyCode == 13){
+      // the user has pressed on ENTER
+      this.search();
+    }
+    return this;
+  },
+
+  searchOnBlur: function (event) {
+    this.search();
+    return this;
+  },     
     
   search:function() {
     var q = $("#search-basic").val();

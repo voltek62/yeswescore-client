@@ -2,7 +2,8 @@ Y.Views.PlayerFollow = Y.View.extend({
   el:"#content",
   
   events: {
-    "blur input#search-basic": "search",
+    "keyup input#search-basic": "searchOnKey",  
+    "blur input#search-basic": "searchOnBlur",
     "click li": "choosePlayer"    
   },
 
@@ -99,6 +100,19 @@ Y.Views.PlayerFollow = Y.View.extend({
       var route = elmt.currentTarget.id;
       Y.Router.navigate(route, {trigger: true}); 
     }	
+  },  
+  
+  searchOnKey: function (event) {
+    if(event.keyCode == 13){
+      // the user has pressed on ENTER
+      this.search();
+    }
+    return this;
+  },
+
+  searchOnBlur: function (event) {
+    this.search();
+    return this;
   },  
   
   search:function() {

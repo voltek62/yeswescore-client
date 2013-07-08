@@ -2,7 +2,8 @@ Y.Views.ClubFollow = Y.View.extend({
   el:"#content",
   
   events: {
-    "blur input#search-basic": "search",
+    "keyup input#search-basic": "searchOnKey",  
+    "blur input#search-basic": "searchOnBlur",
     "click li": "chooseClub"    
   },
 
@@ -88,6 +89,20 @@ Y.Views.ClubFollow = Y.View.extend({
 
 	Y.Router.navigate(ref, {trigger: true});  
   },  
+  
+
+  searchOnKey: function (event) {
+    if(event.keyCode == 13){
+      // the user has pressed on ENTER
+      this.search();
+    }
+    return this;
+  },
+
+  searchOnBlur: function (event) {
+    this.search();
+    return this;
+  },    
   
   search:function() {
     var q = $("#search-basic").val();

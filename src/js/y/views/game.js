@@ -433,6 +433,16 @@ Y.Views.Game = Y.View.extend({
 		    $('.server2').removeClass('server-ball');
 	    }
 	  }
+	  
+	  //TODO: Add star for playerfollowed
+	  var players_follow = Y.User.getPlayer().get('following');
+	  
+	  if (players_follow.indexOf(game.get('teams')[0].players[0].id) !== -1)
+	    $('.follow1').addClass('follow-ball');
+	  if (players_follow.indexOf(game.get('teams')[1].players[0].id) !== -1)	  
+	    $('.follow2').addClass('follow-ball');
+	 
+	  
     return this;
   },
 

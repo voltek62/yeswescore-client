@@ -2138,6 +2138,16 @@ a[data-filter='match-followed'] {
 	background-repeat: no-repeat;	
 }
 
+.follow-ball {
+	width:25px;
+	height:25px;
+	background-image: url(images/follow-on.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/follow-on.png);
+	/*#endif*/	
+	background-size: 100%;
+	background-repeat: no-repeat;	
+}
 
 .scoreBoard .playerInfos .player-name {
 	display: block;

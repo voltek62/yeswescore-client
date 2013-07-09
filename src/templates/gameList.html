@@ -83,16 +83,28 @@ else {
    }  
 }
 
-if (game.status === "ongoing") game.status = i18n.t('game.ongoing');
-else if (game.status === "finished") game.status = i18n.t('game.finished');
-else if (game.status === "created") game.status = i18n.t('game.created');
+if (game.status === "ongoing") game.status2 = i18n.t('game.ongoing');
+else if (game.status === "finished") game.status2 = i18n.t('game.finished');
+else if (game.status === "created") game.status2 = i18n.t('game.created');
  
+if (game.status === "created") { 
+%>
+<li id="#games/<%= game.id %>" class="unselectable" style="height:60px;">
+<%
+}
+else {
 %>
 <li id="#games/<%= game.id %>" class="unselectable">
-
+<%
+}
+%>
 <div class="ui-grid-c">
 	<div class="ui-block-a game-location" style="width: 63%;"> 
-    <%= game.dates.startDate %> - <%= game.location.city %> 
+    <%= game.dates.startDate %>
+    <% 
+      if (game.location.city!== '') 
+        print(" - "+game.location.city);
+    %> 
     <% 
       if (game.infos.tour !== "") {       
         infosTour = parseInt(game.infos.tour,10);                 
@@ -113,7 +125,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
     %>
 	</div>
     <div class="ui-block-b" style="width: 9%;"> 
-      <div class="button-count-comments">12</div>
+      <div class="button-count-comments"><%= game.streamCommentsSize %></div>
     </div>
     <div class="ui-block-c" style="width: 9%;">
     <%
@@ -151,10 +163,61 @@ else if (game.status === "created") game.status = i18n.t('game.created');
     %>
     </div>    
 	<div class="ui-block-d game-status" style="width: 19%;">
-	<%= game.status %>
+	<%= game.status2 %>
 	</div>
 </div>
 
+<%
+if (game.status === "created") {
+%>
+ <div class="ui-grid-b" style="margin-top:5px;">
+  <div class="ui-block-a game-player" style="width:40%;text-align:center;line-height:12px;">
+  <% 
+  if (game.teams[0].players[0]!== undefined) { 
+    print("<b>"+game.teams[0].players[0].name+"</b><br/>&nbsp;");
+    
+    print('<span class="div_score_mini">');
+    print(game.teams[0].players[0].rank); 
+    
+    if (game.teams[0].players[0].club !== undefined) {  
+    
+      
+      if (game.teams[0].players[0].club.name.length>20)
+        game.teams[0].players[0].club.name = game.teams[0].players[0].club.name.substr(0,19);   
+        print(' '+game.teams[0].players[0].club.name);  
+    } 
+    print('</span>'); 
+  }
+  %>   
+  </div>
+  <div class="ui-block-b game-player" style="width:20%;text-align:center;line-height:12px;">
+  <b>VS</b><br/>
+  <%= game.dates.startTime %>
+  </div>
+  <div class="ui-block-c game-player" style="width:40%;text-align:center;line-height:12px;">
+  <% 
+  if (game.teams[1].players[0]!== undefined) { 
+    print("<b>"+game.teams[1].players[0].name+"</b><br/>&nbsp;"); 
+    print('<span class="div_score_mini">');
+    print(game.teams[1].players[0].rank); 
+
+    if (game.teams[1].players[0].club !== undefined) {
+    
+    
+      if (game.teams[1].players[0].club.name.length>20)
+        game.teams[1].players[0].club.name = game.teams[1].players[0].club.name.substr(0,19);
+       print(' '+game.teams[1].players[0].club.name); 
+    }
+    print('</span>');   
+  }
+  %>       
+  </div>  
+ </div>
+<%
+}
+else
+{
+%>
  <div class="ui-grid-d" style="margin-top:5px;">
      <div class="ui-block-a game-player" style="width:63%;">
 	<% 
@@ -205,6 +268,9 @@ else if (game.status === "created") game.status = i18n.t('game.created');
      <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
      <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
  </div>
+ <%
+ }
+ %>
  
 </li>
 <% } %>

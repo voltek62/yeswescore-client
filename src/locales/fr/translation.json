@@ -60,6 +60,8 @@
     "options" : "Options match",
     "public" : "Public",
     "private" : "Privé",
+    "official" : "Officiel",
+    "notofficial" : "Amical",    
     "comments" : "COMMENTAIRES", 
     "50lastcomments" : "DERNIERS COMMENTAIRES",
     "10lastcomments" : "DERNIERS COMMENTAIRES",
@@ -140,7 +142,9 @@
     "surface_tb":"Terre-battue - TB",
     "yes":"Oui",
     "no":"Non",
-    "submit" : "ENREGISTRER"        	                      
+    "submit" : "ENREGISTRER",  
+    "dateday" : "Date Prévu",
+    "datehour" : "Heure Prévu"          	                      
   },
   "gameclub": {
     "title": ""
@@ -195,7 +199,7 @@
     "error_emptyyou" : "Vous devez indiquer au moins un nom et un classement pour vous",    
     "error_deconnexion": "Erreur de deconnexion",
     "nofollowplayerok":"Vous ne suivez plus ce joueur",
-    "followplayerok":"Vous suivez ce joueur",
+    "followplayerok":"Vous suivez ce joueur",   
     "nofollowgameok":"Vous ne suivez plus ce match",
     "followgameok":"Vous suivez ce match",
     "nofollowclubok":"Vous ne suivez plus ce club",
@@ -302,7 +306,8 @@
  	"infomyclub": "Indiquer votre club",   
  	"infoclubfollowed": "Gérer les clubs suivis",   
  	"infogamefollowed": "Gérer les matchs suivis",   
- 	"infoplayerfollowed": "Gérer les joueurs suivis"         
+ 	"infoplayerfollowed": "Gérer les joueurs suivis",
+ 	"priorityplayerfollowed" : "Voir les joueurs suivis en priorité"         
   },
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

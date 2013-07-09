@@ -42,7 +42,8 @@ var GameModel = Backbone.Model.extend({
       court : "",
       surface : "",
       tour : "",
-      startTeam : ""
+      startTeam : "",
+      official : true
     }
   },
 
@@ -118,6 +119,9 @@ var GameModel = Backbone.Model.extend({
      if (typeof this.get('status') !== "undefined") 
        if (this.get('status') !== "")
          object.status = this.get('status');
+              
+     if (typeof this.get('dates').expected === "string") 
+         object.dates.expected = this.get('dates').expected;
        
      _.forEach(
       ['subtype', 'sets', 'score', 'court', 'surface',
@@ -125,6 +129,15 @@ var GameModel = Backbone.Model.extend({
 	     if (typeof this.get('infos')[k] !== "undefined")
 	       object.infos[k] = this.get('infos')[k];
 	   }, this);
+	 
+	 //console.log('typeof this.get(infos).official',typeof this.get('infos').official);
+	 //console.log('this.get(infos).official',this.get('infos').official);	 
+	 
+     if (typeof this.get('infos').official === "boolean") 	 
+	   object.infos.official = this.get('infos').official;
+
+	   
+	 console.log('dans model, on envoie',object);  
      
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
@@ -389,7 +402,7 @@ var GameModel = Backbone.Model.extend({
     }
 
     // set3 : only if game is finished.
-    if (this.isFinished) { 
+    if (this.isFinished() ) { 
       // team 2 < team 1 && team 1 >= 6
       if (sets[2][1] < sets[2][0] && sets[2][0] >= 6)
         scoreTeam1++;

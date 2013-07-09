@@ -70,9 +70,18 @@ if (game.dates.start !== undefined ) {
     game.dates.startConvert = Date.fromString(game.dates.start);
 	game.dates.startDate = game.dates.startConvert.getDate()+' '+game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();
 }
-else
-	game.dates.startDate = 'A venir';
-
+else {
+   if (game.dates.expected !== undefined) {
+                      
+     if (game.dates.expected!=="") {
+       game.dates.startConvert = Date.fromString(game.dates.expected);
+       //game.dates.startConvert.month = game.dates.startConvert.getMonth() + 1;
+       //game.dates.startDate = ('0'+game.dates.startConvert.getDate()).slice(-2)+'/'+('0'+game.dates.startConvert.month).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
+       game.dates.startDate = game.dates.startConvert.getDate()+' '+game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();       
+       game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);             
+     }
+   }  
+}
 
 if (game.status === "ongoing") game.status = i18n.t('game.ongoing');
 else if (game.status === "finished") game.status = i18n.t('game.finished');
@@ -99,7 +108,9 @@ else if (game.status === "created") game.status = i18n.t('game.created');
           print(" - "+i18n.t("gameadd.poule"));    
         }                 
       }   
-    %> 
+     
+
+    %>
 	</div>
     <div class="ui-block-b" style="width: 9%;"> 
       <div class="button-count-comments">12</div>
@@ -119,6 +130,19 @@ else if (game.status === "created") game.status = i18n.t('game.created');
       <%
       }        
     }
+    else if (players_follow !== undefined)
+    {
+      if (players_follow.indexOf(game.teams[0].players[0].id) !== -1 || players_follow.indexOf(game.teams[1].players[0].id) !== -1) {
+      %>
+        <div class="button-follow-on"></div>
+      <%
+      }
+      else {
+      %>
+       <div class="button-follow-off"></div>
+      <%
+      }        
+    }        
     else {
     %>
       <div class="button-follow-off"></div>

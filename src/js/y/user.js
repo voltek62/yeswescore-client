@@ -9,6 +9,7 @@
   var playerIdConfKey = 'player.id';
   var playerTokenConfKey = 'player.token';
   var playerClubIdConfKey = 'player.club.id';
+  var playerFollowingConfKey = 'player.following';
   var playerFiltersSortConfKey = 'player.filters.sort';
   var playerFiltersSearchConfKey = 'player.filters.search';  
   
@@ -113,6 +114,33 @@
 	removeClub: function () {	
 	  // Y.Conf.del('player.club.id');
       Y.Conf.del('Y.Conf.'+playerClubIdConfKey);		
+	},
+	
+	setFollowing: function (id) {
+	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+      if (players_follow !== undefined)
+      {
+        if (players_follow.indexOf(this.id) === -1) {
+          players_follow.push(this.id);
+          Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });  
+        }
+      }
+      else
+        Y.Conf.set('Y.Conf.'+playerFollowingConfKey, [this.id]);	  
+	},
+
+	removeFollowing: function (id) {	
+	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+      
+      if (players_follow !== undefined)
+      {
+        if (players_follow.indexOf(this.id) !== -1) {
+        //On retire l'elmt
+          players_follow.splice(players_follow.indexOf(this.id), 1);
+          Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });
+        }
+      }
+      	   		
 	},
 	
 	getClub: function () {	

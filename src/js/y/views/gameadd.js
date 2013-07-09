@@ -71,13 +71,12 @@ Y.Views.GameAdd = Y.View.extend({
 
   addingGame: false,
   addGame: function (event) {
-    var team1 = $('#team1').val()    
+    var team1 = $('#team1').val()   
       , team2 = $('#team2').val()
       , rank2 = $('#rank2').val()
       , city = $('#city').val()
       , game;
       
-    console.log('addGame');  
       
     if (this.addingGame)
       return; // already sending => disabled.    
@@ -105,6 +104,10 @@ Y.Views.GameAdd = Y.View.extend({
         	court : $('#court').val() 
       		, surface : $('#surface').val()
       		, tour : $('#tour').val() 
+      		, official : $('#official').val()
+      		//Stocke infos temporaire sans rapport avec le modele
+      		, expectedDay : $('#expectedDay').val()
+      		, expectedHour : $('#expectedHour').val()
       		} 
 	    };
 	    
@@ -161,14 +164,34 @@ Y.Views.GameAdd = Y.View.extend({
       , rank2 : $('#rank2').val()
       , team2_id : this.team2_id
       , location : { city : $('#city').val() }
+      , dates : {}
       , infos : { 
         	court : $('#court').val() 
       		, surface : $('#surface').val()
-      		, tour : $('#tour').val() 
+      		, tour : $('#tour').val()
+      		, official : true
       }
     });   
+    
+    //console.log('game.infos',game.toJSON());
+    
+    if ($('#official').val() === "false")
+      game.get("infos").official=false;
+    else
+      game.get("infos").official=true;
+        
+    var date = $('#expectedDay').val();
+    var time = $('#expectedHour').val();   
       
-      
+    //on reforme la date 
+    if (date!=='' && time!=='') {
+      var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');      
+      game.get("dates").expected = datetime;      
+    }
+    
+    
+    console.log('on envoie la game',game.toJSON());
+    
     var that = this;
     	
 	game.save(null, {
@@ -266,13 +289,14 @@ Y.Views.GameAdd = Y.View.extend({
 	      $("#rank2").val(game.rank2);                
 	    
 	      if (!isGingerbread) {
-		      if ( game.city !== "" ) $("#city").val(game.city);    
-		      if ( game.surface !== "" ) $("#surface").val(game.surface);
-		      if ( game.tour !== "" ) $("#tour").val(game.tour);
-		      if ( game.court !== "" ) $("#court").val(game.court);
+		      if ( game.location.city !== "" ) $("#city").val(game.location.city);    
+		      if ( game.infos.surface !== "" ) $("#surface").val(game.infos.surface);
+		      if ( game.infos.tour !== "" ) $("#tour").val(game.infos.tour);
+		      if ( game.infos.court !== "" ) $("#court").val(game.infos.court);
+		      if ( game.infos.official !== "" ) $("#official").val(game.infos.official);	
+		      if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
+		      if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);		      	      
 	      }
-	      if ( game.competition !== "" )
-          $("#competition").val(game.competition);
         
         this.DB.remove("game"); 
       }

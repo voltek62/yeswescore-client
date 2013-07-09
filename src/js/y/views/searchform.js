@@ -7,7 +7,7 @@ Y.Views.SearchForm = Y.View.extend({
     'keyup #club': 'updateList',
     "click #searchgeo":"update",
     "click #searchmyclub":"update", 
-    "click #searchgamefollowed":"update",        
+    "click #searchplayerfollowed":"update",        
     'click #club_choice' : 'displayClub',
     'click #linkprofil' : 'goProfil'
       
@@ -48,23 +48,36 @@ Y.Views.SearchForm = Y.View.extend({
    
       
   update: function (event) {
-  
-    $('#'+event.currentTarget.id+' span').toggleClass('checked');
-    Y.User.setFiltersSearch(event.currentTarget.id);    
     
-    var filters = Y.User.getFiltersSearch();
-    
-    if (event.currentTarget.id === 'searchgeo' && filters.indexOf('searchmyclub')!==-1) {
+    if (event.currentTarget.id === 'searchmyclub' && $("#searchmyclub span").hasClass('disabled')==false) {
       $('#searchmyclub span').toggleClass('checked');
-      Y.User.setFiltersSearch('searchmyclub');         
-    }
-    else if (event.currentTarget.id === 'searchmyclub' && filters.indexOf('searchgeo')!==-1) {
-      $('#searchgeo span').toggleClass('checked');
-      Y.User.setFiltersSearch('searchgeo'); 
-    }
+      Y.User.setFiltersSearch(event.currentTarget.id);
       
-     
+      var filters = Y.User.getFiltersSearch();
     
+      if (filters.indexOf('searchgeo')!==-1) {
+        $('#searchgeo span').toggleClass('checked');
+        Y.User.setFiltersSearch('searchgeo'); 
+      }      
+    }
+    
+    if (event.currentTarget.id === 'searchgeo' && $("#searchgeo span").hasClass('disabled')==false) {
+      $('#searchgeo span').toggleClass('checked');
+      Y.User.setFiltersSearch(event.currentTarget.id);
+      
+      var filters = Y.User.getFiltersSearch();
+    
+      if (filters.indexOf('searchmyclub')!==-1) {
+        $('#searchmyclub span').toggleClass('checked');
+        Y.User.setFiltersSearch('searchmyclub');         
+      }      
+    }    
+
+    if (event.currentTarget.id === 'searchplayerfollowed' && $("#searchplayerfollowed span").hasClass('disabled')==false) {
+      $('#searchplayerfollowed span').toggleClass('checked');
+      Y.User.setFiltersSearch(event.currentTarget.id);   
+    }  
+      
   },
        
   goProfil: function(){
@@ -108,8 +121,8 @@ Y.Views.SearchForm = Y.View.extend({
 	    if (filters.indexOf('searchmyclub')!==-1) {
 	      $('#searchmyclub span').addClass('checked');
 	 	}
-	    if (filters.indexOf('searchgamefollowed')!==-1) {
-	      $('#searchgamefollowed span').addClass('checked');
+	    if (filters.indexOf('searchplayerfollowed')!==-1) {
+	      $('#searchplayerfollowed span').addClass('checked');
 	 	}
  	} 	
  	

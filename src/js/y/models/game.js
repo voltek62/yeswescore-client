@@ -402,7 +402,7 @@ var GameModel = Backbone.Model.extend({
     }
 
     // set3 : only if game is finished.
-    if (this.isFinished) { 
+    if (this.isFinished() ) { 
       // team 2 < team 1 && team 1 >= 6
       if (sets[2][1] < sets[2][0] && sets[2][0] >= 6)
         scoreTeam1++;

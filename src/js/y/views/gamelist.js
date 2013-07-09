@@ -340,9 +340,10 @@ Y.Views.GameList = Y.View.extend({
       else {
       
         var games_follow = Y.Conf.get("owner.games.followed");
+        var players_follow = Y.User.getPlayer().get('following');
     	//$(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
       
-        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: q }));
+        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: q }));
         
       }
     	
@@ -398,7 +399,9 @@ Y.Views.GameList = Y.View.extend({
   renderList: function () {
   
     var games_follow = Y.Conf.get("owner.games.followed");
-    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
+    var players_follow = Y.User.getPlayer().get('following');
+    
+    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: ' ' }));
     $('p.message').i18n();
     return this;
   },

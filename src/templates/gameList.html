@@ -129,6 +129,19 @@ else if (game.status === "created") game.status = i18n.t('game.created');
       <%
       }        
     }
+    else if (players_follow !== undefined)
+    {
+      if (players_follow.indexOf(game.teams[0].players[0].id) !== -1 || players_follow.indexOf(game.teams[1].players[0].id) !== -1) {
+      %>
+        <div class="button-follow-on"></div>
+      <%
+      }
+      else {
+      %>
+       <div class="button-follow-off"></div>
+      <%
+      }        
+    }        
     else {
     %>
       <div class="button-follow-off"></div>

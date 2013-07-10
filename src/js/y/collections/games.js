@@ -68,9 +68,7 @@ var GamesCollection = Backbone.Collection.extend({
            
 	
 	url += "sort=-dates.start";   
-
-    console.log('URL',url);        
-        
+     
     return url;
   },
 
@@ -99,11 +97,6 @@ var GamesCollection = Backbone.Collection.extend({
       else {
          this.searchOption = [m];
       }   
-      
-      console.log('on passe setSearch sur ',this.searchOption);  
-
-    //if (typeof q !== "undefined")
-    //  this.searchOptionParam=q;
   },
 
   setQuery:function (q) {

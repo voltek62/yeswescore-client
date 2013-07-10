@@ -130,14 +130,8 @@ var GameModel = Backbone.Model.extend({
 	       object.infos[k] = this.get('infos')[k];
 	   }, this);
 	 
-	 //console.log('typeof this.get(infos).official',typeof this.get('infos').official);
-	 //console.log('this.get(infos).official',this.get('infos').official);	 
-	 
      if (typeof this.get('infos').official === "boolean") 	 
-	   object.infos.official = this.get('infos').official;
-
-	   
-	 console.log('dans model, on envoie',object);  
+	   object.infos.official = this.get('infos').official; 
      
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];

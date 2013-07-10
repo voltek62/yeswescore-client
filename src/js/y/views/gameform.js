@@ -104,9 +104,7 @@ Y.Views.GameForm = Y.View.extend({
 
   renderAndSave: function () {
     this.render();
-    
-    console.log('renderAndSave',this.game.toJSON());
-    
+
     return this.game.save(null, {playerid: this.player.get('id'), token: this.player.get('token')});
   },
       
@@ -117,6 +115,8 @@ Y.Views.GameForm = Y.View.extend({
       , rank1 = $("#rank1").val()
       , rank2 = $("#rank2").val()
       , ownedPlayer = null
+      , expectedDay = $('#expectedDay').val() 
+      , expectedHour = $('#expectedHour').val()      
       , that = this;
 
     if (this.isTeamEditable(0)) {
@@ -143,6 +143,16 @@ Y.Views.GameForm = Y.View.extend({
         return false;
       }
     }
+    
+    if (expectedDay.length < 1 && expectedHour.length > 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	      
+	  return false;	 
+	}
+
+	if (expectedDay.length > 1 && expectedHour.length < 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	    
+	  return false;	 
+	}
     
     // then, we save the player only if modified && owned.
     var promises = [];

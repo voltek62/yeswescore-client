@@ -213,7 +213,7 @@ Y.Views.PlayerForm = Y.View.extend({
   getPhoto: function(){
   
   	Cordova.Camera.capturePhoto(function (img) {
-  	  //console.log("data:image/jpeg;base64,",img);  	  
+	  
       var src = "data:image/jpeg;base64," + img;
       $('#smallImage').attr("src", src);
       $('#smallImage').attr("width", "300");

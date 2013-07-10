@@ -75,6 +75,8 @@ Y.Views.GameAdd = Y.View.extend({
       , team2 = $('#team2').val()
       , rank2 = $('#rank2').val()
       , city = $('#city').val()
+      , expectedDay = $('#expectedDay').val() 
+      , expectedHour = $('#expectedHour').val()
       , game;
       
       
@@ -147,10 +149,20 @@ Y.Views.GameAdd = Y.View.extend({
     };
     
     if (checkName(city) && city.length>0) {             
-	    $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
+	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
       return false;	   
     };
+
+	if (expectedDay.length < 1 && expectedHour.length > 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	      
+	  return false;	 
+	}
+
+	if (expectedDay.length > 1 && expectedHour.length < 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	    
+	  return false;	 
+	}
 
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.addingGame = true;
@@ -173,8 +185,6 @@ Y.Views.GameAdd = Y.View.extend({
       }
     });   
     
-    //console.log('game.infos',game.toJSON());
-    
     if ($('#official').val() === "false")
       game.get("infos").official=false;
     else
@@ -188,9 +198,6 @@ Y.Views.GameAdd = Y.View.extend({
       var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');      
       game.get("dates").expected = datetime;      
     }
-    
-    
-    console.log('on envoie la game',game.toJSON());
     
     var that = this;
     	

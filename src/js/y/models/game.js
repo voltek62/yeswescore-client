@@ -126,19 +126,13 @@ var GameModel = Backbone.Model.extend({
      _.forEach(
       ['subtype', 'sets', 'score', 'court', 'surface',
        'tour', 'country', 'startTeam'] , function (k) {
-	     if (typeof this.get('infos')[k] !== "undefined")
-	       object.infos[k] = this.get('infos')[k];
-	   }, this);
-	 
-	 //console.log('typeof this.get(infos).official',typeof this.get('infos').official);
-	 //console.log('this.get(infos).official',this.get('infos').official);	 
-	 
-     if (typeof this.get('infos').official === "boolean") 	 
-	   object.infos.official = this.get('infos').official;
+       if (typeof this.get('infos')[k] !== "undefined")
+         object.infos[k] = this.get('infos')[k];
+      }, this);
+   
+    if (typeof this.get('infos').official === "boolean")
+      object.infos.official = this.get('infos').official;
 
-	   
-	 console.log('dans model, on envoie',object);  
-     
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 

@@ -21,6 +21,9 @@ Y.Views.GameAdd = Y.View.extend({
   myinitialize: function () {
     this.useSearch = 0;	
     Y.GUI.header.title(i18n.t('gameadd.title'));
+    
+    Y.GUI.addBlueBackground();
+    
   	this.templates = {
 	    gameadd:  Y.Templates.get('gameAdd'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
@@ -315,6 +318,7 @@ Y.Views.GameAdd = Y.View.extend({
   onClose: function () {
   
     this.undelegateEvents();
+    Y.GUI.delBlueBackground();
     
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);

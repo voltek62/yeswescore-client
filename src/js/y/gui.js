@@ -21,7 +21,8 @@
       }
       return true;
     },
-
+       
+	
     // display an overlay asking the user to upgrade
     // FIXME: HTML should be in the .html / or in index.html
     displayLayerNewVersion: function () {
@@ -38,7 +39,16 @@
       $('body').html(i18n.t('bootstrap.errortext') + '<div class="button retry" onclick="window.location.reload();">' + i18n.t('bootstrap.errorbutton') + '</div>');
       $('body').removeClass();
       $('body').addClass('update');
+    },
+    
+    addBlueBackground: function () {
+      $('#content').addClass('blue-screen background');
+    },
+    
+    delBlueBackground: function () {
+      $('#content').removeClass('blue-screen background');  
     }
+    
   };
 
   Y.Connection.on("change", function (state) {

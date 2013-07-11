@@ -27,6 +27,8 @@ Y.Views.GameForm = Y.View.extend({
     //no search
     this.useSearch=0;
     
+    Y.GUI.addBlueBackground();
+    
   	this.templates = {
 	    gameform:  Y.Templates.get('gameForm'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
@@ -349,6 +351,9 @@ Y.Views.GameForm = Y.View.extend({
   },
 
   onClose: function() {
+  	
+  	Y.GUI.delBlueBackground();
+  
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)
       this.clubs.off("sync", this.renderList,this);

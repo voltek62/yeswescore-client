@@ -23,11 +23,8 @@ Y.Views.GameAdd = Y.View.extend({
   myinitialize: function () {
     this.useSearch = 0;	
     Y.GUI.header.title(i18n.t('gameadd.title'));
-    
     Y.GUI.addBlueBackground();
-    //Y.GUI.header.hide();
-    //Y.GUI.navbar.hide();
-    
+
   	this.templates = {
 	    gameadd:  Y.Templates.get('gameAdd'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
@@ -40,7 +37,7 @@ Y.Views.GameAdd = Y.View.extend({
 	this.DB = new Y.DB("Y.GameAdd.");
     this.team1_id = this.player.get('id');
     this.team2_id = null;
-	this.render();
+    this.render();
   },
 
   otherTeam: function () {
@@ -150,27 +147,27 @@ Y.Views.GameAdd = Y.View.extend({
     if (team1 === '' && this.team1_id == this.player.get('id')) {
       //$('.team1_error').html(i18n.t('message.error_emptyyou')+' !').show();      
       //On sauvegarde les infos de la partie
-	    game = {
-		      team1 : team1
-	      , rank1 : $('#rank1').val()
-	      , team1_id : this.team1_id
-	      , team2 : team2
-	      , rank2 : $('#rank2').val()
-	      , team2_id : this.team2_id
-	      , location : { city : $('#city').val() }
-	      , infos : { 
-        	court : $('#court').val() 
-      		, surface : $('#surface').val()
-      		, tour : $('#tour').val() 
-      		, official : $('#official').val()
-      		//Stocke infos temporaire sans rapport avec le modele
-      		, expectedDay : $('#expectedDay').val()
-      		, expectedHour : $('#expectedHour').val()
-      		} 
-	    };
-	    
-	  
-	  this.DB.saveJSON("game", game);
+      game = {
+          team1 : team1
+        , rank1 : $('#rank1').val()
+        , team1_id : this.team1_id
+        , team2 : team2
+        , rank2 : $('#rank2').val()
+        , team2_id : this.team2_id
+        , location : { city : $('#city').val() }
+        , infos : { 
+        court : $('#court').val() 
+          , surface : $('#surface').val()
+          , tour : $('#tour').val() 
+          , official : ($('#official').val() === "true")
+          //Stocke infos temporaire sans rapport avec le modele
+          , expectedDay : $('#expectedDay').val()
+          , expectedHour : $('#expectedHour').val()
+        } 
+      };
+
+
+      this.DB.saveJSON("game", game);
       Y.Router.navigate("players/form/me", {trigger: true});	
       
         
@@ -223,29 +220,24 @@ Y.Views.GameAdd = Y.View.extend({
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.addingGame = true;
 
-    //On sauve dans Collections
+    // On sauve dans Collections
     game = new GameModel({
-		team1 : team1
-      , rank1 : $('#rank1').val()
-      , team1_id : this.team1_id
-      , team2 : team2
-      , rank2 : $('#rank2').val()
-      , team2_id : this.team2_id
-      , location : { city : $('#city').val() }
-      , dates : {}
-      , infos : { 
-        	court : $('#court').val() 
-      		, surface : $('#surface').val()
-      		, tour : $('#tour').val()
-      		, official : true
+      team1 : team1
+    , rank1 : $('#rank1').val()
+    , team1_id : this.team1_id
+    , team2 : team2
+    , rank2 : $('#rank2').val()
+    , team2_id : this.team2_id
+    , location : { city : $('#city').val() }
+    , dates : {}
+    , infos : { 
+        court : $('#court').val() 
+      , surface : $('#surface').val()
+      , tour : $('#tour').val()
+      , official : ($('#official').val() === "true")
       }
     });   
     
-    if ($('#official').val() === "false")
-      game.get("infos").official=false;
-    else
-      game.get("infos").official=true;
-        
     var date = $('#expectedDay').val();
     var time = $('#expectedHour').val();   
       
@@ -254,26 +246,24 @@ Y.Views.GameAdd = Y.View.extend({
       var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');      
       game.get("dates").expected = datetime;      
     }
-    
+
     var that = this;
     	
-	game.save(null, {
-	  playerid: this.player.get('id'),
-	  token: this.player.get('token')
-	 }).done(function(model, response){
-	   that.addingGame = false; 
-	   
-	   Y.Router.navigate('games/'+model.id, {trigger: true}); 
-	 }).fail(function (err) {
+    game.save(null, {
+	    playerid: this.player.get('id'),
+	    token: this.player.get('token')
+	  }).done(function(model, response){
+	    that.addingGame = false; 
+	    Y.Router.navigate('games/'+model.id, {trigger: true}); 
+	  }).fail(function (err) {
 	    that.$(".button").addClass("ko");
 	    that.shareTimeout = window.setTimeout(function () {
 	      that.$(".button").removeClass("ko");
 	      that.shareTimeout = null;
 	  	  that.$('.button').removeClass("disabled");    
 	    }, 4000);
-        that.addingGame = false;	 
+      that.addingGame = false;	 
 	 });
-	
   },
 
   autocompletePlayers: function (input, callback) {
@@ -325,12 +315,13 @@ Y.Views.GameAdd = Y.View.extend({
       $("#team1").val(this.player.get('name')); 
     if (this.player.get('id') !== "")
       this.team1_id = this.player.get('id');
+
+    /*
+    debug android 2.2 to 2.3.6
+    */
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    var isGingerbread = /android 2\.3/i.test(userAgent);
 	 
-	 /*
-	 debug android 2.2 to 2.3.6
-	 */
-	 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	 var isGingerbread = /android 2\.3/i.test(userAgent);
 	 
 	 $('#inject-select').prepend(this.templates.gameselect({ 
 	    selection : i18n.t('gameadd.selection')
@@ -341,34 +332,27 @@ Y.Views.GameAdd = Y.View.extend({
 	   $('#inject-datepicker').prepend(this.templates.gamedatepicker({})); 	    
 	 }
 	 else {
-		//$('#inject-select').prepend(this.templates.gameinput());
-		
-		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({ 
-		    selection : i18n.t('gameadd.selection')
-		    , surface : i18n.t('gameadd.surface')
-	    })); 		
+		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({})); 		
 	 }
-	 
-         
+	   
     //fill with last data 
     if (this.DB !== undefined) {
       var game = this.DB.readJSON("game"); 
       
       if (game!==undefined) {
+
 	      $("#team2").val(game.team2); 
 	      this.team2_id = game.team2_id;
 	      $("#rank2").val(game.rank2);                
 	    
-	      //if (!isGingerbread) {
-		      if ( game.location.city !== "" ) $("#city").val(game.location.city);    
-		      if ( game.infos.surface !== "" ) $("#surface").val(game.infos.surface);
-		      if ( game.infos.tour !== "" ) $("#tour").val(game.infos.tour);
-		      if ( game.infos.court !== "" ) $("#court").val(game.infos.court);
-		      if ( game.infos.official !== "" ) $("#official").val(game.infos.official);	
-		      if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
-		      if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);		      	      
-	      //}
-        
+	      if ( game.location.city !== "" ) $("#city").val(game.location.city);    
+	      if ( game.infos.surface !== "" ) $("#surface").val(game.infos.surface);
+	      if ( game.infos.tour !== "" ) $("#tour").val(game.infos.tour);
+	      if ( game.infos.court !== "" ) $("#court").val(game.infos.court);
+	      if ( game.infos.official !== "" ) $("#official").val(game.infos.official);	
+	      if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
+	      if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);		      	      
+
         this.DB.remove("game"); 
       }
     }

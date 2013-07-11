@@ -38,7 +38,7 @@ Y.Views.GameForm = Y.View.extend({
 	    gamedatepicker:  Y.Templates.get('gameDatePicker'),	
 	    gamedatepickerandroid:  Y.Templates.get('gameDatePickerAndroid'),		          
 	    playerlist: Y.Templates.get('playerListAutoComplete')
-	  };    
+	  };
     
     this.player = Y.User.getPlayer();
   
@@ -60,21 +60,18 @@ Y.Views.GameForm = Y.View.extend({
     
   renderList: function () {
     var q = $("#club").val();
- 	
-	$(this.listview).html(this.clubListAutoCompleteViewTemplate({clubs:this.clubs.toJSON(), query:q}));
-
+    
+    $(this.listview).html(this.clubListAutoCompleteViewTemplate({clubs:this.clubs.toJSON(), query:q}));
   },
     
     
   displayClub: function(li) {
     selectedId = $('#club_choice:checked').val();
     selectedName = $('#club_choice:checked').next('label').text();
-    	
     $('#club').val(selectedName);
     //FIXME : differencier idclub et fftid
     $('#clubid').val(selectedId); 
     $('club_error').html('');
-    	
     $(this.listview).html('');
   },
 
@@ -175,24 +172,24 @@ Y.Views.GameForm = Y.View.extend({
 
     if (this.isTeamEditable(0)) {
       if (checkName(team1) && team1.length>0) {
-	      $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+        $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
         $('#team1').val('');
         return false;
       }
       if (checkRank(rank1) && rank1.length>0) {
-	      $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
+        $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
         $('#rank1').val('');        
         return false;	   
       }
     }
     if (this.isTeamEditable(1)) {
       if (checkName(team2) && team2.length>0) { 
-	      $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+        $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
         $('#team2').val('');
         return false;
       }
       if (checkRank(rank2) && rank2.length>0) {
-	      $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+        $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
         $('#rank2').val('');
         return false;
       }
@@ -251,26 +248,20 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
       
-      //var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	  //var isGingerbread = /android 2\.3/i.test(userAgent);
-	  //if (!isGingerbread) {     
+    
         if ($('#official').val()==="false")
           this.game.get('infos').official = false;
         else     
           this.game.get('infos').official = true; 
-      //}
-      //else {
-      //  this.game.get('infos').official = $("#official").prop('checked');
-      //}  
 
-	  var date = $('#expectedDay').val();
-	  var time = $('#expectedHour').val();   
-	      
-	  //on reforme la date 
-	  if (date!=='' && time!=='') {	  
-        var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');    
-	    this.game.get("dates").expected = datetime;      
-	  }       
+
+      var date = $('#expectedDay').val();
+      var time = $('#expectedHour').val();   
+          
+      //on reforme la date 
+      if (date!=='' && time!=='') {
+        this.game.get("dates").expected = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');
+      }
       
       if ($('#startTeam1').parent().hasClass("select"))
         this.game.get('infos').startTeam = 0;
@@ -279,16 +270,16 @@ Y.Views.GameForm = Y.View.extend({
       this.renderAndSave().done(function (result) {
         if (!that.unloaded) {
           // uniquement si nous sommes tjs sur cette page.
-	        $('span.success').css({display:"block"});
-	        $('span.success').html(i18n.t('message.updateok')).show();
-	         
+          $('span.success').css({display:"block"});
+          $('span.success').html(i18n.t('message.updateok')).show();
+           
             /*
             this.confirmTimeout = window.setTimeout(function () {
-		      Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
-		      that.confirmTimeout = null;
-		    }, 2000);
-		    */
-	        
+          Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
+          that.confirmTimeout = null;
+        }, 2000);
+        */
+          
         }
       });
     }, this));
@@ -315,35 +306,30 @@ Y.Views.GameForm = Y.View.extend({
     this.$el.html(this.templates.gameform({
     game : game
     , selection : i18n.t('gameadd.selection')
-	  , surface : i18n.t('gameadd.surface')
+    , surface : i18n.t('gameadd.surface')
     }));
     
-    
-   	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	var isGingerbread = /android 2\.3/i.test(userAgent);
 	
     $('#inject-select').prepend(this.templates.gameselect({ 
 	  selection : i18n.t('gameadd.selection')
       , surface : i18n.t('gameadd.surface')
 	}));
 	    	
+   	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	var isGingerbread = /android 2\.3/i.test(userAgent);	    	
 	 if (!isGingerbread) {
 	   $('#inject-datepicker').prepend(this.templates.gamedatepicker({})); 	    
 	 }
 	 else {
-		//$('#inject-select').prepend(this.templates.gameinput());
-		
-		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({ 
-		    selection : i18n.t('gameadd.selection')
-		    , surface : i18n.t('gameadd.surface')
-	    })); 		
+		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({})); 		
 	 }
   
+
     if (game.teams[0].id === game.infos.startTeam) {
-	    $('#startTeam1').parent().addClass("select");
+      $('#startTeam1').parent().addClass("select");
     }
     else if (game.teams[1].id === game.infos.startTeam) {
-	    $('#startTeam2').parent().addClass("select");
+      $('#startTeam2').parent().addClass("select");
     }
 
     if (game.teams[0].players[0].name !== undefined ) $("#team1").val(game.teams[0].players[0].name);
@@ -371,37 +357,14 @@ Y.Views.GameForm = Y.View.extend({
     }    
     
     if (game.location.city !== undefined) $("#city").val(game.location.city); 
-    
-    //if (!isGingerbread) {   
-	    if (game.infos.surface !== undefined) $("#surface").val(game.infos.surface);
-	    if (game.infos.tour !== undefined) $("#tour").val(game.infos.tour);
-	    if (game.infos.court !== undefined) $("#court").val(game.infos.court);
-	    	    
-    	if (game.infos.official !== undefined) {
-          if (game.infos.official == false)
-            $("#official").val('false');
-          else
-            $("#official").val('true');
-        }
+    if (game.infos.surface !== undefined) $("#surface").val(game.infos.surface);
+    if (game.infos.tour !== undefined) $("#tour").val(game.infos.tour);
+    if (game.infos.court !== undefined) $("#court").val(game.infos.court);
     	    
-    //}
-    /*
-    else {
-    
-	    if (game.infos.official !== undefined) {
-          if (game.infos.official == false) {
-            $("input#official[value=false]").attr('checked','true');
-          }
-        else {
-          $("input#official[value=true]").attr('checked','true');
-          
-        }
-                
-      }
+    if (typeof game.infos.official === "boolean") {
+      $("#official").val(game.infos.official?"true":"false");
     }
-    */
-    	  
-    
+  
     this.$el.i18n();
   },
 

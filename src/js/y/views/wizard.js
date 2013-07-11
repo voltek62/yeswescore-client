@@ -92,7 +92,7 @@ Y.Views.Wizard = Y.View.extend({
   },
 
   canAdvance: function () {
-    return this.stepIndex < this.stepCount;
+    return this.stepIndex + 1 < this.stepCount;
   },
 
   canRewind: function () { 

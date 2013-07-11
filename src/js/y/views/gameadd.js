@@ -15,7 +15,9 @@ Y.Views.GameAdd = Y.View.extend({
     'mousedown .button': 'addGame',
     'click .form-button.other-team': 'otherTeam',
     'click .form-button.more-options': 'moreOption',
-    'blur #team1': 'changeTeam1'
+    'blur #team1': 'changeTeam1',
+    'focus .nativedatepicker' : 'nativeDate',
+    'focus .nativetimepicker' : 'nativeTime'
   },  
 
   myinitialize: function () {
@@ -71,6 +73,53 @@ Y.Views.GameAdd = Y.View.extend({
       this.team1_id = this.player.get('id');
     }
   },
+  
+  nativeDate: function (event) {
+ 	var currentField = $('#'+event.currentTarget.id);	
+    var myNewDate = Date.parse(currentField.val()) || new Date();
+    if(typeof myNewDate === "number"){ myNewDate = new Date (myNewDate); }
+    
+	if (window.plugins!==undefined) {
+    // Same handling for iPhone and Android
+      window.plugins.datePicker.show({
+        date : myNewDate,
+        mode : 'date', // date or time or blank for both
+        allowOldDates : false
+      }, function(returnDate) {
+        var dateExpected = Date.fromString(new Date(returnDate));
+        var month = dateExpected.getMonth() + 1;
+        var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
+        currentField.val(date);      
+              
+        // This fixes the problem you mention at the bottom of this script with it not working a second/third time around, because it is in focus.
+        currentField.blur();
+     });  
+   }
+  },
+  
+  nativeTime: function (event) {
+ 	var currentField = $('#'+event.currentTarget.id);	
+    var myNewTime = new Date();
+
+    var time = currentField.val();    
+    if (time.length>3) {    
+      myNewTime.setHours(time.substr(0, 2));
+      myNewTime.setMinutes(time.substr(3, 2));
+	}
+	
+    // Same handling for iPhone and Android
+	if (window.plugins!==undefined) {    
+      plugins.datePicker.show({
+        date : myNewTime,
+        mode : 'time', // date or time or blank for both
+        allowOldDates : true
+      }, function(returnDate) {
+        currentField.val(returnDate);
+        currentField.blur();
+      });
+    }  
+  },  
+  
 
   addingGame: false,
   addGame: function (event) {

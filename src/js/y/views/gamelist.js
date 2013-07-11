@@ -96,12 +96,10 @@ Y.Views.GameList = Y.View.extend({
 	    if (param.search === 'me') {
 	      this.games.addSearch('player');	
 	      this.games.setPlayer(this.player.id);		      
-	      //console.log('on demande ses parties',this.player.id);      
 	    }
 	    else if (param.search === 'player') {
 	      this.games.addSearch('player');	
-	      this.games.setPlayer(param.id);		      
-	      //console.log('on precises les parties d\'un joueur',param.id);      
+	      this.games.setPlayer(param.id);		        
 	    }	    
 	    else
 	      this.searchOption = Y.User.getFiltersSearch();     

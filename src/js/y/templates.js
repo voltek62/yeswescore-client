@@ -38,6 +38,7 @@
           "searchForm",
           "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList",
           "playerListSearch", "playerSignin",
+          "wizardWelcome", "wizardStep2", "wizardStep3", "wizardStep4"
         ];
         var timeoutid = setTimeout(function () {
            var harvestedTemplates = _.keys(html);

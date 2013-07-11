@@ -25,15 +25,19 @@ Y.Views.GameAdd = Y.View.extend({
     Y.GUI.header.title(i18n.t('gameadd.title'));
     
     Y.GUI.addBlueBackground();
+    //Y.GUI.header.hide();
+    //Y.GUI.navbar.hide();
     
   	this.templates = {
 	    gameadd:  Y.Templates.get('gameAdd'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
-	    gameinput:  Y.Templates.get('gameInput'),	      
+	    gamedatepicker:  Y.Templates.get('gameDatePicker'),	
+	    gamedatepickerandroid:  Y.Templates.get('gameDatePickerAndroid'),		      
 	    playerlist: Y.Templates.get('playerListAutoComplete')
-	  };
-	  this.player = Y.User.getPlayer();
-	  this.DB = new Y.DB("Y.GameAdd.");
+	};
+	  
+	this.player = Y.User.getPlayer();
+	this.DB = new Y.DB("Y.GameAdd.");
     this.team1_id = this.player.get('id');
     this.team2_id = null;
 	this.render();
@@ -328,17 +332,23 @@ Y.Views.GameAdd = Y.View.extend({
 	 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 	 var isGingerbread = /android 2\.3/i.test(userAgent);
 	 
+	 $('#inject-select').prepend(this.templates.gameselect({ 
+	    selection : i18n.t('gameadd.selection')
+	    , surface : i18n.t('gameadd.surface')
+     })); 	 
+	 
 	 if (!isGingerbread) {
-
-		 $('#inject-select').prepend(this.templates.gameselect({ 
-		    selection : i18n.t('gameadd.selection')
-		    , surface : i18n.t('gameadd.surface')
-	     })); 
-	    
+	   $('#inject-datepicker').prepend(this.templates.gamedatepicker({})); 	    
 	 }
 	 else {
-		$('#inject-select').prepend(this.templates.gameinput());
+		//$('#inject-select').prepend(this.templates.gameinput());
+		
+		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({ 
+		    selection : i18n.t('gameadd.selection')
+		    , surface : i18n.t('gameadd.surface')
+	    })); 		
 	 }
+	 
          
     //fill with last data 
     if (this.DB !== undefined) {
@@ -349,7 +359,7 @@ Y.Views.GameAdd = Y.View.extend({
 	      this.team2_id = game.team2_id;
 	      $("#rank2").val(game.rank2);                
 	    
-	      if (!isGingerbread) {
+	      //if (!isGingerbread) {
 		      if ( game.location.city !== "" ) $("#city").val(game.location.city);    
 		      if ( game.infos.surface !== "" ) $("#surface").val(game.infos.surface);
 		      if ( game.infos.tour !== "" ) $("#tour").val(game.infos.tour);
@@ -357,7 +367,7 @@ Y.Views.GameAdd = Y.View.extend({
 		      if ( game.infos.official !== "" ) $("#official").val(game.infos.official);	
 		      if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
 		      if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);		      	      
-	      }
+	      //}
         
         this.DB.remove("game"); 
       }
@@ -369,6 +379,8 @@ Y.Views.GameAdd = Y.View.extend({
   onClose: function () {
   
     this.undelegateEvents();
+    
+    //Y.GUI.header.show();
     Y.GUI.delBlueBackground();
     
     if (this.shareTimeout) {

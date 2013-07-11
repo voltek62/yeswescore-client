@@ -14,9 +14,11 @@
         if (status) {
           $body.addClass("inputmodeon");
           $body.removeClass("inputmodeoff");
+          
         } else {
           $body.removeClass("inputmodeon");
           $body.addClass("inputmodeoff");
+          
         }
       }
       return true;
@@ -40,6 +42,8 @@
       $('body').removeClass();
       $('body').addClass('update');
     },
+    
+    
     
     addBlueBackground: function () {
       $('#content').addClass('blue-screen background');

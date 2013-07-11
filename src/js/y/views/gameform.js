@@ -7,10 +7,10 @@ Y.Views.GameForm = Y.View.extend({
   events: {
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',      
-    'click #deleteMatch': 'deleteGame',    
-    'mousedown .button':'updateGame',
-    'keyup #club': 'updateList',
-    'click #club_choice' : 'displayClub',
+    'click #deleteMatch'	: 'deleteGame',    
+    'mousedown .button'		:'updateGame',
+    'keyup #club'			: 'updateList',
+    'click #club_choice' 	: 'displayClub',
     'focus .nativedatepicker' : 'nativeDate',
     'focus .nativetimepicker' : 'nativeTime'
   },
@@ -30,11 +30,13 @@ Y.Views.GameForm = Y.View.extend({
     this.useSearch=0;
     
     Y.GUI.addBlueBackground();
+    Y.GUI.header.hide();    
     
   	this.templates = {
 	    gameform:  Y.Templates.get('gameForm'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
-	    gameinput:  Y.Templates.get('gameInput'),	      
+	    gamedatepicker:  Y.Templates.get('gameDatePicker'),	
+	    gamedatepickerandroid:  Y.Templates.get('gameDatePickerAndroid'),		          
 	    playerlist: Y.Templates.get('playerListAutoComplete')
 	  };    
     
@@ -249,17 +251,17 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
       
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	  var isGingerbread = /android 2\.3/i.test(userAgent);
-	  if (!isGingerbread) {     
+      //var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	  //var isGingerbread = /android 2\.3/i.test(userAgent);
+	  //if (!isGingerbread) {     
         if ($('#official').val()==="false")
           this.game.get('infos').official = false;
         else     
           this.game.get('infos').official = true; 
-      }
-      else {
-        this.game.get('infos').official = $("#official").prop('checked');
-      }  
+      //}
+      //else {
+      //  this.game.get('infos').official = $("#official").prop('checked');
+      //}  
 
 	  var date = $('#expectedDay').val();
 	  var time = $('#expectedHour').val();   
@@ -318,16 +320,24 @@ Y.Views.GameForm = Y.View.extend({
     
     
    	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	  var isGingerbread = /android 2\.3/i.test(userAgent);
-	  if (!isGingerbread) {  
-		  $('#inject-select').prepend(this.templates.gameselect({ 
+	var isGingerbread = /android 2\.3/i.test(userAgent);
+	
+    $('#inject-select').prepend(this.templates.gameselect({ 
+	  selection : i18n.t('gameadd.selection')
+      , surface : i18n.t('gameadd.surface')
+	}));
+	    	
+	 if (!isGingerbread) {
+	   $('#inject-datepicker').prepend(this.templates.gamedatepicker({})); 	    
+	 }
+	 else {
+		//$('#inject-select').prepend(this.templates.gameinput());
+		
+		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({ 
 		    selection : i18n.t('gameadd.selection')
-		  , surface : i18n.t('gameadd.surface')
-	    }));
-      } 
-      else {
-        $('#inject-select').prepend(this.templates.gameinput());
-     }
+		    , surface : i18n.t('gameadd.surface')
+	    })); 		
+	 }
   
     if (game.teams[0].id === game.infos.startTeam) {
 	    $('#startTeam1').parent().addClass("select");
@@ -362,7 +372,7 @@ Y.Views.GameForm = Y.View.extend({
     
     if (game.location.city !== undefined) $("#city").val(game.location.city); 
     
-    if (!isGingerbread) {   
+    //if (!isGingerbread) {   
 	    if (game.infos.surface !== undefined) $("#surface").val(game.infos.surface);
 	    if (game.infos.tour !== undefined) $("#tour").val(game.infos.tour);
 	    if (game.infos.court !== undefined) $("#court").val(game.infos.court);
@@ -374,7 +384,8 @@ Y.Views.GameForm = Y.View.extend({
             $("#official").val('true');
         }
     	    
-    }
+    //}
+    /*
     else {
     
 	    if (game.infos.official !== undefined) {
@@ -388,6 +399,7 @@ Y.Views.GameForm = Y.View.extend({
                 
       }
     }
+    */
     	  
     
     this.$el.i18n();
@@ -403,6 +415,7 @@ Y.Views.GameForm = Y.View.extend({
   onClose: function() {
   	
   	Y.GUI.delBlueBackground();
+    Y.GUI.header.show();  	
   
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)

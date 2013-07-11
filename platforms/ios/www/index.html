@@ -504,6 +504,55 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 }
 
 
+.button-follow-on {
+	width: 15px;
+	height: 15px;
+	background-image: url(images/follow-on.png);
+	
+	background-size: 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	right: 0px;
+	z-index: 1;
+	display: inline-block;
+}
+
+.button-follow-off {
+	width: 15px;
+	height: 15px;
+	background-image: url(images/follow-off.png);
+	
+	background-size: 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	right: 0px;
+	z-index: 1;
+	display: inline-block;
+}
+
+.button-count-comments {
+	width: 20px;
+	height: 20px;
+	background-image: url(images/count-comments.png);
+	
+	background-size: 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	position: absolute;
+	right: 0px;
+	text-align: center;
+	z-index: 1;
+	color: #000;
+	display: inline-block;
+	font-family: Open Sans;
+	font-weight: bold;
+	font-size: 11px;
+	text-align: center;
+	text-overflow: ellipsis;
+	padding-bottom:10px;
+}
+
+
 .button-option-up {
 	width: 69px;
 	height: 32px;
@@ -1737,6 +1786,31 @@ a[data-filter='match-followed'] {
 	box-sizing: border-box;
 }
 
+
+.account span.button {
+	display: block;
+	width: 100%;
+	height: 50px;
+	margin-top: 10px;
+	text-decoration: none;
+	text-transform: uppercase;
+	text-align: center;
+	font-family: Open Sans;
+	font-weight: 700;
+	line-height: 50px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: white;
+	background-color: #46b1db;
+	border-top: 1px solid #d0ebf6;
+	border-left: 1px solid #a3d7ed;
+	border-bottom: 1px solid #74c5e3;
+	border-right: 1px solid #74c5e3;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 .account a.buttonGrey {
 	background-color: #b0b0b0;
 	border: 1px solid #c0c0c0;
@@ -2038,6 +2112,14 @@ a[data-filter='match-followed'] {
 	background-repeat: no-repeat;	
 }
 
+.follow-ball {
+	width:25px;
+	height:25px;
+	background-image: url(images/follow-on.png);
+		
+	background-size: 100%;
+	background-repeat: no-repeat;	
+}
 
 .scoreBoard .playerInfos .player-name {
 	display: block;
@@ -10755,6 +10837,1793 @@ Backbone Poller may be freely distributed under the MIT license.
 
 })();
 
+/* Modernizr 2.6.2 (Custom Build) | MIT & BSD
+ * Build: http://modernizr.com/download/#-canvas-audio-video-input-inputtypes-localstorage-sessionstorage-geolocation-shiv-cssclasses-addtest-prefixed-testprop-testallprops-prefixes-domprefixes-elem_track-load
+ */
+;
+
+
+
+window.Modernizr = (function( window, document, undefined ) {
+
+    var version = '2.6.2',
+
+    Modernizr = {},
+
+    enableClasses = true,
+
+    docElement = document.documentElement,
+
+    mod = 'modernizr',
+    modElem = document.createElement(mod),
+    mStyle = modElem.style,
+
+    inputElem  = document.createElement('input')  ,
+
+    smile = ':)',
+
+    toString = {}.toString,
+
+    prefixes = ' -webkit- -moz- -o- -ms- '.split(' '),
+
+
+
+    omPrefixes = 'Webkit Moz O ms',
+
+    cssomPrefixes = omPrefixes.split(' '),
+
+    domPrefixes = omPrefixes.toLowerCase().split(' '),
+
+
+    tests = {},
+    inputs = {},
+    attrs = {},
+
+    classes = [],
+
+    slice = classes.slice,
+
+    featureName,
+
+
+
+    _hasOwnProperty = ({}).hasOwnProperty, hasOwnProp;
+
+    if ( !is(_hasOwnProperty, 'undefined') && !is(_hasOwnProperty.call, 'undefined') ) {
+      hasOwnProp = function (object, property) {
+        return _hasOwnProperty.call(object, property);
+      };
+    }
+    else {
+      hasOwnProp = function (object, property) { 
+        return ((property in object) && is(object.constructor.prototype[property], 'undefined'));
+      };
+    }
+
+
+    if (!Function.prototype.bind) {
+      Function.prototype.bind = function bind(that) {
+
+        var target = this;
+
+        if (typeof target != "function") {
+            throw new TypeError();
+        }
+
+        var args = slice.call(arguments, 1),
+            bound = function () {
+
+            if (this instanceof bound) {
+
+              var F = function(){};
+              F.prototype = target.prototype;
+              var self = new F();
+
+              var result = target.apply(
+                  self,
+                  args.concat(slice.call(arguments))
+              );
+              if (Object(result) === result) {
+                  return result;
+              }
+              return self;
+
+            } else {
+
+              return target.apply(
+                  that,
+                  args.concat(slice.call(arguments))
+              );
+
+            }
+
+        };
+
+        return bound;
+      };
+    }
+
+    function setCss( str ) {
+        mStyle.cssText = str;
+    }
+
+    function setCssAll( str1, str2 ) {
+        return setCss(prefixes.join(str1 + ';') + ( str2 || '' ));
+    }
+
+    function is( obj, type ) {
+        return typeof obj === type;
+    }
+
+    function contains( str, substr ) {
+        return !!~('' + str).indexOf(substr);
+    }
+
+    function testProps( props, prefixed ) {
+        for ( var i in props ) {
+            var prop = props[i];
+            if ( !contains(prop, "-") && mStyle[prop] !== undefined ) {
+                return prefixed == 'pfx' ? prop : true;
+            }
+        }
+        return false;
+    }
+
+    function testDOMProps( props, obj, elem ) {
+        for ( var i in props ) {
+            var item = obj[props[i]];
+            if ( item !== undefined) {
+
+                            if (elem === false) return props[i];
+
+                            if (is(item, 'function')){
+                                return item.bind(elem || obj);
+                }
+
+                            return item;
+            }
+        }
+        return false;
+    }
+
+    function testPropsAll( prop, prefixed, elem ) {
+
+        var ucProp  = prop.charAt(0).toUpperCase() + prop.slice(1),
+            props   = (prop + ' ' + cssomPrefixes.join(ucProp + ' ') + ucProp).split(' ');
+
+            if(is(prefixed, "string") || is(prefixed, "undefined")) {
+          return testProps(props, prefixed);
+
+            } else {
+          props = (prop + ' ' + (domPrefixes).join(ucProp + ' ') + ucProp).split(' ');
+          return testDOMProps(props, prefixed, elem);
+        }
+    }
+
+
+
+    tests['canvas'] = function() {
+        var elem = document.createElement('canvas');
+        return !!(elem.getContext && elem.getContext('2d'));
+    };    tests['geolocation'] = function() {
+        return 'geolocation' in navigator;
+    };
+
+
+    tests['video'] = function() {
+        var elem = document.createElement('video'),
+            bool = false;
+
+            try {
+            if ( bool = !!elem.canPlayType ) {
+                bool      = new Boolean(bool);
+                bool.ogg  = elem.canPlayType('video/ogg; codecs="theora"')      .replace(/^no$/,'');
+
+                            bool.h264 = elem.canPlayType('video/mp4; codecs="avc1.42E01E"') .replace(/^no$/,'');
+
+                bool.webm = elem.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/^no$/,'');
+            }
+
+        } catch(e) { }
+
+        return bool;
+    };
+
+    tests['audio'] = function() {
+        var elem = document.createElement('audio'),
+            bool = false;
+
+        try {
+            if ( bool = !!elem.canPlayType ) {
+                bool      = new Boolean(bool);
+                bool.ogg  = elem.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/,'');
+                bool.mp3  = elem.canPlayType('audio/mpeg;')               .replace(/^no$/,'');
+
+                                                    bool.wav  = elem.canPlayType('audio/wav; codecs="1"')     .replace(/^no$/,'');
+                bool.m4a  = ( elem.canPlayType('audio/x-m4a;')            ||
+                              elem.canPlayType('audio/aac;'))             .replace(/^no$/,'');
+            }
+        } catch(e) { }
+
+        return bool;
+    };
+
+
+    tests['localstorage'] = function() {
+        try {
+            localStorage.setItem(mod, mod);
+            localStorage.removeItem(mod);
+            return true;
+        } catch(e) {
+            return false;
+        }
+    };
+
+    tests['sessionstorage'] = function() {
+        try {
+            sessionStorage.setItem(mod, mod);
+            sessionStorage.removeItem(mod);
+            return true;
+        } catch(e) {
+            return false;
+        }
+    };
+
+    function webforms() {
+                                            Modernizr['input'] = (function( props ) {
+            for ( var i = 0, len = props.length; i < len; i++ ) {
+                attrs[ props[i] ] = !!(props[i] in inputElem);
+            }
+            if (attrs.list){
+                                  attrs.list = !!(document.createElement('datalist') && window.HTMLDataListElement);
+            }
+            return attrs;
+        })('autocomplete autofocus list placeholder max min multiple pattern required step'.split(' '));
+                            Modernizr['inputtypes'] = (function(props) {
+
+            for ( var i = 0, bool, inputElemType, defaultView, len = props.length; i < len; i++ ) {
+
+                inputElem.setAttribute('type', inputElemType = props[i]);
+                bool = inputElem.type !== 'text';
+
+                                                    if ( bool ) {
+
+                    inputElem.value         = smile;
+                    inputElem.style.cssText = 'position:absolute;visibility:hidden;';
+
+                    if ( /^range$/.test(inputElemType) && inputElem.style.WebkitAppearance !== undefined ) {
+
+                      docElement.appendChild(inputElem);
+                      defaultView = document.defaultView;
+
+                                        bool =  defaultView.getComputedStyle &&
+                              defaultView.getComputedStyle(inputElem, null).WebkitAppearance !== 'textfield' &&
+                                                                                  (inputElem.offsetHeight !== 0);
+
+                      docElement.removeChild(inputElem);
+
+                    } else if ( /^(search|tel)$/.test(inputElemType) ){
+                                                                                    } else if ( /^(url|email)$/.test(inputElemType) ) {
+                                        bool = inputElem.checkValidity && inputElem.checkValidity() === false;
+
+                    } else {
+                                        bool = inputElem.value != smile;
+                    }
+                }
+
+                inputs[ props[i] ] = !!bool;
+            }
+            return inputs;
+        })('search tel url email datetime date month week time datetime-local number range color'.split(' '));
+        }
+    for ( var feature in tests ) {
+        if ( hasOwnProp(tests, feature) ) {
+                                    featureName  = feature.toLowerCase();
+            Modernizr[featureName] = tests[feature]();
+
+            classes.push((Modernizr[featureName] ? '' : 'no-') + featureName);
+        }
+    }
+
+    Modernizr.input || webforms();
+
+
+     Modernizr.addTest = function ( feature, test ) {
+       if ( typeof feature == 'object' ) {
+         for ( var key in feature ) {
+           if ( hasOwnProp( feature, key ) ) {
+             Modernizr.addTest( key, feature[ key ] );
+           }
+         }
+       } else {
+
+         feature = feature.toLowerCase();
+
+         if ( Modernizr[feature] !== undefined ) {
+                                              return Modernizr;
+         }
+
+         test = typeof test == 'function' ? test() : test;
+
+         if (typeof enableClasses !== "undefined" && enableClasses) {
+           docElement.className += ' ' + (test ? '' : 'no-') + feature;
+         }
+         Modernizr[feature] = test;
+
+       }
+
+       return Modernizr; 
+     };
+
+
+    setCss('');
+    modElem = inputElem = null;
+
+    ;(function(window, document) {
+        var options = window.html5 || {};
+
+        var reSkip = /^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i;
+
+        var saveClones = /^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i;
+
+        var supportsHtml5Styles;
+
+        var expando = '_html5shiv';
+
+        var expanID = 0;
+
+        var expandoData = {};
+
+        var supportsUnknownElements;
+
+      (function() {
+        try {
+            var a = document.createElement('a');
+            a.innerHTML = '<xyz></xyz>';
+                    supportsHtml5Styles = ('hidden' in a);
+
+            supportsUnknownElements = a.childNodes.length == 1 || (function() {
+                        (document.createElement)('a');
+              var frag = document.createDocumentFragment();
+              return (
+                typeof frag.cloneNode == 'undefined' ||
+                typeof frag.createDocumentFragment == 'undefined' ||
+                typeof frag.createElement == 'undefined'
+              );
+            }());
+        } catch(e) {
+          supportsHtml5Styles = true;
+          supportsUnknownElements = true;
+        }
+
+      }());        function addStyleSheet(ownerDocument, cssText) {
+        var p = ownerDocument.createElement('p'),
+            parent = ownerDocument.getElementsByTagName('head')[0] || ownerDocument.documentElement;
+
+        p.innerHTML = 'x<style>' + cssText + '</style>';
+        return parent.insertBefore(p.lastChild, parent.firstChild);
+      }
+
+        function getElements() {
+        var elements = html5.elements;
+        return typeof elements == 'string' ? elements.split(' ') : elements;
+      }
+
+          function getExpandoData(ownerDocument) {
+        var data = expandoData[ownerDocument[expando]];
+        if (!data) {
+            data = {};
+            expanID++;
+            ownerDocument[expando] = expanID;
+            expandoData[expanID] = data;
+        }
+        return data;
+      }
+
+        function createElement(nodeName, ownerDocument, data){
+        if (!ownerDocument) {
+            ownerDocument = document;
+        }
+        if(supportsUnknownElements){
+            return ownerDocument.createElement(nodeName);
+        }
+        if (!data) {
+            data = getExpandoData(ownerDocument);
+        }
+        var node;
+
+        if (data.cache[nodeName]) {
+            node = data.cache[nodeName].cloneNode();
+        } else if (saveClones.test(nodeName)) {
+            node = (data.cache[nodeName] = data.createElem(nodeName)).cloneNode();
+        } else {
+            node = data.createElem(nodeName);
+        }
+
+                                    return node.canHaveChildren && !reSkip.test(nodeName) ? data.frag.appendChild(node) : node;
+      }
+
+        function createDocumentFragment(ownerDocument, data){
+        if (!ownerDocument) {
+            ownerDocument = document;
+        }
+        if(supportsUnknownElements){
+            return ownerDocument.createDocumentFragment();
+        }
+        data = data || getExpandoData(ownerDocument);
+        var clone = data.frag.cloneNode(),
+            i = 0,
+            elems = getElements(),
+            l = elems.length;
+        for(;i<l;i++){
+            clone.createElement(elems[i]);
+        }
+        return clone;
+      }
+
+        function shivMethods(ownerDocument, data) {
+        if (!data.cache) {
+            data.cache = {};
+            data.createElem = ownerDocument.createElement;
+            data.createFrag = ownerDocument.createDocumentFragment;
+            data.frag = data.createFrag();
+        }
+
+
+        ownerDocument.createElement = function(nodeName) {
+                if (!html5.shivMethods) {
+              return data.createElem(nodeName);
+          }
+          return createElement(nodeName, ownerDocument, data);
+        };
+
+        ownerDocument.createDocumentFragment = Function('h,f', 'return function(){' +
+          'var n=f.cloneNode(),c=n.createElement;' +
+          'h.shivMethods&&(' +
+                    getElements().join().replace(/\w+/g, function(nodeName) {
+              data.createElem(nodeName);
+              data.frag.createElement(nodeName);
+              return 'c("' + nodeName + '")';
+            }) +
+          ');return n}'
+        )(html5, data.frag);
+      }        function shivDocument(ownerDocument) {
+        if (!ownerDocument) {
+            ownerDocument = document;
+        }
+        var data = getExpandoData(ownerDocument);
+
+        if (html5.shivCSS && !supportsHtml5Styles && !data.hasCSS) {
+          data.hasCSS = !!addStyleSheet(ownerDocument,
+                    'article,aside,figcaption,figure,footer,header,hgroup,nav,section{display:block}' +
+                    'mark{background:#FF0;color:#000}'
+          );
+        }
+        if (!supportsUnknownElements) {
+          shivMethods(ownerDocument, data);
+        }
+        return ownerDocument;
+      }        var html5 = {
+
+            'elements': options.elements || 'abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video',
+
+            'shivCSS': (options.shivCSS !== false),
+
+            'supportsUnknownElements': supportsUnknownElements,
+
+            'shivMethods': (options.shivMethods !== false),
+
+            'type': 'default',
+
+            'shivDocument': shivDocument,
+
+            createElement: createElement,
+
+            createDocumentFragment: createDocumentFragment
+      };        window.html5 = html5;
+
+        shivDocument(document);
+
+    }(this, document));
+
+    Modernizr._version      = version;
+
+    Modernizr._prefixes     = prefixes;
+    Modernizr._domPrefixes  = domPrefixes;
+    Modernizr._cssomPrefixes  = cssomPrefixes;
+
+
+
+    Modernizr.testProp      = function(prop){
+        return testProps([prop]);
+    };
+
+    Modernizr.testAllProps  = testPropsAll;
+
+
+    Modernizr.prefixed      = function(prop, obj, elem){
+      if(!obj) {
+        return testPropsAll(prop, 'pfx');
+      } else {
+            return testPropsAll(prop, obj, elem);
+      }
+    };
+
+
+    docElement.className = docElement.className.replace(/(^|\s)no-js(\s|$)/, '$1$2') +
+
+                                                    (enableClasses ? ' js ' + classes.join(' ') : '');
+
+    return Modernizr;
+
+})(this, this.document);
+/*yepnope1.5.4|WTFPL*/
+(function(a,b,c){function d(a){return"[object Function]"==o.call(a)}function e(a){return"string"==typeof a}function f(){}function g(a){return!a||"loaded"==a||"complete"==a||"uninitialized"==a}function h(){var a=p.shift();q=1,a?a.t?m(function(){("c"==a.t?B.injectCss:B.injectJs)(a.s,0,a.a,a.x,a.e,1)},0):(a(),h()):q=0}function i(a,c,d,e,f,i,j){function k(b){if(!o&&g(l.readyState)&&(u.r=o=1,!q&&h(),l.onload=l.onreadystatechange=null,b)){"img"!=a&&m(function(){t.removeChild(l)},50);for(var d in y[c])y[c].hasOwnProperty(d)&&y[c][d].onload()}}var j=j||B.errorTimeout,l=b.createElement(a),o=0,r=0,u={t:d,s:c,e:f,a:i,x:j};1===y[c]&&(r=1,y[c]=[]),"object"==a?l.data=c:(l.src=c,l.type=a),l.width=l.height="0",l.onerror=l.onload=l.onreadystatechange=function(){k.call(this,r)},p.splice(e,0,u),"img"!=a&&(r||2===y[c]?(t.insertBefore(l,s?null:n),m(k,j)):y[c].push(l))}function j(a,b,c,d,f){return q=0,b=b||"j",e(a)?i("c"==b?v:u,a,b,this.i++,c,d,f):(p.splice(this.i++,0,a),1==p.length&&h()),this}function k(){var a=B;return a.loader={load:j,i:0},a}var l=b.documentElement,m=a.setTimeout,n=b.getElementsByTagName("script")[0],o={}.toString,p=[],q=0,r="MozAppearance"in l.style,s=r&&!!b.createRange().compareNode,t=s?l:n.parentNode,l=a.opera&&"[object Opera]"==o.call(a.opera),l=!!b.attachEvent&&!l,u=r?"object":l?"script":"img",v=l?"script":u,w=Array.isArray||function(a){return"[object Array]"==o.call(a)},x=[],y={},z={timeout:function(a,b){return b.length&&(a.timeout=b[0]),a}},A,B;B=function(a){function b(a){var a=a.split("!"),b=x.length,c=a.pop(),d=a.length,c={url:c,origUrl:c,prefixes:a},e,f,g;for(f=0;f<d;f++)g=a[f].split("="),(e=z[g.shift()])&&(c=e(c,g));for(f=0;f<b;f++)c=x[f](c);return c}function g(a,e,f,g,h){var i=b(a),j=i.autoCallback;i.url.split(".").pop().split("?").shift(),i.bypass||(e&&(e=d(e)?e:e[a]||e[g]||e[a.split("/").pop().split("?")[0]]),i.instead?i.instead(a,e,f,g,h):(y[i.url]?i.noexec=!0:y[i.url]=1,f.load(i.url,i.forceCSS||!i.forceJS&&"css"==i.url.split(".").pop().split("?").shift()?"c":c,i.noexec,i.attrs,i.timeout),(d(e)||d(j))&&f.load(function(){k(),e&&e(i.origUrl,h,g),j&&j(i.origUrl,h,g),y[i.url]=2})))}function h(a,b){function c(a,c){if(a){if(e(a))c||(j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}),g(a,j,b,0,h);else if(Object(a)===a)for(n in m=function(){var b=0,c;for(c in a)a.hasOwnProperty(c)&&b++;return b}(),a)a.hasOwnProperty(n)&&(!c&&!--m&&(d(j)?j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}:j[n]=function(a){return function(){var b=[].slice.call(arguments);a&&a.apply(this,b),l()}}(k[n])),g(a[n],j,b,n,h))}else!c&&l()}var h=!!a.test,i=a.load||a.both,j=a.callback||f,k=j,l=a.complete||f,m,n;c(h?a.yep:a.nope,!!i),i&&c(i)}var i,j,l=this.yepnope.loader;if(e(a))g(a,0,l,0);else if(w(a))for(i=0;i<a.length;i++)j=a[i],e(j)?g(j,0,l,0):w(j)?B(j):Object(j)===j&&h(j,l);else Object(a)===a&&h(a,l)},B.addPrefix=function(a,b){z[a]=b},B.addFilter=function(a){x.push(a)},B.errorTimeout=1e4,null==b.readyState&&b.addEventListener&&(b.readyState="loading",b.addEventListener("DOMContentLoaded",A=function(){b.removeEventListener("DOMContentLoaded",A,0),b.readyState="complete"},0)),a.yepnope=k(),a.yepnope.executeStack=h,a.yepnope.injectJs=function(a,c,d,e,i,j){var k=b.createElement("script"),l,o,e=e||B.errorTimeout;k.src=a;for(o in d)k.setAttribute(o,d[o]);c=j?h:c||f,k.onreadystatechange=k.onload=function(){!l&&g(k.readyState)&&(l=1,c(),k.onload=k.onreadystatechange=null)},m(function(){l||(l=1,c(1))},e),i?k.onload():n.parentNode.insertBefore(k,n)},a.yepnope.injectCss=function(a,c,d,e,g,i){var e=b.createElement("link"),j,c=i?h:c||f;e.href=a,e.rel="stylesheet",e.type="text/css";for(j in d)e.setAttribute(j,d[j]);g||(n.parentNode.insertBefore(e,n),m(c,0))}})(this,document);
+Modernizr.load=function(){yepnope.apply(window,[].slice.call(arguments,0));};
+// Track element + Timed Text Track API
+// http://www.w3.org/TR/html5/video.html#the-track-element
+// http://www.w3.org/TR/html5/media-elements.html#text-track-api
+//
+// While IE10 has implemented the track element, IE10 does not expose the underlying APIs to create timed text tracks by JS (really sad)
+// By Addy Osmani
+Modernizr.addTest({
+	texttrackapi: (typeof (document.createElement('video').addTextTrack) === 'function'),
+	// a more strict test for track including UI support: document.createElement('track').kind === 'subtitles'
+	track: ('kind' in document.createElement('track'))
+});
+;
+(function (factory) {
+	
+	if(window.jQuery){
+		factory(jQuery);
+		factory = jQuery.noop;
+	}
+	if (typeof define === 'function' && define.amd && define.amd.jQuery) {
+		define('polyfiller', ['jquery'], factory);
+	}
+}(function($){
+	"use strict";
+	var DOMSUPPORT = 'dom-support';
+	var jScripts = $(document.scripts || 'script');
+	var special = $.event.special;
+	var emptyJ = $([]);
+	var Modernizr = window.Modernizr;
+	var asyncWebshims = window.asyncWebshims;
+	var addTest = Modernizr.addTest;
+	var Object = window.Object;
+	var html5 = window.html5 || {};
+	
+	Modernizr.advancedObjectProperties = Modernizr.objectAccessor = Modernizr.ES5 = !!('create' in Object && 'seal' in Object);
+	
+	if(Modernizr.ES5 && !('toJSON' in Date.prototype)){
+		Modernizr.ES5 = false;
+	}
+	
+	
+	var webshims = {
+		version: '1.10.10',
+		cfg: {
+			useImportantStyles: true,
+			//addCacheBuster: false,
+			waitReady: true,
+			extendNative: 1,
+			loadStyles: true,
+			disableShivMethods: true,
+			wspopover: {appendTo: 'body', hideOnBlur: true},
+			basePath: (function(){
+				var script = jScripts.filter('[src*="polyfiller.js"]');
+				var path;
+				script = script[0] || script.end()[script.end().length - 1];
+				path = ( ($.support.hrefNormalized) ? script.src : script.getAttribute("src", 4) ).split('?')[0];
+				path = path.slice(0, path.lastIndexOf("/") + 1) + 'shims/';
+				return path;
+			})()
+		},
+		bugs: {},
+		/*
+		 * some data
+		 */
+		modules: {},
+		features: {},
+		featureList: [],
+		setOptions: function(name, opts){
+			if (typeof name == 'string' && opts !== undefined) {
+				webCFG[name] = (!$.isPlainObject(opts)) ? opts : $.extend(true, webCFG[name] || {}, opts);
+			} else if (typeof name == 'object') {
+				$.extend(true, webCFG, name);
+			}
+		},
+		addPolyfill: function(name, cfg){
+			cfg = cfg || {};
+			var feature = cfg.f || name;
+			if (!webshimsFeatures[feature]) {
+				webshimsFeatures[feature] = [];
+				webshims.featureList.push(feature);
+				webCFG[feature] = {};
+			}
+			
+			if(!webshimsFeatures[feature].failedM && cfg.nM){
+				$.each(cfg.nM.split(' '), function(i, name){
+					if(!(name in Modernizr)){
+						webshimsFeatures[feature].failedM = name;
+						return false;
+					}
+				});
+			}
+			
+			if(webshimsFeatures[feature].failedM){
+				cfg.test = function(){
+					webshims.error('webshims needs Modernizr.'+webshimsFeatures[feature].failedM + ' to implement feature: '+ feature);
+					return true;
+				};
+			}
+			webshimsFeatures[feature].push(name);
+			cfg.options = $.extend(webCFG[feature], cfg.options);
+			
+			addModule(name, cfg);
+			if (cfg.methodNames) {
+				$.each(cfg.methodNames, function(i, methodName){
+					webshims.addMethodName(methodName);
+				});
+			}
+		},
+		polyfill: (function(){
+			var loaded = {};
+			return function(features){
+				if(!features){
+					features = webshims.featureList;
+					webshims.info('loading all features without specifing might be bad for performance');
+				}
+					
+				if (typeof features == 'string') {
+					features = features.split(' ');
+				}
+				
+				for(var i = 0; i < features.length; i++){
+					if(loaded[features[i]]){
+						webshims.error(features[i] +' already loaded, you might want to use updatePolyfill instead? see: bit.ly/12BtXX3');
+					}
+					loaded[features[i]] = true;
+				}
+				return webshims._polyfill(features);
+			};
+		})(),
+		_polyfill: (function(){
+			var firstPolyfillCall = function(features){
+				var addClass = [];
+				var onReadyEvts = features;
+				var timer;
+				
+				if(webCFG.disableShivMethods){
+					html5.shivMethods = false;
+				}
+				
+				var removeLoader = function(){
+					$('html').removeClass('loading-polyfills long-loading-polyfills');
+					$(window).unbind('.lP');
+					clearTimeout(timer);
+				};
+				
+				
+				
+				addClass.push('loading-polyfills');
+				timer = setTimeout(function(){
+					$('html').addClass('long-loading-polyfills');
+					timer = setTimeout(removeLoader, 300);
+				}, 300);
+				$(window).on('load.lP error.lP', removeLoader);
+				
+				if (webCFG.waitReady && $.isReady) {
+					webshims.warn('Call webshims.polyfill before DOM-Ready or set waitReady to false.');
+				}
+				onReady(features, removeLoader);
+				if (webCFG.useImportantStyles) {
+					addClass.push('polyfill-important');
+				}
+				if (addClass[0]) {
+					$('html').addClass(addClass.join(' '));
+				}
+				if(webCFG.loadStyles){
+					loader.loadCSS('styles/shim.css');
+				}
+				//remove function
+				firstPolyfillCall = $.noop;
+			};
+			var loadedFormBase;
+			return function(features){
+				
+				var toLoadFeatures = [];
+				
+				if(!loadedFormBase){
+					loadedFormBase = $.inArray('forms', features) !== -1;
+					if(!loadedFormBase && $.inArray('forms-ext', features) !== -1){
+						features.push('forms');
+						loadedFormBase = true;
+					}
+				}
+				
+				if (webCFG.waitReady) {
+					$.readyWait++;
+					onReady(features, function(){
+						$.ready(true);
+					});
+				}
+				
+				$.each(features, function(i, feature){
+					if(!webshimsFeatures[feature]){
+						webshims.error("could not find webshims-feature (aborted): "+ feature);
+						isReady(feature, true);
+						return;
+					}
+					if (feature !== webshimsFeatures[feature][0]) {
+						onReady(webshimsFeatures[feature], function(){
+							isReady(feature, true);
+						});
+					}
+					toLoadFeatures = toLoadFeatures.concat(webshimsFeatures[feature]);
+				});
+				
+				firstPolyfillCall(features);
+				loadList(toLoadFeatures);
+				
+			};
+		})(),
+		
+		/*
+		 * handle ready modules
+		 */
+		reTest: (function(){
+			var resList;
+			var reTest = function(i, name){
+				var module = modules[name];
+				var readyName = name+'Ready';
+				var feature;
+				if(module && !module.loaded && !( (module.test && $.isFunction(module.test) ) ? module.test([]) : module.test )){
+					if(special[readyName]){
+						delete special[readyName];
+					}
+					feature = webshimsFeatures[module.f];
+					
+					resList.push(name);
+				}
+			};
+			return function(moduleNames){
+				if(typeof moduleNames == 'string'){
+					moduleNames = moduleNames.split(' ');
+				}
+				resList = [];
+				$.each(moduleNames, reTest);
+				loadList(resList);
+			};
+		})(),
+		isReady: function(name, _set){
+			
+			name = name + 'Ready';
+			if (_set) {
+				if (special[name] && special[name].add) {
+					return true;
+				}
+				
+				special[name] = $.extend(special[name] || {}, {
+					add: function(details){
+						details.handler.call(this, name);
+					}
+				});
+				$(document).triggerHandler(name);
+			}
+			return !!(special[name] && special[name].add) || false;
+		},
+		ready: function(events, fn /*, _created*/){
+			var _created = arguments[2];
+			var evt = events;
+			if (typeof events == 'string') {
+				events = events.split(' ');
+			}
+			
+			if (!_created) {
+				events = $.map($.grep(events, function(evt){
+					return !isReady(evt);
+				}), function(evt){
+					return evt + 'Ready';
+				});
+			}
+			if (!events.length) {
+				fn($, webshims, window, document);
+				return;
+			}
+			var readyEv = events.shift(), readyFn = function(){
+				onReady(events, fn, true);
+			};
+			
+			$(document).one(readyEv, readyFn);
+		},
+		
+		/*
+		 * basic DOM-/jQuery-Helpers
+		 */
+		
+		
+		capturingEvents: function(names, _maybePrevented){
+			if (!document.addEventListener) {
+				return;
+			}
+			if (typeof names == 'string') {
+				names = [names];
+			}
+			$.each(names, function(i, name){
+				var handler = function(e){
+					e = $.event.fix(e);
+					if (_maybePrevented && webshims.capturingEventPrevented) {
+						webshims.capturingEventPrevented(e);
+					}
+					return $.event.dispatch.call(this, e);
+				};
+				special[name] = special[name] || {};
+				if (special[name].setup || special[name].teardown) {
+					return;
+				}
+				$.extend(special[name], {
+					setup: function(){
+						this.addEventListener(name, handler, true);
+					},
+					teardown: function(){
+						this.removeEventListener(name, handler, true);
+					}
+				});
+			});
+		},
+		register: function(name, fn){
+			var module = modules[name];
+			if (!module) {
+				webshims.error("can't find module: " + name);
+				return;
+			}
+			if (module.noAutoCallback) {
+				var ready = function(){
+					fn($, webshims, window, document, undefined, module.options);
+					isReady(name, true);
+				};
+				if (module.d && module.d.length) {
+					onReady(module.d, ready);
+				} else {
+					ready();
+				}
+			}
+		},
+		c: {},
+		/*
+		 * loader
+		 */
+		loader: {
+		
+			addModule: function(name, ext){
+				modules[name] = ext;
+				ext.name = ext.name || name;
+				if(!ext.c){
+					ext.c = [];
+				}
+				$.each(ext.c, function(i, comboname){
+					if(!webshims.c[comboname]){
+						webshims.c[comboname] = [];
+					}
+					webshims.c[comboname].push(name);
+				});
+			},
+			loadList: (function(){
+			
+				var loadedModules = [];
+				var loadScript = function(src, names){
+					if (typeof names == 'string') {
+						names = [names];
+					}
+					$.merge(loadedModules, names);
+					loader.loadScript(src, false, names);
+				};
+				
+				var noNeedToLoad = function(name, list){
+					if (isReady(name) || $.inArray(name, loadedModules) != -1) {
+						return true;
+					}
+					var module = modules[name];
+					var cfg = webCFG[module.f || name] || {};
+					var supported;
+					if (module) {
+						supported = (module.test && $.isFunction(module.test)) ? module.test(list) : module.test;
+						if (supported) {
+							isReady(name, true);
+							return true;
+						} else {
+							return false;
+						}
+					}
+					return true;
+				};
+				
+				var setDependencies = function(module, list){
+					if (module.d && module.d.length) {
+						var addDependency = function(i, dependency){
+							if (!noNeedToLoad(dependency, list) && $.inArray(dependency, list) == -1) {
+								list.push(dependency);
+							}
+						};
+						$.each(module.d, function(i, dependency){
+							if (modules[dependency]) {
+								addDependency(i, dependency);
+							}
+							else 
+								if (webshimsFeatures[dependency]) {
+									$.each(webshimsFeatures[dependency], addDependency);
+									onReady(webshimsFeatures[dependency], function(){
+										isReady(dependency, true);
+									});
+								}
+						});
+						if (!module.noAutoCallback) {
+							module.noAutoCallback = true;
+						}
+					}
+				};
+				
+				return function(list, combo){
+					var module;
+					var loadCombos = [];
+					var i;
+					var len;
+					var foundCombo;
+					var loadCombo = function(j, combo){
+						foundCombo = combo;
+						$.each(webshims.c[combo], function(i, moduleName){
+							if($.inArray(moduleName, loadCombos) == -1 || $.inArray(moduleName, loadedModules) != -1){
+								foundCombo = false;
+								return false;
+							}
+						});
+						if(foundCombo){
+							loadScript('combos/'+foundCombo, webshims.c[foundCombo]);
+							return false;
+						}
+					};
+					
+					//length of list is dynamically
+					for (i = 0; i < list.length; i++) {
+						module = modules[list[i]];
+						if (!module || noNeedToLoad(module.name, list)) {
+							if (!module) {
+								webshims.warn('could not find: ' + list[i]);
+							}
+							continue;
+						}
+						if (module.css) {
+							loader.loadCSS(module.css);
+						}
+						
+						if (module.loadInit) {
+							module.loadInit();
+						}
+						
+						module.loaded = true;
+						setDependencies(module, list);
+						loadCombos.push(module.name);
+					}
+					
+					for(i = 0, len = loadCombos.length; i < len; i++){
+						foundCombo = false;
+						
+						module = loadCombos[i];
+						
+						if($.inArray(module, loadedModules) == -1){
+							if(webshims.debug != 'noCombo'){
+								$.each(modules[module].c, loadCombo);
+							}
+							if(!foundCombo){
+								loadScript(modules[module].src || module, module);
+							}
+						}
+					}
+				};
+			})(),
+			
+			makePath: function(src){
+				if (src.indexOf('//') != -1 || src.indexOf('/') === 0) {
+					return src;
+				}
+				
+				if (src.indexOf('.') == -1) {
+					src += '.js';
+				}
+				if (webCFG.addCacheBuster) {
+					src += webCFG.addCacheBuster;
+				}
+				return webCFG.basePath + src;
+			},
+			
+			loadCSS: (function(){
+				var parent, loadedSrcs = [];
+				return function(src){
+					src = this.makePath(src);
+					if ($.inArray(src, loadedSrcs) != -1) {
+						return;
+					}
+					parent = parent || $('link, style')[0] || $('script')[0];
+					loadedSrcs.push(src);
+					$('<link rel="stylesheet" />').insertBefore(parent).attr({
+						href: src
+					});
+				};
+			})(),
+			
+			loadScript: (function(){
+				var loadedSrcs = [];
+				var scriptLoader;
+				return function(src, callback, name){
+				
+					src = loader.makePath(src);
+					if ($.inArray(src, loadedSrcs) != -1) {return;}
+					var complete = function(){
+						
+						complete = null;
+						if (callback) {
+							callback();
+						}
+						
+						if (name) {
+							if (typeof name == 'string') {
+								name = name.split(' ');
+							}
+							$.each(name, function(i, name){
+								if (!modules[name]) {
+									return;
+								}
+								if (modules[name].afterLoad) {
+									modules[name].afterLoad();
+								}
+								isReady(!modules[name].noAutoCallback ? name : name + 'FileLoaded', true);
+							});
+							
+						}
+					};
+					
+					loadedSrcs.push(src);
+					if(window.require && window.define && window.define.amd){
+						require([src], complete);
+					} else if (window.sssl) {
+						sssl(src, complete);
+					} else if (window.yepnope) {
+						yepnope.injectJs(src, complete);
+					} else if (window.steal) {
+						steal(src).then(complete);
+					} 
+				};
+			})()
+		}
+	};
+	
+	/*
+	 * shortcuts
+	 */
+	$.webshims = webshims;
+	
+	var webCFG = webshims.cfg;
+	var webshimsFeatures = webshims.features;
+	var isReady = webshims.isReady;
+	var onReady = webshims.ready;
+	var addPolyfill = webshims.addPolyfill;
+	var modules = webshims.modules;
+	var loader = webshims.loader;
+	var loadList = loader.loadList;
+	var addModule = loader.addModule;
+	var bugs = webshims.bugs;
+	var removeCombos = [];
+	var importantLogs = {
+		warn: 1,
+		error: 1
+	};
+	
+	webshims.addMethodName = function(name){
+		name = name.split(':');
+		var prop = name[1];
+		if (name.length == 1) {
+			prop = name[0];
+			name = name[0];
+		} else {
+			name = name[0];
+		}
+		
+		$.fn[name] = function(){
+			return this.callProp(prop, arguments);
+		};
+	};
+	$.fn.callProp = function(prop, args){
+		var ret;
+		if(!args){
+			args = []; 
+		}
+		this.each(function(){
+			var fn = $.prop(this, prop);
+			
+			if (fn && fn.apply) {
+				ret = fn.apply(this, args);
+				if (ret !== undefined) {
+					return false;
+				}
+			} else {
+				webshims.warn(prop+ " is not a method of "+ this);
+			}
+		});
+		return (ret !== undefined) ? ret : this;
+	};
+	
+	//activeLang will be overridden
+
+	
+	//	set current Lang:
+	//		- webshims.activeLang(lang:string);
+	//	get current lang
+	//		- webshims.activeLang();
+	//		- webshims.activeLang({
+	//			module: moduleName:string,
+	//			callback: callback:function,
+	//			langObj: languageObj:array/object
+	//		});
+
+	webshims.activeLang = (function(){
+		var curLang = navigator.browserLanguage || navigator.language || '';
+		onReady('webshimLocalization', function(){
+			webshims.activeLang(curLang);
+			
+		});
+		return function(lang){
+			if(lang){
+				if (typeof lang == 'string' ) {
+					curLang = lang;
+				} else if(typeof lang == 'object'){
+					var args = arguments;
+					var that = this;
+					onReady('webshimLocalization', function(){
+						webshims.activeLang.apply(that, args);
+					});
+				}
+			}
+			return curLang;
+		};
+	})();
+	
+	webshims.errorLog = [];
+	$.each(['log', 'error', 'warn', 'info'], function(i, fn){
+		webshims[fn] = function(message){
+			if( (importantLogs[fn] && webshims.debug !== false) || webshims.debug){
+				webshims.errorLog.push(message);
+				if(window.console && console.log){
+					console[(console[fn]) ? fn : 'log'](message);
+				}
+			}
+		};
+	});
+		
+	
+	//Overwrite DOM-Ready and implement a new ready-method
+	(function(){
+		$.isDOMReady = $.isReady;
+		var onReady = function(){
+			$.isDOMReady = true;
+			isReady('DOM', true);
+			setTimeout(function(){
+				isReady('WINDOWLOAD', true);
+			}, 9999);
+		};
+		if(!$.isDOMReady){
+			var $Ready = $.ready;
+			$.ready = function(unwait){
+				if(unwait !== true && document.body){
+					onReady();
+					$.ready = $Ready;
+				}
+				return $Ready.apply(this, arguments);
+			};
+			$.ready.promise = $Ready.promise;
+		} else {
+			onReady();
+		}
+		$(onReady);
+		
+		$(window).load(function(){
+			onReady();
+			setTimeout(function(){
+				isReady('WINDOWLOAD', true);
+			}, 9);
+		});
+	})();
+	
+	/*
+	 * jQuery-plugins for triggering dom updates can be also very usefull in conjunction with non-HTML5 DOM-Changes (AJAX)
+	 * Example:
+	 * $.webshims.addReady(function(context, insertedElement){
+	 * 		$('div.tabs', context).add(insertedElement.filter('div.tabs')).tabs();
+	 * });
+	 * 
+	 * $.ajax({
+	 * 		success: function(html){
+	 * 			$('#main').htmlPolyfill(html);
+	 * 		}
+	 * });
+	 */
+	
+	(function(){
+		var readyFns = [];
+		var eachTrigger = function(){
+			if(this.nodeType == 1){
+				webshims.triggerDomUpdate(this);
+			}
+		};
+		$.extend(webshims, {
+			addReady: function(fn){
+				var readyFn = function(context, elem){
+					webshims.ready('DOM', function(){fn(context, elem);});
+				};
+				readyFns.push(readyFn);
+				readyFn(document, emptyJ);
+			},
+			triggerDomUpdate: function(context){
+				if(!context || !context.nodeType){
+					if(context && context.jquery){
+						context.each(function(){
+							webshims.triggerDomUpdate(this);
+						});
+					}
+					return;
+				}
+				var type = context.nodeType;
+				if(type != 1 && type != 9){return;}
+				var elem = (context !== document) ? $(context) : emptyJ;
+				$.each(readyFns, function(i, fn){
+					fn(context, elem);
+				});
+			}
+		});
+		
+		$.fn.htmlPolyfill = function(a){
+			var ret = $.fn.html.call(this,  a);
+			if(ret === this && $.isDOMReady){
+				this.each(eachTrigger);
+			}
+			return ret;
+		};
+		
+		$.fn.jProp = function(){
+			return $($.fn.prop.apply(this, arguments) || []);
+		};
+		
+		$.each(['after', 'before', 'append', 'prepend', 'replaceWith'], function(i, name){
+			$.fn[name+'Polyfill'] = function(a){
+				a = $(a);
+				$.fn[name].call(this, a);
+				if($.isDOMReady){
+					a.each(eachTrigger);
+				}
+				return this;
+			};
+			
+		});
+		
+		$.each(['insertAfter', 'insertBefore', 'appendTo', 'prependTo', 'replaceAll'], function(i, name){
+			$.fn[name.replace(/[A-Z]/, function(c){return "Polyfill"+c;})] = function(){
+				$.fn[name].apply(this, arguments);
+				if($.isDOMReady){
+					webshims.triggerDomUpdate(this);
+				}
+				return this;
+			};
+		});
+		
+		$.fn.updatePolyfill = function(){
+			if($.isDOMReady){
+				webshims.triggerDomUpdate(this);
+			}
+			return this;
+		};
+		
+		$.each(['getNativeElement', 'getShadowElement', 'getShadowFocusElement'], function(i, name){
+			$.fn[name] = function(){
+				return this.pushStack(this);
+			};
+		});
+		
+	})();
+	
+	//this might be extended by ES5 shim feature
+	(function(){
+		var defineProperty = 'defineProperty';
+		var has = Object.prototype.hasOwnProperty;
+		var descProps = ['configurable', 'enumerable', 'writable'];
+		var extendUndefined = function(prop){
+			for(var i = 0; i < 3; i++){
+				if(prop[descProps[i]] === undefined && (descProps[i] !== 'writable' || prop.value !== undefined)){
+					prop[descProps[i]] = true;
+				}
+			}
+		};
+		var extendProps = function(props){
+			if(props){
+				for(var i in props){
+					if(has.call(props, i)){
+						extendUndefined(props[i]);
+					}
+				}
+			}
+		};
+		if(Object.create){
+			webshims.objectCreate = function(proto, props, opts){
+				extendProps(props);
+				var o = Object.create(proto, props);
+				if(opts){
+					o.options = $.extend(true, {}, o.options  || {}, opts);
+					opts = o.options;
+				}
+				if(o._create && $.isFunction(o._create)){
+					o._create(opts);
+				}
+				return o;
+			};
+		}
+		if(Object[defineProperty]){
+			webshims[defineProperty] = function(obj, prop, desc){
+				extendUndefined(desc);
+				return Object[defineProperty](obj, prop, desc);
+			};
+		}
+		if(Object.defineProperties){
+			webshims.defineProperties = function(obj, props){
+				extendProps(props);
+				return Object.defineProperties(obj, props);
+			};
+		}
+		webshims.getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+		
+		webshims.getPrototypeOf = Object.getPrototypeOf;
+	})();
+	
+	
+
+	
+	/*
+	 * Start Features 
+	 */
+	
+	/* general modules */
+	/* change path $.webshims.modules[moduleName].src */
+	
+	
+	addModule('swfmini', {
+		test: function(){
+			if(window.swfobject && !window.swfmini){
+				window.swfmini = window.swfobject;
+			}
+			return ('swfmini' in window);
+		},
+		c: [16, 7, 2, 8, 1, 12, 19, 25, 23, 27]
+	});
+	modules.swfmini.test();
+		
+	/* 
+	 * polyfill-Modules 
+	 */
+	
+	// webshims lib uses a of http://github.com/kriskowal/es5-shim/ to implement
+	addPolyfill('es5', {
+		test: !!(Modernizr.ES5 && Function.prototype.bind),
+		c: [14, 18, 19, 25, 20]
+	});
+	
+	addPolyfill('dom-extend', {
+		f: DOMSUPPORT,
+		noAutoCallback: true,
+		d: ['es5'],
+		c: [16, 7, 2, 15, 30, 3, 8, 4, 9, 10, 14, 25, 19, 20, 26, 28, 31]
+	});
+		
+	
+	//<json-storage
+	
+	addPolyfill('json-storage', {
+		test: Modernizr.localstorage && 'sessionStorage' in window && 'JSON' in window,
+		d: ['swfmini'],
+		noAutoCallback: true,
+		c: [14],
+		nM: 'localstorage'
+	});
+	//>json-storage
+	
+	
+	//<geolocation
+	
+	addPolyfill('geolocation', {
+		test: Modernizr.geolocation,
+		options: {
+			destroyWrite: true
+//			,confirmText: ''
+		},
+		d: ['json-storage'],
+		c: [21],
+		nM: 'geolocation'
+	});
+	//>
+	
+	//<canvas
+	(function(){
+		var flashCanvas;
+		addPolyfill('canvas', {
+			src: 'excanvas',
+			test: Modernizr.canvas,
+			options: {type: 'flash'}, //excanvas | flash | flashpro
+			noAutoCallback: true,
+			
+			loadInit: function(){
+				var type = this.options.type;
+				var src;
+				if(type && type.indexOf('flash') !== -1 && (!modules.swfmini.test() || swfmini.hasFlashPlayerVersion('9.0.0'))){
+					window.FlashCanvasOptions = window.FlashCanvasOptions || {};
+					flashCanvas = FlashCanvasOptions;
+					if(type == 'flash'){
+						$.extend(flashCanvas, {
+							swfPath: webCFG.basePath + 'FlashCanvas/'
+						});
+						this.src = 'FlashCanvas/flashcanvas';
+						src = flashCanvas.swfPath + 'flashcanvas.swf';
+					} else {
+						$.extend(flashCanvas, {swfPath: webCFG.basePath + 'FlashCanvasPro/'});
+						this.src = 'FlashCanvasPro/flashcanvas';
+						//assume, that the user has flash10+
+						src = flashCanvas.swfPath + 'flash10canvas.swf';
+					}
+					//todo: implement cachbuster for flashcanvas
+//					if(webCFG.addCacheBuster){
+//						src += webCFG.addCacheBuster;
+//					}
+				}
+			},
+			afterLoad: function(){
+				webshims.addReady(function(context, elem){
+					if(context == document){
+						if(window.G_vmlCanvasManager && G_vmlCanvasManager.init_ ){
+							G_vmlCanvasManager.init_(document);
+						}
+					}
+					$('canvas', context).add(elem.filter('canvas')).each(function(){
+						var hasContext = this.getContext;
+						if(!hasContext && window.G_vmlCanvasManager){
+							G_vmlCanvasManager.initElement(this);
+						}
+					});
+					if(context == document){
+						isReady('canvas', true);
+					}
+				});
+			},
+			methodNames: ['getContext'],
+			d: [DOMSUPPORT],
+			nM: 'canvas'
+		});
+	})();
+	//>
+	
+	
+	//<forms
+	(function(){
+		var formExtend, formOptions, formExtras;
+		var fShim = 'form-shim-extend';
+		var modernizrInputAttrs = Modernizr.input;
+		var modernizrInputTypes = Modernizr.inputtypes;
+		var formvalidation = 'formvalidation';
+		var fNuAPI = 'form-number-date-api';
+		var select = $('<select required="" name="a"><option disabled="" /></select>')[0];
+		var bustedValidity = false;
+		var bustedWidgetUi = false;
+		
+		var initialFormTest = function(){
+			if(!initialFormTest.run){
+				addTest(formvalidation, function(){
+					return !!(modernizrInputAttrs.required && modernizrInputAttrs.pattern);
+				});
+				
+				addTest('fieldsetdisabled', function(){
+					var fieldset = $('<fieldset />')[0];
+					return 'elements' in fieldset && 'disabled' in fieldset;
+				});
+				
+				if(modernizrInputTypes){
+					addTest('styleableinputrange', function(){
+						return modernizrInputTypes.range && !window.opera;
+					});
+				}
+				
+				if(Modernizr[formvalidation]){
+					bustedWidgetUi = window.opera || Modernizr.formattribute === false || !Modernizr.fieldsetdisabled || !('value' in document.createElement('progress')) || !('value' in document.createElement('output')) || !($('<input type="date" value="1488-12-11" />')[0].validity || {valid: true}).valid || !('required' in select) || (select.validity || {}).valid;
+					bugs.bustedValidity = bustedValidity = bustedWidgetUi || !modernizrInputAttrs.list;
+				}
+
+				formExtend = Modernizr[formvalidation] && !bustedValidity ? 'form-native-extend' : fShim;
+				
+			}
+			initialFormTest.run = true;
+			return false;
+		};
+		
+		if(modernizrInputAttrs && modernizrInputTypes){
+			initialFormTest();
+		}
+		document.createElement('datalist');
+				
+		webshims.formcfg = [];
+		webshims.validationMessages = webshims.validityMessages = [];
+		webshims.inputTypes = {};
+				
+		addPolyfill('form-core', {
+			f: 'forms',
+			d: ['es5'],
+			test: initialFormTest,
+			options: {
+				placeholderType: 'value',
+				langSrc: 'i18n/formcfg-',
+				messagePopover: {},
+				datalistPopover: {
+					constrainWidth: true
+				},
+				iVal: {
+					handleBubble: true,
+					sel: '.ws-instantvalidation',
+					recheckDelay: 400
+//					,hideBubble: undefined,
+//					,fieldWrapper: undefined
+//					,fx: 'slide'
+				},
+				availabeLangs: ['ar', 'ch-ZN', 'el', 'es', 'fr', 'he', 'hi', 'hu', 'it', 'ja', 'lt', 'nl', 'pl', 'pt-PT', 'ru', 'sv'] //en and de are directly implemented in core
+	//			,customMessages: false,
+	//			overridePlaceholder: false, // might be good for IE10
+	//			replaceValidationUI: false
+			},
+			methodNames: ['setCustomValidity','checkValidity'],
+			c: [16, 7, 2, 8, 1, 15, 30, 3, 31],
+			nM: 'input'
+		});
+		
+		formOptions = webCFG.forms;
+				
+		addPolyfill('form-native-extend', {
+			f: 'forms',
+			test: function(toLoad){
+				return !Modernizr[formvalidation] || bustedValidity  || $.inArray(fNuAPI, toLoad  || []) == -1 || modules[fNuAPI].test();
+			},
+			d: ['form-core', DOMSUPPORT, 'form-message'],
+			c: [6, 5]
+		});
+		
+		addPolyfill(fShim, {
+			f: 'forms',
+			test: function(){
+				return Modernizr[formvalidation] && !bustedValidity;
+			},
+			d: ['form-core', DOMSUPPORT],
+			c: [16, 15]
+		});
+		
+		addPolyfill('form-message', {
+			f: 'forms',
+			test: function(toLoad){
+				return !( formOptions.customMessages || !Modernizr[formvalidation] || bustedValidity || !modules[formExtend].test(toLoad) );
+			},
+			d: [DOMSUPPORT],
+			c: [16, 7, 15, 30, 3, 8, 4]
+		});
+		
+		formExtras = {
+			noAutoCallback: true,
+			options: formOptions,
+			c: [24]
+		};
+		addModule('form-validation', $.extend({d: ['form-message', 'form-core']}, formExtras));
+		
+		addModule('form-validators', $.extend({}, formExtras));
+				
+		addPolyfill(fNuAPI, {
+			f: 'forms-ext',
+			options: {
+				types: 'month date time range number'
+			},
+			test: function(){
+				var ret = true;
+				var o = this.options;
+				if(!o._types){
+					o._types = o.types.split(' ');
+				}
+				
+				initialFormTest();
+				$.each(o._types, function(i, name){
+					if((name in modernizrInputTypes) && !modernizrInputTypes[name]){
+						ret = false;
+						return false;
+					}
+				});
+				
+				return ret;
+			},
+			methodNames: ['stepUp', 'stepDown'],
+			d: ['forms', DOMSUPPORT],
+			c: [6, 5, 18, 17],
+			nM: 'input inputtypes'
+		});
+		
+		addModule('range-ui', {
+			options: {},
+			noAutoCallback: true,
+			test: function(){
+				return !!$.fn.rangeUI;
+			},
+			d: ['es5'],
+			c: [6, 5, 9, 10, 18, 17, 11]
+		});
+		
+		addPolyfill('form-number-date-ui', {
+			f: 'forms-ext',
+			test: function(){
+				var o = this.options;
+				initialFormTest();
+				//input widgets on old on old androids can't be trusted
+				if(bustedWidgetUi && !o.replaceUI && (/Android/i).test(navigator.userAgent)){
+					o.replaceUI = true;
+				}
+				return !o.replaceUI && modules[fNuAPI].test();
+			},
+			d: ['forms', DOMSUPPORT, fNuAPI, 'range-ui'],
+			options: {
+				
+				widgets: {
+					calculateWidth: true,
+					monthNames: 'monthNamesShort',
+					monthNamesHead: 'monthNames'
+				}
+	//			,replaceUI: false
+			},
+			c: [6, 5, 9, 10, 18, 17, 11]
+		});
+		
+		addPolyfill('form-datalist', {
+			f: 'forms',
+			test: function(){
+				initialFormTest();
+				return modernizrInputAttrs.list && !formOptions.customDatalist;
+			},
+			d: ['form-core', DOMSUPPORT],
+			c: [16, 7, 6, 2, 9, 15, 30, 31]
+		});
+	})();
+	//>
+	
+	addPolyfill('filereader', {
+		test: 'FileReader' in window,
+		d: ['swfmini', DOMSUPPORT],
+		c: [25, 26, 27]
+//		,nM: 'filereader'
+	});
+	
+	//<details
+	if(!('details' in Modernizr)){
+		addTest('details', function(){
+			return ('open' in document.createElement('details'));
+		});
+	}
+	addPolyfill('details', {
+		test: Modernizr.details,
+		d: [DOMSUPPORT],
+		options: {
+//			animate: false,
+			text: 'Details'
+		},
+		c: [21, 22]
+	});
+	//>
+	
+	//<mediaelement
+	(function(){
+		webshims.mediaelement = {};
+		
+		addPolyfill('mediaelement-core', {
+			f: 'mediaelement',
+			noAutoCallback: true,
+			options: {
+				preferFlash: false,
+				player: 'jaris',
+				vars: {},
+				params: {},
+				attrs: {},
+				changeSWF: $.noop
+			},
+			methodNames: ['play', 'pause', 'canPlayType', 'mediaLoad:load'],
+			d: ['swfmini'],
+			c: [16, 7, 2, 8, 1, 12, 13, 19, 25, 20, 23],
+			nM: 'audio video texttrackapi'
+		});
+		
+		
+		addPolyfill('mediaelement-jaris', {
+			f: 'mediaelement',
+			d: ['swfmini', DOMSUPPORT],
+			test: function(){
+				if(!Modernizr.audio || !Modernizr.video || webshims.mediaelement.loadSwf){
+					return false;
+				}
+				
+				var options = this.options;
+				if(options.preferFlash && !modules.swfmini.test()){
+					options.preferFlash = false;
+				}
+				return !( options.preferFlash && window.swfmini.hasFlashPlayerVersion('9.0.115') );
+			},
+			c: [21, 19, 25, 20, 28]
+		});
+		
+		bugs.track = (Modernizr.track && (!Modernizr.texttrackapi || typeof (document.createElement('track').track || {}).mode != 'string'));
+		
+		addPolyfill('track', {
+			options: {
+				positionDisplay: true,
+				override: bugs.track
+			},
+			test: function(){
+				return Modernizr.track && !this.options.override && !bugs.track;
+			},
+			d: ['mediaelement', DOMSUPPORT],
+			methodNames: ['addTextTrack'],
+			c: [21, 12, 13, 22, 29],
+			nM: 'texttrackapi'
+		});
+		
+		addModule('track-ui', {
+			d: ['track', DOMSUPPORT],
+			c: [29]
+		});
+	})();
+	//>
+	
+	
+	//>removeCombos<
+	addPolyfill('feature-dummy', {
+		test: true,
+		loaded: true,
+		c: removeCombos
+	});
+	
+	webshims.$ = $;
+	webshims.M = Modernizr;
+	window.webshims = webshims;
+	
+	jScripts
+		.filter('[data-polyfill-cfg]')
+		.each(function(){
+			try {
+				webshims.setOptions( $(this).data('polyfillCfg') );
+			} catch(e){
+				webshims.warn('error parsing polyfill cfg: '+e);
+			}
+		})
+		.end()
+		.filter('[data-polyfill]')
+		.each(function(){
+			webshims.polyfill( $.trim( $(this).data('polyfill') || '' ) );
+		})
+	;
+	if(asyncWebshims){
+		if(asyncWebshims.cfg){
+			webshims.setOptions(asyncWebshims.cfg);
+		}
+		if(asyncWebshims.lang){
+			webshims.activeLang(asyncWebshims.lang);
+		}
+		if('polyfill' in asyncWebshims){
+			webshims.polyfill(asyncWebshims.polyfill);
+		}
+	}
+}));
+
 // ALL USEFUL FCTS
 var checkName =  function(input) {
   //var ck_name = /^[A-Za-z ]{3,40}$/;
@@ -10884,10 +12753,14 @@ window.isMobileBrowser = (function () {
 })();
 
 var assert = function () { };
-
+/*#ifdef DEV*/
+assert = function (t) { if (!t) throw "assert false " };
+/*#endif*/
 
 var PROD = true;
-
+/*#ifdef DEV*/
+PROD = false;
+/*#endif*/
 if (PROD) {
   // we do not want any console.log in production environment.
   setTimeout(function () {
@@ -11243,7 +13116,9 @@ if (PROD) {
 
       if (typeof options.loadstart === "function")
         this.iabRef.addEventListener('loadstart', function (data) {
-          
+          /*#ifdef DEV*/
+          console.log('Cordova.InAppBrowser: loadstart: ' + data.url);
+          /*#endif*/
           options.loadstart.apply(this, arguments);
         });
       if (typeof options.loadstop === "function")
@@ -11273,6 +13148,57 @@ if (PROD) {
   });
 })(Cordova);
 
+(function (Cordova, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
+
+  // wrapper around cordova geolocation
+  var Camera = {
+    
+    capturePhoto: function (callback) {   
+
+      navigator.camera.getPicture(
+        function Cordova_Camera_Success(imageData) {
+          if (imageData)
+            callback(imageData)
+          else
+            callback(null);
+        },
+        function Cordova_Camera_Error() {
+          callback(null);
+        },
+        { quality: 50, destinationType: navigator.camera.DestinationType.DATA_URL }
+       );     
+      },
+      
+    getPhoto: function (callback) {  
+       
+      navigator.camera.getPicture(
+        function Cordova_Camera_Success(imageData) {
+          if (imageData)
+            callback(imageData)
+          else
+            callback(null);
+        },
+        function Cordova_Camera_Error() {
+          callback(null);
+        },
+        //pictureSource.PHOTOLIBRARY
+        //pictureSource.SAVEDPHOTOALBUM
+        { quality: 50, destinationType: navigator.camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
+       );     
+      }
+      
+      
+      
+  };
+
+  // registering geolocalisation only when cordova is ready.
+  Cordova.deviceready(function () {
+    Cordova.Camera = Camera;
+  });
+})(Cordova);
 // Global Object
 (function (global, undefined) {
   /*#ifdef STRICT*/
@@ -11314,7 +13240,9 @@ if (PROD) {
           // calling jquery
           //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
-          
+          /*#ifdef DEV*/
+          console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
+          /*#endif*/
 
           var that = this;
           // slow if answer is taking longer than 2sec.
@@ -11324,7 +13252,9 @@ if (PROD) {
           // delaying result (fail / success) in dev environment
           var d = $.Deferred();
           var networkDelay = 10;
-          
+          /*#ifdef DEV*/
+          networkDelay = 200;
+          /*#endif*/
           window.setTimeout(function () {
             // launching xhr.
             var xhr = $.ajax(url, options);
@@ -11391,17 +13321,23 @@ if (PROD) {
 
                    // init router
                    that.Router.initialize();
-                   
+                   /*#ifdef DEV*/
+                   console.log('router initialized');
+                   /*#endif*/
                    
                    // load the templates.
                    that.Templates.loadAsync(function () {
-                     
+                     /*#ifdef DEV*/ 
+                     console.log('template loaded');
+                     /*#endif*/
                      // init GUI singleton
                      that.GUI.header = new Y.Views.Header();
                      that.GUI.content = null; // will be overwrite by the router.
                      that.GUI.autocomplete = new Y.Views.Autocomplete();
                      that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
-                     
+                     /*#ifdef DEV*/
+                     console.log('backbone history start');
+                     /*#endif*/
                      // start dispatching routes
                      // @see http://backbonejs.org/#History-start
                      Backbone.history.start();
@@ -11521,7 +13457,9 @@ if (PROD) {
   _.forEach(Drivers, function (driver, driverName) {
     if (!defaultDriver && driver.isUsable()) {
       defaultDriver = driver;
-      
+      /*#ifdef DEV*/
+      console.log("USING driver : " + driverName);
+      /*#endif*/
     }
   });
 
@@ -11597,6 +13535,16 @@ if (PROD) {
   var Conf = {
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
+      /*#ifdef DEV*/
+      Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
+      /*#endif*/
+      
+      /* On active poylfill pour vieux android */
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	  var isGingerbread = /android 2\.3/i.test(userAgent);
+	  if (isGingerbread) {
+        $.webshims.polyfill();
+      }
       
       return this; // chainable
     },
@@ -11627,11 +13575,48 @@ if (PROD) {
       {
         // loading default keys (temporary)
         // Parametrage des variables dependantes d'un environnement
-        //Y.Env.user = "vincent";
+        Y.Env.user = "vincent";
     
         switch (env) {
           case Y.Env.DEV:
-            
+            /*#ifdef DEV*/
+            switch (Y.Env.user) {
+              case "marc":
+                var apiBaseUrl = "http://plic.no-ip.org:22222";
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "618522421507840";
+                break;
+              case "vincent":
+                var apiBaseUrl = "http://plic.no-ip.org:1024";
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "408897482525651";
+                break;
+              case "alpha":
+              default:
+                var apiBaseUrl = "http://plic.no-ip.org:20080";
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "FIXME";
+                break;
+            }
+
+            this.set("api.url.auth", apiBaseUrl + "/v2/auth/");
+            this.set("api.url.auth.registered", apiBaseUrl + "/v2/auth/registered/");
+            this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
+            this.set("api.url.facebook.login", apiBaseUrl + "/v2/facebook/login/");
+            this.set("api.url.games", apiBaseUrl + "/v2/games/");
+            this.set("api.url.players", apiBaseUrl + "/v2/players/");
+            this.set("api.url.clubs", apiBaseUrl + "/v2/clubs/");
+            this.set("api.url.stats", apiBaseUrl + "/v2/stats/");
+            this.set("api.url.reports", apiBaseUrl + "/v2/report/");
+            this.set("api.url.reports.games", apiBaseUrl + "/v2/report/games/");
+            this.set("api.url.reports.players", apiBaseUrl + "/v2/report/players/");
+            this.set("api.url.reports.clubs", apiBaseUrl + "/v2/report/clubs/");
+            this.set("api.url.autocomplete.players", apiBaseUrl + "/v2/players/autocomplete/");
+            this.set("api.url.autocomplete.clubs", apiBaseUrl + "/v2/clubs/autocomplete/");          
+            this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v2/inappbrowser/redirect.html");
+            this.set("facebook.app.id", fbAppId);
+            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            /*#endif*/
             break;
           case Y.Env.PROD:
             this.set("api.url.auth", "http://api.yeswescore.com/v2/auth/");
@@ -12238,7 +14223,9 @@ if (PROD) {
       var playerId = player.get('id');
       var playerToken = player.get('token');
       
-      
+      /*#ifdef DEV*/
+      console.log("fb playerid:"+playerId+" playertoken:"+playerToken+" token:"+token);
+      /*#endif*/
       
       //
       Backbone.ajax({
@@ -12297,7 +14284,8 @@ if (PROD) {
       }
       return true;
     },
-
+       
+	
     // display an overlay asking the user to upgrade
     // FIXME: HTML should be in the .html / or in index.html
     displayLayerNewVersion: function () {
@@ -12314,7 +14302,16 @@ if (PROD) {
       $('body').html(i18n.t('bootstrap.errortext') + '<div class="button retry" onclick="window.location.reload();">' + i18n.t('bootstrap.errorbutton') + '</div>');
       $('body').removeClass();
       $('body').addClass('update');
+    },
+    
+    addBlueBackground: function () {
+      $('#content').addClass('blue-screen background');
+    },
+    
+    delBlueBackground: function () {
+      $('#content').removeClass('blue-screen background');  
     }
+    
   };
 
   Y.Connection.on("change", function (state) {
@@ -12343,6 +14340,7 @@ if (PROD) {
       'sort/:id': 'gameList',
       'search/form': 'searchForm',      
       'games/me/:id': 'gameMe',
+      'games/player/:id': 'gamePlayer',      
       'games/add': 'gameAdd',
       'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
@@ -12351,7 +14349,8 @@ if (PROD) {
       'games/list': 'gameList',  
       'games/:id/comments/': 'gameComment', 
       'games/:id': 'game', 
-      'games/': 'gameList',        
+      'games/': 'gameList',   
+      'notification': 'notificationList',              
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
       'players/form/me': 'playerFormFirst',
@@ -12421,6 +14420,10 @@ if (PROD) {
       this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'me', id: id, sort: '' }));
     },
 
+    gamePlayer: function (id) {
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'player', id: id, sort: '' }));
+    },
+
     gameClub: function (id) {
       this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'club', id: id, sort: '' }));
     },    
@@ -12471,6 +14474,10 @@ if (PROD) {
 
     playerFormSearch: function () {
       this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
+    },
+
+    notificationList: function () {
+      this.changePage(this.createViewFactory(Y.Views.NotificationList));
     },
 
     playerList: function () {
@@ -12543,14 +14550,21 @@ if (PROD) {
       var next = function () {
         // creating view
 
-        
+        /*#ifdef DEV*/
+        if (true) {
+          // in dev, directly call viewFactory, to be able to debug exceptions.
+          view = viewFactory();
+        } else {
+        /*#endif*/
           try {
             // avoiding exception in view.
             view = viewFactory();
           } catch (e) {
             assert(false);
           };
-        
+        /*#ifdef DEV*/
+        }
+        /*#endif*/
 
         // next page name, page hash
         if (view && view.pageName)
@@ -12748,7 +14762,9 @@ if (PROD) {
 
   // starting stats.
   Cordova.ready(function () {
-    
+    /*#ifdef DEV*/
+    return;
+    /*#endif*/
     Stats.startup();
     Stats.cordova();
   });
@@ -12855,6 +14871,7 @@ if (PROD) {
   var playerIdConfKey = 'player.id';
   var playerTokenConfKey = 'player.token';
   var playerClubIdConfKey = 'player.club.id';
+  var playerFollowingConfKey = 'player.following';
   var playerFiltersSortConfKey = 'player.filters.sort';
   var playerFiltersSearchConfKey = 'player.filters.search';  
   
@@ -12959,6 +14976,33 @@ if (PROD) {
 	removeClub: function () {	
 	  // Y.Conf.del('player.club.id');
       Y.Conf.del('Y.Conf.'+playerClubIdConfKey);		
+	},
+	
+	setFollowing: function (id) {
+	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+      if (players_follow !== undefined)
+      {
+        if (players_follow.indexOf(this.id) === -1) {
+          players_follow.push(this.id);
+          Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });  
+        }
+      }
+      else
+        Y.Conf.set('Y.Conf.'+playerFollowingConfKey, [this.id]);	  
+	},
+
+	removeFollowing: function (id) {	
+	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+      
+      if (players_follow !== undefined)
+      {
+        if (players_follow.indexOf(this.id) !== -1) {
+        //On retire l'elmt
+          players_follow.splice(players_follow.indexOf(this.id), 1);
+          Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });
+        }
+      }
+      	   		
 	},
 	
 	getClub: function () {	
@@ -13275,7 +15319,8 @@ var GameModel = Backbone.Model.extend({
       court : "",
       surface : "",
       tour : "",
-      startTeam : ""
+      startTeam : "",
+      official : true
     }
   },
 
@@ -13351,6 +15396,9 @@ var GameModel = Backbone.Model.extend({
      if (typeof this.get('status') !== "undefined") 
        if (this.get('status') !== "")
          object.status = this.get('status');
+              
+     if (typeof this.get('dates').expected === "string") 
+         object.dates.expected = this.get('dates').expected;
        
      _.forEach(
       ['subtype', 'sets', 'score', 'court', 'surface',
@@ -13358,6 +15406,9 @@ var GameModel = Backbone.Model.extend({
 	     if (typeof this.get('infos')[k] !== "undefined")
 	       object.infos[k] = this.get('infos')[k];
 	   }, this);
+	 
+     if (typeof this.get('infos').official === "boolean") 	 
+	   object.infos.official = this.get('infos').official; 
      
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
@@ -13622,7 +15673,7 @@ var GameModel = Backbone.Model.extend({
     }
 
     // set3 : only if game is finished.
-    if (this.isFinished) { 
+    if (this.isFinished() ) { 
       // team 2 < team 1 && team 1 >= 6
       if (sets[2][1] < sets[2][0] && sets[2][0] >= 6)
         scoreTeam1++;
@@ -13984,6 +16035,7 @@ var GamesCollection = Backbone.Collection.extend({
 	query:'',
 	pos: null,
 	club:'',
+	player:'',
 	
 	initialize: function (param) {	
 		this.changeSort("city");		
@@ -13994,10 +16046,10 @@ var GamesCollection = Backbone.Collection.extend({
        
     var url='';
 
-    if (this.searchOption.indexOf('me') !== -1) {      
+    if (this.searchOption.indexOf('player') !== -1 && this.player!=='' ) {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)
-      url = Y.Conf.get("api.url.players") + this.query + "/games/?owned=true";
+      url = Y.Conf.get("api.url.players") + this.player + "/games/?owned=true";
     }
     else 
       url =  Y.Conf.get("api.url.games");
@@ -14043,9 +16095,7 @@ var GamesCollection = Backbone.Collection.extend({
            
 	
 	url += "sort=-dates.start";   
-
-    console.log('URL',url);        
-        
+     
     return url;
   },
 
@@ -14074,18 +16124,15 @@ var GamesCollection = Backbone.Collection.extend({
       else {
          this.searchOption = [m];
       }   
-      
-      console.log('on passe setSearch sur ',this.searchOption);  
-
-    //if (typeof q !== "undefined")
-    //  this.searchOptionParam=q;
   },
 
   setQuery:function (q) {
     this.query=q;
   },
 
-  
+  setPlayer:function (p) {
+    this.player=p;
+  },  
   
   setPos:function(pos) {
     this.pos = pos;
@@ -14124,13 +16171,10 @@ var PlayersCollection = Backbone.Collection.extend({
 	},
 	  
   url:function() {
-    //console.log('url() : mode de Players',this.mode); 	
-    //console.log('url Players', Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query); 	
-          
     if (this.mode === 'club')
       return Y.Conf.get("api.url.players")+'?club='+this.query;
     else if (this.mode === 'search'  )
-      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query+'&limit=15';        
+      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query+'&fields=name,rank,club.name&limit=15';        
     else	
       return Y.Conf.get("api.url.players");
   },
@@ -14443,7 +16487,7 @@ Y.Views.ClubAdd = Y.View.extend({
   playerid : "",
   token : "",
 
-  initialize: function () {
+  minitialize: function () {
   
     Y.GUI.header.title(i18n.t('clubadd.title'));
 
@@ -14496,7 +16540,8 @@ Y.Views.ClubFollow = Y.View.extend({
   el:"#content",
   
   events: {
-    "blur input#search-basic": "search",
+    "keyup input#search-basic": "searchOnKey",  
+    "blur input#search-basic": "searchOnBlur",
     "click li": "chooseClub"    
   },
 
@@ -14550,7 +16595,7 @@ Y.Views.ClubFollow = Y.View.extend({
 		  var club = new ClubModel({id : clubid});
 		  club.once("sync", this.syncClub, this);
 
-	        club.fetch().error(function (xhrResult, error) {	        
+	        club.fetch().fail(function (xhrResult, error) {	        
 
 	        	if (clubs.indexOf(clubid) !== -1) {
 		          clubs.splice(clubs.indexOf(clubid), 1);
@@ -14582,6 +16627,20 @@ Y.Views.ClubFollow = Y.View.extend({
 
 	Y.Router.navigate(ref, {trigger: true});  
   },  
+  
+
+  searchOnKey: function (event) {
+    if(event.keyCode == 13){
+      // the user has pressed on ENTER
+      this.search();
+    }
+    return this;
+  },
+
+  searchOnBlur: function (event) {
+    this.search();
+    return this;
+  },    
   
   search:function() {
     var q = $("#search-basic").val();
@@ -14696,7 +16755,7 @@ Y.Views.Game = Y.View.extend({
 
     // creating object game & stream (required by render)
     this.game = new GameModel({id : this.gameid});
-    this.streams = new StreamsCollection([], {gameid : this.gameid});
+    //this.streams = new StreamsCollection([], {gameid : this.gameid});
        
     // Rendering.
     // first: we render immediatly
@@ -14709,8 +16768,8 @@ Y.Views.Game = Y.View.extend({
     this.game.fetch();
 
     //
-    this.streams.once("sync", this.renderCountComment, this);
-    this.streams.fetch();
+    //this.streams.once("sync", this.renderCountComment, this);
+    //this.streams.fetch();
   },
 
   onGameInit: function () {
@@ -14938,8 +16997,10 @@ Y.Views.Game = Y.View.extend({
   },
   
   renderCountComment : function() {
-	  var nbComments = this.streams.length;
-
+	
+	//var nbComments = this.streams.length;
+	var nbComments = this.game.get('streamCommentsSize');
+	
     if (nbComments > Y.Conf.get("game.max.comments") )
       this.$(".link-comments").html(i18n.t('game.50lastcomments'));
     else if (nbComments == 1)
@@ -14971,7 +17032,8 @@ Y.Views.Game = Y.View.extend({
     }));
     
     this.renderScoreBoard(this.game);
-    if (this.streams)
+    
+    //if (this.streams)
       this.renderCountComment();
 	
 	  if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
@@ -15063,6 +17125,16 @@ Y.Views.Game = Y.View.extend({
 		    $('.server2').removeClass('server-ball');
 	    }
 	  }
+	  
+	  //TODO: Add star for playerfollowed
+	  var players_follow = Y.User.getPlayer().get('following');
+	  
+	  if (players_follow.indexOf(game.get('teams')[0].players[0].id) !== -1)
+	    $('.follow1').addClass('follow-ball');
+	  if (players_follow.indexOf(game.get('teams')[1].players[0].id) !== -1)	  
+	    $('.follow2').addClass('follow-ball');
+	 
+	  
     return this;
   },
 
@@ -15159,7 +17231,7 @@ Y.Views.Game = Y.View.extend({
     // desabonnements
     this.game.off("sync", this.onGameSynched, this);
     this.game.off("sync", this.onGameInit, this);
-    this.streams.off("sync", this.renderCountComment, this);
+    //this.streams.off("sync", this.renderCountComment, this);
     //
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
@@ -15172,26 +17244,29 @@ Y.Views.Game = Y.View.extend({
 Y.Views.GameAdd = Y.View.extend({
   el: "#content",
 
-  events: {
-    'click #addGame': 'addGame',
-    'click .form-button.other-team': 'otherTeam',
-    'click .form-button.more-options': 'moreOption',
-    'blur #team1': 'changeTeam1'
-  },
-
   pageName: "gameAdd",
   pageHash : "games/add",  
 
-  confirmGameAdd: true,
-
+  shareTimeout: null,
+  
   useSearch:0,
 
   team1_id: null,
   team2_id: null,
+  
+  events: {
+    'mousedown .button': 'addGame',
+    'click .form-button.other-team': 'otherTeam',
+    'click .form-button.more-options': 'moreOption',
+    'blur #team1': 'changeTeam1'
+  },  
 
   myinitialize: function () {
     this.useSearch = 0;	
     Y.GUI.header.title(i18n.t('gameadd.title'));
+    
+    Y.GUI.addBlueBackground();
+    
   	this.templates = {
 	    gameadd:  Y.Templates.get('gameAdd'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
@@ -15202,7 +17277,7 @@ Y.Views.GameAdd = Y.View.extend({
 	  this.DB = new Y.DB("Y.GameAdd.");
     this.team1_id = this.player.get('id');
     this.team2_id = null;
-	  this.render();
+	this.render();
   },
 
   otherTeam: function () {
@@ -15240,12 +17315,19 @@ Y.Views.GameAdd = Y.View.extend({
     }
   },
 
+  addingGame: false,
   addGame: function (event) {
-    var team1 = $('#team1').val()    
+    var team1 = $('#team1').val()   
       , team2 = $('#team2').val()
       , rank2 = $('#rank2').val()
       , city = $('#city').val()
+      , expectedDay = $('#expectedDay').val() 
+      , expectedHour = $('#expectedHour').val()
       , game;
+      
+      
+    if (this.addingGame)
+      return; // already sending => disabled.    
 
     if (( team1.length < 3 || team1.indexOf('  ')!==-1 ) &&
         this.team1_id != this.player.get('id')) {
@@ -15270,11 +17352,15 @@ Y.Views.GameAdd = Y.View.extend({
         	court : $('#court').val() 
       		, surface : $('#surface').val()
       		, tour : $('#tour').val() 
+      		, official : $('#official').val()
+      		//Stocke infos temporaire sans rapport avec le modele
+      		, expectedDay : $('#expectedDay').val()
+      		, expectedHour : $('#expectedHour').val()
       		} 
 	    };
 	    
 	  
-	    this.DB.saveJSON("game", game);
+	  this.DB.saveJSON("game", game);
       Y.Router.navigate("players/form/me", {trigger: true});	
       
         
@@ -15309,10 +17395,23 @@ Y.Views.GameAdd = Y.View.extend({
     };
     
     if (checkName(city) && city.length>0) {             
-	    $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
+	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
       return false;	   
     };
+
+	if (expectedDay.length < 1 && expectedHour.length > 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	      
+	  return false;	 
+	}
+
+	if (expectedDay.length > 1 && expectedHour.length < 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	    
+	  return false;	 
+	}
+
+    // on evite que l'utilisateur qui double tap, envoie 2 comments
+    this.addingGame = true;
 
     //On sauve dans Collections
     game = new GameModel({
@@ -15323,29 +17422,48 @@ Y.Views.GameAdd = Y.View.extend({
       , rank2 : $('#rank2').val()
       , team2_id : this.team2_id
       , location : { city : $('#city').val() }
+      , dates : {}
       , infos : { 
         	court : $('#court').val() 
       		, surface : $('#surface').val()
-      		, tour : $('#tour').val() 
+      		, tour : $('#tour').val()
+      		, official : true
       }
     });   
+    
+    if ($('#official').val() === "false")
+      game.get("infos").official=false;
+    else
+      game.get("infos").official=true;
+        
+    var date = $('#expectedDay').val();
+    var time = $('#expectedHour').val();   
       
-      
-    if (this.confirmGameAdd === true) {
+    //on reforme la date 
+    if (date!=='' && time!=='') {
+      var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');      
+      game.get("dates").expected = datetime;      
+    }
+    
+    var that = this;
     	
-    	this.confirmGameAdd = false;
-    	var that = this;
-    	
-	    game.save(null, {
-	      playerid: this.player.get('id'),
-	      token: this.player.get('token')
-	    }).done(function(model, response){
-	   	  that.confirmGameAdd = true; 
-	      Y.Router.navigate('games/'+model.id, {trigger: true}); 
-	    });
-	}
-
-    return false;
+	game.save(null, {
+	  playerid: this.player.get('id'),
+	  token: this.player.get('token')
+	 }).done(function(model, response){
+	   that.addingGame = false; 
+	   
+	   Y.Router.navigate('games/'+model.id, {trigger: true}); 
+	 }).fail(function (err) {
+	    that.$(".button").addClass("ko");
+	    that.shareTimeout = window.setTimeout(function () {
+	      that.$(".button").removeClass("ko");
+	      that.shareTimeout = null;
+	  	  that.$('.button').removeClass("disabled");    
+	    }, 4000);
+        that.addingGame = false;	 
+	 });
+	
   },
 
   autocompletePlayers: function (input, callback) {
@@ -15388,7 +17506,7 @@ Y.Views.GameAdd = Y.View.extend({
       this.$("#team2").val(data.name);
       this.team2_id = data.id;
     }
-  },
+  }, 
 
   //render the content into div of view
   render: function () {
@@ -15401,18 +17519,22 @@ Y.Views.GameAdd = Y.View.extend({
 	 /*
 	 debug android 2.2 to 2.3.6
 	 */
+	 /*
 	 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 	 var isGingerbread = /android 2\.3/i.test(userAgent);
 	 
 	 if (!isGingerbread) {
+	 */
 		 $('#inject-select').prepend(this.templates.gameselect({ 
 		    selection : i18n.t('gameadd.selection')
 		    , surface : i18n.t('gameadd.surface')
 	     })); 
+	 /*    
 	 }
-	 else {
-		 $('#inject-select').prepend(this.templates.gameinput());
-	 }
+	 */
+	 //else {
+		// $('#inject-select').prepend(this.templates.gameinput());
+	 //}
          
     //fill with last data 
     if (this.DB !== undefined) {
@@ -15424,13 +17546,14 @@ Y.Views.GameAdd = Y.View.extend({
 	      $("#rank2").val(game.rank2);                
 	    
 	      if (!isGingerbread) {
-		      if ( game.city !== "" ) $("#city").val(game.city);    
-		      if ( game.surface !== "" ) $("#surface").val(game.surface);
-		      if ( game.tour !== "" ) $("#tour").val(game.tour);
-		      if ( game.court !== "" ) $("#court").val(game.court);
+		      if ( game.location.city !== "" ) $("#city").val(game.location.city);    
+		      if ( game.infos.surface !== "" ) $("#surface").val(game.infos.surface);
+		      if ( game.infos.tour !== "" ) $("#tour").val(game.infos.tour);
+		      if ( game.infos.court !== "" ) $("#court").val(game.infos.court);
+		      if ( game.infos.official !== "" ) $("#official").val(game.infos.official);	
+		      if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
+		      if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);		      	      
 	      }
-	      if ( game.competition !== "" )
-          $("#competition").val(game.competition);
         
         this.DB.remove("game"); 
       }
@@ -15440,6 +17563,15 @@ Y.Views.GameAdd = Y.View.extend({
   },
 
   onClose: function () {
+  
+    this.undelegateEvents();
+    Y.GUI.delBlueBackground();
+    
+    if (this.shareTimeout) {
+      window.clearTimeout(this.shareTimeout);
+      this.shareTimeout = null;
+    }   
+  
     if (this.playersTeam1 !== undefined) this.playersTeam1.off("all", this.renderListTeam1, this);
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
 	this.confirmGameAdd = true;  
@@ -15458,7 +17590,7 @@ Y.Views.GameEnd = Y.View.extend({
   playerid: "",
   token: "",
       
-  initialize:function() {
+  myinitialize:function() {
   
     Y.GUI.header.title(i18n.t('gameend.title'));	    
   
@@ -15499,7 +17631,6 @@ Y.Views.GameComments = Y.View.extend({
   pageHash : "games/comment/",
 
   shareTimeout: null,
-  isSend : false,
 
   events: {
     'mousedown .button.send' : 'sendComment'
@@ -15740,6 +17871,8 @@ Y.Views.GameComments = Y.View.extend({
     , gameid = this.gameid
     , comment = $('#messageText').val()
     , that = this;
+    
+
 
     if (comment.length === 0)
       return; // empty => doing nothing.
@@ -15748,6 +17881,18 @@ Y.Views.GameComments = Y.View.extend({
       
     //filter
     comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");  
+    
+    //ajout du score au moment du comment
+    var sets = this.game.getSets(0);
+    
+    comment += ' ( ';
+    if (sets[0][0]>0 || sets[0][1]>0)
+      comment += ' '+sets[0][0]+'/'+sets[0][1];
+    if (sets[1][0]>0 || sets[1][1]>0)
+      comment += ' '+sets[1][0]+'/'+sets[1][1];
+    if (sets[2][0]>0 || sets[2][1]>0)
+      comment += ' '+sets[2][0]+'/'+sets[2][1];
+    comment += ' ) ';    
       
     //on bloque le textarea  
     $('.button').addClass('disabled');
@@ -15802,7 +17947,8 @@ Y.Views.GameFollow = Y.View.extend({
     
   events: {
     "click li": "goToGame",
-    "blur input#search-basic": "search",
+    "keyup input#search-basic": "searchOnKey",  
+    "blur input#search-basic": "searchOnBlur",
     "click .refresh" : "refresh",
     "click button-option-down": "search"
   },
@@ -15873,7 +18019,7 @@ Y.Views.GameFollow = Y.View.extend({
 			var game = new GameModel({id : gameid});	        
 	        game.once("sync", this.syncGame, this);	
      
-	        game.fetch().error(function (xhrResult, error) {	        
+	        game.fetch().fail(function (xhrResult, error) {	        
 
 	        	if (games.indexOf(gameid) !== -1) {
 		          games.splice(games.indexOf(gameid), 1);
@@ -15899,7 +18045,20 @@ Y.Views.GameFollow = Y.View.extend({
 	   $('p.message').i18n();
 	 }  	
   
-  },  
+  }, 
+  
+  searchOnKey: function (event) {
+    if(event.keyCode == 13){
+      // the user has pressed on ENTER
+      this.search();
+    }
+    return this;
+  },
+
+  searchOnBlur: function (event) {
+    this.search();
+    return this;
+  },     
     
   search:function() {
     var q = $("#search-basic").val();
@@ -15954,23 +18113,19 @@ Y.Views.GameFollow = Y.View.extend({
 Y.Views.GameForm = Y.View.extend({
   el:"#content",
     
+  pageName: "gameForm",
+  pageHash : "games/form",  
+      
   events: {
-    // mode "input"
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',
-    //
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',      
-    'click #deleteMatch': 'deleteMatch',    
-    'click #updateGame':'update',
+    'click #deleteMatch': 'deleteGame',    
+    'mousedown .button':'updateGame',
     'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub'
   },
   
   listview:"#suggestions",
-
-  pageName: "gameForm",
-  pageHash : "games/form",  
   
   confirmTimeout: null,
     
@@ -15984,6 +18139,8 @@ Y.Views.GameForm = Y.View.extend({
     //no search
     this.useSearch=0;
     
+    Y.GUI.addBlueBackground();
+    
   	this.templates = {
 	    gameform:  Y.Templates.get('gameForm'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
@@ -15993,7 +18150,7 @@ Y.Views.GameForm = Y.View.extend({
     
     this.player = Y.User.getPlayer();
   
-	  this.game = new GameModel({id : this.id});  	                  
+	this.game = new GameModel({id : this.id});  	                  
     this.game.on("sync", this.render,this);
     this.game.fetch();
   },
@@ -16030,7 +18187,7 @@ Y.Views.GameForm = Y.View.extend({
   },
 
   confirmDeletion: false,
-  deleteMatch: function (event) {
+  deleteGame: function (event) {
     if (!this.confirmDeletion) {
       $("#deleteMatch").text(i18n.t("gameform.confirmdelete"));
       this.confirmDeletion = true;
@@ -16061,16 +18218,19 @@ Y.Views.GameForm = Y.View.extend({
 
   renderAndSave: function () {
     this.render();
+
     return this.game.save(null, {playerid: this.player.get('id'), token: this.player.get('token')});
   },
       
-  update: function (event) {
+  updateGame: function (event) {
     // first, check the form.
     var team1 = $("#team1").val()
       , team2 = $("#team2").val()
       , rank1 = $("#rank1").val()
       , rank2 = $("#rank2").val()
       , ownedPlayer = null
+      , expectedDay = $('#expectedDay').val() 
+      , expectedHour = $('#expectedHour').val()      
       , that = this;
 
     if (this.isTeamEditable(0)) {
@@ -16097,6 +18257,16 @@ Y.Views.GameForm = Y.View.extend({
         return false;
       }
     }
+    
+    if (expectedDay.length < 1 && expectedHour.length > 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	      
+	  return false;	 
+	}
+
+	if (expectedDay.length > 1 && expectedHour.length < 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	    
+	  return false;	 
+	}
     
     // then, we save the player only if modified && owned.
     var promises = [];
@@ -16140,6 +18310,31 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').court = $('#court').val();
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
+      
+	  /*
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	  var isGingerbread = /android 2\.3/i.test(userAgent);
+	  if (!isGingerbread) {
+	  */     
+        if ($('#official').val()==="false")
+          this.game.get('infos').official = false;
+        else     
+          this.game.get('infos').official = true; 
+      //}
+      //else {
+      //  this.game.get('infos').official = $("#official").prop('checked');
+      //}  
+
+        
+	  var date = $('#expectedDay').val();
+	  var time = $('#expectedHour').val();   
+	      
+	  //on reforme la date 
+	  if (date!=='' && time!=='') {	  
+        var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');    
+	    this.game.get("dates").expected = datetime;      
+	  }       
+      
       if ($('#startTeam1').parent().hasClass("select"))
         this.game.get('infos').startTeam = 0;
       if ($('#startTeam2').parent().hasClass("select"))
@@ -16150,15 +18345,31 @@ Y.Views.GameForm = Y.View.extend({
 	        $('span.success').css({display:"block"});
 	        $('span.success').html(i18n.t('message.updateok')).show();
 	         
+            /*
             this.confirmTimeout = window.setTimeout(function () {
 		      Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
 		      that.confirmTimeout = null;
 		    }, 2000);
+		    */
 	        
         }
       });
     }, this));
   },
+  
+  inputModeOn: function (e) {
+    // calling parent.
+    var r = Y.View.prototype.inputModeOn.apply(this, arguments);
+    this.scrollBottom();
+    return r;
+  },
+
+  inputModeOff: function (e) {
+    // calling parent.
+    var r = Y.View.prototype.inputModeOff.apply(this, arguments);
+    this.scrollBottom();
+    return r;
+  },  
   
   //render the content into div of view
   render: function(){
@@ -16170,16 +18381,19 @@ Y.Views.GameForm = Y.View.extend({
 	  , surface : i18n.t('gameadd.surface')
     }));
     
+    /*
    	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 	  var isGingerbread = /android 2\.3/i.test(userAgent);
 	  if (!isGingerbread) {
+	*/  
 		  $('#inject-select').prepend(this.templates.gameselect({ 
 		    selection : i18n.t('gameadd.selection')
 		  , surface : i18n.t('gameadd.surface')
 	    }));
-    } else {
-      $('#inject-select').prepend(this.templates.gameinput());
-    }
+    //} 
+    //else {
+    //  $('#inject-select').prepend(this.templates.gameinput());
+    //}
   
     if (game.teams[0].id === game.infos.startTeam) {
 	    $('#startTeam1').parent().addClass("select");
@@ -16202,13 +18416,45 @@ Y.Views.GameForm = Y.View.extend({
       $("#team2,#rank2").prop('disabled', true); // team1 is ME or, some player I don't own.
     }
     
-    if (!isGingerbread) {
-	    if (game.location.city !== undefined) $("#city").val(game.location.city);    
+    if (game.dates.expected !== undefined) {	
+      var dateExpected = Date.fromString(game.dates.expected);
+      var month = dateExpected.getMonth() + 1;
+      var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
+      var time = ('0'+dateExpected.getHours()).slice(-2)+':'+('0'+dateExpected.getMinutes()).slice(-2); 
+              
+      $('#expectedDay').val(date);
+      $('#expectedHour').val(time);
+    }    
+    
+    if (game.location.city !== undefined) $("#city").val(game.location.city); 
+    
+    if (!isGingerbread) {   
 	    if (game.infos.surface !== undefined) $("#surface").val(game.infos.surface);
 	    if (game.infos.tour !== undefined) $("#tour").val(game.infos.tour);
 	    if (game.infos.court !== undefined) $("#court").val(game.infos.court);
+	    	    
+    	if (game.infos.official !== undefined) {
+          if (game.infos.official == false)
+            $("#official").val('false');
+          else
+            $("#official").val('true');
+        }
+    	    
     }
-    if (game.infos.competition !== undefined) $("#competition").val(game.infos.competition);
+    else {
+    
+	    if (game.infos.official !== undefined) {
+          if (game.infos.official == false) {
+            $("input#official[value=false]").attr('checked','true');
+          }
+        else {
+          $("input#official[value=true]").attr('checked','true');
+          
+        }
+                
+      }
+    }
+    	  
     
     this.$el.i18n();
   },
@@ -16221,6 +18467,9 @@ Y.Views.GameForm = Y.View.extend({
   },
 
   onClose: function() {
+  	
+  	Y.GUI.delBlueBackground();
+  
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)
       this.clubs.off("sync", this.renderList,this);
@@ -16268,14 +18517,21 @@ Y.Views.GameList = Y.View.extend({
   	this.sortOption = Y.User.getFiltersSort();
 
   	this.clubid = Y.User.getClub();
-  	
+	this.player = Y.User.getPlayer();
+	 
+	      	
 	//header 
     if (param!=='undefined') { 
-      if (param.search==="me") {
+      if (param.search==="me") {          
         Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
         this.pageName = "gameListByMe";
         this.button=false;
       }
+      else if (param.search==="player") {
+        Y.GUI.header.title(i18n.t('gamelist.titleplayergames')); 
+        this.pageName = "gameListPlayer";
+        this.button=false;       
+      }        
       else if (param.search==="club") {
         Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
         this.pageName = "gameListByClub";        
@@ -16292,7 +18548,7 @@ Y.Views.GameList = Y.View.extend({
 	
     var that = this;
     //  
-    
+    this.onResume = function () { that.search(); };
     
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
@@ -16320,11 +18576,13 @@ Y.Views.GameList = Y.View.extend({
 
     if (param!==undefined) { 
 	    if (param.search === 'me') {
-	      this.games.addSearch('me');	
-	      this.player = Y.User.getPlayer();
-	      this.playerid = this.player.id;
-	      this.games.setQuery(this.playerid);	      
+	      this.games.addSearch('player');	
+	      this.games.setPlayer(this.player.id);		      
 	    }
+	    else if (param.search === 'player') {
+	      this.games.addSearch('player');	
+	      this.games.setPlayer(param.id);		        
+	    }	    
 	    else
 	      this.searchOption = Y.User.getFiltersSearch();     
      }
@@ -16345,7 +18603,7 @@ Y.Views.GameList = Y.View.extend({
           this.games.setClub(this.clubid);
         }
         else {
-          Y.User.removeSearch('searchmyclub');
+          this.games.removeSearch('searchmyclub');
           $('#searchmyclub').html('');        
         } 
         
@@ -16358,7 +18616,7 @@ Y.Views.GameList = Y.View.extend({
           this.games.addSearch('geo');  
         }
         else {
-          Y.User.removeSearch('searchgeo');
+          this.games.removeSearch('searchgeo');
           $('#searchgeo').html('');
         }
         
@@ -16395,6 +18653,10 @@ Y.Views.GameList = Y.View.extend({
         });
         return;
       }
+      
+
+	  document.addEventListener("resume", that.onResume, true);
+      
       playerDeferred.resolve();
     });
 
@@ -16555,8 +18817,15 @@ Y.Views.GameList = Y.View.extend({
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
       }
-      else
-        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
+      else {
+      
+        var games_follow = Y.Conf.get("owner.games.followed");
+        var players_follow = Y.User.getPlayer().get('following');
+    	//$(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
+      
+        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: q }));
+        
+      }
     	
       $(this.listview).i18n();
     
@@ -16567,6 +18836,7 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
+  
     this.$el.html(this.templates.gamesearch({ button:this.button }));   
     //$('a').i18n(); 
     this.$el.i18n();   
@@ -16607,7 +18877,11 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   renderList: function () {
-    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: ' ' }));
+  
+    var games_follow = Y.Conf.get("owner.games.followed");
+    var players_follow = Y.User.getPlayer().get('following');
+    
+    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: ' ' }));
     $('p.message').i18n();
     return this;
   },
@@ -16617,6 +18891,8 @@ Y.Views.GameList = Y.View.extend({
     if (this.button===false) { 
 	    this.games.removeSearch('me');	
 	}
+	
+	document.removeEventListener("resume", this.onResume, true);
     
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
@@ -16818,7 +19094,6 @@ Y.Views.Navbar = Y.View.extend({
   initialize: function () {
     var that = this;
     Y.Router.on("pageChanged", function (page, fragment) {
-      //console.log("fragment",fragment);
       this.highlight(fragment);
     }, this);
   },
@@ -16861,6 +19136,83 @@ Y.Views.Navbar = Y.View.extend({
   goToGamesAdd: function () { Y.Router.navigate("games/add", {trigger: true}); },
   goToAccount: function () { Y.Router.navigate("account", {trigger: true}); }
 });
+Y.Views.NotificationList = Y.View.extend({
+  el : "#content",
+
+  events : {
+    "click li": "chooseGame"
+  },
+
+  listview : "#listNotificationView",
+
+  pageName: "notificationList",
+  pageHash : "notifications/list", 
+
+  initialize : function() {
+  
+	//header    
+    Y.GUI.header.title(i18n.t('notification.title')); 
+  
+    // loading templates.
+    this.templates = {
+      notificationlist:  Y.Templates.get('notificationList'),
+      notification: Y.Templates.get('notification')
+    };
+        
+    //this.playerListViewTemplate = Y.Templates.get('playerList');
+    //this.playerSearchTemplate = Y.Templates.get('players');
+    
+    // we render immediatly
+    this.render();    
+
+	// renderList
+    if (this.id !== 'null') {
+      this.games = new GamesCollection();     
+      this.games.addSearch('me');	
+      this.player = Y.User.getPlayer();
+      this.playerid = this.player.id;
+      this.games.setQuery(this.playerid); 
+      this.games.on('sync', this.renderList, this)           
+      this.games.fetch();
+
+    }
+    
+  },
+
+  chooseGame : function(elmt) { 
+    var ref = elmt.currentTarget.id;
+	Y.Router.navigate(ref, {trigger: true});  
+  },
+
+  
+
+  // render the content into div of view
+  render : function() {
+    this.$el.html(this.templates.notification({}));
+    
+    this.$el.i18n(); 
+
+    return this;
+  },
+
+  renderList : function(query) {
+    $(this.listview).html(this.templates.notificationlist({
+      games : this.games.toJSON(),
+      query : ' '
+    }));
+    
+    this.$el.i18n(); 
+
+    return this;
+  },
+
+  onClose : function() {
+    this.undelegateEvents();
+
+    this.games.off('sync', this.renderList, this);
+  }
+});
+
 Y.Views.Player = Y.View.extend({
   el:"#content",
 
@@ -16876,10 +19228,13 @@ Y.Views.Player = Y.View.extend({
     this.pageHash += this.id; 
     
     Y.GUI.header.title(i18n.t('player.title'));	    
-  
+    
+    //myinfo
+    this.myid = Y.User.getPlayer().get('id');
+    this.mytoken = Y.User.getPlayer().get('token');
+    this.players_follow = Y.User.getPlayer().get('following');    
+
     this.playerViewTemplate = Y.Templates.get('player');
-
-
 
     this.player = new PlayerModel({id:this.id});
     //change
@@ -16887,10 +19242,9 @@ Y.Views.Player = Y.View.extend({
         
     this.player.fetch(); 
 
-    var players_follow = Y.Conf.get("owner.players.followed");
-    if (players_follow !== undefined)
+    if (this.players_follow !== undefined)
     {
-      if (players_follow.indexOf(this.id) === -1) {
+      if (this.players_follow.indexOf(this.id) === -1) {
         this.follow = 'false';
       }
       else
@@ -16898,56 +19252,108 @@ Y.Views.Player = Y.View.extend({
     }
     else
       this.follow = 'false';
+      
 
 
   },
 
+  following: false, // lol2
   followPlayer: function() {
   
-        if (this.follow === 'true') {
+  	//on ne peut pas se suivre
+    if (this.myid === this.id) return;
+    
+    if (this.following)
+      return;   
+  
+  	var that = this;
+       
+    if (this.follow === 'true') {
+      
+     //NEW API
+      this.following = true;
+	    Backbone.ajax({
+        dataType: 'json',
+        url: Y.Conf.get("api.url.players") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken+"&_method=delete",
+        type: 'POST',
+        data: {
+          id: this.id
+        },
+        success: function (data) {
+          that.following = false;
+          
+          //On supprime l'id
+	      if (that.players_follow !== undefined)
+	      {
+	        if (that.players_follow.indexOf(that.id) !== -1) {
+	        //On retire l'elmt
+	          that.players_follow.splice(that.players_follow.indexOf(that.id), 1);
+	          var data = {id: that.myid, following: that.players_follow };
+              Y.User.updatePlayer(data);
+	        }
+	      }
+          
+        },
+        error: function (err) {
+          that.following = false;
+          //that.displayError(i18n.t('message.error'));
+          console.log(i18n.t('message.error'));
+        }
+      });       
+          
+      $('span.success').css({display:"block"});
+      $('span.success').html(i18n.t('message.nofollowplayerok')).show();
+      $("#followButton").text(i18n.t('message.follow'));
+      $('#followButton').removeClass('button-selected');
+      $('#followButton').addClass('button'); 
 
-          var players_follow = Y.Conf.get("owner.players.followed");
-          if (players_follow !== undefined)
+      this.follow = 'false';
+
+    } else {
+     
+      //NEW API
+      this.following = true;
+	    Backbone.ajax({
+        dataType: 'json',
+        url: Y.Conf.get("api.url.players") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken,
+        type: 'POST',
+        data: {
+          id: this.id
+        },
+        success: function (data) {
+          that.following = false;
+
+		  //On ajoute l'id
+		  if (that.players_follow !== undefined)
           {
-            if (players_follow.indexOf(this.id) !== -1) {
-              //On retire l'elmt
-              players_follow.splice(players_follow.indexOf(this.id), 1);
-              Y.Conf.set("owner.players.followed", players_follow, { permanent: true });
+            if (that.players_follow.indexOf(that.id) === -1) {     
+              that.players_follow.push(that.id);
+              var data = {id: that.myid, following: that.players_follow };
+              Y.User.updatePlayer(data); 
             }
           }
-          
-          $('span.success').css({display:"block"});
-          $('span.success').html(i18n.t('message.nofollowplayerok')).show();
-          $("#followButton").text(i18n.t('message.follow'));
-          $('#followButton').removeClass('button-selected');
-          $('#followButton').addClass('button'); 
-
-          this.follow = 'false';
-
-        } else {
-        
-          //Via localStorage
-          var players_follow = Y.Conf.get("owner.players.followed");
-          if (players_follow !== undefined)
-          {
-            if (players_follow.indexOf(this.id) === -1) {
-              players_follow.push(this.id);
-              Y.Conf.set("owner.players.followed", players_follow, { permanent: true });
-            }
+          else {
+            var data = {id: that.myid, following: [that.id] };            
+            Y.User.updatePlayer(data); 
           }
-          else
-            Y.Conf.set("owner.players.followed", [this.id]);
+		  
+        },
+        error: function (err) {
+          that.following = false;
+          //that.displayError(i18n.t('message.error'));
+          console.log(i18n.t('message.error'));
+        }
+      });          
 
-		  $('span.success').css({display:"block"});
-          $('span.success').html(i18n.t('message.followplayerok')).show();
-          $("#followButton").text(i18n.t('message.nofollow'));
-          $('#followButton').removeClass('button');
-          $('#followButton').addClass('button-selected');          
-          
+     $('span.success').css({display:"block"});
+     $('span.success').html(i18n.t('message.followplayerok')).show();
+     $("#followButton").text(i18n.t('message.nofollow'));
+     $('#followButton').removeClass('button');
+     $('#followButton').addClass('button-selected');          
+      
+     this.follow = 'true';
 
-          this.follow = 'true';
-
-        }	
+    }	
   
   },    
 
@@ -16973,7 +19379,8 @@ Y.Views.PlayerFollow = Y.View.extend({
   el:"#content",
   
   events: {
-    "blur input#search-basic": "search",
+    "keyup input#search-basic": "searchOnKey",  
+    "blur input#search-basic": "searchOnBlur",
     "click li": "choosePlayer"    
   },
 
@@ -16998,7 +19405,9 @@ Y.Views.PlayerFollow = Y.View.extend({
 
     this.render();		
        
-    var players = Y.Conf.get("owner.players.followed");
+    //Y.Conf.get("owner.players.followed");   
+    var players = Y.User.getPlayer().get('following');  
+    this.myid = Y.User.getPlayer().get('id');
 
     if (players!==undefined) {
     	this.playerLast = players[players.length-1];
@@ -17028,11 +19437,14 @@ Y.Views.PlayerFollow = Y.View.extend({
 			var player = new PlayerModel({id : playerid});	        
 	        player.once("sync", this.syncPlayer, this);
 	        
-	        player.fetch().error(function (xhrResult, error) {	        
+	        player.fetch().fail(function (xhrResult, error) {	        
 
 	        	if (players.indexOf(playerid) !== -1) {
 		          players.splice(players.indexOf(playerid), 1);
-		          Y.Conf.set("owner.players.followed", players, { permanent: true });
+		          //On retire le joueur qui existe plus		          
+		          //Y.Conf.set("owner.players.followed", players, { permanent: true });
+		          var data = {id: that.myid, following: that.players };
+              	  Y.User.updatePlayer(data);
 		          
 		          if (players.length<1) {
 				   $(that.listview).html(that.templates.playerlist({players:[],query:' '}));
@@ -17043,9 +19455,8 @@ Y.Views.PlayerFollow = Y.View.extend({
 		            
 		          }
    
-		    });	        
-	        
-	        
+		    });	       
+
 	        this.players[index] = player;	
 	        				
 	    },this);
@@ -17062,6 +19473,19 @@ Y.Views.PlayerFollow = Y.View.extend({
       var route = elmt.currentTarget.id;
       Y.Router.navigate(route, {trigger: true}); 
     }	
+  },  
+  
+  searchOnKey: function (event) {
+    if(event.keyCode == 13){
+      // the user has pressed on ENTER
+      this.search();
+    }
+    return this;
+  },
+
+  searchOnBlur: function (event) {
+    this.search();
+    return this;
   },  
   
   search:function() {
@@ -17114,6 +19538,7 @@ Y.Views.PlayerForm = Y.View.extend({
     
   events: {
     'click #savePlayer':'add',
+    'click #getPhoto' : 'getPhoto',
     'keyup #club': 'updateList',
     'click #club_choice' : 'displayClub'
   },
@@ -17145,7 +19570,10 @@ Y.Views.PlayerForm = Y.View.extend({
     this.clubid = this.player.get('club').id;
     this.player.once("sync", this.renderPlayer, this);	
     this.player.fetch();
-
+    
+    //$('#content').addClass('blue-screen background');
+	Y.GUI.addBlueBackground();
+	
     // we render immediatly
     this.render();
   },
@@ -17313,13 +19741,30 @@ Y.Views.PlayerForm = Y.View.extend({
 
     this.$(".container").addClass(this.mode);
 
-	  this.$el.i18n();
+	this.$el.i18n();
 
     return this;
   },
+  
+  getPhoto: function(){
+  
+  	Cordova.Camera.capturePhoto(function (img) {
+	  
+      var src = "data:image/jpeg;base64," + img;
+      $('#smallImage').attr("src", src);
+      $('#smallImage').attr("width", "300");
+      $('#smallImage').attr("height", "167");     
+      
+      
+        	  
+  	});
+  
+  },  
 
   onClose: function(){
     this.undelegateEvents();
+    
+    Y.GUI.delBlueBackground(); 
     
     this.player.off("sync", this.renderPlayer, this);	
     if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );
@@ -17452,6 +19897,10 @@ Y.Views.PlayerSignin = Y.View.extend({
     } else {
       this.status.current = this.status.UNREGISTERED;
     }
+    
+    //$('#content').addClass('blue-screen background');
+    Y.GUI.addBlueBackground();
+    
     // rendering will switch between status.
     this.render();
   },
@@ -17654,7 +20103,9 @@ Y.Views.PlayerSignin = Y.View.extend({
   },
 
   onClose : function() {
-    this.undelegateEvents();
+    this.undelegateEvents();  
+    //$('#content').removeClass('blue-screen background');
+    Y.GUI.delBlueBackground();    
   }
 });
 
@@ -17662,15 +20113,15 @@ Y.Views.PlayerForget = Y.View.extend({
   el : "#content",
 
   events: {
-    'focus input[type="text"]': 'inputModeOn',
-    'blur input[type="text"]': 'inputModeOff',
+    //'focus input[type="text"]': 'inputModeOn',
+    //'blur input[type="text"]': 'inputModeOff',
     'click #forgetPlayer' : 'forget'
   },
 
   pageName: "playerForget",
   pageHash : "players/forget",
   
-  initialize : function() {
+  myinitialize : function() {
     Y.GUI.header.title(i18n.t('playerforget.title'));     
   
     this.playerForgetTemplate = Y.Templates.get('playerForget');
@@ -17722,7 +20173,7 @@ Y.Views.SearchForm = Y.View.extend({
     'keyup #club': 'updateList',
     "click #searchgeo":"update",
     "click #searchmyclub":"update", 
-    "click #searchgamefollowed":"update",        
+    "click #searchplayerfollowed":"update",        
     'click #club_choice' : 'displayClub',
     'click #linkprofil' : 'goProfil'
       
@@ -17737,7 +20188,7 @@ Y.Views.SearchForm = Y.View.extend({
   
   shareTimeout: null,    
 
-  initialize:function() {
+  myinitialize:function() {
 
 	//header
     Y.GUI.header.title(i18n.t('search.title')); 
@@ -17763,23 +20214,36 @@ Y.Views.SearchForm = Y.View.extend({
    
       
   update: function (event) {
-  
-    $('#'+event.currentTarget.id+' span').toggleClass('checked');
-    Y.User.setFiltersSearch(event.currentTarget.id);    
     
-    var filters = Y.User.getFiltersSearch();
-    
-    if (event.currentTarget.id === 'searchgeo' && filters.indexOf('searchmyclub')!==-1) {
+    if (event.currentTarget.id === 'searchmyclub' && $("#searchmyclub span").hasClass('disabled')==false) {
       $('#searchmyclub span').toggleClass('checked');
-      Y.User.setFiltersSearch('searchmyclub');         
-    }
-    else if (event.currentTarget.id === 'searchmyclub' && filters.indexOf('searchgeo')!==-1) {
-      $('#searchgeo span').toggleClass('checked');
-      Y.User.setFiltersSearch('searchgeo'); 
-    }
+      Y.User.setFiltersSearch(event.currentTarget.id);
       
-     
+      var filters = Y.User.getFiltersSearch();
     
+      if (filters.indexOf('searchgeo')!==-1) {
+        $('#searchgeo span').toggleClass('checked');
+        Y.User.setFiltersSearch('searchgeo'); 
+      }      
+    }
+    
+    if (event.currentTarget.id === 'searchgeo' && $("#searchgeo span").hasClass('disabled')==false) {
+      $('#searchgeo span').toggleClass('checked');
+      Y.User.setFiltersSearch(event.currentTarget.id);
+      
+      var filters = Y.User.getFiltersSearch();
+    
+      if (filters.indexOf('searchmyclub')!==-1) {
+        $('#searchmyclub span').toggleClass('checked');
+        Y.User.setFiltersSearch('searchmyclub');         
+      }      
+    }    
+
+    if (event.currentTarget.id === 'searchplayerfollowed' && $("#searchplayerfollowed span").hasClass('disabled')==false) {
+      $('#searchplayerfollowed span').toggleClass('checked');
+      Y.User.setFiltersSearch(event.currentTarget.id);   
+    }  
+      
   },
        
   goProfil: function(){
@@ -17823,8 +20287,8 @@ Y.Views.SearchForm = Y.View.extend({
 	    if (filters.indexOf('searchmyclub')!==-1) {
 	      $('#searchmyclub span').addClass('checked');
 	 	}
-	    if (filters.indexOf('searchgamefollowed')!==-1) {
-	      $('#searchgamefollowed span').addClass('checked');
+	    if (filters.indexOf('searchplayerfollowed')!==-1) {
+	      $('#searchplayerfollowed span').addClass('checked');
 	 	}
  	} 	
  	
@@ -17860,12 +20324,16 @@ $(document).ready(function () {
   // Document is ready => initializing YesWeScore
   Y.ready(function () {
     // YesWeScore is ready.
-    
+    /*#ifdef DEV*/
+    console.log('YesWeScore is ready.');
+    /*#endif*/
   });
 
   Cordova.ready(function () {
     // Cordova is ready
-    
+    /*#ifdef DEV*/
+    console.log('Cordova is ready.');
+    /*#endif*/
   });
 });
 
@@ -18173,28 +20641,36 @@ club = clubs[i]; %>
           <span class="timer"><%= timer %></span>
         </div>
         <div class="ui-block-b">
+
         <%
         if (game.dates) {
-            if (game.dates.start !== undefined ) {            
+            if (game.dates.start !== undefined ) {
+                        
               if (game.dates.start==="") {
                  game.dates = {
                    startDate : '',
                    startTime : ''
-                 };              
+                 };    
+                                            
               }
               else { 
-                //game.dates.startConvert = new Date(game.dates.start);
                 game.dates.startConvert = Date.fromString(game.dates.start);
                 game.dates.startConvert.month = game.dates.startConvert.getMonth() + 1;
                 game.dates.startDate = ('0'+game.dates.startConvert.getDate()).slice(-2)+'/'+('0'+game.dates.startConvert.month).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
                 game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);
               }
            } 
-           else {                      
-             game.dates = {
-               startDate : '',
-               startTime : ''
-             };           
+           else {
+           
+             if (game.dates.expected !== undefined) {
+                                
+               if (game.dates.expected!=="") {
+                 game.dates.startConvert = Date.fromString(game.dates.expected);
+                 game.dates.startConvert.month = game.dates.startConvert.getMonth() + 1;
+                 game.dates.startDate = ('0'+game.dates.startConvert.getDate()).slice(-2)+'/'+('0'+game.dates.startConvert.month).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
+                 game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);                  
+               }
+             }           
           }
         }
         else {        
@@ -18213,7 +20689,13 @@ club = clubs[i]; %>
         <b><%= game.location.city %></b>
         </div>
         <div class="ui-block-d">
-        <b><span data-i18n="game.public"></span></b>
+        <b><span data-i18n="game.public"></span></b><br/>
+        <b><% 
+          if (game.infos.official)
+            print(i18n.t('game.official'))
+          else
+            print(i18n.t('game.notofficial'))
+        %></b>
         </div>
         <div class="ui-block-e unselectable<% if (game.owner === playerid) { %> undoSelect<% } %>">
         <% if (game.owner === playerid) { %>
@@ -18416,7 +20898,7 @@ club = clubs[i]; %>
 <div class="button-form" data-input-mode="process">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form"><div class="button" id="addGame" data-i18n="gameadd.submit"></div></div>
+  <div class="link-form"><div class="button" data-i18n="gameadd.submit"></div></div>
 </div></script>
 <script type="text/template" id="gameComments"><div class="comments background"></div>
 <div class="comments content-container">
@@ -18619,9 +21101,7 @@ club = clubs[i]; %>
 <script type="text/template" id="gameForm"><div class="blue-screen background"></div>
 <div class="blue-screen content-container">
   <div class="container">
-  
     <span class="success label label-info hide"></span>
-
 
     <div class="account">
       <a href="#" class="warning" id="deleteMatch" data-i18n="gameform.delete"></a>
@@ -18675,10 +21155,9 @@ club = clubs[i]; %>
     </div>    
     
     <div id="inject-select"></div>
-    
-    <!-- 
+ 
     <div style="padding:20px"></div>
-     -->
+
 
   </div>
 </div>
@@ -18690,64 +21169,37 @@ club = clubs[i]; %>
 <div class="button-form" data-input-mode="process">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
-  <div class="link-form">
-    <div class="button" id="updateGame" data-i18n="gameform.update"></div>
-  </div>
+  <div class="link-form"><div class="button" data-i18n="gameform.update"></div></div>
 </div>
 
 </script>
-<script type="text/template" id="gameInput">     <div style="padding-top: 10px">
-      <label class="form-label" for="official" data-i18n="gameadd.official"></label>
-    </div>
-    <div>
-      <div class="form-radio-android">
-        <input id="competition" type="radio" name="competition" value="yes"/>
-        <label data-i18n="gameadd.yes"></label>
-        <input id="competition" type="radio" name="competition" value="no"/>
-        <label data-i18n="gameadd.no"></label>
-      </div>
-    </div>
-    
-             
-    <!--      
-          <div class="ui-grid-a">
+<script type="text/template" id="gameInput"><div style="padding-top: 10px">
+  <label class="form-label" for="official" data-i18n="gameadd.official"></label>
+</div>
+<div>
+  <div class="form-radio-android">
+    <input id="official" type="radio" name="official" value="true"/>
+    <label data-i18n="gameadd.yes"></label>
+    <input id="official" type="radio" name="official" value="false"/>
+    <label data-i18n="gameadd.no"></label>
+  </div>
+</div>
 
-          
-          <div class="ui-block-a">
-            <div class="form-label" data-i18n="gameadd.court"></div>
-          </div>
-          <div class="ui-block-b">
-            <div class="form-label" data-i18n="gameadd.tour"></div>
-          </div>
-          <div class="ui-block-a" style="padding-right:5px;">
-            <input name="court" id="court" value="" style="width:100%" data-i18n="[placeholder]gameadd.court;"/>
-          </div>
-          <div class="ui-block-b" style="padding-left:5px;">            
-            <input name="tour" id="tour" value="" style="width:100%" data-i18n="[placeholder]gameadd.tour;"/>          
-          </div>
-        </div>
-        
-
-        <div class="ui-grid-a">
-          <div class="ui-block-a">
-                  <div class="form-label" data-i18n="gameadd.surface"></div>
-          </div>
-          <div class="ui-block-b">
-                  <div class="form-label" data-i18n="gameadd.official"></div>
-          </div>
-          <div class="ui-block-a" style="padding-right:5px;">
-            <input name="surface" id="surface" value="" style="width:100%" data-i18n="[placeholder]gameadd.surface;"/> 
-           </div>
-           <div class="ui-block-b" style="padding-right:1px;">
-                <div class="form-radio-android">
-                  <input id="competition" type="radio" name="competition" value="yes"/>
-                  <label data-i18n="gameadd.yes"></label>
-                  <input id="competition" type="radio" name="competition" value="no"/>
-                  <label data-i18n="gameadd.no"></label>
-              </div>
-           </div>
-            </div>
-     -->  </script>
+         
+<div class="ui-grid-a">
+  <div class="ui-block-a">
+    <div class="form-label" data-i18n="gameadd.dateday"></div>
+  </div>
+  <div class="ui-block-b">
+    <div class="form-label" data-i18n="gameadd.datehour"></div>
+  </div>
+  <div class="ui-block-a" style="padding-right: 5px;">
+    <input type="date" name="expectedDay" id="expectedDay">
+  </div>
+  <div class="ui-block-b" style="padding-right: 1px;">
+    <input type="time" name="expectedHour" id="expectedHour">
+  </div>
+</div>  </script>
 <script type="text/template" id="gameList"><% if(games.length==0) { %>
 <li><p class="message" data-i18n="message.noresult"></p></li>
 <% } %> 
@@ -18820,32 +21272,155 @@ if (game.dates.start !== undefined ) {
     game.dates.startConvert = Date.fromString(game.dates.start);
 	game.dates.startDate = game.dates.startConvert.getDate()+' '+game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();
 }
-else
-	game.dates.startDate = 'A venir';
+else {
+   if (game.dates.expected !== undefined) {
+                      
+     if (game.dates.expected!=="") {
+       game.dates.startConvert = Date.fromString(game.dates.expected);
+       //game.dates.startConvert.month = game.dates.startConvert.getMonth() + 1;
+       //game.dates.startDate = ('0'+game.dates.startConvert.getDate()).slice(-2)+'/'+('0'+game.dates.startConvert.month).slice(-2)+'/'+(''+game.dates.startConvert.getFullYear()).slice(-2);
+       game.dates.startDate = game.dates.startConvert.getDate()+' '+game.dates.startConvert.getMonthName()+' '+game.dates.startConvert.getFullYear();       
+       game.dates.startTime = ('0'+game.dates.startConvert.getHours()).slice(-2)+'h'+('0'+game.dates.startConvert.getMinutes()).slice(-2);             
+     }
+   }  
+}
 
-
-if (game.status === "ongoing") game.status = i18n.t('game.ongoing');
-else if (game.status === "finished") game.status = i18n.t('game.finished');
-else if (game.status === "created") game.status = i18n.t('game.created');
+if (game.status === "ongoing") game.status2 = i18n.t('game.ongoing');
+else if (game.status === "finished") game.status2 = i18n.t('game.finished');
+else if (game.status === "created") game.status2 = i18n.t('game.created');
  
+if (game.status === "created") { 
+%>
+<li id="#games/<%= game.id %>" class="unselectable" style="height:60px;">
+<%
+}
+else {
 %>
 <li id="#games/<%= game.id %>" class="unselectable">
-
-<div class="ui-grid-a">
-	<div class="ui-block-a game-location" style="width: 80%;"> 
-    <%= game.dates.startDate %> - <%= game.location.city %> 
+<%
+}
+%>
+<div class="ui-grid-c">
+	<div class="ui-block-a game-location" style="width: 63%;"> 
+    <%= game.dates.startDate %>
     <% 
-      if (game.infos.tour !== "")  
-        if (game.infos.tour > 0)     
-         print(" - "+i18n.t("gameadd.select"+game.infos.tour))     
+      if (game.location.city!== '') 
+        print(" - "+game.location.city);
     %> 
+    <% 
+      if (game.infos.tour !== "") {       
+        infosTour = parseInt(game.infos.tour,10);                 
+        
+        if (infosTour >= 3) {
+          infosTour -= 2;
+          print(" - "+i18n.t("gameadd.select"+infosTour));
+        }  
+        else if (infosTour == 2) {
+          print(" - "+i18n.t("gameadd.consolante"));  
+        }
+        else if (infosTour == 1) {
+          print(" - "+i18n.t("gameadd.poule"));    
+        }                 
+      }   
+     
+
+    %>
 	</div>
-	<div class="ui-block-b game-status" style="width: 20%;">
-	<%= game.status %>
+    <div class="ui-block-b" style="width: 9%;"> 
+      <div class="button-count-comments"><%= game.streamCommentsSize %></div>
+    </div>
+    <div class="ui-block-c" style="width: 9%;">
+    <%
+    if (games_follow !== undefined)
+    {
+      if (games_follow.indexOf(game.id) === -1) {
+      %>
+        <div class="button-follow-off"></div>
+      <%
+      }
+      else {
+      %>
+       <div class="button-follow-on"></div>
+      <%
+      }        
+    }
+    else if (players_follow !== undefined)
+    {
+      if (players_follow.indexOf(game.teams[0].players[0].id) !== -1 || players_follow.indexOf(game.teams[1].players[0].id) !== -1) {
+      %>
+        <div class="button-follow-on"></div>
+      <%
+      }
+      else {
+      %>
+       <div class="button-follow-off"></div>
+      <%
+      }        
+    }        
+    else {
+    %>
+      <div class="button-follow-off"></div>
+    <%
+    }
+    %>
+    </div>    
+	<div class="ui-block-d game-status" style="width: 19%;">
+	<%= game.status2 %>
 	</div>
 </div>
 
- <div class="ui-grid-d" style="margin-top:5px">
+<%
+if (game.status === "created") {
+%>
+ <div class="ui-grid-b" style="margin-top:5px;">
+  <div class="ui-block-a game-player" style="width:40%;text-align:center;line-height:12px;">
+  <% 
+  if (game.teams[0].players[0]!== undefined) { 
+    print("<b>"+game.teams[0].players[0].name+"</b><br/>&nbsp;");
+    
+    print('<span class="div_score_mini">');
+    print(game.teams[0].players[0].rank); 
+    
+    if (game.teams[0].players[0].club !== undefined) {  
+    
+      
+      if (game.teams[0].players[0].club.name.length>20)
+        game.teams[0].players[0].club.name = game.teams[0].players[0].club.name.substr(0,19);   
+        print(' '+game.teams[0].players[0].club.name);  
+    } 
+    print('</span>'); 
+  }
+  %>   
+  </div>
+  <div class="ui-block-b game-player" style="width:20%;text-align:center;line-height:12px;">
+  <b>VS</b><br/>
+  <%= game.dates.startTime %>
+  </div>
+  <div class="ui-block-c game-player" style="width:40%;text-align:center;line-height:12px;">
+  <% 
+  if (game.teams[1].players[0]!== undefined) { 
+    print("<b>"+game.teams[1].players[0].name+"</b><br/>&nbsp;"); 
+    print('<span class="div_score_mini">');
+    print(game.teams[1].players[0].rank); 
+
+    if (game.teams[1].players[0].club !== undefined) {
+    
+    
+      if (game.teams[1].players[0].club.name.length>20)
+        game.teams[1].players[0].club.name = game.teams[1].players[0].club.name.substr(0,19);
+       print(' '+game.teams[1].players[0].club.name); 
+    }
+    print('</span>');   
+  }
+  %>       
+  </div>  
+ </div>
+<%
+}
+else
+{
+%>
+ <div class="ui-grid-d" style="margin-top:5px;">
      <div class="ui-block-a game-player" style="width:63%;">
 	<% 
 	if (game.teams[0].players[0]!== undefined) { 
@@ -18871,7 +21446,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
      <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
  </div>
 
- <div class="ui-grid-d" style="margin-top:5px">
+ <div class="ui-grid-d" style="margin-top:5px;">
      <div class="ui-block-a game-player" style="width:63%;">
 	<% 
 	if (game.teams[1].players[0]!== undefined) { 
@@ -18895,6 +21470,9 @@ else if (game.status === "created") game.status = i18n.t('game.created');
      <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
      <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
  </div>
+ <%
+ }
+ %>
  
 </li>
 <% } %>
@@ -18975,7 +21553,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
   
   
     <span class="player-name"> 
-      <b class="server1">&nbsp;&nbsp;&nbsp;</b>&nbsp;<%= game.teams[0].players[0].name %>
+      <b class="server1">&nbsp;&nbsp;&nbsp;</b>&nbsp;<%= game.teams[0].players[0].name %>&nbsp;<b class="follow1">&nbsp;&nbsp;&nbsp;</b>
     </span>
   
     <div class="other">
@@ -19038,7 +21616,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
          
     
     <span class="player-name">   
-       <b class="server2">&nbsp;&nbsp;&nbsp;</b>&nbsp;<%= game.teams[1].players[0].name %>
+       <b class="server2">&nbsp;&nbsp;&nbsp;</b>&nbsp;<%= game.teams[1].players[0].name %>&nbsp;<b class="follow2">&nbsp;&nbsp;&nbsp;</b>
     </span>
     <div class="other">
       <span class="club">
@@ -19057,100 +21635,117 @@ else if (game.status === "created") game.status = i18n.t('game.created');
  
 </div></script>
 <script type="text/template" id="gameSelect"><div class="ui-grid-a">
-          <div class="ui-block-a">
-            <div class="form-label" data-i18n="gameadd.court"></div>
-          </div>
-          <div class="ui-block-b">
-            <div class="form-label" data-i18n="gameadd.tour"></div>
-          </div>
-          <div class="ui-block-a" style="padding-right:5px;">
-            <select name="court" id="court" style="width:100%" visible="true">
-              <option value=""></option>
-              <option value="1"> 1</option>
-              <option value="2"> 2</option>
-              <option value="3"> 3</option>
-              <option value="4"> 4</option>
-              <option value="5"> 5</option>
-              <option value="6"> 6</option>
-              <option value="7"> 7</option>
-              <option value="8"> 8</option>
-              <option value="9"> 9</option>
-              <option value="10"> 10</option>
-              <option value="11"> 11</option>
-              <option value="">---</option>
-              <option value="A"> A</option>
-              <option value="B"> B</option>
-              <option value="C"> C</option>
-              <option value="D"> D</option>
-              <option value="E"> E</option>
-              <option value="F"> F</option>
-            </select>
-          </div>
-          <div class="ui-block-b" style="padding-left:5px;">
-            <select name="tour" id="tour" style="width:100%" visible="true">
-                      <option value="1" data-i18n="gameadd.poule"></option>
-                      <option value="2" data-i18n="gameadd.consolante"></option>
-                      <option value="3" data-i18n="gameadd.select1"></option>
-                      <option value="4" data-i18n="gameadd.select2"></option>
-                      <option value="5" data-i18n="gameadd.select3"></option>
-                      <option value="6" data-i18n="gameadd.select4"></option>
-                      <option value="7" data-i18n="gameadd.select5"></option>
-                      <option value="8" data-i18n="gameadd.select6"></option>
-                      <option value="9" data-i18n="gameadd.select7"></option>
-                      <option value="10" data-i18n="gameadd.select8"></option>
-                      <option value="11" data-i18n="gameadd.select9"></option>
-                      <option value="12" data-i18n="gameadd.select10"></option>
-                      <option value="13" data-i18n="gameadd.select11"></option>
-                      <option value="14" data-i18n="gameadd.select12"></option>
-                      <option value="15" data-i18n="gameadd.select13"></option>
-                      <option value="16" data-i18n="gameadd.select14"></option>
-                      <option value="17" data-i18n="gameadd.select15"></option>
-                      <option value="18" data-i18n="gameadd.select16"></option>
-                      <option value="19" data-i18n="gameadd.select17"></option>
-                      <option value="20" data-i18n="gameadd.select18"></option>
-                      <option value="21" data-i18n="gameadd.select19"></option>
-                      <option value="22" data-i18n="gameadd.select20"></option>
-                      <option value="23" data-i18n="gameadd.select21"></option>
-                      <option value="24" data-i18n="gameadd.select22"></option>
-                      <option value="25" data-i18n="gameadd.select23"></option>
-                      <option value="26" data-i18n="gameadd.select24"></option>
-                      <option value="27" data-i18n="gameadd.select25"></option>
-                      <option value="28" data-i18n="gameadd.select26"></option>
-                      <option value="29" data-i18n="gameadd.select27"></option>
-                      <option value="30" data-i18n="gameadd.select28"></option>
-            </select>
-          </div>
-        </div>
+  <div class="ui-block-a">
+    <div class="form-label" data-i18n="gameadd.court"></div>
+  </div>
+  <div class="ui-block-b">
+    <div class="form-label" data-i18n="gameadd.tour"></div>
+  </div>
+  <div class="ui-block-a" style="padding-right: 5px;">
+    <select name="court" id="court" style="width: 100%" visible="true">
+      <option value=""></option>
+      <option value="1"> 1</option>
+      <option value="2"> 2</option>
+      <option value="3"> 3</option>
+      <option value="4"> 4</option>
+      <option value="5"> 5</option>
+      <option value="6"> 6</option>
+      <option value="7"> 7</option>
+      <option value="8"> 8</option>
+      <option value="9"> 9</option>
+      <option value="10"> 10</option>
+      <option value="11"> 11</option>
+      <option value="">---</option>
+      <option value="A"> A</option>
+      <option value="B"> B</option>
+      <option value="C"> C</option>
+      <option value="D"> D</option>
+      <option value="E"> E</option>
+      <option value="F"> F</option>
+    </select>
+  </div>
+  <div class="ui-block-b" style="padding-left: 1px;">
+    <select name="tour" id="tour" style="width: 100%" visible="true">
+      <option value="1" data-i18n="gameadd.poule"></option>
+      <option value="2" data-i18n="gameadd.consolante"></option>
+      <option value="3" data-i18n="gameadd.select1"></option>
+      <option value="4" data-i18n="gameadd.select2"></option>
+      <option value="5" data-i18n="gameadd.select3"></option>
+      <option value="6" data-i18n="gameadd.select4"></option>
+      <option value="7" data-i18n="gameadd.select5"></option>
+      <option value="8" data-i18n="gameadd.select6"></option>
+      <option value="9" data-i18n="gameadd.select7"></option>
+      <option value="10" data-i18n="gameadd.select8"></option>
+      <option value="11" data-i18n="gameadd.select9"></option>
+      <option value="12" data-i18n="gameadd.select10"></option>
+      <option value="13" data-i18n="gameadd.select11"></option>
+      <option value="14" data-i18n="gameadd.select12"></option>
+      <option value="15" data-i18n="gameadd.select13"></option>
+      <option value="16" data-i18n="gameadd.select14"></option>
+      <option value="17" data-i18n="gameadd.select15"></option>
+      <option value="18" data-i18n="gameadd.select16"></option>
+      <option value="19" data-i18n="gameadd.select17"></option>
+      <option value="20" data-i18n="gameadd.select18"></option>
+      <option value="21" data-i18n="gameadd.select19"></option>
+      <option value="22" data-i18n="gameadd.select20"></option>
+      <option value="23" data-i18n="gameadd.select21"></option>
+      <option value="24" data-i18n="gameadd.select22"></option>
+      <option value="25" data-i18n="gameadd.select23"></option>
+      <option value="26" data-i18n="gameadd.select24"></option>
+      <option value="27" data-i18n="gameadd.select25"></option>
+      <option value="28" data-i18n="gameadd.select26"></option>
+      <option value="29" data-i18n="gameadd.select27"></option>
+      <option value="30" data-i18n="gameadd.select28"></option>
+    </select>
+  </div>
+</div>
 
-        <div class="ui-grid-a">
-          <div class="ui-block-a">
-                  <div class="form-label" data-i18n="gameadd.surface"></div>
-          </div>
-          <div class="ui-block-b">
-                  <div class="form-label" data-i18n="gameadd.official"></div>
-          </div>
-          <div class="ui-block-a" style="padding-right:5px;">
-              <select name="surface" id="surface" style="width:100%" visible="true">
-                <option value=""></option>
-                <option value="BP" data-i18n="gameadd.surface_bp"></option>
-                <option value="EP" data-i18n="gameadd.surface_ep"></option>
-                <option value="EPDM" data-i18n="gameadd.surface_epdm"></option>
-                <option value="GAS" data-i18n="gameadd.surface_gas"></option>
-                <option value="GAZ" data-i18n="gameadd.surface_gaz"></option>
-                <option value="MOQ" data-i18n="gameadd.surface_moq"></option>
-                <option value="NVTB" data-i18n="gameadd.surface_nvtb"></option>
-                <option value="PAR" data-i18n="gameadd.surface_par"></option>
-                <option value="RES" data-i18n="gameadd.surface_res"></option>
-                <option value="TB" data-i18n="gameadd.surface_tb"></option>
-              </select>
-            </div>
-                <div class="ui-block-b" style="padding-right:1px;">
-                  <select name="competition" id="competition" style="width:100%" visible="true">
-                    <option value="yes" data-i18n="gameadd.yes"></option>  
-                    <option value="no" data-i18n="gameadd.no"></option>                       
-                   </select>             
-                </div>
-            </div></script>
+<div class="ui-grid-a">
+  <div class="ui-block-a">
+    <div class="form-label" data-i18n="gameadd.surface"></div>
+  </div>
+  <div class="ui-block-b">
+    <div class="form-label" data-i18n="gameadd.official"></div>
+  </div>
+  <div class="ui-block-a" style="padding-right: 5px;">
+    <select name="surface" id="surface" style="width: 100%" visible="true">
+      <option value=""></option>
+      <option value="BP" data-i18n="gameadd.surface_bp"></option>
+      <option value="EP" data-i18n="gameadd.surface_ep"></option>
+      <option value="EPDM" data-i18n="gameadd.surface_epdm"></option>
+      <option value="GAS" data-i18n="gameadd.surface_gas"></option>
+      <option value="GAZ" data-i18n="gameadd.surface_gaz"></option>
+      <option value="MOQ" data-i18n="gameadd.surface_moq"></option>
+      <option value="NVTB" data-i18n="gameadd.surface_nvtb"></option>
+      <option value="PAR" data-i18n="gameadd.surface_par"></option>
+      <option value="RES" data-i18n="gameadd.surface_res"></option>
+      <option value="TB" data-i18n="gameadd.surface_tb"></option>
+    </select>
+  </div>
+  <div class="ui-block-b" style="padding-right: 1px;">
+    <select name="official" id="official" style="width: 100%" visible="true">
+      <option value="true" data-i18n="gameadd.yes" checked></option>
+      <option value="false" data-i18n="gameadd.no"></option>
+    </select>
+  </div>
+</div>
+
+<div class="ui-grid-a">
+  <div class="ui-block-a">
+    <div class="form-label" data-i18n="gameadd.dateday"></div>
+  </div>
+  <div class="ui-block-b">
+    <div class="form-label" data-i18n="gameadd.datehour"></div>
+  </div>
+  <div class="ui-block-a" style="padding-right: 5px;">
+    <input type="date" name="expectedDay" id="expectedDay">
+  </div>
+  <div class="ui-block-b" style="padding-right: 1px;">
+    <input type="time" name="expectedHour" id="expectedHour">
+  </div>
+</div>
+
+<span class="expected_error label label-info hide"></span> </script>
 <script type="text/template" id="index"><div class="content-container">
   <div class="index">
 
@@ -19185,6 +21780,48 @@ else if (game.status === "created") game.status = i18n.t('game.created');
     
   </div>
 </div></script>
+<script type="text/template" id="notification"><div class="content-container">
+  <div class="indexViewTemplate">
+   
+
+    <ul id="listNotificationView" class="ui-listview results"></ul>
+  <div>
+<div>
+
+</script>
+<script type="text/template" id="notificationList"><% if(games.length==0) { %>
+<li><p class="message" data-i18n="notification.noresult"></p></li>
+<% } %> 
+<% for (var i = 0; i < games.length; i++) { 
+
+game = games[i]; 
+
+if (game.error!==undefined) 
+{
+  if (game.error.length > 1 ) 
+  { 
+  %>
+  <li><p class="message" data-i18n="notification.error"></p></li>
+  <%
+   break;
+  }
+}
+%>
+<li class="player" id="#games/<%= game.id %>/comments/">
+  <div class="ui-grid-a">
+    <div class="ui-block-a" style="width: 20%;">
+    <img src="./images/player-pic.jpg" width="40px" height="40px" />
+    </div>
+    <div class="ui-block-b" style="width: 80%;valign:top;">
+    <div class="game-player">Calais - 1er Tour - VS Bob</div>
+    <div class="infos">Super match mais ....  ( Ludo T. )</div>
+    </div>
+  </div>
+</li>
+<% 
+} 
+%>
+</script>
 <script type="text/template" id="ongoing"><p class="message" data-i18n="search.ongoing"></p></script>
 <script type="text/template" id="player"><div class="info background"></div>
 <div class="info content-container">
@@ -19202,11 +21839,17 @@ else if (game.status === "created") game.status = i18n.t('game.created');
      <%
      if (player.club !== undefined) 
      {
+       if (player.club.name !== '') {   
      %>
     <hr/>
     <b><label data-i18n="playerform.club"></label> :</b> <%= player.club.name %>
-    <br/><a href="#clubs/<%= player.club.id %>" data-i18n="player.more"></a>
+    <br/>
+    
+    <div class="account">
+      <a href="#clubs/<%= player.club.id %>" id="lastResult" data-js-navigate><%= player.club.name %></a>
+    </div>
     <%
+      }
     }
     %>
     <hr/>
@@ -19214,7 +21857,7 @@ else if (game.status === "created") game.status = i18n.t('game.created');
     <br/>
     
     <div class="account">
-      <a href="#games/me/<%= player.id %>" id="lastResult" data-i18n="player.lastresults" data-js-navigate></a>
+      <a href="#games/player/<%= player.id %>" id="lastResult" data-i18n="player.lastresults" data-js-navigate></a>
     </div>
  
   </div>
@@ -19291,11 +21934,20 @@ else if (game.status === "created") game.status = i18n.t('game.created');
     </div>
 
     <div class="club_error label label-error hide"></div>
-
-  </div>
-  
+    
+    <!-- 
+    <div class="account">
+      <span id="getPhoto" class="button" data-i18n="player.getphoto"></span>
+    </div> 
+    <img id="smallImage" src="" />
+    -->
+     
+  <!-- 
   <div style="padding:20px"></div>
-  
+  -->
+ 
+  </div>
+    
 </div>
 
  
@@ -19478,49 +22130,22 @@ if (player.error!==undefined)
         }
         %>
       </div>
-      <div class="ui-block-b">
-         
-      </div>
 
-      <!-- 
-      <div class="ui-block-a">
-        <label class="form-label" data-i18n="search.gamefollowed"></label>
-        </div>
-      <div class="ui-block-b">
-        <input id="searchgamefollowed" type="checkbox" name="searchgamefollowed" value="" />         
-      </div> 
-      <div class="ui-block-a">
-        <a href="#games/follow" data-i18n="search.infogamefollowed" data-js-navigate></a>   
-      </div>
-      <div class="ui-block-b">             
-      </div>      
-       -->
-       
-             
-      <!--
-      <div class="ui-block-a">
-        <label class="form-label" data-i18n="search.clubfollowed"></label> 
-        </div>
-      <div class="ui-block-b">
-          <input type="checkbox" name="searchclubfollowed" value="">         
-      </div>  
-      <div class="ui-block-a">
-      <span data-i18n="search.infoclubfollowed"></span>
-      </div>
-      -->
-            
       <!-- 
       <div class="ui-block-a">
         <label class="form-label" data-i18n="search.playerfollowed"></label>
         </div>
-      <div class="ui-block-b">
-          <input type="checkbox" name="searchplayerfollowed" value="">         
+      <div class="ui-block-b" id="searchplayerfollowed">
+          <span role="checkbox"/>    
       </div>    
       <div class="ui-block-a">
-      <span data-i18n="search.infoplayerfollowed"></span>      
-      </div>   
-      
-       -->
+        <div class="label label-info">
+          <span data-i18n="search.priorityplayerfollowed"></span>
+        </div>
+      </div> 
+      -->
+
+     
               
     </div> 
     </div>

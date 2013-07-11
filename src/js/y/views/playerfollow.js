@@ -60,8 +60,6 @@ Y.Views.PlayerFollow = Y.View.extend({
 			var player = new PlayerModel({id : playerid});	        
 	        player.once("sync", this.syncPlayer, this);
 	        
-	        console.log('player.fetch()',player.fetch());
-	        
 	        player.fetch().fail(function (xhrResult, error) {	        
 
 	        	if (players.indexOf(playerid) !== -1) {

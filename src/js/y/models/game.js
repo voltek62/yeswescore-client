@@ -126,6 +126,7 @@ var GameModel = Backbone.Model.extend({
      _.forEach(
       ['subtype', 'sets', 'score', 'court', 'surface',
        'tour', 'country', 'startTeam'] , function (k) {
+<<<<<<< HEAD
        if (typeof this.get('infos')[k] !== "undefined")
          object.infos[k] = this.get('infos')[k];
       }, this);
@@ -133,6 +134,15 @@ var GameModel = Backbone.Model.extend({
     if (typeof this.get('infos').official === "boolean")
       object.infos.official = this.get('infos').official;
 
+=======
+	     if (typeof this.get('infos')[k] !== "undefined")
+	       object.infos[k] = this.get('infos')[k];
+	   }, this);
+	 
+     if (typeof this.get('infos').official === "boolean") 	 
+	   object.infos.official = this.get('infos').official; 
+     
+>>>>>>> b92520af4b5f5f4c1f90e65bad172c9dfa30224d
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 

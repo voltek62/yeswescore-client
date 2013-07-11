@@ -10,7 +10,9 @@ Y.Views.GameForm = Y.View.extend({
     'click #deleteMatch': 'deleteGame',    
     'mousedown .button':'updateGame',
     'keyup #club': 'updateList',
-    'click #club_choice' : 'displayClub'
+    'click #club_choice' : 'displayClub',
+    'focus .nativedatepicker' : 'nativeDate',
+    'focus .nativetimepicker' : 'nativeTime'
   },
   
   listview:"#suggestions",
@@ -27,12 +29,14 @@ Y.Views.GameForm = Y.View.extend({
     //no search
     this.useSearch=0;
     
-    this.templates = {
-      gameform:  Y.Templates.get('gameForm'),
-      gameselect:  Y.Templates.get('gameSelect'),	    
-      gameinput:  Y.Templates.get('gameInput'),	      
-      playerlist: Y.Templates.get('playerListAutoComplete')
-    };    
+    Y.GUI.addBlueBackground();
+    
+  	this.templates = {
+	    gameform:  Y.Templates.get('gameForm'),
+	    gameselect:  Y.Templates.get('gameSelect'),	    
+	    gameinput:  Y.Templates.get('gameInput'),	      
+	    playerlist: Y.Templates.get('playerListAutoComplete')
+	  };
     
     this.player = Y.User.getPlayer();
   
@@ -101,11 +105,57 @@ Y.Views.GameForm = Y.View.extend({
 
   renderAndSave: function () {
     this.render();
-    
-    console.log('renderAndSave',this.game.toJSON());
-    
+
     return this.game.save(null, {playerid: this.player.get('id'), token: this.player.get('token')});
   },
+  
+  
+  nativeDate: function (event) {
+ 	var currentField = $('#'+event.currentTarget.id);	
+    var myNewDate = Date.parse(currentField.val()) || new Date();
+    if(typeof myNewDate === "number"){ myNewDate = new Date (myNewDate); }
+    
+	if (window.plugins!==undefined) {
+    // Same handling for iPhone and Android
+      window.plugins.datePicker.show({
+        date : myNewDate,
+        mode : 'date', // date or time or blank for both
+        allowOldDates : false
+      }, function(returnDate) {
+        var dateExpected = Date.fromString(new Date(returnDate));
+        var month = dateExpected.getMonth() + 1;
+        var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
+        currentField.val(date);      
+              
+        // This fixes the problem you mention at the bottom of this script with it not working a second/third time around, because it is in focus.
+        currentField.blur();
+     });  
+   }
+  },
+  
+  nativeTime: function (event) {
+ 	var currentField = $('#'+event.currentTarget.id);	
+    var myNewTime = new Date();
+
+    var time = currentField.val();    
+    if (time.length>3) {    
+      myNewTime.setHours(time.substr(0, 2));
+      myNewTime.setMinutes(time.substr(3, 2));
+	}
+	
+    // Same handling for iPhone and Android
+	if (window.plugins!==undefined) {    
+      plugins.datePicker.show({
+        date : myNewTime,
+        mode : 'time', // date or time or blank for both
+        allowOldDates : true
+      }, function(returnDate) {
+        currentField.val(returnDate);
+        currentField.blur();
+      });
+    }  
+  },
+    
       
   updateGame: function (event) {
     // first, check the form.
@@ -114,6 +164,8 @@ Y.Views.GameForm = Y.View.extend({
       , rank1 = $("#rank1").val()
       , rank2 = $("#rank2").val()
       , ownedPlayer = null
+      , expectedDay = $('#expectedDay').val() 
+      , expectedHour = $('#expectedHour').val()      
       , that = this;
 
     if (this.isTeamEditable(0)) {
@@ -140,6 +192,16 @@ Y.Views.GameForm = Y.View.extend({
         return false;
       }
     }
+    
+    if (expectedDay.length < 1 && expectedHour.length > 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	      
+	  return false;	 
+	}
+
+	if (expectedDay.length > 1 && expectedHour.length < 1) {
+	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	    
+	  return false;	 
+	}
     
     // then, we save the player only if modified && owned.
     var promises = [];
@@ -184,23 +246,21 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
       
-
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
       var isGingerbread = /android 2\.3/i.test(userAgent);
       if (!isGingerbread) {
         this.game.get('infos').official = ($('#official').val() === "true")
       } else {
         this.game.get('infos').official = $("#official").prop('checked');
-      }  
-      
+      }
+
       var date = $('#expectedDay').val();
       var time = $('#expectedHour').val();   
           
       //on reforme la date 
-      if (date!=='' && time!=='') {	  
-          var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');    
-        this.game.get("dates").expected = datetime;      
-      }       
+      if (date!=='' && time!=='') {
+        this.game.get("dates").expected = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');
+      }
       
       if ($('#startTeam1').parent().hasClass("select"))
         this.game.get('infos').startTeam = 0;
@@ -321,6 +381,9 @@ Y.Views.GameForm = Y.View.extend({
   },
 
   onClose: function() {
+  	
+  	Y.GUI.delBlueBackground();
+  
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)
       this.clubs.off("sync", this.renderList,this);

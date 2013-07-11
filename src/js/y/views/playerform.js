@@ -36,8 +36,9 @@ Y.Views.PlayerForm = Y.View.extend({
     this.player.once("sync", this.renderPlayer, this);	
     this.player.fetch();
     
-    $('#content').addClass('blue-screen background');
-
+    //$('#content').addClass('blue-screen background');
+	Y.GUI.addBlueBackground();
+	
     // we render immediatly
     this.render();
   },
@@ -213,7 +214,7 @@ Y.Views.PlayerForm = Y.View.extend({
   getPhoto: function(){
   
   	Cordova.Camera.capturePhoto(function (img) {
-  	  //console.log("data:image/jpeg;base64,",img);  	  
+	  
       var src = "data:image/jpeg;base64," + img;
       $('#smallImage').attr("src", src);
       $('#smallImage').attr("width", "300");
@@ -228,7 +229,7 @@ Y.Views.PlayerForm = Y.View.extend({
   onClose: function(){
     this.undelegateEvents();
     
-    $('#content').removeClass('blue-screen background');
+    Y.GUI.delBlueBackground(); 
     
     this.player.off("sync", this.renderPlayer, this);	
     if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );

@@ -67,7 +67,7 @@ var GamesCollection = Backbone.Collection.extend({
       url += "status=created&";
            
 	
-	url += "sort=-dates.start";   
+	url += "sort=-dates.start,-dates.expected";   
      
     return url;
   },

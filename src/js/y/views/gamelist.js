@@ -28,6 +28,8 @@ Y.Views.GameList = Y.View.extend({
   clubid: "",
   
   button : true,
+  controlTimeout: null,
+  controlPlayer: false,
       
   myinitialize: function (param) {
   	
@@ -158,7 +160,12 @@ Y.Views.GameList = Y.View.extend({
 
     // second: read/create player
     var playerDeferred = $.Deferred();
-    this.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
+    
+    this.controlTimeout = window.setTimeout(function () {
+      if (that.controlPlayer == false) that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
+      that.controlTimeout = null;
+    }, 10000);    
+    
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
@@ -176,6 +183,7 @@ Y.Views.GameList = Y.View.extend({
 	  document.addEventListener("resume", that.onResume, true);
       
       playerDeferred.resolve();
+      that.controlPlayer=true;
     });
 
     // FIXME: handling error with deferreds
@@ -409,6 +417,11 @@ Y.Views.GameList = Y.View.extend({
     if (this.button===false) { 
 	    this.games.removeSearch('me');	
 	}
+	
+    if (this.controlTimeout) {
+      window.clearTimeout(this.controlTimeout);
+      this.controlTimeout = null;
+    }	
 	
 	document.removeEventListener("resume", this.onResume, true);
     

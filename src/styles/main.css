@@ -248,7 +248,7 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 	left: 0px;
 	width: 100%;
 	height: 44px;
-	z-index: 50; /* above content z-index=5 */
+	/*z-index: 50;*/ /* above content z-index=5 */
 	color: #FFF;
 	background-color: #19171c;
 	border-bottom: 1px solid #535154;
@@ -671,7 +671,6 @@ ul>li.player>a {
 }
 
 .content-container {
-	padding-top: 44px; /* #header */
 	padding-bottom: 42px; /* #navbar */
 	padding-left: 10px;
 	padding-right: 10px;
@@ -680,6 +679,10 @@ ul>li.player>a {
 	box-sizing: border-box;
 }
 
+.fixed .content-container {
+	padding-top: 44px;
+}	
+	
 #content>.background {
 	position: absolute;
 	width: 100%;

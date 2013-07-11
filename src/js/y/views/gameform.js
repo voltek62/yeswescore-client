@@ -199,7 +199,6 @@ Y.Views.GameForm = Y.View.extend({
       this.game.get('infos').surface = $('#surface').val();
       this.game.get('infos').tour = $('#tour').val();
       
-
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 	  var isGingerbread = /android 2\.3/i.test(userAgent);
 	  if (!isGingerbread) {     
@@ -212,7 +211,6 @@ Y.Views.GameForm = Y.View.extend({
         this.game.get('infos').official = $("#official").prop('checked');
       }  
 
-        
 	  var date = $('#expectedDay').val();
 	  var time = $('#expectedHour').val();   
 	      
@@ -268,16 +266,18 @@ Y.Views.GameForm = Y.View.extend({
 	  , surface : i18n.t('gameadd.surface')
     }));
     
+    
    	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 	  var isGingerbread = /android 2\.3/i.test(userAgent);
-	  if (!isGingerbread) {
+	  if (!isGingerbread) {  
 		  $('#inject-select').prepend(this.templates.gameselect({ 
 		    selection : i18n.t('gameadd.selection')
 		  , surface : i18n.t('gameadd.surface')
 	    }));
-    } else {
-      $('#inject-select').prepend(this.templates.gameinput());
-    }
+      } 
+      else {
+        $('#inject-select').prepend(this.templates.gameinput());
+     }
   
     if (game.teams[0].id === game.infos.startTeam) {
 	    $('#startTeam1').parent().addClass("select");

@@ -280,13 +280,15 @@ Y.Views.GameAdd = Y.View.extend({
 	 var isGingerbread = /android 2\.3/i.test(userAgent);
 	 
 	 if (!isGingerbread) {
+
 		 $('#inject-select').prepend(this.templates.gameselect({ 
 		    selection : i18n.t('gameadd.selection')
 		    , surface : i18n.t('gameadd.surface')
 	     })); 
+	    
 	 }
 	 else {
-		 $('#inject-select').prepend(this.templates.gameinput());
+		$('#inject-select').prepend(this.templates.gameinput());
 	 }
          
     //fill with last data 

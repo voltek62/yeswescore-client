@@ -252,7 +252,7 @@ body.wizard #navbar {
 }
 
 .wizard-bgcolor {
-  background-color: #45b1db;/*#f2734c;*/
+  background-color: #45b1db;/*vert=#41c68f;/*bleu=#45b1db;/*orange=#f2734c;*/
 }
 
 #wizard .top {
@@ -302,6 +302,7 @@ body.wizard #navbar {
   left: 10%;
   width: 80%;
   border-radius: 10px;
+  border: 1px solid #E0E0E0;
   
   padding: 10px;
   
@@ -319,18 +320,21 @@ body.wizard #navbar {
   font-family: 'Open Sans', sans-serif;
 	font-weight: bolder;
 	font-size: 18px;
+  margin-top: 0;
 }
 
 #wizard .step h2 {
   font-family: 'Open Sans', sans-serif;
 	font-weight: bolder;
 	font-size: 15px;
+  margin-top: 0;
 }
 
 #wizard .step p {
   font-family: 'Open Sans', sans-serif;
 	font-weight: normal;
 	font-size: 12px;
+  margin-top: 0;
 }
 
 #wizard .step .button {

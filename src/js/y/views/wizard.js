@@ -23,6 +23,9 @@ Y.Views.Wizard = Y.View.extend({
     STARTED: "STARTED"
   },
 
+  // loosing substep while stopping / restart the app.
+  substepIndex: 0,
+
   initialize: function () {
     // ensure this.steps is correct
     assert(_.isArray(this.steps));
@@ -155,13 +158,59 @@ Y.Views.Wizard = Y.View.extend({
     $("body").addClass("wizard");
   },
 
-  /***** mutualized functions ******/
-  displayMessage: function () {
+  /***** SUBSTEPS ******/
+  initializeSubsteps: function (substepsFuncs) {
+    this.substepIndex = 0;
+    this.substepFuncs = substepsFuncs;
+    $(".step .button.continue").click(_.bind(this.advance, this));
+    $(".step .button.skip").click(_.bind(this.stop, this));
+  },
 
+  startSubsteps: function (substepIndex) {
+    if (typeof substepIndex === "undefined")
+      substepIndex = this.substepIndex;
+    // hide all substeps
+    $('.step div[data-substep]').hide();
+    // show only the good one.
+    $('.step div[data-substep="'+substepIndex+'"]').show();
+    // maybe use a custom func
+    var f = this.substepFuncs[substepIndex];
+    if (_.isFunction(f))
+      f.call(this, "start");
+  },
+
+  advanceSubsteps: function () {
+    // stop current substep
+    this.stopSubsteps(this.substepIndex);
+    // increment substep
+    this.substepIndex++;
+    // start next substep
+    this.startSubsteps(this.substepIndex);
+  },
+
+  stopSubsteps: function (substepIndex) {
+    if (typeof substepIndex === "undefined")
+      substepIndex = this.substepIndex;
+    // maybe use a func
+    var f = this.substepFuncs[substepIndex];
+    if (_.isFunction(f))
+      f.call(this, "stop");
+    // auto remove pastille
+    this.removePastille();
+    // hide all substeps
+    $('.step div[data-substep]').hide();
+  },
+
+  get$Pastille: function () {
+    return $('<div id="pastille" style="position:absolute;width:20px;height:20px;background-color:red;border-radius:10px;"></div>')
+  },
+
+  removePastille: function () {
+    $("#pastille").remove();
   },
 
   /****** STEPS *******/
-
+  
   /* demo step */
   welcome: function (status) {
     var template = Y.Templates.get('wizardWelcome');
@@ -184,16 +233,122 @@ Y.Views.Wizard = Y.View.extend({
     switch (status) {
       case "start":
         $(".step").html(template());
-        $(".step .button.continue").click(_.bind(this.advance, this));
-        $(".step .button.skip").click(_.bind(this.stop, this));
+        this.initializeSubsteps([
+          this.step2sub0,
+          this.step2sub1,
+          this.step2sub2,
+          this.step2sub3,
+          this.step2sub4,
+          this.step2sub5
+        ]);
+        this.startSubsteps();
         break;
       case "stop":
         // nothing.
+        this.stopSubsteps();
         break;
       default:
         assert(false);
     }
   },
+
+  // cliquer sur mon compte
+  step2sub0: function (status) {
+    if (status === "start") {
+      var pastille = this.get$Pastille();
+      pastille.css("top", "-10px");
+      pastille.css("left", "-10px");
+      $('#navbar a[href="#account"]').append(pastille);
+      $('#navbar a[href="#account"]').one("click", _.bind(function () {
+        Y.Router.once("pageChanged", this.advanceSubsteps, this);
+      }, this));
+    } else {
+      // nothing yet
+    }
+  },
+
+  // cliquer sur mon profil
+  step2sub1: function (status) {
+    if (status === "start") {
+      var pastille = this.get$Pastille();
+      pastille.css("position", "relative");
+      pastille.css("top", "-40px");
+      pastille.css("left", "40px");
+      $('#content a[href="#players/form"]').append(pastille);
+      $('#content a[href="#players/form"]').one("click", _.bind(function () {
+        Y.Router.once("pageChanged", function () {
+          Y.Router.currentView.on("playerRendered", this.advanceSubsteps, this);
+        }, this);
+      }, this));
+    } else {
+      // nothing yet
+    }
+  },
+
+  // remplir le nom
+  step2sub2: function (status) {
+    if (status === "start") {
+      var pastille = this.get$Pastille();
+      pastille.css("position", "absolute");
+      pastille.css("right", "40px");
+      pastille.css("top", "70px");
+      $('#name').parent().append(pastille);
+      $('#name').one("click", _.bind(function () {
+        this.advanceSubsteps();
+      }, this));
+    } else {
+      // nothing yet
+    }
+  },
+
+  // remplir le classement
+  step2sub3: function (status) {
+    if (status === "start") {
+      var pastille = this.get$Pastille();
+      pastille.css("position", "absolute");
+      pastille.css("right", "40px");
+      pastille.css("top", "120px");
+      $('#rank').parent().append(pastille);
+      $('#rank').one("click", _.bind(function () {
+        this.advanceSubsteps();
+      }, this));
+    } else {
+      // nothing yet
+    }
+  },
+
+  // remplir le club
+  step2sub4: function (status) {
+    if (status === "start") {
+      var pastille = this.get$Pastille();
+      pastille.css("position", "absolute");
+      pastille.css("right", "40px");
+      pastille.css("top", "170px");
+      $('#club').parent().append(pastille);
+      $('#club').one("click", _.bind(function () {
+        this.advanceSubsteps();
+      }, this));
+    } else {
+      // nothing yet
+    }
+  },
+
+  // cliquer sur enregistrer
+  step2sub5: function (status) {
+    if (status === "start") {
+      var pastille = this.get$Pastille();
+      pastille.css("position", "absolute");
+      pastille.css("left", "45%");
+      pastille.css("top", "-10px");
+      $('#savePlayer').append(pastille);
+      $('#savePlayer').one("mousedown", _.bind(function () {
+        this.advanceSubsteps();
+      }, this));
+    } else {
+      // nothing yet
+    }
+  },
+
   step3: function (status) {
     var template = Y.Templates.get('wizardStep3');
     switch (status) {

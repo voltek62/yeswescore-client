@@ -37,7 +37,7 @@ Y.Views.PlayerForm = Y.View.extend({
     this.player.fetch();
     
     //$('#content').addClass('blue-screen background');
-	Y.GUI.addBlueBackground();
+	  Y.GUI.addBlueBackground();
 	
     // we render immediatly
     this.render();
@@ -206,7 +206,9 @@ Y.Views.PlayerForm = Y.View.extend({
 
     this.$(".container").addClass(this.mode);
 
-	this.$el.i18n();
+	  this.$el.i18n();
+
+    this.trigger('playerRendered');
 
     return this;
   },

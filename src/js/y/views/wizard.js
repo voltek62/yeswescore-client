@@ -102,8 +102,12 @@ Y.Views.Wizard = Y.View.extend({
     return this.stepIndex > 0;
   },
 
-  getAchievement: function () {
-    return 100 * this.stepIndex / this.stepCount;
+  getAchievement: function (stepIndex, substep) {
+    stepIndex = stepIndex || this.stepIndex;
+    var substepAchievement = 0;
+    if (substep)
+      substepAchievement = (1 / this.stepCount) * (this.substepIndex / this.substepCount);
+    return Math.round(100 * ((stepIndex / this.stepCount) + substepAchievement));
   },
 
   saveStatus: function () {
@@ -137,17 +141,18 @@ Y.Views.Wizard = Y.View.extend({
     } else {
       nextStepIndex = this.stepIndex;
     }
+    var that = this;
     nextStep = this[this.steps[nextStepIndex].id];
-    // display achievement
-    var achievement = '';
-    for (var i = 0; i < this.steps.length - 1; ++i)
-      if (i < nextStepIndex)
-        achievement += ' ☑';
-      else
-        achievement += ' ☐';
-    this.$(".achievement").html(achievement);
-    // launch the next step.
-    nextStep.call(this, "start");
+
+    // launch the next step, with a little delay, so this.stepIndex is updated.
+    setTimeout(function () {
+      that.renderAchievement();
+      nextStep.call(that, "start");
+    }, 10);
+  },
+
+  renderAchievement: function (substep) {
+    $(".achievement").css("width", this.getAchievement(this.stepIndex, substep)+'%');
   },
 
   hideOverlay: function () {
@@ -161,6 +166,7 @@ Y.Views.Wizard = Y.View.extend({
   /***** SUBSTEPS ******/
   initializeSubsteps: function (substepsFuncs) {
     this.substepIndex = 0;
+    this.substepCount = $('.step div[data-substep]').length;
     this.substepFuncs = substepsFuncs;
     $(".step .button.continue").click(_.bind(this.advance, this));
     $(".step .button.skip").click(_.bind(this.stop, this));
@@ -255,6 +261,7 @@ Y.Views.Wizard = Y.View.extend({
   // cliquer sur mon compte
   step2sub0: function (status) {
     if (status === "start") {
+      this.renderAchievement(true);
       var pastille = this.get$Pastille();
       pastille.css("top", "-10px");
       pastille.css("left", "-10px");
@@ -270,6 +277,7 @@ Y.Views.Wizard = Y.View.extend({
   // cliquer sur mon profil
   step2sub1: function (status) {
     if (status === "start") {
+      this.renderAchievement(true);
       var pastille = this.get$Pastille();
       pastille.css("position", "relative");
       pastille.css("top", "-40px");
@@ -288,6 +296,7 @@ Y.Views.Wizard = Y.View.extend({
   // remplir le nom
   step2sub2: function (status) {
     if (status === "start") {
+      this.renderAchievement(true);
       var pastille = this.get$Pastille();
       pastille.css("position", "absolute");
       pastille.css("right", "40px");
@@ -304,6 +313,7 @@ Y.Views.Wizard = Y.View.extend({
   // remplir le classement
   step2sub3: function (status) {
     if (status === "start") {
+      this.renderAchievement(true);
       var pastille = this.get$Pastille();
       pastille.css("position", "absolute");
       pastille.css("right", "40px");
@@ -320,6 +330,7 @@ Y.Views.Wizard = Y.View.extend({
   // remplir le club
   step2sub4: function (status) {
     if (status === "start") {
+      this.renderAchievement(true);
       var pastille = this.get$Pastille();
       pastille.css("position", "absolute");
       pastille.css("right", "40px");
@@ -336,6 +347,7 @@ Y.Views.Wizard = Y.View.extend({
   // cliquer sur enregistrer
   step2sub5: function (status) {
     if (status === "start") {
+      this.renderAchievement(true);
       var pastille = this.get$Pastille();
       pastille.css("position", "absolute");
       pastille.css("left", "45%");

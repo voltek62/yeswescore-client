@@ -287,6 +287,16 @@ body.wizard #navbar {
 
 #wizard .bottom .achievement {
   text-align: center;
+  height:10px;
+  background-color:green;
+  margin-top:5px;margin-left:3px;
+  
+  -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+  
+  width: 0%;
+  transition: width 2s;
 }
 #wizard .bottom .next,
 #wizard .bottom .stop {

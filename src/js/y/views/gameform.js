@@ -28,10 +28,7 @@ Y.Views.GameForm = Y.View.extend({
     
     //no search
     this.useSearch=0;
-    
-    Y.GUI.addBlueBackground();
-    Y.GUI.header.hide();    
-    
+
   	this.templates = {
 	    gameform:  Y.Templates.get('gameForm'),
 	    gameselect:  Y.Templates.get('gameSelect'),	    
@@ -45,6 +42,7 @@ Y.Views.GameForm = Y.View.extend({
 	this.game = new GameModel({id : this.id});  	                  
     this.game.on("sync", this.render,this);
     this.game.fetch();
+       
   },
   
   updateList: function (event) {
@@ -301,6 +299,8 @@ Y.Views.GameForm = Y.View.extend({
   
   //render the content into div of view
   render: function(){
+  
+    Y.GUI.addBlueBackground();  
     var game = this.game.toJSON();
 
     this.$el.html(this.templates.gameform({
@@ -378,7 +378,6 @@ Y.Views.GameForm = Y.View.extend({
   onClose: function() {
   	
   	Y.GUI.delBlueBackground();
-    Y.GUI.header.show();  	
   
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)

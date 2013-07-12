@@ -162,7 +162,7 @@ Y.Views.GameList = Y.View.extend({
     var playerDeferred = $.Deferred();
     
     this.controlTimeout = window.setTimeout(function () {
-      if (that.controlPlayer == false) that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
+      if (that.controlPlayer === false) that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
       that.controlTimeout = null;
     }, 10000);    
     

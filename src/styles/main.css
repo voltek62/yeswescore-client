@@ -542,9 +542,9 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 	font-family: Open Sans;
 	font-weight: bold;
 	font-size: 11px;
+	line-height: 16px;	
 	text-align: center;
 	text-overflow: ellipsis;
-	padding-bottom:10px;
 }
 
 

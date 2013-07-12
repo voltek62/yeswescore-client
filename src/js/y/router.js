@@ -8,6 +8,8 @@
 
     currentView: null,
 
+    locked: false,
+
     routes: {
       '': 'gameList',
       'index': 'gameList',
@@ -170,6 +172,14 @@
       this.changePage(this.createViewFactory(Y.Views.PlayerForget));
     },
 
+    lock: function () {
+      this.locked = true;
+    },
+
+    unlock: function () {
+      this.locked = false;
+    },
+
     /*
     * you can change page passing a function:
     *    this.changePage(function () { return new Y.Views.Account() });
@@ -178,6 +188,9 @@
     */
     changePage: function (viewFactory) {
       assert(typeof viewFactory === "function");
+
+      if (this.locked)
+        return; // navigation is locked.
 
       var previousPageName = "none"
         , previousPageHash = "none"

@@ -283,11 +283,13 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("top", "-40px");
       pastille.css("left", "40px");
       $('#content a[href="#players/form"]').append(pastille);
-      $('#content a[href="#players/form"]').one("click", _.bind(function () {
-        Y.Router.once("pageChanged", function () {
+      var onPageChanged = function (nextPageName, nextPageHash) {
+        if (nextPageName == "playerForm") {
+          Y.Router.off("pageChanged", onPageChanged, this); // self unregister
           Y.Router.currentView.on("playerRendered", this.advanceSubsteps, this);
-        }, this);
-      }, this));
+        }
+      };
+      Y.Router.on("pageChanged", onPageChanged, this);
     } else {
       // nothing yet
     }
@@ -303,10 +305,12 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("top", "70px");
       $('#name').parent().append(pastille);
       $('#name').one("click", _.bind(function () {
+        Y.Router.unlock();
         this.advanceSubsteps();
       }, this));
+      Y.Router.lock();
     } else {
-      // nothing yet
+      Y.Router.unlock();
     }
   },
 
@@ -320,10 +324,12 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("top", "120px");
       $('#rank').parent().append(pastille);
       $('#rank').one("click", _.bind(function () {
+        Y.Router.unlock();
         this.advanceSubsteps();
       }, this));
+      Y.Router.lock();
     } else {
-      // nothing yet
+      Y.Router.unlock();
     }
   },
 
@@ -337,10 +343,12 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("top", "170px");
       $('#club').parent().append(pastille);
       $('#club').one("click", _.bind(function () {
+        Y.Router.unlock();
         this.advanceSubsteps();
       }, this));
+      Y.Router.lock();
     } else {
-      // nothing yet
+      Y.Router.unlock();
     }
   },
 
@@ -354,10 +362,12 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("top", "-10px");
       $('#savePlayer').append(pastille);
       $('#savePlayer').one("mousedown", _.bind(function () {
+        Y.Router.unlock();
         this.advanceSubsteps();
       }, this));
+      Y.Router.lock();
     } else {
-      // nothing yet
+      Y.Router.unlock();
     }
   },
 

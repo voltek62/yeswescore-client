@@ -337,6 +337,8 @@ Y.Views.GameList = Y.View.extend({
       this.games.addSearch('player');   
       this.games.setQuery(q);
     }
+    else
+      this.games.removeSearch('player');
 
     this.games.fetch().done($.proxy(function () {    
     

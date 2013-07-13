@@ -24,7 +24,10 @@ public class zeScoreActivity extends DroidGap
         options.inProduction = false; //determines which app key to use
         
         UAirship.takeOff(this.getApplication(), options);
-        PushManager.enablePush();        
+        PushManager.enablePush();   
+        
+        String apid = PushManager.shared().getAPID();
+        System.out.println("My Application onCreate - App APID: " + apid);
     }
     
     

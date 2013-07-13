@@ -5,6 +5,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="C:/Google Drive/yeswescore-client/platforms/android/libs/cordova-2.7.0.jar"/>
-	<classpathentry kind="lib" path="C:/Google Drive/yeswescore-client/platforms/android/libs/Pushwoosh.jar"/>
+	<classpathentry kind="lib" path="C:/Google Drive/yeswescore-client/platforms/android/libs/urbanairship-lib-3.0.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

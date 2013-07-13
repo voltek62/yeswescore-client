@@ -4,6 +4,8 @@
     android:versionCode="6"
     android:versionName="3"
     android:windowSoftInputMode="adjustPan" >
+    
+	<uses-sdk android:minSdkVersion="8"  android:targetSdkVersion="17"/>
 
     <supports-screens
         android:anyDensity="true"
@@ -11,108 +13,77 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true" />
-	
-    <!-- 
-    <uses-permission android:name="android.permission.CAMERA" />
-	 -->
+
+<!--     <uses-permission android:name="android.permission.CAMERA" /> -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<!-- 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <!-- GCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-<<<<<<< HEAD
     <!-- Keeps the processor from sleeping when a message is received. -->
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-	 <!--
-  	Creates a custom permission so only this app can receive its messages.
- 
-    NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
-        where PACKAGE is the application's package name.
- 	-->		
-	<permission android:name="com.zenodus.client.html5.permission.C2D_MESSAGE" 
-	    		android:protectionLevel="signature" />
-	<uses-permission android:name="com.zenodus.client.html5.permission.C2D_MESSAGE" />    
-    
-	<!-- This app has permission to register and receive data message. -->
-	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-	
-=======
-	 -->
-	 
-    <uses-sdk android:minSdkVersion="8" />
-    
->>>>>>> alpha
+    <!-- This app has permission to register with GCM and receive message -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample" with your package name -->
+    <permission android:name="com.zenodus.client.html5.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.zenodus.client.html5.permission.C2D_MESSAGE" />
+
     <application
-        android:hardwareAccelerated="true"
         android:allowBackup="false"
-        android:icon="@drawable/icon"        
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity
-            android:name="zeScoreActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:name="com.zenodus.client.html5.zeScoreActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:label="@string/app_name">
-		    <intent-filter>
-		        <action android:name="com.zenodus.client.html5.MESSAGE"/>
-		        <category android:name="android.intent.category.DEFAULT"/>
-		    </intent-filter>            
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <!--
-        <activity android:name="com.plugin.GCM.PushHandlerActivity"/>
-		<receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
-		  <intent-filter>
-		    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-		    <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-		    <category android:name="com.zenodus.client.html5" />
-		  </intent-filter>
-		</receiver>
-		<service android:name="com.google.android.gcm.GCMIntentService" />
-		-->
-		
-		<activity android:name="com.arellomobile.android.push.PushWebview"/>
-		 
-		<activity android:name="com.arellomobile.android.push.MessageActivity"/>
-		 
-		<activity android:name="com.arellomobile.android.push.PushHandlerActivity"/>
-		 
-		<!--
-		  BroadcastReceiver that will receive intents from GCM
-		  services and handle them to the custom IntentService.
-		 
-		  The com.google.android.c2dm.permission.SEND permission is necessary
-		  so only GCM services can send data messages for the app.
-		-->
-		<receiver
-		        android:name="com.google.android.gcm.GCMBroadcastReceiver"
-		        android:permission="com.google.android.c2dm.permission.SEND">
-		    <intent-filter>
-		        <!-- Receives the actual messages. -->
-		        <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-		        <!-- Receives the registration id. -->
-		        <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-		        <category android:name="com.zenodus.client.html5"/>
-		    </intent-filter>
-		</receiver>
-		 
-		<!--
-		  Application-specific subclass of PushGCMIntentService that will
-		  handle received messages.
-		-->
-		<service android:name="com.arellomobile.android.push.PushGCMIntentService"/>		
-		
-    </application>
 
+
+        <!-- REQUIRED for Urban Airship GCM -->
+        <receiver android:name="com.urbanairship.CoreReceiver" />
+        <receiver
+            android:name="com.urbanairship.push.GCMPushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!-- MODIFICATION REQUIRED - Use your package name as the category -->
+                <category android:name="com.zenodus.client.html5" />
+            </intent-filter>
+            <!-- REQUIRED for detecting when the application is upgraded so it can request a new GCM ID -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.urbanairship.push.PushService" android:label="Push Notification Service" />
+        <service android:name="com.urbanairship.analytics.EventService" android:label="Event Service" />
+
+        <!-- This is required for persisting preferences related to push and location -->
+        <provider android:name="com.urbanairship.UrbanAirshipProvider"
+            android:authorities="com.zenodus.client.html5.urbanairship.provider"
+            android:exported="false"
+            android:multiprocess="true" />
+        <!-- END OF REQUIRED ITEMS -->        
+		 
+        <!-- OPTIONAL, if you want to receive push, push opened and registration completed intents -->
+        <!-- Replace the receiver below with your package and class name -->
+        <receiver android:name="com.zenodus.client.html5.IntentReceiver" />
+    </application>
 
 </manifest>

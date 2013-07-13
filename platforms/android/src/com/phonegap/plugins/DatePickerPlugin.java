@@ -111,11 +111,11 @@ public class DatePickerPlugin extends CordovaPlugin {
   }
 
   private final class DateSetListener implements OnDateSetListener {
-    private final DatePickerPlugin datePickerPlugin;
+    //private final DatePickerPlugin datePickerPlugin;
     private final CallbackContext callbackContext;
 
     private DateSetListener(DatePickerPlugin datePickerPlugin, CallbackContext callbackContext) {
-      this.datePickerPlugin = datePickerPlugin;
+      //this.datePickerPlugin = datePickerPlugin;
       this.callbackContext = callbackContext;
     }
 
@@ -129,11 +129,11 @@ public class DatePickerPlugin extends CordovaPlugin {
   }
 
   private final class TimeSetListener implements OnTimeSetListener {
-    private final DatePickerPlugin datePickerPlugin;
+    //private final DatePickerPlugin datePickerPlugin;
     private final CallbackContext callbackContext;
 
     private TimeSetListener(DatePickerPlugin datePickerPlugin, CallbackContext callbackContext) {
-      this.datePickerPlugin = datePickerPlugin;
+      //this.datePickerPlugin = datePickerPlugin;
       this.callbackContext = callbackContext;
     }
 

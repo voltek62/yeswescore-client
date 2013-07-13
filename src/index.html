@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="styles/main.css">
   <!-- Cordova is first -->
   <script type="text/javascript" src="js/vendor/cordova/cordova-2.4.0.js" data-grunt-included="false"></script>
+  <script type="text/javascript" src="js/vendor/cordova/plugins/datePickerPlugin.js"></script>    
   <!-- 3rd party libraries & configuration -->
   <script type="text/javascript" src="js/vendor/jquery/jquery-1.9.1.min.js"></script>
   <script type="text/javascript" src="js/vendor/jquery/i18next-1.6.0.min.js"></script>  
@@ -35,7 +36,6 @@
   <script type="text/javascript" src="js/vendor/backbone/backbone.touch.js"></script>
   <script type="text/javascript" src="js/vendor/backbone/backbone.poller.min.js"></script>
   <script type="text/javascript" src="js/vendor/date_iso8601_polyfill.js"></script>  
-  
   <!-- our libs -->
   <script type="text/javascript" src="js/mylib/helpers.js"></script>
   <script type="text/javascript" src="js/mylib/cordova.js"></script>
@@ -43,7 +43,7 @@
   <script type="text/javascript" src="js/mylib/cordova/geolocation.js"></script>
   <script type="text/javascript" src="js/mylib/cordova/file.js"></script>
   <script type="text/javascript" src="js/mylib/cordova/inappbrowser.js"></script>  
-
+  <script type="text/javascript" src="js/mylib/cordova/camera.js"></script>  
   <!-- our code -->
   <script type="text/javascript" src="js/y/y.js"></script>
   <script type="text/javascript" src="js/y/app.js"></script>
@@ -69,6 +69,7 @@
   <script type="text/javascript" src="js/y/collections/clubs.js"></script>
   <script type="text/javascript" src="js/y/collections/streams.js"></script>  
   <!-- Views -->
+  <script type="text/javascript" src="js/y/views/about.js"></script>
   <script type="text/javascript" src="js/y/views/account.js"></script>
   <script type="text/javascript" src="js/y/views/autocomplete.js"></script>
   <script type="text/javascript" src="js/y/views/club.js"></script>
@@ -84,6 +85,7 @@
   <script type="text/javascript" src="js/y/views/header.js"></script>
   <script type="text/javascript" src="js/y/views/index.js"></script>
   <script type="text/javascript" src="js/y/views/navbar.js"></script>
+  <script type="text/javascript" src="js/y/views/notificationlist.js"></script>  
   <script type="text/javascript" src="js/y/views/player.js"></script>
   <script type="text/javascript" src="js/y/views/playerfollow.js"></script>
   <script type="text/javascript" src="js/y/views/playerform.js"></script>
@@ -92,6 +94,7 @@
   <script type="text/javascript" src="js/y/views/playerforget.js"></script>
   <script type="text/javascript" src="js/y/views/index.js"></script>
   <script type="text/javascript" src="js/y/views/game.js"></script>
+  <script type="text/javascript" src="js/y/views/searchform.js"></script>  
   
   <!--
       Unit test hack
@@ -109,7 +112,7 @@
   <!-- #endif -->
 </head>
 <!-- default mode is: input mode off -->
-<body class="inputmodeoff offline">
+<body class="inputmodeoff">
   <!-- this is the header div at the top -->
   <div id="header">
     <div class="backButton"><div class="triangle"></div></div>
@@ -117,10 +120,12 @@
     <div class="title">CHARGEMENT...</div>
     <img class="connectionStatus" src="images/header-logo-on.png" alt="online/offline" width="23" height="17"  />
   </div>
-   
+
   <div id="content">     
     <!-- here is where you can add your panels -->
   </div> 
+
+  <div id="offline" data-i18n="home.connexionlost"></div>
         
   <!-- autocomplete view -->
   <div id="autocomplete"></div>
@@ -130,17 +135,17 @@
     <div>
       <div class="background rounded"></div>
       <div class="background trapeze"></div>
-      <a href="#games/list" style="padding-top:15px" data-i18n="nav.matchs">Matchs</a>
+      <a href="#games/list" style="padding-top:15px" data-i18n="nav.matchs"></a>
     </div><!--
  --><div>
       <div class="background rounded"></div>
       <div class="background trapeze"></div>
-      <a href="#games/add" style="padding-top:15px" data-i18n="nav.create">Creer</a>
+      <a href="#games/add" style="padding-top:15px" data-i18n="nav.create"></a>
     </div><!--
  --><div>
       <div class="background rounded"></div>
       <div class="background trapeze"></div>
-      <a href="#account" style="padding-top:8px;" data-i18n="nav.account">Mon compte</a>
+      <a href="#account" style="padding-top:8px;" data-i18n="nav.account"></a>
     </div>
   </div>
   <!-- @include dist/templates.html -->

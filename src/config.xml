@@ -6,24 +6,20 @@
 
     <preference
         name="phonegap-version"
-        value="2.3.0" />
+        value="2.4.0" />
 
-    <name>
-YesWeScore
-    </name>
+    <name>YesWeScore</name>
 
     <description>
 - Live score on Internet
 - Send your results to Facebook
 - Few different types of scoring plus custom option. 
-- Full scoreboard always visible
+- Full scoreboard always visible
     </description>
 
     <author
         email="support@yeswescore.com"
-        href="https://www.yeswescore.com" >
-ZENODUS
-    </author>
+        href="https://www.yeswescore.com" ZENODUS</author>
 
     <icon src="icon.png" />
 

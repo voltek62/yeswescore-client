@@ -2,7 +2,8 @@ Y.Views.PlayerFollow = Y.View.extend({
   el:"#content",
   
   events: {
-    "blur input#search-basic": "search",
+    "keyup input#search-basic": "searchOnKey",  
+    "blur input#search-basic": "searchOnBlur",
     "click li": "choosePlayer"    
   },
 
@@ -27,7 +28,9 @@ Y.Views.PlayerFollow = Y.View.extend({
 
     this.render();		
        
-    var players = Y.Conf.get("owner.players.followed");
+    //Y.Conf.get("owner.players.followed");   
+    var players = Y.User.getPlayer().get('following');  
+    this.myid = Y.User.getPlayer().get('id');
 
     if (players!==undefined) {
     	this.playerLast = players[players.length-1];
@@ -57,11 +60,14 @@ Y.Views.PlayerFollow = Y.View.extend({
 			var player = new PlayerModel({id : playerid});	        
 	        player.once("sync", this.syncPlayer, this);
 	        
-	        player.fetch().error(function (xhrResult, error) {	        
+	        player.fetch().fail(function (xhrResult, error) {	        
 
 	        	if (players.indexOf(playerid) !== -1) {
 		          players.splice(players.indexOf(playerid), 1);
-		          Y.Conf.set("owner.players.followed", players, { permanent: true });
+		          //On retire le joueur qui existe plus		          
+		          //Y.Conf.set("owner.players.followed", players, { permanent: true });
+		          var data = {id: that.myid, following: that.players };
+              	  Y.User.updatePlayer(data);
 		          
 		          if (players.length<1) {
 				   $(that.listview).html(that.templates.playerlist({players:[],query:' '}));
@@ -72,9 +78,8 @@ Y.Views.PlayerFollow = Y.View.extend({
 		            
 		          }
    
-		    });	        
-	        
-	        
+		    });	       
+
 	        this.players[index] = player;	
 	        				
 	    },this);
@@ -91,6 +96,19 @@ Y.Views.PlayerFollow = Y.View.extend({
       var route = elmt.currentTarget.id;
       Y.Router.navigate(route, {trigger: true}); 
     }	
+  },  
+  
+  searchOnKey: function (event) {
+    if(event.keyCode == 13){
+      // the user has pressed on ENTER
+      this.search();
+    }
+    return this;
+  },
+
+  searchOnBlur: function (event) {
+    this.search();
+    return this;
   },  
   
   search:function() {

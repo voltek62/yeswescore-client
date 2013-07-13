@@ -36,11 +36,11 @@
     </TargetFrameworkProfile>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>en-US</SupportedCultures>
+    <SupportedCultures>en-US%3bfr%3bfr-BE%3bfr-CA%3bfr-FR%3bfr-LU%3bfr-MC%3bfr-CH</SupportedCultures>
     <UICulture>en-US</UICulture>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>CordovaAppProj_$(Configuration)_$(Platform).xap</XapFilename>
+    <XapFilename>YesWeScoreAppProj_Release_AnyCPU.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>yeswescore.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
@@ -150,11 +150,21 @@
     <Content Include="Images\appbar.save.rest.png" />
     <Content Include="Images\appbar.stop.rest.png" />
     <Resource Include="www\images\ajax-loader.gif" />
+    <Content Include="Images\tile-200x200.png" />
+    <Content Include="Images\tile.png" />
     <Content Include="www\images\ajax-loader.png" />
+    <Content Include="www\images\ball.png" />
     <Content Include="www\images\bg.jpg" />
+    <Content Include="www\images\button-option-right.png" />
     <Content Include="www\images\calendar.png" />
+    <Content Include="www\images\checkbox_c.png" />
+    <Content Include="www\images\checkbox_nc.png" />
+    <Content Include="www\images\checkbox_nc_disabled.png" />
     <Content Include="www\images\chrono.png" />
     <Content Include="www\images\club-pic.jpg" />
+    <Content Include="www\images\delete.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="www\images\eye.png" />
     <Content Include="www\images\facebook.png" />
     <Content Include="www\images\header-logo-off.png" />
@@ -170,21 +180,18 @@
     <Content Include="www\images\header-logo-on.png" />
     <Content Include="www\images\house.png" />
     <Content Include="www\images\ico-magnifier-glass.jpg" />
-    <Content Include="www\images\icons-18-black.png" />
-    <Content Include="www\images\icons-18-white.png" />
-    <Content Include="www\images\icons-36-black.png" />
-    <Content Include="www\images\icons-36-white.png" />
-    <Content Include="www\images\index-club.png" />
-    <Content Include="www\images\index-match.png" />
-    <Content Include="www\images\index-player.png" />
+    <Content Include="www\images\info-player.png" />
     <Content Include="www\images\ko.png" />
+    <Content Include="www\images\logo-200x200.png" />
     <Content Include="www\images\ok.png" />
     <Content Include="www\images\people.png" />
     <Content Include="www\images\pixel.jpg" />
     <Content Include="www\images\pixel.png" />
     <Content Include="www\images\player-pic.jpg" />
     <Content Include="www\images\undo.png" />
-    <Content Include="www\index.html" />
+    <Content Include="www\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="cordova\debug.bat" />
     <None Include="cordova\emulate.bat" />
     <None Include="Properties\AppManifest.xml">
@@ -196,9 +203,16 @@
     <Content Include="www\locales\fr-FR\translation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="www\styles\webfonts\opensans-400.ttf" />
-    <None Include="www\styles\webfonts\opensans-700.ttf" />
-    <None Include="www\styles\webfonts\opensans-800.ttf" />
+    <Content Include="www\locales\fr\translation.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="www\styles\webfonts\opensans-400.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="www\styles\webfonts\opensans-700.ttf" />
+    <Content Include="www\styles\webfonts\opensans-800.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">

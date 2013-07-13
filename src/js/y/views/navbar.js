@@ -10,7 +10,6 @@ Y.Views.Navbar = Y.View.extend({
   initialize: function () {
     var that = this;
     Y.Router.on("pageChanged", function (page, fragment) {
-      //console.log("fragment",fragment);
       this.highlight(fragment);
     }, this);
   },

@@ -1,0 +1,74 @@
+<div class="gameAdd background"></div>
+<div class="gameAdd content-container">
+  <div class="">
+
+    <span class="success label label-info hide"></span>
+    
+    <div style="padding-top:10px;">
+    <span data-i18n="search.introform" class="label label-info"></span>    
+    </div>
+
+
+    <div class="search-grid">
+    <div class="ui-grid-a">
+    
+	  <div class="ui-block-a">
+        <label class="form-label" data-i18n="search.geo"></label>
+      </div>
+	  <div class="ui-block-b" id="searchgeo">
+        <span role="checkbox"/>         
+	  </div>
+      <div class="ui-block-a">
+        <div class="label label-info">
+          <span data-i18n="search.infogeo"></span> (<%= gps %>) <span data-i18n="search.zone"></span> : 50Km
+        </div>
+      </div>
+      
+          
+      <div class="ui-block-a">
+        <label class="form-label" data-i18n="search.myclub"></label> 
+        </div>
+      <div class="ui-block-b" id="searchmyclub">
+        <span role="checkbox"/>       
+      </div>
+      <div class="ui-block-a">
+        <!-- 
+        <a href="#players/form" data-i18n="search.infomyclub" class="info-myclub"></a>
+         -->
+         <% if (clubname==='') { %>
+        <div id="linkprofil" class="form-button-black-club" data-i18n="search.infomyclub"></div>
+        <% }
+        else 
+        {
+        %>
+        <div id="linkprofil" class="label label-info clickable"><%= clubname %></div>
+        <%
+        }
+        %>
+      </div>
+
+      <!-- 
+      <div class="ui-block-a">
+        <label class="form-label" data-i18n="search.playerfollowed"></label>
+        </div>
+      <div class="ui-block-b" id="searchplayerfollowed">
+          <span role="checkbox"/>    
+      </div>    
+      <div class="ui-block-a">
+        <div class="label label-info">
+          <span data-i18n="search.priorityplayerfollowed"></span>
+        </div>
+      </div> 
+      -->
+
+     
+              
+    </div> 
+    </div>
+    
+   
+
+  </div>
+</div>
+
+

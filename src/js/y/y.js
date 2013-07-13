@@ -46,20 +46,48 @@
           console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
           /*#endif*/
 
+          var that = this;
           // slow if answer is taking longer than 2sec.
           var timeoutid = window.setTimeout(function () { Y.Connection.setSpeed(Y.Connection.SPEED_SLOW); timeoutid = null; }, 2000);
-          // launching xhr.
-          var xhr = $.ajax(url, options);
-          // events.
-          xhr.always($.proxy(function () { this.trigger("request.end"); }, this));
-          xhr.always(function () {
-            if (timeoutid) {
-              window.clearTimeout(timeoutid);
-              Y.Connection.setSpeed(Y.Connection.SPEED_FAST);
-            }
-          });
-          this.trigger("request.start", xhr, url, options);
-          return xhr;
+          var timeoutid2 = window.setTimeout(function () {  that.trigger("request.end"); timeoutid2 = null; }, 10000);
+
+          // delaying result (fail / success) in dev environment
+          var d = $.Deferred();
+          var networkDelay = 10;
+          /*#ifdef DEV*/
+          networkDelay = 200;
+          /*#endif*/
+          window.setTimeout(function () {
+            // launching xhr.
+            var xhr = $.ajax(url, options);
+            // TRICKY: we send the event after 10ms
+            //  this might be risky, because the .done() code might not be
+            //  fully executed yet. But if we don't do this & there is JS exception
+            //  in any done handler => this event will never be executed
+            xhr.always(function () {
+              setTimeout(function () { that.trigger("request.end") }, 10);
+            });
+            // forwarding delayed result
+            xhr.done(function () {
+              var args = Array.prototype.slice.apply(arguments);
+              d.resolve.apply(d, args);
+            });
+            xhr.fail(function () {
+              var args = Array.prototype.slice.apply(arguments);
+              d.reject.apply(d, args);
+            });
+            xhr.always(function () {
+              if (timeoutid) {
+                window.clearTimeout(timeoutid);
+                Y.Connection.setSpeed(Y.Connection.SPEED_FAST);
+              }
+              if (timeoutid2) {
+                window.clearTimeout(timeoutid2);
+              }
+            });
+          }, networkDelay);
+          that.trigger("request.start", null, url, options); // FIXME: cannot now xhr because of delaying result.
+          return d;
       };
     },
 
@@ -91,11 +119,13 @@
                    if (err == "deprecated" || err == "network error")
                      return callback(err);
 
+                   $("a,#offline").i18n();
+
                    // init router
                    that.Router.initialize();
-                    /*#ifdef DEV*/
-    				console.log('router initialized');
-    				/*#endif*/
+                   /*#ifdef DEV*/
+                   console.log('router initialized');
+                   /*#endif*/
                    
                    // load the templates.
                    that.Templates.loadAsync(function () {

@@ -5,11 +5,12 @@
 
   var events = {
     // input mode
+    'blur input': 'inputModeOffDelayed', //Permet de cacher le textarea          
+     /*#ifndef IOS*/
     'click input': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur input': 'inputModeOffDelayed',
     'click textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur textarea': 'inputModeOffDelayed',
-
+    'blur textarea': 'inputModeOffDelayed', 
+    /*#endif*/
     // helpers
     'click *[data-js-call]': 'mycall',
     'click a[data-js-navigate]': 'navigate',
@@ -20,14 +21,15 @@
   };
 
   var View = Backbone.View.extend({
-  
     lastInput : null,
-  
+    
     initialize: function () {
       // before anything, linking the DOM to this view.
       this.el.view = this;
       // merging this.events with events.
       this.events = _.assign(events, this.events || {});
+      // might be usefull
+      this.unloaded = false;
       // proxy func call.
       return this.myinitialize.apply(this, arguments);
     },
@@ -59,10 +61,7 @@
     },
 
     inputModeOn: function (e) {
-
-      
       this.lastInput = document.activeElement.id;
-     
       this.clearInputModeOffDelayed();
       if ($(e.target).attr("data-autocomplete"))
         this.autocompleteStart(e);
@@ -126,6 +125,8 @@
     },
 
     close : function () {
+      this.undelegateEvents();
+      this.unloaded = true;
       this.inputModeOff();
       this.autocompleteStop();
       this.off();
@@ -166,8 +167,10 @@
       assert(typeof this[fetchFunctionName] === "function");
       this.autocompleteObj = new Y.Autocomplete();
       this.autocompleteObj.on("input.temporized", function (input) {
+        if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
         // fetching data for input
         this[fetchFunctionName](input, _.bind(function (err, data) {
+          if (this.unloaded || !this.autocompleteObj) return;  // prevent execution if unloaded.
           // FIXME: this function will not be disposed :(
           if (err)
             return this.autocompleteObj.trigger("fetched.error", err);

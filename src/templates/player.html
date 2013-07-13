@@ -14,11 +14,17 @@
      <%
      if (player.club !== undefined) 
      {
+       if (player.club.name !== '') {   
      %>
     <hr/>
     <b><label data-i18n="playerform.club"></label> :</b> <%= player.club.name %>
-    <br/><a href="#clubs/<%= player.club.id %>" data-i18n="player.more"></a>
+    <br/>
+    
+    <div class="account">
+      <a href="#clubs/<%= player.club.id %>" id="lastResult" data-js-navigate><%= player.club.name %></a>
+    </div>
     <%
+      }
     }
     %>
     <hr/>
@@ -26,7 +32,7 @@
     <br/>
     
     <div class="account">
-      <a href="#games/me/<%= player.id %>" id="lastResult" data-i18n="player.lastresults" data-js-navigate></a>
+      <a href="#games/player/<%= player.id %>" id="lastResult" data-i18n="player.lastresults" data-js-navigate></a>
     </div>
  
   </div>

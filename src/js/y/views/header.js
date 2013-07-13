@@ -2,11 +2,22 @@ Y.Views.Header = Y.View.extend({
   el: "#header",
 
   events: {
-    "click .backButton": "goBack"
+    "vclick .backButton": "goBack"
   },
 
   initialize: function () {
     this.startingLength = window.history.length;
+    
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	var isGingerbread = /android 2\.3/i.test(userAgent);
+	if (isGingerbread) {
+	  $('div#header').css('position','relative');	  	    
+	}
+	else {
+	  $('div#header').css('position','fixed'); 	
+	  $('div#header').css('z-index','50');
+	  $('div#content').addClass('fixed');	 	  
+	}
 
     // on s'abonne au router, pour detecter des changement de pages.
     var that = this;
@@ -56,6 +67,14 @@ Y.Views.Header = Y.View.extend({
     else
       this.showBack();
   },
+  
+  hide: function () { 
+    this.$el.hide();
+  },
+
+  show: function () { 
+    this.$el.show();
+  },  
 
   connectionStatus: (function () {
     var status = "connected";
@@ -113,7 +132,8 @@ Y.Views.Header = Y.View.extend({
         i++;
       } else {
         // off
-        i--;
+        if (i > 0)
+          i--;
       }
     };
   })()

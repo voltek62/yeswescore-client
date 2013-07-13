@@ -1,6 +1,5 @@
 module.exports = function (grunt) {
   // cordova version (used in cordova-2.4.0.js)
-  //var cordovaVersion = "2.5.0";
 
   // External tasks.
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -163,15 +162,21 @@ module.exports = function (grunt) {
         IOS: true,
         DEV: true
       },	  
+      iosBeta: {
+        IOS: true
+      },	
       wp8Alpha: {
         WP8: true,
         DEV: true
+      },	  
+      wp8Beta: {
+        WP8: true
       }
     }
   });
 
   var platforms = [ ["android","2.7.0"], 
-  					["ios","2.7.0"], 
+  					["ios","2.8.0"], 
   					["wp8","2.6.0"], 
   					["web","2.5.0"] ];
 

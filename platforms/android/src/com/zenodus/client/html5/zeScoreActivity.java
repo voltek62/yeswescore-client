@@ -67,6 +67,7 @@ public class zeScoreActivity extends DroidGap
 
         super.setIntegerProperty("splashscreen", R.drawable.splash);
         
+
         super.loadUrl(Config.getStartUrl(), 4000);
 	}
 
@@ -233,3 +234,6 @@ public class zeScoreActivity extends DroidGap
 
 	}
 }
+
+
+

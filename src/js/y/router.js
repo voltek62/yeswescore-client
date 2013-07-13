@@ -12,7 +12,9 @@
       '': 'gameList',
       'index': 'gameList',
       'sort/:id': 'gameList',
+      'search/form': 'searchForm',      
       'games/me/:id': 'gameMe',
+      'games/player/:id': 'gamePlayer',      
       'games/add': 'gameAdd',
       'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
@@ -21,11 +23,13 @@
       'games/list': 'gameList',  
       'games/:id/comments/': 'gameComment', 
       'games/:id': 'game', 
-      'games/': 'gameList',        
+      'games/': 'gameList',   
+      'notification': 'notificationList',              
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
-      'players/form/me': 'playerFormFirst',        
-      'players/form': 'playerForm',     
+      'players/form/me': 'playerFormFirst',
+      'players/form/search': 'playerFormSearch',                 
+      'players/form': 'playerForm',          
       'players/signin': 'playerSignin',
       'players/forget': 'playerForget',
       'players/follow': 'playerFollow',                                              
@@ -33,7 +37,8 @@
       'clubs/add': 'clubAdd',
       'clubs/follow': 'clubFollow',      
       'clubs/:id': 'club',
-      'account': 'account'
+      'account': 'account',
+      'about': 'about'
     },
 
     initialize: function (options) {
@@ -50,6 +55,10 @@
       return function () {
         return new view(params);
       };
+    },
+
+    about: function () {
+      this.changePage(this.createViewFactory(Y.Views.About));
     },
 
     account: function () {
@@ -85,6 +94,10 @@
       this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'me', id: id, sort: '' }));
     },
 
+    gamePlayer: function (id) {
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'player', id: id, sort: '' }));
+    },
+
     gameClub: function (id) {
       this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'club', id: id, sort: '' }));
     },    
@@ -109,6 +122,10 @@
       this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
     },    
 
+    searchForm: function () {
+      this.changePage(this.createViewFactory(Y.Views.SearchForm ));
+    }, 
+
     player: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
     },
@@ -127,6 +144,14 @@
     
     playerForm: function () {
       this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: ''}));
+    },
+
+    playerFormSearch: function () {
+      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
+    },
+
+    notificationList: function () {
+      this.changePage(this.createViewFactory(Y.Views.NotificationList));
     },
 
     playerList: function () {

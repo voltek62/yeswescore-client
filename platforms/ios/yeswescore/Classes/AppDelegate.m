@@ -27,8 +27,8 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
-#import "UAirship.h"
-#import "UAPush.h"
+//#import "UAirship.h"
+//#import "UAPush.h"
 
 #import <Cordova/CDVPlugin.h>
 
@@ -92,25 +92,27 @@
     [self.window makeKeyAndVisible];
     
     //Create Airship options directory and add the required UIApplication launchOptions
-    NSMutableDictionary *takeOffOptions = [NSMutableDictionary dictionary];
-    [takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
+    //NSMutableDictionary *takeOffOptions = [NSMutableDictionary dictionary];
+    //[takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
     
     // Call takeOff (which creates the UAirship singleton), passing in the launch options so the
     // library can properly record when the app i launched from a push notification. This call is
     // required.
     //
     // Populate AirshipConfig.plist with your app's info from https://go.urbanairship.com
-    [UAirship takeOff:takeOffOptions];
+    //[UAirship takeOff:takeOffOptions];
     
     // Register for notifications
+    /*
     [[UAPush shared]
      registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                          UIRemoteNotificationTypeSound |
                                          UIRemoteNotificationTypeAlert)];
+     */
 
     return YES;
 }
-
+/*
 - (void)applicationWillTerminate:(UIApplication *)application {
     [UAirship land];
 }
@@ -119,7 +121,7 @@
     // Updates the device token and registers the token with UA.
     [[UAPush shared] registerDeviceToken:deviceToken];
 }
-
+*/
 // this happens while we are running ( in the background, or from within our own app )
 // only valid if yeswescore-Info.plist specifies a protocol to handle
 - (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url

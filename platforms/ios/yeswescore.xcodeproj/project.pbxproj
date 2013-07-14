@@ -36,7 +36,6 @@
 		BF0826F61791F1BB003EEFCC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826F51791F1BB003EEFCC /* Security.framework */; };
 		BF0826F81791F1D9003EEFCC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826F71791F1D9003EEFCC /* libz.dylib */; };
 		BF0826FA1791F1ED003EEFCC /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826F91791F1ED003EEFCC /* CoreTelephony.framework */; };
-		BF0826FC1791F215003EEFCC /* libUAirship-1.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826FB1791F215003EEFCC /* libUAirship-1.4.0.a */; };
 		BF0826FE1791F301003EEFCC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826FD1791F301003EEFCC /* libsqlite3.dylib */; };
 		BF082702179203BB003EEFCC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF082701179203BB003EEFCC /* AirshipConfig.plist */; };
 		BF5607B01773780D003E7615 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5607AF1773780D003E7615 /* OpenAL.framework */; };
@@ -100,7 +99,6 @@
 		BF0826F51791F1BB003EEFCC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF0826F71791F1D9003EEFCC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF0826F91791F1ED003EEFCC /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		BF0826FB1791F215003EEFCC /* libUAirship-1.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-1.4.0.a"; path = "AirshipLib/libUAirship-1.4.0.a"; sourceTree = "<group>"; };
 		BF0826FD1791F301003EEFCC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		BF082701179203BB003EEFCC /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = AirshipConfig.plist; path = yeswescore/AirshipConfig.plist; sourceTree = SOURCE_ROOT; };
 		BF5607AF1773780D003E7615 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -118,7 +116,6 @@
 			files = (
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				BF0826FE1791F301003EEFCC /* libsqlite3.dylib in Frameworks */,
-				BF0826FC1791F215003EEFCC /* libUAirship-1.4.0.a in Frameworks */,
 				BF0826FA1791F1ED003EEFCC /* CoreTelephony.framework in Frameworks */,
 				BF0826F81791F1D9003EEFCC /* libz.dylib in Frameworks */,
 				BF0826F61791F1BB003EEFCC /* Security.framework in Frameworks */,
@@ -217,7 +214,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BF0826FB1791F215003EEFCC /* libUAirship-1.4.0.a */,
 				BF0826FD1791F301003EEFCC /* libsqlite3.dylib */,
 				BF0826F51791F1BB003EEFCC /* Security.framework */,
 				BF0826F71791F1D9003EEFCC /* libz.dylib */,
@@ -426,14 +422,10 @@
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
-					"\"$(SRCROOT)/AirshipLib\"/**",
 				);
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/AirshipLib\"/**",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = yeswescore;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -453,14 +445,10 @@
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
-					"\"$(SRCROOT)/AirshipLib\"",
 				);
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/AirshipLib\"/**",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = yeswescore;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -487,6 +475,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/AirshipLib\"/**";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
@@ -527,6 +516,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/AirshipLib\"/**";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,

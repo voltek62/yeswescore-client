@@ -10,7 +10,7 @@
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
 		301BF5B5109A6A2B0062928A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B4109A6A2B0062928A /* AddressBook.framework */; };
@@ -30,9 +30,16 @@
 		308D05371370CCF300D202BF /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D052E1370CCF300D202BF /* icon-72.png */; };
 		308D05381370CCF300D202BF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D052F1370CCF300D202BF /* icon.png */; };
 		308D05391370CCF300D202BF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D05301370CCF300D202BF /* icon@2x.png */; };
-		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FC414816E50CA1004E6F35 /* icon-72@2x.png */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
+		BF0826F61791F1BB003EEFCC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826F51791F1BB003EEFCC /* Security.framework */; };
+		BF0826F81791F1D9003EEFCC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826F71791F1D9003EEFCC /* libz.dylib */; };
+		BF0826FA1791F1ED003EEFCC /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826F91791F1ED003EEFCC /* CoreTelephony.framework */; };
+		BF0826FC1791F215003EEFCC /* libUAirship-1.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826FB1791F215003EEFCC /* libUAirship-1.4.0.a */; };
+		BF0826FE1791F301003EEFCC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826FD1791F301003EEFCC /* libsqlite3.dylib */; };
+		BF0827001791F3BD003EEFCC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF0826FF1791F3BD003EEFCC /* AirshipConfig.plist */; };
+		BF082702179203BB003EEFCC /* AirshipConfig.plist.sample in Resources */ = {isa = PBXBuildFile; fileRef = BF082701179203BB003EEFCC /* AirshipConfig.plist.sample */; };
 		BF5607B01773780D003E7615 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5607AF1773780D003E7615 /* OpenAL.framework */; };
 		BF5607B217737825003E7615 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5607B117737825003E7615 /* ImageIO.framework */; };
 		BF5607B51773B168003E7615 /* ico-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = BF5607B41773B168003E7615 /* ico-57x57.png */; };
@@ -91,6 +98,13 @@
 		32CA4F630368D1EE00C91783 /* yeswescore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "yeswescore-Prefix.pch"; sourceTree = "<group>"; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* yeswescore-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "yeswescore-Info.plist"; path = "../yeswescore-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		BF0826F51791F1BB003EEFCC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		BF0826F71791F1D9003EEFCC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		BF0826F91791F1ED003EEFCC /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		BF0826FB1791F215003EEFCC /* libUAirship-1.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-1.4.0.a"; path = "AirshipLib/libUAirship-1.4.0.a"; sourceTree = "<group>"; };
+		BF0826FD1791F301003EEFCC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		BF0826FF1791F3BD003EEFCC /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
+		BF082701179203BB003EEFCC /* AirshipConfig.plist.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AirshipConfig.plist.sample; path = yeswescore/AirshipConfig.plist.sample; sourceTree = SOURCE_ROOT; };
 		BF5607AF1773780D003E7615 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		BF5607B117737825003E7615 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		BF5607B41773B168003E7615 /* ico-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-57x57.png"; sourceTree = "<group>"; };
@@ -104,12 +118,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				BF0826FE1791F301003EEFCC /* libsqlite3.dylib in Frameworks */,
+				BF0826FC1791F215003EEFCC /* libUAirship-1.4.0.a in Frameworks */,
+				BF0826FA1791F1ED003EEFCC /* CoreTelephony.framework in Frameworks */,
+				BF0826F81791F1D9003EEFCC /* libz.dylib in Frameworks */,
+				BF0826F61791F1BB003EEFCC /* Security.framework in Frameworks */,
 				BF5607B217737825003E7615 /* ImageIO.framework in Frameworks */,
 				BF5607B01773780D003E7615 /* OpenAL.framework in Frameworks */,
 				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				301BF5B5109A6A2B0062928A /* AddressBook.framework in Frameworks */,
 				301BF5B7109A6A2B0062928A /* AddressBookUI.framework in Frameworks */,
@@ -191,6 +210,8 @@
 				308D052D1370CCF300D202BF /* icons */,
 				308D05311370CCF300D202BF /* splash */,
 				8D1107310486CEB800E47090 /* yeswescore-Info.plist */,
+				BF082701179203BB003EEFCC /* AirshipConfig.plist.sample */,
+				BF0826FF1791F3BD003EEFCC /* AirshipConfig.plist */,
 			);
 			name = Resources;
 			path = yeswescore/Resources;
@@ -199,6 +220,11 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF0826FB1791F215003EEFCC /* libUAirship-1.4.0.a */,
+				BF0826FD1791F301003EEFCC /* libsqlite3.dylib */,
+				BF0826F51791F1BB003EEFCC /* Security.framework */,
+				BF0826F71791F1D9003EEFCC /* libz.dylib */,
+				BF0826F91791F1ED003EEFCC /* CoreTelephony.framework */,
 				BF5607B117737825003E7615 /* ImageIO.framework */,
 				BF5607AF1773780D003E7615 /* OpenAL.framework */,
 				5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */,
@@ -342,6 +368,8 @@
 				30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */,
 				BF5607B51773B168003E7615 /* ico-57x57.png in Resources */,
 				BF5607B71773B177003E7615 /* ico-114x114.png in Resources */,
+				BF0827001791F3BD003EEFCC /* AirshipConfig.plist in Resources */,
+				BF082702179203BB003EEFCC /* AirshipConfig.plist.sample in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,8 +426,18 @@
 				GCC_PREFIX_HEADER = "yeswescore/yeswescore-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/AirshipLib\"/**",
+					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
+					"\"$(OBJROOT)/UninstalledProducts/include\"",
+					"\"$(BUILT_PRODUCTS_DIR)\"",
+				);
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/AirshipLib\"",
+				);
 				PRODUCT_NAME = yeswescore;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -415,8 +453,18 @@
 				GCC_PREFIX_HEADER = "yeswescore/yeswescore-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/AirshipLib\"/**",
+					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
+					"\"$(OBJROOT)/UninstalledProducts/include\"",
+					"\"$(BUILT_PRODUCTS_DIR)\"",
+				);
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/AirshipLib\"",
+				);
 				PRODUCT_NAME = yeswescore;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

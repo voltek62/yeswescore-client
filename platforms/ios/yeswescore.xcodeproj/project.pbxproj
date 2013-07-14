@@ -38,8 +38,7 @@
 		BF0826FA1791F1ED003EEFCC /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826F91791F1ED003EEFCC /* CoreTelephony.framework */; };
 		BF0826FC1791F215003EEFCC /* libUAirship-1.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826FB1791F215003EEFCC /* libUAirship-1.4.0.a */; };
 		BF0826FE1791F301003EEFCC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0826FD1791F301003EEFCC /* libsqlite3.dylib */; };
-		BF0827001791F3BD003EEFCC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF0826FF1791F3BD003EEFCC /* AirshipConfig.plist */; };
-		BF082702179203BB003EEFCC /* AirshipConfig.plist.sample in Resources */ = {isa = PBXBuildFile; fileRef = BF082701179203BB003EEFCC /* AirshipConfig.plist.sample */; };
+		BF082702179203BB003EEFCC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF082701179203BB003EEFCC /* AirshipConfig.plist */; };
 		BF5607B01773780D003E7615 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5607AF1773780D003E7615 /* OpenAL.framework */; };
 		BF5607B217737825003E7615 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5607B117737825003E7615 /* ImageIO.framework */; };
 		BF5607B51773B168003E7615 /* ico-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = BF5607B41773B168003E7615 /* ico-57x57.png */; };
@@ -103,8 +102,7 @@
 		BF0826F91791F1ED003EEFCC /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		BF0826FB1791F215003EEFCC /* libUAirship-1.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-1.4.0.a"; path = "AirshipLib/libUAirship-1.4.0.a"; sourceTree = "<group>"; };
 		BF0826FD1791F301003EEFCC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		BF0826FF1791F3BD003EEFCC /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
-		BF082701179203BB003EEFCC /* AirshipConfig.plist.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AirshipConfig.plist.sample; path = yeswescore/AirshipConfig.plist.sample; sourceTree = SOURCE_ROOT; };
+		BF082701179203BB003EEFCC /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = AirshipConfig.plist; path = yeswescore/AirshipConfig.plist; sourceTree = SOURCE_ROOT; };
 		BF5607AF1773780D003E7615 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		BF5607B117737825003E7615 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		BF5607B41773B168003E7615 /* ico-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-57x57.png"; sourceTree = "<group>"; };
@@ -210,8 +208,7 @@
 				308D052D1370CCF300D202BF /* icons */,
 				308D05311370CCF300D202BF /* splash */,
 				8D1107310486CEB800E47090 /* yeswescore-Info.plist */,
-				BF082701179203BB003EEFCC /* AirshipConfig.plist.sample */,
-				BF0826FF1791F3BD003EEFCC /* AirshipConfig.plist */,
+				BF082701179203BB003EEFCC /* AirshipConfig.plist */,
 			);
 			name = Resources;
 			path = yeswescore/Resources;
@@ -368,8 +365,7 @@
 				30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */,
 				BF5607B51773B168003E7615 /* ico-57x57.png in Resources */,
 				BF5607B71773B177003E7615 /* ico-114x114.png in Resources */,
-				BF0827001791F3BD003EEFCC /* AirshipConfig.plist in Resources */,
-				BF082702179203BB003EEFCC /* AirshipConfig.plist.sample in Resources */,
+				BF082702179203BB003EEFCC /* AirshipConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,16 +423,16 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/AirshipLib\"/**",
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(SRCROOT)/AirshipLib\"/**",
 				);
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AirshipLib\"",
+					"\"$(SRCROOT)/AirshipLib\"/**",
 				);
 				PRODUCT_NAME = yeswescore;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -454,16 +450,16 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/AirshipLib\"/**",
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(SRCROOT)/AirshipLib\"",
 				);
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AirshipLib\"",
+					"\"$(SRCROOT)/AirshipLib\"/**",
 				);
 				PRODUCT_NAME = yeswescore;
 				TARGETED_DEVICE_FAMILY = 1;

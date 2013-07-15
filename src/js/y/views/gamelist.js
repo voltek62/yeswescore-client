@@ -322,8 +322,14 @@ Y.Views.GameList = Y.View.extend({
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
       }
-      else
-        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
+      else {
+      
+        var games_follow = Y.Conf.get("owner.games.followed");
+    	//$(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
+      
+        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: q }));
+        
+      }
     	
       $(this.listview).i18n();
     
@@ -334,6 +340,7 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
+  
     this.$el.html(this.templates.gamesearch({ button:this.button }));   
     //$('a').i18n(); 
     this.$el.i18n();   
@@ -374,7 +381,9 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   renderList: function () {
-    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: ' ' }));
+  
+    var games_follow = Y.Conf.get("owner.games.followed");
+    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
     $('p.message').i18n();
     return this;
   },

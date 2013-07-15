@@ -64,7 +64,9 @@
     <feature name="File">
         <param name="ios-package" value="CDVFile"/>
     </feature>
-            
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification"/>
+    </feature>
     <!--
     <plugin name="Camera" value="CDVCamera" />
     <plugin name="Notification" value="CDVNotification" />
@@ -80,6 +82,8 @@
     -->
             
     <!--  Deprecated plugins element. REmove in 3.0  -->
-    <plugins></plugins>
+    <plugins>
+        <plugin name="PushNotificationPlugin" value="PushNotificationPlugin" onload="true"/>
+    </plugins>
 
 </widget>

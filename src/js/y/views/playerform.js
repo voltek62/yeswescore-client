@@ -220,9 +220,11 @@ Y.Views.PlayerForm = Y.View.extend({
       $('#smallImage').attr("width", "300");
       $('#smallImage').attr("height", "167");     
       
+      /*
+      NORMAL
+      
       var client = new Dropbox.Client({key: 'ih29psalnsrenj6'});
-		
-	  
+
       // Try to finish OAuth authorization.
 	  client.authenticate({interactive: false}, function (error) {
 	    if (error) {
@@ -236,7 +238,38 @@ Y.Views.PlayerForm = Y.View.extend({
 	  }
 	  else
 	    console.log('dropbox not authentificated');
+	    */
+	    
+
+	  var client, miRoot, miRedirect;
+ 
+	client = new Dropbox.Client({key:  "CPbiY1p4kSA=|uQA4s0o8WrDKdH5jYx+w/3lzlHSXEBXDa8EWnUzkHQ==", sandbox: true });
+	client.authDriver(new Dropbox.Drivers.Cordova({rememberUser:true}));
+	//interactive: false -> oauth 2
+	//interactive: true -> not oauth
+	client.authenticate({interactive: true},function (error) {
+	    if (error) {
+		  console.log('Authentication error: ' + error);
+		}
+		client.getUserInfo(function(error, userInfo) {
+			if (error) {return console.log(error);};
+			console.log(" Hello! " + userInfo.name + "!");
+		});		
+		
+	  });    
       
+      
+      /*
+	 var appKey = { key: "ih29psalnsrenj6", secret: "yksvahx2lbnicig", sandbox: true };
+	var client = new Dropbox.Client(appKey);
+	client.authDriver(new Dropbox.Drivers.Redirect());
+	client.authenticate(function(error, data) {
+	    if (error) { return console.log(error); }
+	    //doSomethingUseful(client);  // The user is now authenticated.
+	    console.log('dropbox authentificated');
+	    
+	}); 
+	*/    
         	  
   	});
   

@@ -122,14 +122,7 @@
         // loading permanent keys
         //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
         Cordova.ready(function () {
-          //On active les pushs
-          Cordova.Push.registerEvent(function (data) {
-          	console.log("push init "+data);
-          });
-          Cordova.Push.pushEvent(function (data) {
-          	console.log("push on reçoit "+data);
-          });
-        
+       
           Cordova.File.read(filename, function (err, data) {
             if (err)
               return onKeysLoaded(err); // FIXME
@@ -150,6 +143,17 @@
           onKeysLoaded();
         });
       }
+      
+      Cordova.ready(function () {
+      //On active les pushs
+        Cordova.Push.registerEvent(function (data) {
+          console.log("push init "+data);
+        });
+        Cordova.Push.pushEvent(function (data) {
+          console.log("push on reçoit "+data);
+        });
+      });
+      
     },
 
 

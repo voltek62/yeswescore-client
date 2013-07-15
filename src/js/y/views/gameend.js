@@ -10,7 +10,7 @@ Y.Views.GameEnd = Y.View.extend({
   playerid: "",
   token: "",
       
-  initialize:function() {
+  myinitialize:function() {
   
     Y.GUI.header.title(i18n.t('gameend.title'));	    
   

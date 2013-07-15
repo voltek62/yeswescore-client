@@ -28,6 +28,8 @@ Y.Views.GameList = Y.View.extend({
   clubid: "",
   
   button : true,
+  controlTimeout: null,
+  controlPlayer: false,
       
   myinitialize: function (param) {
   	
@@ -35,14 +37,21 @@ Y.Views.GameList = Y.View.extend({
   	this.sortOption = Y.User.getFiltersSort();
 
   	this.clubid = Y.User.getClub();
-  	
+	this.player = Y.User.getPlayer();
+	 
+	      	
 	//header 
     if (param!=='undefined') { 
-      if (param.search==="me") {
+      if (param.search==="me") {          
         Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
         this.pageName = "gameListByMe";
         this.button=false;
       }
+      else if (param.search==="player") {
+        Y.GUI.header.title(i18n.t('gamelist.titleplayergames')); 
+        this.pageName = "gameListPlayer";
+        this.button=false;       
+      }        
       else if (param.search==="club") {
         Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
         this.pageName = "gameListByClub";        
@@ -59,7 +68,7 @@ Y.Views.GameList = Y.View.extend({
 	
     var that = this;
     //  
-    
+    this.onResume = function () { that.search(); };
     
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
@@ -87,11 +96,13 @@ Y.Views.GameList = Y.View.extend({
 
     if (param!==undefined) { 
 	    if (param.search === 'me') {
-	      this.games.addSearch('me');	
-	      this.player = Y.User.getPlayer();
-	      this.playerid = this.player.id;
-	      this.games.setQuery(this.playerid);	      
+	      this.games.addSearch('player');	
+	      this.games.setPlayer(this.player.id);		      
 	    }
+	    else if (param.search === 'player') {
+	      this.games.addSearch('player');	
+	      this.games.setPlayer(param.id);		        
+	    }	    
 	    else
 	      this.searchOption = Y.User.getFiltersSearch();     
      }
@@ -112,7 +123,7 @@ Y.Views.GameList = Y.View.extend({
           this.games.setClub(this.clubid);
         }
         else {
-          Y.User.removeSearch('searchmyclub');
+          this.games.removeSearch('searchmyclub');
           $('#searchmyclub').html('');        
         } 
         
@@ -125,7 +136,7 @@ Y.Views.GameList = Y.View.extend({
           this.games.addSearch('geo');  
         }
         else {
-          Y.User.removeSearch('searchgeo');
+          this.games.removeSearch('searchgeo');
           $('#searchgeo').html('');
         }
         
@@ -149,7 +160,12 @@ Y.Views.GameList = Y.View.extend({
 
     // second: read/create player
     var playerDeferred = $.Deferred();
-    this.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
+    
+    this.controlTimeout = window.setTimeout(function () {
+      if (that.controlPlayer === false) that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
+      that.controlTimeout = null;
+    }, 10000);    
+    
     Y.User.getPlayerAsync(function (err, player) {
       if (err) {
         // no player => creating player.
@@ -162,7 +178,12 @@ Y.Views.GameList = Y.View.extend({
         });
         return;
       }
+      
+
+	  document.addEventListener("resume", that.onResume, true);
+      
       playerDeferred.resolve();
+      that.controlPlayer=true;
     });
 
     // FIXME: handling error with deferreds
@@ -316,6 +337,8 @@ Y.Views.GameList = Y.View.extend({
       this.games.addSearch('player');   
       this.games.setQuery(q);
     }
+    else
+      this.games.removeSearch('player');
 
     this.games.fetch().done($.proxy(function () {    
     
@@ -325,9 +348,10 @@ Y.Views.GameList = Y.View.extend({
       else {
       
         var games_follow = Y.Conf.get("owner.games.followed");
+        var players_follow = Y.User.getPlayer().get('following');
     	//$(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
       
-        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: q }));
+        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: q }));
         
       }
     	
@@ -383,7 +407,9 @@ Y.Views.GameList = Y.View.extend({
   renderList: function () {
   
     var games_follow = Y.Conf.get("owner.games.followed");
-    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
+    var players_follow = Y.User.getPlayer().get('following');
+    
+    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: ' ' }));
     $('p.message').i18n();
     return this;
   },
@@ -393,6 +419,13 @@ Y.Views.GameList = Y.View.extend({
     if (this.button===false) { 
 	    this.games.removeSearch('me');	
 	}
+	
+    if (this.controlTimeout) {
+      window.clearTimeout(this.controlTimeout);
+      this.controlTimeout = null;
+    }	
+	
+	document.removeEventListener("resume", this.onResume, true);
     
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);

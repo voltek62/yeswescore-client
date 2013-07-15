@@ -242,12 +242,13 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 	header
 **********************************************************/
 #header {
-	position: fixed;
+	/*position:fixed;*/
+	/*position:absolute;*/
 	top: 0px;
 	left: 0px;
 	width: 100%;
 	height: 44px;
-	z-index: 50; /* above content z-index=5 */
+	/*z-index: 50;*/ /* above content z-index=5 */
 	color: #FFF;
 	background-color: #19171c;
 	border-bottom: 1px solid #535154;
@@ -493,40 +494,57 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 
 
 .button-follow-on {
-	width: 20px;
-	height: 20px;
-	/*background-image: url(images/follow-on.png);*/
+	width: 15px;
+	height: 15px;
+	background-image: url(images/follow-on.png);
 	/*#ifdef NOCORDOVA*/
-	/*background-image: url(/images/follow-on.png);*/
+	background-image: url(/images/follow-on.png);
 	/*#endif*/
 	background-size: 100%;
 	background-repeat: no-repeat;
-	cursor: pointer;
+	position: absolute;
+	right: 0px;
+	z-index: 1;
+	display: inline-block;
 }
 
 .button-follow-off {
-	width: 20px;
-	height: 20px;
-	/*background-image: url(images/follow-off.png);*/
+	width: 15px;
+	height: 15px;
+	background-image: url(images/follow-off.png);
 	/*#ifdef NOCORDOVA*/
-	/*background-image: url(/images/follow-off.png);*/
+	background-image: url(/images/follow-off.png);
 	/*#endif*/
 	background-size: 100%;
 	background-repeat: no-repeat;
-	cursor: pointer;
+	position: absolute;
+	right: 0px;
+	z-index: 1;
+	display: inline-block;
 }
 
 .button-count-comments {
 	width: 20px;
 	height: 20px;
-	/*background-image: url(images/count-comments.png);*/
+	background-image: url(images/count-comments.png);
 	/*#ifdef NOCORDOVA*/
-	/*background-image: url(/images/count-comments.png);*/
+	background-image: url(/images/count-comments.png);
 	/*#endif*/
 	background-size: 100%;
 	background-repeat: no-repeat;
 	cursor: pointer;
-	text-align: right;
+	position: absolute;
+	right: 0px;
+	text-align: center;
+	z-index: 1;
+	color: #000;
+	display: inline-block;
+	font-family: Open Sans;
+	font-weight: bold;
+	font-size: 11px;
+	line-height: 16px;	
+	text-align: center;
+	text-overflow: ellipsis;
 }
 
 
@@ -653,7 +671,6 @@ ul>li.player>a {
 }
 
 .content-container {
-	padding-top: 44px; /* #header */
 	padding-bottom: 42px; /* #navbar */
 	padding-left: 10px;
 	padding-right: 10px;
@@ -662,6 +679,10 @@ ul>li.player>a {
 	box-sizing: border-box;
 }
 
+.fixed .content-container {
+	padding-top: 44px;
+}	
+	
 #content>.background {
 	position: absolute;
 	width: 100%;
@@ -888,6 +909,7 @@ ul>li.player>a {
 }
 .form-radio-android input {
   clear:left;
+  
 }
 .form-radio-android label { 
   width:18px;
@@ -1791,6 +1813,31 @@ a[data-filter='match-followed'] {
 	box-sizing: border-box;
 }
 
+
+.account span.button {
+	display: block;
+	width: 100%;
+	height: 50px;
+	margin-top: 10px;
+	text-decoration: none;
+	text-transform: uppercase;
+	text-align: center;
+	font-family: Open Sans;
+	font-weight: 700;
+	line-height: 50px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: white;
+	background-color: #46b1db;
+	border-top: 1px solid #d0ebf6;
+	border-left: 1px solid #a3d7ed;
+	border-bottom: 1px solid #74c5e3;
+	border-right: 1px solid #74c5e3;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 .account a.buttonGrey {
 	background-color: #b0b0b0;
 	border: 1px solid #c0c0c0;
@@ -2096,6 +2143,16 @@ a[data-filter='match-followed'] {
 	background-repeat: no-repeat;	
 }
 
+.follow-ball {
+	width:25px;
+	height:25px;
+	background-image: url(images/follow-on.png);
+	/*#ifdef NOCORDOVA*/
+	background-image: url(/images/follow-on.png);
+	/*#endif*/	
+	background-size: 100%;
+	background-repeat: no-repeat;	
+}
 
 .scoreBoard .playerInfos .player-name {
 	display: block;

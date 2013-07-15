@@ -66,7 +66,7 @@ Y.Views.Game = Y.View.extend({
 
     // creating object game & stream (required by render)
     this.game = new GameModel({id : this.gameid});
-    this.streams = new StreamsCollection([], {gameid : this.gameid});
+    //this.streams = new StreamsCollection([], {gameid : this.gameid});
        
     // Rendering.
     // first: we render immediatly
@@ -79,8 +79,8 @@ Y.Views.Game = Y.View.extend({
     this.game.fetch();
 
     //
-    this.streams.once("sync", this.renderCountComment, this);
-    this.streams.fetch();
+    //this.streams.once("sync", this.renderCountComment, this);
+    //this.streams.fetch();
   },
 
   onGameInit: function () {
@@ -308,8 +308,10 @@ Y.Views.Game = Y.View.extend({
   },
   
   renderCountComment : function() {
-	  var nbComments = this.streams.length;
-
+	
+	//var nbComments = this.streams.length;
+	var nbComments = this.game.get('streamCommentsSize');
+	
     if (nbComments > Y.Conf.get("game.max.comments") )
       this.$(".link-comments").html(i18n.t('game.50lastcomments'));
     else if (nbComments == 1)
@@ -341,7 +343,8 @@ Y.Views.Game = Y.View.extend({
     }));
     
     this.renderScoreBoard(this.game);
-    if (this.streams)
+    
+    //if (this.streams)
       this.renderCountComment();
 	
 	  if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
@@ -433,6 +436,16 @@ Y.Views.Game = Y.View.extend({
 		    $('.server2').removeClass('server-ball');
 	    }
 	  }
+	  
+	  //TODO: Add star for playerfollowed
+	  var players_follow = Y.User.getPlayer().get('following');
+	  
+	  if (players_follow.indexOf(game.get('teams')[0].players[0].id) !== -1)
+	    $('.follow1').addClass('follow-ball');
+	  if (players_follow.indexOf(game.get('teams')[1].players[0].id) !== -1)	  
+	    $('.follow2').addClass('follow-ball');
+	 
+	  
     return this;
   },
 
@@ -529,7 +542,7 @@ Y.Views.Game = Y.View.extend({
     // desabonnements
     this.game.off("sync", this.onGameSynched, this);
     this.game.off("sync", this.onGameInit, this);
-    this.streams.off("sync", this.renderCountComment, this);
+    //this.streams.off("sync", this.renderCountComment, this);
     //
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);

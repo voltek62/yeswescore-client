@@ -31,9 +31,10 @@
         var templates = [
           "about", "account", 
           "clubAdd", "clubListAutoComplete", "club", "clubList","clubListSearch", 
-          "gameAdd", "gameComments","gameEnd", "gameListSearch", "gameList","gameSelect","gameInput",
+          "gameAdd", "gameComments","gameEnd", "gameListSearch", "gameList","gameSelect","gameDatePicker","gameDatePickerAndroid",
           "gameCommentsScore", "gameCommentsComment","gameScoreBoard", "game", "gameForm",
           "index", "empty", "error","ongoing",
+          "notification", "notificationList",
           "searchForm",
           "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList",
           "playerListSearch", "playerSignin",

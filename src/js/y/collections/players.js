@@ -11,13 +11,10 @@ var PlayersCollection = Backbone.Collection.extend({
 	},
 	  
   url:function() {
-    //console.log('url() : mode de Players',this.mode); 	
-    //console.log('url Players', Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query); 	
-          
     if (this.mode === 'club')
       return Y.Conf.get("api.url.players")+'?club='+this.query;
     else if (this.mode === 'search'  )
-      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query+'&limit=15';        
+      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query+'&fields=name,rank,club.name&limit=15';        
     else	
       return Y.Conf.get("api.url.players");
   },

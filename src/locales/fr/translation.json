@@ -60,6 +60,8 @@
     "options" : "Options match",
     "public" : "Public",
     "private" : "Privé",
+    "official" : "Officiel",
+    "notofficial" : "Amical",    
     "comments" : "COMMENTAIRES", 
     "50lastcomments" : "DERNIERS COMMENTAIRES",
     "10lastcomments" : "DERNIERS COMMENTAIRES",
@@ -77,7 +79,8 @@
   "gamelist": {
     "titleyourgames": "LISTE DE VOS MATCHS",
     "titleclubsgames": "LISTE DES MATCHS DU CLUB",
-    "titlegames": "LISTE DES MATCHS"           
+    "titlegames": "LISTE DES MATCHS",
+    "titleplayergames": "LISTE DES MATCHS DU JOUEUR"           
   },
   "gameadd": {
     "title": "CREER UNE PARTIE",
@@ -139,7 +142,9 @@
     "surface_tb":"Terre-battue - TB",
     "yes":"Oui",
     "no":"Non",
-    "submit" : "ENREGISTRER"        	                      
+    "submit" : "ENREGISTRER",  
+    "dateday" : "Date Prévu",
+    "datehour" : "Heure Prévu"          	                      
   },
   "gameclub": {
     "title": ""
@@ -194,7 +199,7 @@
     "error_emptyyou" : "Vous devez indiquer au moins un nom et un classement pour vous",    
     "error_deconnexion": "Erreur de deconnexion",
     "nofollowplayerok":"Vous ne suivez plus ce joueur",
-    "followplayerok":"Vous suivez ce joueur",
+    "followplayerok":"Vous suivez ce joueur",   
     "nofollowgameok":"Vous ne suivez plus ce match",
     "followgameok":"Vous suivez ce match",
     "nofollowclubok":"Vous ne suivez plus ce club",
@@ -214,12 +219,14 @@
     "bad_name":"Le nom peut contenir seulement des lettres et au moins 3 caractères",
     "bad_password":"Votre mot de passe contient des caractères interdits ( Autorisé : A-Z a-z 0-9 !@#$%^&*()_ ) ou il est inférieur à 6 caractères",
     "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",           
-    "bad_mail":"Votre mail est invalide"     
+    "bad_mail":"Votre mail est invalide",
+    "expected_error":"Merci de saisir une date ET une heure" 
   },
   "player": {
     "title": "JOUEUR",
     "more":"Plus d'infos",
-    "lastresults":"Derniers résultats"
+    "lastresults":"Derniers résultats",
+    "getphoto":"Prendre une photo"
   },    
   "playerforget": {
     "title": "MOT DE PASSE OUBLIE",
@@ -261,6 +268,11 @@
     "create": "Creer",
     "account": "Mon Compte"
   },
+  "notification": {
+    "title": "Notifications",
+    "noresult": "Aucun résultat",
+    "error": "Erreur"
+  },    
   "search": {
     "title": "RECHERCHE",
     "zone": "Zone",
@@ -295,7 +307,8 @@
  	"infomyclub": "Indiquer votre club",   
  	"infoclubfollowed": "Gérer les clubs suivis",   
  	"infogamefollowed": "Gérer les matchs suivis",   
- 	"infoplayerfollowed": "Gérer les joueurs suivis"         
+ 	"infoplayerfollowed": "Gérer les joueurs suivis",
+ 	"priorityplayerfollowed" : "Voir les joueurs suivis en priorité"         
   },
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

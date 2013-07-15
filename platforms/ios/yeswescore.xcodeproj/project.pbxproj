@@ -453,6 +453,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				IBC_OVERRIDING_PLUGINS_AND_FRAMEWORKS_DIR = "";
+				IBC_PLUGINS = "";
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
@@ -481,6 +482,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				IBC_OVERRIDING_PLUGINS_AND_FRAMEWORKS_DIR = "";
+				IBC_PLUGINS = "";
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (

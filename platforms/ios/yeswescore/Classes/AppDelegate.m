@@ -27,8 +27,6 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
-#import "UAirship.h"
-#import "UAPush.h"
 
 #import <Cordova/CDVPlugin.h>
 

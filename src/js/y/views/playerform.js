@@ -220,6 +220,22 @@ Y.Views.PlayerForm = Y.View.extend({
       $('#smallImage').attr("width", "300");
       $('#smallImage').attr("height", "167");     
       
+      var client = new Dropbox.Client({key: 'ih29psalnsrenj6'});
+		
+	  
+      // Try to finish OAuth authorization.
+	  client.authenticate({interactive: false}, function (error) {
+	    if (error) {
+		  alert('Authentication error: ' + error);
+		}
+	  });
+		
+	  if (client.isAuthenticated()) {
+	    // Client is authenticated. Display UI.
+	    console.log('dropbox authentificated');
+	  }
+	  else
+	    console.log('dropbox not authentificated');
       
         	  
   	});

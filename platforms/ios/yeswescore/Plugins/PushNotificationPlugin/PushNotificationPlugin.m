@@ -1,7 +1,7 @@
 #import "PushNotificationPlugin.h"
 #import "UAPush.h"
 #import "UAirship.h"
-#import "UAAnalytics.h"
+//#import "UAAnalytics.h"
 #import "UAAppDelegateSurrogate.h"
 #import "UALocationService.h"
 #import "UA_SBJsonWriter.h"

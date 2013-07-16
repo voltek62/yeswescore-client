@@ -18,7 +18,18 @@
         function Cordova_Camera_Error() {
           callback(null);
         },
-        { quality: 50, destinationType: navigator.camera.DestinationType.DATA_URL }
+        /*
+		Camera.DestinationType = {
+		    DATA_URL : 0,                // Return image as base64 encoded string
+		    FILE_URI : 1,                // Return image file URI
+		    NATIVE_URI : 2               // Return image native URI (eg. assets-library:// on iOS or content:// on Android)
+		};        
+        */
+        { quality: 50
+          , targetWidth: 100
+          , targetHeight: 100
+          , encodingType: navigator.camera.EncodingType.JPEG
+          , destinationType: navigator.camera.DestinationType.DATA_URL }
        );     
       },
       
@@ -36,7 +47,9 @@
         },
         //pictureSource.PHOTOLIBRARY
         //pictureSource.SAVEDPHOTOALBUM
-        { quality: 50, destinationType: navigator.camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
+        { quality: 50
+          , destinationType: navigator.camera.DestinationType.FILE_URI
+          , sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
        );     
       }
       

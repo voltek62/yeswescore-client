@@ -211,38 +211,39 @@ Y.Views.PlayerForm = Y.View.extend({
     return this;
   },
   
- 
-  createImage: function(src) {
-    var deferred = $.Deferred();
-    var img = new Image();
-
-    img.onload = function() {
-        deferred.resolve(img);
-    };
-    img.src = src;
-    return deferred.promise();
-  },
-  
     /*
      * Draw the image object on a new canvas and half the size of the canvas
      * until the darget size has been reached
      * Afterwards put the base64 data into the target image
      */
-    resize : function (image) {
-        mainCanvas = document.createElement("canvas");
-        mainCanvas.width = 50;
-        mainCanvas.height = 50;
-        var ctx = mainCanvas.getContext("2d");
-        
-        var img=document.getElementById("smallImage");
-        ctx.drawImage(img, 0, 0, mainCanvas.width, mainCanvas.height);
-		//ctx.drawImage(img,10,10);
-        
-        //size = 50;
-        //while (mainCanvas.width > size) {
-        //  mainCanvas = this.halfSize(mainCanvas);
-        //}
-        $('#resizedImage').attr('src', mainCanvas.toDataURL("image/jpeg"));
+    resize : function (src) {
+
+      var canvas = document.createElement('canvas');     
+      var context = canvas.getContext('2d');
+      var imageObj = new Image();
+
+      imageObj.src = src;
+      var that = this;
+      imageObj.onload = function() {
+	    // original image size:
+	    console.log('original width',imageObj.width);
+	    console.log('original height',imageObj.height); 
+	    canvas.width = imageObj.width;
+	    canvas.height = imageObj.height;
+	    context.drawImage(imageObj, 0, 0);
+	    
+	    //Fixe la taille limite
+	    size = 200;
+	    
+        while (canvas.width > size) {
+          canvas = that.halfSize(canvas);
+        }
+	    
+	    //On envoie 
+	    $('#resizedImage').attr('src', canvas.toDataURL('image/jpeg'));        
+      };
+      
+                
     },
 
     /*
@@ -263,31 +264,11 @@ Y.Views.PlayerForm = Y.View.extend({
   	Cordova.Camera.capturePhoto(function (img) {
 	  
 	  //"data:image/jpeg;base64," + 
-      var src = "data:image/jpeg;base64," + img;
-      $('#smallImage').attr("src", src);
-      $('#smallImage').attr("width", "100");  
-      $('#smallImage').attr("height", "56");      
+      var src = "data:image/jpeg;base64," +img;
+      //$('#smallImage').attr("src", src);
+      //$('#smallImage').attr("width", "500");  
+      //$('#smallImage').attr("height", "500");      
 	  that.resize(src);
-
-
-      var client = new Dropbox.Client({key: 'ih29psalnsrenj6'});
-
-      // Try to finish OAuth authorization.
-	  client.authenticate({interactive: false}, function (error) {
-	    if (error) {
-		  alert('Authentication error: ' + error);
-		}
-	  });
-		
-	  if (client.isAuthenticated()) {
-	    // Client is authenticated. Display UI.
-	    console.log('dropbox authentificated');
-	  }
-	  else
-	    console.log('dropbox not authentificated');
-	    
-	    
- 
         	  
   	});
   

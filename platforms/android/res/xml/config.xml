@@ -46,6 +46,7 @@
     <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser" />
     <plugin name="PushPlugin" value="com.plugin.GCM.PushPlugin" />
     <plugin name="DatePickerPlugin" value="com.phonegap.plugins.DatePickerPlugin"/>
+    <plugin name="PushNotificationPlugin" value="com.urbanairship.phonegap.plugins.PushNotificationPlugin" />    
 	</plugins>    
 
 </cordova>

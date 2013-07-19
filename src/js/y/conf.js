@@ -72,6 +72,7 @@
             this.set("api.url.auth.registered", apiBaseUrl + "/v2/auth/registered/");
             this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
             this.set("api.url.facebook.login", apiBaseUrl + "/v2/facebook/login/");
+            this.set("api.url.files", apiBaseUrl + "/v2/files/");
             this.set("api.url.games", apiBaseUrl + "/v2/games/");
             this.set("api.url.players", apiBaseUrl + "/v2/players/");
             this.set("api.url.clubs", apiBaseUrl + "/v2/clubs/");
@@ -92,6 +93,7 @@
             this.set("api.url.auth.registered", "http://api.yeswescore.com/v2/auth/registered/");
             this.set("api.url.bootstrap", "http://api.yeswescore.com/bootstrap/conf.json?version=%VERSION%");
             this.set("api.url.facebook.login", "http://api.yeswescore.com/v2/facebook/login/");
+            this.set("api.url.files", "http://api.yeswescore.com/v2/files/");
             this.set("api.url.games", "http://api.yeswescore.com/v2/games/");
             this.set("api.url.players", "http://api.yeswescore.com/v2/players/");
             this.set("api.url.clubs", "http://api.yeswescore.com/v2/clubs/");

@@ -206,25 +206,45 @@ Y.Views.PlayerForm = Y.View.extend({
 
     this.$(".container").addClass(this.mode);
 
-	this.$el.i18n();
+	  this.$el.i18n();
+
+    /*#ifndef CORDOVA*/
+    // hack pour upload n'importe quelle photo pour les tests.
+    var $input = $('<input type="file" id="filepicker" name="image" style="position:relative;top:-30px;left:0;width:100%;height:30px;opacity:0;"/>');
+    $input.on("change", function (event) {
+      var reader = new FileReader();
+      reader.readAsDataURL(this.files[0]);
+      reader.onloadend = function (e) {
+        var image = { dataUri: this.result };
+        Y.Image.resize(image, function (err, image) {
+          if (err)
+            console.log("error resizing image : " + err);
+          else {
+            $('#smallImage').attr("src", image.dataUri);
+            $('#smallImage').attr("width", "100%");
+          }
+        });
+      };
+    });
+    this.$(".account").append($input);
+    /*#endif*/
 
     return this;
   },
   
   getPhoto: function(){
-  
-  	Cordova.Camera.capturePhoto(function (img) {
-	  
-      var src = "data:image/jpeg;base64," + img;
-      $('#smallImage').attr("src", src);
-      $('#smallImage').attr("width", "300");
-      $('#smallImage').attr("height", "167");     
-      
-      
-        	  
+  	Cordova.Camera.capturePhoto(function (err, image) {
+      image.dataUri = "data:image/jpeg;base64," + image.dataUri; // WARNING. might cost a lot of memory.
+      Y.Image.resize(image, function (err, image) {
+        if (err)
+          console.log("error resizing image : " + err);
+        else {
+          $('#smallImage').attr("src", image.dataUri);
+          $('#smallImage').attr("width", "100%");
+        }
+      });
   	});
-  
-  },  
+  },
 
   onClose: function(){
     this.undelegateEvents();

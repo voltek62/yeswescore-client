@@ -72,7 +72,9 @@ var PlayerModel = Backbone.Model.extend({
       if (this.get('pushplatform'))
         dataSend.push.platform = this.get('pushplatform'); 
       if (this.get('pushtoken'))
-        dataSend.push.token = this.get('pushtoken');         
+        dataSend.push.token = this.get('pushtoken');   
+        
+      console.log('dataSend',dataSend);        
       
       return Backbone.ajax({
         dataType: 'json',
@@ -116,10 +118,10 @@ var PlayerModel = Backbone.Model.extend({
       if (this.get('dates').birth)
         dataSend.dates.birth = this.get('dates').birth;      
 
-      if (this.get('pushplatform'))
-        dataSend.push.platform = this.get('pushplatform'); 
-      if (this.get('pushtoken'))
-        dataSend.push.token = this.get('pushtoken');               
+      if (this.get('push').platform)
+        dataSend.push.platform = this.get('push').platform; 
+      if (this.get('push').token)
+        dataSend.push.token = this.get('push').token;               
       
       // si club non nul
       if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {
@@ -135,8 +137,6 @@ var PlayerModel = Backbone.Model.extend({
           name : ''
         };
       }
-
-	  console.log('dataSend',dataSend);
 
       var url = Y.Conf.get("api.url.players") + this.get('id')
             + '/?playerid=' + playerid + '&token=' + token;

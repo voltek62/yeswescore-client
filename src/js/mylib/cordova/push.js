@@ -6,24 +6,31 @@
   // wrapper around cordova geolocation
   var Push = {
     
+    token : "",
+    
     registerEvent: function (callback) {   
       
       window.pushNotification.registerEvent('registration', 
         function (id) {
-		  console.log("yes!!! Registered with ID: " + id);
+		  console.log("Registered with ID: " + id);
 		  callback(id);
       	}
       );
-      
+            
+    },
+    
+    init: function (callback) { 
+    
       window.pushNotification.getPushID(function (id) {
         if(id) {
           console.log("Got push ID: " + id)
-            //$('#id').text(id)
-          }
-      });
-      
+          this.token = id;
+          callback(id);
+        }
+      });          
       window.pushNotification.enablePush();
-    },
+      
+    },     
       
     pushEvent: function (callback) {   
       window.pushNotification.registerEvent('push', 

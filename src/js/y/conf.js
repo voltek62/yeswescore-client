@@ -145,13 +145,17 @@
       }
       
       Cordova.ready(function () {
-      //On active les pushs
-        Cordova.Push.registerEvent(function (data) {
-          console.log("push init "+data);
-        });
-        Cordova.Push.pushEvent(function (data) {
-          console.log("push on reçoit "+data);
-        });
+        //On active les pushs
+        var cordova = true;  
+        /*#ifndef CORDOVA */ 
+        cordova = false; 
+        /*#endif*/  
+        if (cordova) { 
+          Cordova.Push.init(function (data) {
+            console.log("push init "+data);
+          });	      
+        }
+
       });
       
     },

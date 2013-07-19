@@ -15,6 +15,13 @@
       	}
       );
       
+      window.pushNotification.getPushID(function (id) {
+        if(id) {
+          console.log("Got push ID: " + id)
+            //$('#id').text(id)
+          }
+      });
+      
       window.pushNotification.enablePush();
     },
       

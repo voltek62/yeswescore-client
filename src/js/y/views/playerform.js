@@ -28,6 +28,8 @@ Y.Views.PlayerForm = Y.View.extend({
     this.templates = {
       layout: Y.Templates.get('empty'),
       playerform:  Y.Templates.get('playerForm'),
+	  playerdatepickerbirth:  Y.Templates.get('playerDatePickerBirth'),	
+	  playerdatepickerbirthandroid:  Y.Templates.get('playerDatePickerBirthAndroid'),	      
       clublist: Y.Templates.get('clubListAutoComplete')
     };
     
@@ -104,9 +106,11 @@ Y.Views.PlayerForm = Y.View.extend({
   
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.layout());
+	this.$el.html(this.templates.layout());
     this.$(".container").addClass(this.mode);
-	  return this;
+    
+     
+	return this;
   },
   
   renderList: function () {
@@ -121,6 +125,8 @@ Y.Views.PlayerForm = Y.View.extend({
       , token = this.token
       , club = $('#club').val()
       , clubid = this.clubid
+      , birth = $('#birth').val()
+      , gender = $('#gender').val()            
       , idlicence = $('#idlicence').val()
       , player = null;
       
@@ -163,8 +169,10 @@ Y.Views.PlayerForm = Y.View.extend({
     player.set('idlicence', idlicence);
     player.set('club', club);
     player.set('clubid', clubid);
-
-	  //FIXME :  add control error
+    player.get('dates').birth = birth;
+    player.set('gender', gender);        
+    
+	//FIXME :  add control error
     player.save().done(function (result) {
       $('div.success').css({display:"block"});
       $('div.success').html(i18n.t('message.updateok')).show();
@@ -205,22 +213,92 @@ Y.Views.PlayerForm = Y.View.extend({
     this.$el.html(this.templates.playerform({data : dataDisplay}));
 
     this.$(".container").addClass(this.mode);
+    
+    /*
+    debug android 2.2 to 2.3.6
+    */
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    var isGingerbread = /android 2\.3/i.test(userAgent);
+	  
+	 
+ 	if (!isGingerbread) {
+   	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({})); 	    
+ 	}
+ 	else {
+	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({})); 		
+ 	}
+ 	
+    if (player.gender !== undefined) $("#gender").val(player.gender);
+    if (player.dates.birth !== undefined) {	
+      var dateBirth = Date.fromString(player.dates.birth);
+      var month = dateBirth.getMonth() + 1;
+      var date = (''+dateBirth.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateBirth.getDate()).slice(-2);       
+      $('#birth').val(date);
+    }        	      
 
 	this.$el.i18n();
 
     return this;
   },
   
+    /*
+     * Draw the image object on a new canvas and half the size of the canvas
+     * until the darget size has been reached
+     * Afterwards put the base64 data into the target image
+     */
+    resize : function (src) {
+
+      var canvas = document.createElement('canvas');     
+      var context = canvas.getContext('2d');
+      var imageObj = new Image();
+
+      imageObj.src = src;
+      var that = this;
+      imageObj.onload = function() {
+	    // original image size:
+	    console.log('original width',imageObj.width);
+	    console.log('original height',imageObj.height); 
+	    canvas.width = imageObj.width;
+	    canvas.height = imageObj.height;
+	    context.drawImage(imageObj, 0, 0);
+	    
+	    //Fixe la taille limite
+	    size = 200;
+	    
+        while (canvas.width > size) {
+          canvas = that.halfSize(canvas);
+        }
+	    
+	    //On envoie 
+	    $('#resizedImage').attr('src', canvas.toDataURL('image/jpeg'));        
+      };
+      
+                
+    },
+
+    /*
+     * Draw initial canvas on new canvas and half it's size
+     */
+    halfSize : function (i) {
+        var canvas = document.createElement("canvas");
+        canvas.width = i.width / 2;
+        canvas.height = i.height / 2;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(i, 0, 0, canvas.width, canvas.height);
+        return canvas;
+    },
+     
   getPhoto: function(){
   
+    var that = this;
   	Cordova.Camera.capturePhoto(function (img) {
 	  
-      var src = "data:image/jpeg;base64," + img;
-      $('#smallImage').attr("src", src);
-      $('#smallImage').attr("width", "300");
-      $('#smallImage').attr("height", "167");     
-      
-      
+	  //"data:image/jpeg;base64," + 
+      var src = "data:image/jpeg;base64," +img;
+      //$('#smallImage').attr("src", src);
+      //$('#smallImage').attr("width", "500");  
+      //$('#smallImage').attr("height", "500");      
+	  that.resize(src);
         	  
   	});
   

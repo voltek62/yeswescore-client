@@ -1,6 +1,5 @@
 module.exports = function (grunt) {
   // cordova version (used in cordova-2.4.0.js)
-  //var cordovaVersion = "2.5.0";
 
   // External tasks.
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -189,6 +188,9 @@ module.exports = function (grunt) {
     grunt.registerTask('copy-cordova-' + platform[0] + '-to-dist', function () {
       grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
     });
+    grunt.registerTask('copy-push-' + platform[0] + '-to-dist', function () {
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
+    });
   });
 
   //
@@ -211,11 +213,11 @@ module.exports = function (grunt) {
   });
 
   // Default task(s).
-  grunt.registerTask('android-beta', ['clean', 'env:cordova', 'copy-cordova-android-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
-  grunt.registerTask('android-alpha', ['clean', 'env:cordova', 'env:androidAlpha', 'copy-cordova-android-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
-  grunt.registerTask('ios-beta', ['clean', 'env:cordova', 'env:iosBeta', 'copy-cordova-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);  
-  grunt.registerTask('ios-alpha', ['clean', 'env:cordova', 'env:iosAlpha', 'copy-cordova-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);
-  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'env:wp8Beta', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
+  grunt.registerTask('android-beta', ['clean', 'env:cordova', 'copy-cordova-android-to-dist', 'copy-push-android-to-dist','template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
+  grunt.registerTask('android-alpha', ['clean', 'env:cordova', 'env:androidAlpha', 'copy-cordova-android-to-dist', 'copy-push-android-to-dist','template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
+  grunt.registerTask('ios-beta', ['clean', 'env:cordova', 'copy-cordova-ios-to-dist', 'copy-push-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);  
+  grunt.registerTask('ios-alpha', ['clean', 'env:cordova', 'env:iosAlpha', 'copy-cordova-ios-to-dist', 'copy-push-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);
+  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
   grunt.registerTask('wp8-alpha', ['clean', 'env:cordova', 'env:wp8Alpha', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
   grunt.registerTask('web', ['clean', 'env:web', 'copy-cordova-web-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-web']);
   grunt.registerTask('default', 'android');

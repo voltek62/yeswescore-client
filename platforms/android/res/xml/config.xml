@@ -44,6 +44,7 @@
     <plugin name="Storage" value="org.apache.cordova.Storage"/>
     <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer"/>
     <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser" />
+    <plugin name="PushPlugin" value="com.plugin.GCM.PushPlugin" />
     <plugin name="DatePickerPlugin" value="com.phonegap.plugins.DatePickerPlugin"/>
 	</plugins>    
 

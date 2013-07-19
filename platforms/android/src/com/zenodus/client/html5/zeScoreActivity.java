@@ -38,8 +38,15 @@ public class zeScoreActivity extends DroidGap
         //System.out.println("My Application onCreate - App APID: " + apid);
     }
     
-    
+    @Override
+    public void onStart() {
+        super.onStart();
+        //UAirship.shared().getAnalytics().activityStarted(this);
+    }
+    @Override    
     public void onStop() {
+      super.onStop();
+      //UAirship.shared().getAnalytics().activityStopped(this);
       UAirship.land();
     }
       

@@ -956,7 +956,7 @@ if(!window.requestFileSystem) {
 		}
 	};
 	
-	
+	/*
 	function FileReader() {
 	}
 	
@@ -1037,6 +1037,7 @@ if(!window.requestFileSystem) {
 	
 	function FileUploadOptions() {
 	}
+  */
 
 } else {
 	// Code provided by flocsy (https://github.com/flocsy) to be reviewed and completed

@@ -1813,29 +1813,14 @@ a[data-filter='match-followed'] {
 	box-sizing: border-box;
 }
 
+.account {
+  height: 30px;
+  margin-top: 10px;
+}
+.account span.form-button {
+  position: relative;
+  display: inline-block;
 
-.account span.button {
-	display: block;
-	width: 100%;
-	height: 50px;
-	margin-top: 10px;
-	text-decoration: none;
-	text-transform: uppercase;
-	text-align: center;
-	font-family: Open Sans;
-	font-weight: 700;
-	line-height: 50px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	color: white;
-	background-color: #46b1db;
-	border-top: 1px solid #d0ebf6;
-	border-left: 1px solid #a3d7ed;
-	border-bottom: 1px solid #74c5e3;
-	border-right: 1px solid #74c5e3;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
 }
 
 .account a.buttonGrey {

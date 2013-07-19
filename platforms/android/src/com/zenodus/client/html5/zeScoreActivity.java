@@ -19,15 +19,6 @@ public class zeScoreActivity extends DroidGap
         super.loadUrl(Config.getStartUrl(), 2000);
 
         //Notification
-        /*
-        AirshipConfigOptions options = AirshipConfigOptions.loadDefaultOptions(this);
-        options.developmentAppKey = "Ua5gAbxKRxqh2YYJufhA3A";
-        options.productionAppKey = "Ua5gAbxKRxqh2YYJufhA3A";
-        options.inProduction = false; //determines which app key to use       
-        UAirship.takeOff(this.getApplication(), options);
-        PushManager.enablePush();  
-        */
-        
         UAirship.takeOff(this.getApplication());
         if (UAirship.shared().getAirshipConfigOptions().pushServiceEnabled) {
             PushManager.enablePush();
@@ -38,8 +29,15 @@ public class zeScoreActivity extends DroidGap
         //System.out.println("My Application onCreate - App APID: " + apid);
     }
     
-    
+    @Override
+    public void onStart() {
+        super.onStart();
+        //UAirship.shared().getAnalytics().activityStarted(this);
+    }
+    @Override    
     public void onStop() {
+      super.onStop();
+      //UAirship.shared().getAnalytics().activityStopped(this);
       UAirship.land();
     }
       

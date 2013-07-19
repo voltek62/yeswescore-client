@@ -7,13 +7,15 @@
   var Push = {
     
     registerEvent: function (callback) {   
+      
       window.pushNotification.registerEvent('registration', 
         function (id) {
-		  console.log("Registered with ID: " + id);
+		  console.log("yes!!! Registered with ID: " + id);
 		  callback(id);
       	}
       );
       
+      window.pushNotification.enablePush();
     },
       
     pushEvent: function (callback) {   

@@ -50,27 +50,21 @@
             </intent-filter>
         </activity>
 
-
+        <!-- REQUIRED for PhoneGap plugin callback support --> 
+        <receiver android:name="com.urbanairship.phonegap.plugins.PushNotificationPluginIntentReceiver" />
+        
         <!-- REQUIRED for Urban Airship GCM -->
         <receiver android:name="com.urbanairship.CoreReceiver" />
-        <receiver
-            android:name="com.urbanairship.push.GCMPushReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+        
+        <receiver android:name="com.urbanairship.push.GCMPushReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <!-- MODIFICATION REQUIRED - Use your package name as the category -->
+                
                 <category android:name="com.zenodus.client.html5" />
             </intent-filter>
-            <!-- REQUIRED for detecting when the application is upgraded so it can request a new GCM ID -->
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
         </receiver>
-
+        
         <service android:name="com.urbanairship.push.PushService" android:label="Push Notification Service" />
         <service android:name="com.urbanairship.analytics.EventService" android:label="Event Service" />
 
@@ -81,9 +75,7 @@
             android:multiprocess="true" />
         <!-- END OF REQUIRED ITEMS -->        
 		 
-        <!-- OPTIONAL, if you want to receive push, push opened and registration completed intents -->
-        <!-- Replace the receiver below with your package and class name -->
-        <receiver android:name="com.zenodus.client.html5.IntentReceiver" />
+
     </application>
 
 </manifest>

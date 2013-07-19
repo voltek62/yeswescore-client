@@ -19,15 +19,6 @@ public class zeScoreActivity extends DroidGap
         super.loadUrl(Config.getStartUrl(), 2000);
 
         //Notification
-        /*
-        AirshipConfigOptions options = AirshipConfigOptions.loadDefaultOptions(this);
-        options.developmentAppKey = "Ua5gAbxKRxqh2YYJufhA3A";
-        options.productionAppKey = "Ua5gAbxKRxqh2YYJufhA3A";
-        options.inProduction = false; //determines which app key to use       
-        UAirship.takeOff(this.getApplication(), options);
-        PushManager.enablePush();  
-        */
-        
         UAirship.takeOff(this.getApplication());
         if (UAirship.shared().getAirshipConfigOptions().pushServiceEnabled) {
             PushManager.enablePush();

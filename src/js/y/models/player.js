@@ -14,12 +14,18 @@ var PlayerModel = Backbone.Model.extend({
     },
     dates: {
       update: "",
-      creation: new Date()
+      creation: new Date(),
+      birth: ""
     },
+    push: {
+      platform: "",
+      token: ""
+    },    
     language: Y.language,
     location: {
       currentPos: [0, 0]
     },
+    gender:"",
     token: "",
     updated_at: new Date()
   },
@@ -56,11 +62,17 @@ var PlayerModel = Backbone.Model.extend({
         id: (this.get('id') || ''),
         language: Y.language,
         location : {},
+        push : {},
         club: (this.get('club') || '')  
       };
       
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+      
+      if (this.get('pushplatform'))
+        dataSend.push.platform = this.get('pushplatform'); 
+      if (this.get('pushtoken'))
+        dataSend.push.token = this.get('pushtoken');         
       
       return Backbone.ajax({
         dataType: 'json',
@@ -86,9 +98,12 @@ var PlayerModel = Backbone.Model.extend({
         name: (this.get('name') || ''),
         email: { address: (this.get('email') || '') },
         rank: (this.get('rank') || ''),
+        gender: (this.get('gender') || ''),
         idlicense: (this.get('idlicence') || ''),
         language: Y.language,
         location : {},
+        push : {},
+        dates : {},
         token: (this.get('token') || '')
       };
 
@@ -97,6 +112,14 @@ var PlayerModel = Backbone.Model.extend({
 
       if (this.get('uncryptedPassword'))
         dataSend.uncryptedPassword = this.get('uncryptedPassword');
+        
+      if (this.get('dates').birth)
+        dataSend.dates.birth = this.get('dates').birth;      
+
+      if (this.get('pushplatform'))
+        dataSend.push.platform = this.get('pushplatform'); 
+      if (this.get('pushtoken'))
+        dataSend.push.token = this.get('pushtoken');               
       
       // si club non nul
       if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {
@@ -112,6 +135,8 @@ var PlayerModel = Backbone.Model.extend({
           name : ''
         };
       }
+
+	  console.log('dataSend',dataSend);
 
       var url = Y.Conf.get("api.url.players") + this.get('id')
             + '/?playerid=' + playerid + '&token=' + token;

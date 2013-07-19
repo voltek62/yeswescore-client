@@ -36,7 +36,7 @@
           "index", "empty", "error","ongoing",
           "notification", "notificationList",
           "searchForm",
-          "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList",
+          "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList", "playerDatePickerBirth", "playerDatePickerBirthAndroid",
           "playerListSearch", "playerSignin",
         ];
         var timeoutid = setTimeout(function () {

@@ -28,6 +28,8 @@ Y.Views.PlayerForm = Y.View.extend({
     this.templates = {
       layout: Y.Templates.get('empty'),
       playerform:  Y.Templates.get('playerForm'),
+	  playerdatepickerbirth:  Y.Templates.get('playerDatePickerBirth'),	
+	  playerdatepickerbirthandroid:  Y.Templates.get('playerDatePickerBirthAndroid'),	      
       clublist: Y.Templates.get('clubListAutoComplete')
     };
     
@@ -104,9 +106,11 @@ Y.Views.PlayerForm = Y.View.extend({
   
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.layout());
+	this.$el.html(this.templates.layout());
     this.$(".container").addClass(this.mode);
-	  return this;
+    
+     
+	return this;
   },
   
   renderList: function () {
@@ -121,6 +125,8 @@ Y.Views.PlayerForm = Y.View.extend({
       , token = this.token
       , club = $('#club').val()
       , clubid = this.clubid
+      , birth = $('#birth').val()
+      , gender = $('#gender').val()            
       , idlicence = $('#idlicence').val()
       , player = null;
       
@@ -163,8 +169,10 @@ Y.Views.PlayerForm = Y.View.extend({
     player.set('idlicence', idlicence);
     player.set('club', club);
     player.set('clubid', clubid);
-
-	  //FIXME :  add control error
+    player.get('dates').birth = birth;
+    player.set('gender', gender);        
+    
+	//FIXME :  add control error
     player.save().done(function (result) {
       $('div.success').css({display:"block"});
       $('div.success').html(i18n.t('message.updateok')).show();
@@ -205,6 +213,28 @@ Y.Views.PlayerForm = Y.View.extend({
     this.$el.html(this.templates.playerform({data : dataDisplay}));
 
     this.$(".container").addClass(this.mode);
+    
+    /*
+    debug android 2.2 to 2.3.6
+    */
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    var isGingerbread = /android 2\.3/i.test(userAgent);
+	  
+	 
+ 	if (!isGingerbread) {
+   	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({})); 	    
+ 	}
+ 	else {
+	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({})); 		
+ 	}
+ 	
+    if (player.gender !== undefined) $("#gender").val(player.gender);
+    if (player.dates.birth !== undefined) {	
+      var dateBirth = Date.fromString(player.dates.birth);
+      var month = dateBirth.getMonth() + 1;
+      var date = (''+dateBirth.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateBirth.getDate()).slice(-2);       
+      $('#birth').val(date);
+    }        	      
 
 	this.$el.i18n();
 

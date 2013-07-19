@@ -246,7 +246,11 @@
     "club":"Club",
     "idlicence":"ID de la licence",
     "clubname":"Nom du Club",
-    "save":"ENREGISTRER"  
+    "save":"ENREGISTRER",
+    "birth":"Date de naissance",
+	"gender":"Sexe",
+	"man":"Homme",
+	"woman":"Femme"      
   },     
   "playerlist": {
     "title": "LISTE DES JOUEURS"

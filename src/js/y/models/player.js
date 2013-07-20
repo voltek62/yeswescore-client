@@ -75,7 +75,7 @@ var PlayerModel = Backbone.Model.extend({
       if (Y.Push.data.token!==null)
         dataSend.push.token = Y.Push.data.token;  
         
-      console.log('dataSend ------ ',dataSend);        
+      //console.log('dataSend ------ ',dataSend);        
       
       return Backbone.ajax({
         dataType: 'json',
@@ -146,7 +146,7 @@ var PlayerModel = Backbone.Model.extend({
         };
       }
       
-      console.log('dataSend ------ ',dataSend); 
+      //console.log('dataSend ------ ',dataSend); 
 
       var url = Y.Conf.get("api.url.players") + this.get('id')
             + '/?playerid=' + playerid + '&token=' + token;

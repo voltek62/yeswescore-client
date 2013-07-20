@@ -34,18 +34,25 @@
     	}
     	       
         // FIXME: treshold on "change" event ?
-        Cordova.Push.getPushID(function (p) {
-        if (p && Y.Push.token !== p.token ) {
-          Y.Push.data.token = p.token;
-          Y.Push.data.platform = window.device.platform; 
-          Y.Push.trigger("change", Y.Push.data );
+        Cordova.Push.getPushID(function (token) {
+        
+        //console.log('android token '+token+' ');        
+        
+        if (Y.Push.data.token !== token && token!==null) {
+          Y.Push.data.token = token;
+          Y.Push.data.platform = window.device.platform.toLowerCase(); 
+          
+          //console.log('android debug '+token+' '+window.device.platform);
           
           //Update player when we receive token
           var player = Y.User.getPlayer();
-          player.save().done(function (result) {});          
-          
+          if (player !== null)
+            player.save().done(function (result) {pooling = false;});  
+            
+                    
+          Y.Push.trigger("change", Y.Push.data );
         }
-        pooling = false;
+        //pooling = false;
       });
      };  
     })()

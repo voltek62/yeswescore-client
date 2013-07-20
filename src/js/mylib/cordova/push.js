@@ -5,49 +5,23 @@
 
   // wrapper around cordova geolocation
   var Push = {
+   
+    getPushID: function (callback) { 
     
-    token : "",
-    
-    registerEvent: function (callback) {   
-      
-      window.pushNotification.registerEvent('registration', 
-        function (id) {
-		  console.log("Registered with ID: " + id);
-		  callback(id);
-      	}
-      );
-            
-    },
-    
-    init: function (callback) { 
-    
-      window.pushNotification.getPushID(function (id) {
-        if(id) {
-          console.log("Got push ID: " + id)
-          this.token = id;
-          callback(id);
-        }
-      });          
-      window.pushNotification.enablePush();
-      
+      window.pushNotification.getPushID(
+        function Cordova_Geolocation_Success(token) {
+          if (token)
+            callback(token)
+          else
+            callback(null);
+        },
+        function Cordova_Geolocation_Error() {
+          callback(null);
+        }      
+	   );          
+      window.pushNotification.enablePush();      
     },     
-      
-    pushEvent: function (callback) {   
-      window.pushNotification.registerEvent('push', 
-        function (push) {
-		  callback(push);
-      	}
-      );   
-    }, 
-    
-    isPushEnabled: function (callback) {   
-      window.pushNotification.isPushEnabled(
-        function (enabled) {
-		  callback(enabled);
-      	}
-      );   
-    }        
-            
+             
   };
 
   // registering geolocalisation only when cordova is ready.

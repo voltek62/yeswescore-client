@@ -73,54 +73,6 @@
         }
       });
     },
-
-	setPush: function (callback) {	
-	
-      var playerId = Y.Conf.get(playerIdConfKey);
-      var playerToken = Y.Conf.get(playerTokenConfKey);
-      if (!playerId || !playerToken) {
-        callback(new Error("no player"));
-        return;
-      }
-      
-      var pushPlatform = window.device.platform;
-      var pushToken = Cordova.Push.token;
-      
-      var cordova = true;  
-      /*#ifndef CORDOVA */ 
-      cordova = false; 
-      /*#endif*/  
-      if (!cordova) {
-        //fake platform and token for tests
-        pushPlatform="android";
-        pushToken="cccc-cccc-cccc-cccc-ccccc";
-      }
-      
-      player = new PlayerModel({
-        playerid: playerId
-      , id : playerId
-      , token: playerToken
-      , push : {
-          platform : pushPlatform
-        , token : pushToken
-       } 
-      });
-      
-      if (player.push !== undefined)
-        console.log('player update with token '+player.push.token+' '+player.push.platform);
-      else
-        console.log('player.push undefined '+pushToken+' '+pushPlatform);
-      
-      player.fetch({
-        success: function () {
-          // saving it in DB
-          //DB.saveJSON("Player", player);
-          //
-          callback(null, player);
-        }
-      });	
-	
-	},
     
 	setFiltersSearch: function (filter) {	
 	

@@ -184,21 +184,8 @@ Y.Views.GameList = Y.View.extend({
       
       
       that.controlPlayer=true;
-      
-      //On met à jour le push token et player
-      //pushplatform // pushtoken
-      Y.User.setPush(function (err, player) {
-        if (err) {
-          console.log('setPush error ',err);
-          playerDeferred.resolve();
-        }
-        else {
-          console.log('setPush ok ',player.toJSON());
-          playerDeferred.resolve();
-        }
-      });
-     
-      
+      playerDeferred.resolve();
+            
     });
 
     // FIXME: handling error with deferreds

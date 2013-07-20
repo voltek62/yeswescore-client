@@ -115,6 +115,7 @@
         this.set("games.refresh", 20000);        // default 30000 (30sec) //test 30s        
         this.set("game.max.comments", 20); 
         this.set("pooling.geolocation", 10000); // default 10000 (10sec)
+        this.set("pooling.pushregister", 10000); // default 10000 (10sec)        
         this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
         this.set("version", Y.App.VERSION); // will be usefull on update.
         this.set("_env", env);
@@ -144,19 +145,6 @@
         });
       }
       
-      Cordova.ready(function () {
-        //On active les pushs
-        var cordova = true;  
-        /*#ifndef CORDOVA */ 
-        cordova = false; 
-        /*#endif*/  
-        if (cordova) { 
-          Cordova.Push.init(function (data) {
-            console.log("push init "+data);
-          });	      
-        }
-
-      });
       
     },
 

@@ -25,6 +25,11 @@
           Y.Push.data.token = "aaaa-bbbb-cccc-dddd";
           Y.Push.data.platform = "android";          
           Y.Push.trigger("change", Y.Push.data );
+
+          //Update player when we receive token          
+          var player = Y.User.getPlayer();
+          player.save().done(function (result) {});
+
           return;  			
     	}
     	       
@@ -34,6 +39,11 @@
           Y.Push.data.token = p.token;
           Y.Push.data.platform = window.device.platform; 
           Y.Push.trigger("change", Y.Push.data );
+          
+          //Update player when we receive token
+          var player = Y.User.getPlayer();
+          player.save().done(function (result) {});          
+          
         }
         pooling = false;
       });

@@ -113,10 +113,11 @@ var PlayerModel = Backbone.Model.extend({
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
         
-      if (this.get('push').platform)
-        dataSend.push.platform = Y.Push.data.platform;
-      if (this.get('push').token)
-        dataSend.push.token = Y.Push.data.token;        
+      if (Y.Push.data.platform!==null)
+        dataSend.push.platform = Y.Push.data.platform; 
+        
+      if (Y.Push.data.token!==null)
+        dataSend.push.token = Y.Push.data.token;       
 
       if (this.get('uncryptedPassword'))
         dataSend.uncryptedPassword = this.get('uncryptedPassword');

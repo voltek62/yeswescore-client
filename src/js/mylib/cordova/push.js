@@ -9,13 +9,13 @@
     getPushID: function (callback) { 
     
       window.pushNotification.getPushID(
-        function Cordova_Geolocation_Success(token) {
+        function Cordova_Push_Success(token) {
           if (token)
             callback(token)
           else
             callback(null);
         },
-        function Cordova_Geolocation_Error() {
+        function Cordova_Push_Error() {
           callback(null);
         }      
 	   );          

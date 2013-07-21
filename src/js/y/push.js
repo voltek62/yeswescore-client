@@ -28,7 +28,10 @@
 
           //Update player when we receive token          
           var player = Y.User.getPlayer();
-          player.save().done(function (result) {});
+          if (player !== null)          
+            player.save().done(function (result) {pooling = false;});
+
+		  Y.Push.trigger("change", Y.Push.data );
 
           return;  			
     	}

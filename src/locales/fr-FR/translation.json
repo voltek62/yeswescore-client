@@ -220,7 +220,11 @@
     "bad_password":"Votre mot de passe contient des caractères interdits ( Autorisé : A-Z a-z 0-9 !@#$%^&*()_ ) ou il est inférieur à 6 caractères",
     "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",        
     "bad_mail":"Votre mail est invalide",
-    "expected_error":"Merci de saisir une date ET une heure"     
+    "expected_error":"Merci de saisir une date ET une heure",
+    "pushtitle":"Information",
+    "pushmessage":"En suivant ce joueur, vous acceptez de recevoir les alertes MATCH pour savoir quand il commence un match officiel et le résultat final.",
+    "pushyes":"Oui",
+    "pushno":"Non"         
   },
   "player": {
     "title": "JOUEUR",

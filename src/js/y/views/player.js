@@ -7,7 +7,10 @@ Y.Views.Player = Y.View.extend({
 
   pageName: "player",
   pageHash : "players/",
-
+  myid : "",
+  mytoken : "",
+  following: false, // lol2
+  
   myinitialize: function(options) {
   
     this.pageHash += this.id; 
@@ -42,7 +45,7 @@ Y.Views.Player = Y.View.extend({
 
   },
 
-  following: false, // lol2
+
   followPlayer: function() {
   
   	//on ne peut pas se suivre
@@ -95,15 +98,31 @@ Y.Views.Player = Y.View.extend({
       this.follow = 'false';
 
     } else {
-     
-      //NEW API
-      this.following = true;
-	    Backbone.ajax({
+   
+       navigator.notification.confirm(
+        i18n.t('message.pushmessage'),  // message
+        function(buttonIndex){
+            that.followPlayerConfirm(buttonIndex, that);
+        },         // callback
+        i18n.t('message.pushtitle'),            // title
+        i18n.t('message.pushno')+','+i18n.t('message.pushyes')                  // buttonName
+	   );
+	   
+    }	
+  
+  },   
+  
+  followPlayerConfirm : function(buttonIndex, that){
+    if (buttonIndex==1) {	    
+
+      that.following = true;
+	  
+	  Backbone.ajax({
         dataType: 'json',
-        url: Y.Conf.get("api.url.players") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken,
+        url: Y.Conf.get("api.url.players") +that.myid+"/following/?playerid="+that.myid+"&token="+that.mytoken,
         type: 'POST',
         data: {
-          id: this.id
+          id: that.id
         },
         success: function (data) {
           that.following = false;
@@ -121,6 +140,12 @@ Y.Views.Player = Y.View.extend({
             var data = {id: that.myid, following: [that.id] };            
             Y.User.updatePlayer(data); 
           }
+          
+	     $('span.success').css({display:"block"});
+	     $('span.success').html(i18n.t('message.followplayerok')).show();
+	     $("#followButton").text(i18n.t('message.nofollow'));
+	     $('#followButton').removeClass('button');
+	     $('#followButton').addClass('button-selected');               
 		  
         },
         error: function (err) {
@@ -130,17 +155,10 @@ Y.Views.Player = Y.View.extend({
         }
       });          
 
-     $('span.success').css({display:"block"});
-     $('span.success').html(i18n.t('message.followplayerok')).show();
-     $("#followButton").text(i18n.t('message.nofollow'));
-     $('#followButton').removeClass('button');
-     $('#followButton').addClass('button-selected');          
-      
-     this.follow = 'true';
-
-    }	
-  
-  },    
+           
+      that.follow = 'true';  
+    }
+  },  
 
   //render the content into div of view
   render: function(){

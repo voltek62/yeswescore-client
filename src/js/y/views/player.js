@@ -80,6 +80,12 @@ Y.Views.Player = Y.View.extend({
               Y.User.updatePlayer(data);
 	        }
 	      }
+	      
+         $('span.success').css({display:"block"});
+         $('span.success').html(i18n.t('message.nofollowplayerok')).show();
+         $("#followButton").text(i18n.t('message.follow'));
+         $('#followButton').removeClass('button-selected');
+         $('#followButton').addClass('button'); 	      
           
         },
         error: function (err) {
@@ -89,12 +95,6 @@ Y.Views.Player = Y.View.extend({
         }
       });       
           
-      $('span.success').css({display:"block"});
-      $('span.success').html(i18n.t('message.nofollowplayerok')).show();
-      $("#followButton").text(i18n.t('message.follow'));
-      $('#followButton').removeClass('button-selected');
-      $('#followButton').addClass('button'); 
-
       this.follow = 'false';
 
     } else {
@@ -105,7 +105,7 @@ Y.Views.Player = Y.View.extend({
             that.followPlayerConfirm(buttonIndex, that);
         },         // callback
         i18n.t('message.pushtitle'),            // title
-        i18n.t('message.pushno')+','+i18n.t('message.pushyes')                  // buttonName
+        i18n.t('message.pushno')+','+i18n.t('message.pushyes') // buttonName
 	   );
 	   
     }	

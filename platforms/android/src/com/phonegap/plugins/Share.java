@@ -19,14 +19,15 @@ import android.util.Log;
 public class Share extends CordovaPlugin {
  
  private void doSendIntent(String subject, String text) {
-  /*
+
   Intent sendIntent = new Intent(android.content.Intent.ACTION_SEND);
   sendIntent.setType("text/plain");
   sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
   sendIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
   this.cordova.startActivityForResult(this, sendIntent, 0);
-  */
 
+
+  /*
   Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
   shareIntent.setType("text/plain");
   shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);  
@@ -55,6 +56,7 @@ public class Share extends CordovaPlugin {
         break;
     }      
   }  
+  */
   
  }
  

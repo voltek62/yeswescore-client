@@ -52,17 +52,20 @@
             switch (Y.Env.user) {
               case "marc":
                 var apiBaseUrl = "http://plic.no-ip.org:22222";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
                 var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "618522421507840";
                 break;
               case "vincent":
                 var apiBaseUrl = "http://plic.no-ip.org:1024";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                
                 var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "408897482525651";
                 break;
               case "alpha":
               default:
                 var apiBaseUrl = "http://plic.no-ip.org:20080";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
                 var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "FIXME";
                 break;
@@ -85,9 +88,11 @@
             this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v2/inappbrowser/redirect.html");
             this.set("facebook.app.id", fbAppId);
             this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            this.set("www.game", siteBaseUrl+"/games/"); 
             /*#endif*/
             break;
           case Y.Env.PROD:
+            this.set("www.game", "http://www.yeswescore.com/games/"); 
             this.set("api.url.auth", "http://api.yeswescore.com/v2/auth/");
             this.set("api.url.auth.registered", "http://api.yeswescore.com/v2/auth/registered/");
             this.set("api.url.bootstrap", "http://api.yeswescore.com/bootstrap/conf.json?version=%VERSION%");

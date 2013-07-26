@@ -17,11 +17,11 @@
         if (Cordova.status !== "ready" || pooling)
           return;
         pooling = true;       
-	    var cordova = true;  
+	    var isCordova = true;  
 	    /*#ifndef CORDOVA */ 
-	    cordova = false; 
+	    isCordova = false; 
 	    /*#endif*/  
-	    if (!cordova) {      
+	    if (!isCordova) {      
           Y.Push.data.token = "aaaa-bbbb-cccc-dddd";
           Y.Push.data.platform = "android";          
           Y.Push.trigger("change", Y.Push.data );

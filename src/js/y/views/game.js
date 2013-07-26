@@ -200,21 +200,50 @@ Y.Views.Game = Y.View.extend({
     // FIXME: url facebook doit pointer vers la game
     messages['[PROMO]'] = "\n\n"+i18n.t('game.fbpromo');
 
-    var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
+    messages['[LINK]'] = "\n\n"+Y.Conf.get('www.game')+this.game.id;
+
+    var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO] [LINK]";
     var message = _.reduce(_.keys(messages), function (result, token) {
       return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
     }, messagePattern);
 
     // building message
-    console.log("SENDING FACEBOOK MESSAGE: " + message);
-    var that = this;
-    var id = String(this.id);
+    var isCordova = true;  
+    /*#ifndef CORDOVA */ 
+    isCordova = false; 
+    /*#endif*/  
+    if (isCordova) {   
+    //TODO : only Android , work in progress for ios 
+	console.log("SHARING MESSAGE: " + message);
+	var that = this;    
+    var share = cordova.require("cordova/plugin/share");
+    share.show({subject: 'YesWeScore : Match à suivre', text: message},
+      function() {
+        that.sharing = false;
+        that.shareSuccess();
+        console.log("PhoneGap Plugin: Share: callback success");
+      },
+      function(err) {
+        that.sharing = false;
+        that.shareError(err);
+        console.log("PhoneGap Plugin: Share: callback error");
+      }
+ 	 );  
+    }
+    else
+    {
+	  console.log("SENDING FACEBOOK MESSAGE: " + message);
+	  var that = this;
+	  var id = String(this.id);
 	  Y.Facebook.shareAsync(id, message, function (err) {
-      that.sharing = false;
-      if (err)
-        return that.shareError(err);
-      that.shareSuccess();
-    });
+	    that.sharing = false;
+	    if (err)
+	      return that.shareError(err);
+	      that.shareSuccess();
+	  });
+    }
+    
+    
   },
   
   undoAction: function(ev) {

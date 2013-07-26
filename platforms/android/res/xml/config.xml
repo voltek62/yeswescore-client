@@ -48,7 +48,7 @@
     <plugin name="DatePickerPlugin" value="com.phonegap.plugins.DatePickerPlugin"/>
     <plugin name="Notification" value="org.apache.cordova.Notification"/>
     <plugin name="PushNotificationPlugin" value="com.urbanairship.phonegap.plugins.PushNotificationPlugin" />
-    <plugin name="Share" value="com.phonegap.plugins.Share"/>	
+    <plugin name="Social" value="com.phonegap.plugins.Social"/>	
 	</plugins>    
 
 </cordova>

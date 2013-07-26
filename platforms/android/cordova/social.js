@@ -1,58 +1,31 @@
- 
- var SocialShare = function() {};
+cordova.define("cordova/plugin/share", function (require, exports, module) {
+ var exec = require("cordova/exec");
+  module.exports = {
+   show: function (json, win, fail) {
+     exec(win, fail, "Social", "share", [json]);
+   },
+   /*
+   share: function (message, url, image) {
+     exec(null, null, "Social", "share", [message]);
+   },
+   */   
+   available: function (callback) {
+   	//TODO : always true
+     callback =  true;
+   }   
+  };
+});
 
-SocialShare.prototype.sms = function(param, successCallback, failCallback) {
-
-    function success(args) {
-        successCallback(args);
-    }
-
-    function fail(args) {
-    	failCallback(args);
-    }
-
-	return PhoneGap.exec(function(args) {
-		success(args);
-	}, function(args) {
-		fail(args);
-	}, 'SocialShare', 'startSmsActivity', [param]);
+function Social() {
 };
- 
- 
- SocialShare.prototype.email = function(param, successCallback, failCallback) {
 
-    function success(args) {
-        successCallback(args);
+Social.install = function() {
+    if (!window.plugins) {
+        window.plugins = {};	
     }
 
-    function fail(args) {
-    	failCallback(args);
-    }
-
-	return PhoneGap.exec(function(args) {
-		success(args);
-	}, function(args) {
-		fail(args);
-	}, 'SocialShare', 'startEmailActivity', [param]);
+    window.plugins.social = cordova.require("cordova/plugin/share");
+    return window.plugins.social;
 };
- 
- 
-  SocialShare.prototype.social = function(param, successCallback, failCallback) {
 
-    function success(args) {
-        successCallback(args);
-    }
-
-    function fail(args) {
-    	failCallback(args);
-    }
-
-	return PhoneGap.exec(function(args) {
-		success(args);
-	}, function(args) {
-		fail(args);
-	}, 'SocialShare', 'startSocialActivity', [param]);
-};
- 
- 
- 
+cordova.addConstructor(Social.install);

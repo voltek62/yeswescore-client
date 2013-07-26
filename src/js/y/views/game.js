@@ -7,17 +7,17 @@ Y.Views.Game = Y.View.extend({
   countComment : "#countComment",
       
   events : {
-    'click #facebook'       : 'share',
+    'click #social'         : 'share',
     'click #statusButton'   : 'changeGameStatus',
     'click #statusRestart'  : 'restartGame',
     'click #followButton'   : 'followGame',
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',        
     'click #cancelButton'   : 'cancelGame',
-    'vclick .undoSelect'     : 'undoAction',    
+    'vclick .undoSelect'    : 'undoAction',    
     'click #team1_sets_div' : 'setTeam1Score',
     'click #team2_sets_div' : 'setTeam2Score',          
-    'vclick .set'            : 'incrementTeamSet',
+    'vclick .set'           : 'incrementTeamSet',
     'click .player-info'    : 'goToPlayerProfile',    
     'click .playerInfos'    : 'goToPlayerProfile',   
     'click #optionButton'   : 'goToOptions',
@@ -110,18 +110,18 @@ Y.Views.Game = Y.View.extend({
   shareError: function (err) {
     console.log('share error: ' + err);
     var that = this;
-    this.$(".facebook").addClass("ko");
+    this.$(".social").addClass("ko");
     this.shareTimeout = window.setTimeout(function () {
-      that.$(".facebook").removeClass("ko");
+      that.$(".social").removeClass("ko");
       that.shareTimeout = null;
     }, 5000);
   },
 
   shareSuccess: function () {
     var that = this;
-    this.$(".facebook").addClass("ok");
+    this.$(".social").addClass("ok");
     this.shareTimeout = window.setTimeout(function () {
-      that.$(".facebook").removeClass("ok");
+      that.$(".social").removeClass("ok");
       that.shareTimeout = null;
     }, 5000);
   },
@@ -133,8 +133,8 @@ Y.Views.Game = Y.View.extend({
       return; // cannot click on button until previous sharing is finished.
     this.sharing = true;
     // reseting GUI.
-    this.$(".faceboook").removeClass("ok");
-    this.$(".faceboook").removeClass("ko");
+    this.$(".social").removeClass("ok");
+    this.$(".social").removeClass("ko");
     // clearing eventual timeouts
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
@@ -200,9 +200,11 @@ Y.Views.Game = Y.View.extend({
     // FIXME: url facebook doit pointer vers la game
     messages['[PROMO]'] = "\n\n"+i18n.t('game.fbpromo');
 
-    messages['[LINK]'] = "\n\n"+Y.Conf.get('www.game')+this.game.id;
+    //messages['[LINK]'] = "\n\n"+Y.Conf.get('www.game')+this.game.id;
+    
+    var link = Y.Conf.get('www.game')+this.game.id;
 
-    var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO] [LINK]";
+    var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
     var message = _.reduce(_.keys(messages), function (result, token) {
       return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
     }, messagePattern);
@@ -213,22 +215,64 @@ Y.Views.Game = Y.View.extend({
     isCordova = false; 
     /*#endif*/  
     if (isCordova) {   
-    //TODO : only Android , work in progress for ios 
-	console.log("SHARING MESSAGE: " + message);
-	var that = this;    
-    var share = cordova.require("cordova/plugin/share");
-    share.show({subject: 'YesWeScore : Match à suivre', text: message},
-      function() {
-        that.sharing = false;
-        that.shareSuccess();
-        console.log("PhoneGap Plugin: Share: callback success");
-      },
-      function(err) {
-        that.sharing = false;
-        that.shareError(err);
-        console.log("PhoneGap Plugin: Share: callback error");
-      }
- 	 );  
+      //TODO : only Android , work in progress for ios 
+	  console.log("SHARING MESSAGE: " + message);
+	  var that = this;    
+	
+	  var ua = navigator.userAgent.toLowerCase();
+	  var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+	  if(isAndroid) {	
+        //var share = cordova.require("cordova/plugin/share");
+        window.plugins.social.show({subject: i18n.t('game.sharetitle'), text: message, url: link},
+          function() {
+            that.sharing = false;
+            that.shareSuccess();
+            console.log("PhoneGap Plugin: Share: callback success");
+          },
+          function(err) {
+            that.sharing = false;
+            that.shareError(err);
+            console.log("PhoneGap Plugin: Share: callback error");
+          
+           /*
+	       navigator.notification.alert(
+	        i18n.t('message.errorsocial'),  // message
+	        function(buttonIndex){
+	            that.followPlayerConfirm(buttonIndex, that);
+	        },         // callback
+	        i18n.t('message.errortitle'),            // title
+	        i18n.t('message.erroryes') // buttonName
+		   );
+		   */
+          
+          }
+ 	     );  
+ 	   } 
+ 	 
+ 	  var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+ 	  if (iOS) {
+
+		window.plugins.social.available(function(avail) {
+		  if (avail) {
+		    // Show social widgets
+		    window.plugins.social.share(text, link, 'www/images/mini-logo.png');
+		  } else {
+		    // Social not supported
+           /*
+	       navigator.notification.alert(
+	        i18n.t('message.errorsocial'),  // message
+	        function(buttonIndex){
+	            that.followPlayerConfirm(buttonIndex, that);
+	        },         // callback
+	        i18n.t('message.errortitle'),            // title
+	        i18n.t('message.erroryes') // buttonName
+		   );
+		   */
+		  }
+		});	    	 
+ 	   
+ 	  }
+ 	 
     }
     else
     {

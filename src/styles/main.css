@@ -1980,7 +1980,6 @@ a[data-filter='match-followed'] {
 	position: relative;
 }
 
-
 .game .socialbar .buttonSpecial span {
 	display: table-cell;
 	vertical-align: middle;
@@ -1992,6 +1991,58 @@ a[data-filter='match-followed'] {
 	top: -2px;
 	position: relative;
 }
+
+
+.game .socialbar .social  {
+	display: table;
+	height: 42px;
+	width: 80px;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #46b1dd;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+	border: 1px solid #74c5e3;
+	cursor: pointer;
+}
+
+
+.game .social .share {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 12px;
+	font-family: Open Sans;
+	font-weight: 700;
+	color: white;
+	/* hack, pour monter legerement le texte */
+	top: -2px;
+	position: relative;
+}
+
+.game .social .message {
+  display: none;
+  font-size: 12px;
+  font-family: Open Sans;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.game .social.ok { background-color: #41c68f; border: 1px solid #41c68f; }
+.game .social.ko { background-color: #f2734c; border: 1px solid #f2734c; }
+
+.game .social.ok .message.ok { display: block; }
+.game .social.ok .message.ko { display: none; }
+.game .social.ok span { display: none; }
+
+.game .social.ko .message.ok { display: none; }
+.game .social.ko .message.ko { display: block; }
+.game .social.ko span { display: none; }
+
+
 
 .serverbar {
 	width: 100%;
@@ -2050,44 +2101,7 @@ a[data-filter='match-followed'] {
 	color: #0000;
 }
 
-.game .facebook {
-	width: 42px;
-	height: 42px;
-	margin: auto;
-	-webkit-border-radius: 22px;
-	border-radius: 22px;
-	background-color: #46b1dd;
-	border: 1px solid #74c5e3;
-	cursor: pointer;
-}
 
-.game .facebook .message {
-  display: none;
-  font-size: 12px;
-  font-family: Open Sans;
-  font-weight: 700;
-  color: white;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.game .facebook img {
-	position: relative;
-	top: 9px;
-	left: 15px;
-}
-
-
-.game .facebook.ok { background-color: #41c68f; border: 1px solid #41c68f; }
-.game .facebook.ko { background-color: #f2734c; border: 1px solid #f2734c; }
-
-.game .facebook.ok .message.ok { display: block; }
-.game .facebook.ok .message.ko { display: none; }
-.game .facebook.ok img { display: none; }
-
-.game .facebook.ko .message.ok { display: none; }
-.game .facebook.ko .message.ko { display: block; }
-.game .facebook.ko img { display: none; }
 
 .scoreBoard {
 	background-color: #45b1db;

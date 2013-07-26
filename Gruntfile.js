@@ -192,7 +192,7 @@ module.exports = function (grunt) {
       grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
     });
     grunt.registerTask('copy-share-' + platform[0] + '-to-dist', function () {
-      grunt.file.copy('platforms/' + platform[0] + '/cordova/share.js', 'dist/share.js');
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');
     });
   });
 

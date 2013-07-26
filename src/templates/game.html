@@ -130,10 +130,14 @@
              }
              %>
 		   </div>
-          <div id="facebook" class="ui-block-b share">
-            <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
-          </div>
-		      <div class="ui-block-c button status">
+          <div id="social" class="ui-block-b"> 
+            <div class="social">       
+              <span class="message ok">ok</span>
+              <span class="message ko">error</span>             
+              <span data-i18n="game.share" class="share"></span>
+            </div>
+          </div>   
+		  <div class="ui-block-c button status">
                 <% if (game.status === "created" ) { %>
 		        <a id="statusButton" data-i18n="game.begin"></a>
                 <% }
@@ -162,11 +166,11 @@
               <% } %> 
             </a>
           </div>
-          <div id="facebook" class="ui-block-b">
-            <div class="facebook">
+          <div id="social" class="ui-block-b"> 
+            <div class="social">       
               <span class="message ok">ok</span>
-              <span class="message ko">error</span>
-              <img src="./images/facebook.png" width="11" height="22" />
+              <span class="message ko">error</span>             
+              <span data-i18n="game.share" class="share"></span>
             </div>
           </div>          
           <div class="ui-block-c buttonSpecial">

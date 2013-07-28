@@ -67,23 +67,14 @@
     <feature name="Notification">
         <param name="ios-package" value="CDVNotification"/>
     </feature>
-    <!--
-    <plugin name="Camera" value="CDVCamera" />
-    <plugin name="Notification" value="CDVNotification" />
-    <plugin name="Capture" value="CDVCapture" />
-    <plugin name="Echo" value="CDVEcho" />
-
-    <plugin name="FileTransfer" value="CDVFileTransfer" />
-    <plugin name="Compass" value="CDVLocation" />
-    <plugin name="Accelerometer" value="CDVAccelerometer" />
-    <plugin name="Contacts" value="CDVContacts" />
-    <plugin name="Media" value="CDVSound" />       
-    <plugin name="Battery" value="CDVBattery" />
-    -->
+    <feature name="Camera">
+        <param name="ios-package" value="CDVCamera"/>
+    </feature>
             
     <!--  Deprecated plugins element. REmove in 3.0  -->
     <plugins>
         <plugin name="PushNotificationPlugin" value="PushNotificationPlugin" onload="true"/>
+        <plugin name="Social" value="Social" onload="true"/>        
     </plugins>
 
 </widget>

@@ -1958,7 +1958,6 @@ a[data-filter='match-followed'] {
 	position: relative;
 }
 
-
 .game .socialbar .buttonSpecial span {
 	display: table-cell;
 	vertical-align: middle;
@@ -1970,6 +1969,58 @@ a[data-filter='match-followed'] {
 	top: -2px;
 	position: relative;
 }
+
+
+.game .socialbar .social  {
+	display: table;
+	height: 42px;
+	width: 80px;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #46b1dd;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+	border: 1px solid #74c5e3;
+	cursor: pointer;
+}
+
+
+.game .social .share {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 12px;
+	font-family: Open Sans;
+	font-weight: 700;
+	color: white;
+	/* hack, pour monter legerement le texte */
+	top: -2px;
+	position: relative;
+}
+
+.game .social .message {
+  display: none;
+  font-size: 12px;
+  font-family: Open Sans;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.game .social.ok { background-color: #41c68f; border: 1px solid #41c68f; }
+.game .social.ko { background-color: #f2734c; border: 1px solid #f2734c; }
+
+.game .social.ok .message.ok { display: block; }
+.game .social.ok .message.ko { display: none; }
+.game .social.ok span { display: none; }
+
+.game .social.ko .message.ok { display: none; }
+.game .social.ko .message.ko { display: block; }
+.game .social.ko span { display: none; }
+
+
 
 .serverbar {
 	width: 100%;
@@ -2028,44 +2079,7 @@ a[data-filter='match-followed'] {
 	color: #0000;
 }
 
-.game .facebook {
-	width: 42px;
-	height: 42px;
-	margin: auto;
-	-webkit-border-radius: 22px;
-	border-radius: 22px;
-	background-color: #46b1dd;
-	border: 1px solid #74c5e3;
-	cursor: pointer;
-}
 
-.game .facebook .message {
-  display: none;
-  font-size: 12px;
-  font-family: Open Sans;
-  font-weight: 700;
-  color: white;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.game .facebook img {
-	position: relative;
-	top: 9px;
-	left: 15px;
-}
-
-
-.game .facebook.ok { background-color: #41c68f; border: 1px solid #41c68f; }
-.game .facebook.ko { background-color: #f2734c; border: 1px solid #f2734c; }
-
-.game .facebook.ok .message.ok { display: block; }
-.game .facebook.ok .message.ko { display: none; }
-.game .facebook.ok img { display: none; }
-
-.game .facebook.ko .message.ok { display: none; }
-.game .facebook.ko .message.ko { display: block; }
-.game .facebook.ko img { display: none; }
 
 .scoreBoard {
 	background-color: #45b1db;
@@ -9010,7 +9024,270 @@ require('cordova/channel').onNativeReady.fire();
 }(window));
 
 
-})();
+})();  
+    // Event emitter used to raise events from the library.
+function EventEmitter() {
+  this._listeners = {}
+  this._mutators = {}
+}
+
+var cons  = EventEmitter
+  , proto = cons.prototype
+
+proto.on = function(ev, fn) {
+  (this._listeners[ev] = this._listeners[ev] || []).push(fn)
+  return this
+}
+
+proto.mutate = function(ev, fn) {
+  this._mutators[ev] = fn
+  return this
+}
+
+proto.once = function(ev, fn) {
+  var self = this
+  return self.on(ev, listener)
+
+  function listener() {
+    fn.apply(this, [].slice.call(arguments))
+    self.remove(ev, listener)
+  }
+}
+
+proto.emit = function(ev) {
+  var list = this._listeners[ev] || []
+    , args = [].slice.call(arguments, 1)
+    , mutator = this._mutators[ev] || function() { return [].slice.call(arguments) }
+
+  args = mutator.apply(null, args)
+
+  list.forEach(function(fn) {
+    fn.apply(null, args)
+  })
+}
+
+proto.listeners = function(ev) {
+  return this._listeners[ev] || []
+}
+
+proto.removeListener =
+proto.remove = function(ev, fn) {
+  var tmp = this._listeners[ev] || []
+
+  typeof fn === 'function' ?
+    tmp.indexOf(fn) > -1 && tmp.splice(tmp.indexOf(fn), 1) :
+    delete this._listeners[ev]
+}
+
+// Init the plugin
+var PushNotification = function () {
+    this.event_emitter = new EventEmitter
+  };
+
+// Types
+
+PushNotification.prototype.notificationType = {
+  none: 0,
+  badge: 1,
+  sound: 2,
+  alert: 4
+}
+
+// Helpers
+
+PushNotification.prototype.failure = function (msg) {
+  console.log("Javascript Callback Error: " + msg)
+}
+
+
+PushNotification.prototype.call_native = function (callback, name, args) {
+  if(arguments.length == 2) {
+    args = []
+  }
+  ret = cordova.exec(
+  callback, // called when signature capture is successful
+  this.failure, // called when signature capture encounters an error
+  'PushNotificationPlugin', // Tell cordova that we want to run "PushNotificationPlugin"
+  name, // Tell the plugin the action we want to perform
+  args); // List of arguments to the plugin
+  return ret;
+}
+
+PushNotification.prototype.isPlatformIOS = function () {
+  return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS"
+}
+
+// Core API
+
+// Registration
+
+PushNotification.prototype.registerForNotificationTypes = function (types, callback) {
+  if(device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS") {
+    this.call_native(callback, "registerForNotificationTypes", [types])
+  }
+}
+
+// Top level enabling/disabling
+
+PushNotification.prototype.enablePush = function (callback) {
+  this.call_native(callback, "enablePush");
+}
+
+PushNotification.prototype.disablePush = function (callback) {
+  this.call_native(callback, "disablePush");
+}
+
+PushNotification.prototype.enableLocation = function (callback) {
+  this.call_native(callback, "enableLocation")
+}
+
+PushNotification.prototype.disableLocation = function (callback) {
+  this.call_native(callback, "disableLocation")
+}
+
+PushNotification.prototype.enableBackgroundLocation = function (callback) {
+  this.call_native(callback, "enableBackgroundLocation")
+}
+
+PushNotification.prototype.disableBackgroundLocation = function (callback) {
+  this.call_native(callback, "disableBackgroundLocation")
+}
+
+// is* functions
+
+PushNotification.prototype.isPushEnabled = function (callback) {
+  this.call_native(callback, "isPushEnabled");
+}
+
+PushNotification.prototype.isSoundEnabled = function (callback) {
+  if(device.platform == "Android") {
+    this.call_native(callback, "isSoundEnabled");
+  }
+}
+
+PushNotification.prototype.isVibrateEnabled = function (callback) {
+  if(device.platform == "Android") {
+    this.call_native(callback, "isVibrateEnabled");
+  }
+}
+
+PushNotification.prototype.isQuietTimeEnabled = function (callback) {
+  this.call_native(callback, "isQuietTimeEnabled");
+}
+
+PushNotification.prototype.isInQuietTime = function (callback) {
+  this.call_native(callback, "isInQuietTime");
+}
+
+PushNotification.prototype.isLocationEnabled = function (callback) {
+  this.call_native(callback, "isLocationEnabled");
+}
+
+PushNotification.prototype.isBackgroundLocationEnabled = function (callback) {
+  this.call_native(callback, "isBackgroundLocationEnabled");
+}
+
+// Getters
+
+PushNotification.prototype.getIncoming = function (callback) {
+  this.call_native(callback, "getIncoming");
+}
+
+PushNotification.prototype.getPushID = function (callback) {
+  this.call_native(callback, "getPushID")
+}
+
+PushNotification.prototype.getQuietTime = function (callback) {
+  this.call_native(callback, "getQuietTime");
+}
+
+PushNotification.prototype.getTags = function (callback) {
+  this.call_native(callback, "getTags");
+}
+
+PushNotification.prototype.getAlias = function (callback) {
+  this.call_native(callback, "getAlias");
+}
+
+// Setters
+
+PushNotification.prototype.setAlias = function (alias, callback) {
+  this.call_native(callback, "setAlias", [alias])
+}
+
+PushNotification.prototype.setTags = function (tags, callback) {
+  this.call_native(callback, "setTags", [tags])
+}
+
+PushNotification.prototype.setSoundEnabled = function (bool, callback) {
+  if(device.platform == "Android") {
+    this.call_native(callback, "setSoundEnabled", [bool])
+  }
+}
+
+PushNotification.prototype.setVibrateEnabled = function (bool, callback) {
+  if(device.platform == "Android") {
+    this.call_native(callback, "setVibrateEnabled", [bool])
+  }
+}
+
+PushNotification.prototype.setQuietTimeEnabled = function (bool, callback) {
+  this.call_native(callback, "setQuietTimeEnabled", [bool])
+}
+
+PushNotification.prototype.setQuietTime = function (startHour, startMinute, endHour, endMinute, callback) {
+  this.call_native(callback, "setQuietTime", [startHour, startMinute, endHour, endMinute])
+}
+
+PushNotification.prototype.setAutobadgeEnabled = function (enabled, callback) {
+  if (this.isPlatformIOS()) {
+    this.call_native(callback, "setAutobadgeEnabled", [enabled]);
+  }
+}
+
+PushNotification.prototype.setBadgeNumber = function (number, callback) {
+  if (this.isPlatformIOS()) {
+    this.call_native(callback, "setBadgeNumber", [number]);
+  }
+}
+
+// Reset Badge
+
+PushNotification.prototype.resetBadge = function (callback) {
+  if (this.isPlatformIOS()) {
+    this.call_native(callback, "resetBadge");
+  }
+}
+
+// Location stuff
+
+PushNotification.prototype.recordCurrentLocation = function (callback) {
+  this.call_native(callback, "recordCurrentLocation");
+}
+
+// Event handling stuff (INTERNAL)
+
+PushNotification.prototype.registerEvent = function (event, func) {
+  // Do event name validation?
+  this.event_emitter.on(event, func)
+}
+
+PushNotification.prototype.pushCallback = function (data) {
+  this.event_emitter.emit('push', data);
+}
+
+PushNotification.prototype.registrationCallback = function (data) {
+  error = !data['valid'];
+  pushID = data['pushID'];
+  this.event_emitter.emit('registration', error, pushID);
+}
+
+// Register the plugin
+
+cordova.addConstructor(function () {
+  window.pushNotification =  new PushNotification();
+});
+
     /**
  * Phonegap DatePicker Plugin Copyright (c) Greg Allen 2011 MIT Licensed
  * Reused and ported to Android plugin by Daniel van 't Oever
@@ -11037,10 +11314,14 @@ window.isMobileBrowser = (function () {
 })();
 
 var assert = function () { };
-
+/*#ifdef DEV*/
+assert = function (t) { if (!t) throw "assert false " };
+/*#endif*/
 
 var PROD = true;
-
+/*#ifdef DEV*/
+PROD = false;
+/*#endif*/
 if (PROD) {
   // we do not want any console.log in production environment.
   setTimeout(function () {
@@ -11396,7 +11677,9 @@ if (PROD) {
 
       if (typeof options.loadstart === "function")
         this.iabRef.addEventListener('loadstart', function (data) {
-          
+          /*#ifdef DEV*/
+          console.log('Cordova.InAppBrowser: loadstart: ' + data.url);
+          /*#endif*/
           options.loadstart.apply(this, arguments);
         });
       if (typeof options.loadstop === "function")
@@ -11446,7 +11729,18 @@ if (PROD) {
         function Cordova_Camera_Error() {
           callback(null);
         },
-        { quality: 50, destinationType: navigator.camera.DestinationType.DATA_URL }
+        /*
+		Camera.DestinationType = {
+		    DATA_URL : 0,                // Return image as base64 encoded string
+		    FILE_URI : 1,                // Return image file URI
+		    NATIVE_URI : 2               // Return image native URI (eg. assets-library:// on iOS or content:// on Android)
+		};        
+        */
+        { quality: 50
+          , targetWidth: 100
+          , targetHeight: 100
+          , encodingType: navigator.camera.EncodingType.JPEG
+          , destinationType: navigator.camera.DestinationType.DATA_URL }
        );     
       },
       
@@ -11464,7 +11758,9 @@ if (PROD) {
         },
         //pictureSource.PHOTOLIBRARY
         //pictureSource.SAVEDPHOTOALBUM
-        { quality: 50, destinationType: navigator.camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
+        { quality: 50
+          , destinationType: navigator.camera.DestinationType.FILE_URI
+          , sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
        );     
       }
       
@@ -11475,6 +11771,37 @@ if (PROD) {
   // registering geolocalisation only when cordova is ready.
   Cordova.deviceready(function () {
     Cordova.Camera = Camera;
+  });
+})(Cordova);
+(function (Cordova, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
+
+  // wrapper around cordova geolocation
+  var Push = {
+   
+    getPushID: function (callback) { 
+    
+      window.pushNotification.getPushID(
+        function Cordova_Push_Success(token) {
+          if (token)
+            callback(token)
+          else
+            callback(null);
+        },
+        function Cordova_Push_Error() {
+          callback(null);
+        }      
+	   );          
+      window.pushNotification.enablePush();      
+    },     
+             
+  };
+
+  // registering geolocalisation only when cordova is ready.
+  Cordova.deviceready(function () {
+    Cordova.Push = Push;
   });
 })(Cordova);
 // Global Object
@@ -11518,7 +11845,9 @@ if (PROD) {
           // calling jquery
           //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
-          
+          /*#ifdef DEV*/
+          console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
+          /*#endif*/
 
           var that = this;
           // slow if answer is taking longer than 2sec.
@@ -11528,7 +11857,9 @@ if (PROD) {
           // delaying result (fail / success) in dev environment
           var d = $.Deferred();
           var networkDelay = 10;
-          
+          /*#ifdef DEV*/
+          networkDelay = 200;
+          /*#endif*/
           window.setTimeout(function () {
             // launching xhr.
             var xhr = $.ajax(url, options);
@@ -11595,17 +11926,23 @@ if (PROD) {
 
                    // init router
                    that.Router.initialize();
-                   
+                   /*#ifdef DEV*/
+                   console.log('router initialized');
+                   /*#endif*/
                    
                    // load the templates.
                    that.Templates.loadAsync(function () {
-                     
+                     /*#ifdef DEV*/ 
+                     console.log('template loaded');
+                     /*#endif*/
                      // init GUI singleton
                      that.GUI.header = new Y.Views.Header();
                      that.GUI.content = null; // will be overwrite by the router.
                      that.GUI.autocomplete = new Y.Views.Autocomplete();
                      that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
-                     
+                     /*#ifdef DEV*/
+                     console.log('backbone history start');
+                     /*#endif*/
                      // start dispatching routes
                      // @see http://backbonejs.org/#History-start
                      Backbone.history.start();
@@ -11725,7 +12062,9 @@ if (PROD) {
   _.forEach(Drivers, function (driver, driverName) {
     if (!defaultDriver && driver.isUsable()) {
       defaultDriver = driver;
-      
+      /*#ifdef DEV*/
+      console.log("USING driver : " + driverName);
+      /*#endif*/
     }
   });
 
@@ -11801,7 +12140,9 @@ if (PROD) {
   var Conf = {
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
-      
+      /*#ifdef DEV*/
+      Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
+      /*#endif*/
       
       return this; // chainable
     },
@@ -11836,9 +12177,51 @@ if (PROD) {
     
         switch (env) {
           case Y.Env.DEV:
-            
+            /*#ifdef DEV*/
+            switch (Y.Env.user) {
+              case "marc":
+                var apiBaseUrl = "http://plic.no-ip.org:22222";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "618522421507840";
+                break;
+              case "vincent":
+                var apiBaseUrl = "http://plic.no-ip.org:1024";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "408897482525651";
+                break;
+              case "alpha":
+              default:
+                var apiBaseUrl = "http://plic.no-ip.org:20080";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "FIXME";
+                break;
+            }
+
+            this.set("api.url.auth", apiBaseUrl + "/v2/auth/");
+            this.set("api.url.auth.registered", apiBaseUrl + "/v2/auth/registered/");
+            this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
+            this.set("api.url.facebook.login", apiBaseUrl + "/v2/facebook/login/");
+            this.set("api.url.games", apiBaseUrl + "/v2/games/");
+            this.set("api.url.players", apiBaseUrl + "/v2/players/");
+            this.set("api.url.clubs", apiBaseUrl + "/v2/clubs/");
+            this.set("api.url.stats", apiBaseUrl + "/v2/stats/");
+            this.set("api.url.reports", apiBaseUrl + "/v2/report/");
+            this.set("api.url.reports.games", apiBaseUrl + "/v2/report/games/");
+            this.set("api.url.reports.players", apiBaseUrl + "/v2/report/players/");
+            this.set("api.url.reports.clubs", apiBaseUrl + "/v2/report/clubs/");
+            this.set("api.url.autocomplete.players", apiBaseUrl + "/v2/players/autocomplete/");
+            this.set("api.url.autocomplete.clubs", apiBaseUrl + "/v2/clubs/autocomplete/");          
+            this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v2/inappbrowser/redirect.html");
+            this.set("facebook.app.id", fbAppId);
+            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            this.set("www.game", siteBaseUrl+"/games/"); 
+            /*#endif*/
             break;
           case Y.Env.PROD:
+            this.set("www.game", "http://www.yeswescore.com/games/"); 
             this.set("api.url.auth", "http://api.yeswescore.com/v2/auth/");
             this.set("api.url.auth.registered", "http://api.yeswescore.com/v2/auth/registered/");
             this.set("api.url.bootstrap", "http://api.yeswescore.com/bootstrap/conf.json?version=%VERSION%");
@@ -11862,10 +12245,11 @@ if (PROD) {
         }
 
         // Parametrage des variables non dependantes d'un environnement
-        this.set("game.refresh", 10000);        // default 30000 (30sec) //test 10s
+        this.set("game.refresh",  10000);        // default 30000 (30sec) //test 10s
         this.set("games.refresh", 20000);        // default 30000 (30sec) //test 30s        
         this.set("game.max.comments", 20); 
         this.set("pooling.geolocation", 10000); // default 10000 (10sec)
+        this.set("pooling.pushregister", 10000); // default 10000 (10sec)        
         this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
         this.set("version", Y.App.VERSION); // will be usefull on update.
         this.set("_env", env);
@@ -11873,6 +12257,7 @@ if (PROD) {
         // loading permanent keys
         //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
         Cordova.ready(function () {
+       
           Cordova.File.read(filename, function (err, data) {
             if (err)
               return onKeysLoaded(err); // FIXME
@@ -11893,6 +12278,8 @@ if (PROD) {
           onKeysLoaded();
         });
       }
+      
+      
     },
 
 
@@ -12443,7 +12830,9 @@ if (PROD) {
       var playerId = player.get('id');
       var playerToken = player.get('token');
       
-      
+      /*#ifdef DEV*/
+      console.log("fb playerid:"+playerId+" playertoken:"+playerToken+" token:"+token);
+      /*#endif*/
       
       //
       Backbone.ajax({
@@ -12772,14 +13161,21 @@ if (PROD) {
       var next = function () {
         // creating view
 
-        
+        /*#ifdef DEV*/
+        if (true) {
+          // in dev, directly call viewFactory, to be able to debug exceptions.
+          view = viewFactory();
+        } else {
+        /*#endif*/
           try {
             // avoiding exception in view.
             view = viewFactory();
           } catch (e) {
             assert(false);
           };
-        
+        /*#ifdef DEV*/
+        }
+        /*#endif*/
 
         // next page name, page hash
         if (view && view.pageName)
@@ -12977,7 +13373,9 @@ if (PROD) {
 
   // starting stats.
   Cordova.ready(function () {
-    
+    /*#ifdef DEV*/
+    return;
+    /*#endif*/
     Stats.startup();
     Stats.cordova();
   });
@@ -13071,6 +13469,77 @@ if (PROD) {
 
   // exporting to global scope
   Y.Geolocation = Geolocation;
+})(Y);
+
+(function (Y, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
+
+  var Push = {
+    
+    data: {
+      token : null,
+      platform: null
+    },
+
+    update: (function () {
+      var pooling = false; // avoiding pooling twice
+      
+      return function () {
+        if (Cordova.status !== "ready" || pooling)
+          return;
+        pooling = true;       
+	    var isCordova = true;  
+	      
+	    if (!isCordova) {      
+          Y.Push.data.token = "aaaa-bbbb-cccc-dddd";
+          Y.Push.data.platform = "android";          
+          Y.Push.trigger("change", Y.Push.data );
+
+          //Update player when we receive token          
+          var player = Y.User.getPlayer();
+          if (player !== null)          
+            player.save().done(function (result) {pooling = false;});
+
+		  Y.Push.trigger("change", Y.Push.data );
+
+          return;  			
+    	}
+    	       
+        // FIXME: treshold on "change" event ?
+        Cordova.Push.getPushID(function (token) {
+        
+        //console.log('android token '+token+' ');        
+        
+        if (Y.Push.data.token !== token && token!==null) {
+          Y.Push.data.token = token;
+          Y.Push.data.platform = window.device.platform.toLowerCase(); 
+          
+          //console.log('android debug '+token+' '+window.device.platform);
+          
+          //Update player when we receive token
+          var player = Y.User.getPlayer();
+          if (player !== null)
+            player.save().done(function (result) {pooling = false;});  
+            
+                    
+          Y.Push.trigger("change", Y.Push.data );
+        }
+        //pooling = false;
+      });
+     };  
+    })()
+  };
+
+  // adding some mixin for events.
+  _.extend(Push, Backbone.Events);
+
+  // pooling cordova to auto-update push token
+  setInterval(function () { Push.update(); }, Y.Conf.get("pooling.pushregister"));
+  
+  // exporting to global scope
+  Y.Push = Push;
 })(Y);
 
 (function (Y, undefined) {
@@ -14026,12 +14495,18 @@ var PlayerModel = Backbone.Model.extend({
     },
     dates: {
       update: "",
-      creation: new Date()
+      creation: new Date(),
+      birth: ""
     },
+    push: {
+      platform: "",
+      token: ""
+    },    
     language: Y.language,
     location: {
       currentPos: [0, 0]
     },
+    gender:"",
     token: "",
     updated_at: new Date()
   },
@@ -14068,11 +14543,20 @@ var PlayerModel = Backbone.Model.extend({
         id: (this.get('id') || ''),
         language: Y.language,
         location : {},
+        push : {},
         club: (this.get('club') || '')  
       };
       
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+      
+      if (Y.Push.data.platform!==null)
+        dataSend.push.platform = Y.Push.data.platform; 
+        
+      if (Y.Push.data.token!==null)
+        dataSend.push.token = Y.Push.data.token;  
+        
+      //console.log('dataSend ------ ',dataSend);        
       
       return Backbone.ajax({
         dataType: 'json',
@@ -14098,17 +14582,35 @@ var PlayerModel = Backbone.Model.extend({
         name: (this.get('name') || ''),
         email: { address: (this.get('email') || '') },
         rank: (this.get('rank') || ''),
+        gender: (this.get('gender') || ''),
         idlicense: (this.get('idlicence') || ''),
         language: Y.language,
         location : {},
+        push : {},
+        dates : {},
         token: (this.get('token') || '')
       };
 
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+        
+      if (Y.Push.data.platform!==null)
+        dataSend.push.platform = Y.Push.data.platform; 
+        
+      if (Y.Push.data.token!==null)
+        dataSend.push.token = Y.Push.data.token;       
 
       if (this.get('uncryptedPassword'))
         dataSend.uncryptedPassword = this.get('uncryptedPassword');
+        
+      if (this.get('dates').birth)
+        dataSend.dates.birth = this.get('dates').birth;      
+
+      if (Y.Push.data.platform!==null)
+        dataSend.push.platform = Y.Push.data.platform; 
+        
+      if (Y.Push.data.token!==null)
+        dataSend.push.token = Y.Push.data.token;               
       
       // si club non nul
       if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {
@@ -14124,6 +14626,8 @@ var PlayerModel = Backbone.Model.extend({
           name : ''
         };
       }
+      
+      //console.log('dataSend ------ ',dataSend); 
 
       var url = Y.Conf.get("api.url.players") + this.get('id')
             + '/?playerid=' + playerid + '&token=' + token;
@@ -14908,17 +15412,17 @@ Y.Views.Game = Y.View.extend({
   countComment : "#countComment",
       
   events : {
-    'click #facebook'       : 'share',
+    'click #social'         : 'share',
     'click #statusButton'   : 'changeGameStatus',
     'click #statusRestart'  : 'restartGame',
     'click #followButton'   : 'followGame',
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',        
     'click #cancelButton'   : 'cancelGame',
-    'vclick .undoSelect'     : 'undoAction',    
+    'vclick .undoSelect'    : 'undoAction',    
     'click #team1_sets_div' : 'setTeam1Score',
     'click #team2_sets_div' : 'setTeam2Score',          
-    'vclick .set'            : 'incrementTeamSet',
+    'vclick .set'           : 'incrementTeamSet',
     'click .player-info'    : 'goToPlayerProfile',    
     'click .playerInfos'    : 'goToPlayerProfile',   
     'click #optionButton'   : 'goToOptions',
@@ -15011,18 +15515,18 @@ Y.Views.Game = Y.View.extend({
   shareError: function (err) {
     console.log('share error: ' + err);
     var that = this;
-    this.$(".facebook").addClass("ko");
+    this.$(".social").addClass("ko");
     this.shareTimeout = window.setTimeout(function () {
-      that.$(".facebook").removeClass("ko");
+      that.$(".social").removeClass("ko");
       that.shareTimeout = null;
     }, 5000);
   },
 
   shareSuccess: function () {
     var that = this;
-    this.$(".facebook").addClass("ok");
+    this.$(".social").addClass("ok");
     this.shareTimeout = window.setTimeout(function () {
-      that.$(".facebook").removeClass("ok");
+      that.$(".social").removeClass("ok");
       that.shareTimeout = null;
     }, 5000);
   },
@@ -15034,8 +15538,8 @@ Y.Views.Game = Y.View.extend({
       return; // cannot click on button until previous sharing is finished.
     this.sharing = true;
     // reseting GUI.
-    this.$(".faceboook").removeClass("ok");
-    this.$(".faceboook").removeClass("ko");
+    this.$(".social").removeClass("ok");
+    this.$(".social").removeClass("ko");
     // clearing eventual timeouts
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
@@ -15101,21 +15605,92 @@ Y.Views.Game = Y.View.extend({
     // FIXME: url facebook doit pointer vers la game
     messages['[PROMO]'] = "\n\n"+i18n.t('game.fbpromo');
 
+    //messages['[LINK]'] = "\n\n"+Y.Conf.get('www.game')+this.game.id;
+    
+    var link = Y.Conf.get('www.game')+this.game.id;
+
     var messagePattern = "[playersTeamA] [versus] [playersTeamB]. [winningPlayers] [scoreInfos] [sets] [time] [PROMO]";
     var message = _.reduce(_.keys(messages), function (result, token) {
       return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
     }, messagePattern);
 
     // building message
-    console.log("SENDING FACEBOOK MESSAGE: " + message);
-    var that = this;
-    var id = String(this.id);
+    var isCordova = true;  
+      
+    if (isCordova) {   
+      //TODO : only Android , work in progress for ios 
+	  console.log("SHARING MESSAGE: " + message);
+	  var that = this;    
+	
+	  var ua = navigator.userAgent.toLowerCase();
+	  var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+	  if(isAndroid) {	
+        //var share = cordova.require("cordova/plugin/share");
+        window.plugins.social.show({subject: i18n.t('game.sharetitle'), text: message, url: link},
+          function() {
+            that.sharing = false;
+            that.shareSuccess();
+            console.log("PhoneGap Plugin: Share: callback success");
+          },
+          function(err) {
+            that.sharing = false;
+            that.shareError(err);
+            console.log("PhoneGap Plugin: Share: callback error");
+          
+           /*
+	       navigator.notification.alert(
+	        i18n.t('message.errorsocial'),  // message
+	        function(buttonIndex){
+	            that.followPlayerConfirm(buttonIndex, that);
+	        },         // callback
+	        i18n.t('message.errortitle'),            // title
+	        i18n.t('message.erroryes') // buttonName
+		   );
+		   */
+          
+          }
+ 	     );  
+ 	   } 
+ 	 
+ 	  var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+ 	  if (iOS) {
+
+		window.plugins.social.available(function(avail) {
+		  if (avail) {
+		    // Show social widgets
+		    window.plugins.social.share(text, link, 'www/images/mini-logo.png');
+		  } else {
+		    // Social not supported
+           /*
+	       navigator.notification.alert(
+	        i18n.t('message.errorsocial'),  // message
+	        function(buttonIndex){
+	            that.followPlayerConfirm(buttonIndex, that);
+	        },         // callback
+	        i18n.t('message.errortitle'),            // title
+	        i18n.t('message.erroryes') // buttonName
+		   );
+		   */
+		  }
+		});	    	 
+ 	   
+ 	  }
+ 	 
+    }
+    else
+    {
+	  console.log("SENDING FACEBOOK MESSAGE: " + message);
+	  var that = this;
+	  var id = String(this.id);
 	  Y.Facebook.shareAsync(id, message, function (err) {
-      that.sharing = false;
-      if (err)
-        return that.shareError(err);
-      that.shareSuccess();
-    });
+	    that.sharing = false;
+	    if (err)
+	      return that.shareError(err);
+	      that.shareSuccess();
+	  });
+    }
+    
+    
   },
   
   undoAction: function(ev) {
@@ -16940,8 +17515,10 @@ Y.Views.GameList = Y.View.extend({
 
 	  document.addEventListener("resume", that.onResume, true);
       
-      playerDeferred.resolve();
+      
       that.controlPlayer=true;
+      playerDeferred.resolve();
+            
     });
 
     // FIXME: handling error with deferreds
@@ -17532,7 +18109,10 @@ Y.Views.Player = Y.View.extend({
 
   pageName: "player",
   pageHash : "players/",
-
+  myid : "",
+  mytoken : "",
+  following: false, // lol2
+  
   myinitialize: function(options) {
   
     this.pageHash += this.id; 
@@ -17567,7 +18147,7 @@ Y.Views.Player = Y.View.extend({
 
   },
 
-  following: false, // lol2
+
   followPlayer: function() {
   
   	//on ne peut pas se suivre
@@ -17602,6 +18182,12 @@ Y.Views.Player = Y.View.extend({
               Y.User.updatePlayer(data);
 	        }
 	      }
+	      
+         $('span.success').css({display:"block"});
+         $('span.success').html(i18n.t('message.nofollowplayerok')).show();
+         $("#followButton").text(i18n.t('message.follow'));
+         $('#followButton').removeClass('button-selected');
+         $('#followButton').addClass('button'); 	      
           
         },
         error: function (err) {
@@ -17611,24 +18197,34 @@ Y.Views.Player = Y.View.extend({
         }
       });       
           
-      $('span.success').css({display:"block"});
-      $('span.success').html(i18n.t('message.nofollowplayerok')).show();
-      $("#followButton").text(i18n.t('message.follow'));
-      $('#followButton').removeClass('button-selected');
-      $('#followButton').addClass('button'); 
-
       this.follow = 'false';
 
     } else {
-     
-      //NEW API
-      this.following = true;
-	    Backbone.ajax({
+   
+       navigator.notification.confirm(
+        i18n.t('message.pushmessage'),  // message
+        function(buttonIndex){
+            that.followPlayerConfirm(buttonIndex, that);
+        },         // callback
+        i18n.t('message.pushtitle'),            // title
+        i18n.t('message.pushno')+','+i18n.t('message.pushyes') // buttonName
+	   );
+	   
+    }	
+  
+  },   
+  
+  followPlayerConfirm : function(buttonIndex, that){
+    if (buttonIndex==1) {	    
+
+      that.following = true;
+	  
+	  Backbone.ajax({
         dataType: 'json',
-        url: Y.Conf.get("api.url.players") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken,
+        url: Y.Conf.get("api.url.players") +that.myid+"/following/?playerid="+that.myid+"&token="+that.mytoken,
         type: 'POST',
         data: {
-          id: this.id
+          id: that.id
         },
         success: function (data) {
           that.following = false;
@@ -17646,6 +18242,12 @@ Y.Views.Player = Y.View.extend({
             var data = {id: that.myid, following: [that.id] };            
             Y.User.updatePlayer(data); 
           }
+          
+	     $('span.success').css({display:"block"});
+	     $('span.success').html(i18n.t('message.followplayerok')).show();
+	     $("#followButton").text(i18n.t('message.nofollow'));
+	     $('#followButton').removeClass('button');
+	     $('#followButton').addClass('button-selected');               
 		  
         },
         error: function (err) {
@@ -17655,17 +18257,10 @@ Y.Views.Player = Y.View.extend({
         }
       });          
 
-     $('span.success').css({display:"block"});
-     $('span.success').html(i18n.t('message.followplayerok')).show();
-     $("#followButton").text(i18n.t('message.nofollow'));
-     $('#followButton').removeClass('button');
-     $('#followButton').addClass('button-selected');          
-      
-     this.follow = 'true';
-
-    }	
-  
-  },    
+           
+      that.follow = 'true';  
+    }
+  },  
 
   //render the content into div of view
   render: function(){
@@ -17691,13 +18286,19 @@ Y.Views.PlayerFollow = Y.View.extend({
   events: {
     "keyup input#search-basic": "searchOnKey",  
     "blur input#search-basic": "searchOnBlur",
-    "click li": "choosePlayer"    
+    "click div.ui-block-a": "choosePlayer",
+    "click div.ui-block-b": "choosePlayer",
+    "click div.ui-block-c": "followPlayer"            
   },
 
   listview:"#listPlayersView",  
   
   pageName: "playerFollow",
   pageHash : "players/follow",
+  // one by one
+  following: false,
+  dataid:"",
+  datafollow:"",
 
   initialize:function() {
 
@@ -17716,8 +18317,10 @@ Y.Views.PlayerFollow = Y.View.extend({
     this.render();		
        
     //Y.Conf.get("owner.players.followed");   
-    var players = Y.User.getPlayer().get('following');  
+    var players = Y.User.getPlayer().get('following');
+    this.players_follow = players;
     this.myid = Y.User.getPlayer().get('id');
+    this.mytoken = Y.User.getPlayer().get('token');    
 
     if (players!==undefined) {
     	this.playerLast = players[players.length-1];
@@ -17726,7 +18329,7 @@ Y.Views.PlayerFollow = Y.View.extend({
 	    var i = players.length;	
 	    
         if (players.length<1) {
-	      $(this.listview).html(this.templates.playerlist({players:[],query:' '}));
+	      $(this.listview).html(this.templates.playerlist({players:[],query:' ', players_follow : this.players_follow}));
 	      $('p.message').i18n();		          
         }	    
 	    
@@ -17736,7 +18339,7 @@ Y.Views.PlayerFollow = Y.View.extend({
 	      i--;
           //si dernier element du tableau
           if (that.playerLast === player.get('id')) {
-	        $(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' '}));  	
+	        $(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow }));  	
 	      }
 	          			
 		};	    
@@ -17772,15 +18375,17 @@ Y.Views.PlayerFollow = Y.View.extend({
 	    },this);
 	 }
 	 else {	 
-	   $(this.listview).html(this.templates.playerlist({players:[],query:' '}));
+	   $(this.listview).html(this.templates.playerlist({players:[],query:' ', players_follow : this.players_follow}));
 	   $('p.message').i18n();
 	 }
      
   },
   
   choosePlayer : function(elmt) { 
-    if (elmt.currentTarget.id) {
-      var route = elmt.currentTarget.id;
+    var href= $(elmt.currentTarget).data('href');
+
+    if (href) {
+      var route = href;
       Y.Router.navigate(route, {trigger: true}); 
     }	
   },  
@@ -17810,12 +18415,14 @@ Y.Views.PlayerFollow = Y.View.extend({
         $(this.listview).html(this.templates.error());
       }
       else
-        $(this.listview).html(this.templates.playerlist({ players: this.players.toJSON(), query: q }));
+        $(this.listview).html(this.templates.playerlist({ players: this.players.toJSON(), query: q, players_follow : this.players_follow }));
     	
       $(this.listview).i18n();
             
       
     }, this));
+    
+    this.$el.i18n();
     
     return this;
   },
@@ -17823,15 +18430,134 @@ Y.Views.PlayerFollow = Y.View.extend({
   //render the content into div of view
   render: function(){
     this.$el.html(this.templates.playersearch({}));
-	$('a').i18n(); 
+	this.$el.i18n();
 	return this;
   },
 
   renderList: function(query) {
-    $(this.listview).html(this.templates.playerlist({players:this.collection.toJSON(), query:' '}));
+    $(this.listview).html(this.templates.playerlist({players:this.collection.toJSON(), query:' ', players_follow : this.players_follow }));
 
     return this;
   },
+
+
+  followPlayer: function(elmt) {
+  
+  	//on ne peut pas se suivre
+  	//console.log('currenttarget ',$(elmt.currentTarget).data('playerid'));
+  	this.dataid = $(elmt.currentTarget).data('playerid');
+  	this.datafollow = $(elmt.currentTarget).data('follow');
+  	  	  	
+    if (this.myid === this.dataid) return;
+    
+    if (this.following)
+      return;   
+    
+    var that = this;
+         
+    if (this.datafollow === true) {
+    
+     console.log('datafollow true');
+
+      this.following = true;
+	  Backbone.ajax({
+        dataType: 'json',
+        url: Y.Conf.get("api.url.players") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken+"&_method=delete",
+        type: 'POST',
+        data: {
+          id: this.dataid
+        },
+        success: function (data) {
+          that.following = false;
+          
+          //On supprime l'id
+	      if (that.players_follow !== undefined)
+	      {
+	        if (that.players_follow.indexOf(that.dataid) !== -1) {
+	        //On retire l'elmt
+	          that.players_follow.splice(that.players_follow.indexOf(that.dataid), 1);
+	          var data = {id: that.myid, following: that.players_follow };
+              Y.User.updatePlayer(data);
+	        }
+	      }
+	      
+	      //change text
+	      $('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').html(i18n.t('message.follow'));
+	      $('.ui-block-c[data-playerid='+that.dataid+']').data('follow',false);
+	      //$('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').attr('data-follow','false');	      	      
+          
+        },
+        error: function (err) {
+          that.following = false;
+          //that.displayError(i18n.t('message.error'));
+          console.log(i18n.t('message.error'));
+        }
+      });       
+      
+
+    } else {
+   
+   	   console.log('datafollow false');
+   
+       navigator.notification.confirm(
+        i18n.t('message.pushmessage'),  // message
+        function(buttonIndex){
+            that.followPlayerConfirm(buttonIndex, that);
+        },         // callback
+        i18n.t('message.pushtitle'),            // title
+        i18n.t('message.pushno')+','+i18n.t('message.pushyes')                  // buttonName
+	   );
+	   
+    }	
+  
+  },   
+  
+  followPlayerConfirm : function(buttonIndex, that){
+    if (buttonIndex==1) {	    
+
+      that.following = true;
+	  
+	  Backbone.ajax({
+        dataType: 'json',
+        url: Y.Conf.get("api.url.players") +that.myid+"/following/?playerid="+that.myid+"&token="+that.mytoken,
+        type: 'POST',
+        data: {
+          id: that.dataid
+        },
+        success: function (data) {
+          that.following = false;
+
+		  //On ajoute l'id
+		  if (that.players_follow !== undefined)
+          {
+            if (that.players_follow.indexOf(that.dataid) === -1) {     
+              that.players_follow.push(that.dataid);
+              var data = {id: that.myid, following: that.players_follow };
+              Y.User.updatePlayer(data); 
+            }
+          }
+          else {
+            var data = {id: that.myid, following: [that.dataid] };            
+            Y.User.updatePlayer(data); 
+          }
+          
+	      //change text
+	      $('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').html(i18n.t('message.nofollow'));
+	      //change attribute data-follow
+	      $('.ui-block-c[data-playerid='+that.dataid+']').data('follow',true); 
+	      //$('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').attr('data-follow','true');
+	      		  
+        },
+        error: function (err) {
+          that.following = false;
+          //that.displayError(i18n.t('message.error'));
+          console.log(i18n.t('message.error'));
+        }
+      });          
+
+            
+    }
+  },  
 
   onClose: function(){
     this.undelegateEvents();
@@ -17873,6 +18599,8 @@ Y.Views.PlayerForm = Y.View.extend({
     this.templates = {
       layout: Y.Templates.get('empty'),
       playerform:  Y.Templates.get('playerForm'),
+	  playerdatepickerbirth:  Y.Templates.get('playerDatePickerBirth'),	
+	  playerdatepickerbirthandroid:  Y.Templates.get('playerDatePickerBirthAndroid'),	      
       clublist: Y.Templates.get('clubListAutoComplete')
     };
     
@@ -17949,9 +18677,11 @@ Y.Views.PlayerForm = Y.View.extend({
   
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.layout());
+	this.$el.html(this.templates.layout());
     this.$(".container").addClass(this.mode);
-	  return this;
+    
+     
+	return this;
   },
   
   renderList: function () {
@@ -17966,6 +18696,8 @@ Y.Views.PlayerForm = Y.View.extend({
       , token = this.token
       , club = $('#club').val()
       , clubid = this.clubid
+      , birth = $('#birth').val()
+      , gender = $('#gender').val()            
       , idlicence = $('#idlicence').val()
       , player = null;
       
@@ -18008,8 +18740,10 @@ Y.Views.PlayerForm = Y.View.extend({
     player.set('idlicence', idlicence);
     player.set('club', club);
     player.set('clubid', clubid);
-
-	  //FIXME :  add control error
+    player.get('dates').birth = birth;
+    player.set('gender', gender);        
+    
+	//FIXME :  add control error
     player.save().done(function (result) {
       $('div.success').css({display:"block"});
       $('div.success').html(i18n.t('message.updateok')).show();
@@ -18050,22 +18784,92 @@ Y.Views.PlayerForm = Y.View.extend({
     this.$el.html(this.templates.playerform({data : dataDisplay}));
 
     this.$(".container").addClass(this.mode);
+    
+    /*
+    debug android 2.2 to 2.3.6
+    */
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    var isGingerbread = /android 2\.3/i.test(userAgent);
+	  
+	 
+ 	if (!isGingerbread) {
+   	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({})); 	    
+ 	}
+ 	else {
+	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({})); 		
+ 	}
+ 	
+    if (player.gender !== undefined) $("#gender").val(player.gender);
+    if (player.dates.birth !== undefined) {	
+      var dateBirth = Date.fromString(player.dates.birth);
+      var month = dateBirth.getMonth() + 1;
+      var date = (''+dateBirth.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateBirth.getDate()).slice(-2);       
+      $('#birth').val(date);
+    }        	      
 
 	this.$el.i18n();
 
     return this;
   },
   
+    /*
+     * Draw the image object on a new canvas and half the size of the canvas
+     * until the darget size has been reached
+     * Afterwards put the base64 data into the target image
+     */
+    resize : function (src) {
+
+      var canvas = document.createElement('canvas');     
+      var context = canvas.getContext('2d');
+      var imageObj = new Image();
+
+      imageObj.src = src;
+      var that = this;
+      imageObj.onload = function() {
+	    // original image size:
+	    console.log('original width',imageObj.width);
+	    console.log('original height',imageObj.height); 
+	    canvas.width = imageObj.width;
+	    canvas.height = imageObj.height;
+	    context.drawImage(imageObj, 0, 0);
+	    
+	    //Fixe la taille limite
+	    size = 200;
+	    
+        while (canvas.width > size) {
+          canvas = that.halfSize(canvas);
+        }
+	    
+	    //On envoie 
+	    $('#resizedImage').attr('src', canvas.toDataURL('image/jpeg'));        
+      };
+      
+                
+    },
+
+    /*
+     * Draw initial canvas on new canvas and half it's size
+     */
+    halfSize : function (i) {
+        var canvas = document.createElement("canvas");
+        canvas.width = i.width / 2;
+        canvas.height = i.height / 2;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(i, 0, 0, canvas.width, canvas.height);
+        return canvas;
+    },
+     
   getPhoto: function(){
   
+    var that = this;
   	Cordova.Camera.capturePhoto(function (img) {
 	  
-      var src = "data:image/jpeg;base64," + img;
-      $('#smallImage').attr("src", src);
-      $('#smallImage').attr("width", "300");
-      $('#smallImage').attr("height", "167");     
-      
-      
+	  //"data:image/jpeg;base64," + 
+      var src = "data:image/jpeg;base64," +img;
+      //$('#smallImage').attr("src", src);
+      //$('#smallImage').attr("width", "500");  
+      //$('#smallImage').attr("height", "500");      
+	  that.resize(src);
         	  
   	});
   
@@ -18634,16 +19438,50 @@ $(document).ready(function () {
   // Document is ready => initializing YesWeScore
   Y.ready(function () {
     // YesWeScore is ready.
-    
+    /*#ifdef DEV*/
+    console.log('YesWeScore is ready.');
+    /*#endif*/
   });
 
   Cordova.ready(function () {
     // Cordova is ready
-    
+    /*#ifdef DEV*/
+    console.log('Cordova is ready.');
+    /*#endif*/
   });
 });
 
 
+    //
+//  social.js
+//
+//  Cameron Lerch
+//  Sponsored by Brightflock: http://brightflock.com
+//
+
+function Social() {
+};
+
+Social.prototype.available = function(callback) {
+	cordova.exec(function(avail) {
+		callback(avail ? true : false);
+	}, null, "Social", "available", []);
+};
+
+Social.prototype.share = function(message, url, image) {
+    cordova.exec(null, null, "Social", "share", [message, image, url]);
+};
+    
+Social.install = function() {
+    if (!window.plugins) {
+        window.plugins = {};	
+    }
+
+    window.plugins.social = new Social();
+    return window.plugins.social;
+};
+
+cordova.addConstructor(Social.install);
   </script>
 
   
@@ -19042,10 +19880,14 @@ club = clubs[i]; %>
              }
              %>
 		   </div>
-          <div id="facebook" class="ui-block-b share">
-            <div class="facebook"><img src="./images/facebook.png" width="11" height="22" /></div>
-          </div>
-		      <div class="ui-block-c button status">
+          <div id="social" class="ui-block-b"> 
+            <div class="social">       
+              <span class="message ok">ok</span>
+              <span class="message ko">error</span>             
+              <span data-i18n="game.share" class="share"></span>
+            </div>
+          </div>   
+		  <div class="ui-block-c button status">
                 <% if (game.status === "created" ) { %>
 		        <a id="statusButton" data-i18n="game.begin"></a>
                 <% }
@@ -19074,11 +19916,11 @@ club = clubs[i]; %>
               <% } %> 
             </a>
           </div>
-          <div id="facebook" class="ui-block-b">
-            <div class="facebook">
+          <div id="social" class="ui-block-b"> 
+            <div class="social">       
               <span class="message ok">ok</span>
-              <span class="message ko">error</span>
-              <img src="./images/facebook.png" width="11" height="22" />
+              <span class="message ko">error</span>             
+              <span data-i18n="game.share" class="share"></span>
             </div>
           </div>          
           <div class="ui-block-c buttonSpecial">
@@ -20288,6 +21130,26 @@ if (game.error!==undefined)
   <% } %>
   </div>  
 </div></script>
+<script type="text/template" id="playerDatePickerBirth"><div class="ui-grid-a" style="position:relative;">
+  <div class="ui-block-a">
+    <div class="form-label" data-i18n="playerform.birth"></div>
+  </div>
+  <div class="ui-block-a" style="padding-right: 5px;">
+    <input type="date" name="birth" id="birth">
+  </div>
+</div>  
+
+<span class="birth_error label label-info hide"></span> </script>
+<script type="text/template" id="playerDatePickerBirthAndroid"><div class="ui-grid-a" style="position:relative;">
+  <div class="ui-block-a">
+    <div class="form-label" data-i18n="playerform.birth"></div>
+  </div>
+  <div class="ui-block-a" style="padding-right: 5px;">
+    <input type="date" name="birth" id="birth" class="nativedatepicker" readonly>
+  </div>
+</div>  
+
+<span class="birth_error label label-info hide"></span> </script>
 <script type="text/template" id="playerForget"><div class="gameAdd background"></div>
 <div class="gameAdd content-container">
   <div class="simple" style="padding-top:60px">
@@ -20346,13 +21208,29 @@ if (game.error!==undefined)
 
     <div class="club_error label label-error hide"></div>
     
-    <!-- 
+    
+  <div class="ui-grid-a">
+    <div class="ui-block-a">
+      <div class="form-label" data-i18n="playerform.gender"></div>
+    </div>
+    <div class="ui-block-a" style="padding-right: 1px;">
+      <select name="gender" id="gender" style="width: 100%" visible="true">
+        <option value="man" data-i18n="playerform.man" checked></option>
+        <option value="woman" data-i18n="playerform.woman"></option>
+      </select>
+    </div>
+  </div>    
+  
+  
+  <div id="inject-datepicker"></div> 
+    
+    
     <div class="account">
       <span id="getPhoto" class="button" data-i18n="player.getphoto"></span>
     </div> 
-    <img id="smallImage" src="" />
-    -->
-     
+    <br/>
+    <img id="resizedImage" src="" />     
+ 
   <!-- 
   <div style="padding:20px"></div>
   -->
@@ -20387,15 +21265,32 @@ if (player.error!==undefined)
   }
 }
 %>
-<li class="player" id="#players/<%= player.id %>">
-  <div class="ui-grid-a">
+<li class="player">
+  <div class="ui-grid-a" data-href="#players/<%= player.id %>">
     <div class="ui-block-a" style="width: 20%;">
-    <img src="./images/player-pic.jpg" width="40px" height="40px" />
+    <img src="./images/player-pic.jpg" width="40px" height="40px" data-href="#players/<%= player.id %>"/>
     </div>
-    <div class="ui-block-b" style="width: 80%;valign:top;">
+    <div class="ui-block-b" style="width: 50%;valign:top;" data-href="#players/<%= player.id %>">
     <div class="game-player"><%= player.name %></div>
     <div class="infos"><%= player.club.name %>  ( <%= player.rank %> )</div>
     </div>
+    <%
+     if (players_follow.indexOf(player.id) === -1) {
+     %>
+    <div class="ui-block-c" style="width: 30%;" data-playerid="<%= player.id %>" data-follow="false">
+      <span class="form-button more-options" data-i18n="message.follow" data-playerid="<%= player.id %>" data-follow="false">Suivre</span>
+    </div>
+    <%
+    }
+    else
+    {
+    %>
+    <div class="ui-block-c" style="width: 30%;" data-playerid="<%= player.id %>" data-follow="true">    
+      <span class="form-button more-options" data-i18n="message.nofollow" data-playerid="<%= player.id %>" data-follow="true">Ne plus suivre</span>  
+    </div>        
+    <%
+    }
+    %>        
   </div>
 </li>
 <% 

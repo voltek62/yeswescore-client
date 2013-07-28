@@ -41,6 +41,8 @@
 		BF5607B217737825003E7615 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5607B117737825003E7615 /* ImageIO.framework */; };
 		BF5607B51773B168003E7615 /* ico-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = BF5607B41773B168003E7615 /* ico-57x57.png */; };
 		BF5607B71773B177003E7615 /* ico-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = BF5607B61773B177003E7615 /* ico-114x114.png */; };
+		BFAB027E17A5BF2600427175 /* Social.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAB027A17A5BF2600427175 /* Social.m */; };
+		BFAB028017A5C15E00427175 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFAB027F17A5C15E00427175 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BFEBBB4517934AD400F330D1 /* libUAirship-1.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFEBBB4417934AD400F330D1 /* libUAirship-1.4.0.a */; };
 		BFEBBB471793DFF300F330D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFEBBB461793DFF300F330D1 /* UIKit.framework */; };
 		BFEBBB4D1793E9BE00F330D1 /* PushNotificationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEBBB4A1793E9BE00F330D1 /* PushNotificationPlugin.m */; };
@@ -108,6 +110,9 @@
 		BF5607B117737825003E7615 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		BF5607B41773B168003E7615 /* ico-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-57x57.png"; sourceTree = "<group>"; };
 		BF5607B61773B177003E7615 /* ico-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-114x114.png"; sourceTree = "<group>"; };
+		BFAB027817A5BF2600427175 /* Social.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Social.h; path = "../../../../../../Downloads/phonegap-ios-social-plugin-master/Social.h"; sourceTree = "<group>"; };
+		BFAB027A17A5BF2600427175 /* Social.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Social.m; path = "../../../../../../Downloads/phonegap-ios-social-plugin-master/Social.m"; sourceTree = "<group>"; };
+		BFAB027F17A5C15E00427175 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		BFEBBB4417934AD400F330D1 /* libUAirship-1.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-1.4.0.a"; path = "AirshipLib/libUAirship-1.4.0.a"; sourceTree = "<group>"; };
 		BFEBBB461793DFF300F330D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BFEBBB491793E9BE00F330D1 /* PushNotificationPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNotificationPlugin.h; sourceTree = "<group>"; };
@@ -124,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFAB028017A5C15E00427175 /* Social.framework in Frameworks */,
 				BFEBBB501793ED6B00F330D1 /* StoreKit.framework in Frameworks */,
 				BFEBBB471793DFF300F330D1 /* UIKit.framework in Frameworks */,
 				BFEBBB4517934AD400F330D1 /* libUAirship-1.4.0.a in Frameworks */,
@@ -185,6 +191,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				BFAB027F17A5C15E00427175 /* Social.framework */,
 				BF5607B61773B177003E7615 /* ico-114x114.png */,
 				BF5607B41773B168003E7615 /* ico-57x57.png */,
 				F840E1F0165FE0F500CFE078 /* config.xml */,
@@ -264,6 +271,7 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				BFAB027417A5BEE500427175 /* Social */,
 				BFEBBB481793E9BE00F330D1 /* PushNotificationPlugin */,
 			);
 			name = Plugins;
@@ -289,6 +297,15 @@
 				3088BBBC154F3926009F9C59 /* Default~iphone.png */,
 			);
 			path = splash;
+			sourceTree = "<group>";
+		};
+		BFAB027417A5BEE500427175 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				BFAB027817A5BF2600427175 /* Social.h */,
+				BFAB027A17A5BF2600427175 /* Social.m */,
+			);
+			name = Social;
 			sourceTree = "<group>";
 		};
 		BFEBBB481793E9BE00F330D1 /* PushNotificationPlugin */ = {
@@ -420,6 +437,7 @@
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				BFEBBB4D1793E9BE00F330D1 /* PushNotificationPlugin.m in Sources */,
 				BFEBBB4E1793E9BE00F330D1 /* UAAppDelegateSurrogate.m in Sources */,
+				BFAB027E17A5BF2600427175 /* Social.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

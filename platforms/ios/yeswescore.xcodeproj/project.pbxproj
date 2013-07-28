@@ -129,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF5607B217737825003E7615 /* ImageIO.framework in Frameworks */,
 				BFAB028017A5C15E00427175 /* Social.framework in Frameworks */,
 				BFEBBB501793ED6B00F330D1 /* StoreKit.framework in Frameworks */,
 				BFEBBB471793DFF300F330D1 /* UIKit.framework in Frameworks */,
@@ -137,7 +138,6 @@
 				BF0826FA1791F1ED003EEFCC /* CoreTelephony.framework in Frameworks */,
 				BF0826F81791F1D9003EEFCC /* libz.dylib in Frameworks */,
 				BF0826F61791F1BB003EEFCC /* Security.framework in Frameworks */,
-				BF5607B217737825003E7615 /* ImageIO.framework in Frameworks */,
 				BF5607B01773780D003E7615 /* OpenAL.framework in Frameworks */,
 				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
@@ -191,7 +191,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				BFAB027F17A5C15E00427175 /* Social.framework */,
 				BF5607B61773B177003E7615 /* ico-114x114.png */,
 				BF5607B41773B168003E7615 /* ico-57x57.png */,
 				F840E1F0165FE0F500CFE078 /* config.xml */,
@@ -233,6 +232,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BFAB027F17A5C15E00427175 /* Social.framework */,
 				BFEBBB4417934AD400F330D1 /* libUAirship-1.4.0.a */,
 				301BF5BC109A6A2B0062928A /* CFNetwork.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
@@ -478,6 +478,19 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/AirshipLib\"",
 				);
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					CoreFoundation,
+					"-weak_framework",
+					UIKit,
+					"-weak_framework",
+					AVFoundation,
+					"-weak_framework",
+					CoreMedia,
+					"-weak-lSystem",
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = YesWeScore;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -506,6 +519,19 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AirshipLib\"",
+				);
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					CoreFoundation,
+					"-weak_framework",
+					UIKit,
+					"-weak_framework",
+					AVFoundation,
+					"-weak_framework",
+					CoreMedia,
+					"-weak-lSystem",
+					"-all_load",
+					"-ObjC",
 				);
 				PRODUCT_NAME = YesWeScore;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -73,8 +73,11 @@
             
     <!--  Deprecated plugins element. REmove in 3.0  -->
     <plugins>
+        <!--
         <plugin name="PushNotificationPlugin" value="PushNotificationPlugin" onload="true"/>
-        <plugin name="Social" value="Social" onload="true"/>        
+         
+        <plugin name="Social" value="Social" onload="true"/> 
+         -->
     </plugins>
 
 </widget>

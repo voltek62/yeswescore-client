@@ -21,16 +21,15 @@
    
     <!--
 	  <content src="index.html" />
-	
       <preference name="loglevel" value="DEBUG" />
       <preference name="backgroundColor" value="0xFFF" />
       <preference name="InAppBrowserStorageEnabled" value="true" />
       <preference name="disallowOverscroll" value="true" />
+      <preference name="useBrowserHistory" value="false" />
+      <preference name="exit-on-suspend" value="false" />
     -->    
 
     <preference name="splashscreen" value="splash" />
-    <preference name="useBrowserHistory" value="false" />
-    <preference name="exit-on-suspend" value="false" />
     
     <feature name="App">
       <param name="android-package" value="org.apache.cordova.App"/>
@@ -81,7 +80,6 @@
       <param name="android-package" value="com.urbanairship.phonegap.plugins.PushNotificationPlugin"/>
     </feature>   
     <!-- Deprecated plugins element. Remove in 3.0 -->
-    <plugins>
-    </plugins>    
+    <plugins></plugins>    
     
 </widget>

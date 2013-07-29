@@ -251,23 +251,27 @@ Y.Views.Game = Y.View.extend({
  	 
  	  var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
  	  if (iOS) {
+        
+
 
 		window.plugins.social.available(function(avail) {
 		  if (avail) {
 		    // Show social widgets
-		    window.plugins.social.share(text, link, 'www/images/mini-logo.png');
+                                     
+		    window.plugins.social.share(message, link, 'www/images/mini-logo.png');
+            that.sharing = false;
+                                        
 		  } else {
+       
 		    // Social not supported
-           /*
+           that.sharing = false;
 	       navigator.notification.alert(
 	        i18n.t('message.errorsocial'),  // message
-	        function(buttonIndex){
-	            that.followPlayerConfirm(buttonIndex, that);
-	        },         // callback
+	        null,         // callback
 	        i18n.t('message.errortitle'),            // title
 	        i18n.t('message.erroryes') // buttonName
 		   );
-		   */
+		   
 		  }
 		});	    	 
  	   

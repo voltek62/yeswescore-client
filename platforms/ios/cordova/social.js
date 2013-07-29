@@ -27,6 +27,5 @@ Social.install = function() {
     return window.plugins.social;
 };
 
-/*
+
 cordova.addConstructor(Social.install);
-*/

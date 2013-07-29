@@ -70,14 +70,14 @@
     <feature name="Camera">
         <param name="ios-package" value="CDVCamera"/>
     </feature>
-            
+    <feature name="Social">
+        <param name="ios-package" value="Social"/>
+    </feature>
+    <feature name="PushNotificationPlugin">
+        <param name="ios-package" value="PushNotificationPlugin"/>
+    </feature>
     <!--  Deprecated plugins element. REmove in 3.0  -->
     <plugins>
-        <!--
-        <plugin name="PushNotificationPlugin" value="PushNotificationPlugin" onload="true"/>
-         
-        <plugin name="Social" value="Social" onload="true"/> 
-         -->
     </plugins>
 
 </widget>

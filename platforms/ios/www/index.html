@@ -173,15 +173,6 @@ input:-ms-input-placeholder {
   color: #bdbdbd;
 }
 
-/* antiselect effect */
-.game {
-  -ms-user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: -moz-none;
-  cursor: pointer;
-  outline:none;
-}
-
 .button {
   -ms-user-select: none;
   -webkit-user-select: none;
@@ -191,7 +182,7 @@ input:-ms-input-placeholder {
 
 /* @see bug android 4.1 http://stackoverflow.com/questions/12694556/android-tap-highlight-jelly-bean */
 * {
-	-webkit-tap-highlight-color: transparent !important;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
 	-ms-tap-highlight-color: rgba(255, 255, 255, 0) !important;
 }
 
@@ -9366,6 +9357,7 @@ cordova.addConstructor(function () {
   window.pushNotification =  new PushNotification();
 });
 
+
     /**
  * Phonegap DatePicker Plugin Copyright (c) Greg Allen 2011 MIT Licensed
  * Reused and ported to Android plugin by Daniel van 't Oever
@@ -11392,14 +11384,10 @@ window.isMobileBrowser = (function () {
 })();
 
 var assert = function () { };
-/*#ifdef DEV*/
-assert = function (t) { if (!t) throw "assert false " };
-/*#endif*/
+
 
 var PROD = true;
-/*#ifdef DEV*/
-PROD = false;
-/*#endif*/
+
 if (PROD) {
   // we do not want any console.log in production environment.
   setTimeout(function () {
@@ -11755,9 +11743,7 @@ if (PROD) {
 
       if (typeof options.loadstart === "function")
         this.iabRef.addEventListener('loadstart', function (data) {
-          /*#ifdef DEV*/
-          console.log('Cordova.InAppBrowser: loadstart: ' + data.url);
-          /*#endif*/
+          
           options.loadstart.apply(this, arguments);
         });
       if (typeof options.loadstop === "function")
@@ -11923,9 +11909,7 @@ if (PROD) {
           // calling jquery
           //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
-          /*#ifdef DEV*/
-          console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
-          /*#endif*/
+          
 
           var that = this;
           // slow if answer is taking longer than 2sec.
@@ -11935,9 +11919,7 @@ if (PROD) {
           // delaying result (fail / success) in dev environment
           var d = $.Deferred();
           var networkDelay = 10;
-          /*#ifdef DEV*/
-          networkDelay = 200;
-          /*#endif*/
+          
           window.setTimeout(function () {
             // launching xhr.
             var xhr = $.ajax(url, options);
@@ -12004,23 +11986,17 @@ if (PROD) {
 
                    // init router
                    that.Router.initialize();
-                   /*#ifdef DEV*/
-                   console.log('router initialized');
-                   /*#endif*/
+                   
                    
                    // load the templates.
                    that.Templates.loadAsync(function () {
-                     /*#ifdef DEV*/ 
-                     console.log('template loaded');
-                     /*#endif*/
+                     
                      // init GUI singleton
                      that.GUI.header = new Y.Views.Header();
                      that.GUI.content = null; // will be overwrite by the router.
                      that.GUI.autocomplete = new Y.Views.Autocomplete();
                      that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
-                     /*#ifdef DEV*/
-                     console.log('backbone history start');
-                     /*#endif*/
+                     
                      // start dispatching routes
                      // @see http://backbonejs.org/#History-start
                      Backbone.history.start();
@@ -12140,9 +12116,7 @@ if (PROD) {
   _.forEach(Drivers, function (driver, driverName) {
     if (!defaultDriver && driver.isUsable()) {
       defaultDriver = driver;
-      /*#ifdef DEV*/
-      console.log("USING driver : " + driverName);
-      /*#endif*/
+      
     }
   });
 
@@ -12218,9 +12192,7 @@ if (PROD) {
   var Conf = {
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
-      /*#ifdef DEV*/
-      Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
-      /*#endif*/
+      
       
       return this; // chainable
     },
@@ -12255,48 +12227,7 @@ if (PROD) {
     
         switch (env) {
           case Y.Env.DEV:
-            /*#ifdef DEV*/
-            switch (Y.Env.user) {
-              case "marc":
-                var apiBaseUrl = "http://plic.no-ip.org:22222";
-                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
-                var fbBaseUrl = "https://fb.yeswescore.com";
-                var fbAppId = "618522421507840";
-                break;
-              case "vincent":
-                var apiBaseUrl = "http://plic.no-ip.org:1024";
-                var siteBaseUrl = "http://plic.no-ip.org:9082";                
-                var fbBaseUrl = "https://fb.yeswescore.com";
-                var fbAppId = "408897482525651";
-                break;
-              case "alpha":
-              default:
-                var apiBaseUrl = "http://plic.no-ip.org:20080";
-                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
-                var fbBaseUrl = "https://fb.yeswescore.com";
-                var fbAppId = "FIXME";
-                break;
-            }
-
-            this.set("api.url.auth", apiBaseUrl + "/v2/auth/");
-            this.set("api.url.auth.registered", apiBaseUrl + "/v2/auth/registered/");
-            this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
-            this.set("api.url.facebook.login", apiBaseUrl + "/v2/facebook/login/");
-            this.set("api.url.games", apiBaseUrl + "/v2/games/");
-            this.set("api.url.players", apiBaseUrl + "/v2/players/");
-            this.set("api.url.clubs", apiBaseUrl + "/v2/clubs/");
-            this.set("api.url.stats", apiBaseUrl + "/v2/stats/");
-            this.set("api.url.reports", apiBaseUrl + "/v2/report/");
-            this.set("api.url.reports.games", apiBaseUrl + "/v2/report/games/");
-            this.set("api.url.reports.players", apiBaseUrl + "/v2/report/players/");
-            this.set("api.url.reports.clubs", apiBaseUrl + "/v2/report/clubs/");
-            this.set("api.url.autocomplete.players", apiBaseUrl + "/v2/players/autocomplete/");
-            this.set("api.url.autocomplete.clubs", apiBaseUrl + "/v2/clubs/autocomplete/");          
-            this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v2/inappbrowser/redirect.html");
-            this.set("facebook.app.id", fbAppId);
-            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
-            this.set("www.game", siteBaseUrl+"/games/"); 
-            /*#endif*/
+            
             break;
           case Y.Env.PROD:
             this.set("www.game", "http://www.yeswescore.com/games/"); 
@@ -12908,9 +12839,7 @@ if (PROD) {
       var playerId = player.get('id');
       var playerToken = player.get('token');
       
-      /*#ifdef DEV*/
-      console.log("fb playerid:"+playerId+" playertoken:"+playerToken+" token:"+token);
-      /*#endif*/
+      
       
       //
       Backbone.ajax({
@@ -13239,21 +13168,14 @@ if (PROD) {
       var next = function () {
         // creating view
 
-        /*#ifdef DEV*/
-        if (true) {
-          // in dev, directly call viewFactory, to be able to debug exceptions.
-          view = viewFactory();
-        } else {
-        /*#endif*/
+        
           try {
             // avoiding exception in view.
             view = viewFactory();
           } catch (e) {
             assert(false);
           };
-        /*#ifdef DEV*/
-        }
-        /*#endif*/
+        
 
         // next page name, page hash
         if (view && view.pageName)
@@ -13451,9 +13373,7 @@ if (PROD) {
 
   // starting stats.
   Cordova.ready(function () {
-    /*#ifdef DEV*/
-    return;
-    /*#endif*/
+    
     Stats.startup();
     Stats.cordova();
   });
@@ -13832,7 +13752,11 @@ if (PROD) {
   var events = {
     // input mode
     'blur input': 'inputModeOffDelayed', //Permet de cacher le textarea          
-     
+     /*#ifndef IOS*/
+    'click input': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
+    'click textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
+    'blur textarea': 'inputModeOffDelayed', 
+    /*#endif*/
     // helpers
     'click *[data-js-call]': 'mycall',
     'click a[data-js-navigate]': 'navigate',
@@ -15732,23 +15656,27 @@ Y.Views.Game = Y.View.extend({
  	 
  	  var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
  	  if (iOS) {
+        
+
 
 		window.plugins.social.available(function(avail) {
 		  if (avail) {
 		    // Show social widgets
-		    window.plugins.social.share(text, link, 'www/images/mini-logo.png');
+                                     
+		    window.plugins.social.share(message, link, 'www/images/mini-logo.png');
+            that.sharing = false;
+                                        
 		  } else {
+       
 		    // Social not supported
-           /*
+           that.sharing = false;
 	       navigator.notification.alert(
 	        i18n.t('message.errorsocial'),  // message
-	        function(buttonIndex){
-	            that.followPlayerConfirm(buttonIndex, that);
-	        },         // callback
+	        null,         // callback
 	        i18n.t('message.errortitle'),            // title
 	        i18n.t('message.erroryes') // buttonName
 		   );
-		   */
+		   
 		  }
 		});	    	 
  	   
@@ -19665,16 +19593,12 @@ $(document).ready(function () {
   // Document is ready => initializing YesWeScore
   Y.ready(function () {
     // YesWeScore is ready.
-    /*#ifdef DEV*/
-    console.log('YesWeScore is ready.');
-    /*#endif*/
+    
   });
 
   Cordova.ready(function () {
     // Cordova is ready
-    /*#ifdef DEV*/
-    console.log('Cordova is ready.');
-    /*#endif*/
+    
   });
 });
 
@@ -19708,9 +19632,9 @@ Social.install = function() {
     return window.plugins.social;
 };
 
-/*
+
 cordova.addConstructor(Social.install);
-*/
+
   </script>
 
   

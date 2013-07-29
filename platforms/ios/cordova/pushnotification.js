@@ -256,7 +256,8 @@ PushNotification.prototype.registrationCallback = function (data) {
 }
 
 // Register the plugin
-
+/*
 cordova.addConstructor(function () {
   window.pushNotification =  new PushNotification();
 });
+*/

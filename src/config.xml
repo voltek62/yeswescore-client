@@ -22,47 +22,17 @@
         href="https://www.yeswescore.com" ZENODUS</author>
 
     <icon src="icon.png" />
-
-    <gap:platforms>
-
-        <gap:platform
-            name="android"
-            minVersion="2.1" />
-
-        <gap:platform name="webos" />
-
-        <gap:platform name="symbian.wrt" />
-
-        <gap:platform
-            name="blackberry"
-            project="widgets" />
-    </gap:platforms>
-
-    <!-- Display behavior -->
-
+    
     <preference
         name="orientation"
         value="portrait" />
     
     <preference name="webviewbounce" value="false" />
-
-    <!-- Device permissions -->
-    <!--
-<feature name="http://api.phonegap.com/1.0/contacts"/>
-<feature name="http://api.phonegap.com/1.0/media"/> 
-<feature name="http://api.phonegap.com/1.0/file"/>
-<feature name="http://api.phonegap.com/1.0/camera"/>
-<feature name="http://api.phonegap.com/1.0/notification"/>
-    -->
-
     <feature name="http://api.phonegap.com/1.0/geolocation" />
-
     <feature name="http://api.phonegap.com/1.0/network" />
-
     <feature name="http://api.phonegap.com/1.0/device" />
 
     <!-- Whitelisting -->
-
     <access origin="*" />
     <!-- <access origin="http://api.yeswescore.com" subdomains="true" /> -->
 

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         id        = "com.zenodus.client.html5"
-        version   = "3.0.0">
+        version   = "4.0.0">
         
     <name>YesWeScore</name>
 
     <description>
-        Scoring Application
+- Live score on Internet
+- Send your results to Facebook
+- Few different types of scoring plus custom option. 
+- Full scoreboard always visible
     </description>
 
-    <author href="http://www.yeswescore.com" email="">
+    <author href="http://www.yeswescore.com" email="support@yeswescore.com">
         zeNodus
     </author>
 

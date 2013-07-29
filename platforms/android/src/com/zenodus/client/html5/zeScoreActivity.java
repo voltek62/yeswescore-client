@@ -15,8 +15,8 @@ public class zeScoreActivity extends DroidGap
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        super.setIntegerProperty("splashscreen", R.drawable.splash);        
-        super.loadUrl(Config.getStartUrl(), 2000);
+        //super.setIntegerProperty("splashscreen", R.drawable.splash);        
+        super.loadUrl(Config.getStartUrl(), 3000);
 
         //Notification
         UAirship.takeOff(this.getApplication());

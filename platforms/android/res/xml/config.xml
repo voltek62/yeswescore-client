@@ -20,13 +20,12 @@
 	  <content src="index.html" />
 	
       <preference name="loglevel" value="DEBUG" />
-      <preference name="splashscreen" value="resourceName" />
       <preference name="backgroundColor" value="0xFFF" />
-      <preference name="loadUrlTimeoutValue" value="20000" />
       <preference name="InAppBrowserStorageEnabled" value="true" />
       <preference name="disallowOverscroll" value="true" />
     -->    
 
+    <preference name="splashscreen" value="splash" />
     <preference name="useBrowserHistory" value="false" />
     <preference name="exit-on-suspend" value="false" />
     
@@ -69,11 +68,17 @@
     <feature name="InAppBrowser">
       <param name="android-package" value="org.apache.cordova.InAppBrowser"/>
     </feature>
+    <feature name="DatePickerPlugin">
+      <param name="android-package" value="com.phonegap.plugins.DatePickerPlugin"/>
+    </feature>
+    <feature name="Social">
+      <param name="android-package" value="com.phonegap.plugins.Social"/>
+    </feature>            
+    <feature name="PushNotificationPlugin">
+      <param name="android-package" value="com.urbanairship.phonegap.plugins.PushNotificationPlugin"/>
+    </feature>   
     <!-- Deprecated plugins element. Remove in 3.0 -->
     <plugins>
-      <plugin name="PushNotificationPlugin" value="com.urbanairship.phonegap.plugins.PushNotificationPlugin" onload="true"/>    
-      <plugin name="DatePickerPlugin" value="com.phonegap.plugins.DatePickerPlugin"/>    
-      <plugin name="Social" value="com.phonegap.plugins.Social"/>    
     </plugins>    
     
 </widget>

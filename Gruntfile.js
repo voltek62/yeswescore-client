@@ -175,7 +175,7 @@ module.exports = function (grunt) {
     }
   });
 
-  var platforms = [ ["android","2.7.0"], 
+  var platforms = [ ["android","2.9.0"], 
   					["ios","2.9.0"], 
   					["wp8","2.6.0"], 
   					["web","2.5.0"] ];

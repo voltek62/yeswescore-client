@@ -95,10 +95,14 @@ Y.Views.PlayerForm = Y.View.extend({
     /*
     debug android 2.2 to 2.3.6
     */
- 	  if (!Cordova.Device.isGingerbread)
+ 	  if (Cordova.Device.isGingerbread) {
    	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({}));
- 	  else
+      // pb avec canvas toDataUrl sur android gingerbread
+      // @see https://code.google.com/p/android/issues/detail?id=16829
+      $(".column.picture").hide();
+    } else {
 	    $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({}));
+    }
  	
     if (player.gender !== undefined) $("#gender").val(player.gender);
     if (player.dates.birth !== undefined) {	

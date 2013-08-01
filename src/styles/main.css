@@ -810,6 +810,11 @@ ul>li.player>a {
   box-sizing:        border-box;
 }
 
+.blue-screen.player-form .container {
+  padding: 0;
+  padding-top: 9px;
+}
+
 .blue-screen .zone-list {
   background-color:#45b1db;  
   width:100%;
@@ -1182,6 +1187,25 @@ ul>li.player>a {
   display: inline-block;
 }
 
+.player-form .column.picture {
+  float:left;
+  width:100px;
+  margin-right: 10px;
+  padding-top: 5px;
+}
+
+.player-form .column.infos {
+  overflow: hidden;
+  width: auto;
+}
+
+.player-form .column.picture #throbber {
+  position:relative;
+  top:-20px;
+  left:30px;
+  display: none;
+}
+
 .button-form {
 	position: fixed;
 	left: 0px;
@@ -1245,6 +1269,10 @@ ul>li.player>a {
 	border: 1px solid #74c5e3;
 	color: #fff;
 	cursor: pointer;
+}
+
+.link-form .button.warn {
+  color: #f2734c;
 }
 
 .link-form .button-selected {
@@ -1813,29 +1841,14 @@ a[data-filter='match-followed'] {
 	box-sizing: border-box;
 }
 
-
-.account span.button {
-	display: block;
-	width: 100%;
-	height: 50px;
-	margin-top: 10px;
-	text-decoration: none;
-	text-transform: uppercase;
-	text-align: center;
-	font-family: Open Sans;
-	font-weight: 700;
-	line-height: 50px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	color: white;
-	background-color: #46b1db;
-	border-top: 1px solid #d0ebf6;
-	border-left: 1px solid #a3d7ed;
-	border-bottom: 1px solid #74c5e3;
-	border-right: 1px solid #74c5e3;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
+.account {
+  height: 30px;
+  margin-top: 10px;
+}
+  
+.form-button.photo {
+  position: relative;
+  display: none;
 }
 
 .account a.buttonGrey {

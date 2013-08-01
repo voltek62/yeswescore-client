@@ -129,6 +129,7 @@
       this.unloaded = true;
       this.inputModeOff();
       this.autocompleteStop();
+      this.readonly(false);
       this.off();
       if (typeof this.onClose === "function")
         this.onClose();
@@ -147,6 +148,10 @@
 
     scrollAt: function (val) {
       // FIXME
+    },
+
+    readonly: function (bool) {
+      Y.GUI.freeze(bool);
     },
 
     // autocomplete helpers

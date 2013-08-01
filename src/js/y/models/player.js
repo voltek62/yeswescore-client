@@ -26,6 +26,7 @@ var PlayerModel = Backbone.Model.extend({
       currentPos: [0, 0]
     },
     gender:"",
+    profile: { image: null },
     token: "",
     updated_at: new Date()
   },
@@ -51,12 +52,32 @@ var PlayerModel = Backbone.Model.extend({
     return this.get('type') === "owned";
   },
 
+  hasImage: function () {
+    return (this.get('profile') && this.get('profile').image);
+  },
+
+  // imageUrl = [host-api]/static/files/[hashed id 2charsx5]/[id].jpeg
+  // ex: foobar.com:1042/static/files/ab/cd/ef/gh/ij/abcdefghijklmnopqrstuv-abcd42.jpeg
+  getImageUrl: function () {
+    // Example: plic.no-ip.org:22222/static/files/6c/f3/00/a1/b1/6cf300a1b195865dbe55291546c661e651dc65ba90609028a09175a2fec0c578-51e9c0006ded17e016000003.jpeg
+    if (!this.hasImage())
+      return null;
+    var imageId = this.get('profile').image;
+    return Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg"; // default ext.
+  },
+
+  getImageUrlOrPlaceholder: function () {
+    var imageUrl = this.getImageUrl();
+    return imageUrl || Y.Conf.get("gui.image.placeholder.profil");
+  },
+
   sync: function (method, model, options) {
     // allowing playerid & token overload.
     var that = this;
     var playerid = options.playerid || this.get('id') || '';
     var token = options.token || this.get('token') || '';
-    //
+    
+    // FIXME: supprimer la duplication de code entre la creation & l'update
     if (method === 'create' && this.get('id') === undefined) {
       var dataSend = {
         id: (this.get('id') || ''),
@@ -65,6 +86,10 @@ var PlayerModel = Backbone.Model.extend({
         push : {},
         club: (this.get('club') || '')  
       };
+
+      if (this.get('profile') &&
+          typeof this.get('profile').image === "string")
+        dataSend.profile = { image: this.get('profile').image };
       
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
@@ -109,6 +134,10 @@ var PlayerModel = Backbone.Model.extend({
         dates : {},
         token: (this.get('token') || '')
       };
+
+      if (this.get('profile') &&
+          typeof this.get('profile').image === "string")
+        dataSend.profile = { image: this.get('profile').image };
 
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];

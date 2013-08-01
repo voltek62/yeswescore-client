@@ -56,7 +56,6 @@
     delBlueBackground: function () {
       $('#content').removeClass('blue-screen background');  
     }
-    
   };
 
   Y.Connection.on("change", function (state) {

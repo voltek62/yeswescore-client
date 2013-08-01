@@ -40,9 +40,6 @@ Y.Views.Player = Y.View.extend({
     }
     else
       this.follow = 'false';
-      
-
-
   },
 
 
@@ -162,13 +159,11 @@ Y.Views.Player = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-  
     this.$el.html(this.playerViewTemplate({
-      player:this.player.toJSON(),follow:this.follow
-    }));
-    
-    this.$el.i18n();
-
+      player: this.player.toJSON(),
+      follow: this.follow,
+      imageUrl: this.player.getImageUrlOrPlaceholder()
+    })).i18n();
     return this;
   },
 

@@ -44,7 +44,7 @@
       {
         // loading default keys (temporary)
         // Parametrage des variables dependantes d'un environnement
-        Y.Env.user = "vincent";
+        Y.Env.user = "marc";
     
         switch (env) {
           case Y.Env.DEV:
@@ -81,6 +81,7 @@
             this.set("api.url.reports.games", apiBaseUrl + "/v2/report/games/");
             this.set("api.url.reports.players", apiBaseUrl + "/v2/report/players/");
             this.set("api.url.reports.clubs", apiBaseUrl + "/v2/report/clubs/");
+            this.set("api.url.static.files", apiBaseUrl + "/static/files/");
             this.set("api.url.autocomplete.players", apiBaseUrl + "/v2/players/autocomplete/");
             this.set("api.url.autocomplete.clubs", apiBaseUrl + "/v2/clubs/autocomplete/");          
             this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v2/inappbrowser/redirect.html");
@@ -102,6 +103,7 @@
             this.set("api.url.reports.games", "http://api.yeswescore.com/v2/report/games/");
             this.set("api.url.reports.players", "http://api.yeswescore.com/v2/report/players/");
             this.set("api.url.reports.clubs", "http://api.yeswescore.com/v2/report/clubs/");
+            this.set("api.url.static.files", "http://api.yeswescore.com/static/files/");
             this.set("api.url.autocomplete.players", "http://api.yeswescore.com/v2/players/autocomplete/");
             this.set("api.url.autocomplete.clubs", "http://api.yeswescore.com/v2/clubs/autocomplete/");
             this.set("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v2/inappbrowser/redirect.html");
@@ -113,6 +115,7 @@
         }
 
         // Parametrage des variables non dependantes d'un environnement
+        this.set("gui.image.placeholder.profil", "./images/player-pic.jpg");
         this.set("game.refresh", 10000);        // default 30000 (30sec) //test 10s
         this.set("games.refresh", 20000);        // default 30000 (30sec) //test 30s        
         this.set("game.max.comments", 20); 

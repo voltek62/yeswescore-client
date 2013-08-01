@@ -2,16 +2,17 @@ Y.Views.PlayerForm = Y.View.extend({
   el:"#content",
     
   events: {
-    'click #savePlayer':'add',
-    'click #getPhoto' : 'getPhoto',
+    'click #savePlayer':'save',
+    'click #getPhoto': 'getPhoto',
+    'click #delPhoto': 'delPhoto',
     'keyup #club': 'updateList',
-    'click #club_choice' : 'displayClub'
+    'click #club_choice': 'displayClub'
   },
   
   listview:"#suggestions",
 
   pageName: "playerForm",
-  pageHash : "players/form",  
+  pageHash: "players/form",  
     
   clubs:null,
   useSearch:0,	     
@@ -26,18 +27,15 @@ Y.Views.PlayerForm = Y.View.extend({
   
     // loading templates.
     this.templates = {
-      layout: Y.Templates.get('empty'),
       playerform:  Y.Templates.get('playerForm'),
       clublist: Y.Templates.get('clubListAutoComplete')
     };
     
+    // we already have the player in memory
     this.player = Y.User.getPlayer();
     this.clubid = this.player.get('club').id;
-    this.player.once("sync", this.renderPlayer, this);	
-    this.player.fetch();
     
-    //$('#content').addClass('blue-screen background');
-	Y.GUI.addBlueBackground();
+	  Y.GUI.addBlueBackground();
 	
     // we render immediatly
     this.render();
@@ -70,51 +68,56 @@ Y.Views.PlayerForm = Y.View.extend({
       this.$('club_error').html('');      
     }
   },
-    
-  /*  
-  
-  displayClub: function(li) {
-    selectedId = $('#club_choice:checked').val();
-    selectedName = $('#club_choice:checked').next('label').text();
-    	
-    $('#club').val(selectedName);
-    //FIXME : differencier idclub et fftid
-    $('#clubid').val(selectedId); 
-    $('club_error').html('');
-    	
-   
-    	
-    $(this.listview).html('');
-  },  
-  
-  updateList: function (event) {
-    var q = $("#club").val();
-   	
-    this.clubs = new ClubsCollection();108
-    this.clubs.setMode('search',q);
-    if (q.length>2) {
-      this.useSearch=1;
-      this.clubs.fetch();
-      this.clubs.on( 'sync', this.renderList, this );
-    }
-
-  },
-  
-  */
   
   render: function () {
-    // empty page.
-	  this.$el.html(this.templates.layout());
+    var player = this.player.toJSON();
+        
+    var dataDisplay = {
+	      name:player.name
+	    , rank:player.rank
+	    , idlicence:player.idlicense
+	    , playerid:this.playerid
+	    , token:this.token
+      , imagePlaceholder: Y.Conf.get("gui.image.placeholder.profil")
+    };
+      
+    if (player.club!== undefined) {    
+      dataDisplay.club = player.club.name;
+      dataDisplay.idclub = player.club.id;      	
+    }
+    
+    this.$el.html(this.templates.playerform({data : dataDisplay}));
+
     this.$(".container").addClass(this.mode);
-	  return this;
+
+	  this.$el.i18n();
+
+    // dynamiquement, on set l'image.
+    if (this.player.hasImage()) {
+      $("#image").attr("src", this.player.getImageUrl());
+    }
+
+    /*#ifndef CORDOVA*/
+    // hack pour upload n'importe quelle photo pour les tests.
+    var $input = $('<input type="file" id="filepicker" name="image" style="position:relative;top:-30px;left:0;width:100%;height:30px;opacity:0;"/>');
+    var that = this;
+    $input.on("change", function (event) {
+      var reader = new FileReader();
+      reader.readAsDataURL(this.files[0]);
+      reader.onloadend = function (e) {
+        var image = { dataUri: this.result };
+        that.onPhotoCaptured(image);
+      };
+    });
+    this.$("#getPhoto").after($input);
+    /*#endif*/
+
+    this.updatePhotoButtonStatus();
+
+    return this;
   },
   
-  renderList: function () {
-    var q = $("#club").val();  	
-	  $(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
-  },
-  
-  add: function (event) {
+  save: function (event) {
     var name = $('#name').val()
       , rank = $('#rank').val().replace(/ /g, "")
       , playerid = this.playerid
@@ -156,6 +159,9 @@ Y.Views.PlayerForm = Y.View.extend({
       return false;	   
     };
     
+    // avant de lancer l'execution, on bascule en readonly
+    this.readonly(true);
+
     var that = this;
     var player = Y.User.getPlayer();
     player.set('name', name);
@@ -164,69 +170,66 @@ Y.Views.PlayerForm = Y.View.extend({
     player.set('club', club);
     player.set('clubid', clubid);
 
-	  //FIXME :  add control error
-    player.save().done(function (result) {
-      $('div.success').css({display:"block"});
-      $('div.success').html(i18n.t('message.updateok')).show();
-		  $('div.success').i18n();
-		  Y.User.setPlayer(new PlayerModel(result));
-		  if (that.mode === 'first') {
-		    Y.Router.navigate("games/add", {trigger: true});  	   
-		  }
-		  else if (that.mode === 'search') {
-		    Y.Router.navigate("search/form", {trigger: true});  	   
-		  }		  
-		  else {
-		    Y.Router.navigate("account", {trigger: true});
-    	}
-    });
-   
-    return false;
-  },     
-    
-
-  //render the content into div of view
-  renderPlayer: function(){
-    player = this.player.toJSON();
-        
-    var dataDisplay = {
-	      name:player.name
-	    , rank:player.rank
-	    , idlicence:player.idlicense
-	    , playerid:this.playerid
-	    , token:this.token
-    };
-      
-    if (player.club!== undefined) {    
-      dataDisplay.club = player.club.name;
-      dataDisplay.idclub = player.club.id;      	
+    // faut il enregistrer l'image
+    var deferred = $.Deferred();
+    var $image = $("#image");
+    if ($image.attr("data-modified") == "true") {
+      // 2 possibilité:
+      //  - l'image a été modifiée
+      //  - l'image a été supprimée 
+      var removed = ($image.attr("src") == $image.attr("data-default-src"));
+      if (removed) {
+        deferred.resolve(""); // chaine vide pour reseter l'image.
+      } else {
+        // on fait patienter l'utilisateur pendant la sauvegarde de la photo
+        $("#throbber").show();
+        // on sauve la photo
+        var file = new FileModel();
+        file.data = $('#image').attr("src");
+        file.save()
+            .done(function () {
+              deferred.resolve(file.get('id'));
+            })
+            .fail(function() {
+              deferred.resolve(null);
+            })
+            .always(function () {
+              $("#throbber").hide();
+            });
+      }
+    } else {
+      deferred.resolve(null);
     }
-    
-    this.$el.html(this.templates.playerform({data : dataDisplay}));
 
-    this.$(".container").addClass(this.mode);
-
-	  this.$el.i18n();
-
-    /*#ifndef CORDOVA*/
-    // hack pour upload n'importe quelle photo pour les tests.
-    var $input = $('<input type="file" id="filepicker" name="image" style="position:relative;top:-30px;left:0;width:100%;height:30px;opacity:0;"/>');
-    var that = this;
-    $input.on("change", function (event) {
-      var reader = new FileReader();
-      reader.readAsDataURL(this.files[0]);
-      reader.onloadend = function (e) {
-        var image = { dataUri: this.result };
-        that.onPhotoCaptured(image);
-      };
+    deferred.always(function (pictureId) {
+      // on associe eventuellement l'image au player.
+      if (pictureId !== null)        
+        player.set('profile', {image: pictureId});
+      //
+      player.save().always(function () {
+        // on autorise l'utilisateur a remodifier la GUI.
+        that.readonly(false);
+      }).done(function (result) {
+        $('div.success').css({display:"block"});
+        $('div.success').html(i18n.t('message.updateok')).show();
+		    $('div.success').i18n();
+		    Y.User.setPlayer(new PlayerModel(result));
+		    if (that.mode === 'first') {
+		      Y.Router.navigate("games/add", {trigger: true});  	   
+		    }
+		    else if (that.mode === 'search') {
+		      Y.Router.navigate("search/form", {trigger: true});  	   
+		    }	else {
+          // FIXME: faut il vraiment quitter cette page ?
+		      Y.Router.navigate("account", {trigger: true});
+    	  }
+      });
     });
-    this.$(".account").append($input);
-    /*#endif*/
 
-    return this;
+    return false;
   },
   
-  getPhoto: function(){
+  getPhoto: function() {
     var that = this;
   	Cordova.Camera.capturePhoto(function (err, image) {
       image.dataUri = "data:image/jpeg;base64," + image.dataUri; // WARNING. might cost a lot of memory.
@@ -234,29 +237,38 @@ Y.Views.PlayerForm = Y.View.extend({
   	});
   },
 
+  delPhoto: function () {
+    $('#image').attr("src", $("#image").attr("data-default-src"));
+    $('#image').attr("data-modified", "true");
+    this.updatePhotoButtonStatus();
+  },
+
+  updatePhotoButtonStatus: function (status) {
+    if ($('#image').attr("src") == $("#image").attr("data-default-src")) {
+      $('#getPhoto').show();
+      $('#filepicker').show();
+      $('#delPhoto').hide();
+    } else {
+      $('#getPhoto').hide();
+      $('#filepicker').hide();
+      $('#delPhoto').show();
+    }
+  },
+
   onPhotoCaptured: function (image) {
+    var that = this;
     Y.Image.resize(image, function (err, image) {
       if (err)
         console.log("error resizing image : " + err);
       else {
-        $('#smallImage').attr("src", image.dataUri);
-        $('#smallImage').attr("width", "100%");
-        // on sauve la photo
-        var file = new FileModel();
-        file.data = image.dataUri;
-        file.save().success(function () {
-          console.log('ID = ' + file.get('id'));
-        });
+        $('#image').attr("src", image.dataUri);
+        $('#image').attr("data-modified", "true");
       }
+      that.updatePhotoButtonStatus();
     });
   },
 
-  onClose: function(){
-    this.undelegateEvents();
-    
-    Y.GUI.delBlueBackground(); 
-    
-    this.player.off("sync", this.renderPlayer, this);	
-    if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );
+  onClose: function() {
+    Y.GUI.delBlueBackground();
   }
 });

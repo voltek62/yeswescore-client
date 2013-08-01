@@ -226,7 +226,8 @@
     "title": "JOUEUR",
     "more":"Plus d'infos",
     "lastresults":"Derniers résultats",
-    "getphoto":"Prendre une photo"
+    "getphoto":"Ajout photo",
+    "delphoto":"Suppr. photo"
   },    
   "playerforget": {
     "title": "MOT DE PASSE OUBLIE",

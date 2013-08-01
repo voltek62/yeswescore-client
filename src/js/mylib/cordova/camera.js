@@ -28,7 +28,12 @@
         },
         //pictureSource.PHOTOLIBRARY
         //pictureSource.SAVEDPHOTOALBUM
-        { quality: 50, destinationType: navigator.camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
+        {
+          quality: 50,
+          destinationType: navigator.camera.DestinationType.FILE_URI,
+          sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+          correctOrientation: true
+        }
        );     
      }
   };

@@ -7,17 +7,14 @@ Y.Views.Header = Y.View.extend({
 
   initialize: function () {
     this.startingLength = window.history.length;
-    
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	var isGingerbread = /android 2\.3/i.test(userAgent);
-	if (isGingerbread) {
-	  $('div#header').css('position','relative');	  	    
-	}
-	else {
-	  $('div#header').css('position','fixed'); 	
-	  $('div#header').css('z-index','50');
-	  $('div#content').addClass('fixed');	 	  
-	}
+
+	  if (Cordova.Device.isGingerbread)
+	    $('div#header').css('position','relative');
+	  else {
+	    $('div#header').css('position','fixed'); 	
+	    $('div#header').css('z-index','50');
+	    $('div#content').addClass('fixed');	 	  
+	  }
 
     // on s'abonne au router, pour detecter des changement de pages.
     var that = this;

@@ -314,16 +314,11 @@ Y.Views.GameForm = Y.View.extend({
 	  selection : i18n.t('gameadd.selection')
       , surface : i18n.t('gameadd.surface')
 	}));
-	    	
-   	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	var isGingerbread = /android 2\.3/i.test(userAgent);	    	
-	 if (!isGingerbread) {
-	   $('#inject-datepicker').prepend(this.templates.gamedatepicker({})); 	    
-	 }
-	 else {
-		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({})); 		
-	 }
-  
+
+	 if (Cordova.Device.isGingerbread)
+	   $('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({})); 		
+	 else
+		$('#inject-datepicker').prepend(this.templates.gamedatepicker({}));
 
     if (game.teams[0].id === game.infos.startTeam) {
       $('#startTeam1').parent().addClass("select");

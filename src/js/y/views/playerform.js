@@ -95,14 +95,10 @@ Y.Views.PlayerForm = Y.View.extend({
     /*
     debug android 2.2 to 2.3.6
     */
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    var isGingerbread = /android 2\.3/i.test(userAgent);
- 	  if (!isGingerbread) {
-   	    $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({})); 	    
- 	  }
- 	  else {
-	    $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({})); 		
- 	  }
+ 	  if (!Cordova.Device.isGingerbread)
+   	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({}));
+ 	  else
+	    $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({}));
  	
     if (player.gender !== undefined) $("#gender").val(player.gender);
     if (player.dates.birth !== undefined) {	

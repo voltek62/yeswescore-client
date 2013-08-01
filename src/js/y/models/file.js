@@ -27,7 +27,16 @@ var FileModel = Backbone.Model.extend({
       return Backbone.ajax({
         type: 'POST',
         url : Y.Conf.get("api.url.files")+"?mimeType=image/jpeg&playerid="+player.get('id')+"&token="+player.get("token"),
-        data: { data: this.data }
+        data: { data: this.data },
+        // backbone could be weird...
+        success : function(data) {
+          if (options && options.success)
+            options.success(data);
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
+        }
       }).always(function () { that.data = null; });
     }
     return Backbone.sync(method, model, options);

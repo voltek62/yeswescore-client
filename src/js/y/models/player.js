@@ -1,5 +1,5 @@
 var PlayerModel = Backbone.Model.extend({
-  urlRoot : function () { return Y.Conf.get("api.url.players"); },
+  urlRoot : function () { return Y.Conf.get("api.url.players"); },  
 
   mode: '',
 
@@ -31,9 +31,9 @@ var PlayerModel = Backbone.Model.extend({
     updated_at: new Date()
   },
 
-  initialize: function () {
-
-  },
+  //initialize: function () {
+  // this.urlRoot = function () { return Y.Conf.get("api.url.players"); }
+  //},
 
   read: function () {
 

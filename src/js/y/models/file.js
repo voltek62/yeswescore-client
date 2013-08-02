@@ -15,6 +15,10 @@ var FileModel = Backbone.Model.extend({
     bytes: 0,
     metadata: {}
   },
+  
+  //initialize : function() {
+  // this.urlRoot = function () { return Y.Conf.get("api.url.files"); }
+  //},  
 
   sync: function(method, model, options) {
     var that = this;

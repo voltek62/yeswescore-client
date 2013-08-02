@@ -1,5 +1,4 @@
 var StreamModel = Backbone.Model.extend({
-
   urlRoot : function () { return Y.Conf.get("api.url.games"); },
 
   defaults : {
@@ -12,9 +11,9 @@ var StreamModel = Backbone.Model.extend({
     }
   },
 
-  initialize : function() {
-
-  },
+  //initialize : function() {
+  //  this.urlRoot = function () { return Y.Conf.get("api.url.games"); }
+  //},
 
   comparator : function(item) {
     return -item.get("date").getTime();

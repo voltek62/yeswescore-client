@@ -1,14 +1,6 @@
 var GameModel = Backbone.Model.extend({
   urlRoot : function () { return Y.Conf.get("api.url.games"); },
 
-  initialize : function() {
-    this.updated_at = new Date();
-  },
-
-  setSets : function(s) {
-    this.sets = s;
-  },
-
   defaults : {
     owner: "",
     sport : "tennis",
@@ -46,6 +38,14 @@ var GameModel = Backbone.Model.extend({
   },
 
   debug: false,
+  
+  //initialize : function() {
+  // this.urlRoot = function () { return Y.Conf.get("api.url.games"); }
+  //},
+
+  setSets : function(s) {
+    this.sets = s;
+  },  
 
   validate: function (attr, options) {
     if (options &&

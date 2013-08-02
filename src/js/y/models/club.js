@@ -1,5 +1,4 @@
 var ClubModel = Backbone.Model.extend({
-
   urlRoot : function () { return Y.Conf.get("api.url.clubs"); },
 
   mode : '',
@@ -28,9 +27,9 @@ var ClubModel = Backbone.Model.extend({
     updated_at : new Date()
   },  
 
-  initialize : function() {
-
-  },
+  //initialize : function() {
+  //  this.urlRoot = function () { return Y.Conf.get("api.url.clubs"); }
+  //},
 
   sync : function(method, model, options) {
 

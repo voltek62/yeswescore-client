@@ -33,7 +33,9 @@
   _.extend(Geolocation, Backbone.Events);
 
   // pooling cordova to auto-update geoloc coordinates
-  setInterval(function () { Geolocation.update(); }, Y.Conf.get("pooling.geolocation"));
+  Y.Conf.on("ready", function () {
+    setInterval(function () { Geolocation.update(); }, Y.Conf.get("pooling.geolocation"));
+  });
 
   // exporting to global scope
   Y.Geolocation = Geolocation;

@@ -17,7 +17,7 @@
 
     status: "uninitialized",  // uninitialized, loading, loaded
 
-    /* /!\ overwrited in DEV by Y.Env in ey/env.js */
+    /* /!\ overwrited in DEV by Y.Env in y/env.js */
     Env: {
       DEV: "DEV",
       PROD: "PROD",
@@ -100,8 +100,6 @@
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded(err) {
-                 // /!\ error handling after i18n
-
                  // internationalization.
                  var i18nOptions = { lng: "fr-FR", fallbackLng: "fr" };
                  that.i18nOptions = i18nOptions;
@@ -202,6 +200,7 @@
       };
     })()
   };
+
   // exporting YesWeScore to global scope, aliasing it to Y.
   global.YesWeScore = YesWeScore;
   global.Y = YesWeScore;

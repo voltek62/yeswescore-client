@@ -19,23 +19,35 @@
     },
 
     // Processus de chargement 
-    //  - si clefs de conf pas encore en cache => chargement
-    //  - appel au bootstrap.
+    //
+    //  Cordova => ready
+    //  Y => appelle Conf.load()
+    //  
+    //  - si clefs de conf ne sont pas en cache => chargement et mise en cache ; appel au bootstrap.
+    //  - sinon, appel au bootstrap
     load: function (env, callback) {
       assert(env === Y.Env.DEV ||
              env === Y.Env.PROD);
+      
+      var ready = _.bind(function (err) {
+        // avant d'appeler la callback, on informe que la conf est ready.
+        this.trigger("ready");
+        //
+        callback = callback || function () { };
+        callback(err);
+      }, this);
 
       // this function will be executed when keys (temporary & permanent) are loaded.
       var onKeysLoaded = _.bind(function (err) {
         // error handling.
         if (err)
-          return callback(err);
+          return ready(err);
         // une fois les clefs chargées, on appelle le bootstrap.
-        this.loadBootstrap(function (err) {
+        this.loadBootstrap(_.bind(function (err) {
           if (err)
-            return callback(err); // might be a "network error" or "deprecated"
-          callback();
-        });
+            return ready(err); // might be a "network error" or "deprecated"
+          ready();
+        }, this));
       }, this);
 
       // conf not loaded => we load temporary keys & permanent keys
@@ -44,7 +56,7 @@
       {
         // loading default keys (temporary)
         // Parametrage des variables dependantes d'un environnement
-        Y.Env.user = "vincent";
+        // Y.Env.user = "marc";
     
         switch (env) {
           case Y.Env.DEV:
@@ -121,12 +133,12 @@
 
         // Parametrage des variables non dependantes d'un environnement
         this.set("gui.image.placeholder.profil", "./images/player-pic.jpg");
-        this.set("game.refresh", 30000);        // default 30000 (30sec)
+        this.set("game.refresh", 30000);         // default 30000 (30sec)
         this.set("games.refresh", 30000);        // default 30000 (30sec)        
         this.set("game.max.comments", 20); 
-        this.set("pooling.geolocation", 10000); // default 10000 (10sec)
+        this.set("pooling.geolocation", 10000);  // default 10000 (10sec)
         this.set("pooling.pushregister", 10000); // default 10000 (10sec)        
-        this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
+        this.set("pooling.connection", 1000);    // default 1000  ( 1sec)
         this.set("version", Y.App.VERSION); // will be usefull on update.
         this.set("_env", env);
 
@@ -154,10 +166,7 @@
           onKeysLoaded();
         });
       }
-      
-      
     },
-
 
     // FIXME: might be in an "app" class ?
     loadBootstrap: function (callback) {

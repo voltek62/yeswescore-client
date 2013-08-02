@@ -15,7 +15,7 @@
           return;
         pooling = true;
         // FIXME: treshold on "change" event ?
-        Cordova.Geolocation.getCurrentPosition(function (coords) {
+        Cordova.Geolocation.getCurrentPosition(function (err, coords) {
           if (coords &&
               (Y.Geolocation.longitude !== coords.longitude ||
                Y.Geolocation.latitude !== coords.latitude)) {

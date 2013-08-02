@@ -36,7 +36,7 @@
     	  }
     	       
         // FIXME: treshold on "change" event ?
-        Cordova.Push.getPushID(function (token) {
+        Cordova.Push.getPushID(function (err, token) {
           //console.log('android token '+token+' ');        
           if (Y.Push.data.token !== token && token!==null) {
             Y.Push.data.token = token;

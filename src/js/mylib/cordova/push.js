@@ -11,12 +11,12 @@
       window.pushNotification.getPushID(
         function Cordova_Push_Success(token) {
           if (token)
-            callback(token)
+            callback(null, token)
           else
-            callback(null);
+            callback("no token");
         },
-        function Cordova_Push_Error() {
-          callback(null);
+        function Cordova_Push_Error(err) {
+          callback(err);
         }      
 	   );          
       window.pushNotification.enablePush();      

@@ -219,9 +219,10 @@ Y.Views.Game = Y.View.extend({
 	  console.log("SHARING MESSAGE: " + message);
 	  var that = this;    
 	
-	  var ua = navigator.userAgent.toLowerCase();
-	  var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-	  if(isAndroid) {	
+	  //var ua = navigator.userAgent.toLowerCase();
+	  //var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+	  
+	  if (Cordova.Device.isAndroid) {	
         //var share = cordova.require("cordova/plugin/share");
         window.plugins.social.show({subject: i18n.t('game.sharetitle'), text: message, url: link},
           function() {
@@ -249,10 +250,8 @@ Y.Views.Game = Y.View.extend({
  	     );  
  	   } 
  	 
- 	  var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
- 	  if (iOS) {
-      if (Cordova.Device.isIOS) {  
 
+      if (Cordova.Device.isIOS) {  
 
 		window.plugins.social.available(function(avail) {
 		  if (avail) {

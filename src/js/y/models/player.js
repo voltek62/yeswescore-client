@@ -1,5 +1,5 @@
 var PlayerModel = Backbone.Model.extend({
-  urlRoot: Y.Conf.get("api.url.players"),
+  urlRoot : function () { return Y.Conf.get("api.url.players"); },
 
   mode: '',
 

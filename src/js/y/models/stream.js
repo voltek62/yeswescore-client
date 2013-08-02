@@ -1,6 +1,6 @@
 var StreamModel = Backbone.Model.extend({
 
-  urlRoot : Y.Conf.get("api.url.games"),
+  urlRoot : function () { return Y.Conf.get("api.url.games"); },
 
   defaults : {
     id : null,
@@ -22,13 +22,7 @@ var StreamModel = Backbone.Model.extend({
 
   sync : function(method, model, options) {
 
-
-
-
     if (method === 'update' || method === 'create') {
-    
-    
-
 	  var that = this;
 
       return Backbone.ajax({

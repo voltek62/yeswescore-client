@@ -1,7 +1,5 @@
 var GameModel = Backbone.Model.extend({
-  urlRoot : Y.Conf.get("api.url.games"),
-
-  version: 0,
+  urlRoot : function () { return Y.Conf.get("api.url.games"); },
 
   initialize : function() {
     this.updated_at = new Date();

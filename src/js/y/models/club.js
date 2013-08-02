@@ -1,6 +1,6 @@
 var ClubModel = Backbone.Model.extend({
 
-  urlRoot : Y.Conf.get("api.url.clubs"),
+  urlRoot : function () { return Y.Conf.get("api.url.clubs"); },
 
   mode : '',
   

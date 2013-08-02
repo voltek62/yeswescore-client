@@ -251,7 +251,7 @@ Y.Views.Game = Y.View.extend({
  	 
  	  var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
  	  if (iOS) {
-        
+      if (Cordova.Device.isIOS) {  
 
 
 		window.plugins.social.available(function(avail) {

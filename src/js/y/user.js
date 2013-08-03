@@ -74,63 +74,59 @@
       });
     },
     
-	setFiltersSearch: function (filter) {	
-	
-	  var filters = Y.Conf.get(playerFiltersSearchConfKey);	  
+	  setFiltersSearch: function (filter) {	
+	    var filters = Y.Conf.get(playerFiltersSearchConfKey);	  
+
       if (filters!==undefined) {      	  
         if (filters.indexOf(filter) !== -1) {
           filters.splice(filters.indexOf(filter), 1);
-
           Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });
         } 
-       else {
-           filters.push(filter);
-           Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });      
-       }        
+        else {
+          filters.push(filter);
+          Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });      
+        }        
+      } else {
+        Y.Conf.set(playerFiltersSearchConfKey, [filter], { permanent: true });
       }
-      else {
-         Y.Conf.set(playerFiltersSearchConfKey, [filter], { permanent: true });
-      }  
-      	
-	},
+	  },
 	
-	getFiltersSearch: function () {	
+	  getFiltersSearch: function () {	
       return Y.Conf.get(playerFiltersSearchConfKey);
-      		
-	},	    
+	  },	    
     
-	setFiltersSort: function (filter) {	
+	  setFiltersSort: function (filter) {	
       Y.Conf.set(playerFiltersSortConfKey, filter, { permanent: true });		
-	},
+	  },
 	
-	getFiltersSort: function () {	
+	  getFiltersSort: function () {	
       return Y.Conf.get(playerFiltersSortConfKey);		
-	},	
+	  },	
 	
-	setClub: function (clubid) {	
+	  setClub: function (clubid) {	
       Y.Conf.set(playerClubIdConfKey, clubid, { permanent: true });		
-	},
+	  },
 
-	removeClub: function () {	
-	  // Y.Conf.del('player.club.id');
+	  removeClub: function () {
       Y.Conf.del('Y.Conf.'+playerClubIdConfKey);		
-	},
+	  },
 	
-	setFollowing: function (id) {
-	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+	  setFollowing: function (id) {
+	    var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+
       if (players_follow !== undefined)
       {
         if (players_follow.indexOf(this.id) === -1) {
           players_follow.push(this.id);
           Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });  
         }
-      }
-      else
+      } else {
         Y.Conf.set('Y.Conf.'+playerFollowingConfKey, [this.id]);	  
-	},
+      }
+	  },
 
-	removeFollowing: function (id) {	
-	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+	  removeFollowing: function (id) {	
+	    var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
       
       if (players_follow !== undefined)
       {
@@ -139,13 +135,12 @@
           players_follow.splice(players_follow.indexOf(this.id), 1);
           Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });
         }
-      }
-      	   		
-	},
+      } 		
+	  },
 	
-	getClub: function () {	
+	  getClub: function () {	
       return Y.Conf.get(playerClubIdConfKey);		
-	},	
+	  },	
 
     setPlayer: function (newplayer) {
       assert(newplayer instanceof PlayerModel);

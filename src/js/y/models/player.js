@@ -31,15 +31,6 @@ var PlayerModel = Backbone.Model.extend({
     updated_at: new Date()
   },
 
-  //initialize: function () {
-  // this.urlRoot = function () { return Y.Conf.get("api.url.players"); }
-  //},
-
-  read: function () {
-
-
-  },
-
   isMe: function () {
     return this.get('id') == Y.User.getPlayer().get('id');
   },
@@ -91,16 +82,9 @@ var PlayerModel = Backbone.Model.extend({
           typeof this.get('profile').image === "string")
         dataSend.profile = { image: this.get('profile').image };
       
+      // FIXME: l'écriture de la geoloc doit être externe a ce fichier.
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
-        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
-      
-      if (Y.Push.data.platform!==null)
-        dataSend.push.platform = Y.Push.data.platform; 
-        
-      if (Y.Push.data.token!==null)
-        dataSend.push.token = Y.Push.data.token;  
-        
-      //console.log('dataSend ------ ',dataSend);        
+        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];      
       
       return Backbone.ajax({
         dataType: 'json',
@@ -141,24 +125,12 @@ var PlayerModel = Backbone.Model.extend({
 
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
-        
-      if (Y.Push.data.platform!==null)
-        dataSend.push.platform = Y.Push.data.platform; 
-        
-      if (Y.Push.data.token!==null)
-        dataSend.push.token = Y.Push.data.token;       
 
       if (this.get('uncryptedPassword'))
         dataSend.uncryptedPassword = this.get('uncryptedPassword');
         
       if (this.get('dates').birth)
         dataSend.dates.birth = this.get('dates').birth;      
-
-      if (Y.Push.data.platform!==null)
-        dataSend.push.platform = Y.Push.data.platform; 
-        
-      if (Y.Push.data.token!==null)
-        dataSend.push.token = Y.Push.data.token;               
       
       // si club non nul
       if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {

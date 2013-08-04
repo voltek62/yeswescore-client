@@ -74,6 +74,15 @@
       });
     },
     
+    getOrCreatePlayerAsync: function (callback) {
+      this.getPlayerAsync(_.bind(function (err, player) {
+        if (err)
+          this.createPlayerAsync(callback); // no player => creating player
+        else
+          callback(null, player);
+      }, this));
+    },
+
 	  setFiltersSearch: function (filter) {	
 	    var filters = Y.Conf.get(playerFiltersSearchConfKey);	  
 

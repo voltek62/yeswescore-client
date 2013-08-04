@@ -10,21 +10,19 @@
 
     routes: {
       '': 'gameList',
-      'index': 'gameList',
-      'sort/:id': 'gameList',
-      'search/form': 'searchForm',      
-      'games/me/:id': 'gameMe',
-      'games/player/:id': 'gamePlayer',      
+      // games
+      'games/': 'games',
+      'games/sort/:sort': 'gamesSorted',
       'games/add': 'gameAdd',
       'games/form/:id': 'gameForm',      
       'games/follow': 'gameFollow',
       'games/end/:id': 'gameEnd',
-      'games/club/:id': 'gameClub',
       'games/list': 'gameList',  
       'games/:id/comments/': 'gameComment', 
       'games/:id': 'game', 
-      'games/': 'gameList',   
-      'notification': 'notificationList',              
+      // players
+      'players/me/games': 'playersMeGames',
+      'players/:id/games': 'playersGames',
       'players/list': 'playerList',
       'players/club/:id': 'playerListByClub',
       'players/form/me': 'playerFormFirst',
@@ -34,9 +32,14 @@
       'players/forget': 'playerForget',
       'players/follow': 'playerFollow',                                              
       'players/:id': 'player',
+      // clubs
       'clubs/add': 'clubAdd',
-      'clubs/follow': 'clubFollow',      
+      'clubs/follow': 'clubFollow',
       'clubs/:id': 'club',
+      'clubs/:id/games': 'clubsGames',
+      // autres
+      'search/form': 'searchForm',
+      'notification': 'notificationList',
       'account': 'account',
       'about': 'about'
     },
@@ -86,8 +89,7 @@
     },
 
     gameList: function (sort) {
-      if (typeof sort === "undefined") sort='';
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: '', id: '', sort: sort }));
+      this.changePage(this.createViewFactory(Y.Views.GameList, { search: '', id: '', sort: sort || '' }));
     },
     
     gameMe: function (id) {

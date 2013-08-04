@@ -1,4 +1,4 @@
-Y.Views.PlayerForm = Y.View.extend({
+Y.Views.Pages.PlayerForm = Y.View.extend({
   el:"#content",
     
   events: {

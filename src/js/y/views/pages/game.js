@@ -1,4 +1,4 @@
-Y.Views.Game = Y.View.extend({
+Y.Views.Pages.Game = Y.View.extend({
   el : "#content",
   
   displayViewScoreBoard : "#scoreBoard",

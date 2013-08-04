@@ -1,4 +1,4 @@
-Y.Views.ClubFollow = Y.View.extend({
+Y.Views.Pages.ClubFollow = Y.View.extend({
   el:"#content",
   
   events: {
@@ -20,7 +20,7 @@ Y.Views.ClubFollow = Y.View.extend({
     // loading templates.
     this.templates = {
       clublist:  Y.Templates.get('clubList'),
-      clubsearch: Y.Templates.get('clubListSearch'),
+      clubfollow: Y.Templates.get('clubfollow'),
       error: Y.Templates.get('error'),
       ongoing: Y.Templates.get('ongoing') 
     };
@@ -128,7 +128,7 @@ Y.Views.ClubFollow = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.templates.clubsearch({}));
+    this.$el.html(this.templates.clubfollow({}));
 	$('a').i18n(); 
     return this;
   },

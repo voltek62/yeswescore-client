@@ -1,4 +1,4 @@
-Y.Views.GameList = Y.View.extend({
+Y.Views.Pages.GameList = Y.View.extend({
   el: "#content",
 
   events: {
@@ -27,52 +27,31 @@ Y.Views.GameList = Y.View.extend({
  
   clubid: "",
   
-  button : true,
   controlTimeout: null,
-  controlPlayer: false,
-      
-  myinitialize: function (param) {
-  	
-  	//FIXME: refacto
-  	this.sortOption = Y.User.getFiltersSort();
+  player: null,
+  
+  button: true,
 
-  	this.clubid = Y.User.getClub();
-	this.player = Y.User.getPlayer();
-	 
-	      	
-	//header 
-    if (param!=='undefined') { 
-      if (param.search==="me") {          
-        Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
-        this.pageName = "gameListByMe";
-        this.button=false;
-      }
-      else if (param.search==="player") {
-        Y.GUI.header.title(i18n.t('gamelist.titleplayergames')); 
-        this.pageName = "gameListPlayer";
-        this.button=false;       
-      }        
-      else if (param.search==="club") {
-        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
-        this.pageName = "gameListByClub";        
-      }  
-      else {
-        Y.GUI.header.title(i18n.t('gamelist.titlegames'));  
-        this.pageName = "gameList";
-      }  
-    }
-	else {
-	  Y.GUI.header.title(i18n.t('gamelist.titlegames'));
-      this.pageName = "gameList";	  
-    }
-	
+  myinitialize: function (param) {
     var that = this;
-    //  
+
+    // saving parameter
+    this.param = param || {};
+
+    // initialization
+    this.initializeTitle(param);
+    this.initializePageName(param);
+
+    // options
+  	this.sortOption = Y.User.getFiltersSort();
+  	this.clubid = Y.User.getClub();
+
+    //
     this.onResume = function () { that.search(); };
     
     this.templates = {
       gamelist:  Y.Templates.get('gameList'),
-      gamesearch: Y.Templates.get('gameListSearch'),
+      page: Y.Templates.get('page-games'),
       error: Y.Templates.get('error'),
       ongoing: Y.Templates.get('ongoing')      
     };
@@ -92,7 +71,6 @@ Y.Views.GameList = Y.View.extend({
     // first: fetch games
     this.gameDeferred = $.Deferred();
     this.games = new GamesCollection();
-
 
     if (param!==undefined) { 
 	    if (param.search === 'me') {
@@ -158,47 +136,81 @@ Y.Views.GameList = Y.View.extend({
     //disable
     this.games.fetch();
 
-    // second: read/create player
+    // chargement player
     var playerDeferred = $.Deferred();
-    
-    this.controlTimeout = window.setTimeout(function () {
-      if (that.controlPlayer === false) that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
-      that.controlTimeout = null;
-    }, 10000);    
-    
-    Y.User.getPlayerAsync(function (err, player) {
-      if (err) {
-        // no player => creating player.
-    
-        // creating the player.
-        Y.User.createPlayerAsync(function (err, player) {
-          // FIXME: err, reject deferred
-         
-          playerDeferred.resolve();
-        });
-        return;
-      }
-      
-
-	  document.addEventListener("resume", that.onResume, true);
-      
-      
-      that.controlPlayer=true;
+    Y.User.getOrCreatePlayerAsync(function (err, player) {
+      document.addEventListener("resume", that.onResume, true);
+      that.player = player;
       playerDeferred.resolve();
-            
     });
 
-    // FIXME: handling error with deferreds
+    this.startControlTimeout();
+
+    //
     $.when(
       this.gameDeferred,
       playerDeferred
     ).done(function () {
+      this.stopControlTimeout();
       that.render();
-      that.renderList();
-            
     });
-       
-      
+  },
+
+  initializeTitle: function (param) {
+    var search = (param) ? param.search : null
+
+    switch (search) {
+      case 'me':
+        Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
+        this.button=false; // FIXME: render ?
+        break;
+      case 'player':
+        Y.GUI.header.title(i18n.t('gamelist.titleplayergames'));
+        this.button=false; // FIXME: render ?  
+        break;
+      case 'club':
+        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames'));
+        break;
+      default:
+        Y.GUI.header.title(i18n.t('gamelist.titlegames'));
+        break;
+    }
+  },
+
+  initializePageName: function (param) {
+    var search = (param) ? param.search : "none";
+
+    switch (search) {
+      case 'me':
+        this.pageName = "gameListByMe";
+        break;
+      case 'player':
+        this.pageName = "gameListPlayer";
+        break;
+      case 'club':
+        this.pageName = "gameListByClub";
+        break;
+      default:
+        this.pageName = "gameList";
+        break;
+    }
+  },
+
+  // active un message d'erreur si stop n'est pas appelé avant un certain delai
+  startControlTimeout: function () {
+    if (this.controlTimeout == null) {
+      this.controlTimeout = window.setTimeout(function () {
+        that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
+        that.controlTimeout = null;
+      }, 10000);
+    }
+  },
+
+  stopControlTimeout: function () {
+    if (that.controlTimeout) {
+      window.clearTimeout(that.controlTimeout);
+      that.controlTimeout = null;
+    }
   },
 
   deleteFilter : function (event) {
@@ -366,22 +378,12 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
-  
-    this.$el.html(this.templates.gamesearch({ button:this.button }));   
-    //$('a').i18n(); 
-    this.$el.i18n();   
-  
-
-	if (this.sortOption==='ongoing') 
-  	  $(".search div[data-filter='filter-status-ongoing'] span").addClass('select'); 
- 	else if (this.sortOption==='finished') 
-      $(".search div[data-filter='filter-status-finished'] span").addClass('select'); 
- 	else if (this.sortOption==='created') 
-      $(".search div[data-filter='filter-status-created'] span").addClass('select');  
-    else
-      $(".search div[data-filter='filter-status-all'] span").addClass('select');
-            
- 
+    this.$el.html(this.templates.page({button: this.button})).i18n();
+    
+    // dynamic stuff.
+    var sortOption = this.sortOption || "all";
+    $(".search div[data-filter='filter-status-" + sortOption + "] span").addClass('select');             
+    
     var filters = Y.User.getFiltersSearch();
 
     if (filters===undefined) 
@@ -402,12 +404,6 @@ Y.Views.GameList = Y.View.extend({
 	 	  $('#searchmyclub').html('');	
     }
     
-    return this;
-  },
-
-  // should not take any parameters
-  renderList: function () {
-  
     var games_follow = Y.Conf.get("owner.games.followed");
     var players_follow = Y.User.getPlayer().get('following');
     
@@ -417,20 +413,14 @@ Y.Views.GameList = Y.View.extend({
   },
 
   onClose: function () {
-    
     if (this.button===false) { 
 	    this.games.removeSearch('me');	
-	}
+    }
 	
-    if (this.controlTimeout) {
-      window.clearTimeout(this.controlTimeout);
-      this.controlTimeout = null;
-    }	
+    this.stopControlTimeout();
 	
-	document.removeEventListener("resume", this.onResume, true);
+	  document.removeEventListener("resume", this.onResume, true);
     
-    this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
-       
   }
 });

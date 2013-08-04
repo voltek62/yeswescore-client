@@ -1,4 +1,4 @@
-Y.Views.GameAdd = Y.View.extend({
+Y.Views.Pages.GameAdd = Y.View.extend({
   el: "#content",
 
   pageName: "gameAdd",

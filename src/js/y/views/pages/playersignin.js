@@ -1,4 +1,4 @@
-Y.Views.PlayerSignin = Y.View.extend({
+Y.Views.Pages.PlayerSignin = Y.View.extend({
   el : "#content",
 
   events: {

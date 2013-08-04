@@ -1,4 +1,4 @@
-Y.Views.Player = Y.View.extend({
+Y.Views.Pages.Player = Y.View.extend({
   el:"#content",
 
   events: {

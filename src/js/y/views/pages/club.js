@@ -1,4 +1,4 @@
-Y.Views.Club = Y.View.extend({
+Y.Views.Pages.Club = Y.View.extend({
   el : "#content",
 
   events : {

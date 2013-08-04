@@ -1,4 +1,4 @@
-Y.Views.About = Y.View.extend({
+Y.Views.Pages.About = Y.View.extend({
   el: "#content",
 
   pageName: "about",

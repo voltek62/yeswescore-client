@@ -25,6 +25,7 @@
         player.set(unserializedPlayer);
         return player;
       }
+      assert(false);
       // FIXME: should we really do this...
       // REDIRECT ON INDEX (to create a new player...)
       return null;
@@ -72,6 +73,15 @@
           callback(null, player);
         }
       });
+    },
+
+    getOrCreatePlayerAsync: function (callback) {
+      this.getPlayerAsync(_.bind(function (err, player) {
+        if (err)
+          this.createPlayerAsync(callback); // no player => creating player
+        else
+          callback(null, player);
+      }, this));
     },
     
 	  setFiltersSearch: function (filter) {	

@@ -5,8 +5,8 @@
 
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
   var isGingerbread = /android 2\.3/i.test(userAgent);
-  var isAndroid = /android/g.test(userAgent);   
-  var isIOS = /(iPad|iPhone|iPod)/g.test(userAgent);
+  var isAndroid = /android/i.test(userAgent);   
+  var isIOS = /(iPad|iPhone|iPod)/i.test(userAgent);
   // wrapper around cordova device 
   //  will be overrided by fake cordova in dev.
   var Device = {

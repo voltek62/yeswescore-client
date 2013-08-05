@@ -208,7 +208,7 @@ Y.Views.Game = Y.View.extend({
     var message = _.reduce(_.keys(messages), function (result, token) {
       return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
     }, messagePattern);
-
+    
     // building message
     var isCordova = true;  
     /*#ifndef CORDOVA */ 
@@ -219,9 +219,6 @@ Y.Views.Game = Y.View.extend({
 	  console.log("SHARING MESSAGE: " + message);
 	  var that = this;    
 	
-	  //var ua = navigator.userAgent.toLowerCase();
-	  //var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-	  
 	  if (Cordova.Device.isAndroid) {	
         //var share = cordova.require("cordova/plugin/share");
         window.plugins.social.show({subject: i18n.t('game.sharetitle'), text: message, url: link},

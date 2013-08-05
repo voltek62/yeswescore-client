@@ -10,8 +10,10 @@
   var playerTokenConfKey = 'player.token';
   var playerClubIdConfKey = 'player.club.id';
   var playerFollowingConfKey = 'player.following';
-  var playerFiltersSortConfKey = 'player.filters.sort';
-  var playerFiltersSearchConfKey = 'player.filters.search';  
+  var playerSearchOptionsConfKey = 'player.search.options';
+
+  //var playerFiltersSortConfKey = 'player.filters.sort';
+  //var playerFiltersSearchConfKey = 'player.filters.search';  
   
   var User = {
     // @return PlayerModel/null   Player
@@ -83,34 +85,22 @@
       }, this));
     },
 
-	  setFiltersSearch: function (filter) {	
-	    var filters = Y.Conf.get(playerFiltersSearchConfKey);	  
-
-      if (filters!==undefined) {      	  
-        if (filters.indexOf(filter) !== -1) {
-          filters.splice(filters.indexOf(filter), 1);
-          Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });
-        } 
-        else {
-          filters.push(filter);
-          Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });      
-        }        
-      } else {
-        Y.Conf.set(playerFiltersSearchConfKey, [filter], { permanent: true });
-      }
-	  },
-	
-	  getFiltersSearch: function () {	
-      return Y.Conf.get(playerFiltersSearchConfKey);
-	  },	    
-    
-	  setFiltersSort: function (filter) {	
-      Y.Conf.set(playerFiltersSortConfKey, filter, { permanent: true });		
-	  },
-	
-	  getFiltersSort: function () {	
-      return Y.Conf.get(playerFiltersSortConfKey);		
-	  },	
+    // param de recherche par defaut
+    defaultSearchOptions: { filters: [], sort: null },
+    // enregistre les options de recherche de l'utilsateur
+    // @param options { filters: [ "a", "b"], sort: "aa" }
+    setSearchOptions: function (options) {
+      var newOptions = this.getSearchOptions();
+      if (typeof options.filters !== "undefined")
+        newOptions.filters = options.filters;
+      if (typeof options.sort !== "undefined")
+        newOptions.sort = options.sort;
+      Y.Conf.set(playerSearchOptionsConfKey, newOptions, { permanent: true });
+    },
+    // lit les options de recherche de l'utilisateur
+    getSearchOptions: function () {
+      return Y.Conf.get(playerSearchOptionsConfKey) || this.defaultSearchOptions;
+    },
 	
 	  setClub: function (clubid) {	
       Y.Conf.set(playerClubIdConfKey, clubid, { permanent: true });		

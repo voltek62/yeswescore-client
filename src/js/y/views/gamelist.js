@@ -12,11 +12,10 @@ Y.Views.GameList = Y.View.extend({
     'vclick a[data-filter="searchmyclub"]':'deleteFilter', 
     'vclick a[data-filter="searchgeo"]':'deleteFilter',    
         
-    'click div[data-filter="filter-status-all"]': 'filterByStatusAll',
-    'click div[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
-    'click div[data-filter="filter-status-finished"]': 'filterByStatusFinished',      
-    'click div[data-filter="filter-status-created"]': 'filterByStatusCreated'
-    
+    'click div[data-sort="status-all"]': 'sortByStatusAll',
+    'click div[data-sort="status-ongoing"]': 'sortByStatusOngoing',    
+    'click div[data-sort="status-finished"]': 'sortByStatusFinished',      
+    'click div[data-sort="status-created"]': 'sortByStatusCreated'
   },
 
   listview: "#listGamesView",
@@ -26,47 +25,20 @@ Y.Views.GameList = Y.View.extend({
   sortOption: "",
  
   clubid: "",
-  
+
   button : true,
   controlTimeout: null,
-  controlPlayer: false,
       
   myinitialize: function (param) {
-  	
-  	//FIXME: refacto
-  	this.sortOption = Y.User.getFiltersSort();
-
-  	this.clubid = Y.User.getClub();
-	this.player = Y.User.getPlayer();
-	 
-	      	
-	//header 
-    if (param!=='undefined') { 
-      if (param.search==="me") {          
-        Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
-        this.pageName = "gameListByMe";
-        this.button=false;
-      }
-      else if (param.search==="player") {
-        Y.GUI.header.title(i18n.t('gamelist.titleplayergames')); 
-        this.pageName = "gameListPlayer";
-        this.button=false;       
-      }        
-      else if (param.search==="club") {
-        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
-        this.pageName = "gameListByClub";        
-      }  
-      else {
-        Y.GUI.header.title(i18n.t('gamelist.titlegames'));  
-        this.pageName = "gameList";
-      }  
-    }
-	else {
-	  Y.GUI.header.title(i18n.t('gamelist.titlegames'));
-      this.pageName = "gameList";	  
-    }
-	
     var that = this;
+
+    // saving parameter
+    this.param = param || {};
+
+    // initialization
+    this.initializeTitle(param);
+    this.initializePageName(param);
+
     //  
     this.onResume = function () { that.search(); };
     
@@ -77,7 +49,6 @@ Y.Views.GameList = Y.View.extend({
       ongoing: Y.Templates.get('ongoing')      
     };
     
-
     //we capture config from bootstrap
     //FIXME: put a timer
     //this.config = new Config();
@@ -93,202 +64,134 @@ Y.Views.GameList = Y.View.extend({
     this.gameDeferred = $.Deferred();
     this.games = new GamesCollection();
 
-
-    if (param!==undefined) { 
-	    if (param.search === 'me') {
-	      this.games.addSearch('player');	
-	      this.games.setPlayer(this.player.id);		      
-	    }
-	    else if (param.search === 'player') {
-	      this.games.addSearch('player');	
-	      this.games.setPlayer(param.id);		        
-	    }	    
-	    else
-	      this.searchOption = Y.User.getFiltersSearch();     
-     }
-     else 
-       	this.searchOption = Y.User.getFiltersSearch();    
-
-     if (this.sortOption!==undefined) {
-       if (this.sortOption !=="") 
-         this.games.setSort(this.sortOption);      
-     }
-     
-     if (this.searchOption!==undefined) {
-     
-      if(this.searchOption.indexOf('searchmyclub')!==-1) {       
-        
-        if (this.clubid !== '') {
-          this.games.addSearch('club'); 
-          this.games.setClub(this.clubid);
-        }
-        else {
-          this.games.removeSearch('searchmyclub');
-          $('#searchmyclub').html('');        
-        } 
-        
-	  }
-      
-	  if(this.searchOption.indexOf('searchgeo')!==-1) {
-
-        if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null ) {
-          this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
-          this.games.addSearch('geo');  
-        }
-        else {
-          this.games.removeSearch('searchgeo');
-          $('#searchgeo').html('');
-        }
-        
-      }  
-      
-      //On regarde si la barre de recherche avancé est encore utile
-      this.searchOption = Y.User.getFiltersSearch();
-
-      if (this.searchOption!==undefined) 
-        $('.advancedsearch').hide();
-      else if (this.searchOption.length<=0) 
-        $('.advancedsearch').hide();      
-
-           
-     }
-      
+    // 
+    var searchType = (param) ? param.search : null;
+    switch (searchType) {
+      case 'me':
+        // we can access Y.User.getPlayer, because option search == "me" should'nt triggered on first launch.
+	      this.games.addSearch('player');
+	      this.games.setPlayer(Y.User.getPlayer().id);
+        break;
+      case 'player':
+        this.games.addSearch('player');
+	      this.games.setPlayer(param.id);
+        break;
+      case 'club':
+        // FIXME
+        break;
+      default:
+        // on utilise les options de recherche de l'utilisateur
+        this.games.setSearchOptions(Y.User.getSearchOptions());
+        break;
+    }
             
     this.games.on('sync', this.gameDeferred.resolve, this.gameDeferred);
-    //disable
     this.games.fetch();
 
     // second: read/create player
     var playerDeferred = $.Deferred();
-    
-    this.controlTimeout = window.setTimeout(function () {
-      if (that.controlPlayer === false) that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
-      that.controlTimeout = null;
-    }, 10000);    
-    
-    Y.User.getPlayerAsync(function (err, player) {
-      if (err) {
-        // no player => creating player.
-    
-        // creating the player.
-        Y.User.createPlayerAsync(function (err, player) {
-          // FIXME: err, reject deferred
-         
-          playerDeferred.resolve();
-        });
-        return;
-      }
-      
-
-	  document.addEventListener("resume", that.onResume, true);
-      
-      
-      that.controlPlayer=true;
-      playerDeferred.resolve();
-            
+    Y.User.getOrCreatePlayerAsync(function (err, player) {
+      document.addEventListener("resume", that.onResume, true);
+      playerDeferred.resolve(); 
     });
+
+    this.startControlTimeout();
 
     // FIXME: handling error with deferreds
     $.when(
       this.gameDeferred,
       playerDeferred
     ).done(function () {
+      that.stopControlTimeout();
       that.render();
-      that.renderList();
-            
+      that.renderList();     
     });
-       
-      
   },
 
-  deleteFilter : function (event) {
-    
-    var cmd = event.currentTarget.id;
-    
-	if (cmd==='searchgeoselect') { 
-      Y.User.setFiltersSearch('searchgeo');
-      $('#searchgeo').html('');
-      this.games.removeSearch('geo');
-    }   
+  initializeTitle: function (param) {
+    var search = (param) ? param.search : null
 
-	if (cmd==='searchmyclubselect') { 
-      Y.User.setFiltersSearch('searchmyclub');
-      $('#searchmyclub').html('');
-      this.games.removeSearch('club');
-    } 
-    
-    var filters = Y.User.getFiltersSearch();
-    
-    if (filters===undefined) 
-      $('.advancedsearch').hide();
-    else if (filters.length<=0) 
-      $('.advancedsearch').hide();
-      
-    this.search();  
-      
-  },  
-  
-  goToGame: function (elmt) {
-    if (elmt.currentTarget.id) {
-      var route = elmt.currentTarget.id;
-      Y.Router.navigate(route, {trigger: true}); 
+    switch (search) {
+      case 'me':
+        Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
+        this.button=false; // FIXME: render ?
+        break;
+      case 'player':
+        Y.GUI.header.title(i18n.t('gamelist.titleplayergames'));
+        this.button=false; // FIXME: render ?  
+        break;
+      case 'club':
+        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames'));
+        this.button=false; // FIXME: render ?  
+        break;
+      default:
+        Y.GUI.header.title(i18n.t('gamelist.titlegames'));
+        break;
     }
   },
 
+  initializePageName: function (param) {
+    var search = (param) ? param.search : "none";
+
+    switch (search) {
+      case 'me':
+        this.pageName = "gameListByMe";
+        break;
+      case 'player':
+        this.pageName = "gameListPlayer";
+        break;
+      case 'club':
+        this.pageName = "gameListByClub";
+        break;
+      default:
+        this.pageName = "gameList";
+        break;
+    }
+  },
+
+  // active un message d'erreur si stop n'est pas appelé avant un certain delai
+  startControlTimeout: function () {
+    if (this.controlTimeout == null) {
+      this.controlTimeout = window.setTimeout(_.bind(function () {
+        this.$el.html("<span style=\"top:50px;position:absolute;top:50px;width:100%;text-align:center;\">"+i18n.t('message.noconnection')+"</span>");
+        this.controlTimeout = null;
+      }, this), 10000);
+    }
+  },
+
+  stopControlTimeout: function () {
+    if (this.controlTimeout) {
+      window.clearTimeout(this.controlTimeout);
+      this.controlTimeout = null;
+    }
+  },
+
+  // filtres des options de recherche
   showFilters: function () {
-    
-    //this.$('.button-option-down').addClass('button-option-up').removeClass('button-option-down');
-    //this.$(".filters").show();
     Y.Router.navigate("search/form", {trigger: true}); 
-    
-  },
-  hideFilters: function () {
-
-    this.$('.button-option-up').addClass('button-option-down').removeClass('button-option-up');   
-    
-    $('.message').removeAttr('style');
-    
-    this.$(".filters").hide();
-      
   },
 
- 
-   
-  filterByStatusAll: function () { 
-    this.setSort("all");
-  },
+  deleteFilter : function (event) {
+    var cmd = event.currentTarget.id;
+    
+	  if (cmd==='searchgeoselect'||cmd==='searchmyclubselect') {
+      Y.User.setSearchOptions({filters:[]});
+      this.games.removeSearch('geo');
+      this.games.removeSearch('club');
+    }
+    this.renderSearchOptions();
+    this.search();
+  },  
   
-  filterByStatusOngoing: function () { 
-    this.setSort("ongoing");
+  sortByStatusAll: function () { this.setSortOption("all") },
+  sortByStatusOngoing: function () { this.setSortOption("ongoing") },
+  sortByStatusFinished: function () { this.setSortOption("finished") },
+  sortByStatusCreated: function () { this.setSortOption("created") },
+  setSortOption: function (sortOption) {
+    Y.User.setSearchOptions({sort: sortOption});
+    this.renderSearchOptions();
+    this.search();
   },
-  
-  filterByStatusFinished: function () { 
-    this.setSort("finished");
-  },
-  
-  filterByStatusCreated: function () { 
-    this.setSort("created");
-  },
-      
-  setSort: function (o) {
-  
-     $(".search div[data-filter*='filter-status'] span").removeClass('select');
-     
-	if (o==='all') 
-      $(".search div[data-filter='filter-status-all'] span").addClass('select');
- 	else if (o==='ongoing') 
-  	  $(".search div[data-filter='filter-status-ongoing'] span").addClass('select'); 
- 	else if (o==='finished') 
-      $(".search div[data-filter='filter-status-finished'] span").addClass('select'); 
- 	else if (o==='created') 
-      $(".search div[data-filter='filter-status-created'] span").addClass('select');        
-          
-    this.sortOption = o;   
-    Y.User.setFiltersSort(o);
-    this.search();     
-    //this.hideFilters();
-  },
-
 
   searchButton: function () {
     this.inputModeOff();
@@ -304,61 +207,33 @@ Y.Views.GameList = Y.View.extend({
   },
 
   searchOnBlur: function (event) {
-
-    this.search();
-
-    return this;
+    return this.search();
   },
   
   search: function () {
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.ongoing());
     $('p').i18n(); 
-    
-    if (this.sortOption !=="") 
-      this.games.setSort(this.sortOption);  
-    
 
-    if (this.searchOption !== undefined) {     
-      
-      //FIXME : cumul search et trier par date
-      
-      if(this.searchOption.indexOf('searchmyclub')!==-1 && this.clubid === '') {
-        this.games.addSearch('club');  
-        this.games.setClub(this.clubid);
-	  }
-      
-      if(this.searchOption==="searchgeo" && Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null) {
-        this.games.addSearch('geo');          
-        this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
-      }  
-    
-    }  
+    this.games.setSearchOptions(Y.User.getSearchOptions());
    
-    if (q !== '') {
+    if (q) {
       this.games.addSearch('player');   
       this.games.setQuery(q);
-    }
-    else
+    } else {
       this.games.removeSearch('player');
+    }
 
     this.games.fetch().done($.proxy(function () {    
-    
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
-      }
-      else {
-      
+      } else {
         var games_follow = Y.Conf.get("owner.games.followed");
         var players_follow = Y.User.getPlayer().get('following');
-    	//$(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
-      
+
         $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: q }));
-        
       }
-    	
       $(this.listview).i18n();
-    
     }, this));
     
     return this;
@@ -366,48 +241,37 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
-  
-    this.$el.html(this.templates.gamesearch({ button:this.button }));   
-    //$('a').i18n(); 
-    this.$el.i18n();   
-  
-
-	if (this.sortOption==='ongoing') 
-  	  $(".search div[data-filter='filter-status-ongoing'] span").addClass('select'); 
- 	else if (this.sortOption==='finished') 
-      $(".search div[data-filter='filter-status-finished'] span").addClass('select'); 
- 	else if (this.sortOption==='created') 
-      $(".search div[data-filter='filter-status-created'] span").addClass('select');  
-    else
-      $(".search div[data-filter='filter-status-all'] span").addClass('select');
-            
- 
-    var filters = Y.User.getFiltersSearch();
-
-    if (filters===undefined) 
-      $('.advancedsearch').hide();
-    else if (filters.length<=0) 
-      $('.advancedsearch').hide(); 
-    else {     
-      	if (filters.indexOf('searchgeo')!==-1) {
-     	  $('#searchgeo').html('<a data-filter="searchgeo" id="searchgeoselect">'+i18n.t('search.filtergps')+'</a>');	
-	    } 
-	    else
-	      $('#searchgeo').html('');	
-	    
-	    if (filters.indexOf('searchmyclub')!==-1) {
-		  $('#searchmyclub').html('<a data-filter="searchmyclub" id="searchmyclubselect">'+i18n.t('search.filtermyclub')+'</a>');	
-	 	}
-	 	else
-	 	  $('#searchmyclub').html('');	
-    }
-    
+    this.$el.html(this.templates.gamesearch({ button:this.button })).i18n();
+    this.renderSearchOptions();
     return this;
+  },
+
+  renderSearchOptions: function () {
+    var userSearchOptions = Y.User.getSearchOptions();
+    // filters
+    var filters = userSearchOptions.filters;
+    if (filters.length === 0) {
+      $('.advancedsearch').hide();
+    } else {
+      if (filters.indexOf('searchgeo')!==-1) {
+        $('#searchgeo').html('<a data-filter="searchgeo" id="searchgeoselect">'+i18n.t('search.filtergps')+'</a>');
+	    } else {
+	      $('#searchgeo').html('');
+      }
+	    if (filters.indexOf('searchmyclub')!==-1) {
+	      $('#searchmyclub').html('<a data-filter="searchmyclub" id="searchmyclubselect">'+i18n.t('search.filtermyclub')+'</a>');	
+      } else {
+	      $('#searchmyclub').html('');	
+      }
+    }
+    // sort
+    var sort = userSearchOptions.sort || 'all';
+    $(".search div[data-sort*='status'] span").removeClass('select');
+    $(".search div[data-sort='status-" + sort + "'] span").addClass('select');
   },
 
   // should not take any parameters
   renderList: function () {
-  
     var games_follow = Y.Conf.get("owner.games.followed");
     var players_follow = Y.User.getPlayer().get('following');
     
@@ -416,21 +280,23 @@ Y.Views.GameList = Y.View.extend({
     return this;
   },
 
+  goToGame: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
+  },
+
   onClose: function () {
-    
     if (this.button===false) { 
-	    this.games.removeSearch('me');	
-	}
+	    this.games.removeSearch('me');
+	  }
 	
-    if (this.controlTimeout) {
-      window.clearTimeout(this.controlTimeout);
-      this.controlTimeout = null;
-    }	
-	
-	document.removeEventListener("resume", this.onResume, true);
+    this.stopControlTimeout();
+	  
+	  document.removeEventListener("resume", this.onResume, true);
     
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
-       
   }
 });

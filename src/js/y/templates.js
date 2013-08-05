@@ -33,7 +33,7 @@
           "clubAdd", "clubListAutoComplete", "club", "clubList","clubListSearch", 
           "gameAdd", "gameComments","gameEnd", "gameListSearch", "gameList","gameSelect","gameDatePicker","gameDatePickerAndroid",
           "gameCommentsScore", "gameCommentsComment","gameScoreBoard", "game", "gameForm",
-          "index", "empty", "error","ongoing",
+          "empty", "error","ongoing",
           "notification", "notificationList",
           "searchForm",
           "player", "playerForget", "playerForm", "playerListAutoComplete", "playerList", "playerDatePickerBirth", "playerDatePickerBirthAndroid",

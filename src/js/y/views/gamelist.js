@@ -73,11 +73,13 @@ Y.Views.GameList = Y.View.extend({
 	      this.games.setPlayer(Y.User.getPlayer().id);
         break;
       case 'player':
-        this.games.addSearch('player');
-	      this.games.setPlayer(param.id);
+         this.games.addSearch('player');
+	     this.games.setPlayer(param.id);
         break;
       case 'club':
         // FIXME
+          this.games.addSearch('club');
+	      this.games.setClub(param.id);        
         break;
       default:
         // on utilise les options de recherche de l'utilisateur

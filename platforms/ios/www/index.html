@@ -808,6 +808,11 @@ ul>li.player>a {
   box-sizing:        border-box;
 }
 
+.blue-screen.player-form .container {
+  padding: 0;
+  padding-top: 9px;
+}
+
 .blue-screen .zone-list {
   background-color:#45b1db;  
   width:100%;
@@ -1180,6 +1185,25 @@ ul>li.player>a {
   display: inline-block;
 }
 
+.player-form .column.picture {
+  float:left;
+  width:100px;
+  margin-right: 10px;
+  padding-top: 5px;
+}
+
+.player-form .column.infos {
+  overflow: hidden;
+  width: auto;
+}
+
+.player-form .column.picture #throbber {
+  position:relative;
+  top:-20px;
+  left:30px;
+  display: none;
+}
+
 .button-form {
 	position: fixed;
 	left: 0px;
@@ -1243,6 +1267,10 @@ ul>li.player>a {
 	border: 1px solid #74c5e3;
 	color: #fff;
 	cursor: pointer;
+}
+
+.link-form .button.warn {
+  color: #f2734c;
 }
 
 .link-form .button-selected {
@@ -1791,29 +1819,14 @@ a[data-filter='match-followed'] {
 	box-sizing: border-box;
 }
 
-
-.account span.button {
-	display: block;
-	width: 100%;
-	height: 50px;
-	margin-top: 10px;
-	text-decoration: none;
-	text-transform: uppercase;
-	text-align: center;
-	font-family: Open Sans;
-	font-weight: 700;
-	line-height: 50px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	color: white;
-	background-color: #46b1db;
-	border-top: 1px solid #d0ebf6;
-	border-left: 1px solid #a3d7ed;
-	border-bottom: 1px solid #74c5e3;
-	border-right: 1px solid #74c5e3;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
+.account {
+  height: 30px;
+  margin-top: 10px;
+}
+  
+.form-button.photo {
+  position: relative;
+  display: none;
 }
 
 .account a.buttonGrey {
@@ -11384,10 +11397,14 @@ window.isMobileBrowser = (function () {
 })();
 
 var assert = function () { };
-
+/*#ifdef DEV*/
+assert = function (t) { if (!t) throw "assert false " };
+/*#endif*/
 
 var PROD = true;
-
+/*#ifdef DEV*/
+PROD = false;
+/*#endif*/
 if (PROD) {
   // we do not want any console.log in production environment.
   setTimeout(function () {
@@ -11573,18 +11590,58 @@ if (PROD) {
   "use strict";
   /*#endif*/
 
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  var isGingerbread = /android 2\.3/i.test(userAgent);
+  var isAndroid = /android/i.test(userAgent);   
+  var isIOS = /(iPad|iPhone|iPod)/i.test(userAgent);
+  // wrapper around cordova device 
+  //  will be overrided by fake cordova in dev.
+  var Device = {
+    name: '',
+    cordova: '',
+    platform: '',
+    uuid: '',
+    version: '',
+    model: '',
+    // custom properties
+    isGingerbread: isGingerbread,
+    isIOS: isIOS,
+    isAndroid : isAndroid    
+  };
+  
+  // registering geolocalisation only when cordova is ready.
+  Cordova.deviceready(function () {
+  
+    if (typeof window.device !== "undefined") {
+      Device.name     = window.device.name;
+      Device.cordova  = window.device.cordova;
+      Device.platform = window.device.platform;
+      Device.uuid     = window.device.uuid;
+      Device.version  = window.device.version;
+      Device.model    = window.device.model;
+    }  
+  
+    Cordova.Device = Device;
+  
+  });
+})(Cordova);
+(function (Cordova, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
+
   // wrapper around cordova geolocation
   var Geolocation = {
     getCurrentPosition: function (callback) {
       navigator.geolocation.getCurrentPosition(
         function Cordova_Geolocation_Success(position) {
           if (position && position.coords)
-            callback(position.coords)
+            callback(null, position.coords)
           else
-            callback(null);
+            callback("unknown position");
         },
-        function Cordova_Geolocation_Error() {
-          callback(null);
+        function Cordova_Geolocation_Error(err) {
+          callback(err);
         }
       );
     }
@@ -11743,7 +11800,9 @@ if (PROD) {
 
       if (typeof options.loadstart === "function")
         this.iabRef.addEventListener('loadstart', function (data) {
-          
+          /*#ifdef DEV*/
+          console.log('Cordova.InAppBrowser: loadstart: ' + data.url);
+          /*#endif*/
           options.loadstart.apply(this, arguments);
         });
       if (typeof options.loadstop === "function")
@@ -11780,56 +11839,17 @@ if (PROD) {
 
   // wrapper around cordova geolocation
   var Camera = {
-    
-    capturePhoto: function (callback) {   
-
+    capturePhoto: function (callback) {
       navigator.camera.getPicture(
         function Cordova_Camera_Success(imageData) {
-          if (imageData)
-            callback(imageData)
-          else
-            callback(null);
+          callback(null, {dataUri: imageData});
         },
         function Cordova_Camera_Error() {
-          callback(null);
+          callback("unknown camera error");
         },
-        /*
-		Camera.DestinationType = {
-		    DATA_URL : 0,                // Return image as base64 encoded string
-		    FILE_URI : 1,                // Return image file URI
-		    NATIVE_URI : 2               // Return image native URI (eg. assets-library:// on iOS or content:// on Android)
-		};        
-        */
-        { quality: 50
-          , targetWidth: 100
-          , targetHeight: 100
-          , encodingType: navigator.camera.EncodingType.JPEG
-          , destinationType: navigator.camera.DestinationType.DATA_URL }
-       );     
-      },
-      
-    getPhoto: function (callback) {  
-       
-      navigator.camera.getPicture(
-        function Cordova_Camera_Success(imageData) {
-          if (imageData)
-            callback(imageData)
-          else
-            callback(null);
-        },
-        function Cordova_Camera_Error() {
-          callback(null);
-        },
-        //pictureSource.PHOTOLIBRARY
-        //pictureSource.SAVEDPHOTOALBUM
-        { quality: 50
-          , destinationType: navigator.camera.DestinationType.FILE_URI
-          , sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
-       );     
-      }
-      
-      
-      
+        { quality: 50, encodingType: navigator.camera.EncodingType.JPEG, destinationType: navigator.camera.DestinationType.DATA_URL }
+      );     
+    }
   };
 
   // registering geolocalisation only when cordova is ready.
@@ -11850,12 +11870,12 @@ if (PROD) {
       window.pushNotification.getPushID(
         function Cordova_Push_Success(token) {
           if (token)
-            callback(token)
+            callback(null, token)
           else
-            callback(null);
+            callback("no token");
         },
-        function Cordova_Push_Error() {
-          callback(null);
+        function Cordova_Push_Error(err) {
+          callback(err);
         }      
 	   );          
       window.pushNotification.enablePush();      
@@ -11887,7 +11907,7 @@ if (PROD) {
 
     status: "uninitialized",  // uninitialized, loading, loaded
 
-    /* /!\ overwrited in DEV by Y.Env in ey/env.js */
+    /* /!\ overwrited in DEV by Y.Env in y/env.js */
     Env: {
       DEV: "DEV",
       PROD: "PROD",
@@ -11909,7 +11929,9 @@ if (PROD) {
           // calling jquery
           //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
-          
+          /*#ifdef DEV*/
+          console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
+          /*#endif*/
 
           var that = this;
           // slow if answer is taking longer than 2sec.
@@ -11919,7 +11941,9 @@ if (PROD) {
           // delaying result (fail / success) in dev environment
           var d = $.Deferred();
           var networkDelay = 10;
-          
+          /*#ifdef DEV*/
+          networkDelay = 200;
+          /*#endif*/
           window.setTimeout(function () {
             // launching xhr.
             var xhr = $.ajax(url, options);
@@ -11963,8 +11987,6 @@ if (PROD) {
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded(err) {
-                 // /!\ error handling after i18n
-
                  // internationalization.
                  var i18nOptions = { lng: "fr-FR", fallbackLng: "fr" };
                  that.i18nOptions = i18nOptions;
@@ -11986,17 +12008,23 @@ if (PROD) {
 
                    // init router
                    that.Router.initialize();
-                   
+                   /*#ifdef DEV*/
+                   console.log('router initialized');
+                   /*#endif*/
                    
                    // load the templates.
                    that.Templates.loadAsync(function () {
-                     
+                     /*#ifdef DEV*/ 
+                     console.log('template loaded');
+                     /*#endif*/
                      // init GUI singleton
                      that.GUI.header = new Y.Views.Header();
                      that.GUI.content = null; // will be overwrite by the router.
                      that.GUI.autocomplete = new Y.Views.Autocomplete();
                      that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
-                     
+                     /*#ifdef DEV*/
+                     console.log('backbone history start');
+                     /*#endif*/
                      // start dispatching routes
                      // @see http://backbonejs.org/#History-start
                      Backbone.history.start();
@@ -12059,6 +12087,7 @@ if (PROD) {
       };
     })()
   };
+
   // exporting YesWeScore to global scope, aliasing it to Y.
   global.YesWeScore = YesWeScore;
   global.Y = YesWeScore;
@@ -12116,7 +12145,9 @@ if (PROD) {
   _.forEach(Drivers, function (driver, driverName) {
     if (!defaultDriver && driver.isUsable()) {
       defaultDriver = driver;
-      
+      /*#ifdef DEV*/
+      console.log("USING driver : " + driverName);
+      /*#endif*/
     }
   });
 
@@ -12192,29 +12223,43 @@ if (PROD) {
   var Conf = {
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
-      
+      /*#ifdef DEV*/
+      Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
+      /*#endif*/
       
       return this; // chainable
     },
 
     // Processus de chargement 
-    //  - si clefs de conf pas encore en cache => chargement
-    //  - appel au bootstrap.
+    //
+    //  Cordova => ready
+    //  Y => appelle Conf.load()
+    //  
+    //  - si clefs de conf ne sont pas en cache => chargement et mise en cache ; appel au bootstrap.
+    //  - sinon, appel au bootstrap
     load: function (env, callback) {
       assert(env === Y.Env.DEV ||
              env === Y.Env.PROD);
+      
+      var ready = _.bind(function (err) {
+        // avant d'appeler la callback, on informe que la conf est ready.
+        this.trigger("ready");
+        //
+        callback = callback || function () { };
+        callback(err);
+      }, this);
 
       // this function will be executed when keys (temporary & permanent) are loaded.
       var onKeysLoaded = _.bind(function (err) {
         // error handling.
         if (err)
-          return callback(err);
+          return ready(err);
         // une fois les clefs chargées, on appelle le bootstrap.
-        this.loadBootstrap(function (err) {
+        this.loadBootstrap(_.bind(function (err) {
           if (err)
-            return callback(err); // might be a "network error" or "deprecated"
-          callback();
-        });
+            return ready(err); // might be a "network error" or "deprecated"
+          ready();
+        }, this));
       }, this);
 
       // conf not loaded => we load temporary keys & permanent keys
@@ -12227,7 +12272,50 @@ if (PROD) {
     
         switch (env) {
           case Y.Env.DEV:
-            
+            /*#ifdef DEV*/
+            switch (Y.Env.user) {
+              case "marc":
+                var apiBaseUrl = "http://plic.no-ip.org:22222";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "618522421507840";
+                break;
+              case "vincent":
+                var apiBaseUrl = "http://plic.no-ip.org:1024";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "408897482525651";
+                break;
+              case "alpha":
+              default:
+                var apiBaseUrl = "http://plic.no-ip.org:20080";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
+                var fbBaseUrl = "https://fb.yeswescore.com";
+                var fbAppId = "FIXME";
+                break;
+            }
+
+            this.set("api.url.auth", apiBaseUrl + "/v2/auth/");
+            this.set("api.url.auth.registered", apiBaseUrl + "/v2/auth/registered/");
+            this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
+            this.set("api.url.facebook.login", apiBaseUrl + "/v2/facebook/login/");
+            this.set("api.url.files", apiBaseUrl + "/v2/files/");
+            this.set("api.url.games", apiBaseUrl + "/v2/games/");
+            this.set("api.url.players", apiBaseUrl + "/v2/players/");
+            this.set("api.url.clubs", apiBaseUrl + "/v2/clubs/");
+            this.set("api.url.stats", apiBaseUrl + "/v2/stats/");
+            this.set("api.url.reports", apiBaseUrl + "/v2/report/");
+            this.set("api.url.reports.games", apiBaseUrl + "/v2/report/games/");
+            this.set("api.url.reports.players", apiBaseUrl + "/v2/report/players/");
+            this.set("api.url.reports.clubs", apiBaseUrl + "/v2/report/clubs/");
+            this.set("api.url.static.files", apiBaseUrl + "/static/files/");
+            this.set("api.url.autocomplete.players", apiBaseUrl + "/v2/players/autocomplete/");
+            this.set("api.url.autocomplete.clubs", apiBaseUrl + "/v2/clubs/autocomplete/");          
+            this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v2/inappbrowser/redirect.html");
+            this.set("facebook.app.id", fbAppId);
+            this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            this.set("www.game", siteBaseUrl+"/games/"); 
+            /*#endif*/
             break;
           case Y.Env.PROD:
             this.set("www.game", "http://www.yeswescore.com/games/"); 
@@ -12235,6 +12323,7 @@ if (PROD) {
             this.set("api.url.auth.registered", "http://api.yeswescore.com/v2/auth/registered/");
             this.set("api.url.bootstrap", "http://api.yeswescore.com/bootstrap/conf.json?version=%VERSION%");
             this.set("api.url.facebook.login", "http://api.yeswescore.com/v2/facebook/login/");
+            this.set("api.url.files", "http://api.yeswescore.com/v2/files/");
             this.set("api.url.games", "http://api.yeswescore.com/v2/games/");
             this.set("api.url.players", "http://api.yeswescore.com/v2/players/");
             this.set("api.url.clubs", "http://api.yeswescore.com/v2/clubs/");
@@ -12243,6 +12332,7 @@ if (PROD) {
             this.set("api.url.reports.games", "http://api.yeswescore.com/v2/report/games/");
             this.set("api.url.reports.players", "http://api.yeswescore.com/v2/report/players/");
             this.set("api.url.reports.clubs", "http://api.yeswescore.com/v2/report/clubs/");
+            this.set("api.url.static.files", "http://api.yeswescore.com/static/files/");
             this.set("api.url.autocomplete.players", "http://api.yeswescore.com/v2/players/autocomplete/");
             this.set("api.url.autocomplete.clubs", "http://api.yeswescore.com/v2/clubs/autocomplete/");
             this.set("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v2/inappbrowser/redirect.html");
@@ -12254,12 +12344,13 @@ if (PROD) {
         }
 
         // Parametrage des variables non dependantes d'un environnement
-        this.set("game.refresh",  10000);        // default 30000 (30sec) //test 10s
-        this.set("games.refresh", 20000);        // default 30000 (30sec) //test 30s        
+        this.set("gui.image.placeholder.profil", "./images/player-pic.jpg");
+        this.set("game.refresh", 30000);         // default 30000 (30sec)
+        this.set("games.refresh", 30000);        // default 30000 (30sec)        
         this.set("game.max.comments", 20); 
-        this.set("pooling.geolocation", 10000); // default 10000 (10sec)
+        this.set("pooling.geolocation", 10000);  // default 10000 (10sec)
         this.set("pooling.pushregister", 10000); // default 10000 (10sec)        
-        this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
+        this.set("pooling.connection", 1000);    // default 1000  ( 1sec)
         this.set("version", Y.App.VERSION); // will be usefull on update.
         this.set("_env", env);
 
@@ -12287,10 +12378,7 @@ if (PROD) {
           onKeysLoaded();
         });
       }
-      
-      
     },
-
 
     // FIXME: might be in an "app" class ?
     loadBootstrap: function (callback) {
@@ -12658,7 +12746,9 @@ if (PROD) {
   _.extend(Connection, Backbone.Events);
 
   // pooling cordova to auto-update connection status
-  poolingId = setInterval(function () { Connection.update(); }, Y.Conf.get("pooling.connection"));
+  Y.Conf.on("ready", function () {
+    poolingId = setInterval(function () { Connection.update(); }, Y.Conf.get("pooling.connection"));
+  });
 
   // exporting to global scope
   Y.Connection = Connection;
@@ -12839,7 +12929,9 @@ if (PROD) {
       var playerId = player.get('id');
       var playerToken = player.get('token');
       
-      
+      /*#ifdef DEV*/
+      console.log("fb playerid:"+playerId+" playertoken:"+playerToken+" token:"+token);
+      /*#endif*/
       
       //
       Backbone.ajax({
@@ -12891,11 +12983,9 @@ if (PROD) {
         if (status) {
           $body.addClass("inputmodeon");
           $body.removeClass("inputmodeoff");
-          
         } else {
           $body.removeClass("inputmodeon");
           $body.addClass("inputmodeoff");
-          
         }
       }
       return true;
@@ -12920,7 +13010,13 @@ if (PROD) {
       $('body').addClass('update');
     },
     
-    
+    // display a layer on top of the GUI.
+    freeze: function (bool) {
+      if (bool && $("#freeze").length == 0)
+        $('body').append('<div id="freeze" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2147483647;"></div>');
+      if (!bool)
+        $('#freeze').remove();
+    },
     
     addBlueBackground: function () {
       $('#content').addClass('blue-screen background');
@@ -12929,7 +13025,6 @@ if (PROD) {
     delBlueBackground: function () {
       $('#content').removeClass('blue-screen background');  
     }
-    
   };
 
   Y.Connection.on("change", function (state) {
@@ -12941,6 +13036,64 @@ if (PROD) {
   });
 
   Y.GUI = GUI;
+})(Y);
+(function (Y, undefined) {
+  /*#ifdef STRICT*/
+  "use strict";
+  /*#endif*/
+
+
+  /**
+   * WANING: This class only works with objects
+   *  to avoid any memory leaks caused by string duplication.
+   */
+  var MyImage = {
+    // @param object     { dataUri: ... }
+    addJpegDataUrlHeaders: function (image) {
+      if (image.substr(0, 5) !== "data:")
+        image.dataUri = "data:image/jpeg;base64," + image.dataUri; // Ouch! doest this cost a lot of memory ?
+    },
+
+    // this function resize a dataUrl image
+    //
+    // /!\ The original image is replaced.
+    //
+    // @param object     { dataUri: ... }
+    // @param function   callback(err, dataUri)
+    resize: function (image, callback) {
+      var img = new Image();
+      img.onload = function () { 
+        // now the image is loaded, we know the width & height.
+        // ensure smallest side is 200px
+        var width, height, maxBorderSize=200;
+        if (img.width < img.height) {
+          width = maxBorderSize;
+          height = img.height / img.width * maxBorderSize;
+        } else {
+          width = img.width / img.height * maxBorderSize;
+          height = maxBorderSize;
+        }
+        console.log('width: ' + width + ' height: '+ height + ' image w/h : ' + img.width + '/' + img.height);
+
+        // resizing using canvas
+        var canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, height);
+        image.dataUri = canvas.toDataURL("image/jpeg");
+        ctx = null;    // usefull ?
+        canvas = null; // usefull ?
+        // sending result
+        callback(null, image);
+      };
+      img.onerror = function () { callback("unknown error"); };
+      img.src = image.dataUri;
+      delete image.dataUri; // freeing memory before onload
+    }
+  };
+  
+  Y.Image = MyImage;
 })(Y);
 (function (Y) {
   /*#ifdef STRICT*/
@@ -12958,11 +13111,11 @@ if (PROD) {
       'sort/:id': 'gameList',
       'search/form': 'searchForm',      
       'games/me/:id': 'gameMe',
-      'games/player/:id': 'gamePlayer',      
+      'games/:id/player': 'gamePlayer',      
       'games/add': 'gameAdd',
-      'games/form/:id': 'gameForm',      
+      'games/:id/form': 'gameForm',      
       'games/follow': 'gameFollow',
-      'games/end/:id': 'gameEnd',
+      'games/:id/end': 'gameEnd',
       'games/club/:id': 'gameClub',
       'games/list': 'gameList',  
       'games/:id/comments/': 'gameComment', 
@@ -13168,14 +13321,21 @@ if (PROD) {
       var next = function () {
         // creating view
 
-        
+        /*#ifdef DEV*/
+        if (true) {
+          // in dev, directly call viewFactory, to be able to debug exceptions.
+          view = viewFactory();
+        } else {
+        /*#endif*/
           try {
             // avoiding exception in view.
             view = viewFactory();
           } catch (e) {
             assert(false);
           };
-        
+        /*#ifdef DEV*/
+        }
+        /*#endif*/
 
         // next page name, page hash
         if (view && view.pageName)
@@ -13373,7 +13533,9 @@ if (PROD) {
 
   // starting stats.
   Cordova.ready(function () {
-    
+    /*#ifdef DEV*/
+    return;
+    /*#endif*/
     Stats.startup();
     Stats.cordova();
   });
@@ -13445,7 +13607,7 @@ if (PROD) {
           return;
         pooling = true;
         // FIXME: treshold on "change" event ?
-        Cordova.Geolocation.getCurrentPosition(function (coords) {
+        Cordova.Geolocation.getCurrentPosition(function (err, coords) {
           if (coords &&
               (Y.Geolocation.longitude !== coords.longitude ||
                Y.Geolocation.latitude !== coords.latitude)) {
@@ -13463,7 +13625,9 @@ if (PROD) {
   _.extend(Geolocation, Backbone.Events);
 
   // pooling cordova to auto-update geoloc coordinates
-  setInterval(function () { Geolocation.update(); }, Y.Conf.get("pooling.geolocation"));
+  Y.Conf.on("ready", function () {
+    setInterval(function () { Geolocation.update(); }, Y.Conf.get("pooling.geolocation"));
+  });
 
   // exporting to global scope
   Y.Geolocation = Geolocation;
@@ -13475,66 +13639,52 @@ if (PROD) {
   /*#endif*/
 
   var Push = {
-    
     data: {
       token : null,
       platform: null
     },
 
+    // search the token & update the player
     update: (function () {
-      var pooling = false; // avoiding pooling twice
-      
       return function () {
-        if (Cordova.status !== "ready" || pooling)
-          return;
-        pooling = true;       
-	    var isCordova = true;  
-	      
-	    if (!isCordova) {      
-          Y.Push.data.token = "aaaa-bbbb-cccc-dddd";
-          Y.Push.data.platform = "android";          
-          Y.Push.trigger("change", Y.Push.data );
-
-          //Update player when we receive token          
-          var player = Y.User.getPlayer();
-          if (player !== null)          
-            player.save().done(function (result) {pooling = false;});
-
-		  Y.Push.trigger("change", Y.Push.data );
-
-          return;  			
-    	}
-    	       
-        // FIXME: treshold on "change" event ?
-        Cordova.Push.getPushID(function (token) {
-        
-        //console.log('android token '+token+' ');        
-        
-        if (Y.Push.data.token !== token && token!==null) {
-          Y.Push.data.token = token;
-          Y.Push.data.platform = window.device.platform.toLowerCase(); 
-          
-          //console.log('android debug '+token+' '+window.device.platform);
-          
-          //Update player when we receive token
-          var player = Y.User.getPlayer();
-          if (player !== null)
-            player.save().done(function (result) {pooling = false;});  
-            
-                    
-          Y.Push.trigger("change", Y.Push.data );
+	      var isCordova = true;  
+	        
+	      if (isCordova) {
+          Cordova.Push.getPushID(_.bind(function (err, token) {
+            if (this.data.token !== token && token!==null) {
+              this.data.token = token;
+              this.data.platform = window.device.platform.toLowerCase(); 
+              this.updatePlayerInfos();
+            } else {
+              // erreur quelconque, on relance dans x secondes.
+              setTimeout(function () { Push.update(); }, Y.Conf.get("pooling.pushregister"));
+            }
+          }, this));
+    	  } else {
+          this.data.token = "aaaa-bbbb-cccc-dddd";
+          this.data.platform = "android";
+          this.updatePlayerInfos();
         }
-        //pooling = false;
-      });
-     };  
-    })()
+      };  
+    })(),
+
+    updatePlayerInfos: function () {
+      //console.log('android debug '+this.data.token+' '+this.data.platform);
+      // Update player when we receive token          
+      var player = Y.User.getPlayer();
+      player.set("push", { token: this.data.token, platform: this.data.platform });
+      player.save();
+    }
   };
 
   // adding some mixin for events.
   _.extend(Push, Backbone.Events);
 
   // pooling cordova to auto-update push token
-  setInterval(function () { Push.update(); }, Y.Conf.get("pooling.pushregister"));
+  Y.Conf.on("ready", function () {
+    // only once.
+    setTimeout(function () { Push.update(); }, Y.Conf.get("pooling.pushregister"));
+  });
   
   // exporting to global scope
   Y.Push = Push;
@@ -13552,8 +13702,10 @@ if (PROD) {
   var playerTokenConfKey = 'player.token';
   var playerClubIdConfKey = 'player.club.id';
   var playerFollowingConfKey = 'player.following';
-  var playerFiltersSortConfKey = 'player.filters.sort';
-  var playerFiltersSearchConfKey = 'player.filters.search';  
+  var playerSearchOptionsConfKey = 'player.search.options';
+
+  //var playerFiltersSortConfKey = 'player.filters.sort';
+  //var playerFiltersSearchConfKey = 'player.filters.search';  
   
   var User = {
     // @return PlayerModel/null   Player
@@ -13616,63 +13768,56 @@ if (PROD) {
       });
     },
     
-	setFiltersSearch: function (filter) {	
-	
-	  var filters = Y.Conf.get(playerFiltersSearchConfKey);	  
-      if (filters!==undefined) {      	  
-        if (filters.indexOf(filter) !== -1) {
-          filters.splice(filters.indexOf(filter), 1);
+    getOrCreatePlayerAsync: function (callback) {
+      this.getPlayerAsync(_.bind(function (err, player) {
+        if (err)
+          this.createPlayerAsync(callback); // no player => creating player
+        else
+          callback(null, player);
+      }, this));
+    },
 
-          Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });
-        } 
-       else {
-           filters.push(filter);
-           Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });      
-       }        
-      }
-      else {
-         Y.Conf.set(playerFiltersSearchConfKey, [filter], { permanent: true });
-      }  
-      	
-	},
+    // param de recherche par defaut
+    defaultSearchOptions: { filters: [], sort: null },
+    // enregistre les options de recherche de l'utilsateur
+    // @param options { filters: [ "a", "b"], sort: "aa" }
+    setSearchOptions: function (options) {
+      var newOptions = this.getSearchOptions();
+      if (typeof options.filters !== "undefined")
+        newOptions.filters = options.filters;
+      if (typeof options.sort !== "undefined")
+        newOptions.sort = options.sort;
+      Y.Conf.set(playerSearchOptionsConfKey, newOptions, { permanent: true });
+    },
+    // lit les options de recherche de l'utilisateur
+    getSearchOptions: function () {
+      return Y.Conf.get(playerSearchOptionsConfKey) || this.defaultSearchOptions;
+    },
 	
-	getFiltersSearch: function () {	
-      return Y.Conf.get(playerFiltersSearchConfKey);
-      		
-	},	    
-    
-	setFiltersSort: function (filter) {	
-      Y.Conf.set(playerFiltersSortConfKey, filter, { permanent: true });		
-	},
-	
-	getFiltersSort: function () {	
-      return Y.Conf.get(playerFiltersSortConfKey);		
-	},	
-	
-	setClub: function (clubid) {	
+	  setClub: function (clubid) {	
       Y.Conf.set(playerClubIdConfKey, clubid, { permanent: true });		
-	},
+	  },
 
-	removeClub: function () {	
-	  // Y.Conf.del('player.club.id');
+	  removeClub: function () {
       Y.Conf.del('Y.Conf.'+playerClubIdConfKey);		
-	},
+	  },
 	
-	setFollowing: function (id) {
-	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+	  setFollowing: function (id) {
+	    var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+
       if (players_follow !== undefined)
       {
         if (players_follow.indexOf(this.id) === -1) {
           players_follow.push(this.id);
           Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });  
         }
-      }
-      else
+      } else {
         Y.Conf.set('Y.Conf.'+playerFollowingConfKey, [this.id]);	  
-	},
+      }
+	  },
 
-	removeFollowing: function (id) {	
-	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+	  removeFollowing: function (id) {	
+	    var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
       
       if (players_follow !== undefined)
       {
@@ -13681,13 +13826,12 @@ if (PROD) {
           players_follow.splice(players_follow.indexOf(this.id), 1);
           Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });
         }
-      }
-      	   		
-	},
+      } 		
+	  },
 	
-	getClub: function () {	
+	  getClub: function () {	
       return Y.Conf.get(playerClubIdConfKey);		
-	},	
+	  },	
 
     setPlayer: function (newplayer) {
       assert(newplayer instanceof PlayerModel);
@@ -13752,11 +13896,7 @@ if (PROD) {
   var events = {
     // input mode
     'blur input': 'inputModeOffDelayed', //Permet de cacher le textarea          
-     /*#ifndef IOS*/
-    'click input': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'click textarea': 'inputModeOn', // we cannot use focus, bugs with device virtual keyboard :(
-    'blur textarea': 'inputModeOffDelayed', 
-    /*#endif*/
+     
     // helpers
     'click *[data-js-call]': 'mycall',
     'click a[data-js-navigate]': 'navigate',
@@ -13875,6 +14015,7 @@ if (PROD) {
       this.unloaded = true;
       this.inputModeOff();
       this.autocompleteStop();
+      this.readonly(false);
       this.off();
       if (typeof this.onClose === "function")
         this.onClose();
@@ -13893,6 +14034,10 @@ if (PROD) {
 
     scrollAt: function (val) {
       // FIXME
+    },
+
+    readonly: function (bool) {
+      Y.GUI.freeze(bool);
     },
 
     // autocomplete helpers
@@ -13959,18 +14104,53 @@ if (PROD) {
 
   Y.View = View;
 })(Y);
+var FileModel = Backbone.Model.extend({
+  urlRoot : function () { return Y.Conf.get("api.url.files"); },
+
+  mode : '',
+
+  data: null,
+  
+  defaults : {
+    owner: null,
+    dates : {
+      creation: null
+    },
+    path: "",
+    mimeType: "image/jpeg",
+    bytes: 0,
+    metadata: {}
+  },
+  
+  //initialize : function() {
+  // this.urlRoot = function () { return Y.Conf.get("api.url.files"); }
+  //},  
+
+  sync: function(method, model, options) {
+    var that = this;
+    var player = Y.User.getPlayer();
+    if (method === 'create') {
+      return Backbone.ajax({
+        type: 'POST',
+        url : Y.Conf.get("api.url.files")+"?mimeType=image/jpeg&playerid="+player.get('id')+"&token="+player.get("token"),
+        data: { data: this.data },
+        // backbone could be weird...
+        success : function(data) {
+          if (options && options.success)
+            options.success(data);
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
+        }
+      }).always(function () { that.data = null; });
+    }
+    return Backbone.sync(method, model, options);
+  }
+});
+
 var GameModel = Backbone.Model.extend({
-  urlRoot : Y.Conf.get("api.url.games"),
-
-  version: 0,
-
-  initialize : function() {
-    this.updated_at = new Date();
-  },
-
-  setSets : function(s) {
-    this.sets = s;
-  },
+  urlRoot : function () { return Y.Conf.get("api.url.games"); },
 
   defaults : {
     owner: "",
@@ -14009,6 +14189,14 @@ var GameModel = Backbone.Model.extend({
   },
 
   debug: false,
+  
+  //initialize : function() {
+  // this.urlRoot = function () { return Y.Conf.get("api.url.games"); }
+  //},
+
+  setSets : function(s) {
+    this.sets = s;
+  },  
 
   validate: function (attr, options) {
     if (options &&
@@ -14410,8 +14598,7 @@ var GameModel = Backbone.Model.extend({
   }
 });
 var StreamModel = Backbone.Model.extend({
-
-  urlRoot : Y.Conf.get("api.url.games"),
+  urlRoot : function () { return Y.Conf.get("api.url.games"); },
 
   defaults : {
     id : null,
@@ -14423,9 +14610,9 @@ var StreamModel = Backbone.Model.extend({
     }
   },
 
-  initialize : function() {
-
-  },
+  //initialize : function() {
+  //  this.urlRoot = function () { return Y.Conf.get("api.url.games"); }
+  //},
 
   comparator : function(item) {
     return -item.get("date").getTime();
@@ -14433,13 +14620,7 @@ var StreamModel = Backbone.Model.extend({
 
   sync : function(method, model, options) {
 
-
-
-
     if (method === 'update' || method === 'create') {
-    
-    
-
 	  var that = this;
 
       return Backbone.ajax({
@@ -14482,7 +14663,7 @@ var StreamModel = Backbone.Model.extend({
 });
 
 var PlayerModel = Backbone.Model.extend({
-  urlRoot: Y.Conf.get("api.url.players"),
+  urlRoot : function () { return Y.Conf.get("api.url.players"); },  
 
   mode: '',
 
@@ -14509,17 +14690,9 @@ var PlayerModel = Backbone.Model.extend({
       currentPos: [0, 0]
     },
     gender:"",
+    profile: { image: null },
     token: "",
     updated_at: new Date()
-  },
-
-  initialize: function () {
-
-  },
-
-  read: function () {
-
-
   },
 
   isMe: function () {
@@ -14534,12 +14707,32 @@ var PlayerModel = Backbone.Model.extend({
     return this.get('type') === "owned";
   },
 
+  hasImage: function () {
+    return (this.get('profile') && this.get('profile').image);
+  },
+
+  // imageUrl = [host-api]/static/files/[hashed id 2charsx5]/[id].jpeg
+  // ex: foobar.com:1042/static/files/ab/cd/ef/gh/ij/abcdefghijklmnopqrstuv-abcd42.jpeg
+  getImageUrl: function () {
+    // Example: plic.no-ip.org:22222/static/files/6c/f3/00/a1/b1/6cf300a1b195865dbe55291546c661e651dc65ba90609028a09175a2fec0c578-51e9c0006ded17e016000003.jpeg
+    if (!this.hasImage())
+      return null;
+    var imageId = this.get('profile').image;
+    return Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg"; // default ext.
+  },
+
+  getImageUrlOrPlaceholder: function () {
+    var imageUrl = this.getImageUrl();
+    return imageUrl || Y.Conf.get("gui.image.placeholder.profil");
+  },
+
   sync: function (method, model, options) {
     // allowing playerid & token overload.
     var that = this;
     var playerid = options.playerid || this.get('id') || '';
     var token = options.token || this.get('token') || '';
-    //
+    
+    // FIXME: supprimer la duplication de code entre la creation & l'update
     if (method === 'create' && this.get('id') === undefined) {
       var dataSend = {
         id: (this.get('id') || ''),
@@ -14548,17 +14741,14 @@ var PlayerModel = Backbone.Model.extend({
         push : {},
         club: (this.get('club') || '')  
       };
+
+      if (this.get('profile') &&
+          typeof this.get('profile').image === "string")
+        dataSend.profile = { image: this.get('profile').image };
       
+      // FIXME: l'écriture de la geoloc doit être externe a ce fichier.
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
-        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
-      
-      if (Y.Push.data.platform!==null)
-        dataSend.push.platform = Y.Push.data.platform; 
-        
-      if (Y.Push.data.token!==null)
-        dataSend.push.token = Y.Push.data.token;  
-        
-      //console.log('dataSend ------ ',dataSend);        
+        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];      
       
       return Backbone.ajax({
         dataType: 'json',
@@ -14593,26 +14783,18 @@ var PlayerModel = Backbone.Model.extend({
         token: (this.get('token') || '')
       };
 
+      if (this.get('profile') &&
+          typeof this.get('profile').image === "string")
+        dataSend.profile = { image: this.get('profile').image };
+
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
-        
-      if (Y.Push.data.platform!==null)
-        dataSend.push.platform = Y.Push.data.platform; 
-        
-      if (Y.Push.data.token!==null)
-        dataSend.push.token = Y.Push.data.token;       
 
       if (this.get('uncryptedPassword'))
         dataSend.uncryptedPassword = this.get('uncryptedPassword');
         
       if (this.get('dates').birth)
         dataSend.dates.birth = this.get('dates').birth;      
-
-      if (Y.Push.data.platform!==null)
-        dataSend.push.platform = Y.Push.data.platform; 
-        
-      if (Y.Push.data.token!==null)
-        dataSend.push.token = Y.Push.data.token;               
       
       // si club non nul
       if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {
@@ -14657,8 +14839,7 @@ var PlayerModel = Backbone.Model.extend({
 });
 
 var ClubModel = Backbone.Model.extend({
-
-  urlRoot : Y.Conf.get("api.url.clubs"),
+  urlRoot : function () { return Y.Conf.get("api.url.clubs"); },
 
   mode : '',
   
@@ -14686,9 +14867,9 @@ var ClubModel = Backbone.Model.extend({
     updated_at : new Date()
   },  
 
-  initialize : function() {
-
-  },
+  //initialize : function() {
+  //  this.urlRoot = function () { return Y.Conf.get("api.url.clubs"); }
+  //},
 
   sync : function(method, model, options) {
 
@@ -14761,7 +14942,6 @@ var GamesCollection = Backbone.Collection.extend({
 	
 		  
   url:function() {
-       
     var url='';
 
     if (this.searchOption.indexOf('player') !== -1 && this.player!=='' ) {      
@@ -14781,11 +14961,10 @@ var GamesCollection = Backbone.Collection.extend({
       url += "club=" + this.club; 
       url += "&"; 
     }
-      
+    
     if (url === Y.Conf.get("api.url.games")  ) 
     	url += "?";
-   
-        
+    
     if (this.searchOption.indexOf('geo') !== -1 && this.pos !==null) { 
      if (this.pos[1]!==null && this.pos[0]!==null)   
       url +=  "distance=50&latitude="+this.pos[1]+"&longitude="+this.pos[0];
@@ -14794,12 +14973,11 @@ var GamesCollection = Backbone.Collection.extend({
 
     if (url === Y.Conf.get("api.url.games") ) 
     	url += "?";
-           	
-    	
-	if (this.query!=="" && this.searchOption.indexOf('player') !== -1 ) {
-		url +="q="+this.query+"";
-		url += "&";
-	};
+    
+	  if (this.query!=="" && this.searchOption.indexOf('player') !== -1 ) {
+		  url +="q="+this.query+"";
+		  url += "&";
+	  };
     
     if (url === Y.Conf.get("api.url.games") ) 
     	url += "?";
@@ -14810,25 +14988,54 @@ var GamesCollection = Backbone.Collection.extend({
       url += "status=finished&";
     else if (this.sortOption==='created')
       url += "status=created&";
-           
-	
-	url += "sort=-dates.start,-dates.expected";   
+    
+	  url += "sort=-dates.start,-dates.expected";   
      
     return url;
   },
 
-  setSort:function(s) {  	
-    this.sortOption=s;
+  // FIXME: dependances.
+  // @param options { filters: [ "a", "b"], sort: "aa" }
+  setSearchOptions: function (options) {
+    // filtres
+    if (options.filters.indexOf('searchmyclub') !== -1) {
+      var clubid = Y.User.getClub();
+      if (clubid) {
+        this.addSearch('club'); 
+        this.setClub(clubid);
+      } else {
+        // FIXME: ne pas retirer cette option dans set
+        this.removeSearch('searchmyclub');        
+      }
+	  }
+    if (options.filters.indexOf('searchgeo') !== -1) {
+      // FIXME: dependances
+      if (Y.Geolocation.longitude !== null && Y.Geolocation.latitude !== null ) {
+        this.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
+        this.addSearch('geo');  
+      } else {
+        this.removeSearch('searchgeo');
+      }
+    }
+    // tri
+    if (options.sort)
+      this.setSort(options.sort);
+  },
+
+  setSort: function (sorts) {
+    this.sortOption = sorts;
+  },
+
+  setFilter: function (filters) {
+    this.filterOption = filters;
   },
   
   removeSearch:function(m) {
-
-     if (this.searchOption!==undefined) {      	  
-        if (this.searchOption.indexOf(m) !== -1) {
-          this.searchOption.splice(this.searchOption.indexOf(m), 1);
-        }
-     }
-  
+    if (this.searchOption!==undefined) {      	  
+      if (this.searchOption.indexOf(m) !== -1) {
+        this.searchOption.splice(this.searchOption.indexOf(m), 1);
+      }
+    }
   },
   
   addSearch:function(m) {
@@ -14865,9 +15072,9 @@ var GamesCollection = Backbone.Collection.extend({
   },
     
   strategies: {
-      city: function (item) { return [item.get("city")]; }, 
-      status: function (item) { return [item.get("status")]; },
-      player: function (item) { return [item.get("teams[0].players[0].name"),item.get("teams[1].players[0].name")]; },
+    city: function (item) { return [item.get("city")]; }, 
+    status: function (item) { return [item.get("status")]; },
+    player: function (item) { return [item.get("teams[0].players[0].name"),item.get("teams[1].players[0].name")]; }
   },
     
   changeSort: function (sortProperty) {
@@ -15615,7 +15822,7 @@ Y.Views.Game = Y.View.extend({
     var message = _.reduce(_.keys(messages), function (result, token) {
       return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
     }, messagePattern);
-
+    
     // building message
     var isCordova = true;  
       
@@ -15624,9 +15831,7 @@ Y.Views.Game = Y.View.extend({
 	  console.log("SHARING MESSAGE: " + message);
 	  var that = this;    
 	
-	  var ua = navigator.userAgent.toLowerCase();
-	  var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-	  if(isAndroid) {	
+	  if (Cordova.Device.isAndroid) {	
         //var share = cordova.require("cordova/plugin/share");
         window.plugins.social.show({subject: i18n.t('game.sharetitle'), text: message, url: link},
           function() {
@@ -15654,10 +15859,8 @@ Y.Views.Game = Y.View.extend({
  	     );  
  	   } 
  	 
- 	  var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
- 	  if (iOS) {
-        
 
+      if (Cordova.Device.isIOS) {  
 
 		window.plugins.social.available(function(avail) {
 		  if (avail) {
@@ -16009,7 +16212,7 @@ Y.Views.Game = Y.View.extend({
   },
 
   goToOptions : function() {
-    Y.Router.navigate("/games/form/"+this.id, {trigger:true});
+    Y.Router.navigate("/games/"+this.id+"/form", {trigger:true});
   },   
 
   goToPlayerProfile: function (elmt) {
@@ -16355,21 +16558,15 @@ Y.Views.GameAdd = Y.View.extend({
     /*
     debug android 2.2 to 2.3.6
     */
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    var isGingerbread = /android 2\.3/i.test(userAgent);
-	 
-	 
 	 $('#inject-select').prepend(this.templates.gameselect({ 
 	    selection : i18n.t('gameadd.selection')
 	    , surface : i18n.t('gameadd.surface')
      })); 	 
 	 
-	 if (!isGingerbread) {
-	   $('#inject-datepicker').prepend(this.templates.gamedatepicker({})); 	    
-	 }
-	 else {
-		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({})); 		
-	 }
+	 if (Cordova.Device.isGingerbread)
+	   $('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({}));
+	 else
+     $('#inject-datepicker').prepend(this.templates.gamedatepicker({}));
 	   
     //fill with last data 
     if (this.DB !== undefined) {
@@ -17262,16 +17459,11 @@ Y.Views.GameForm = Y.View.extend({
 	  selection : i18n.t('gameadd.selection')
       , surface : i18n.t('gameadd.surface')
 	}));
-	    	
-   	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	var isGingerbread = /android 2\.3/i.test(userAgent);	    	
-	 if (!isGingerbread) {
-	   $('#inject-datepicker').prepend(this.templates.gamedatepicker({})); 	    
-	 }
-	 else {
-		$('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({})); 		
-	 }
-  
+
+	 if (Cordova.Device.isGingerbread)
+	   $('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({})); 		
+	 else
+		$('#inject-datepicker').prepend(this.templates.gamedatepicker({}));
 
     if (game.teams[0].id === game.infos.startTeam) {
       $('#startTeam1').parent().addClass("select");
@@ -17351,11 +17543,10 @@ Y.Views.GameList = Y.View.extend({
     'vclick a[data-filter="searchmyclub"]':'deleteFilter', 
     'vclick a[data-filter="searchgeo"]':'deleteFilter',    
         
-    'click div[data-filter="filter-status-all"]': 'filterByStatusAll',
-    'click div[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
-    'click div[data-filter="filter-status-finished"]': 'filterByStatusFinished',      
-    'click div[data-filter="filter-status-created"]': 'filterByStatusCreated'
-    
+    'click div[data-sort="status-all"]': 'sortByStatusAll',
+    'click div[data-sort="status-ongoing"]': 'sortByStatusOngoing',    
+    'click div[data-sort="status-finished"]': 'sortByStatusFinished',      
+    'click div[data-sort="status-created"]': 'sortByStatusCreated'
   },
 
   listview: "#listGamesView",
@@ -17365,47 +17556,20 @@ Y.Views.GameList = Y.View.extend({
   sortOption: "",
  
   clubid: "",
-  
+
   button : true,
   controlTimeout: null,
-  controlPlayer: false,
       
   myinitialize: function (param) {
-  	
-  	//FIXME: refacto
-  	this.sortOption = Y.User.getFiltersSort();
-
-  	this.clubid = Y.User.getClub();
-	this.player = Y.User.getPlayer();
-	 
-	      	
-	//header 
-    if (param!=='undefined') { 
-      if (param.search==="me") {          
-        Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
-        this.pageName = "gameListByMe";
-        this.button=false;
-      }
-      else if (param.search==="player") {
-        Y.GUI.header.title(i18n.t('gamelist.titleplayergames')); 
-        this.pageName = "gameListPlayer";
-        this.button=false;       
-      }        
-      else if (param.search==="club") {
-        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames')); 
-        this.pageName = "gameListByClub";        
-      }  
-      else {
-        Y.GUI.header.title(i18n.t('gamelist.titlegames'));  
-        this.pageName = "gameList";
-      }  
-    }
-	else {
-	  Y.GUI.header.title(i18n.t('gamelist.titlegames'));
-      this.pageName = "gameList";	  
-    }
-	
     var that = this;
+
+    // saving parameter
+    this.param = param || {};
+
+    // initialization
+    this.initializeTitle(param);
+    this.initializePageName(param);
+
     //  
     this.onResume = function () { that.search(); };
     
@@ -17416,7 +17580,6 @@ Y.Views.GameList = Y.View.extend({
       ongoing: Y.Templates.get('ongoing')      
     };
     
-
     //we capture config from bootstrap
     //FIXME: put a timer
     //this.config = new Config();
@@ -17432,202 +17595,136 @@ Y.Views.GameList = Y.View.extend({
     this.gameDeferred = $.Deferred();
     this.games = new GamesCollection();
 
-
-    if (param!==undefined) { 
-	    if (param.search === 'me') {
-	      this.games.addSearch('player');	
-	      this.games.setPlayer(this.player.id);		      
-	    }
-	    else if (param.search === 'player') {
-	      this.games.addSearch('player');	
-	      this.games.setPlayer(param.id);		        
-	    }	    
-	    else
-	      this.searchOption = Y.User.getFiltersSearch();     
-     }
-     else 
-       	this.searchOption = Y.User.getFiltersSearch();    
-
-     if (this.sortOption!==undefined) {
-       if (this.sortOption !=="") 
-         this.games.setSort(this.sortOption);      
-     }
-     
-     if (this.searchOption!==undefined) {
-     
-      if(this.searchOption.indexOf('searchmyclub')!==-1) {       
-        
-        if (this.clubid !== '') {
-          this.games.addSearch('club'); 
-          this.games.setClub(this.clubid);
-        }
-        else {
-          this.games.removeSearch('searchmyclub');
-          $('#searchmyclub').html('');        
-        } 
-        
-	  }
-      
-	  if(this.searchOption.indexOf('searchgeo')!==-1) {
-
-        if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null ) {
-          this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
-          this.games.addSearch('geo');  
-        }
-        else {
-          this.games.removeSearch('searchgeo');
-          $('#searchgeo').html('');
-        }
-        
-      }  
-      
-      //On regarde si la barre de recherche avancé est encore utile
-      this.searchOption = Y.User.getFiltersSearch();
-
-      if (this.searchOption!==undefined) 
-        $('.advancedsearch').hide();
-      else if (this.searchOption.length<=0) 
-        $('.advancedsearch').hide();      
-
-           
-     }
-      
+    // 
+    var searchType = (param) ? param.search : null;
+    switch (searchType) {
+      case 'me':
+        // we can access Y.User.getPlayer, because option search == "me" should'nt triggered on first launch.
+	      this.games.addSearch('player');
+	      this.games.setPlayer(Y.User.getPlayer().id);
+        break;
+      case 'player':
+         this.games.addSearch('player');
+	     this.games.setPlayer(param.id);
+        break;
+      case 'club':
+        // FIXME
+          this.games.addSearch('club');
+	      this.games.setClub(param.id);        
+        break;
+      default:
+        // on utilise les options de recherche de l'utilisateur
+        this.games.setSearchOptions(Y.User.getSearchOptions());
+        break;
+    }
             
     this.games.on('sync', this.gameDeferred.resolve, this.gameDeferred);
-    //disable
     this.games.fetch();
 
     // second: read/create player
     var playerDeferred = $.Deferred();
-    
-    this.controlTimeout = window.setTimeout(function () {
-      if (that.controlPlayer === false) that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
-      that.controlTimeout = null;
-    }, 10000);    
-    
-    Y.User.getPlayerAsync(function (err, player) {
-      if (err) {
-        // no player => creating player.
-    
-        // creating the player.
-        Y.User.createPlayerAsync(function (err, player) {
-          // FIXME: err, reject deferred
-         
-          playerDeferred.resolve();
-        });
-        return;
-      }
-      
-
-	  document.addEventListener("resume", that.onResume, true);
-      
-      
-      that.controlPlayer=true;
-      playerDeferred.resolve();
-            
+    Y.User.getOrCreatePlayerAsync(function (err, player) {
+      document.addEventListener("resume", that.onResume, true);
+      playerDeferred.resolve(); 
     });
+
+    this.startControlTimeout();
 
     // FIXME: handling error with deferreds
     $.when(
       this.gameDeferred,
       playerDeferred
     ).done(function () {
+      that.stopControlTimeout();
       that.render();
-      that.renderList();
-            
+      that.renderList();     
     });
-       
-      
   },
 
-  deleteFilter : function (event) {
-    
-    var cmd = event.currentTarget.id;
-    
-	if (cmd==='searchgeoselect') { 
-      Y.User.setFiltersSearch('searchgeo');
-      $('#searchgeo').html('');
-      this.games.removeSearch('geo');
-    }   
+  initializeTitle: function (param) {
+    var search = (param) ? param.search : null
 
-	if (cmd==='searchmyclubselect') { 
-      Y.User.setFiltersSearch('searchmyclub');
-      $('#searchmyclub').html('');
-      this.games.removeSearch('club');
-    } 
-    
-    var filters = Y.User.getFiltersSearch();
-    
-    if (filters===undefined) 
-      $('.advancedsearch').hide();
-    else if (filters.length<=0) 
-      $('.advancedsearch').hide();
-      
-    this.search();  
-      
-  },  
-  
-  goToGame: function (elmt) {
-    if (elmt.currentTarget.id) {
-      var route = elmt.currentTarget.id;
-      Y.Router.navigate(route, {trigger: true}); 
+    switch (search) {
+      case 'me':
+        Y.GUI.header.title(i18n.t('gamelist.titleyourgames'));
+        this.button=false; // FIXME: render ?
+        break;
+      case 'player':
+        Y.GUI.header.title(i18n.t('gamelist.titleplayergames'));
+        this.button=false; // FIXME: render ?  
+        break;
+      case 'club':
+        Y.GUI.header.title(i18n.t('gamelist.titleclubsgames'));
+        this.button=false; // FIXME: render ?  
+        break;
+      default:
+        Y.GUI.header.title(i18n.t('gamelist.titlegames'));
+        break;
     }
   },
 
+  initializePageName: function (param) {
+    var search = (param) ? param.search : "none";
+
+    switch (search) {
+      case 'me':
+        this.pageName = "gameListByMe";
+        break;
+      case 'player':
+        this.pageName = "gameListPlayer";
+        break;
+      case 'club':
+        this.pageName = "gameListByClub";
+        break;
+      default:
+        this.pageName = "gameList";
+        break;
+    }
+  },
+
+  // active un message d'erreur si stop n'est pas appelé avant un certain delai
+  startControlTimeout: function () {
+    if (this.controlTimeout == null) {
+      this.controlTimeout = window.setTimeout(_.bind(function () {
+        this.$el.html("<span style=\"top:50px;position:absolute;top:50px;width:100%;text-align:center;\">"+i18n.t('message.noconnection')+"</span>");
+        this.controlTimeout = null;
+      }, this), 10000);
+    }
+  },
+
+  stopControlTimeout: function () {
+    if (this.controlTimeout) {
+      window.clearTimeout(this.controlTimeout);
+      this.controlTimeout = null;
+    }
+  },
+
+  // filtres des options de recherche
   showFilters: function () {
-    
-    //this.$('.button-option-down').addClass('button-option-up').removeClass('button-option-down');
-    //this.$(".filters").show();
     Y.Router.navigate("search/form", {trigger: true}); 
-    
-  },
-  hideFilters: function () {
-
-    this.$('.button-option-up').addClass('button-option-down').removeClass('button-option-up');   
-    
-    $('.message').removeAttr('style');
-    
-    this.$(".filters").hide();
-      
   },
 
- 
-   
-  filterByStatusAll: function () { 
-    this.setSort("all");
-  },
+  deleteFilter : function (event) {
+    var cmd = event.currentTarget.id;
+    
+	  if (cmd==='searchgeoselect'||cmd==='searchmyclubselect') {
+      Y.User.setSearchOptions({filters:[]});
+      this.games.removeSearch('geo');
+      this.games.removeSearch('club');
+    }
+    this.renderSearchOptions();
+    this.search();
+  },  
   
-  filterByStatusOngoing: function () { 
-    this.setSort("ongoing");
+  sortByStatusAll: function () { this.setSortOption("all") },
+  sortByStatusOngoing: function () { this.setSortOption("ongoing") },
+  sortByStatusFinished: function () { this.setSortOption("finished") },
+  sortByStatusCreated: function () { this.setSortOption("created") },
+  setSortOption: function (sortOption) {
+    Y.User.setSearchOptions({sort: sortOption});
+    this.renderSearchOptions();
+    this.search();
   },
-  
-  filterByStatusFinished: function () { 
-    this.setSort("finished");
-  },
-  
-  filterByStatusCreated: function () { 
-    this.setSort("created");
-  },
-      
-  setSort: function (o) {
-  
-     $(".search div[data-filter*='filter-status'] span").removeClass('select');
-     
-	if (o==='all') 
-      $(".search div[data-filter='filter-status-all'] span").addClass('select');
- 	else if (o==='ongoing') 
-  	  $(".search div[data-filter='filter-status-ongoing'] span").addClass('select'); 
- 	else if (o==='finished') 
-      $(".search div[data-filter='filter-status-finished'] span").addClass('select'); 
- 	else if (o==='created') 
-      $(".search div[data-filter='filter-status-created'] span").addClass('select');        
-          
-    this.sortOption = o;   
-    Y.User.setFiltersSort(o);
-    this.search();     
-    //this.hideFilters();
-  },
-
 
   searchButton: function () {
     this.inputModeOff();
@@ -17643,61 +17740,33 @@ Y.Views.GameList = Y.View.extend({
   },
 
   searchOnBlur: function (event) {
-
-    this.search();
-
-    return this;
+    return this.search();
   },
   
   search: function () {
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.ongoing());
     $('p').i18n(); 
-    
-    if (this.sortOption !=="") 
-      this.games.setSort(this.sortOption);  
-    
 
-    if (this.searchOption !== undefined) {     
-      
-      //FIXME : cumul search et trier par date
-      
-      if(this.searchOption.indexOf('searchmyclub')!==-1 && this.clubid === '') {
-        this.games.addSearch('club');  
-        this.games.setClub(this.clubid);
-	  }
-      
-      if(this.searchOption==="searchgeo" && Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null) {
-        this.games.addSearch('geo');          
-        this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
-      }  
-    
-    }  
+    this.games.setSearchOptions(Y.User.getSearchOptions());
    
-    if (q !== '') {
+    if (q) {
       this.games.addSearch('player');   
       this.games.setQuery(q);
-    }
-    else
+    } else {
       this.games.removeSearch('player');
+    }
 
     this.games.fetch().done($.proxy(function () {    
-    
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
-      }
-      else {
-      
+      } else {
         var games_follow = Y.Conf.get("owner.games.followed");
         var players_follow = Y.User.getPlayer().get('following');
-    	//$(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
-      
+
         $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: q }));
-        
       }
-    	
       $(this.listview).i18n();
-    
     }, this));
     
     return this;
@@ -17705,48 +17774,37 @@ Y.Views.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
-  
-    this.$el.html(this.templates.gamesearch({ button:this.button }));   
-    //$('a').i18n(); 
-    this.$el.i18n();   
-  
-
-	if (this.sortOption==='ongoing') 
-  	  $(".search div[data-filter='filter-status-ongoing'] span").addClass('select'); 
- 	else if (this.sortOption==='finished') 
-      $(".search div[data-filter='filter-status-finished'] span").addClass('select'); 
- 	else if (this.sortOption==='created') 
-      $(".search div[data-filter='filter-status-created'] span").addClass('select');  
-    else
-      $(".search div[data-filter='filter-status-all'] span").addClass('select');
-            
- 
-    var filters = Y.User.getFiltersSearch();
-
-    if (filters===undefined) 
-      $('.advancedsearch').hide();
-    else if (filters.length<=0) 
-      $('.advancedsearch').hide(); 
-    else {     
-      	if (filters.indexOf('searchgeo')!==-1) {
-     	  $('#searchgeo').html('<a data-filter="searchgeo" id="searchgeoselect">'+i18n.t('search.filtergps')+'</a>');	
-	    } 
-	    else
-	      $('#searchgeo').html('');	
-	    
-	    if (filters.indexOf('searchmyclub')!==-1) {
-		  $('#searchmyclub').html('<a data-filter="searchmyclub" id="searchmyclubselect">'+i18n.t('search.filtermyclub')+'</a>');	
-	 	}
-	 	else
-	 	  $('#searchmyclub').html('');	
-    }
-    
+    this.$el.html(this.templates.gamesearch({ button:this.button })).i18n();
+    this.renderSearchOptions();
     return this;
+  },
+
+  renderSearchOptions: function () {
+    var userSearchOptions = Y.User.getSearchOptions();
+    // filters
+    var filters = userSearchOptions.filters;
+    if (filters.length === 0) {
+      $('.advancedsearch').hide();
+    } else {
+      if (filters.indexOf('searchgeo')!==-1) {
+        $('#searchgeo').html('<a data-filter="searchgeo" id="searchgeoselect">'+i18n.t('search.filtergps')+'</a>');
+	    } else {
+	      $('#searchgeo').html('');
+      }
+	    if (filters.indexOf('searchmyclub')!==-1) {
+	      $('#searchmyclub').html('<a data-filter="searchmyclub" id="searchmyclubselect">'+i18n.t('search.filtermyclub')+'</a>');	
+      } else {
+	      $('#searchmyclub').html('');	
+      }
+    }
+    // sort
+    var sort = userSearchOptions.sort || 'all';
+    $(".search div[data-sort*='status'] span").removeClass('select');
+    $(".search div[data-sort='status-" + sort + "'] span").addClass('select');
   },
 
   // should not take any parameters
   renderList: function () {
-  
     var games_follow = Y.Conf.get("owner.games.followed");
     var players_follow = Y.User.getPlayer().get('following');
     
@@ -17755,22 +17813,24 @@ Y.Views.GameList = Y.View.extend({
     return this;
   },
 
+  goToGame: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
+  },
+
   onClose: function () {
-    
     if (this.button===false) { 
-	    this.games.removeSearch('me');	
-	}
+	    this.games.removeSearch('me');
+	  }
 	
-    if (this.controlTimeout) {
-      window.clearTimeout(this.controlTimeout);
-      this.controlTimeout = null;
-    }	
-	
-	document.removeEventListener("resume", this.onResume, true);
+    this.stopControlTimeout();
+	  
+	  document.removeEventListener("resume", this.onResume, true);
     
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
-       
   }
 });
 Y.Views.Header = Y.View.extend({
@@ -17782,17 +17842,14 @@ Y.Views.Header = Y.View.extend({
 
   initialize: function () {
     this.startingLength = window.history.length;
-    
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	var isGingerbread = /android 2\.3/i.test(userAgent);
-	if (isGingerbread) {
-	  $('div#header').css('position','relative');	  	    
-	}
-	else {
-	  $('div#header').css('position','fixed'); 	
-	  $('div#header').css('z-index','50');
-	  $('div#content').addClass('fixed');	 	  
-	}
+
+	  if (Cordova.Device.isGingerbread)
+	    $('div#header').css('position','relative');
+	  else {
+	    $('div#header').css('position','fixed'); 	
+	    $('div#header').css('z-index','50');
+	    $('div#content').addClass('fixed');	 	  
+	  }
 
     // on s'abonne au router, pour detecter des changement de pages.
     var that = this;
@@ -17912,68 +17969,6 @@ Y.Views.Header = Y.View.extend({
       }
     };
   })()
-});
-Y.Views.Index = Y.View.extend({
-  el: "#content",
-
-  pageName: "index",
-  pageHash : "index",  
-  
-  myinitialize: function () {
-    Y.GUI.header.title(i18n.t('index.title'));
-
-    var that = this;
-    //
-    this.indexViewTemplate = Y.Templates.get('index');
-
-    //we capture config from bootstrap
-    //FIXME: put a timer
-    //this.config = new Config();
-    //this.config.fetch();
-
-    // we need to do 2 things 
-    // - fetch games
-    // - read/create the player
-    // THEN
-    //  render games & player.
-
-    // second: read/create player
-    var playerDeferred = $.Deferred();
-    this.$el.html("please wait, loading player");
-    Y.User.getPlayerAsync(function (err, player) {
-      if (err) {
-        // no player => creating player.
-     
-        // creating the player.
-        Y.User.createPlayerAsync(function (err, player) {
-          // FIXME: err, reject deferred
-      
-          playerDeferred.resolve();
-        });
-        return;
-      }
-      playerDeferred.resolve();
-    });
-
-    // FIXME: handling error with deferreds
-    $.when(
-      playerDeferred
-    ).done(function () {
-      that.render();
-
-    });
-  },
-
-  // should not take any parameters
-  render: function () {
-    this.$el.html(this.indexViewTemplate(), {});
-    return this;
-  },
-
-  onClose: function () {
-    this.undelegateEvents();
-    //this.games.off("all", this.renderList, this);
-  }
 });
 Y.Views.Navbar = Y.View.extend({
   el: "#navbar",
@@ -18148,9 +18143,6 @@ Y.Views.Player = Y.View.extend({
     }
     else
       this.follow = 'false';
-      
-
-
   },
 
 
@@ -18270,13 +18262,11 @@ Y.Views.Player = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-  
     this.$el.html(this.playerViewTemplate({
-      player:this.player.toJSON(),follow:this.follow
-    }));
-    
-    this.$el.i18n();
-
+      player: this.player.toJSON(),
+      follow: this.follow,
+      imageUrl: this.player.getImageUrlOrPlaceholder()
+    })).i18n();
     return this;
   },
 
@@ -18579,16 +18569,17 @@ Y.Views.PlayerForm = Y.View.extend({
   el:"#content",
     
   events: {
-    'click #savePlayer':'add',
-    'click #getPhoto' : 'getPhoto',
+    'click #savePlayer':'save',
+    'click #getPhoto': 'getPhoto',
+    'click #delPhoto': 'delPhoto',
     'keyup #club': 'updateList',
-    'click #club_choice' : 'displayClub'
+    'click #club_choice': 'displayClub'
   },
   
   listview:"#suggestions",
 
   pageName: "playerForm",
-  pageHash : "players/form",  
+  pageHash: "players/form",  
     
   clubs:null,
   useSearch:0,	     
@@ -18603,20 +18594,17 @@ Y.Views.PlayerForm = Y.View.extend({
   
     // loading templates.
     this.templates = {
-      layout: Y.Templates.get('empty'),
       playerform:  Y.Templates.get('playerForm'),
 	  playerdatepickerbirth:  Y.Templates.get('playerDatePickerBirth'),	
 	  playerdatepickerbirthandroid:  Y.Templates.get('playerDatePickerBirthAndroid'),	      
       clublist: Y.Templates.get('clubListAutoComplete')
     };
     
+    // we already have the player in memory
     this.player = Y.User.getPlayer();
     this.clubid = this.player.get('club').id;
-    this.player.once("sync", this.renderPlayer, this);	
-    this.player.fetch();
     
-    //$('#content').addClass('blue-screen background');
-	Y.GUI.addBlueBackground();
+	  Y.GUI.addBlueBackground();
 	
     // we render immediatly
     this.render();
@@ -18649,53 +18637,61 @@ Y.Views.PlayerForm = Y.View.extend({
       this.$('club_error').html('');      
     }
   },
-    
-  /*  
-  
-  displayClub: function(li) {
-    selectedId = $('#club_choice:checked').val();
-    selectedName = $('#club_choice:checked').next('label').text();
-    	
-    $('#club').val(selectedName);
-    //FIXME : differencier idclub et fftid
-    $('#clubid').val(selectedId); 
-    $('club_error').html('');
-    	
-   
-    	
-    $(this.listview).html('');
-  },  
-  
-  updateList: function (event) {
-    var q = $("#club").val();
-   	
-    this.clubs = new ClubsCollection();108
-    this.clubs.setMode('search',q);
-    if (q.length>2) {
-      this.useSearch=1;
-      this.clubs.fetch();
-      this.clubs.on( 'sync', this.renderList, this );
-    }
-
-  },
-  
-  */
   
   render: function () {
-    // empty page.
-	this.$el.html(this.templates.layout());
-    this.$(".container").addClass(this.mode);
+    var player = this.player.toJSON();
+        
+    var dataDisplay = {
+	      name:player.name
+	    , rank:player.rank
+	    , idlicence:player.idlicense
+	    , playerid:this.playerid
+	    , token:this.token
+      , imagePlaceholder: Y.Conf.get("gui.image.placeholder.profil")
+    };
+      
+    if (player.club!== undefined) {    
+      dataDisplay.club = player.club.name;
+      dataDisplay.idclub = player.club.id;      	
+    }
     
-     
-	return this;
+    this.$el.html(this.templates.playerform({data : dataDisplay})).i18n();
+
+    this.$(".container").addClass(this.mode);
+
+    /*
+    debug android 2.2 to 2.3.6
+    */
+ 	  if (Cordova.Device.isGingerbread) {
+   	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({}));
+      // pb avec canvas toDataUrl sur android gingerbread
+      // @see https://code.google.com/p/android/issues/detail?id=16829
+      $(".column.picture").hide();
+    } else {
+	    $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({}));
+    }
+ 	
+    if (player.gender !== undefined) $("#gender").val(player.gender);
+    if (player.dates.birth !== undefined) {	
+      var dateBirth = Date.fromString(player.dates.birth);
+      var month = dateBirth.getMonth() + 1;
+      var date = (''+dateBirth.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateBirth.getDate()).slice(-2);       
+      $('#birth').val(date);
+    }
+
+    // dynamiquement, on set l'image.
+    if (this.player.hasImage()) {
+      $("#image").attr("src", this.player.getImageUrl());
+    }
+
+    
+
+    this.updatePhotoButtonStatus();
+
+    return this;
   },
   
-  renderList: function () {
-    var q = $("#club").val();  	
-	  $(this.listview).html(this.templates.clublist({clubs:this.clubs.toJSON(), query:q}));
-  },
-  
-  add: function (event) {
+  save: function (event) {
     var name = $('#name').val()
       , rank = $('#rank').val().replace(/ /g, "")
       , playerid = this.playerid
@@ -18739,6 +18735,9 @@ Y.Views.PlayerForm = Y.View.extend({
       return false;	   
     };
     
+    // avant de lancer l'execution, on bascule en readonly
+    this.readonly(true);
+
     var that = this;
     var player = Y.User.getPlayer();
     player.set('name', name);
@@ -18747,147 +18746,108 @@ Y.Views.PlayerForm = Y.View.extend({
     player.set('club', club);
     player.set('clubid', clubid);
     player.get('dates').birth = birth;
-    player.set('gender', gender);        
-    
-	//FIXME :  add control error
-    player.save().done(function (result) {
-      $('div.success').css({display:"block"});
-      $('div.success').html(i18n.t('message.updateok')).show();
-		  $('div.success').i18n();
-		  Y.User.setPlayer(new PlayerModel(result));
-		  if (that.mode === 'first') {
-		    Y.Router.navigate("games/add", {trigger: true});  	   
-		  }
-		  else if (that.mode === 'search') {
-		    Y.Router.navigate("search/form", {trigger: true});  	   
-		  }		  
-		  else {
-		    Y.Router.navigate("account", {trigger: true});
-    	}
-    });
-   
-    return false;
-  },     
-    
+    player.set('gender', gender); 
 
-  //render the content into div of view
-  renderPlayer: function(){
-    player = this.player.toJSON();
-        
-    var dataDisplay = {
-	      name:player.name
-	    , rank:player.rank
-	    , idlicence:player.idlicense
-	    , playerid:this.playerid
-	    , token:this.token
-    };
-      
-    if (player.club!== undefined) {    
-      dataDisplay.club = player.club.name;
-      dataDisplay.idclub = player.club.id;      	
+    // faut il enregistrer l'image
+    var deferred = $.Deferred();
+    var $image = $("#image");
+    if ($image.attr("data-modified") == "true") {
+      // 2 possibilité:
+      //  - l'image a été modifiée
+      //  - l'image a été supprimée 
+      var removed = ($image.attr("src") == $image.attr("data-default-src"));
+      if (removed) {
+        deferred.resolve(""); // chaine vide pour reseter l'image.
+      } else {
+        // on fait patienter l'utilisateur pendant la sauvegarde de la photo
+        $("#throbber").show();
+        // on sauve la photo
+        var file = new FileModel();
+        file.data = $('#image').attr("src");
+        file.save()
+            .done(function () {
+              deferred.resolve(file.get('id'));
+            })
+            .fail(function() {
+              deferred.resolve(null);
+            })
+            .always(function () {
+              $("#throbber").hide();
+            });
+      }
+    } else {
+      deferred.resolve(null);
     }
-    
-    this.$el.html(this.templates.playerform({data : dataDisplay}));
 
-    this.$(".container").addClass(this.mode);
-    
-    /*
-    debug android 2.2 to 2.3.6
-    */
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    var isGingerbread = /android 2\.3/i.test(userAgent);
-	  
-	 
- 	if (!isGingerbread) {
-   	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({})); 	    
- 	}
- 	else {
-	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({})); 		
- 	}
- 	
-    if (player.gender !== undefined) $("#gender").val(player.gender);
-    if (player.dates.birth !== undefined) {	
-      var dateBirth = Date.fromString(player.dates.birth);
-      var month = dateBirth.getMonth() + 1;
-      var date = (''+dateBirth.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateBirth.getDate()).slice(-2);       
-      $('#birth').val(date);
-    }        	      
+    deferred.always(function (pictureId) {
+      // on associe eventuellement l'image au player.
+      if (pictureId !== null)        
+        player.set('profile', {image: pictureId});
+      //
+      player.save().always(function () {
+        // on autorise l'utilisateur a remodifier la GUI.
+        that.readonly(false);
+      }).done(function (result) {
+        $('div.success').css({display:"block"});
+        $('div.success').html(i18n.t('message.updateok')).show();
+		    $('div.success').i18n();
+		    Y.User.setPlayer(new PlayerModel(result));
+		    if (that.mode === 'first') {
+		      Y.Router.navigate("games/add", {trigger: true});  	   
+		    }
+		    else if (that.mode === 'search') {
+		      Y.Router.navigate("search/form", {trigger: true});  	   
+		    }	else {
+          // FIXME: faut il vraiment quitter cette page ?
+		      Y.Router.navigate("account", {trigger: true});
+    	  }
+      });
+    });
 
-	this.$el.i18n();
-
-    return this;
+    return false;
   },
-  
-    /*
-     * Draw the image object on a new canvas and half the size of the canvas
-     * until the darget size has been reached
-     * Afterwards put the base64 data into the target image
-     */
-    resize : function (src) {
-
-      var canvas = document.createElement('canvas');     
-      var context = canvas.getContext('2d');
-      var imageObj = new Image();
-
-      imageObj.src = src;
-      var that = this;
-      imageObj.onload = function() {
-	    // original image size:
-	    console.log('original width',imageObj.width);
-	    console.log('original height',imageObj.height); 
-	    canvas.width = imageObj.width;
-	    canvas.height = imageObj.height;
-	    context.drawImage(imageObj, 0, 0);
-	    
-	    //Fixe la taille limite
-	    size = 200;
-	    
-        while (canvas.width > size) {
-          canvas = that.halfSize(canvas);
-        }
-	    
-	    //On envoie 
-	    $('#resizedImage').attr('src', canvas.toDataURL('image/jpeg'));        
-      };
-      
-                
-    },
-
-    /*
-     * Draw initial canvas on new canvas and half it's size
-     */
-    halfSize : function (i) {
-        var canvas = document.createElement("canvas");
-        canvas.width = i.width / 2;
-        canvas.height = i.height / 2;
-        var ctx = canvas.getContext("2d");
-        ctx.drawImage(i, 0, 0, canvas.width, canvas.height);
-        return canvas;
-    },
      
-  getPhoto: function(){
-  
+  getPhoto: function() {
     var that = this;
-  	Cordova.Camera.capturePhoto(function (img) {
-	  
-	  //"data:image/jpeg;base64," + 
-      var src = "data:image/jpeg;base64," +img;
-      //$('#smallImage').attr("src", src);
-      //$('#smallImage').attr("width", "500");  
-      //$('#smallImage').attr("height", "500");      
-	  that.resize(src);
-        	  
+  	Cordova.Camera.capturePhoto(function (err, image) {
+      image.dataUri = "data:image/jpeg;base64," + image.dataUri; // WARNING. might cost a lot of memory.
+      that.onPhotoCaptured(image);
   	});
-  
-  },  
+  },
 
-  onClose: function(){
-    this.undelegateEvents();
-    
-    Y.GUI.delBlueBackground(); 
-    
-    this.player.off("sync", this.renderPlayer, this);	
-    if (this.useSearch===1) this.clubs.off( "sync", this.renderList, this );
+  delPhoto: function () {
+    $('#image').attr("src", $("#image").attr("data-default-src"));
+    $('#image').attr("data-modified", "true");
+    this.updatePhotoButtonStatus();
+  },
+
+  updatePhotoButtonStatus: function (status) {
+    if ($('#image').attr("src") == $("#image").attr("data-default-src")) {
+      $('#getPhoto').show();
+      $('#filepicker').show();
+      $('#delPhoto').hide();
+    } else {
+      $('#getPhoto').hide();
+      $('#filepicker').hide();
+      $('#delPhoto').show();
+    }
+  },
+
+  onPhotoCaptured: function (image) {
+    var that = this;
+    Y.Image.resize(image, function (err, image) {
+      if (err)
+        console.log("error resizing image : " + err);
+      else {
+        $('#image').attr("src", image.dataUri);
+        $('#image').attr("data-modified", "true");
+      }
+      that.updatePhotoButtonStatus();
+    });
+  },
+
+  onClose: function() {
+    Y.GUI.delBlueBackground();
   }
 });
 Y.Views.PlayerList = Y.View.extend({
@@ -19437,18 +19397,14 @@ Y.Views.SearchForm = Y.View.extend({
   el:"#content",
     
   events: {
-  
-    'click #updateSearch':'update',
     'keyup #club': 'updateList',
     "click #searchgeo":"update",
     "click #searchmyclub":"update", 
     "click #searchplayerfollowed":"update",        
     'click #club_choice' : 'displayClub',
     'click #linkprofil' : 'goProfil'
-      
   },
   
-
   pageName: "searchForm",
   pageHash : "search/form",  
     
@@ -19458,15 +19414,9 @@ Y.Views.SearchForm = Y.View.extend({
   shareTimeout: null,    
 
   myinitialize:function() {
-
-	//header
     Y.GUI.header.title(i18n.t('search.title')); 
     
-    //no search
     this.useSearch=0;
-  
-    //this.gameFormTemplate = Y.Templates.get('gameForm');
-    //this.clubListAutoCompleteViewTemplate = Y.Templates.get('clubListAutoComplete');
     
   	this.templates = {
 	    searchform:  Y.Templates.get('searchForm')
@@ -19474,60 +19424,38 @@ Y.Views.SearchForm = Y.View.extend({
     
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
-    this.playerid = this.owner.get('id');  
-    //this.clubid = this.owner.get('club').id;
-    
-	this.render();
-  
+    this.playerid = this.owner.get('id');
+	  this.render();
   },
-   
-      
+  
   update: function (event) {
-    
-    if (event.currentTarget.id === 'searchmyclub' && $("#searchmyclub span").hasClass('disabled')==false) {
-      $('#searchmyclub span').toggleClass('checked');
-      Y.User.setFiltersSearch(event.currentTarget.id);
-      
-      var filters = Y.User.getFiltersSearch();
-    
-      if (filters.indexOf('searchgeo')!==-1) {
-        $('#searchgeo span').toggleClass('checked');
-        Y.User.setFiltersSearch('searchgeo'); 
-      }      
+    var $checkbox = $("#"+event.currentTarget.id+" span");
+    if ($checkbox.hasClass('disabled'))
+      return; // checkox disabled => nothing.
+    if (event.currentTarget.id === 'searchmyclub' ||
+        event.currentTarget.id === 'searchgeo' ||
+        event.currentTarget.id === 'searchplayerfollowed') {
+      // toggle option.
+      if ($checkbox.hasClass('checked'))
+        Y.User.setSearchOptions({filters: []});
+      else
+        Y.User.setSearchOptions({filters: [event.currentTarget.id]});
     }
-    
-    if (event.currentTarget.id === 'searchgeo' && $("#searchgeo span").hasClass('disabled')==false) {
-      $('#searchgeo span').toggleClass('checked');
-      Y.User.setFiltersSearch(event.currentTarget.id);
-      
-      var filters = Y.User.getFiltersSearch();
-    
-      if (filters.indexOf('searchmyclub')!==-1) {
-        $('#searchmyclub span').toggleClass('checked');
-        Y.User.setFiltersSearch('searchmyclub');         
-      }      
-    }    
-
-    if (event.currentTarget.id === 'searchplayerfollowed' && $("#searchplayerfollowed span").hasClass('disabled')==false) {
-      $('#searchplayerfollowed span').toggleClass('checked');
-      Y.User.setFiltersSearch(event.currentTarget.id);   
-    }  
-      
+    this.render();
   },
        
-  goProfil: function(){
-    Y.Router.navigate('players/form/search', {trigger: true});  	    
+  goProfil: function() {
+    Y.Router.navigate('players/form/search', {trigger: true});    
   },
 	
   //render the content into div of view
-  render: function(){
-  	
+  render: function() {
   	var gps_state = "";
+
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)	
     {
   	  long = Math.floor(Y.Geolocation.longitude*10000)/10000;
   	  lat = Math.floor(Y.Geolocation.latitude*10000)/10000;
-  	  
   	  gps_state = long+","+lat;
   	}
   	else {
@@ -19535,53 +19463,42 @@ Y.Views.SearchForm = Y.View.extend({
   	}
   	
   	var clubname='';
-	if (this.owner.get('club') !== undefined ) {
-	  if (this.owner.get('club').name !== '')
-		clubname = this.owner.get('club').name;
-	}  	
+	  if (this.owner.get('club') !== undefined && this.owner.get('club').name !== '') {
+	  	clubname = this.owner.get('club').name;
+	  }  	
   	
-  	
-    this.$el.html(this.templates.searchform({gps:gps_state,clubname:clubname}));
-  
-    this.$el.i18n();
+    this.$el.html(this.templates.searchform({gps:gps_state,clubname:clubname})).i18n();
     
     $(".filters a[data-filter*='match-']").removeClass('select');
     
-    var filters = Y.User.getFiltersSearch();
-    
-    if (filters!=undefined) {
-	    if (filters.indexOf('searchgeo')!==-1) {
-	      $('#searchgeo span').addClass('checked');		        
-	    } 
-	    if (filters.indexOf('searchmyclub')!==-1) {
-	      $('#searchmyclub span').addClass('checked');
-	 	}
-	    if (filters.indexOf('searchplayerfollowed')!==-1) {
-	      $('#searchplayerfollowed span').addClass('checked');
-	 	}
- 	} 	
+    var filters = Y.User.getSearchOptions().filters;
+    if (filters.indexOf('searchgeo')!==-1) {
+	    $('#searchgeo span').addClass('checked');      
+    } 
+    if (filters.indexOf('searchmyclub')!==-1) {
+	    $('#searchmyclub span').addClass('checked');
+    }
+    if (filters.indexOf('searchplayerfollowed')!==-1) {
+	    $('#searchplayerfollowed span').addClass('checked');
+    }
  	
- 	if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null)
-	{
-	  $('#searchgeo span').removeClass('checked');
-	  $("#searchgeo span").addClass("disabled");  
-	}	  
- 
-	if (this.owner.get('club') !== undefined ) {
-	  if (this.owner.get('club').name === '') {
-	    $('#searchmyclub span').removeClass('checked');
+ 	  if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null) {
+	    $('#searchgeo span').removeClass('checked');
+	    $("#searchgeo span").addClass("disabled");  
+	  }
+
+	  if (this.owner.get('club') !== undefined ) {
+	    if (this.owner.get('club').name === '') {
+	      $('#searchmyclub span').removeClass('checked');
         $("#searchmyclub span").addClass("disabled"); 
       }
-    }
-    else {
+    } else {
 	    $('#searchmyclub span').removeClass('checked');	
-        $("#searchmyclub span").addClass("disabled");     
-    } 	 	   
+      $("#searchmyclub span").addClass("disabled");     
+    }
   },
 
   onClose: function(){
-    this.undelegateEvents();
-    
     if (this.shareTimeout) {
       window.clearTimeout(this.shareTimeout);
       this.shareTimeout = null;
@@ -19593,12 +19510,16 @@ $(document).ready(function () {
   // Document is ready => initializing YesWeScore
   Y.ready(function () {
     // YesWeScore is ready.
-    
+    /*#ifdef DEV*/
+    console.log('YesWeScore is ready.');
+    /*#endif*/
   });
 
   Cordova.ready(function () {
     // Cordova is ready
-    
+    /*#ifdef DEV*/
+    console.log('Cordova is ready.');
+    /*#endif*/
   });
 });
 
@@ -20937,16 +20858,16 @@ else
     
 
     <div class="ui-grid-c search">
-      <div class="ui-block-a unselectable" data-filter="filter-status-all">
+      <div class="ui-block-a unselectable" data-sort="status-all">
         <span data-i18n="search.filterstatusall"></span>
       </div>
-      <div class="ui-block-b unselectable" data-filter="filter-status-ongoing">
+      <div class="ui-block-b unselectable" data-sort="status-ongoing">
         <span data-i18n="search.filterstatusongoing"></span>
       </div>
-      <div class="ui-block-c unselectable" data-filter="filter-status-finished">
+      <div class="ui-block-c unselectable" data-sort="status-finished">
         <span data-i18n="search.filterstatusfinished"></span>
       </div>
-      <div class="ui-block-d unselectable" data-filter="filter-status-created">
+      <div class="ui-block-d unselectable" data-sort="status-created">
         <span data-i18n="search.filterstatuscreated"></span>
       </div>
     </div>  
@@ -21152,40 +21073,6 @@ else
     </select>
   </div>
 </div></script>
-<script type="text/template" id="index"><div class="content-container">
-  <div class="index">
-
-      <a class="ui-grid-a" id="games-follow" href="#games/follow" data-js-navigate>  
-        <div class="ui-block-a">    
-            <img src="./images/index-match.png" height="50px" />
-         </div>
-        <div class="ui-block-b">          
-            <a href="#games/list" data-i18n="index.games"></a>
-        </div>
-      </a>
-      
-      <!-- 
-      <a class="ui-grid-a" id="clubs-follow" href="#clubs/follow" data-js-navigate>      
-        <div class="ui-block-a">    
-            <img src="./images/index-club.png" height="50px" />
-         </div>
-        <div class="ui-block-b">          
-            <a href="#clubs"></a>
-        </div>
-      </a>
-       -->
-      
-      <a class="ui-grid-a" id="players-follow" href="#players/follow" data-js-navigate>  
-        <div class="ui-block-a">    
-            <img src="./images/index-player.png" height="50px" />
-         </div>
-        <div class="ui-block-b">          
-            <a href="#players/list" data-i18n="index.players"></a>
-        </div>                       
-      </a>
-    
-  </div>
-</div></script>
 <script type="text/template" id="notification"><div class="content-container">
   <div class="indexViewTemplate">
    
@@ -21234,10 +21121,10 @@ if (game.error!==undefined)
   <div class="simple">
   
     <div class="ui-grid-a" style="padding-top:10px">
-        <div class="ui-block-a" style="width:30%">
-        <img src="./images/player-pic.jpg" width="60px" height="60px" />
+        <div class="ui-block-a" style="width: 100px;float: left;margin-right: 10px;">
+        <img src="<%= imageUrl %>" width="100px" alt="profile image"/>
         </div>
-        <div class="ui-block-b titlePlayer" style="width:70%">
+        <div class="ui-block-b titlePlayer" style="overflow: hidden;">
         <%= player.name %>
         </div>
     </div> 
@@ -21247,7 +21134,7 @@ if (game.error!==undefined)
      {
        if (player.club.name !== '') {   
      %>
-    <hr/>
+
     <b><label data-i18n="playerform.club"></label> :</b> <%= player.club.name %>
     <br/>
     
@@ -21258,12 +21145,12 @@ if (game.error!==undefined)
       }
     }
     %>
-    <hr/>
+    <br/><br/>
     <b><label data-i18n="playerform.rank"></label> :</b> <%= player.rank %>
     <br/>
     
     <div class="account">
-      <a href="#games/player/<%= player.id %>" id="lastResult" data-i18n="player.lastresults" data-js-navigate></a>
+      <a href="#games/<%= player.id %>/player" id="lastResult" data-i18n="player.lastresults" data-js-navigate></a>
     </div>
  
   </div>
@@ -21332,64 +21219,62 @@ if (game.error!==undefined)
     <div class="success label label-info hide"></div>
     
     <div id="intro_firstconnection" class="form-label label-info show-if-first" data-i18n="playerform.firstconnection"></div>
-    
-    <div>
-    	<label  class="form-label" for="name" data-i18n="playerform.name"></label><label  class="form-label show-if-first">*</label> 
-    </div>
-    <div>
-    	<input type="text" id="name" name="name" data-i18n="[placeholder]playerform.name;" value="<%= data.name %>" /> 
-    </div>
 
-    <div class="name_error label label-error hide"></div>
-    
-    <div>
-      <label class="form-label" for="rank" data-i18n="playerform.rank"></label>
-    </div>
-    <div>
-      <input type="text" id="rank" name="rank" data-i18n="[placeholder]playerform.rank;" value="<%= data.rank %>" /> 
-    </div>    
+    <div class="">
+      <div class="column picture" style="">
+          <img id="image" src="<%= data.imagePlaceholder %>" data-default-src="<%= data.imagePlaceholder %>" alt="profile image" width="100"/>
+          <img id="throbber" src="./images/ajax-loader-light.gif" alt="throbber"/>
+          <div id="getPhoto" class="form-button photo" data-i18n="player.getphoto"></div> 
+          <div id="delPhoto" class="form-button photo" data-i18n="player.delphoto"></div>
+      </div>
 
-    <div class="rank_error label label-error hide"></div>
-    
-    <!-- FIXME: Find club_id in Ajax -->
-    <div>
-      <label class="form-label" for="club" data-i18n="playerform.clubname"></label>
-    </div>
-    <div>
-      <input type="text" id="club" name="club" data-i18n="[placeholder]playerform.clubname;" value="<%= data.club %>" data-autocomplete="autocompleteClubs" data-autocomplete-onselected="autocompleteChoose"/>
-    </div>
+      <div class="column infos">
+        <div>
+    	    <label  class="form-label" for="name" data-i18n="playerform.name"></label><label  class="form-label show-if-first">*</label> 
+        </div>
+        <div>
+    	    <input type="text" id="name" name="name" data-i18n="[placeholder]playerform.name;" value="<%= data.name %>" /> 
+        </div>
 
-    <div class="club_error label label-error hide"></div>
+        <div class="name_error label label-error hide"></div>
     
-    
-  <div class="ui-grid-a">
-    <div class="ui-block-a">
-      <div class="form-label" data-i18n="playerform.gender"></div>
-    </div>
-    <div class="ui-block-a" style="padding-right: 1px;">
-      <select name="gender" id="gender" style="width: 100%" visible="true">
-        <option value="man" data-i18n="playerform.man" checked></option>
-        <option value="woman" data-i18n="playerform.woman"></option>
-      </select>
-    </div>
-  </div>    
-  
-  
-  <div id="inject-datepicker"></div> 
-    
-    
-    <div class="account">
-      <span id="getPhoto" class="button" data-i18n="player.getphoto"></span>
-    </div> 
-    <br/>
-    <img id="resizedImage" src="" />     
- 
-  <!-- 
-  <div style="padding:20px"></div>
-  -->
- 
-  </div>
-    
+        <div>
+          <label class="form-label" for="rank" data-i18n="playerform.rank"></label>
+        </div>
+        <div>
+          <input type="text" id="rank" name="rank" data-i18n="[placeholder]playerform.rank;" value="<%= data.rank %>" /> 
+        </div>    
+
+        <div class="rank_error label label-error hide"></div>
+
+        <!-- FIXME: Find club_id in Ajax -->
+        <div>
+          <label class="form-label" for="club" data-i18n="playerform.clubname"></label>
+        </div>
+        <div>
+          <input type="text" id="club" name="club" data-i18n="[placeholder]playerform.clubname;" value="<%= data.club %>" data-autocomplete="autocompleteClubs" data-autocomplete-onselected="autocompleteChoose"/>
+        </div>
+
+        <div class="club_error label label-error hide"></div>
+
+
+        <div class="ui-grid-a">
+          <div class="ui-block-a">
+            <div class="form-label" data-i18n="playerform.gender"></div>
+          </div>
+          <div class="ui-block-a" style="padding-right: 1px;">
+            <select name="gender" id="gender" style="width: 100%" visible="true">
+              <option value="man" data-i18n="playerform.man" checked></option>
+              <option value="woman" data-i18n="playerform.woman"></option>
+            </select>
+          </div>
+        </div>
+
+        <div id="inject-datepicker"></div>
+
+      </div> <!-- end .column.infos -->
+    </div> <!-- end columns -->
+  </div> <!-- end .container -->
 </div>
 
  

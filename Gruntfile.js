@@ -158,6 +158,9 @@ module.exports = function (grunt) {
         ANDROID: true,
         DEV: true
       },
+      androidBeta: {
+        ANDROID: true
+      },	  
       iosAlpha: {
         IOS: true,
         DEV: true

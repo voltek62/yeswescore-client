@@ -600,7 +600,7 @@ Y.Views.Game = Y.View.extend({
   },
 
   goToOptions : function() {
-    Y.Router.navigate("/games/form/"+this.id, {trigger:true});
+    Y.Router.navigate("/games/"+this.id+"/form", {trigger:true});
   },   
 
   goToPlayerProfile: function (elmt) {

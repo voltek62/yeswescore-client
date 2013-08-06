@@ -149,11 +149,12 @@ if (PROD) {
     var start = Date.now();
     var f = console.log;
     console.log = function () {
-      var a = Array.prototype.slice.apply(arguments);
-      var now = Date.now() - start;
-      now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');
-      a.unshift(now);
-      f.apply(console, a);
+      //var a = Array.prototype.slice.apply(arguments);
+      //var now = Date.now() - start;
+      //now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');
+      //a.unshift(now);
+      //f.apply(console, a);
+      return;
     };
     console.log.f = f;
   })();

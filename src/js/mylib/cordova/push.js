@@ -3,7 +3,7 @@
   "use strict";
   /*#endif*/
 
-  // wrapper around cordova geolocation
+  // wrapper around urbanairship
   var Push = {
    
     getPushID: function (callback) { 

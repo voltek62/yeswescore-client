@@ -133,6 +133,8 @@ Y.Views.PlayerForm = Y.View.extend({
     /*#endif*/
 
     this.updatePhotoButtonStatus();
+    
+    this.$el.i18n();
 
     return this;
   },

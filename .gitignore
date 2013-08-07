@@ -4,6 +4,7 @@ dist
 run.bat
 
 # repertoire de builds.
+www/
 src/.settings/
 src/build/
 platforms/ios/www/

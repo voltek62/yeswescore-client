@@ -16,7 +16,7 @@ module.exports = function (grunt) {
   // FIXME: should be a grunt task ?
   // reading index.html
   var fs = require('fs');
-  var html = fs.readFileSync(__dirname + '/www/index.html');
+  var html = fs.readFileSync(__dirname + '/src/index.html');
 
   // FIXME: regexp are weak.
   // FIXME: regexp doesn't prevent including commented scripts !
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
   while ((r = re.exec(html)) !== null) {
     // excluding cordova file (to not be included twice)
     if (r[0].indexOf("data-grunt-included=\"false\"") == -1)
-      scripts.push('www/' + r[1]); // ex: www/js/main.js
+      scripts.push('src/' + r[1]); // ex: src/js/main.js
   }
 
   // harvesting css: <link (...) href="styles/main.css"></link>
@@ -35,7 +35,7 @@ module.exports = function (grunt) {
   while ((r = re.exec(html)) !== null) {
     // excluding cordova file (to not be included twice)
     if (r[0].indexOf("data-grunt-included=\"false\"") == -1)
-      css.push('www/' + r[1]); // ex: www/styles/main.css
+      css.push('src/' + r[1]); // ex: src/styles/main.css
   }
 
   //
@@ -63,12 +63,12 @@ module.exports = function (grunt) {
             footer: '</script>',
             inject: [{
               prop: 'www',
-              rem: 'www/templates/',
+              rem: 'src/templates/',
               repl: { ".html": "" }
             }]
           }
         },
-        src: ['www/templates/*.html'],
+        src: ['src/templates/*.html'],
         dest: 'dist/templates.html'
       }
     },
@@ -82,37 +82,37 @@ module.exports = function (grunt) {
         dest: 'dist/app.css'
       },
       dist_html: {
-        src: ['www/index.html'],
+        src: ['src/index.html'],
         dest: 'dist/index.html'
       }
     },
     copy: {
       images: {
         files: [
-          { expand: true, flatten: true, src: ['www/images/*'], dest: 'platforms/android/assets/www/images/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/images/*'], dest: 'platforms/ios/www/images/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/images/*'], dest: 'platforms/wp8/build/images/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/images/*'], dest: 'platforms/web/build/images/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/www/images/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/images/*'], dest: 'www/images/', filter: 'isFile' }
         ]
       },
       locales: {
         files: [
-          { expand: true, flatten: true, src: ['www/locales/fr-FR/*'], dest: 'platforms/android/assets/www/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/locales/fr-FR/*'], dest: 'platforms/ios/www/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/locales/fr-FR/*'], dest: 'platforms/wp8/build/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/locales/fr-FR/*'], dest: 'platforms/web/build/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/locales/fr/*'], dest: 'platforms/android/assets/www/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/locales/fr/*'], dest: 'platforms/ios/www/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/locales/fr/*'], dest: 'platforms/wp8/build/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/locales/fr/*'], dest: 'platforms/web/build/locales/fr/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/android/assets/www/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/ios/www/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/wp8/build/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'www/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/android/assets/www/locales/fr/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/ios/www/locales/fr/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/wp8/build/locales/fr/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'www/locales/fr/', filter: 'isFile' }
         ]
       },	  
       fonts: {
         files: [
-          { expand: true, flatten: true, src: ['www/styles/webfonts/*'], dest: 'platforms/android/assets/www/styles/webfonts/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/styles/webfonts/*'], dest: 'platforms/ios/www/styles/webfonts/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/styles/webfonts/*'], dest: 'platforms/wp8/build/styles/webfonts/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['www/styles/webfonts/*'], dest: 'platforms/web/build/styles/webfonts/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/android/assets/www/styles/webfonts/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/ios/www/styles/webfonts/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/wp8/build/styles/webfonts/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'www/styles/webfonts/', filter: 'isFile' }
         ]
       }
     },
@@ -147,12 +147,8 @@ module.exports = function (grunt) {
         STRICT:true
       },
       web: {
-        WEB:true,
         CORDOVA: true,
-        NOCORDOVA: false,
-        CORS: true,
-        DEV:true/*, // cross domain
-        NOCONCAT: true*/
+        NOCORDOVA: false
       },
       androidAlpha: {
         ANDROID: true,
@@ -184,16 +180,19 @@ module.exports = function (grunt) {
   // registering grunt copy-cordova-android-to-dist, copy-cordova-ios-to-dist, ...
   //  ex: copy /platforms/ios/cordova/cordova-2.4.0.js  => /dist/cordova.js
   //
-  platforms.forEach(function (platform) {
-    grunt.registerTask('copy-cordova-' + platform[0] + '-to-dist', function () {
-      grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
-    });
-    grunt.registerTask('copy-push-' + platform[0] + '-to-dist', function () {
-      grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
-    });
-    grunt.registerTask('copy-social-' + platform[0] + '-to-dist', function () {
-      grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');
-    });
+  platforms.forEach(function (platform) { 
+    grunt.registerTask('copy-' + platform[0] + '-to-dist', function () {
+	  if (platform[0].indexOf('web') != -1) {
+        grunt.file.copy('empty.js', 'dist/cordova.js');
+	    grunt.file.copy('empty.js', 'dist/pushnotification.js');
+	    grunt.file.copy('empty.js', 'dist/social.js');	  		
+	  }
+	  else {
+        grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
+	    grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
+	    grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');  
+	  }
+    });   
   });
 
   //
@@ -202,26 +201,27 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) {
     grunt.registerTask('to-' + platform[0], function () {
+	
       if (platform[0].indexOf('android') != -1)
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/assets/www/index.html');
       else if (platform[0].indexOf('ios') != -1)
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/www/index.html');
-      else
+      else if (platform[0].indexOf('web') != -1)
+        grunt.file.copy('dist/index.html', 'www/index.html');
+	  else
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/build/index.html');
+		
     });
   });
 
-  grunt.registerTask('copy-iostest', function () {
-    grunt.file.copy('dist/index-build.html', 'www/index.html');
-  });
 
   // Default task(s).
-  grunt.registerTask('android-beta', ['clean', 'env:cordova', 'copy-cordova-android-to-dist', 'copy-push-android-to-dist','copy-social-android-to-dist','template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
-  grunt.registerTask('android-alpha', ['clean', 'env:cordova', 'env:androidAlpha', 'copy-cordova-android-to-dist', 'copy-push-android-to-dist','copy-social-android-to-dist','template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
-  grunt.registerTask('ios-beta', ['clean', 'env:cordova', 'copy-cordova-ios-to-dist', 'copy-push-ios-to-dist','copy-social-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);  
-  grunt.registerTask('ios-alpha', ['clean', 'env:cordova', 'env:iosAlpha', 'copy-cordova-ios-to-dist', 'copy-push-ios-to-dist','copy-social-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);
-  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
-  grunt.registerTask('wp8-alpha', ['clean', 'env:cordova', 'env:wp8Alpha', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
-  grunt.registerTask('web', ['clean', 'env:web', 'copy-cordova-web-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-web']);
+  grunt.registerTask('android-beta', ['clean', 'env:cordova', 'copy-android-to-dist','template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
+  grunt.registerTask('android-alpha', ['clean', 'env:cordova', 'env:androidAlpha', 'copy-android-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
+  grunt.registerTask('ios-beta', ['clean', 'env:cordova', 'copy-ios-to-dist','template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);  
+  grunt.registerTask('ios-alpha', ['clean', 'env:cordova', 'env:iosAlpha', 'copy-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);
+  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'copy-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
+  grunt.registerTask('wp8-alpha', ['clean', 'env:cordova', 'env:wp8Alpha', 'copy-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
+  grunt.registerTask('web', ['clean', 'env:web', 'copy-web-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-web']);
   grunt.registerTask('default', 'android');
 };

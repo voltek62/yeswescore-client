@@ -23,7 +23,6 @@
       'games/me/:id'       : 'gameMe',
       'games/player/:id'   : 'gamePlayer',      
       'games/club/:id'     : 'gameClub',
-
       // players
       'players/me/games'   : 'playersMeGames',
       'players/:id/games'  : 'playersGames',
@@ -136,10 +135,6 @@
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
     },
 
-    playerFollow: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.PlayerFollow));
-    },
-
     playerNoFollow: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: 'false' }));
     },
@@ -158,6 +153,10 @@
 
     notificationList: function () {
       this.changePage(this.createViewFactory(Y.Views.NotificationList));
+    },
+
+    playerFollow: function () {
+      this.changePage(this.createViewFactory(Y.Views.PlayerFollow));
     },
 
     players: function () {

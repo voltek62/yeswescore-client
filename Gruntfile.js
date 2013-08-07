@@ -16,7 +16,7 @@ module.exports = function (grunt) {
   // FIXME: should be a grunt task ?
   // reading index.html
   var fs = require('fs');
-  var html = fs.readFileSync(__dirname + '/src/index.html');
+  var html = fs.readFileSync(__dirname + '/www/index.html');
 
   // FIXME: regexp are weak.
   // FIXME: regexp doesn't prevent including commented scripts !
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
   while ((r = re.exec(html)) !== null) {
     // excluding cordova file (to not be included twice)
     if (r[0].indexOf("data-grunt-included=\"false\"") == -1)
-      scripts.push('src/' + r[1]); // ex: src/js/main.js
+      scripts.push('www/' + r[1]); // ex: www/js/main.js
   }
 
   // harvesting css: <link (...) href="styles/main.css"></link>
@@ -35,7 +35,7 @@ module.exports = function (grunt) {
   while ((r = re.exec(html)) !== null) {
     // excluding cordova file (to not be included twice)
     if (r[0].indexOf("data-grunt-included=\"false\"") == -1)
-      css.push('src/' + r[1]); // ex: src/styles/main.css
+      css.push('www/' + r[1]); // ex: www/styles/main.css
   }
 
   //
@@ -62,13 +62,13 @@ module.exports = function (grunt) {
             banner: '<script type="text/template" id="#{0}">',
             footer: '</script>',
             inject: [{
-              prop: 'src',
-              rem: 'src/templates/',
+              prop: 'www',
+              rem: 'www/templates/',
               repl: { ".html": "" }
             }]
           }
         },
-        src: ['src/templates/*.html'],
+        src: ['www/templates/*.html'],
         dest: 'dist/templates.html'
       }
     },
@@ -82,37 +82,37 @@ module.exports = function (grunt) {
         dest: 'dist/app.css'
       },
       dist_html: {
-        src: ['src/index.html'],
+        src: ['www/index.html'],
         dest: 'dist/index.html'
       }
     },
     copy: {
       images: {
         files: [
-          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/www/images/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/web/build/images/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['www/images/*'], dest: 'platforms/android/assets/www/images/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/images/*'], dest: 'platforms/ios/www/images/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/images/*'], dest: 'platforms/wp8/build/images/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/images/*'], dest: 'platforms/web/build/images/', filter: 'isFile' }
         ]
       },
       locales: {
         files: [
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/android/assets/www/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/ios/www/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/wp8/build/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/web/build/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/android/assets/www/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/ios/www/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/wp8/build/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/web/build/locales/fr/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['www/locales/fr-FR/*'], dest: 'platforms/android/assets/www/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/locales/fr-FR/*'], dest: 'platforms/ios/www/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/locales/fr-FR/*'], dest: 'platforms/wp8/build/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/locales/fr-FR/*'], dest: 'platforms/web/build/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/locales/fr/*'], dest: 'platforms/android/assets/www/locales/fr/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/locales/fr/*'], dest: 'platforms/ios/www/locales/fr/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/locales/fr/*'], dest: 'platforms/wp8/build/locales/fr/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/locales/fr/*'], dest: 'platforms/web/build/locales/fr/', filter: 'isFile' }
         ]
       },	  
       fonts: {
         files: [
-          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/android/assets/www/styles/webfonts/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/ios/www/styles/webfonts/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/wp8/build/styles/webfonts/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/web/build/styles/webfonts/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['www/styles/webfonts/*'], dest: 'platforms/android/assets/www/styles/webfonts/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/styles/webfonts/*'], dest: 'platforms/ios/www/styles/webfonts/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/styles/webfonts/*'], dest: 'platforms/wp8/build/styles/webfonts/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['www/styles/webfonts/*'], dest: 'platforms/web/build/styles/webfonts/', filter: 'isFile' }
         ]
       }
     },
@@ -212,7 +212,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('copy-iostest', function () {
-    grunt.file.copy('dist/index-build.html', 'src/index.html');
+    grunt.file.copy('dist/index-build.html', 'www/index.html');
   });
 
   // Default task(s).

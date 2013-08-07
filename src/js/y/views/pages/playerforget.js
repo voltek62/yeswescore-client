@@ -1,4 +1,4 @@
-Y.Views.Pages.PlayerForget = Y.View.extend({
+Y.Views.PlayerForget = Y.View.extend({
   el : "#content",
 
   events: {
@@ -13,7 +13,7 @@ Y.Views.Pages.PlayerForget = Y.View.extend({
   myinitialize : function() {
     Y.GUI.header.title(i18n.t('playerforget.title'));     
   
-    this.playerForgetTemplate = Y.Templates.get('playerForget');
+    this.page = Y.Templates.get('page-playerforget');
     this.render();
   },
   
@@ -43,7 +43,7 @@ Y.Views.Pages.PlayerForget = Y.View.extend({
 
   // render the content into div of view
   render : function() {
-    this.$el.html(this.playerForgetTemplate({}));
+    this.$el.html(this.page({}));
     this.$el.i18n();
     return this;
   },

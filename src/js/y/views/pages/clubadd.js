@@ -1,4 +1,4 @@
-Y.Views.Pages.ClubAdd = Y.View.extend({
+Y.Views.ClubAdd = Y.View.extend({
   el: "#content",
 
   events: {
@@ -14,7 +14,7 @@ Y.Views.Pages.ClubAdd = Y.View.extend({
   
     Y.GUI.header.title(i18n.t('clubadd.title'));
 
-    this.clubAddTemplate = Y.Templates.get('clubAdd');
+    this.page = Y.Templates.get('page-clubadd');
 
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
@@ -48,7 +48,7 @@ Y.Views.Pages.ClubAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.clubAddTemplate({}));
+    this.$el.html(this.page({}));
     
     return this;
   },

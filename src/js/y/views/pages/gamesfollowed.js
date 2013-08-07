@@ -1,4 +1,4 @@
-Y.Views.Pages.GameFollow = Y.View.extend({
+Y.Views.GameFollow = Y.View.extend({
   el:"#content",
 
   listview:"#listGamesView",
@@ -20,13 +20,13 @@ Y.Views.Pages.GameFollow = Y.View.extend({
     Y.GUI.header.title(i18n.t('gamefollow.title'));		    
   
     this.templates = {
-      gamelist:  Y.Templates.get('gameList'),
+      list:  Y.Templates.get('list-game'),
       page: Y.Templates.get('page-games'),
-      error: Y.Templates.get('error'),
-      ongoing: Y.Templates.get('ongoing')      
+      error: Y.Templates.get('module-error'),
+      ongoing: Y.Templates.get('module-ongoing')      
     };
     this.render();
-	  this.refresh();
+	this.refresh();
   },
   
   goToGame: function (elmt) {
@@ -37,7 +37,9 @@ Y.Views.Pages.GameFollow = Y.View.extend({
   },
   
   refresh: function () {
-	  var games = Y.Conf.get("owner.games.followed");
+    var games_follow = Y.Conf.get("owner.games.followed");
+    var games = games_follow;    
+    var players_follow = Y.User.getPlayer().get('following');	  
 	
     if (games!==undefined) {   
       this.gameLast = games[games.length-1];     
@@ -46,7 +48,7 @@ Y.Views.Pages.GameFollow = Y.View.extend({
 	    var i = games.length;
 
       if (games.length<1) {
-	      $(this.listview).html(this.templates.gamelist({games:[],query:' '}));
+	      $(this.listview).html(this.templates.list({games:[], games_follow : games_follow, players_follow : players_follow,query:' '}));
 	      $('p.message').i18n();		          
       }
 	    
@@ -55,7 +57,7 @@ Y.Views.Pages.GameFollow = Y.View.extend({
         i--;         		   
         //si dernier element du tableau
         if (that.gameLast === game.get('id')) {
-	    	  $(that.listview).html(that.templates.gamelist({games:that.collection.toJSON(),query:' '})); 
+	    	  $(that.listview).html(that.templates.list({games:that.collection.toJSON(), games_follow : games_follow, players_follow : players_follow,query:' '})); 
 	      }
 	    };
 	    
@@ -69,7 +71,7 @@ Y.Views.Pages.GameFollow = Y.View.extend({
 		          games.splice(games.indexOf(gameid), 1);
 		          Y.Conf.set("owner.games.followed", games, { permanent: true });
 		          if (games.length<1) {
-				        $(that.listview).html(that.templates.gamelist({games:[],query:' '}));
+				        $(that.listview).html(that.templates.list({games:[], games_follow : games_follow, players_follow : players_follow,query:' '}));
 				        $('p.message').i18n();
 		          } else {
 		            this.gameLast = games[games.length-1];
@@ -79,7 +81,7 @@ Y.Views.Pages.GameFollow = Y.View.extend({
 	        this.games[index] = game;
 	    },this);
 	  } else {
-	    $(this.listview).html(this.templates.gamelist({games:[],query:' '}));
+	    $(this.listview).html(this.templates.list({games:[], games_follow : games_follow, players_follow : players_follow,query:' '}));
 	    $('p.message').i18n();
 	  }
   }, 
@@ -107,8 +109,11 @@ Y.Views.Pages.GameFollow = Y.View.extend({
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
       } else {
-        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), query: q }));
-    	}
+        var games_follow = Y.Conf.get("owner.games.followed");
+        var players_follow = Y.User.getPlayer().get('following');
+        $(this.listview).html(this.templates.list({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: q }));
+ 
+      }
       $(this.listview).i18n();
     }, this));
 	  return this;

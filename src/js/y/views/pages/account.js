@@ -1,4 +1,4 @@
-Y.Views.Pages.Account = Y.View.extend({
+Y.Views.Account = Y.View.extend({
   el: "#content",
 
   pageName: "account",
@@ -6,14 +6,14 @@ Y.Views.Pages.Account = Y.View.extend({
   
   myinitialize: function () {
     Y.GUI.header.title(i18n.t('account.title'));
-    this.accountViewTemplate = Y.Templates.get('account');
+    this.page = Y.Templates.get('page-account');
     this.clubid = Y.User.getClub();
     this.player = Y.User.getPlayer()
     this.render();
   },
 
   render: function () {
-	  $(this.el).html(this.accountViewTemplate({player: this.player, clubid: this.clubid}));
+	  $(this.el).html(this.page({player: this.player, clubid: this.clubid}));
 	  $('a').i18n();
   },
 

@@ -1,4 +1,4 @@
-Y.Views.Pages.GameList = Y.View.extend({
+Y.Views.Games = Y.View.extend({
   el: "#content",
 
   events: {
@@ -12,21 +12,17 @@ Y.Views.Pages.GameList = Y.View.extend({
     'vclick a[data-filter="searchmyclub"]':'deleteFilter', 
     'vclick a[data-filter="searchgeo"]':'deleteFilter',    
         
-    'click div[data-filter="filter-status-all"]': 'filterByStatusAll',
-    'click div[data-filter="filter-status-ongoing"]': 'filterByStatusOngoing',    
-    'click div[data-filter="filter-status-finished"]': 'filterByStatusFinished',      
-    'click div[data-filter="filter-status-created"]': 'filterByStatusCreated'
+    'click div[data-sort="status-all"]': 'sortByStatusAll',
+    'click div[data-sort="status-ongoing"]': 'sortByStatusOngoing',    
+    'click div[data-sort="status-finished"]': 'sortByStatusFinished',      
+    'click div[data-sort="status-created"]': 'sortByStatusCreated'
     
   },
 
   listview: "#listGamesView",
-
   pageHash : "games/list",
-
   sortOption: "",
- 
   clubid: "",
-  
   controlTimeout: null,
   player: null,
   
@@ -42,18 +38,14 @@ Y.Views.Pages.GameList = Y.View.extend({
     this.initializeTitle(param);
     this.initializePageName(param);
 
-    // options
-  	this.sortOption = Y.User.getFiltersSort();
-  	this.clubid = Y.User.getClub();
-
     //
     this.onResume = function () { that.search(); };
     
     this.templates = {
-      gamelist:  Y.Templates.get('gameList'),
+      list:  Y.Templates.get('list-game'),
       page: Y.Templates.get('page-games'),
-      error: Y.Templates.get('error'),
-      ongoing: Y.Templates.get('ongoing')      
+      error: Y.Templates.get('module-error'),
+      ongoing: Y.Templates.get('module-ongoing')      
     };
     
 
@@ -72,88 +64,51 @@ Y.Views.Pages.GameList = Y.View.extend({
     this.gameDeferred = $.Deferred();
     this.games = new GamesCollection();
 
-    if (param!==undefined) { 
-	    if (param.search === 'me') {
-	      this.games.addSearch('player');	
-	      this.games.setPlayer(this.player.id);		      
-	    }
-	    else if (param.search === 'player') {
-	      this.games.addSearch('player');	
-	      this.games.setPlayer(param.id);		        
-	    }	    
-	    else
-	      this.searchOption = Y.User.getFiltersSearch();     
-     }
-     else 
-       	this.searchOption = Y.User.getFiltersSearch();    
-
-     if (this.sortOption!==undefined) {
-       if (this.sortOption !=="") 
-         this.games.setSort(this.sortOption);      
-     }
-     
-     if (this.searchOption!==undefined) {
-     
-      if(this.searchOption.indexOf('searchmyclub')!==-1) {       
-        
-        if (this.clubid !== '') {
-          this.games.addSearch('club'); 
-          this.games.setClub(this.clubid);
-        }
-        else {
-          this.games.removeSearch('searchmyclub');
-          $('#searchmyclub').html('');        
-        } 
-        
-	  }
-      
-	  if(this.searchOption.indexOf('searchgeo')!==-1) {
-
-        if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null ) {
-          this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
-          this.games.addSearch('geo');  
-        }
-        else {
-          this.games.removeSearch('searchgeo');
-          $('#searchgeo').html('');
-        }
-        
-      }  
-      
-      //On regarde si la barre de recherche avancé est encore utile
-      this.searchOption = Y.User.getFiltersSearch();
-
-      if (this.searchOption!==undefined) 
-        $('.advancedsearch').hide();
-      else if (this.searchOption.length<=0) 
-        $('.advancedsearch').hide();      
-
-           
-     }
-      
+    // 
+    var searchType = (param) ? param.search : null;
+    switch (searchType) {
+      case 'me':
+        // we can access Y.User.getPlayer, because option search == "me" should'nt triggered on first launch.
+	      this.games.addSearch('player');
+	      this.games.setPlayer(Y.User.getPlayer().id);
+        break;
+      case 'player':
+         this.games.addSearch('player');
+	     this.games.setPlayer(param.id);
+        break;
+      case 'club':
+        // FIXME
+          this.games.addSearch('club');
+	      this.games.setClub(param.id);        
+        break;
+      default:
+        // on utilise les options de recherche de l'utilisateur
+        this.games.setSearchOptions(Y.User.getSearchOptions());
+        break;
+    }
             
     this.games.on('sync', this.gameDeferred.resolve, this.gameDeferred);
-    //disable
     this.games.fetch();
 
-    // chargement player
+    // second: read/create player
     var playerDeferred = $.Deferred();
     Y.User.getOrCreatePlayerAsync(function (err, player) {
       document.addEventListener("resume", that.onResume, true);
-      that.player = player;
-      playerDeferred.resolve();
+      playerDeferred.resolve(); 
     });
 
     this.startControlTimeout();
 
-    //
+    // FIXME: handling error with deferreds
     $.when(
       this.gameDeferred,
       playerDeferred
     ).done(function () {
-      this.stopControlTimeout();
+      that.stopControlTimeout();
       that.render();
+      that.renderList();     
     });
+    
   },
 
   initializeTitle: function (param) {
@@ -199,108 +154,46 @@ Y.Views.Pages.GameList = Y.View.extend({
   // active un message d'erreur si stop n'est pas appelé avant un certain delai
   startControlTimeout: function () {
     if (this.controlTimeout == null) {
-      this.controlTimeout = window.setTimeout(function () {
-        that.$el.html("<span style=\"top:50px\">"+i18n.t('message.noconnection')+"</span>");
-        that.controlTimeout = null;
-      }, 10000);
+      this.controlTimeout = window.setTimeout(_.bind(function () {
+        this.$el.html("<span style=\"top:50px;position:absolute;top:50px;width:100%;text-align:center;\">"+i18n.t('message.noconnection')+"</span>");
+        this.controlTimeout = null;
+      }, this), 10000);
     }
   },
 
   stopControlTimeout: function () {
-    if (that.controlTimeout) {
-      window.clearTimeout(that.controlTimeout);
-      that.controlTimeout = null;
+    if (this.controlTimeout) {
+      window.clearTimeout(this.controlTimeout);
+      this.controlTimeout = null;
     }
   },
 
+  // filtres des options de recherche
+  showFilters: function () {
+    Y.Router.navigate("search/form", {trigger: true}); 
+  },
+  
   deleteFilter : function (event) {
-    
     var cmd = event.currentTarget.id;
     
-	if (cmd==='searchgeoselect') { 
-      Y.User.setFiltersSearch('searchgeo');
-      $('#searchgeo').html('');
+	  if (cmd==='searchgeoselect'||cmd==='searchmyclubselect') {
+      Y.User.setSearchOptions({filters:[]});
       this.games.removeSearch('geo');
-    }   
-
-	if (cmd==='searchmyclubselect') { 
-      Y.User.setFiltersSearch('searchmyclub');
-      $('#searchmyclub').html('');
       this.games.removeSearch('club');
-    } 
-    
-    var filters = Y.User.getFiltersSearch();
-    
-    if (filters===undefined) 
-      $('.advancedsearch').hide();
-    else if (filters.length<=0) 
-      $('.advancedsearch').hide();
-      
-    this.search();  
-      
+    }
+    this.renderSearchOptions();
+    this.search();
   },  
   
-  goToGame: function (elmt) {
-    if (elmt.currentTarget.id) {
-      var route = elmt.currentTarget.id;
-      Y.Router.navigate(route, {trigger: true}); 
-    }
+  sortByStatusAll: function () { this.setSortOption("all") },
+  sortByStatusOngoing: function () { this.setSortOption("ongoing") },
+  sortByStatusFinished: function () { this.setSortOption("finished") },
+  sortByStatusCreated: function () { this.setSortOption("created") },
+  setSortOption: function (sortOption) {
+    Y.User.setSearchOptions({sort: sortOption});
+    this.renderSearchOptions();
+    this.search();
   },
-
-  showFilters: function () {
-    
-    //this.$('.button-option-down').addClass('button-option-up').removeClass('button-option-down');
-    //this.$(".filters").show();
-    Y.Router.navigate("search/form", {trigger: true}); 
-    
-  },
-  hideFilters: function () {
-
-    this.$('.button-option-up').addClass('button-option-down').removeClass('button-option-up');   
-    
-    $('.message').removeAttr('style');
-    
-    this.$(".filters").hide();
-      
-  },
-
- 
-   
-  filterByStatusAll: function () { 
-    this.setSort("all");
-  },
-  
-  filterByStatusOngoing: function () { 
-    this.setSort("ongoing");
-  },
-  
-  filterByStatusFinished: function () { 
-    this.setSort("finished");
-  },
-  
-  filterByStatusCreated: function () { 
-    this.setSort("created");
-  },
-      
-  setSort: function (o) {
-  
-     $(".search div[data-filter*='filter-status'] span").removeClass('select');
-     
-	if (o==='all') 
-      $(".search div[data-filter='filter-status-all'] span").addClass('select');
- 	else if (o==='ongoing') 
-  	  $(".search div[data-filter='filter-status-ongoing'] span").addClass('select'); 
- 	else if (o==='finished') 
-      $(".search div[data-filter='filter-status-finished'] span").addClass('select'); 
- 	else if (o==='created') 
-      $(".search div[data-filter='filter-status-created'] span").addClass('select');        
-          
-    this.sortOption = o;   
-    Y.User.setFiltersSort(o);
-    this.search();     
-    //this.hideFilters();
-  },
-
 
   searchButton: function () {
     this.inputModeOff();
@@ -316,61 +209,33 @@ Y.Views.Pages.GameList = Y.View.extend({
   },
 
   searchOnBlur: function (event) {
-
-    this.search();
-
-    return this;
+    return this.search();
   },
   
   search: function () {
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.ongoing());
     $('p').i18n(); 
-    
-    if (this.sortOption !=="") 
-      this.games.setSort(this.sortOption);  
-    
 
-    if (this.searchOption !== undefined) {     
-      
-      //FIXME : cumul search et trier par date
-      
-      if(this.searchOption.indexOf('searchmyclub')!==-1 && this.clubid === '') {
-        this.games.addSearch('club');  
-        this.games.setClub(this.clubid);
-	  }
-      
-      if(this.searchOption==="searchgeo" && Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null) {
-        this.games.addSearch('geo');          
-        this.games.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
-      }  
-    
-    }  
+    this.games.setSearchOptions(Y.User.getSearchOptions());
    
-    if (q !== '') {
+    if (q) {
       this.games.addSearch('player');   
       this.games.setQuery(q);
-    }
-    else
+    } else {
       this.games.removeSearch('player');
+    }
 
     this.games.fetch().done($.proxy(function () {    
-    
       if (this.games.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
-      }
-      else {
-      
+      } else {
         var games_follow = Y.Conf.get("owner.games.followed");
         var players_follow = Y.User.getPlayer().get('following');
-    	//$(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, query: ' ' }));
-      
-        $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: q }));
-        
+
+        $(this.listview).html(this.templates.list({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: q }));
       }
-    	
       $(this.listview).i18n();
-    
     }, this));
     
     return this;
@@ -378,49 +243,63 @@ Y.Views.Pages.GameList = Y.View.extend({
 
   // should not take any parameters
   render: function () {
-    this.$el.html(this.templates.page({button: this.button})).i18n();
-    
-    // dynamic stuff.
-    var sortOption = this.sortOption || "all";
-    $(".search div[data-filter='filter-status-" + sortOption + "] span").addClass('select');             
-    
-    var filters = Y.User.getFiltersSearch();
+    this.$el.html(this.templates.page({ button:this.button })).i18n();
+    this.renderSearchOptions();
+    return this;
+  },
 
-    if (filters===undefined) 
+  renderSearchOptions: function () {
+    var userSearchOptions = Y.User.getSearchOptions();
+    // filters
+    var filters = userSearchOptions.filters;
+    if (filters.length === 0) {
       $('.advancedsearch').hide();
-    else if (filters.length<=0) 
-      $('.advancedsearch').hide(); 
-    else {     
-      	if (filters.indexOf('searchgeo')!==-1) {
-     	  $('#searchgeo').html('<a data-filter="searchgeo" id="searchgeoselect">'+i18n.t('search.filtergps')+'</a>');	
-	    } 
-	    else
-	      $('#searchgeo').html('');	
-	    
+    } else {
+      if (filters.indexOf('searchgeo')!==-1) {
+        $('#searchgeo').html('<a data-filter="searchgeo" id="searchgeoselect">'+i18n.t('search.filtergps')+'</a>');
+	    } else {
+	      $('#searchgeo').html('');
+      }
 	    if (filters.indexOf('searchmyclub')!==-1) {
-		  $('#searchmyclub').html('<a data-filter="searchmyclub" id="searchmyclubselect">'+i18n.t('search.filtermyclub')+'</a>');	
-	 	}
-	 	else
-	 	  $('#searchmyclub').html('');	
+	      $('#searchmyclub').html('<a data-filter="searchmyclub" id="searchmyclubselect">'+i18n.t('search.filtermyclub')+'</a>');	
+      } else {
+	      $('#searchmyclub').html('');	
+      }
     }
-    
+    // sort
+    var sort = userSearchOptions.sort || 'all';
+    $(".search div[data-sort*='status'] span").removeClass('select');
+    $(".search div[data-sort='status-" + sort + "'] span").addClass('select');
+  },
+
+  // should not take any parameters
+  renderList: function () {
     var games_follow = Y.Conf.get("owner.games.followed");
     var players_follow = Y.User.getPlayer().get('following');
     
-    $(this.listview).html(this.templates.gamelist({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: ' ' }));
+    $(this.listview).html(this.templates.list({ games: this.games.toJSON(), games_follow : games_follow, players_follow : players_follow, query: ' ' }));
     $('p.message').i18n();
     return this;
   },
 
+  goToGame: function (elmt) {
+    if (elmt.currentTarget.id) {
+      var route = elmt.currentTarget.id;
+      Y.Router.navigate(route, {trigger: true}); 
+    }
+  },
+
   onClose: function () {
     if (this.button===false) { 
-	    this.games.removeSearch('me');	
-    }
+	    this.games.removeSearch('me');
+	  }
 	
     this.stopControlTimeout();
-	
+	  
 	  document.removeEventListener("resume", this.onResume, true);
     
+    this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);
-  }
+  }   
+  
 });

@@ -1,4 +1,4 @@
-Y.Views.Pages.Player = Y.View.extend({
+Y.Views.Player = Y.View.extend({
   el:"#content",
 
   events: {
@@ -22,7 +22,7 @@ Y.Views.Pages.Player = Y.View.extend({
     this.mytoken = Y.User.getPlayer().get('token');
     this.players_follow = Y.User.getPlayer().get('following');    
 
-    this.playerViewTemplate = Y.Templates.get('player');
+    this.page = Y.Templates.get('page-player');
 
     this.player = new PlayerModel({id:this.id});
     //change
@@ -159,7 +159,7 @@ Y.Views.Pages.Player = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.playerViewTemplate({
+    this.$el.html(this.page({
       player: this.player.toJSON(),
       follow: this.follow,
       imageUrl: this.player.getImageUrlOrPlaceholder()

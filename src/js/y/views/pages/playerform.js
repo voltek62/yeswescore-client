@@ -1,4 +1,4 @@
-Y.Views.Pages.PlayerForm = Y.View.extend({
+Y.Views.PlayerForm = Y.View.extend({
   el:"#content",
     
   events: {
@@ -27,10 +27,10 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   
     // loading templates.
     this.templates = {
-      playerform:  Y.Templates.get('playerForm'),
-	  playerdatepickerbirth:  Y.Templates.get('playerDatePickerBirth'),	
-	  playerdatepickerbirthandroid:  Y.Templates.get('playerDatePickerBirthAndroid'),	      
-      clublist: Y.Templates.get('clubListAutoComplete')
+      playerform:  Y.Templates.get('page-playerform'),
+	  playerdatepickerbirth:  Y.Templates.get('datepicker-player'),	
+	  playerdatepickerbirthandroid:  Y.Templates.get('datepicker-player-android'),	      
+      clublist: Y.Templates.get('autocomplete-club')
     };
     
     // we already have the player in memory

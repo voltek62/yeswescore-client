@@ -1,4 +1,4 @@
-Y.Views.Pages.GameComments = Y.View.extend({
+Y.Views.GameComments = Y.View.extend({
   el:"#content",
   gameid:'',
 
@@ -22,9 +22,9 @@ Y.Views.Pages.GameComments = Y.View.extend({
   
     // loading templates.
     this.templates = {
-      layout: Y.Templates.get('gameComments'),
-      score:  Y.Templates.get('gameCommentsScore'),
-      comment: Y.Templates.get('gameCommentsComment')
+      page: Y.Templates.get('page-gamecomments'),
+      score:  Y.Templates.get('module-comments-score'),
+      comment: Y.Templates.get('module-comments-comment')
     };
 
     // loading owner
@@ -73,7 +73,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
 
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.layout({}));
+	  this.$el.html(this.templates.page({}));
       $('.send').i18n();	
       $('textarea').i18n();  
 	  return this;

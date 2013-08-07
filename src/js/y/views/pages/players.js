@@ -1,4 +1,4 @@
-Y.Views.Pages.PlayerList = Y.View.extend({
+Y.Views.Players = Y.View.extend({
   el : "#content",
 
   events : {
@@ -14,17 +14,20 @@ Y.Views.Pages.PlayerList = Y.View.extend({
   pageName: "playerList",
   pageHash : "players/list", 
 
-  initialize : function() {
-  
+  initialize : function(param) {
+
+    // saving parameter
+    this.param = param || {};
+      
 	//header    
     Y.GUI.header.title(i18n.t('playerlist.title')); 
   
     // loading templates.
     this.templates = {
-      playerlist:  Y.Templates.get('playerList'),
+      list:  Y.Templates.get('list-player'),
       page: Y.Templates.get('page-players'),
-      error: Y.Templates.get('error'),
-      ongoing: Y.Templates.get('ongoing')
+      error: Y.Templates.get('module-error'),
+      ongoing: Y.Templates.get('module-ongoing')
     };
     
     // we render immediatly
@@ -36,13 +39,11 @@ Y.Views.Pages.PlayerList = Y.View.extend({
     this.mytoken = Y.User.getPlayer().get('token'); 
 
 	  // renderList
-    if (this.id !== 'null') {
+    if (this.param.clubid !== 'null') {
       this.players = new PlayersCollection();
-      this.players.setMode('club', this.id);
-      this.players.once('sync', this.renderList, this);
-            
+      this.players.setMode('club', this.param.clubid);
+      this.players.once('sync', this.renderList, this);           
       this.players.fetch();
-
     }
     
   },
@@ -74,18 +75,13 @@ Y.Views.Pages.PlayerList = Y.View.extend({
     $(this.listview).html(this.templates.error()); 
     this.players = new PlayersCollection();   	  
     this.players.setMode('search',q);
-    this.players.fetch().done($.proxy(function () { 
-      
-      //$(this.listview).html(this.templates.playerlist({players:this.playersfollow.toJSON(), query:q}));
+    this.players.fetch().done($.proxy(function () {      
       if (this.players.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
       }
       else
-        $(this.listview).html(this.templates.playerlist({ players: this.players.toJSON(), query: q, players_follow : this.players_follow }));
-    	
+        $(this.listview).html(this.templates.list({ players: this.players.toJSON(), query: q, players_follow : this.players_follow })); 	
       $(this.listview).i18n();
-            
-      
     }, this));
     
     this.$el.i18n();
@@ -100,7 +96,7 @@ Y.Views.Pages.PlayerList = Y.View.extend({
   },
 
   renderList : function(query) {
-    $(this.listview).html(this.templates.playerlist({
+    $(this.listview).html(this.templates.list({
       players : this.players.toJSON()
       , query : ' '
       , players_follow : this.players_follow
@@ -111,8 +107,6 @@ Y.Views.Pages.PlayerList = Y.View.extend({
 
   followPlayer: function(elmt) {
   
-  	//on ne peut pas se suivre
-  	//console.log('currenttarget ',$(elmt.currentTarget).data('playerid'));
   	this.dataid = $(elmt.currentTarget).data('playerid');
   	this.datafollow = $(elmt.currentTarget).data('follow');
   	  	  	

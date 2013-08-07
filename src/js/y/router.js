@@ -9,39 +9,43 @@
     currentView: null,
 
     routes: {
-      '': 'gameList',
+      //first page
+      ''                   : 'games',
       // games
-      'games/': 'games',
-      'games/sort/:sort': 'gamesSorted',
-      'games/add': 'gameAdd',
-      'games/form/:id': 'gameForm',      
-      'games/follow': 'gameFollow',
-      'games/end/:id': 'gameEnd',
-      'games/list': 'gameList',  
+      'games/'             : 'games',
+      'games/list'         : 'games',        
+      'games/add'          : 'gameAdd',
+      'games/:id/form'     : 'gameForm',      
+      'games/follow'       : 'gameFollow',
+      'games/:id/end'      : 'gameEnd',
       'games/:id/comments/': 'gameComment', 
-      'games/:id': 'game', 
+      'games/:id'          : 'game',      
+      'games/me/:id'       : 'gameMe',
+      'games/player/:id'   : 'gamePlayer',      
+      'games/club/:id'     : 'gameClub',
+
       // players
-      'players/me/games': 'playersMeGames',
-      'players/:id/games': 'playersGames',
-      'players/list': 'playerList',
-      'players/club/:id': 'playerListByClub',
-      'players/form/me': 'playerFormFirst',
+      'players/me/games'   : 'playersMeGames',
+      'players/:id/games'  : 'playersGames',
+      'players/list'       : 'players',
+      'players/club/:id'   : 'playerListByClub',
+      'players/form/me'    : 'playerFormFirst',
       'players/form/search': 'playerFormSearch',                 
-      'players/form': 'playerForm',          
-      'players/signin': 'playerSignin',
-      'players/forget': 'playerForget',
-      'players/follow': 'playerFollow',                                              
-      'players/:id': 'player',
+      'players/form'       : 'playerForm',          
+      'players/signin'     : 'playerSignin',
+      'players/forget'     : 'playerForget',
+      'players/follow'     : 'playerFollow',                                              
+      'players/:id'        : 'player',
       // clubs
-      'clubs/add': 'clubAdd',
-      'clubs/follow': 'clubFollow',
-      'clubs/:id': 'club',
-      'clubs/:id/games': 'clubsGames',
+      'clubs/add'          : 'clubAdd',
+      'clubs/follow'       : 'clubFollow',
+      'clubs/:id'          : 'club',
+      'clubs/:id/games'    : 'clubsGames',
       // autres
-      'search/form': 'searchForm',
-      'notification': 'notificationList',
-      'account': 'account',
-      'about': 'about'
+      'search/form'        : 'searchForm',
+      'notification'       : 'notificationList',
+      'account'            : 'account',
+      'about'              : 'about'
     },
 
     initialize: function (options) {
@@ -88,20 +92,20 @@
       this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
     },
 
-    gameList: function (sort) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: '', id: '', sort: sort || '' }));
+    games: function (sort) {
+      this.changePage(this.createViewFactory(Y.Views.Games, { search: '', id: '', sort: sort || '' }));
     },
     
     gameMe: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'me', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Games, { search: 'me', id: id, sort: '' }));
     },
 
     gamePlayer: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'player', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Games, { search: 'player', id: id, sort: '' }));
     },
 
     gameClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'club', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Games, { search: 'club', id: id, sort: '' }));
     },    
 
     gameAdd: function () {
@@ -156,12 +160,12 @@
       this.changePage(this.createViewFactory(Y.Views.NotificationList));
     },
 
-    playerList: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerList));
+    players: function () {
+      this.changePage(this.createViewFactory(Y.Views.Players));
     },
 
     playerListByClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.PlayerList, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Players, { clubid: id }));
     },
 
     playerSignin: function () {

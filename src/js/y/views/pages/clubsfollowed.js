@@ -1,4 +1,4 @@
-Y.Views.Pages.ClubFollow = Y.View.extend({
+Y.Views.ClubFollow = Y.View.extend({
   el:"#content",
   
   events: {
@@ -19,10 +19,10 @@ Y.Views.Pages.ClubFollow = Y.View.extend({
 
     // loading templates.
     this.templates = {
-      clublist:  Y.Templates.get('clubList'),
-      clubfollow: Y.Templates.get('clubfollow'),
-      error: Y.Templates.get('error'),
-      ongoing: Y.Templates.get('ongoing') 
+      list    : Y.Templates.get('list-club'),
+      page    : Y.Templates.get('page-clubfollow'),
+      error   : Y.Templates.get('module-error'),
+      ongoing : Y.Templates.get('module-ongoing') 
     };
     
 
@@ -37,7 +37,7 @@ Y.Views.Pages.ClubFollow = Y.View.extend({
 	    var i = clubs.length;	
 	    
         if (clubs.length<1) {
-	      $(this.listview).html(this.templates.clublist({clubs:[],query:' '}));
+	      $(this.listview).html(this.templates.list({clubs:[],query:' '}));
 	      $('p.message').i18n();		          
         }	    
 	    
@@ -46,7 +46,7 @@ Y.Views.Pages.ClubFollow = Y.View.extend({
 	      i--;
           //si dernier element du tableau
           if (that.clubLast === club.get('id')) {	    	
-	    	$(that.listview).html(that.templates.clublist({clubs:that.collection.toJSON(),query:' '}));  	
+	    	$(that.listview).html(that.templates.list({clubs:that.collection.toJSON(),query:' '}));  	
 	      }
 	          			
 		};	    
@@ -64,7 +64,7 @@ Y.Views.Pages.ClubFollow = Y.View.extend({
 		          Y.Conf.set("owner.clubs.followed", clubs, { permanent: true });
 		          
 		          if (clubs.length<1) {
-				   $(that.listview).html(that.templates.clublist({clubs:[],query:' '}));
+				   $(that.listview).html(that.templates.list({clubs:[],query:' '}));
 				   $('p.message').i18n();		          
 		          }
 		          else
@@ -78,7 +78,7 @@ Y.Views.Pages.ClubFollow = Y.View.extend({
 	    },this);
 	 }
 	 else {	 
-	   $(this.listview).html(this.templates.clublist({clubs:[],query:' '}));
+	   $(this.listview).html(this.templates.list({clubs:[],query:' '}));
 	   $('p.message').i18n();
 	 }
      
@@ -117,7 +117,7 @@ Y.Views.Pages.ClubFollow = Y.View.extend({
         $(this.listview).html(this.templates.error());
       }
       else
-        $(this.listview).html(this.templates.clublist({ clubs: this.clubs.toJSON(), query: q }));
+        $(this.listview).html(this.templates.list({ clubs: this.clubs.toJSON(), query: q }));
     	
       $(this.listview).i18n();
             
@@ -128,13 +128,13 @@ Y.Views.Pages.ClubFollow = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.templates.clubfollow({}));
+    this.$el.html(this.templates.page({}));
 	$('a').i18n(); 
     return this;
   },
 
   renderList: function(query) {
-    $(this.listview).html(this.templates.clublist({clubs:this.collection.toJSON(), query:' '}));
+    $(this.listview).html(this.templates.list({clubs:this.collection.toJSON(), query:' '}));
 
     return this;
   },

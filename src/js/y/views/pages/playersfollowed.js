@@ -1,4 +1,4 @@
-Y.Views.Pages.PlayerFollow = Y.View.extend({
+Y.Views.PlayerFollow = Y.View.extend({
   el:"#content",
   
   events: {
@@ -25,10 +25,10 @@ Y.Views.Pages.PlayerFollow = Y.View.extend({
 
     // loading templates.
     this.templates = {
-      playerlist:  Y.Templates.get('playerList'),
+      list:  Y.Templates.get('list-player'),
       page: Y.Templates.get('page-players'),
-      error: Y.Templates.get('error'),
-      ongoing: Y.Templates.get('ongoing')
+      error: Y.Templates.get('module-error'),
+      ongoing: Y.Templates.get('module-ongoing')
     };
     
 
@@ -47,7 +47,7 @@ Y.Views.Pages.PlayerFollow = Y.View.extend({
 	    var i = players.length;	
 	    
         if (players.length<1) {
-	      $(this.listview).html(this.templates.playerlist({players:[],query:' ', players_follow : this.players_follow}));
+	      $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
 	      $('p.message').i18n();		          
         }	    
 	    
@@ -57,7 +57,7 @@ Y.Views.Pages.PlayerFollow = Y.View.extend({
 	      i--;
           //si dernier element du tableau
           if (that.playerLast === player.get('id')) {
-	        $(that.listview).html(that.templates.playerlist({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow }));  	
+	        $(that.listview).html(that.templates.list({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow }));  	
 	      }
 	          			
 		};	    
@@ -78,7 +78,7 @@ Y.Views.Pages.PlayerFollow = Y.View.extend({
               	  Y.User.updatePlayer(data);
 		          
 		          if (players.length<1) {
-				   $(that.listview).html(that.templates.playerlist({players:[],query:' '}));
+				   $(that.listview).html(that.templates.list({players:[],query:' '}));
 				   $('p.message').i18n();		          
 		          }
 		          else
@@ -93,7 +93,7 @@ Y.Views.Pages.PlayerFollow = Y.View.extend({
 	    },this);
 	 }
 	 else {	 
-	   $(this.listview).html(this.templates.playerlist({players:[],query:' ', players_follow : this.players_follow}));
+	   $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
 	   $('p.message').i18n();
 	 }
      
@@ -133,7 +133,7 @@ Y.Views.Pages.PlayerFollow = Y.View.extend({
         $(this.listview).html(this.templates.error());
       }
       else
-        $(this.listview).html(this.templates.playerlist({ players: this.players.toJSON(), query: q, players_follow : this.players_follow }));
+        $(this.listview).html(this.templates.list({ players: this.players.toJSON(), query: q, players_follow : this.players_follow }));
     	
       $(this.listview).i18n();
             
@@ -152,7 +152,7 @@ Y.Views.Pages.PlayerFollow = Y.View.extend({
   },
 
   renderList: function(query) {
-    $(this.listview).html(this.templates.playerlist({players:this.collection.toJSON(), query:' ', players_follow : this.players_follow }));
+    $(this.listview).html(this.templates.list({players:this.collection.toJSON(), query:' ', players_follow : this.players_follow }));
 
     return this;
   },

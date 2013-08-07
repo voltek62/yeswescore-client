@@ -1,4 +1,4 @@
-Y.Views.Pages.PlayerSignin = Y.View.extend({
+Y.Views.PlayerSignin = Y.View.extend({
   el : "#content",
 
   events: {
@@ -23,7 +23,7 @@ Y.Views.Pages.PlayerSignin = Y.View.extend({
     // title
     Y.GUI.header.title(i18n.t('playersignin.title'));     
     // loading template
-    this.playerSigninTemplate = Y.Templates.get('playerSignin');
+    this.page = Y.Templates.get('page-playersignin');
     // loading status
     this.player = Y.User.getPlayer();
     if (this.player &&
@@ -225,7 +225,7 @@ Y.Views.Pages.PlayerSignin = Y.View.extend({
   
   // render the content into div of view
   render : function() {
-    this.$el.html(this.playerSigninTemplate({}));
+    this.$el.html(this.page({}));
     this.updateStatus(this.status.current);
     this.$el.i18n();
     return this;

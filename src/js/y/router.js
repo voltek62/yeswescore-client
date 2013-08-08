@@ -127,16 +127,12 @@
       this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
     },    
 
-    searchForm: function () {
-      this.changePage(this.createViewFactory(Y.Views.SearchForm ));
+    notificationList: function () {
+      this.changePage(this.createViewFactory(Y.Views.NotificationList));
     }, 
 
     player: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
-    },
-
-    playerNoFollow: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: 'false' }));
     },
 
     playerFormFirst: function () {
@@ -151,16 +147,12 @@
       this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
     },
 
-    notificationList: function () {
-      this.changePage(this.createViewFactory(Y.Views.NotificationList));
-    },
-
     playerFollow: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerFollow));
+      this.changePage(this.createViewFactory(Y.Views.Players, { mode: 'follow'}));
     },
 
     players: function () {
-      this.changePage(this.createViewFactory(Y.Views.Players));
+      this.changePage(this.createViewFactory(Y.Views.Players, { mode: ''}));
     },
 
     playerListByClub: function (id) {
@@ -174,6 +166,10 @@
     playerForget: function () {
       this.changePage(this.createViewFactory(Y.Views.PlayerForget));
     },
+    
+    searchForm: function () {
+      this.changePage(this.createViewFactory(Y.Views.SearchForm ));
+    },    
 
     /*
     * you can change page passing a function:

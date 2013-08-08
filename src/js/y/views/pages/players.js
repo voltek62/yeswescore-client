@@ -13,15 +13,22 @@ Y.Views.Players = Y.View.extend({
 
   pageName: "playerList",
   pageHash : "players/list", 
-
-  initialize : function(param) {
+  // one by one
+  following: false,
+  dataid:"",
+  datafollow:"",
+  
+  myinitialize : function(param) {
 
     // saving parameter
     this.param = param || {};
       
-	//header    
-    Y.GUI.header.title(i18n.t('playerlist.title')); 
-  
+	//header
+	if (this.param.mode === 'follow')    
+      Y.GUI.header.title(i18n.t('playerfollow.title')); 
+    else
+      Y.GUI.header.title(i18n.t('playerlist.title'));
+      
     // loading templates.
     this.templates = {
       list:  Y.Templates.get('list-player'),
@@ -38,12 +45,69 @@ Y.Views.Players = Y.View.extend({
     this.myid = Y.User.getPlayer().get('id');
     this.mytoken = Y.User.getPlayer().get('token'); 
 
+    //load players via localstorage
+	if (this.param.mode === 'follow') {
+      if (players!==undefined) {
+        this.playerLast = players[players.length-1];
+	    this.collection = new PlayersCollection();	
+	    var that = this;	
+	    var i = players.length;	
+	    
+        if (players.length<1) {
+	      $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
+	      $('p.message').i18n();		          
+        }	    
+	    
+		this.syncPlayer = function (player) { 
+	      that.collection.add(player);
+	      i--;
+          //si dernier element du tableau
+          if (that.playerLast === player.get('id')) {
+	        $(that.listview).html(that.templates.list({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow }));  	
+	      }       			
+		};	    
+	    
+	    this.players = [];
+	    
+	    players.forEach(function (playerid,index) {	
+		  var player = new PlayerModel({id : playerid});	        
+	      player.once("sync", this.syncPlayer, this);
+	        
+	      player.fetch().fail(function (xhrResult, error) {	        
+	        if (players.indexOf(playerid) !== -1) {
+		      players.splice(players.indexOf(playerid), 1);
+		      //On retire le joueur qui existe plus		          
+		      //Y.Conf.set("owner.players.followed", players, { permanent: true });
+		      var data = {id: that.myid, following: that.players };
+              Y.User.updatePlayer(data);
+		          
+		      if (players.length<1) {
+			    $(that.listview).html(that.templates.list({players:[],query:' '}));
+				$('p.message').i18n();		          
+		      }
+		      else
+		        this.playerLast = players[players.length-1];
+		            
+		    }
+		  });	       
+
+	      this.players[index] = player;	
+	          				
+	   },this);
+	  }
+	  else {	 
+	    $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
+	    $('p.message').i18n();
+	  }	
+	}
+	else {
 	  // renderList
-    if (this.param.clubid !== 'null') {
-      this.players = new PlayersCollection();
-      this.players.setMode('club', this.param.clubid);
-      this.players.once('sync', this.renderList, this);           
-      this.players.fetch();
+      if (this.param.clubid !== 'null') {
+        this.players = new PlayersCollection();
+        this.players.setMode('club', this.param.clubid);
+        this.players.once('sync', this.renderList, this);           
+        this.players.fetch();
+      }
     }
     
   },
@@ -225,6 +289,16 @@ Y.Views.Players = Y.View.extend({
   onClose : function() {
     this.undelegateEvents();
 
-    this.players.off('sync', this.renderList, this);
+	if (this.param.mode === 'follow') {    
+	  if (this.players!==undefined) {
+	    this.players.forEach(function (player) {
+		   player.off("sync", this.syncPlayer, this);
+		}, this);
+	  }
+	}
+	else {
+      this.players.off('sync', this.renderList, this);	
+    }   
   }
+  
 });

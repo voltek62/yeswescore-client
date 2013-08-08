@@ -18,8 +18,11 @@ Y.Views.PlayerFollow = Y.View.extend({
   dataid:"",
   datafollow:"",
 
-  initialize:function() {
-
+  myinitialize:function() {
+  
+    // saving parameter
+    this.param = param || {};
+  
 	//header      
     Y.GUI.header.title(i18n.t('playerfollow.title'));    
 

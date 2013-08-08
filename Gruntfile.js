@@ -62,7 +62,7 @@ module.exports = function (grunt) {
             banner: '<script type="text/template" id="#{0}">',
             footer: '</script>',
             inject: [{
-              prop: 'www',
+              prop: 'src',
               rem: 'src/templates/',
               repl: { ".html": "" }
             }]

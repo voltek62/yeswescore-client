@@ -6,7 +6,8 @@ Y.Views.PlayerForm = Y.View.extend({
     'click #getPhoto': 'getPhoto',
     'click #delPhoto': 'delPhoto',
     'keyup #club': 'updateList',
-    'click #club_choice': 'displayClub'
+    'click #club_choice': 'displayClub',
+    'focus .nativedatepicker' : 'nativeDate'
   },
   
   listview:"#suggestions",
@@ -95,7 +96,7 @@ Y.Views.PlayerForm = Y.View.extend({
     /*
     debug android 2.2 to 2.3.6
     */
- 	  if (Cordova.Device.isGingerbread) {
+ 	if (Cordova.Device.isGingerbread) {
    	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({}));
       // pb avec canvas toDataUrl sur android gingerbread
       // @see https://code.google.com/p/android/issues/detail?id=16829
@@ -293,6 +294,29 @@ Y.Views.PlayerForm = Y.View.extend({
       that.updatePhotoButtonStatus();
     });
   },
+  
+  nativeDate: function (event) {
+ 	var currentField = $('#'+event.currentTarget.id);	
+    var myNewDate = Date.parse(currentField.val()) || new Date();
+    if(typeof myNewDate === "number"){ myNewDate = new Date (myNewDate); }
+    
+	if (window.plugins!==undefined) {
+    // Same handling for iPhone and Android
+      window.plugins.datePicker.show({
+        date : myNewDate,
+        mode : 'date', // date or time or blank for both
+        allowOldDates : false
+      }, function(returnDate) {
+        var dateExpected = Date.fromString(new Date(returnDate));
+        var month = dateExpected.getMonth() + 1;
+        var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
+        currentField.val(date);      
+              
+        // This fixes the problem you mention at the bottom of this script with it not working a second/third time around, because it is in focus.
+        currentField.blur();
+     });  
+   }
+  },  
 
   onClose: function() {
     Y.GUI.delBlueBackground();

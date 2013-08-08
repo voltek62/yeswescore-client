@@ -231,7 +231,7 @@ Y.Views.Players = Y.View.extend({
             that.followPlayerConfirm(buttonIndex, that);
         },         // callback
         i18n.t('message.pushtitle'),            // title
-        i18n.t('message.pushno')+','+i18n.t('message.pushyes')                  // buttonName
+        i18n.t('message.pushyes')+','+i18n.t('message.pushno')                  // buttonName
 	   );
 	   
     }	

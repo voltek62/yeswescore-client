@@ -30,11 +30,11 @@ Y.Views.GameForm = Y.View.extend({
     this.useSearch=0;
 
   	this.templates = {
-	    gameform:  Y.Templates.get('gameForm'),
-	    gameselect:  Y.Templates.get('gameSelect'),	    
-	    gamedatepicker:  Y.Templates.get('gameDatePicker'),	
-	    gamedatepickerandroid:  Y.Templates.get('gameDatePickerAndroid'),		          
-	    playerlist: Y.Templates.get('playerListAutoComplete')
+	    page:  Y.Templates.get('page-gameform'),
+	    gameselect:  Y.Templates.get('module-game-select'),	    
+	    gamedatepicker:  Y.Templates.get('datepicker-game'),	
+	    gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),		          
+	    playerlist: Y.Templates.get('list-player')
 	  };
     
     this.player = Y.User.getPlayer();
@@ -303,7 +303,7 @@ Y.Views.GameForm = Y.View.extend({
     Y.GUI.addBlueBackground();  
     var game = this.game.toJSON();
 
-    this.$el.html(this.templates.gameform({
+    this.$el.html(this.templates.page({
     game : game
     , selection : i18n.t('gameadd.selection')
     , surface : i18n.t('gameadd.surface')

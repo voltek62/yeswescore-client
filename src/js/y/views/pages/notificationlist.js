@@ -17,8 +17,8 @@ Y.Views.NotificationList = Y.View.extend({
   
     // loading templates.
     this.templates = {
-      notificationlist:  Y.Templates.get('notificationList'),
-      notification: Y.Templates.get('notification')
+      notificationlist   :  Y.Templates.get('list-notification'),
+      page				 : Y.Templates.get('page-notification')
     };
         
     //this.playerListViewTemplate = Y.Templates.get('playerList');
@@ -50,7 +50,7 @@ Y.Views.NotificationList = Y.View.extend({
 
   // render the content into div of view
   render : function() {
-    this.$el.html(this.templates.notification({}));
+    this.$el.html(this.templates.page({}));
     
     this.$el.i18n(); 
 

@@ -71,7 +71,6 @@ var PlayerModel = Backbone.Model.extend({
     // FIXME: supprimer la duplication de code entre la creation & l'update
     if (method === 'create' && this.get('id') === undefined) {
       var dataSend = {
-        id: (this.get('id') || ''),
         language: Y.language,
         location : {},
         push : {},

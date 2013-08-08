@@ -26,11 +26,11 @@ Y.Views.GameAdd = Y.View.extend({
     Y.GUI.addBlueBackground();
 
   	this.templates = {
-	    gameadd:  Y.Templates.get('gameAdd'),
-	    gameselect:  Y.Templates.get('gameSelect'),	    
-	    gamedatepicker:  Y.Templates.get('gameDatePicker'),	
-	    gamedatepickerandroid:  Y.Templates.get('gameDatePickerAndroid'),		      
-	    playerlist: Y.Templates.get('playerListAutoComplete')
+	    page:  Y.Templates.get('page-gameadd'),
+	    gameselect:  Y.Templates.get('module-game-select'),	    
+	    gamedatepicker:  Y.Templates.get('datepicker-game'),	
+	    gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),		      
+	    playerlist: Y.Templates.get('autocomplete-player')
 	};
 	  
 	this.player = Y.User.getPlayer();
@@ -310,7 +310,7 @@ Y.Views.GameAdd = Y.View.extend({
 
   //render the content into div of view
   render: function () {
-    this.$el.html(this.templates.gameadd());
+    this.$el.html(this.templates.page());
     if (this.player.get('name'))
       $("#team1").val(this.player.get('name')); 
     if (this.player.get('id') !== "")

@@ -41,8 +41,8 @@ Y.Views.Game = Y.View.extend({
       	
 	  // loading templates.
 	  this.templates = {
-	    game: Y.Templates.get('game'),
-	    scoreboard: Y.Templates.get('gameScoreBoard')
+	    page       : Y.Templates.get('page-game'),
+	    scoreboard : Y.Templates.get('module-game-scoreboard')
 	  };
 	          	
 	  // On stock les dernieres modifs
@@ -408,7 +408,7 @@ Y.Views.Game = Y.View.extend({
     }
     
     // FIXME: refresh only input and id
-    this.$el.html(this.templates.game({
+    this.$el.html(this.templates.page({
       game : this.game.toJSON(),
       timer : this.game.getElapsedTime(),
       playerid : this.player.get('id'),      

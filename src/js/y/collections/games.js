@@ -100,6 +100,7 @@ var GamesCollection = Backbone.Collection.extend({
     this.sortOption = sorts;
   },
 
+
   setFilter: function (filters) {
     this.filterOption = filters;
   },
@@ -155,4 +156,3 @@ var GamesCollection = Backbone.Collection.extend({
       this.comparator = this.strategies[sortProperty];
   }
 });
-

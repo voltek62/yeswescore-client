@@ -15,8 +15,8 @@ Y.Views.Club = Y.View.extend({
   
     // loading templates.
     this.templates = {
-      layout: Y.Templates.get('empty'),
-      club:  Y.Templates.get('club')
+      empty: Y.Templates.get('module-empty'),
+      page:  Y.Templates.get('page-club')
     };
     
     // we render immediatly
@@ -91,7 +91,7 @@ Y.Views.Club = Y.View.extend({
 
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.layout());
+	  this.$el.html(this.templates.empty());
 
 	  return this;
   },
@@ -100,7 +100,7 @@ Y.Views.Club = Y.View.extend({
   // render the content into div of view
   renderClub : function() {
   
-    this.$el.html(this.templates.club({
+    this.$el.html(this.templates.page({
       club : this.club.toJSON(),follow:this.follow
     }));
     

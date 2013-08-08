@@ -6,7 +6,7 @@ Y.Views.GameEnd = Y.View.extend({
   },
 
   pageName: "gameEnd",
-  pageHash : "games/end/",
+  pageHash : "games/id/end/",
   playerid: "",
   token: "",
       
@@ -14,7 +14,7 @@ Y.Views.GameEnd = Y.View.extend({
   
     Y.GUI.header.title(i18n.t('gameend.title'));	    
   
-    this.gameEndTemplate = Y.Templates.get('gameEnd');
+    this.page = Y.Templates.get('page-gameend');
 
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
@@ -35,7 +35,7 @@ Y.Views.GameEnd = Y.View.extend({
   
   //render the content into div of view
   render: function(){
-	  this.$el.html(this.gameEndTemplate({playerid:this.owner.id, token:this.owner.token}));
+	  this.$el.html(this.page({playerid:this.owner.id, token:this.owner.token}));
 	  return this;
   },
 

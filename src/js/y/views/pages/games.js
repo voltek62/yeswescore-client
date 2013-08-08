@@ -296,7 +296,7 @@ Y.Views.Games = Y.View.extend({
 	
     this.stopControlTimeout();
 	  
-	  document.removeEventListener("resume", this.onResume, true);
+	document.removeEventListener("resume", this.onResume, true);
     
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);

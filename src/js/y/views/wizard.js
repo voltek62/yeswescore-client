@@ -9,7 +9,7 @@ Y.Views.Wizard = Y.View.extend({
 
   steps: [
     { id: "welcome", title: "welcome (step 1)" },
-    { id: "step2", title: "step2" }
+    { id: "profil", title: "profil" }
     //{ id: "step3", title: "step3" }
   ],
 
@@ -62,7 +62,13 @@ Y.Views.Wizard = Y.View.extend({
       this.saveStatus();
     }
   },
-
+  restart: function () { // debug purpose
+    this.stop(true);
+    this.hasBeenStopped = false;
+    this.stepIndex = 0;
+    this.start(true);
+  },
+  
   advance: function () {
     if (this.canAdvance()) {
       var nextStepIndex = this.stepIndex + 1;
@@ -197,7 +203,7 @@ Y.Views.Wizard = Y.View.extend({
     if (typeof substepIndex === "undefined")
       substepIndex = this.substepIndex;
     // maybe use a func
-    var f = this.substepFuncs[substepIndex];
+    var f = this.substepFuncs && this.substepFuncs[substepIndex];
     if (_.isFunction(f))
       f.call(this, "stop");
     // auto remove pastille
@@ -221,7 +227,7 @@ Y.Views.Wizard = Y.View.extend({
     var template = Y.Templates.get('wizard-welcome');
     switch (status) {
       case "start":
-        $(".step").html(template());
+        $(".step").html(template()).i18n();
         $(".step .button.continue").click(_.bind(this.advance, this));
         $(".step .button.skip").click(_.bind(this.stop, this));
         break;
@@ -233,11 +239,11 @@ Y.Views.Wizard = Y.View.extend({
     }
   },
 
-  step2: function (status) {
-    var template = Y.Templates.get('wizard-step2');
+  profil: function (status) {
+    var template = Y.Templates.get('wizard-profil');
     switch (status) {
       case "start":
-        $(".step").html(template());
+        $(".step").html(template()).i18n();
         this.initializeSubsteps([
           this.step2sub0,
           this.step2sub1,
@@ -303,7 +309,7 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("right", "40px");
       pastille.css("top", "70px");
       $('#name').parent().append(pastille);
-      $('#name').one("click", _.bind(function () {
+      $('.button.next3').one("click", _.bind(function () {
         Y.Router.unlock();
         this.advanceSubsteps();
       }, this));
@@ -322,7 +328,7 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("right", "40px");
       pastille.css("top", "120px");
       $('#rank').parent().append(pastille);
-      $('#rank').one("click", _.bind(function () {
+      $('.button.next4').one("click", _.bind(function () {
         Y.Router.unlock();
         this.advanceSubsteps();
       }, this));
@@ -341,7 +347,7 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("right", "40px");
       pastille.css("top", "170px");
       $('#club').parent().append(pastille);
-      $('#club').one("click", _.bind(function () {
+      $('.button.next5').one("click", _.bind(function () {
         Y.Router.unlock();
         this.advanceSubsteps();
       }, this));
@@ -374,7 +380,7 @@ Y.Views.Wizard = Y.View.extend({
     var template = Y.Templates.get('wizard-step3');
     switch (status) {
       case "start":
-        $(".step").html(template());
+        $(".step").html(template()).i18n();
         $(".step .button.continue").click(_.bind(this.advance, this));
         $(".step .button.skip").click(_.bind(this.stop, this));
         break;

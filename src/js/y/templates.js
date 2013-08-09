@@ -67,7 +67,7 @@
           "page-playersignin",
           "page-searchform",
           "wizard-welcome",
-          "wizard-step2",
+          "wizard-profil",
           "wizard-step3"
         ];
         var timeoutid = setTimeout(function () {

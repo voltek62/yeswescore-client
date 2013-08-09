@@ -325,5 +325,45 @@
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",
     "errortext": "Veuillez vous connecter à un réseau.",
     "errorbutton": "recharger"
+  },
+  "wizard": {
+    "button": {
+      "continue": "continuer",
+      "skip": "fermer",
+      "finish": "Rock n'roll"
+    },
+    "step-welcome": {
+      "welcome": "Bienvenue !",
+      "thankyou": "Merci d'avoir téléchargé YesWeScore",
+      "explanation": "Vous pouvez quitter cette aide à tout moment en appuyant sur fermer",
+      "continue": "Découvrir l'application",
+      "skip": "Passer l'introduction"
+    },
+    "step-profil": {
+      "title": "Editez votre profil",
+      "sub0": {
+        "p1": "Pour trouver facilement les résultats de votre club ou suivre des amis, veuillez remplir votre profil",
+        "p2": "Cliquez sur \"<b>MON COMPTE</b>\" en bas de l'écran"
+      },
+      "sub1": {
+        "p1": "Cliquez sur \"<b>MON PROFIL</b>\" "
+      },
+      "sub2": {
+        "p1": "Entrez votre nom"
+      },
+      "sub3": {
+        "p1": "Entrez votre classement"
+      },
+      "sub4": {
+        "p1": "Choisissez un club"
+      },
+      "sub5": {
+        "p1": "Une fois votre club choisi, il ne vous reste qu'à enregistrer"
+      },
+      "sub6": {
+        "p1": "Félicitation, vous avez enregistré votre profil.",
+        "p2": "A vous de jouer, explorez YesWeScore, partagez vos matchs, consultez les résultats de vos amis"
+      }
+    }
   }
 }

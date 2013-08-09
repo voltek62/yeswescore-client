@@ -368,8 +368,7 @@ body.wizard #navbar {
 	box-sizing: border-box;
 }
 
-/* step 1: welcom */
-#wizard .welcome .bglayer {
+#wizard .bglayer {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -379,7 +378,6 @@ body.wizard #navbar {
   opacity: 0.5;
   z-index: 10000;
 }
-
 
 /**********************************************************
 	header

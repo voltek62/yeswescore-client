@@ -1,4 +1,4 @@
-Y.Views.GameComments = Y.View.extend({
+Y.Views.Pages.GameComments = Y.View.extend({
   el:"#content",
   gameid:'',
 

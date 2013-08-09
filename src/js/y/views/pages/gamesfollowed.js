@@ -1,4 +1,4 @@
-Y.Views.GameFollow = Y.View.extend({
+Y.Views.Pages.GameFollowed = Y.View.extend({
   el:"#content",
 
   listview:"#listGamesView",

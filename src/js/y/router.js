@@ -16,7 +16,7 @@
       'games/list'         : 'games',        
       'games/add'          : 'gameAdd',
       'games/:id/form'     : 'gameForm',      
-      'games/follow'       : 'gameFollow',
+      'games/follow'       : 'gameFollowed',
       'games/:id/end'      : 'gameEnd',
       'games/:id/comments/': 'gameComment', 
       'games/:id'          : 'game',      
@@ -33,11 +33,11 @@
       'players/form'       : 'playerForm',          
       'players/signin'     : 'playerSignin',
       'players/forget'     : 'playerForget',
-      'players/follow'     : 'playerFollow',                                              
+      'players/follow'     : 'playerFollowed',                                              
       'players/:id'        : 'player',
       // clubs
       'clubs/add'          : 'clubAdd',
-      'clubs/follow'       : 'clubFollow',
+      'clubs/follow'       : 'clubFollowed',
       'clubs/:id'          : 'club',
       'clubs/:id/games'    : 'clubsGames',
       // autres
@@ -64,116 +64,116 @@
     },
 
     about: function () {
-      this.changePage(this.createViewFactory(Y.Views.About));
+      this.changePage(this.createViewFactory(Y.Views.Pages.About));
     },
 
     account: function () {
-      this.changePage(this.createViewFactory(Y.Views.Account));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Account));
     },
 
     club: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Club, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Club, { id: id }));
     },
 
     clubAdd: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.ClubAdd));
+      this.changePage(this.createViewFactory(Y.Views.Pages.ClubAdd));
     },
 
-    clubFollow: function () {
-      this.changePage(this.createViewFactory(Y.Views.ClubFollow));
+    clubFollowed: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.ClubFollowed));
     },
 
     index: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Index, { sort: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Index, { sort: id }));
     },
 
     game: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Game, { id: id }));
     },
 
     games: function (sort) {
-      this.changePage(this.createViewFactory(Y.Views.Games, { search: '', id: '', sort: sort || '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Games, { search: '', id: '', sort: sort || '' }));
     },
     
     gameMe: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Games, { search: 'me', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Games, { search: 'me', id: id, sort: '' }));
     },
 
     gamePlayer: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Games, { search: 'player', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Games, { search: 'player', id: id, sort: '' }));
     },
 
     gameClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Games, { search: 'club', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Games, { search: 'club', id: id, sort: '' }));
     },    
 
     gameAdd: function () {
-      this.changePage(this.createViewFactory(Y.Views.GameAdd));
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameAdd));
     },
 
     gameEnd: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameEnd, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameEnd, { id: id }));
     },
 
     gameComment: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameComments, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameComments, { id: id }));
     },
 
-    gameFollow: function () {
-      this.changePage(this.createViewFactory(Y.Views.GameFollow));
+    gameFollowed: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameFollowed));
     },
     
     gameForm: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameForm, { id: id }));
     },    
 
     notificationList: function () {
-      this.changePage(this.createViewFactory(Y.Views.NotificationList));
+      this.changePage(this.createViewFactory(Y.Views.Pages.NotificationList));
     }, 
 
     player: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Player, { id: id, follow: '' }));
     },
 
     playerFormFirst: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'first'}));
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerForm, { mode: 'first'}));
     },
     
     playerForm: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: ''}));
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerForm, { mode: ''}));
     },
 
     playerFormSearch: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerForm, { mode: 'search'}));
     },
 
-    playerFollow: function () {
-      this.changePage(this.createViewFactory(Y.Views.Players, { mode: 'follow'}));
+    playerFollowed: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Players, { mode: 'follow'}));
     },
 
     players: function () {
-      this.changePage(this.createViewFactory(Y.Views.Players, { mode: ''}));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Players, { mode: ''}));
     },
 
     playerListByClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Players, { clubid: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Players, { clubid: id }));
     },
 
     playerSignin: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerSignin));
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerSignin));
     },
 
     playerForget: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForget));
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerForget));
     },
     
     searchForm: function () {
-      this.changePage(this.createViewFactory(Y.Views.SearchForm ));
+      this.changePage(this.createViewFactory(Y.Views.Pages.SearchForm ));
     },    
 
     /*
     * you can change page passing a function:
-    *    this.changePage(function () { return new Y.Views.Account() });
+    *    this.changePage(function () { return new Y.Views.Pages.Account() });
     *
     * @param function  viewFactory    function returning a view
     */

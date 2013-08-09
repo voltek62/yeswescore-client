@@ -1,4 +1,4 @@
-Y.Views.GameForm = Y.View.extend({
+Y.Views.Pages.GameForm = Y.View.extend({
   el:"#content",
     
   pageName: "gameForm",

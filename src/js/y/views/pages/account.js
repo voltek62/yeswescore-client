@@ -1,4 +1,4 @@
-Y.Views.Account = Y.View.extend({
+Y.Views.Pages.Account = Y.View.extend({
   el: "#content",
 
   pageName: "account",

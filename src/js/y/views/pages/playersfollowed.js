@@ -1,4 +1,4 @@
-Y.Views.PlayerFollow = Y.View.extend({
+Y.Views.Pages.PlayerFollowed = Y.View.extend({
   el:"#content",
   
   events: {

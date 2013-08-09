@@ -1,4 +1,4 @@
-Y.Views.SearchForm = Y.View.extend({
+Y.Views.Pages.SearchForm = Y.View.extend({
   el:"#content",
     
   events: {

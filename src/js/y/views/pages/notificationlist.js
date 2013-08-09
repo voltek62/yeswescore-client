@@ -1,4 +1,4 @@
-Y.Views.NotificationList = Y.View.extend({
+Y.Views.Pages.NotificationList = Y.View.extend({
   el : "#content",
 
   events : {

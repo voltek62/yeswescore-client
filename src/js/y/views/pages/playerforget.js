@@ -1,4 +1,4 @@
-Y.Views.PlayerForget = Y.View.extend({
+Y.Views.Pages.PlayerForget = Y.View.extend({
   el : "#content",
 
   events: {

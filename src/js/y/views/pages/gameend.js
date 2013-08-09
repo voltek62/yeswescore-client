@@ -1,4 +1,4 @@
-Y.Views.GameEnd = Y.View.extend({
+Y.Views.Pages.GameEnd = Y.View.extend({
   el:"#content",
 
   events: {

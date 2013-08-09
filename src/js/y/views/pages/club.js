@@ -9,9 +9,8 @@ Y.Views.Pages.Club = Y.View.extend({
   pageHash : "clubs/",
   
   initialize : function() {
-  
-	//header    
-  	Y.GUI.header.title(i18n.t('club.title'));
+    //header
+    Y.GUI.header.title(i18n.t('club.title'));
   
     // loading templates.
     this.templates = {
@@ -37,75 +36,59 @@ Y.Views.Pages.Club = Y.View.extend({
     }
     else
       this.follow = 'false';    
-
   },
 
 	followClub: function() {
-  
-        if (this.follow === 'true') {
-
-          var clubs_follow = Y.Conf.get("owner.clubs.followed");
-          if (clubs_follow !== undefined)
-          {
-            if (clubs_follow.indexOf(this.id) !== -1) {
-              //On retire l'elmt
-              clubs_follow.splice(clubs_follow.indexOf(this.id), 1);
-              Y.Conf.set("owner.clubs.followed", clubs_follow, { permanent: true });
-            }
-          }
-          
-          $('span.success').css({display:"block"});
-          $('span.success').html(i18n.t('message.nofollowclubok')).show();
-          $("#followButton").text(i18n.t('message.follow'));
-          $('#followButton').removeClass('button-selected');
-          $('#followButton').addClass('button'); 
-
-          this.follow = 'false';
-
-        } else {
-        
-          //Via localStorage
-          var clubs_follow = Y.Conf.get("owner.clubs.followed");
-          if (clubs_follow !== undefined)
-          {
-            if (clubs_follow.indexOf(this.id) === -1) {
-              clubs_follow.push(this.id);
-              Y.Conf.set("owner.clubs.followed", clubs_follow, { permanent: true });
-            }
-          }
-          else
-            Y.Conf.set("owner.clubs.followed", [this.id]);
-
-		  $('span.success').css({display:"block"});
-          $('span.success').html(i18n.t('message.followclubok')).show();
-          $("#followButton").text(i18n.t('message.nofollow'));
-          $('#followButton').removeClass('button');
-          $('#followButton').addClass('button-selected');          
-          
-
-          this.follow = 'true';
-
-        }	
-  
-  },    
+    if (this.follow === 'true') {
+      var clubs_follow = Y.Conf.get("owner.clubs.followed");
+      if (clubs_follow !== undefined)
+      {
+        if (clubs_follow.indexOf(this.id) !== -1) {
+          //On retire l'elmt
+          clubs_follow.splice(clubs_follow.indexOf(this.id), 1);
+          Y.Conf.set("owner.clubs.followed", clubs_follow, { permanent: true });
+        }
+      }
+      $('span.success').css({display:"block"});
+      $('span.success').html(i18n.t('message.nofollowclubok')).show();
+      $("#followButton").text(i18n.t('message.follow'));
+      $('#followButton').removeClass('button-selected');
+      $('#followButton').addClass('button'); 
+      this.follow = 'false';
+    } else {
+      //Via localStorage
+      var clubs_follow = Y.Conf.get("owner.clubs.followed");
+      if (clubs_follow !== undefined)
+      {
+        if (clubs_follow.indexOf(this.id) === -1) {
+          clubs_follow.push(this.id);
+          Y.Conf.set("owner.clubs.followed", clubs_follow, { permanent: true });
+        }
+      }
+      else
+        Y.Conf.set("owner.clubs.followed", [this.id]);
+      $('span.success').css({display:"block"});
+      $('span.success').html(i18n.t('message.followclubok')).show();
+      $("#followButton").text(i18n.t('message.nofollow'));
+      $('#followButton').removeClass('button');
+      $('#followButton').addClass('button-selected');          
+      this.follow = 'true';
+    }
+  },
 
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.empty());
-
-	  return this;
+    this.$el.html(this.templates.empty());
+    return this;
   },
   
  
   // render the content into div of view
   renderClub : function() {
-  
     this.$el.html(this.templates.page({
       club : this.club.toJSON(),follow:this.follow
     }));
-    
-	this.$el.i18n();    
-
+    this.$el.i18n();
     return this;
   },
 

@@ -10,8 +10,7 @@ Y.Views.Pages.ClubAdd = Y.View.extend({
   playerid : "",
   token : "",
 
-  minitialize: function () {
-  
+  myinitialize: function () {
     Y.GUI.header.title(i18n.t('clubadd.title'));
 
     this.page = Y.Templates.get('page-clubadd');
@@ -21,20 +20,14 @@ Y.Views.Pages.ClubAdd = Y.View.extend({
     this.playerid = this.owner.get('id');  
 
     this.render();
-
   },
 
-
   addClub: function (event) {
-  
-    jq("#navbar").show();
-    jq("#content").css("bottom", "48px");
-    //$.ui.showNavMenu = true;
-
-
+    $("#navbar").show();
+    $("#content").css("bottom", "48px");
     
     var name = $('#name').val()
-    , city = $('#city').val();
+      , city = $('#city').val();
     
     var club = new ClubModel({
       name: name
@@ -46,16 +39,8 @@ Y.Views.Pages.ClubAdd = Y.View.extend({
     return false;
   },
 
-  //render the content into div of view
   render: function () {
     this.$el.html(this.page({}));
-    
     return this;
-  },
-
-  onClose: function () {
-    //Clean
-    this.undelegateEvents();
-
   }
 });

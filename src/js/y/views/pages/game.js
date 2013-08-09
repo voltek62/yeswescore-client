@@ -39,15 +39,15 @@ Y.Views.Pages.Game = Y.View.extend({
     //header
     Y.GUI.header.title(i18n.t('game.title'));
       	
-	  // loading templates.
-	  this.templates = {
-	    page       : Y.Templates.get('page-game'),
-	    scoreboard : Y.Templates.get('module-game-scoreboard')
-	  };
-	          	
-	  // On stock les dernieres modifs
+    // loading templates.
+    this.templates = {
+      page       : Y.Templates.get('page-game'),
+      scoreboard : Y.Templates.get('module-game-scoreboard')
+    };
+    
+    // On stock les dernieres modifs
     this.DB = new Y.DB("Y.Games."+this.gameid+".");
-		
+
     // loading owner
     this.player = Y.User.getPlayer();   
     
@@ -216,10 +216,10 @@ Y.Views.Pages.Game = Y.View.extend({
     /*#endif*/  
     if (isCordova) {   
       //TODO : only Android , work in progress for ios 
-	  console.log("SHARING MESSAGE: " + message);
-	  var that = this;    
-	
-	  if (Cordova.Device.isAndroid) {	
+      console.log("SHARING MESSAGE: " + message);
+      var that = this;    
+  
+      if (Cordova.Device.isAndroid) {
         //var share = cordova.require("cordova/plugin/share");
         window.plugins.social.show({subject: i18n.t('game.sharetitle'), text: message, url: link},
           function() {
@@ -231,63 +231,52 @@ Y.Views.Pages.Game = Y.View.extend({
             that.sharing = false;
             that.shareError(err);
             console.log("PhoneGap Plugin: Share: callback error");
-          
-           /*
-	       navigator.notification.alert(
-	        i18n.t('message.errorsocial'),  // message
-	        function(buttonIndex){
-	            that.followPlayerConfirm(buttonIndex, that);
-	        },         // callback
-	        i18n.t('message.errortitle'),            // title
-	        i18n.t('message.erroryes') // buttonName
-		   );
-		   */
-          
+            /*
+            navigator.notification.alert(
+              i18n.t('message.errorsocial'),  // message
+              function(buttonIndex){
+                that.followPlayerConfirm(buttonIndex, that);
+              },         // callback
+              i18n.t('message.errortitle'),            // title
+              i18n.t('message.erroryes') // buttonName
+            );
+            */
           }
- 	     );  
- 	   } 
- 	 
+        );  
+      } 
+   
 
-      if (Cordova.Device.isIOS) {  
-
-		window.plugins.social.available(function(avail) {
-		  if (avail) {
-		    // Show social widgets
-                                     
-		    window.plugins.social.share(message, link, 'www/images/mini-logo.png');
+      if (Cordova.Device.isIOS) {
+        window.plugins.social.available(function(avail) {
+          if (avail) {
+            // Show social widgets
+            window.plugins.social.share(message, link, 'www/images/mini-logo.png');
             that.sharing = false;
-                                        
-		  } else {
-       
-		    // Social not supported
-           that.sharing = false;
-	       navigator.notification.alert(
-	        i18n.t('message.errorsocial'),  // message
-	        null,         // callback
-	        i18n.t('message.errortitle'),            // title
-	        i18n.t('message.erroryes') // buttonName
-		   );
-		   
-		  }
-		});	    	 
- 	   
- 	  }
- 	 
+          } else {
+            // Social not supported
+            that.sharing = false;
+            navigator.notification.alert(
+              i18n.t('message.errorsocial'),  // message
+              null,         // callback
+              i18n.t('message.errortitle'),            // title
+              i18n.t('message.erroryes') // buttonName
+            );
+          }
+        });
+      }
     }
     else
     {
-	  console.log("SENDING FACEBOOK MESSAGE: " + message);
-	  var that = this;
-	  var id = String(this.id);
-	  Y.Facebook.shareAsync(id, message, function (err) {
-	    that.sharing = false;
-	    if (err)
-	      return that.shareError(err);
-	      that.shareSuccess();
-	  });
+      console.log("SENDING FACEBOOK MESSAGE: " + message);
+      var that = this;
+      var id = String(this.id);
+      Y.Facebook.shareAsync(id, message, function (err) {
+        that.sharing = false;
+        if (err)
+          return that.shareError(err);
+          that.shareSuccess();
+      });
     }
-    
-    
   },
   
   undoAction: function(ev) {

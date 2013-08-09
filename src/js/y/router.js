@@ -8,6 +8,8 @@
 
     currentView: null,
 
+    locked: false,
+
     routes: {
       //first page
       ''                   : 'games',
@@ -167,6 +169,14 @@
       this.changePage(this.createViewFactory(Y.Views.Pages.SearchForm ));
     },    
 
+    lock: function () {
+      this.locked = true;
+    },
+
+    unlock: function () {
+      this.locked = false;
+    },
+
     /*
     * you can change page passing a function:
     *    this.changePage(function () { return new Y.Views.Pages.Account() });
@@ -175,6 +185,9 @@
     */
     changePage: function (viewFactory) {
       assert(typeof viewFactory === "function");
+
+      if (this.locked)
+        return; // navigation is locked.
 
       var previousPageName = "none"
         , previousPageHash = "none"

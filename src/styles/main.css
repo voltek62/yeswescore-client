@@ -239,6 +239,149 @@ body.inputmodeon .button-form[data-input-mode="process"] {
 }
 
 /**********************************************************
+	WIZARD
+**********************************************************/
+#wizard {
+  display: none;
+}
+body.wizard #wizard {
+  display: block;
+}
+body.wizard #navbar {
+  bottom: 20px;
+}
+
+.wizard-bgcolor {
+  background-color: #45b1db;/*vert=#41c68f;/*bleu=#45b1db;/*orange=#f2734c;*/
+}
+
+#wizard .top {
+  position: fixed;
+  z-index: 999999;
+  width: 100%;
+  height: 3px;
+}
+
+#wizard .border {
+  position: fixed;
+  z-index: 999999;
+  width: 3px;
+  height: 100%;
+}
+
+#wizard .border.left {
+  left: 0;
+}
+
+#wizard .border.right {
+  right: 0;
+}
+
+#wizard .bottom {
+  position: fixed;
+  z-index: 999999;
+  width: 100%;
+  height: 20px;
+  bottom: 0;
+}
+
+#wizard .bottom .achievement {
+  text-align: center;
+  height:10px;
+  background-color:green;
+  margin-top:5px;margin-left:3px;
+  
+  -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+  
+  width: 0%;
+  transition: width 2s;
+}
+#wizard .bottom .next,
+#wizard .bottom .stop {
+  float: left;
+}
+
+
+/* generic styles*/
+#wizard .step .message {
+  z-index: 999999;
+  position: fixed;
+  top: 25%;
+  left: 10%;
+  width: 80%;
+  border-radius: 10px;
+  border: 1px solid #E0E0E0;
+  
+  padding: 10px;
+  
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+#wizard .step .message h1,
+#wizard .step .message h2,
+#wizard .step .message p {
+  color: white;
+}
+
+#wizard .step h1 {
+  font-family: 'Open Sans', sans-serif;
+	font-weight: bolder;
+	font-size: 18px;
+  margin-top: 0;
+}
+
+#wizard .step h2 {
+  font-family: 'Open Sans', sans-serif;
+	font-weight: bolder;
+	font-size: 15px;
+  margin-top: 0;
+}
+
+#wizard .step p {
+  font-family: 'Open Sans', sans-serif;
+	font-weight: normal;
+	font-size: 12px;
+  margin-top: 0;
+}
+
+#wizard .step .button {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 5px;
+  background-color: #7C7C7E;
+  color: white;
+  
+  border-radius: 5px;
+  
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+	font-weight: bolder;
+	font-size: 12px;
+  
+  line-height: 30px;
+  
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* step 1: welcom */
+#wizard .welcome .bglayer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 10000;
+}
+
+
+/**********************************************************
 	header
 **********************************************************/
 #header {

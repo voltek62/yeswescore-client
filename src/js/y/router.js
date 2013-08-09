@@ -83,10 +83,6 @@
       this.changePage(this.createViewFactory(Y.Views.Pages.ClubFollowed));
     },
 
-    index: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Pages.Index, { sort: id }));
-    },
-
     game: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Pages.Game, { id: id }));
     },

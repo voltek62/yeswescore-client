@@ -83,7 +83,17 @@ var PlayerModel = Backbone.Model.extend({
       
       // FIXME: l'écriture de la geoloc doit être externe a ce fichier.
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
-        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];      
+        dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];   
+        
+      if (this.get('push') &&
+          typeof this.get('push').token === "string") {
+        dataSend.push.token = this.get('push').token;
+      }   
+
+      if (this.get('push') &&
+          typeof this.get('push').platform === "string") {
+        dataSend.push.platform = this.get('push').platform; 
+      }   
       
       return Backbone.ajax({
         dataType: 'json',
@@ -145,6 +155,16 @@ var PlayerModel = Backbone.Model.extend({
           name : ''
         };
       }
+      
+      if (this.get('push') &&
+          typeof this.get('push').token === "string") {
+        dataSend.push.token = this.get('push').token;
+      }   
+
+      if (this.get('push') &&
+          typeof this.get('push').platform === "string") {
+        dataSend.push.platform = this.get('push').platform; 
+      }         
       
       //console.log('dataSend ------ ',dataSend); 
 

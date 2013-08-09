@@ -21,9 +21,11 @@
             if (this.data.token !== token && token!==null) {
               this.data.token = token;
               this.data.platform = window.device.platform.toLowerCase(); 
+              //console.log('push ok  token:'+ this.data.token+' platform:'+this.data.platform);
               this.updatePlayerInfos();
             } else {
               // erreur quelconque, on relance dans x secondes.
+              //console.log('push error ',err);
               setTimeout(function () { Push.update(); }, Y.Conf.get("pooling.pushregister"));
             }
           }, this));

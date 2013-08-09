@@ -7,7 +7,7 @@
   var Push = {
    
     getPushID: function (callback) { 
-    
+        
       window.pushNotification.getPushID(
         function Cordova_Push_Success(token) {
           if (token)
@@ -19,13 +19,17 @@
           callback(err);
         }      
 	   );          
-      window.pushNotification.enablePush();      
+           
     },     
              
   };
 
   // registering geolocalisation only when cordova is ready.
   Cordova.deviceready(function () {
+    var push = window.pushNotification;
+    push.enablePush(); 
+    //push.registerEvent('registration', function(error, id) {});
+  
     Cordova.Push = Push;
   });
 })(Cordova);

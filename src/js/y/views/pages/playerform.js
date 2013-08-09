@@ -16,21 +16,21 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   pageHash: "players/form",  
     
   clubs:null,
-  useSearch:0,	     
+  useSearch:0,       
   mode:'',
 
   myinitialize:function(obj) { 
-    this.useSearch = 0;	
+    this.useSearch = 0;  
     this.mode = obj.mode;
   
-	  //header
+    //header
     Y.GUI.header.title(i18n.t('playerform.title')); 
   
     // loading templates.
     this.templates = {
       playerform:  Y.Templates.get('page-playerform'),
-	  playerdatepickerbirth:  Y.Templates.get('datepicker-player'),	
-	  playerdatepickerbirthandroid:  Y.Templates.get('datepicker-player-android'),	      
+    playerdatepickerbirth:  Y.Templates.get('datepicker-player'),  
+    playerdatepickerbirthandroid:  Y.Templates.get('datepicker-player-android'),        
       clublist: Y.Templates.get('autocomplete-club')
     };
     
@@ -38,15 +38,15 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     this.player = Y.User.getPlayer();
     this.clubid = this.player.get('club').id;
     
-	  Y.GUI.addBlueBackground();
-	
+    Y.GUI.addBlueBackground();
+  
     // we render immediatly
     this.render();
   },
   
   autocompleteClubs: function (input, callback) {
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
-      callback('empty');		
+      callback('empty');    
     
     Backbone.ajax({
       url: Y.Conf.get("api.url.autocomplete.clubs"),
@@ -76,17 +76,17 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     var player = this.player.toJSON();
         
     var dataDisplay = {
-	      name:player.name
-	    , rank:player.rank
-	    , idlicence:player.idlicense
-	    , playerid:this.playerid
-	    , token:this.token
+        name:player.name
+      , rank:player.rank
+      , idlicence:player.idlicense
+      , playerid:this.playerid
+      , token:this.token
       , imagePlaceholder: Y.Conf.get("gui.image.placeholder.profil")
     };
       
     if (player.club!== undefined) {    
       dataDisplay.club = player.club.name;
-      dataDisplay.idclub = player.club.id;      	
+      dataDisplay.idclub = player.club.id;        
     }
     
     this.$el.html(this.templates.playerform({data : dataDisplay})).i18n();
@@ -96,17 +96,17 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     /*
     debug android 2.2 to 2.3.6
     */
- 	if (Cordova.Device.isGingerbread) {
-   	  $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({}));
+   if (Cordova.Device.isGingerbread) {
+       $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({}));
       // pb avec canvas toDataUrl sur android gingerbread
       // @see https://code.google.com/p/android/issues/detail?id=16829
       $(".column.picture").hide();
     } else {
-	    $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({}));
+      $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({}));
     }
- 	
+   
     if (player.gender !== undefined) $("#gender").val(player.gender);
-    if (player.dates.birth !== undefined) {	
+    if (player.dates.birth !== undefined) {  
       var dateBirth = Date.fromString(player.dates.birth);
       var month = dateBirth.getMonth() + 1;
       var date = (''+dateBirth.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateBirth.getDate()).slice(-2);       
@@ -156,32 +156,32 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     $("div.success").hide();
 
     if (checkRank(rank) && rank.length>0) {
-	    $('.rank_error').html(i18n.t('message.bad_rank')+' !').show();
+      $('.rank_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank').val('');        
-      return false;	   
+      return false;     
     };
     
     if (name.length==0) {
-	    $('.name_error').html(i18n.t('message.empty_name')+' !').show();      
-      return false;	   
+      $('.name_error').html(i18n.t('message.empty_name')+' !').show();      
+      return false;     
     };
     
     if (checkName(name) && name.length>0) {
-	    $('.name_error').html(i18n.t('message.bad_name')+' !').show();
+      $('.name_error').html(i18n.t('message.bad_name')+' !').show();
       $('#name').val('');        
-      return false;	   
+      return false;     
     };
 
     if (checkLicence(idlicence) && idlicence.length>0) {
-	    $('.idlicence_error').html(i18n.t('message.bad_licence')+' !').show();
+      $('.idlicence_error').html(i18n.t('message.bad_licence')+' !').show();
       $('#idlicence').val('');        
-      return false;	   
+      return false;     
     };
 
     if (checkName(club) && club.length>0) {
-	    $('.club_error').html(i18n.t('message.bad_name')+' !').show();
+      $('.club_error').html(i18n.t('message.bad_name')+' !').show();
       $('#club').val('');        
-      return false;	   
+      return false;     
     };
     
     // avant de lancer l'execution, on bascule en readonly
@@ -239,17 +239,17 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       }).done(function (result) {
         $('div.success').css({display:"block"});
         $('div.success').html(i18n.t('message.updateok')).show();
-		    $('div.success').i18n();
-		    Y.User.setPlayer(new PlayerModel(result));
-		    if (that.mode === 'first') {
-		      Y.Router.navigate("games/add", {trigger: true});  	   
-		    }
-		    else if (that.mode === 'search') {
-		      Y.Router.navigate("search/form", {trigger: true});  	   
-		    }	else {
+        $('div.success').i18n();
+        Y.User.setPlayer(new PlayerModel(result));
+        if (that.mode === 'first') {
+          Y.Router.navigate("games/add", {trigger: true});       
+        }
+        else if (that.mode === 'search') {
+          Y.Router.navigate("search/form", {trigger: true});       
+        }  else {
           // FIXME: faut il vraiment quitter cette page ?
-		      Y.Router.navigate("account", {trigger: true});
-    	  }
+          Y.Router.navigate("account", {trigger: true});
+        }
       });
     });
 
@@ -258,10 +258,10 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
      
   getPhoto: function() {
     var that = this;
-  	Cordova.Camera.capturePhoto(function (err, image) {
+    Cordova.Camera.capturePhoto(function (err, image) {
       image.dataUri = "data:image/jpeg;base64," + image.dataUri; // WARNING. might cost a lot of memory.
       that.onPhotoCaptured(image);
-  	});
+    });
   },
 
   delPhoto: function () {
@@ -296,11 +296,11 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   },
   
   nativeDate: function (event) {
- 	var currentField = $('#'+event.currentTarget.id);	
+   var currentField = $('#'+event.currentTarget.id);  
     var myNewDate = Date.parse(currentField.val()) || new Date();
     if(typeof myNewDate === "number"){ myNewDate = new Date (myNewDate); }
     
-	if (window.plugins!==undefined) {
+  if (window.plugins!==undefined) {
     // Same handling for iPhone and Android
       window.plugins.datePicker.show({
         date : myNewDate,

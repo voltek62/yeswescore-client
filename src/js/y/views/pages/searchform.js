@@ -23,14 +23,14 @@ Y.Views.Pages.SearchForm = Y.View.extend({
     
     this.useSearch=0;
     
-  	this.templates = {
-	    page:  Y.Templates.get('page-searchform')
-	  };    
+    this.templates = {
+      page:  Y.Templates.get('page-searchform')
+    };    
     
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
     this.playerid = this.owner.get('id');
-	  this.render();
+    this.render();
   },
   
   update: function (event) {
@@ -52,53 +52,53 @@ Y.Views.Pages.SearchForm = Y.View.extend({
   goProfil: function() {
     Y.Router.navigate('players/form/search', {trigger: true});    
   },
-	
+  
   //render the content into div of view
   render: function() {
-  	var gps_state = "";
+    var gps_state = "";
 
-    if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)	
+    if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)  
     {
-  	  long = Math.floor(Y.Geolocation.longitude*10000)/10000;
-  	  lat = Math.floor(Y.Geolocation.latitude*10000)/10000;
-  	  gps_state = long+","+lat;
-  	}
-  	else {
-  	  gps_state = i18n.t('search.gpsoff');
-  	}
-  	
-  	var clubname='';
-	  if (this.owner.get('club') !== undefined && this.owner.get('club').name !== '') {
-	  	clubname = this.owner.get('club').name;
-	  }  	
-  	
+      long = Math.floor(Y.Geolocation.longitude*10000)/10000;
+      lat = Math.floor(Y.Geolocation.latitude*10000)/10000;
+      gps_state = long+","+lat;
+    }
+    else {
+      gps_state = i18n.t('search.gpsoff');
+    }
+    
+    var clubname='';
+    if (this.owner.get('club') !== undefined && this.owner.get('club').name !== '') {
+      clubname = this.owner.get('club').name;
+    }    
+    
     this.$el.html(this.templates.page({gps:gps_state,clubname:clubname})).i18n();
     
     $(".filters a[data-filter*='match-']").removeClass('select');
     
     var filters = Y.User.getSearchOptions().filters;
     if (filters.indexOf('searchgeo')!==-1) {
-	    $('#searchgeo span').addClass('checked');      
+      $('#searchgeo span').addClass('checked');      
     } 
     if (filters.indexOf('searchmyclub')!==-1) {
-	    $('#searchmyclub span').addClass('checked');
+      $('#searchmyclub span').addClass('checked');
     }
     if (filters.indexOf('searchplayerfollowed')!==-1) {
-	    $('#searchplayerfollowed span').addClass('checked');
+      $('#searchplayerfollowed span').addClass('checked');
     }
- 	
- 	  if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null) {
-	    $('#searchgeo span').removeClass('checked');
-	    $("#searchgeo span").addClass("disabled");  
-	  }
+   
+     if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null) {
+      $('#searchgeo span').removeClass('checked');
+      $("#searchgeo span").addClass("disabled");  
+    }
 
-	  if (this.owner.get('club') !== undefined ) {
-	    if (this.owner.get('club').name === '') {
-	      $('#searchmyclub span').removeClass('checked');
+    if (this.owner.get('club') !== undefined ) {
+      if (this.owner.get('club').name === '') {
+        $('#searchmyclub span').removeClass('checked');
         $("#searchmyclub span").addClass("disabled"); 
       }
     } else {
-	    $('#searchmyclub span').removeClass('checked');	
+      $('#searchmyclub span').removeClass('checked');  
       $("#searchmyclub span").addClass("disabled");     
     }
   },

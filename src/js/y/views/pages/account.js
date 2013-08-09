@@ -13,8 +13,8 @@ Y.Views.Pages.Account = Y.View.extend({
   },
 
   render: function () {
-	  $(this.el).html(this.page({player: this.player, clubid: this.clubid}));
-	  $('a').i18n();
+    $(this.el).html(this.page({player: this.player, clubid: this.clubid}));
+    $('a').i18n();
   },
 
   onClose: function () {

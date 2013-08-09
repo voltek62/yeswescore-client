@@ -20,7 +20,7 @@ Y.Views.Pages.PlayerForget = Y.View.extend({
   forget : function(event) {
     var mail = $('#email').val();
 
-	  Backbone.ajax({
+    Backbone.ajax({
       dataType: 'json',
       url: Y.Conf.get("api.url.auth") + "resetPassword/",
       type: 'POST',
@@ -28,14 +28,14 @@ Y.Views.Pages.PlayerForget = Y.View.extend({
         email: { address: mail }
       },
       success: function (data) {
-		    $('span.success').css({display:"block"});
+        $('span.success').css({display:"block"});
         $('span.success').html(i18n.t('message.mailspam')).show();
         $('span.success_sentence').html(i18n.t('message.mailspam_sentence')).show();
       },
       error: function (err) {
-	      $('span.error').css({display:"block"});
-		    $('span.error').html(i18n.t('message.mailerror')).show();
-		    $('span.error').i18n();
+        $('span.error').css({display:"block"});
+        $('span.error').html(i18n.t('message.mailerror')).show();
+        $('span.error').i18n();
       }
     });
     return this;

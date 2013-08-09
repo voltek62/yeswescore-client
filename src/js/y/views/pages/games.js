@@ -69,17 +69,17 @@ Y.Views.Pages.Games = Y.View.extend({
     switch (searchType) {
       case 'me':
         // we can access Y.User.getPlayer, because option search == "me" should'nt triggered on first launch.
-	      this.games.addSearch('player');
-	      this.games.setPlayer(Y.User.getPlayer().id);
+        this.games.addSearch('player');
+        this.games.setPlayer(Y.User.getPlayer().id);
         break;
       case 'player':
          this.games.addSearch('player');
-	     this.games.setPlayer(param.id);
+       this.games.setPlayer(param.id);
         break;
       case 'club':
         // FIXME
           this.games.addSearch('club');
-	      this.games.setClub(param.id);        
+        this.games.setClub(param.id);        
         break;
       default:
         // on utilise les options de recherche de l'utilisateur
@@ -176,7 +176,7 @@ Y.Views.Pages.Games = Y.View.extend({
   deleteFilter : function (event) {
     var cmd = event.currentTarget.id;
     
-	  if (cmd==='searchgeoselect'||cmd==='searchmyclubselect') {
+    if (cmd==='searchgeoselect'||cmd==='searchmyclubselect') {
       Y.User.setSearchOptions({filters:[]});
       this.games.removeSearch('geo');
       this.games.removeSearch('club');
@@ -257,13 +257,13 @@ Y.Views.Pages.Games = Y.View.extend({
     } else {
       if (filters.indexOf('searchgeo')!==-1) {
         $('#searchgeo').html('<a data-filter="searchgeo" id="searchgeoselect">'+i18n.t('search.filtergps')+'</a>');
-	    } else {
-	      $('#searchgeo').html('');
-      }
-	    if (filters.indexOf('searchmyclub')!==-1) {
-	      $('#searchmyclub').html('<a data-filter="searchmyclub" id="searchmyclubselect">'+i18n.t('search.filtermyclub')+'</a>');	
       } else {
-	      $('#searchmyclub').html('');	
+        $('#searchgeo').html('');
+      }
+      if (filters.indexOf('searchmyclub')!==-1) {
+        $('#searchmyclub').html('<a data-filter="searchmyclub" id="searchmyclubselect">'+i18n.t('search.filtermyclub')+'</a>');  
+      } else {
+        $('#searchmyclub').html('');  
       }
     }
     // sort
@@ -291,12 +291,12 @@ Y.Views.Pages.Games = Y.View.extend({
 
   onClose: function () {
     if (this.button===false) { 
-	    this.games.removeSearch('me');
-	  }
-	
+      this.games.removeSearch('me');
+    }
+  
     this.stopControlTimeout();
-	  
-	document.removeEventListener("resume", this.onResume, true);
+    
+  document.removeEventListener("resume", this.onResume, true);
     
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);

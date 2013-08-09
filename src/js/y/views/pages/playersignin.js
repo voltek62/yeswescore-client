@@ -61,7 +61,7 @@ Y.Views.Pages.PlayerSignin = Y.View.extend({
       return this.displayError(i18n.t("message.bad_mail"));
 
     this.forgetting = true;
-	  Backbone.ajax({
+    Backbone.ajax({
       dataType: 'json',
       url: Y.Conf.get("api.url.auth") + "resetPassword/",
       type: 'POST',
@@ -161,7 +161,7 @@ Y.Views.Pages.PlayerSignin = Y.View.extend({
 
     this.logging = true;
     this.hideMessages();
-	  Backbone.ajax({
+    Backbone.ajax({
       dataType: 'json',
       url: Y.Conf.get("api.url.auth"),
       type: 'POST',
@@ -171,19 +171,19 @@ Y.Views.Pages.PlayerSignin = Y.View.extend({
       },
       success: function (result) {
         that.logging = false;
-		    var player = new PlayerModel(result);	
-		    Y.User.setPlayer(player);
+        var player = new PlayerModel(result);  
+        Y.User.setPlayer(player);
         if (that.unloaded)
           return; // prevent errors.
         that.hideError();
-      	that.updateStatus(that.status.REGISTERED);
+        that.updateStatus(that.status.REGISTERED);
       },
       error: function (err) {
         that.logging = false;
         if (that.unloaded)
           return; // prevent errors.
         that.$("#forgetPassword").show();
-		    that.displayError(i18n.t('message.signinerror'));
+        that.displayError(i18n.t('message.signinerror'));
       }
     });
     return this;
@@ -192,7 +192,7 @@ Y.Views.Pages.PlayerSignin = Y.View.extend({
   checkPassword : function (input) {
     var ck_password =  /^[A-Za-z0-9!@#$%^&*()_]{6,20}$/;
     if (!ck_password.test(input)) 
-	    return true;
+      return true;
     return false;
   },
 
@@ -216,7 +216,7 @@ Y.Views.Pages.PlayerSignin = Y.View.extend({
     player.set('email', email);
     player.set('uncryptedPassword', password);
     player.save().done(function (result) {
-		  Y.User.setPlayer(new PlayerModel(result));
+      Y.User.setPlayer(new PlayerModel(result));
       that.updateStatus(that.status.REGISTERED);
     }).fail(function () {
       that.displayError(i18n.t("message.registering_error"));

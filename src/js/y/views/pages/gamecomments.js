@@ -36,14 +36,14 @@ Y.Views.Pages.GameComments = Y.View.extend({
     // FIXME: utiliser une factory pour recuperer l'objet game.
     // FIXME: quand la factory existera et que les objets seront globaux
     //         on pourra activer du pooling sur l'objet.
-   	this.game = new GameModel({id : this.gameid});
-   	
-   	var that = this;
-   	this.syncGame = function () {
+     this.game = new GameModel({id : this.gameid});
+     
+     var that = this;
+     this.syncGame = function () {
       //that.game = game;
-      that.renderScore(); // might be later.   	
-   	};
-   	
+      that.renderScore(); // might be later.     
+     };
+     
     //this.game.once("sync", this.syncGame, this);
     //this.game.fetch();
 
@@ -73,17 +73,17 @@ Y.Views.Pages.GameComments = Y.View.extend({
 
   render: function () {
     // empty page.
-	  this.$el.html(this.templates.page({}));
-      $('.send').i18n();	
+    this.$el.html(this.templates.page({}));
+      $('.send').i18n();  
       $('textarea').i18n();  
-	  return this;
+    return this;
   },
   
   // score component (top of the page)
   renderScore: function () {
   
- 	var timer = '';
- 	var game = this.game.toJSON();
+   var timer = '';
+   var game = this.game.toJSON();
         
     if ( game.status === "finished" ) {
        
@@ -92,7 +92,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
 
       var dateEnd = Date.fromString(game.dates.end);      
       var dateStart = Date.fromString(game.dates.start);
-          	
+            
       timer = dateEnd - dateStart;
       var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
       timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
@@ -104,49 +104,49 @@ Y.Views.Pages.GameComments = Y.View.extend({
       var dateEnd = new Date();
       //var dateStart = new Date(game.dates.start);
       var dateStart = Date.fromString(game.dates.start);
-          	
+            
       timer = dateEnd - dateStart;
           
       if (timer>0)
       {
-	      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-	      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
+        var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
+        timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
       }
       //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
       //setInterval ( this.refreshTimer, 1000 );
           
     }  
   
-	this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
-	  
-	var startTeam = this.game.get('infos').startTeam;
-	this.server1 = "";
-	this.server2 = "";	  
-	  
-	if ( this.game.whoServe() === startTeam ) {
-	  if (this.game.get('teams')[0].id === startTeam) 
-	  {
-		$('.server1').addClass('server-ball');
-		$('.server2').removeClass('server-ball');	
-	  }
-	  else {
-		$('.server1').removeClass('server-ball');
-		$('.server2').addClass('server-ball');						  
-	  }
-	}
-	else {
-	  if (this.game.get('teams')[0].id === startTeam) 
-	  {
-		$('.server1').removeClass('server-ball');
-		$('.server2').addClass('server-ball');				
-	  }
-	  else {
-		$('.server1').addClass('server-ball');
-		$('.server2').removeClass('server-ball');				  
-	  }
-	}	  
-	  
-	  return this;
+  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
+    
+  var startTeam = this.game.get('infos').startTeam;
+  this.server1 = "";
+  this.server2 = "";    
+    
+  if ( this.game.whoServe() === startTeam ) {
+    if (this.game.get('teams')[0].id === startTeam) 
+    {
+    $('.server1').addClass('server-ball');
+    $('.server2').removeClass('server-ball');  
+    }
+    else {
+    $('.server1').removeClass('server-ball');
+    $('.server2').addClass('server-ball');              
+    }
+  }
+  else {
+    if (this.game.get('teams')[0].id === startTeam) 
+    {
+    $('.server1').removeClass('server-ball');
+    $('.server2').addClass('server-ball');        
+    }
+    else {
+    $('.server1').addClass('server-ball');
+    $('.server2').removeClass('server-ball');          
+    }
+  }    
+    
+    return this;
   },
 
   // liste de commentaires 
@@ -193,7 +193,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
 
   deleteComment : function(e) {  
     var elmt = $(e.currentTarget);
-  	var id = elmt.attr("data-js-streamitemid");
+    var id = elmt.attr("data-js-streamitemid");
     
     Backbone.ajax({
       dataType : 'json',
@@ -223,7 +223,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
 
   reportComment : function(e) {
     var elmt = $(e.currentTarget);
-  	var id = elmt.attr("data-js-streamitemid");
+    var id = elmt.attr("data-js-streamitemid");
 
     Backbone.ajax({
         dataType : 'json',
@@ -288,12 +288,12 @@ Y.Views.Pages.GameComments = Y.View.extend({
       that.$('.button').removeClass("disabled");
       that.sendingComment = false;
     }).fail(function (err) {
-	    that.$(".button.send").addClass("ko");
-	    that.shareTimeout = window.setTimeout(function () {
-	      that.$(".button.send").removeClass("ko");
-	      that.shareTimeout = null;
-	  	  that.$('.button').removeClass("disabled");    
-	    }, 4000);
+      that.$(".button.send").addClass("ko");
+      that.shareTimeout = window.setTimeout(function () {
+        that.$(".button.send").removeClass("ko");
+        that.shareTimeout = null;
+        that.$('.button').removeClass("disabled");    
+      }, 4000);
       that.sendingComment = false;
     });   
     

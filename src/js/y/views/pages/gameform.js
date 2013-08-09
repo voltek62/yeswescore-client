@@ -7,10 +7,10 @@ Y.Views.Pages.GameForm = Y.View.extend({
   events: {
     'click #startTeam1'     : 'startTeam1',
     'click #startTeam2'     : 'startTeam2',      
-    'click #deleteMatch'	: 'deleteGame',    
-    'mousedown .button'		:'updateGame',
-    'keyup #club'			: 'updateList',
-    'click #club_choice' 	: 'displayClub',
+    'click #deleteMatch'  : 'deleteGame',    
+    'mousedown .button'    :'updateGame',
+    'keyup #club'      : 'updateList',
+    'click #club_choice'   : 'displayClub',
     'focus .nativedatepicker' : 'nativeDate',
     'focus .nativetimepicker' : 'nativeTime'
   },
@@ -23,30 +23,30 @@ Y.Views.Pages.GameForm = Y.View.extend({
   useSearch:null,
 
   myinitialize:function() {
-	  //header
+    //header
     Y.GUI.header.title(i18n.t('gameform.title')); 
     
     //no search
     this.useSearch=0;
 
-  	this.templates = {
-	    page:  Y.Templates.get('page-gameform'),
-	    gameselect:  Y.Templates.get('module-game-select'),	    
-	    gamedatepicker:  Y.Templates.get('datepicker-game'),	
-	    gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),		          
-	    playerlist: Y.Templates.get('list-player')
-	  };
+    this.templates = {
+      page:  Y.Templates.get('page-gameform'),
+      gameselect:  Y.Templates.get('module-game-select'),      
+      gamedatepicker:  Y.Templates.get('datepicker-game'),  
+      gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),              
+      playerlist: Y.Templates.get('list-player')
+    };
     
     this.player = Y.User.getPlayer();
   
-	this.game = new GameModel({id : this.id});  	                  
+  this.game = new GameModel({id : this.id});                      
     this.game.on("sync", this.render,this);
     this.game.fetch();
        
   },
   
   updateList: function (event) {
-    var q = $("#club").val();  	
+    var q = $("#club").val();    
     this.clubs = new ClubsCollection();
     this.clubs.setMode('search',q);
     if (q.length>2) {
@@ -84,7 +84,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
         url : Y.Conf.get("api.url.games") + this.id + '/?playerid='+this.player.get('id')+'&token='+this.player.get('token')+'&_method=delete',
         type : 'POST',
         success : function(result) {
-          Y.Router.navigate('/games/add', {trigger: true});	   
+          Y.Router.navigate('/games/add', {trigger: true});     
         }
       });
     }
@@ -111,11 +111,11 @@ Y.Views.Pages.GameForm = Y.View.extend({
   
   
   nativeDate: function (event) {
- 	var currentField = $('#'+event.currentTarget.id);	
+   var currentField = $('#'+event.currentTarget.id);  
     var myNewDate = Date.parse(currentField.val()) || new Date();
     if(typeof myNewDate === "number"){ myNewDate = new Date (myNewDate); }
     
-	if (window.plugins!==undefined) {
+  if (window.plugins!==undefined) {
     // Same handling for iPhone and Android
       window.plugins.datePicker.show({
         date : myNewDate,
@@ -134,17 +134,17 @@ Y.Views.Pages.GameForm = Y.View.extend({
   },
   
   nativeTime: function (event) {
- 	var currentField = $('#'+event.currentTarget.id);	
+   var currentField = $('#'+event.currentTarget.id);  
     var myNewTime = new Date();
 
     var time = currentField.val();    
     if (time.length>3) {    
       myNewTime.setHours(time.substr(0, 2));
       myNewTime.setMinutes(time.substr(3, 2));
-	}
-	
+  }
+  
     // Same handling for iPhone and Android
-	if (window.plugins!==undefined) {    
+  if (window.plugins!==undefined) {    
       plugins.datePicker.show({
         date : myNewTime,
         mode : 'time', // date or time or blank for both
@@ -177,7 +177,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
       if (checkRank(rank1) && rank1.length>0) {
         $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
         $('#rank1').val('');        
-        return false;	   
+        return false;     
       }
     }
     if (this.isTeamEditable(1)) {
@@ -194,14 +194,14 @@ Y.Views.Pages.GameForm = Y.View.extend({
     }
     
     if (expectedDay.length < 1 && expectedHour.length > 1) {
-	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	      
-	  return false;	 
-	}
+    $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();        
+    return false;   
+  }
 
-	if (expectedDay.length > 1 && expectedHour.length < 1) {
-	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	    
-	  return false;	 
-	}
+  if (expectedDay.length > 1 && expectedHour.length < 1) {
+    $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();      
+    return false;   
+  }
     
     // then, we save the player only if modified && owned.
     var promises = [];
@@ -309,16 +309,16 @@ Y.Views.Pages.GameForm = Y.View.extend({
     , surface : i18n.t('gameadd.surface')
     }));
     
-	
+  
     $('#inject-select').prepend(this.templates.gameselect({ 
-	  selection : i18n.t('gameadd.selection')
+    selection : i18n.t('gameadd.selection')
       , surface : i18n.t('gameadd.surface')
-	}));
+  }));
 
-	 if (Cordova.Device.isGingerbread)
-	   $('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({})); 		
-	 else
-		$('#inject-datepicker').prepend(this.templates.gamedatepicker({}));
+   if (Cordova.Device.isGingerbread)
+     $('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({}));     
+   else
+    $('#inject-datepicker').prepend(this.templates.gamedatepicker({}));
 
     if (game.teams[0].id === game.infos.startTeam) {
       $('#startTeam1').parent().addClass("select");
@@ -341,7 +341,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
       $("#team2,#rank2").prop('disabled', true); // team1 is ME or, some player I don't own.
     }
     
-    if (game.dates.expected !== undefined) {	
+    if (game.dates.expected !== undefined) {  
       var dateExpected = Date.fromString(game.dates.expected);
       var month = dateExpected.getMonth() + 1;
       var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
@@ -355,7 +355,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
     if (game.infos.surface !== undefined) $("#surface").val(game.infos.surface);
     if (game.infos.tour !== undefined) $("#tour").val(game.infos.tour);
     if (game.infos.court !== undefined) $("#court").val(game.infos.court);
-    	    
+          
     if (typeof game.infos.official === "boolean") {
       $("#official").val(game.infos.official?"true":"false");
     }
@@ -371,8 +371,8 @@ Y.Views.Pages.GameForm = Y.View.extend({
   },
 
   onClose: function() {
-  	
-  	Y.GUI.delBlueBackground();
+    
+    Y.GUI.delBlueBackground();
   
     this.game.off("sync", this.render, this);
     if (this.useSearch===1)

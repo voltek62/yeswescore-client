@@ -23,7 +23,7 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
     // saving parameter
     this.param = param || {};
   
-	//header      
+  //header      
     Y.GUI.header.title(i18n.t('playerfollow.title'));    
 
     // loading templates.
@@ -35,7 +35,7 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
     };
     
 
-    this.render();		
+    this.render();    
        
     //Y.Conf.get("owner.players.followed");   
     var players = Y.User.getPlayer().get('following');
@@ -44,61 +44,61 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
     this.mytoken = Y.User.getPlayer().get('token');    
 
     if (players!==undefined) {
-    	this.playerLast = players[players.length-1];
-	    this.collection = new PlayersCollection();	
-	    var that = this;	
-	    var i = players.length;	
-	    
+      this.playerLast = players[players.length-1];
+      this.collection = new PlayersCollection();  
+      var that = this;  
+      var i = players.length;  
+      
         if (players.length<1) {
-	      $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
-	      $('p.message').i18n();		          
-        }	    
-	    
-		this.syncPlayer = function (player) {
-	      
-	      that.collection.add(player);
-	      i--;
+        $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
+        $('p.message').i18n();              
+        }      
+      
+    this.syncPlayer = function (player) {
+        
+        that.collection.add(player);
+        i--;
           //si dernier element du tableau
           if (that.playerLast === player.get('id')) {
-	        $(that.listview).html(that.templates.list({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow }));  	
-	      }
-	          			
-		};	    
-	    
-	    this.players = [];
-	    
-	    players.forEach(function (playerid,index) {	
-			var player = new PlayerModel({id : playerid});	        
-	        player.once("sync", this.syncPlayer, this);
-	        
-	        player.fetch().fail(function (xhrResult, error) {	        
+          $(that.listview).html(that.templates.list({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow }));    
+        }
+                  
+    };      
+      
+      this.players = [];
+      
+      players.forEach(function (playerid,index) {  
+      var player = new PlayerModel({id : playerid});          
+          player.once("sync", this.syncPlayer, this);
+          
+          player.fetch().fail(function (xhrResult, error) {          
 
-	        	if (players.indexOf(playerid) !== -1) {
-		          players.splice(players.indexOf(playerid), 1);
-		          //On retire le joueur qui existe plus		          
-		          //Y.Conf.set("owner.players.followed", players, { permanent: true });
-		          var data = {id: that.myid, following: that.players };
-              	  Y.User.updatePlayer(data);
-		          
-		          if (players.length<1) {
-				   $(that.listview).html(that.templates.list({players:[],query:' '}));
-				   $('p.message').i18n();		          
-		          }
-		          else
-		            this.playerLast = players[players.length-1];
-		            
-		          }
+            if (players.indexOf(playerid) !== -1) {
+              players.splice(players.indexOf(playerid), 1);
+              //On retire le joueur qui existe plus              
+              //Y.Conf.set("owner.players.followed", players, { permanent: true });
+              var data = {id: that.myid, following: that.players };
+                  Y.User.updatePlayer(data);
+              
+              if (players.length<1) {
+           $(that.listview).html(that.templates.list({players:[],query:' '}));
+           $('p.message').i18n();              
+              }
+              else
+                this.playerLast = players[players.length-1];
+                
+              }
    
-		    });	       
+        });         
 
-	        this.players[index] = player;	
-	        				
-	    },this);
-	 }
-	 else {	 
-	   $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
-	   $('p.message').i18n();
-	 }
+          this.players[index] = player;  
+                  
+      },this);
+   }
+   else {   
+     $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
+     $('p.message').i18n();
+   }
      
   },
   
@@ -108,7 +108,7 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
     if (href) {
       var route = href;
       Y.Router.navigate(route, {trigger: true}); 
-    }	
+    }  
   },  
   
   searchOnKey: function (event) {
@@ -127,7 +127,7 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
   search:function() {
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.error()); 
-    this.players = new PlayersCollection();   	  
+    this.players = new PlayersCollection();       
     this.players.setMode('search',q);
     this.players.fetch().done($.proxy(function () { 
       
@@ -137,7 +137,7 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
       }
       else
         $(this.listview).html(this.templates.list({ players: this.players.toJSON(), query: q, players_follow : this.players_follow }));
-    	
+      
       $(this.listview).i18n();
             
       
@@ -151,7 +151,7 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
   //render the content into div of view
   render: function(){
     this.$el.html(this.templates.page({})).i18n();
-	  return this;
+    return this;
   },
 
   renderList: function(query) {
@@ -163,11 +163,11 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
 
   followPlayer: function(elmt) {
   
-  	//on ne peut pas se suivre
-  	//console.log('currenttarget ',$(elmt.currentTarget).data('playerid'));
-  	this.dataid = $(elmt.currentTarget).data('playerid');
-  	this.datafollow = $(elmt.currentTarget).data('follow');
-  	  	  	
+    //on ne peut pas se suivre
+    //console.log('currenttarget ',$(elmt.currentTarget).data('playerid'));
+    this.dataid = $(elmt.currentTarget).data('playerid');
+    this.datafollow = $(elmt.currentTarget).data('follow');
+            
     if (this.myid === this.dataid) return;
     
     if (this.following)
@@ -180,7 +180,7 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
      console.log('datafollow true');
 
       this.following = true;
-	  Backbone.ajax({
+    Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken+"&_method=delete",
         type: 'POST',
@@ -191,20 +191,20 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
           that.following = false;
           
           //On supprime l'id
-	      if (that.players_follow !== undefined)
-	      {
-	        if (that.players_follow.indexOf(that.dataid) !== -1) {
-	        //On retire l'elmt
-	          that.players_follow.splice(that.players_follow.indexOf(that.dataid), 1);
-	          var data = {id: that.myid, following: that.players_follow };
+        if (that.players_follow !== undefined)
+        {
+          if (that.players_follow.indexOf(that.dataid) !== -1) {
+          //On retire l'elmt
+            that.players_follow.splice(that.players_follow.indexOf(that.dataid), 1);
+            var data = {id: that.myid, following: that.players_follow };
               Y.User.updatePlayer(data);
-	        }
-	      }
-	      
-	      //change text
-	      $('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').html(i18n.t('message.follow'));
-	      $('.ui-block-c[data-playerid='+that.dataid+']').data('follow',false);
-	      //$('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').attr('data-follow','false');	      	      
+          }
+        }
+        
+        //change text
+        $('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').html(i18n.t('message.follow'));
+        $('.ui-block-c[data-playerid='+that.dataid+']').data('follow',false);
+        //$('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').attr('data-follow','false');                
           
         },
         error: function (err) {
@@ -217,7 +217,7 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
 
     } else {
    
-   	   console.log('datafollow false');
+        console.log('datafollow false');
    
        navigator.notification.confirm(
         i18n.t('message.pushmessage'),  // message
@@ -226,18 +226,18 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
         },         // callback
         i18n.t('message.pushtitle'),            // title
         i18n.t('message.pushno')+','+i18n.t('message.pushyes')                  // buttonName
-	   );
-	   
-    }	
+     );
+     
+    }  
   
   },   
   
   followPlayerConfirm : function(buttonIndex, that){
-    if (buttonIndex==1) {	    
+    if (buttonIndex==1) {      
 
       that.following = true;
-	  
-	  Backbone.ajax({
+    
+    Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players") +that.myid+"/following/?playerid="+that.myid+"&token="+that.mytoken,
         type: 'POST',
@@ -247,8 +247,8 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
         success: function (data) {
           that.following = false;
 
-		  //On ajoute l'id
-		  if (that.players_follow !== undefined)
+      //On ajoute l'id
+      if (that.players_follow !== undefined)
           {
             if (that.players_follow.indexOf(that.dataid) === -1) {     
               that.players_follow.push(that.dataid);
@@ -261,12 +261,12 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
             Y.User.updatePlayer(data); 
           }
           
-	      //change text
-	      $('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').html(i18n.t('message.nofollow'));
-	      //change attribute data-follow
-	      $('.ui-block-c[data-playerid='+that.dataid+']').data('follow',true); 
-	      //$('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').attr('data-follow','true');
-	      		  
+        //change text
+        $('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').html(i18n.t('message.nofollow'));
+        //change attribute data-follow
+        $('.ui-block-c[data-playerid='+that.dataid+']').data('follow',true); 
+        //$('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').attr('data-follow','true');
+              
         },
         error: function (err) {
           that.following = false;
@@ -282,10 +282,10 @@ Y.Views.Pages.PlayerFollowed = Y.View.extend({
   onClose: function(){
     this.undelegateEvents();
 
-	if (this.players!==undefined) {
-		this.players.forEach(function (player) {
-		   player.off("sync", this.syncPlayer, this);
-		}, this);
-	}
+  if (this.players!==undefined) {
+    this.players.forEach(function (player) {
+       player.off("sync", this.syncPlayer, this);
+    }, this);
+  }
   }
 });

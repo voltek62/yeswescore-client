@@ -11,7 +11,7 @@ Y.Views.Pages.About = Y.View.extend({
   },
 
   render: function () {
-	  $(this.el).html(this.page({versionapp:Y.App.VERSION}));
+    $(this.el).html(this.page({versionapp:Y.App.VERSION}));
     this.$(".about").i18n();
   }
 });

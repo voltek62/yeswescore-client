@@ -15,7 +15,7 @@ Y.Views.Pages.Player = Y.View.extend({
   
     this.pageHash += this.id; 
     
-    Y.GUI.header.title(i18n.t('player.title'));	    
+    Y.GUI.header.title(i18n.t('player.title'));      
     
     //myinfo
     this.myid = Y.User.getPlayer().get('id');
@@ -45,19 +45,19 @@ Y.Views.Pages.Player = Y.View.extend({
 
   followPlayer: function() {
   
-  	//on ne peut pas se suivre
+    //on ne peut pas se suivre
     if (this.myid === this.id) return;
     
     if (this.following)
       return;   
   
-  	var that = this;
+    var that = this;
        
     if (this.follow === 'true') {
       
      //NEW API
       this.following = true;
-	    Backbone.ajax({
+      Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken+"&_method=delete",
         type: 'POST',
@@ -68,21 +68,21 @@ Y.Views.Pages.Player = Y.View.extend({
           that.following = false;
           
           //On supprime l'id
-	      if (that.players_follow !== undefined)
-	      {
-	        if (that.players_follow.indexOf(that.id) !== -1) {
-	        //On retire l'elmt
-	          that.players_follow.splice(that.players_follow.indexOf(that.id), 1);
-	          var data = {id: that.myid, following: that.players_follow };
+        if (that.players_follow !== undefined)
+        {
+          if (that.players_follow.indexOf(that.id) !== -1) {
+          //On retire l'elmt
+            that.players_follow.splice(that.players_follow.indexOf(that.id), 1);
+            var data = {id: that.myid, following: that.players_follow };
               Y.User.updatePlayer(data);
-	        }
-	      }
-	      
+          }
+        }
+        
          $('span.success').css({display:"block"});
          $('span.success').html(i18n.t('message.nofollowplayerok')).show();
          $("#followButton").text(i18n.t('message.follow'));
          $('#followButton').removeClass('button-selected');
-         $('#followButton').addClass('button'); 	      
+         $('#followButton').addClass('button');         
           
         },
         error: function (err) {
@@ -103,18 +103,18 @@ Y.Views.Pages.Player = Y.View.extend({
         },         // callback
         i18n.t('message.pushtitle'),            // title
         i18n.t('message.pushyes')+','+i18n.t('message.pushno') // buttonName
-	   );
-	   
-    }	
+     );
+     
+    }  
   
   },   
   
   followPlayerConfirm : function(buttonIndex, that){
-    if (buttonIndex==1) {	    
+    if (buttonIndex==1) {      
 
       that.following = true;
-	  
-	  Backbone.ajax({
+    
+    Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players") +that.myid+"/following/?playerid="+that.myid+"&token="+that.mytoken,
         type: 'POST',
@@ -124,8 +124,8 @@ Y.Views.Pages.Player = Y.View.extend({
         success: function (data) {
           that.following = false;
 
-		  //On ajoute l'id
-		  if (that.players_follow !== undefined)
+          //On ajoute l'id
+          if (that.players_follow !== undefined)
           {
             if (that.players_follow.indexOf(that.id) === -1) {     
               that.players_follow.push(that.id);
@@ -138,12 +138,12 @@ Y.Views.Pages.Player = Y.View.extend({
             Y.User.updatePlayer(data); 
           }
           
-	     $('span.success').css({display:"block"});
-	     $('span.success').html(i18n.t('message.followplayerok')).show();
-	     $("#followButton").text(i18n.t('message.nofollow'));
-	     $('#followButton').removeClass('button');
-	     $('#followButton').addClass('button-selected');               
-		  
+          $('span.success').css({display:"block"});
+          $('span.success').html(i18n.t('message.followplayerok')).show();
+          $("#followButton").text(i18n.t('message.nofollow'));
+          $('#followButton').removeClass('button');
+          $('#followButton').addClass('button-selected');               
+      
         },
         error: function (err) {
           that.following = false;

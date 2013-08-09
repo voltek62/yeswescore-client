@@ -38,7 +38,7 @@ Y.Views.Pages.Game = Y.View.extend({
 
     //header
     Y.GUI.header.title(i18n.t('game.title'));
-      	
+        
     // loading templates.
     this.templates = {
       page       : Y.Templates.get('page-game'),
@@ -127,7 +127,7 @@ Y.Views.Pages.Game = Y.View.extend({
   },
 
   share: function () {
-	  console.log('game: sharing on facebook');
+    console.log('game: sharing on facebook');
     // semaphore
     if (this.sharing)
       return; // cannot click on button until previous sharing is finished.
@@ -331,10 +331,10 @@ Y.Views.Pages.Game = Y.View.extend({
     var total_sets = parseInt(team1_set, 10) + parseInt(team2_set, 10);
 
     // incrementation
-	  sets = this.game.getSets();
-	  if (typeof sets[set] === "undefined")
-	    sets[set] = [ 0, 0 ];
-	  sets[set][team]++;
+    sets = this.game.getSets();
+    if (typeof sets[set] === "undefined")
+      sets[set] = [ 0, 0 ];
+    sets[set][team]++;
     sets_tmp[set][team]++;
 
     // limitation
@@ -370,10 +370,10 @@ Y.Views.Pages.Game = Y.View.extend({
   },
   
   renderCountComment : function() {
-	
-	//var nbComments = this.streams.length;
-	var nbComments = this.game.get('streamCommentsSize');
-	
+  
+  //var nbComments = this.streams.length;
+  var nbComments = this.game.get('streamCommentsSize');
+  
     if (nbComments > Y.Conf.get("game.max.comments") )
       this.$(".link-comments").html(i18n.t('game.50lastcomments'));
     else if (nbComments == 1)
@@ -382,13 +382,13 @@ Y.Views.Pages.Game = Y.View.extend({
       this.$(".link-comments").html(nbComments + " "+i18n.t('game.comments'));
     else
       this.$(".link-comments").html(i18n.t('game.0comment'));
-  },	
+  },  
 
   render : function() {
     if (this.game.isFinished()) {
-      $("#statusButton").html(i18n.t('game.gamefinished'));	         
+      $("#statusButton").html(i18n.t('game.gamefinished'));           
       $("#optionButton").attr('id', 'statusRestart');
- 	    $("#statusRestart").html(i18n.t('game.restart'));
+       $("#statusRestart").html(i18n.t('game.restart'));
     }
     
     if (this.game.get('infos').startTeam!==undefined) {
@@ -408,9 +408,9 @@ Y.Views.Pages.Game = Y.View.extend({
     
     //if (this.streams)
       this.renderCountComment();
-	
-	  if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
-	    $('.button-comments').css('display', 'none');
+  
+    if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
+      $('.button-comments').css('display', 'none');
     }
 
     if (this.game.get('status') === "created") {
@@ -440,8 +440,8 @@ Y.Views.Pages.Game = Y.View.extend({
     //
     $(this.displayViewScoreBoard).html(this.templates.scoreboard({
         game : game.toJSON()
-  	  , team1_set1 : sets[0][0]
-  	  , team1_set2 : sets[1][0]
+      , team1_set1 : sets[0][0]
+      , team1_set2 : sets[1][0]
       , team1_set3 : sets[2][0]
       , team2_set1 : sets[0][1]
       , team2_set2 : sets[1][1]
@@ -449,13 +449,13 @@ Y.Views.Pages.Game = Y.View.extend({
       , team1_sets : String(score[0]) || '&nbsp'
       , team2_sets : String(score[1]) || '&nbsp'
     }));
-		
+    
     //i18n
     //PERF:on remplace que les champs du DOM concernés
     $('a').i18n();
     $('span').i18n();
     
-	  var total_sets = parseInt(score[0]) + parseInt(score[1]);
+    var total_sets = parseInt(score[0]) + parseInt(score[1]);
     if (total_sets >= 2)  {
       $('#team1_set1_div .score').removeClass('ongoing');
       $('#team2_set1_div .score').removeClass('ongoing');
@@ -480,34 +480,34 @@ Y.Views.Pages.Game = Y.View.extend({
       $('#team3_set3_div .score').removeClass('ongoing');
     }
 
-	  var startTeam = game.get('infos').startTeam;
-	  if (game.whoServe() === startTeam) {
-	    if (game.get('teams')[0].id === startTeam) {
-		    $('.server1').addClass('server-ball');
-		    $('.server2').removeClass('server-ball');
-	    } else {
-		    $('.server1').removeClass('server-ball');
-		    $('.server2').addClass('server-ball');	  
-	    }
-	  } else {
-	    if (game.get('teams')[0].id === startTeam) {
-		    $('.server1').removeClass('server-ball');
-		    $('.server2').addClass('server-ball');
-	    } else {
-		    $('.server1').addClass('server-ball');
-		    $('.server2').removeClass('server-ball');
-	    }
-	  }
-	  
-	  //TODO: Add star for playerfollowed
-	  var players_follow = Y.User.getPlayer().get('following');
-	  
-	  if (players_follow.indexOf(game.get('teams')[0].players[0].id) !== -1)
-	    $('.follow1').addClass('follow-ball');
-	  if (players_follow.indexOf(game.get('teams')[1].players[0].id) !== -1)	  
-	    $('.follow2').addClass('follow-ball');
-	 
-	  
+    var startTeam = game.get('infos').startTeam;
+    if (game.whoServe() === startTeam) {
+      if (game.get('teams')[0].id === startTeam) {
+        $('.server1').addClass('server-ball');
+        $('.server2').removeClass('server-ball');
+      } else {
+        $('.server1').removeClass('server-ball');
+        $('.server2').addClass('server-ball');    
+      }
+    } else {
+      if (game.get('teams')[0].id === startTeam) {
+        $('.server1').removeClass('server-ball');
+        $('.server2').addClass('server-ball');
+      } else {
+        $('.server1').addClass('server-ball');
+        $('.server2').removeClass('server-ball');
+      }
+    }
+    
+    //TODO: Add star for playerfollowed
+    var players_follow = Y.User.getPlayer().get('following');
+    
+    if (players_follow.indexOf(game.get('teams')[0].players[0].id) !== -1)
+      $('.follow1').addClass('follow-ball');
+    if (players_follow.indexOf(game.get('teams')[1].players[0].id) !== -1)    
+      $('.follow2').addClass('follow-ball');
+   
+    
     return this;
   },
 
@@ -516,12 +516,12 @@ Y.Views.Pages.Game = Y.View.extend({
     if (!this.game.isFinished())
       return;
     this.game.set('status', 'ongoing');
-	  this.renderAndSave();
+    this.renderAndSave();
   },
   
   startTeam1 : function() {
     this.game.get('infos').startTeam = 0;
-	this.renderAndSave();
+  this.renderAndSave();
   },
   
   startTeam2 : function() {
@@ -532,9 +532,9 @@ Y.Views.Pages.Game = Y.View.extend({
   // immediatly render & save in the background
   renderAndSave: function (options) {
     this.render();
-	  this.game.save(null, _.assign({
-	    playerid : this.player.get('id')
-	  , token : this.player.get('token')
+    this.game.save(null, _.assign({
+      playerid : this.player.get('id')
+    , token : this.player.get('token')
     }, options || {}));
   },
 
@@ -545,7 +545,7 @@ Y.Views.Pages.Game = Y.View.extend({
     } else if (this.game.get('status') === "ongoing") {
       this.game.set('status', 'finished');
       this.game.get('infos').score = this.game.computeScore();
- 		  // On efface la cache
+       // On efface la cache
       if (this.DB!==undefined)
         this.DB.remove("sets");
       this.renderAndSave();

@@ -38,7 +38,7 @@ Y.Views.Pages.Club = Y.View.extend({
       this.follow = 'false';    
   },
 
-	followClub: function() {
+  followClub: function() {
     if (this.follow === 'true') {
       var clubs_follow = Y.Conf.get("owner.clubs.followed");
       if (clubs_follow !== undefined)

@@ -12,7 +12,7 @@ Y.Views.Pages.GameEnd = Y.View.extend({
       
   myinitialize:function() {
   
-    Y.GUI.header.title(i18n.t('gameend.title'));	    
+    Y.GUI.header.title(i18n.t('gameend.title'));      
   
     this.page = Y.Templates.get('page-gameend');
 
@@ -35,8 +35,8 @@ Y.Views.Pages.GameEnd = Y.View.extend({
   
   //render the content into div of view
   render: function(){
-	  this.$el.html(this.page({playerid:this.owner.id, token:this.owner.token}));
-	  return this;
+    this.$el.html(this.page({playerid:this.owner.id, token:this.owner.token}));
+    return this;
   },
 
   onClose: function(){

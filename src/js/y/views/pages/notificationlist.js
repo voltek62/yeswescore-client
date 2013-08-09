@@ -12,13 +12,13 @@ Y.Views.Pages.NotificationList = Y.View.extend({
 
   initialize : function() {
   
-	//header    
+  //header    
     Y.GUI.header.title(i18n.t('notification.title')); 
   
     // loading templates.
     this.templates = {
       notificationlist   :  Y.Templates.get('list-notification'),
-      page				 : Y.Templates.get('page-notification')
+      page         : Y.Templates.get('page-notification')
     };
         
     //this.playerListViewTemplate = Y.Templates.get('playerList');
@@ -27,10 +27,10 @@ Y.Views.Pages.NotificationList = Y.View.extend({
     // we render immediatly
     this.render();    
 
-	// renderList
+  // renderList
     if (this.id !== 'null') {
       this.games = new GamesCollection();     
-      this.games.addSearch('me');	
+      this.games.addSearch('me');  
       this.player = Y.User.getPlayer();
       this.playerid = this.player.id;
       this.games.setQuery(this.playerid); 
@@ -43,7 +43,7 @@ Y.Views.Pages.NotificationList = Y.View.extend({
 
   chooseGame : function(elmt) { 
     var ref = elmt.currentTarget.id;
-	Y.Router.navigate(ref, {trigger: true});  
+  Y.Router.navigate(ref, {trigger: true});  
   },
 
   

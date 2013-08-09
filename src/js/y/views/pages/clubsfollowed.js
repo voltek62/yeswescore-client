@@ -43,8 +43,8 @@ Y.Views.Pages.ClubFollowed = Y.View.extend({
         that.collection.add(club);
         i--;
         //si dernier element du tableau
-        if (that.clubLast === club.get('id')) {	    	
-          $(that.listview).html(that.templates.list({clubs:that.collection.toJSON(),query:' '}));  	
+        if (that.clubLast === club.get('id')) {        
+          $(that.listview).html(that.templates.list({clubs:that.collection.toJSON(),query:' '}));    
         }
       };
      

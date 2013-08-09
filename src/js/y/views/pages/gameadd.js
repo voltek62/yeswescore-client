@@ -21,15 +21,15 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   },  
 
   myinitialize: function () {
-    this.useSearch = 0;	
+    this.useSearch = 0;  
     Y.GUI.header.title(i18n.t('gameadd.title'));
     Y.GUI.addBlueBackground();
 
     this.templates = {
       page:  Y.Templates.get('page-gameadd'),
-      gameselect:  Y.Templates.get('module-game-select'),	    
-      gamedatepicker:  Y.Templates.get('datepicker-game'),	
-      gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),		      
+      gameselect:  Y.Templates.get('module-game-select'),      
+      gamedatepicker:  Y.Templates.get('datepicker-game'),  
+      gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),          
       playerlist: Y.Templates.get('autocomplete-player')
     };
 
@@ -76,7 +76,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   },
   
   nativeDate: function (event) {
-    var currentField = $('#'+event.currentTarget.id);	
+    var currentField = $('#'+event.currentTarget.id);  
     var myNewDate = Date.parse(currentField.val()) || new Date();
     if(typeof myNewDate === "number"){ myNewDate = new Date (myNewDate); }
     
@@ -99,7 +99,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   },
   
   nativeTime: function (event) {
-    var currentField = $('#'+event.currentTarget.id);	
+    var currentField = $('#'+event.currentTarget.id);  
     var myNewTime = new Date();
 
     var time = currentField.val();    
@@ -167,7 +167,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
 
 
       this.DB.saveJSON("game", game);
-      Y.Router.navigate("players/form/me", {trigger: true});	
+      Y.Router.navigate("players/form/me", {trigger: true});  
       
         
       return false;
@@ -179,19 +179,19 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     if (checkName(team1) && team1.length>0) {     
      $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team1').val('');        
-      return false;	   
+      return false;     
     };
     
     if (checkName(team2) && team2.length>0) { 
       $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team2').val('');        
-      return false;	   
+      return false;     
     };
     
     if (checkRank(rank2) && rank2.length>0) {
-  	  $('.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+      $('.team2_error').html(i18n.t('message.bad_rank')+' !').show();
       $('#rank2').val('');        
-      return false;	   
+      return false;     
     };    
 
     if ( ( team2.length < 3  || team2.indexOf('  ')!==-1 ) && this.team2_id === null ) {
@@ -203,18 +203,18 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     if (checkName(city) && city.length>0) {             
     $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
-      return false;	   
+      return false;     
     };
 
-	if (expectedDay.length < 1 && expectedHour.length > 1) {
-	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	      
-	  return false;	 
-	}
+  if (expectedDay.length < 1 && expectedHour.length > 1) {
+    $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();        
+    return false;   
+  }
 
-	if (expectedDay.length > 1 && expectedHour.length < 1) {
-	  $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();	    
-	  return false;	 
-	}
+  if (expectedDay.length > 1 && expectedHour.length < 1) {
+    $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();      
+    return false;   
+  }
 
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.addingGame = true;
@@ -247,27 +247,27 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     }
 
     var that = this;
-    	
+      
     game.save(null, {
-	    playerid: this.player.get('id'),
-	    token: this.player.get('token')
-	  }).done(function(model, response){
-	    that.addingGame = false; 
-	    Y.Router.navigate('games/'+model.id, {trigger: true}); 
-	  }).fail(function (err) {
-	    that.$(".button").addClass("ko");
-	    that.shareTimeout = window.setTimeout(function () {
-	      that.$(".button").removeClass("ko");
-	      that.shareTimeout = null;
-	  	  that.$('.button').removeClass("disabled");    
-	    }, 4000);
-      that.addingGame = false;	 
-	 });
+      playerid: this.player.get('id'),
+      token: this.player.get('token')
+    }).done(function(model, response){
+      that.addingGame = false; 
+      Y.Router.navigate('games/'+model.id, {trigger: true}); 
+    }).fail(function (err) {
+      that.$(".button").addClass("ko");
+      that.shareTimeout = window.setTimeout(function () {
+        that.$(".button").removeClass("ko");
+        that.shareTimeout = null;
+        that.$('.button').removeClass("disabled");    
+      }, 4000);
+      that.addingGame = false;   
+   });
   },
 
   autocompletePlayers: function (input, callback) {
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
-      callback('empty');		
+      callback('empty');    
     
     Backbone.ajax({
       url: Y.Conf.get("api.url.autocomplete.players"),
@@ -280,8 +280,8 @@ Y.Views.Pages.GameAdd = Y.View.extend({
           p.text = p.name; 
           //FIXME : add rank
           if (p.club !== undefined && p.club.name !== undefined) {
-	          p.text += " ( "+p.club.name+" )";
-	        }
+            p.text += " ( "+p.club.name+" )";
+          }
           return p; 
         }));
       } else {
@@ -318,33 +318,33 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     /*
     debug android 2.2 to 2.3.6
     */
-	 $('#inject-select').prepend(this.templates.gameselect({ 
-	    selection : i18n.t('gameadd.selection')
-	    , surface : i18n.t('gameadd.surface')
-     })); 	 
-	 
-	 if (Cordova.Device.isGingerbread)
-	   $('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({}));
-	 else
+   $('#inject-select').prepend(this.templates.gameselect({ 
+      selection : i18n.t('gameadd.selection')
+      , surface : i18n.t('gameadd.surface')
+     }));    
+   
+   if (Cordova.Device.isGingerbread)
+     $('#inject-datepicker').prepend(this.templates.gamedatepickerandroid({}));
+   else
      $('#inject-datepicker').prepend(this.templates.gamedatepicker({}));
-	   
+     
     //fill with last data 
     if (this.DB !== undefined) {
       var game = this.DB.readJSON("game"); 
       
       if (game!==undefined) {
 
-	      $("#team2").val(game.team2); 
-	      this.team2_id = game.team2_id;
-	      $("#rank2").val(game.rank2);                
-	    
-	      if ( game.location.city !== "" ) $("#city").val(game.location.city);    
-	      if ( game.infos.surface !== "" ) $("#surface").val(game.infos.surface);
-	      if ( game.infos.tour !== "" ) $("#tour").val(game.infos.tour);
-	      if ( game.infos.court !== "" ) $("#court").val(game.infos.court);
-	      if ( game.infos.official !== "" ) $("#official").val(game.infos.official);	
-	      if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
-	      if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);		      	      
+        $("#team2").val(game.team2); 
+        this.team2_id = game.team2_id;
+        $("#rank2").val(game.rank2);                
+      
+        if ( game.location.city !== "" ) $("#city").val(game.location.city);    
+        if ( game.infos.surface !== "" ) $("#surface").val(game.infos.surface);
+        if ( game.infos.tour !== "" ) $("#tour").val(game.infos.tour);
+        if ( game.infos.court !== "" ) $("#court").val(game.infos.court);
+        if ( game.infos.official !== "" ) $("#official").val(game.infos.official);  
+        if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
+        if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);                  
 
         this.DB.remove("game"); 
       }
@@ -367,7 +367,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   
     if (this.playersTeam1 !== undefined) this.playersTeam1.off("all", this.renderListTeam1, this);
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
-	this.confirmGameAdd = true;  
+  this.confirmGameAdd = true;  
   } 
   
 });

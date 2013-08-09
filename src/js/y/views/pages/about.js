@@ -11,7 +11,18 @@ Y.Views.Pages.About = Y.View.extend({
   },
 
   render: function () {
-    $(this.el).html(this.page({versionapp:Y.App.VERSION}));
+    
+    var linkapp = "http://www.yeswescore.com";
+    /*#ifdef IOS*/
+    linkapp = "https://itunes.apple.com/fr/app/yeswescore/id654933094?l=fr&ls=1&mt=8";
+    /*#ifdef ANDROID*/
+    linkapp = "https://play.google.com/store/apps/details?id=com.zenodus.client.html5"
+    /*#endif*/
+    /*#ifdef WP8*/
+	linkapp = "http://www.windowsphone.com/fr-fr/store/app/yeswescore/1d23dd2e-55e4-4c66-a36e-d5d520113755";      
+    /*#endif*/
+        
+    $(this.el).html(this.page({versionapp:Y.App.VERSION,linkapp:linkapp}));
     this.$(".about").i18n();
   }
 });

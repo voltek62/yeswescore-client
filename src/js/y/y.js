@@ -9,7 +9,7 @@
     Conf: null,      // @see y/conf.js
     Router: null,    // @see y/router.js
     Templates: null, // @see y/tempates.js
-    Views: {},       // @see y/views/*
+    Views: { Pages: {} }, // @see y/views/*
 
     GUI: null,       // @see y/gui.js
 

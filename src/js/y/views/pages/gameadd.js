@@ -25,16 +25,16 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     Y.GUI.header.title(i18n.t('gameadd.title'));
     Y.GUI.addBlueBackground();
 
-  	this.templates = {
-	    page:  Y.Templates.get('page-gameadd'),
-	    gameselect:  Y.Templates.get('module-game-select'),	    
-	    gamedatepicker:  Y.Templates.get('datepicker-game'),	
-	    gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),		      
-	    playerlist: Y.Templates.get('autocomplete-player')
-	};
-	  
-	this.player = Y.User.getPlayer();
-	this.DB = new Y.DB("Y.GameAdd.");
+    this.templates = {
+      page:  Y.Templates.get('page-gameadd'),
+      gameselect:  Y.Templates.get('module-game-select'),	    
+      gamedatepicker:  Y.Templates.get('datepicker-game'),	
+      gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),		      
+      playerlist: Y.Templates.get('autocomplete-player')
+    };
+
+    this.player = Y.User.getPlayer();
+    this.DB = new Y.DB("Y.GameAdd.");
     this.team1_id = this.player.get('id');
     this.team2_id = null;
     this.render();
@@ -76,11 +76,11 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   },
   
   nativeDate: function (event) {
- 	var currentField = $('#'+event.currentTarget.id);	
+    var currentField = $('#'+event.currentTarget.id);	
     var myNewDate = Date.parse(currentField.val()) || new Date();
     if(typeof myNewDate === "number"){ myNewDate = new Date (myNewDate); }
     
-	if (window.plugins!==undefined) {
+    if (window.plugins!==undefined) {
     // Same handling for iPhone and Android
       window.plugins.datePicker.show({
         date : myNewDate,
@@ -94,22 +94,22 @@ Y.Views.Pages.GameAdd = Y.View.extend({
               
         // This fixes the problem you mention at the bottom of this script with it not working a second/third time around, because it is in focus.
         currentField.blur();
-     });  
-   }
+      });  
+    }
   },
   
   nativeTime: function (event) {
- 	var currentField = $('#'+event.currentTarget.id);	
+    var currentField = $('#'+event.currentTarget.id);	
     var myNewTime = new Date();
 
     var time = currentField.val();    
     if (time.length>3) {    
       myNewTime.setHours(time.substr(0, 2));
       myNewTime.setMinutes(time.substr(3, 2));
-	}
-	
+    }
+  
     // Same handling for iPhone and Android
-	if (window.plugins!==undefined) {    
+    if (window.plugins!==undefined) {    
       plugins.datePicker.show({
         date : myNewTime,
         mode : 'time', // date or time or blank for both
@@ -121,7 +121,6 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     }  
   },  
   
-
   addingGame: false,
   addGame: function (event) {
     var team1 = $('#team1').val()   
@@ -178,13 +177,13 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     $("span[class*='_error']").hide();
 
     if (checkName(team1) && team1.length>0) {     
-	   $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
+     $('.team1_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team1').val('');        
       return false;	   
     };
     
     if (checkName(team2) && team2.length>0) { 
-	    $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
+      $('.team2_error').html(i18n.t('message.bad_name')+' !').show();
       $('#team2').val('');        
       return false;	   
     };
@@ -202,7 +201,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     };
     
     if (checkName(city) && city.length>0) {             
-	  $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
+    $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
       return false;	   
     };

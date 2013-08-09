@@ -5,14 +5,14 @@ Y.Views.Pages.GameForm = Y.View.extend({
   pageHash : "games/form",  
       
   events: {
-    'click #startTeam1'     : 'startTeam1',
-    'click #startTeam2'     : 'startTeam2',      
-    'click #deleteMatch'  : 'deleteGame',    
-    'mousedown .button'    :'updateGame',
-    'keyup #club'      : 'updateList',
-    'click #club_choice'   : 'displayClub',
-    'focus .nativedatepicker' : 'nativeDate',
-    'focus .nativetimepicker' : 'nativeTime'
+    'click #startTeam1'            : 'startTeam1',
+    'click #startTeam2'            : 'startTeam2',      
+    'click #deleteMatch'           : 'deleteGame',    
+    'mousedown .link-form>.button' : 'updateGame',
+    'keyup #club'                  : 'updateList',
+    'click #club_choice'           : 'displayClub',
+    'focus .nativedatepicker'      : 'nativeDate',
+    'focus .nativetimepicker'      : 'nativeTime'
   },
   
   listview:"#suggestions",
@@ -101,6 +101,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
   startTeam2 : function() {
     $('#startTeam1').parent().removeClass("select");
     $('#startTeam2').parent().addClass("select");
+    this.game.get('infos').startTeam = 1;    
   },
 
   renderAndSave: function () {
@@ -247,10 +248,10 @@ Y.Views.Pages.GameForm = Y.View.extend({
       this.game.get('infos').tour = $('#tour').val();
       
     
-        if ($('#official').val()==="false")
-          this.game.get('infos').official = false;
-        else     
-          this.game.get('infos').official = true; 
+      if ($('#official').val()==="false")
+        this.game.get('infos').official = false;
+      else     
+        this.game.get('infos').official = true; 
 
 
       var date = $('#expectedDay').val();
@@ -265,18 +266,27 @@ Y.Views.Pages.GameForm = Y.View.extend({
         this.game.get('infos').startTeam = 0;
       if ($('#startTeam2').parent().hasClass("select"))
         this.game.get('infos').startTeam = 1;
+      
+
       this.renderAndSave().done(function (result) {
         if (!that.unloaded) {
           // uniquement si nous sommes tjs sur cette page.
           $('span.success').css({display:"block"});
           $('span.success').html(i18n.t('message.updateok')).show();
-           
-            /*
-            this.confirmTimeout = window.setTimeout(function () {
-          Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
-          that.confirmTimeout = null;
-        }, 2000);
-        */
+
+    	  if (that.game.get('infos').startTeam == 0) {
+            $('#startTeam1').parent().addClass("select");
+          }
+    	  else if (that.game.get('infos').startTeam == 1) {
+      		$('#startTeam2').parent().addClass("select");
+    	  }     
+          
+          /*
+          this.confirmTimeout = window.setTimeout(function () {
+            Y.Router.navigate('/games/'+that.game.get('id'), {trigger: true});
+            that.confirmTimeout = null;
+          }, 2000);
+          */
           
         }
       });
@@ -320,10 +330,12 @@ Y.Views.Pages.GameForm = Y.View.extend({
    else
     $('#inject-datepicker').prepend(this.templates.gamedatepicker({}));
 
-    if (game.teams[0].id === game.infos.startTeam) {
+   
+
+    if (game.teams[0].id === this.game.get('infos').startTeam) {
       $('#startTeam1').parent().addClass("select");
     }
-    else if (game.teams[1].id === game.infos.startTeam) {
+    else if (game.teams[1].id === this.game.get('infos').startTeam) {
       $('#startTeam2').parent().addClass("select");
     }
 

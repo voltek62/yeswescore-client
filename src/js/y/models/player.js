@@ -86,12 +86,14 @@ var PlayerModel = Backbone.Model.extend({
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];   
         
       if (this.get('push') &&
-          typeof this.get('push').token === "string") {
+          typeof this.get('push').token === "string" &&
+          this.get('push').token) {
         dataSend.push.token = this.get('push').token;
       }   
 
       if (this.get('push') &&
-          typeof this.get('push').platform === "string") {
+          typeof this.get('push').platform === "string" &&
+          this.get('push').platform) {
         dataSend.push.platform = this.get('push').platform; 
       }   
       

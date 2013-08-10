@@ -6,8 +6,8 @@
   // wrapper around urbanairship
   var Push = {
    
-    getPushID: function (callback) { 
-        
+    getPushID: function (callback) {       
+      window.pushNotification.enablePush();
       window.pushNotification.getPushID(
         function Cordova_Push_Success(token) {
           if (token)
@@ -25,11 +25,7 @@
   };
 
   // registering geolocalisation only when cordova is ready.
-  Cordova.deviceready(function () {
-    var push = window.pushNotification;
-    push.enablePush(); 
-    //push.registerEvent('registration', function(error, id) {});
-  
+  Cordova.deviceready(function () { 
     Cordova.Push = Push;
   });
 })(Cordova);

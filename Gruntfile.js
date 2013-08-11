@@ -194,6 +194,8 @@ module.exports = function (grunt) {
       grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
       grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
       grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');  
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/airshipconfig.properties', 'dist/airshipconfig.properties');
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/location.properties', 'dist/location.properties');
     }
     });   
   });
@@ -204,8 +206,11 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) {
     grunt.registerTask('to-' + platform[0], function () {
-      if (platform[0].indexOf('android') != -1)
+      if (platform[0].indexOf('android') != -1) {
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/assets/www/index.html');
+        grunt.file.copy('dist/airshipconfig.properties', 'platforms/' + platform[0] + '/assets/airshipconfig.properties');
+        grunt.file.copy('dist/location.properties', 'platforms/' + platform[0] + '/assets/location.properties');
+      }
       else if (platform[0].indexOf('ios') != -1)
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/www/index.html');
       else if (platform[0].indexOf('web') != -1)

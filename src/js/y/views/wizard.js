@@ -271,7 +271,7 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("top", "-10px");
       pastille.css("left", "-10px");
       $('#navbar a[href="#account"]').append(pastille);
-      $('#navbar a[href="#account"]').one("click", _.bind(function () {
+      $('#navbar a[href="#account"]').one(this.pointerDown, _.bind(function () {
         Y.Router.once("pageChanged", this.advanceSubsteps, this);
       }, this));
     } else {

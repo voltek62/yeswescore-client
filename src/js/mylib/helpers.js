@@ -153,6 +153,15 @@ if (PROD) {
       var now = Date.now() - start;
       now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');
       a.unshift(now);
+      // cas specifique android ... 
+      // il semble que logcat n'affiche que le 1er param du console.log()
+      var android = true;
+      /*#ifndef ANDROID*/
+        android = false;
+      /*#endif*/
+      if (android) {
+        a = [ a.join("|") ];
+      }
       f.apply(console, a);
     };
     console.log.f = f;

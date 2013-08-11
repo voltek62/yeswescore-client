@@ -175,9 +175,9 @@ module.exports = function (grunt) {
   });
 
   var platforms = [ ["android","2.9.0"], 
-  					["ios","2.9.0"], 
-  					["wp8","2.6.0"], 
-  					["web","2.5.0"] ];
+                    ["ios","2.9.0"], 
+                    ["wp8","2.6.0"], 
+                    ["web","2.5.0"] ];
 
   //
   // registering grunt copy-cordova-android-to-dist, copy-cordova-ios-to-dist, ...
@@ -185,16 +185,16 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) { 
     grunt.registerTask('copy-' + platform[0] + '-to-dist', function () {
-	  if (platform[0].indexOf('web') != -1) {
-        grunt.file.copy('empty.js', 'dist/cordova.js');
-	    grunt.file.copy('empty.js', 'dist/pushnotification.js');
-	    grunt.file.copy('empty.js', 'dist/social.js');	  		
-	  }
-	  else {
-        grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
-	    grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
-	    grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');  
-	  }
+    if (platform[0].indexOf('web') != -1) {
+      grunt.file.copy('empty.js', 'dist/cordova.js');
+      grunt.file.copy('empty.js', 'dist/pushnotification.js');
+      grunt.file.copy('empty.js', 'dist/social.js');	  		
+    }
+    else {
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');  
+    }
     });   
   });
 
@@ -204,16 +204,14 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) {
     grunt.registerTask('to-' + platform[0], function () {
-	
       if (platform[0].indexOf('android') != -1)
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/assets/www/index.html');
       else if (platform[0].indexOf('ios') != -1)
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/www/index.html');
       else if (platform[0].indexOf('web') != -1)
         grunt.file.copy('dist/index.html', 'www/index.html');
-	  else
+    else
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/build/index.html');
-		
     });
   });
 

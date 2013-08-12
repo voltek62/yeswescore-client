@@ -182,6 +182,53 @@
       this.locked = false;
     },
 
+    hasBeenModified: function () {
+
+      switch (this.currentView.pageHash) {
+        case 'players/form':   
+          if (Y.User.getPlayer().get('name') !== $("#name").val())
+            return true;
+          if (Y.User.getPlayer().get('rank') !== $("#rank").val())
+            return true;
+          if (Y.User.getPlayer().get('club').name !== $("#club").val())
+            return true;
+          if (Y.User.getPlayer().get('birth') !== $("#birth").val())
+            return true;                        
+          //if (Y.User.getPlayer().get('gender') !== $("#gender").val())
+          //  return true;   
+        break;
+      }
+      
+      return false;
+    },
+    	
+    canClose: function (view) {
+      //si premiere connexion, on zap
+      if (view.mode === "first") 
+        return true;  
+      
+      this.close = true;
+            
+	  if (this.hasBeenModified()==true) {
+	    var that = this;
+        navigator.notification.confirm(
+          i18n.t('message.savemessage'),  // message
+          function(buttonIndex){
+            if (buttonIndex==1) {
+              //console.log('On empeche le changement');
+              that.close = false;
+            }
+            else {
+              that.close = true;
+            }
+          },  // callback
+          i18n.t('message.savetitle'), // title
+          i18n.t('message.saveyes')+','+i18n.t('message.saveno') // buttonName
+        );	  
+	  }	  
+	  return this.close;
+    },    	
+    	
     /*
     * you can change page passing a function:
     *    this.changePage(function () { return new Y.Views.Pages.Account() });
@@ -193,6 +240,11 @@
 
       if (this.locked)
         return; // navigation is locked.
+        
+      if (this.currentView) {
+        if (!this.canClose(viewFactory()))
+          return;
+	  }        
 
       var previousPageName = "none"
         , previousPageHash = "none"
@@ -213,7 +265,7 @@
       } catch (e) {
         assert(false);
       };
-
+      	  
       // closing current view (still in the DOM)
       try {
         if (this.currentView) {

@@ -229,10 +229,14 @@
     "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",        
     "bad_mail":"Votre mail est invalide",
     "expected_error":"Merci de saisir une date ET une heure",
-    "pushtitle":"Information",
-    "pushmessage":"En suivant ce joueur, vous acceptez de recevoir les alertes MATCH pour savoir quand il commence un match officiel et le résultat final.",
     "pushyes":"Oui",
-    "pushno":"Non"         
+    "pushno":"Non",
+    "pushtitle":"Information",    
+    "pushmessage":"En suivant ce joueur, vous acceptez de recevoir les alertes MATCH pour savoir quand il commence un match officiel et le résultat final.",
+    "saveyes":"Oui",
+    "saveno":"Non",
+    "savetitle":"Information",    
+    "savemessage":"Des changements ont été détectés, cliquez sur le bouton ENREGISTRER pour les sauvegarder"         
   },
   "player": {
     "title": "JOUEUR",

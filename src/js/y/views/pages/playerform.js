@@ -16,7 +16,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   pageHash: "players/form",  
     
   clubs:null,
-  useSearch:0,       
+  useSearch:0,    
   mode:'',
 
   myinitialize:function(obj) { 
@@ -248,7 +248,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
           Y.Router.navigate("search/form", {trigger: true});       
         }  else {
           // FIXME: faut il vraiment quitter cette page ?
-          Y.Router.navigate("account", {trigger: true});
+          //Y.Router.navigate("account", {trigger: true});
         }
       });
     });
@@ -318,7 +318,8 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
    }
   },  
 
-  onClose: function() {
+  onClose: function() { 
+  
     Y.GUI.delBlueBackground();
   }
 });

@@ -46,6 +46,7 @@
       'search/form'        : 'searchForm',
       'notification'       : 'notificationList',
       'account'            : 'account',
+      'help'               : 'help',
       'about'              : 'about'
     },
 
@@ -124,6 +125,10 @@
     gameForm: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Pages.GameForm, { id: id }));
     },    
+
+    help: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Help));
+    },
 
     notificationList: function () {
       this.changePage(this.createViewFactory(Y.Views.Pages.NotificationList));

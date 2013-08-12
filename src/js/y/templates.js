@@ -58,6 +58,7 @@
           "page-gameend",
           "page-gameform",		  
           "page-games",
+          "page-help",
           "page-index",
           "page-notification",
           "page-player",

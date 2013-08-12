@@ -8,7 +8,8 @@ Y.Views.Pages.GameComments = Y.View.extend({
   shareTimeout: null,
 
   events: {
-    'mousedown .button.send' : 'sendComment'
+    'mousedown .button.send' : 'sendComment',
+    'click #getPhoto': 'getPhoto'
   },
 
   myinitialize:function() {
@@ -171,7 +172,13 @@ Y.Views.Pages.GameComments = Y.View.extend({
         
         //filter
         streamItem = streamItem.toJSON();
-        streamItem.data.text = streamItem.data.text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
+        
+        if (streamItem.type==="comment")
+          streamItem.data.text = streamItem.data.text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
+        else if (streamItem.type==="image") {
+          var imageId = streamItem.data.id;   	   
+    	  streamItem.data.text = "<img src=\""+Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg\">"; // default ext.        
+        }
         
         $(divHiddenContainer).html(this.templates.comment({
           streamItem  : streamItem,
@@ -277,11 +284,13 @@ Y.Views.Pages.GameComments = Y.View.extend({
     this.sendingComment = true;
       
     var stream = new StreamModel({
-          type : "comment",
-          playerid : playerid,
-          token : token,
-          text : comment,
-          gameid : gameid
+      playerid : playerid,
+      gameid : gameid,
+      token : token,
+      type : "comment",      
+      data : {
+        text : comment,
+      }
     });
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
@@ -300,6 +309,80 @@ Y.Views.Pages.GameComments = Y.View.extend({
     });   
     
   },
+
+  getPhoto: function() {
+    var that = this;
+    Cordova.Camera.capturePhoto(function (err, image) {
+      image.dataUri = "data:image/jpeg;base64," + image.dataUri; // WARNING. might cost a lot of memory.
+      that.sendImageComments(image);
+    });
+  },
+
+  sendImageComments: function (image) {
+    var playerid = this.owner.id
+    , token  = this.owner.get('token')
+    , gameid = this.gameid
+    , that = this;
+    var that = this;
+    
+    Y.Image.resize(image, function (err, image) {
+      if (err)
+        console.log("error resizing image : " + err);
+      else {
+        //$('#image').attr("src", image.dataUri);
+	    var deferred = $.Deferred();
+	    var $image = $("#image");
+	    
+	    // on fait patienter l'utilisateur pendant la sauvegarde de la photo
+	    $("#throbber").show();
+	    // on sauve la photo
+	    var file = new FileModel();
+	    file.data = image.dataUri;
+	    file.save()
+	      .done(function () {
+	        deferred.resolve(file.get('id'));
+	      })
+	     .fail(function() {
+	       deferred.resolve(null);
+	     })
+	     .always(function () {
+	       $("#throbber").hide();
+	     });
+	            
+    	 deferred.always(function (pictureId) {
+
+    	   this.sendingComment = true;
+      
+	       var stream = new StreamModel({
+	         playerid : playerid,
+	         token : token,
+	         gameid : gameid,
+	         type: "image",	         
+	         data : {
+	           id : pictureId
+	         }	          
+	       });
+
+		   stream.save().done(function (streamItem) {
+		     that.streamItemsCollection.fetch();
+		     that.scrollTop();
+		     that.$('.button').removeClass("disabled");
+		     that.sendingComment = false;
+		   }).fail(function (err) {
+		     that.$(".button.send").addClass("ko");
+		     that.shareTimeout = window.setTimeout(function () {
+		       that.$(".button.send").removeClass("ko");
+		       that.shareTimeout = null;
+		       that.$('.button').removeClass("disabled");    
+		     }, 4000);
+		      
+		     that.sendingComment = false;
+		   });   
+	     }); 
+	   }
+    });     
+  },
+  
 
   onClose: function(){
 

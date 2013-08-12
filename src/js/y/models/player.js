@@ -151,24 +151,24 @@ var PlayerModel = Backbone.Model.extend({
         //On met en cache le numero de club
         Y.User.setClub(this.get('clubid'));
       } else {
-      	Y.User.removeClub();
-      	 dataSend.club = {
+        Y.User.removeClub();
+         dataSend.club = {
           id: undefined,
           name : ''
         };
       }
       
       if (this.get('push') &&
-          typeof this.get('push').token === "string") {
+          typeof this.get('push').token === "string" &&
+          this.get('push').token) {
         dataSend.push.token = this.get('push').token;
       }   
 
       if (this.get('push') &&
-          typeof this.get('push').platform === "string") {
+          typeof this.get('push').platform === "string" &&
+          this.get('push').platform) {
         dataSend.push.platform = this.get('push').platform; 
-      }         
-      
-      //console.log('dataSend ------ ',dataSend); 
+      }
 
       var url = Y.Conf.get("api.url.players") + this.get('id')
             + '/?playerid=' + playerid + '&token=' + token;

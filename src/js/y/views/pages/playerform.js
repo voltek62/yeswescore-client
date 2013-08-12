@@ -345,7 +345,6 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       // numéro du bouton   1 / 2
       i18n.t('message.savemessage'), // message
       function(buttonIndex){
-        console.log("buttonIndex: " + buttonIndex);
         if (buttonIndex==1) {
           callback(null, true);
         }

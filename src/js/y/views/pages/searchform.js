@@ -44,10 +44,17 @@ Y.Views.Pages.SearchForm = Y.View.extend({
     }
   },
   
-  save: function (event) {
+  getGUIFilter: function () {
     var $checked = this.$('span.checked');
-    if ($checked.length === 1) {
-      Y.User.setSearchOptions({filters: [$checked.parent()[0].id]}); // FIXME: this call is risky.
+    if ($checked.length === 1)
+      return $checked.parent()[0].id;
+    return null;
+  },
+
+  save: function (event) {
+    var filter = this.getGUIFilter();
+    if (filter) {
+      Y.User.setSearchOptions({filters: [filter]}); // FIXME: this call is risky.
     } else {
       Y.User.setSearchOptions({filters: []});
     }
@@ -101,5 +108,40 @@ Y.Views.Pages.SearchForm = Y.View.extend({
       $('#searchmyclub span').removeClass('checked');  
       $("#searchmyclub span").addClass("disabled");     
     }
+  },
+
+  hasBeenModified: function () {
+    var userFilters = Y.User.getSearchOptions().filters;
+    var guiFilter = this.getGUIFilter();
+
+    if (userFilters.length === 0 && guiFilter === null)
+      return false;
+    if (userFilters.length === 0)
+      return true;
+    return userFilters[0] !== guiFilter;
+  },
+
+  canClose: function (callback) {
+    // si rien n'est modifié => OK
+    if (!this.hasBeenModified())
+      return callback(null, true);
+
+    // autrement, on prompt l'utilisateur
+    navigator.notification.confirm(
+      // chrome affiche "OK" / "CANCEL"
+      // cordova affichera "OUI" / "ANNULER"
+      // numéro du bouton   1 / 2
+      i18n.t('message.savemessage'), // message
+      function(buttonIndex){
+        if (buttonIndex==1) {
+          callback(null, true);
+        }
+        else {
+          callback(null, false);
+        }
+      },  // callback
+      i18n.t('message.savetitle'), // title
+      i18n.t('message.saveyes')+','+i18n.t('message.savecancel') // buttonName
+    );
   }
 });

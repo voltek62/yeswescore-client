@@ -314,12 +314,43 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
               
         // This fixes the problem you mention at the bottom of this script with it not working a second/third time around, because it is in focus.
         currentField.blur();
-     });  
-   }
+      });
+    }
   },  
 
+  hasBeenModified: function () {
+    var player = Y.User.getPlayer();
+
+    return player.get('name') !== $("#name").val() ||
+           player.get('rank') !== $("#rank").val() ||
+           player.get('club').name !== $("#club").val() ||
+           player.get('birth') !== $("#birth").val();
+  },
+
+  // @param callback function(err, canClose) { }
+  canClose: function (callback) {
+    //si premiere connexion, on zap
+    if (this.mode === "first") 
+      return callback(null, true);
+    
+    if (this.hasBeenModified()) {
+      navigator.notification.confirm(
+        i18n.t('message.savemessage'), // message
+        function(buttonIndex){
+          if (buttonIndex==1) {
+            callback(null, false);
+          }
+          else {
+            callback(null, true);
+          }
+        },  // callback
+        i18n.t('message.savetitle'), // title
+        i18n.t('message.saveyes')+','+i18n.t('message.saveno') // buttonName
+      );
+    }
+  },
+
   onClose: function() { 
-  
     Y.GUI.delBlueBackground();
   }
 });

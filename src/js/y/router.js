@@ -182,6 +182,37 @@
       this.locked = false;
     },
     
+    navigate: function (fragment, options) {
+      console.log('navigate');
+      // before Backbone.navigate, we check if the current GUI View can be closed.
+      var defer = new $.Deferred();
+
+      if (this.currentView &&
+          typeof this.currentView.canClose === "function") {
+          this.currentView.canClose(function (err, val) {
+            if (err || !val) {
+              console.log('rejected');
+              return defer.reject();
+            }
+            console.log('resolved');
+            return defer.resolve();
+          })
+      } else {
+        console.log('resolved 2');
+        defer.resolve();
+      }
+      //
+      defer.then(
+        function success() {
+          console.log('success');
+          Backbone.history.navigate(fragment, options);
+        },
+        function error() {
+          console.log('error');/* nothing yet */ 
+          }
+      );
+    },
+
     /*
     * you can change page passing a function:
     *    this.changePage(function () { return new Y.Views.Pages.Account() });
@@ -209,23 +240,7 @@
 
       // multiple async steps.
       new $.Deferred().resolve()
-      // step1: ok if canClose, => error if !canClose.
-      .then(function canCloseCurrentView() {
-          var defer = new $.Deferred();
-
-          if (that.currentView &&
-              typeof that.currentView.canClose === "function") {
-              that.currentView.canClose(function (err, val) {
-                if (err || !val)
-                  return defer.reject();
-                return defer.resolve();
-              })
-          } else {
-            defer.resolve();
-          }
-          return defer;
-        })
-      // step2: trigger event "beforePageChanged"
+      // step1: trigger event "beforePageChanged"
       .then(
         function beforePageChanged() {
           try {
@@ -234,7 +249,7 @@
             assert(false);
           };
         })
-      // step3: close the currentView (if it exists!)
+      // step2: close the currentView (if it exists!)
       .then(
         function closeCurrentView() {
           // closing current view (still in the DOM)
@@ -247,7 +262,7 @@
             assert(false);
           };
         })
-      // step 4
+      // step3
       //
       // Reflow bug under ie10 (WP8) maybe iOS & android.
       // when document.documentElement is scrolled down & 
@@ -283,7 +298,7 @@
           }
           return defer;
         })
-      // step 5 creating the view.
+      // step4 creating the view.
       .then(
         function createNewView() {
           /*#ifdef DEV*/
@@ -312,7 +327,7 @@
           that.currentView = view;
           Y.GUI.content = view;
         })
-      // step 6 the page has now changed, emiting events & some stats.
+      // step5 the page has now changed, emiting events & some stats.
       //     or global error catch handler (doing nothing)
       .then(
         function pageChanged() {

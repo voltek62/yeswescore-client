@@ -235,8 +235,9 @@
     "pushmessage":"En suivant ce joueur, vous acceptez de recevoir les alertes MATCH pour savoir quand il commence un match officiel et le résultat final.",
     "saveyes":"Oui",
     "saveno":"Non",
-    "savetitle":"Information",    
-    "savemessage":"Des changements ont été détectés, cliquez sur le bouton ENREGISTRER pour les sauvegarder"         
+    "savecancel":"Annuler",
+    "savetitle":"Information",
+    "savemessage":"Des changements n'ont pas été enregistrés, voulez vous continuer ?"
   },
   "player": {
     "title": "JOUEUR",

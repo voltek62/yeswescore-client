@@ -2,9 +2,9 @@ Y.Views.Navbar = Y.View.extend({
   el: "#navbar",
 
   events: {
-    'vclick a[href="#games/list"]': "goToGames",
-    'vclick a[href="#games/add"]': "goToGamesAdd",
-    'vclick a[href="#account"]': "goToAccount"
+    'vclick a[data-fragment="games/list"]': "goToGames",
+    'vclick a[data-fragment="games/add"]': "goToGamesAdd",
+    'vclick a[data-fragment="account"]': "goToAccount"
   },
 
   initialize: function () {
@@ -17,14 +17,12 @@ Y.Views.Navbar = Y.View.extend({
   
   highlight: function (fragment) {
     // factorizing fragment.
-    if (fragment == "index" || fragment.startsWith("games/comment/")) {
-      fragment = "#";
-    } else if ( fragment == "games/list" || fragment == "games" ) {
-      fragment = "#games/list";
+    if ( fragment == "games/list" || fragment == "games" ) {
+      fragment = "games/list";
     } else if (fragment == "games/add") {
-      fragment = "#games/add";
+      fragment = "games/add";
     } else if (fragment == "account") {
-      fragment = "#account"
+      fragment = "account"
     } else {
       fragment = null; // unknown
     }
@@ -32,7 +30,7 @@ Y.Views.Navbar = Y.View.extend({
     // fragment was identified.
     if (fragment) {
       this.$("a").each(function () { $(this).removeClass("highlighted") });
-      this.$('a[href="'+fragment+'"]').addClass("highlighted");
+      this.$('a[data-fragment="'+fragment+'"]').addClass("highlighted");
     }
   },
 

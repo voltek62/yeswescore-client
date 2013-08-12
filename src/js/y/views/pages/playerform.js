@@ -319,6 +319,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   },  
 
   hasBeenModified: function () {
+    return true;
     var player = Y.User.getPlayer();
 
     return player.get('name') !== $("#name").val() ||
@@ -335,17 +336,21 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     
     if (this.hasBeenModified()) {
       navigator.notification.confirm(
+        // chrome affiche "OK" / "CANCEL"
+        // cordova affichera "OUI" / "ANNULER"
+        // numéro du bouton   1 / 2
         i18n.t('message.savemessage'), // message
         function(buttonIndex){
+          console.log("buttonIndex: " + buttonIndex);
           if (buttonIndex==1) {
-            callback(null, false);
+            callback(null, true);
           }
           else {
-            callback(null, true);
+            callback(null, false);
           }
         },  // callback
         i18n.t('message.savetitle'), // title
-        i18n.t('message.saveyes')+','+i18n.t('message.saveno') // buttonName
+        i18n.t('message.saveyes')+','+i18n.t('message.savecancel') // buttonName
       );
     }
   },

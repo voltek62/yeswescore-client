@@ -16,7 +16,6 @@ Y.Views.Pages.Games = Y.View.extend({
     'click div[data-sort="status-ongoing"]': 'sortByStatusOngoing',    
     'click div[data-sort="status-finished"]': 'sortByStatusFinished',      
     'click div[data-sort="status-created"]': 'sortByStatusCreated'
-    
   },
 
   listview: "#listGamesView",
@@ -48,7 +47,6 @@ Y.Views.Pages.Games = Y.View.extend({
       ongoing: Y.Templates.get('module-ongoing')      
     };
     
-
     //we capture config from bootstrap
     //FIXME: put a timer
     //this.config = new Config();
@@ -73,12 +71,12 @@ Y.Views.Pages.Games = Y.View.extend({
         this.games.setPlayer(Y.User.getPlayer().id);
         break;
       case 'player':
-         this.games.addSearch('player');
-       this.games.setPlayer(param.id);
+        this.games.addSearch('player');
+        this.games.setPlayer(param.id);
         break;
       case 'club':
         // FIXME
-          this.games.addSearch('club');
+        this.games.addSearch('club');
         this.games.setClub(param.id);        
         break;
       default:
@@ -99,16 +97,20 @@ Y.Views.Pages.Games = Y.View.extend({
 
     this.startControlTimeout();
 
+    // le render ne dépend que de button, il peut être appelé immédiatement
+    this.render();
+    // le render des options ne dépend que de Y.User.getSearchOptions() qui est
+    //  en local Storage => appelable immédiatement.
+    this.renderSearchOptions();
+
     // FIXME: handling error with deferreds
     $.when(
       this.gameDeferred,
       playerDeferred
     ).done(function () {
       that.stopControlTimeout();
-      that.render();
       that.renderList();     
     });
-    
   },
 
   initializeTitle: function (param) {
@@ -244,7 +246,7 @@ Y.Views.Pages.Games = Y.View.extend({
   // should not take any parameters
   render: function () {
     this.$el.html(this.templates.page({ button:this.button })).i18n();
-    this.renderSearchOptions();
+    $(this.listview).html(this.templates.ongoing());
     return this;
   },
 

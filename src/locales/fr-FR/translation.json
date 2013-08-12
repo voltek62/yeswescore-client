@@ -184,7 +184,8 @@
     "title": "MATCHS SUIVIS"
   },
   "help": {
-    "title": "AIDE"
+    "title": "AIDE",
+    "profil": "PROFILE"
   },
   "home": {
     "connexionlost": "Connexion perdue"

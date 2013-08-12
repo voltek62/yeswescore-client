@@ -318,41 +318,44 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     }
   },  
 
+  // FIXME: tests nested avec club & dates sont unsafes.
   hasBeenModified: function () {
-    return true;
     var player = Y.User.getPlayer();
 
     return player.get('name') !== $("#name").val() ||
            player.get('rank') !== $("#rank").val() ||
            player.get('club').name !== $("#club").val() ||
-           player.get('birth') !== $("#birth").val();
+           (player.get('dates').birth || '') !== $("#birth").val();
   },
 
   // @param callback function(err, canClose) { }
   canClose: function (callback) {
-    //si premiere connexion, on zap
+    // si premiere connexion, on zap
     if (this.mode === "first") 
       return callback(null, true);
     
-    if (this.hasBeenModified()) {
-      navigator.notification.confirm(
-        // chrome affiche "OK" / "CANCEL"
-        // cordova affichera "OUI" / "ANNULER"
-        // numéro du bouton   1 / 2
-        i18n.t('message.savemessage'), // message
-        function(buttonIndex){
-          console.log("buttonIndex: " + buttonIndex);
-          if (buttonIndex==1) {
-            callback(null, true);
-          }
-          else {
-            callback(null, false);
-          }
-        },  // callback
-        i18n.t('message.savetitle'), // title
-        i18n.t('message.saveyes')+','+i18n.t('message.savecancel') // buttonName
-      );
-    }
+    // si rien n'est modifié => OK
+    if (!this.hasBeenModified())
+      return callback(null, true);
+
+    // autrement, on prompt l'utilisateur
+    navigator.notification.confirm(
+      // chrome affiche "OK" / "CANCEL"
+      // cordova affichera "OUI" / "ANNULER"
+      // numéro du bouton   1 / 2
+      i18n.t('message.savemessage'), // message
+      function(buttonIndex){
+        console.log("buttonIndex: " + buttonIndex);
+        if (buttonIndex==1) {
+          callback(null, true);
+        }
+        else {
+          callback(null, false);
+        }
+      },  // callback
+      i18n.t('message.savetitle'), // title
+      i18n.t('message.saveyes')+','+i18n.t('message.savecancel') // buttonName
+    );
   },
 
   onClose: function() { 

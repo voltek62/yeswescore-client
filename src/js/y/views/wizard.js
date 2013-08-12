@@ -68,6 +68,11 @@ Y.Views.Wizard = Y.View.extend({
     this.stepIndex = 0;
     this.start(true);
   },
+  startAt: function (stepId) {
+    this.status.CURRENT = this.status.STARTED;
+    this.stepIndex = 0; // FIXME: va forcer la fermeture du step 0 ..
+    this.goTo(stepId);
+  },
   
   advance: function () {
     if (this.canAdvance()) {

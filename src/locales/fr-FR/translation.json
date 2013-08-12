@@ -16,6 +16,7 @@
     "myprofil": "Mon profil",
     "connect": "Connexion / Enregistrement",
     "disconnect": "Deconnexion",
+    "help": "Aide",
     "about": "A propos"
   },
   "app": {
@@ -181,6 +182,9 @@
   },
   "gamefollow": {
     "title": "MATCHS SUIVIS"
+  },
+  "help": {
+    "title": "AIDE"
   },
   "home": {
     "connexionlost": "Connexion perdue"

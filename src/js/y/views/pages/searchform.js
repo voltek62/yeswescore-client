@@ -2,38 +2,32 @@ Y.Views.Pages.SearchForm = Y.View.extend({
   el:"#content",
     
   events: {
-    'keyup #club': 'updateList',
-    "click #searchgeo":"update",
-    "click #searchmyclub":"update", 
-    "click #searchplayerfollowed":"update",        
+    // fake checkbox toggles
+    'click #searchgeo': 'toggleCheckboxes',
+    'click #searchmyclub': 'toggleCheckboxes',
+    'click #searchplayerfollowed': 'toggleCheckboxes',
+    // other
     'click #club_choice' : 'displayClub',
-    'click #linkprofil' : 'goProfil'
+    'click #linkprofil' : 'goProfil',
+    'click #save' : 'save'
   },
   
   pageName: "searchForm",
   pageHash : "search/form",  
     
   clubs:null,
-  useSearch:null,
-  
-  shareTimeout: null,    
 
   myinitialize:function() {
-    Y.GUI.header.title(i18n.t('search.title')); 
-    
-    this.useSearch=0;
+    Y.GUI.header.title(i18n.t('search.title'));
     
     this.templates = {
       page:  Y.Templates.get('page-searchform')
-    };    
-    
-    this.owner = Y.User.getPlayer();    
-    this.token = this.owner.get('token');
-    this.playerid = this.owner.get('id');
+    };
     this.render();
   },
   
-  update: function (event) {
+  // only one checkbox can be checked at a time.
+  toggleCheckboxes: function (event) {
     var $checkbox = $("#"+event.currentTarget.id+" span");
     if ($checkbox.hasClass('disabled'))
       return; // checkox disabled => nothing.
@@ -42,11 +36,23 @@ Y.Views.Pages.SearchForm = Y.View.extend({
         event.currentTarget.id === 'searchplayerfollowed') {
       // toggle option.
       if ($checkbox.hasClass('checked'))
-        Y.User.setSearchOptions({filters: []});
-      else
-        Y.User.setSearchOptions({filters: [event.currentTarget.id]});
+        $checkbox.removeClass('checked')
+      else {
+        $('span[role="checkbox"]').removeClass('checked');
+        $checkbox.addClass('checked');
+      }
     }
-    this.render();
+  },
+  
+  save: function (event) {
+    var $checked = this.$('span.checked');
+    if ($checked.length === 1) {
+      Y.User.setSearchOptions({filters: [$checked.parent()[0].id]}); // FIXME: this call is risky.
+    } else {
+      Y.User.setSearchOptions({filters: []});
+    }
+    // on retourne sur games
+    Y.Router.navigate("games/list", {trigger: true});
   },
        
   goProfil: function() {
@@ -55,58 +61,45 @@ Y.Views.Pages.SearchForm = Y.View.extend({
   
   //render the content into div of view
   render: function() {
-    var gps_state = "";
-
-    if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)  
-    {
-      long = Math.floor(Y.Geolocation.longitude*10000)/10000;
-      lat = Math.floor(Y.Geolocation.latitude*10000)/10000;
-      gps_state = long+","+lat;
-    }
-    else {
-      gps_state = i18n.t('search.gpsoff');
-    }
+    var clubname=''
+      , player = Y.User.getPlayer();
     
-    var clubname='';
-    if (this.owner.get('club') !== undefined && this.owner.get('club').name !== '') {
-      clubname = this.owner.get('club').name;
+    if (player.get('club') !== undefined && player.get('club').name !== '') {
+      clubname = player.get('club').name;
     }    
     
-    this.$el.html(this.templates.page({gps:gps_state,clubname:clubname})).i18n();
+    // html
+    this.$el.html(this.templates.page({clubname:clubname})).i18n();
     
-    $(".filters a[data-filter*='match-']").removeClass('select');
-    
+    // dynamic content
     var filters = Y.User.getSearchOptions().filters;
     if (filters.indexOf('searchgeo')!==-1) {
       $('#searchgeo span').addClass('checked');      
-    } 
+    }
     if (filters.indexOf('searchmyclub')!==-1) {
       $('#searchmyclub span').addClass('checked');
     }
     if (filters.indexOf('searchplayerfollowed')!==-1) {
       $('#searchplayerfollowed span').addClass('checked');
     }
-   
-     if (Y.Geolocation.longitude===null || Y.Geolocation.latitude===null) {
+    
+    // GPS enabled ?
+    if (Y.Geolocation.longitude === null && Y.Geolocation.latitude === null)  
+    {
       $('#searchgeo span').removeClass('checked');
-      $("#searchgeo span").addClass("disabled");  
-    }
-
-    if (this.owner.get('club') !== undefined ) {
-      if (this.owner.get('club').name === '') {
-        $('#searchmyclub span').removeClass('checked');
-        $("#searchmyclub span").addClass("disabled"); 
-      }
+      $("#searchgeo span").addClass("disabled");
+      $("#gps").text(i18n.t('search.gpsoff'));
     } else {
+      long = Math.floor(Y.Geolocation.longitude*10000)/10000;
+      lat = Math.floor(Y.Geolocation.latitude*10000)/10000;
+      $("#gps").text(long+","+lat);
+    }
+    
+    // club enabled ?
+    if (player.get('club') === undefined ||
+        player.get('club').name === '') {
       $('#searchmyclub span').removeClass('checked');  
       $("#searchmyclub span").addClass("disabled");     
     }
-  },
-
-  onClose: function(){
-    if (this.shareTimeout) {
-      window.clearTimeout(this.shareTimeout);
-      this.shareTimeout = null;
-    }    
   }
 });

@@ -13,15 +13,15 @@
     <div class="search-grid">
     <div class="ui-grid-a">
     
-	  <div class="ui-block-a">
+    <div class="ui-block-a">
         <label class="form-label" data-i18n="search.geo"></label>
       </div>
-	  <div class="ui-block-b" id="searchgeo">
-        <span role="checkbox"/>         
-	  </div>
+    <div class="ui-block-b" id="searchgeo">
+        <span role="checkbox"></span>
+    </div>
       <div class="ui-block-a">
         <div class="label label-info">
-          <span data-i18n="search.infogeo"></span> (<%= gps %>) <span data-i18n="search.zone"></span> : 50Km
+          <span data-i18n="search.infogeo"></span> (<span id="gps"></span>) <span data-i18n="search.zone"></span> : 50Km
         </div>
       </div>
       
@@ -30,7 +30,7 @@
         <label class="form-label" data-i18n="search.myclub"></label> 
         </div>
       <div class="ui-block-b" id="searchmyclub">
-        <span role="checkbox"/>       
+        <span role="checkbox"/>
       </div>
       <div class="ui-block-a">
         <!-- 
@@ -66,5 +66,9 @@
     </div>
   </div>
 </div>
-
-
+ 
+<div class="button-form" data-input-mode="process">
+  <div class="background rounded"></div>
+  <div class="background trapeze"></div>
+  <div class="link-form"><div class="button" id="save" data-i18n="playerform.save"></div></div>  
+</div>

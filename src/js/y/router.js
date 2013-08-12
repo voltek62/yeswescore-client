@@ -181,54 +181,7 @@
     unlock: function () {
       this.locked = false;
     },
-
-    hasBeenModified: function () {
-
-      switch (this.currentView.pageHash) {
-        case 'players/form':   
-          if (Y.User.getPlayer().get('name') !== $("#name").val())
-            return true;
-          if (Y.User.getPlayer().get('rank') !== $("#rank").val())
-            return true;
-          if (Y.User.getPlayer().get('club').name !== $("#club").val())
-            return true;
-          if (Y.User.getPlayer().get('birth') !== $("#birth").val())
-            return true;                        
-          //if (Y.User.getPlayer().get('gender') !== $("#gender").val())
-          //  return true;   
-        break;
-      }
-      
-      return false;
-    },
-    	
-    canClose: function (view) {
-      //si premiere connexion, on zap
-      if (view.mode === "first") 
-        return true;  
-      
-      this.close = true;
-            
-	  if (this.hasBeenModified()==true) {
-	    var that = this;
-        navigator.notification.confirm(
-          i18n.t('message.savemessage'),  // message
-          function(buttonIndex){
-            if (buttonIndex==1) {
-              //console.log('On empeche le changement');
-              that.close = false;
-            }
-            else {
-              that.close = true;
-            }
-          },  // callback
-          i18n.t('message.savetitle'), // title
-          i18n.t('message.saveyes')+','+i18n.t('message.saveno') // buttonName
-        );	  
-	  }	  
-	  return this.close;
-    },    	
-    	
+    
     /*
     * you can change page passing a function:
     *    this.changePage(function () { return new Y.Views.Pages.Account() });
@@ -239,12 +192,7 @@
       assert(typeof viewFactory === "function");
 
       if (this.locked)
-        return; // navigation is locked.
-        
-      if (this.currentView) {
-        if (!this.canClose(viewFactory()))
-          return;
-	  }        
+        return; // navigation is locked.  
 
       var previousPageName = "none"
         , previousPageHash = "none"
@@ -259,23 +207,47 @@
       if (this.currentView && this.currentView.pageHash)
         previousPageHash = this.currentView.pageHash;
 
-      // event
-      try {
-        this.trigger('beforePageChanged', previousPageName, previousPageHash);
-      } catch (e) {
-        assert(false);
-      };
-      	  
-      // closing current view (still in the DOM)
-      try {
-        if (this.currentView) {
-          this.currentView.close();
-          // this.currentView.remove(); // FIXME. gc: should we call remove ?
-        }
-      } catch (e) {
-        assert(false);
-      };
+      // multiple async steps.
+      new $.Deferred().resolve()
+      // step1: ok if canClose, => error if !canClose.
+      .then(function canCloseCurrentView() {
+          var defer = new $.Deferred();
 
+          if (that.currentView &&
+              typeof that.currentView.canClose === "function") {
+              that.currentView.canClose(function (err, val) {
+                if (err || !val)
+                  return defer.reject();
+                return defer.resolve();
+              })
+          } else {
+            defer.resolve();
+          }
+          return defer;
+        })
+      // step2: trigger event "beforePageChanged"
+      .then(
+        function beforePageChanged() {
+          try {
+            that.trigger('beforePageChanged', previousPageName, previousPageHash);
+          } catch (e) {
+            assert(false);
+          };
+        })
+      // step3: close the currentView (if it exists!)
+      .then(
+        function closeCurrentView() {
+          // closing current view (still in the DOM)
+          try {
+            if (that.currentView) {
+              that.currentView.close();
+              // that.currentView.remove(); // FIXME. gc: should we call remove ?
+            }
+          } catch (e) {
+            assert(false);
+          };
+        })
+      // step 4
       //
       // Reflow bug under ie10 (WP8) maybe iOS & android.
       // when document.documentElement is scrolled down & 
@@ -288,63 +260,77 @@
       //
       // /!\ Be warned, this bugfix is empirical.
       //
-      var next = function () {
-        // creating view
+      .then(
+        function scrollTopBeforeRendering() {
+          var defer = new $.Deferred();
 
-        /*#ifdef DEV*/
-        if (true) {
-          // in dev, directly call viewFactory, to be able to debug exceptions.
-          view = viewFactory();
-        } else {
-        /*#endif*/
-          try {
-            // avoiding exception in view.
+          // scrolltop, juste after reflow
+          // with a good browser engine (aka ie10) rendering is perfect.
+          // FIXME: dependancy router => DOM .. yeak :(
+          var WP8=true;
+          /*#ifndef WP8*/
+          WP8=true;
+          /*#endif*/
+          if (WP8) {
+            if (document.documentElement)
+              document.documentElement.scrollTop = 0;
+            else
+              document.body.scrollTop = 0;
+            document.getElementById("content").getBoundingClientRect(); // force reflow
+            setTimeout(function () { defer.resolve(); }, 10);
+          } else {
+            defer.resolve();
+          }
+          return defer;
+        })
+      // step 5 creating the view.
+      .then(
+        function createNewView() {
+          /*#ifdef DEV*/
+          if (true) {
+            // in dev, directly call viewFactory, to be able to debug exceptions.
             view = viewFactory();
+          } else {
+          /*#endif*/
+            try {
+              // avoiding exception in view.
+              view = viewFactory();
+            } catch (e) {
+              assert(false);
+            };
+          /*#ifdef DEV*/
+          }
+          /*#endif*/
+
+          // next page name, page hash
+          if (view && view.pageName)
+            nextPageName = view.pageName;
+          if (view && view.pageHash)
+            nextPageHash = view.pageHash;
+
+          // acting the change in Router.currentView & Y.GUI.content
+          that.currentView = view;
+          Y.GUI.content = view;
+        })
+      // step 6 the page has now changed, emiting events & some stats.
+      //     or global error catch handler (doing nothing)
+      .then(
+        function pageChanged() {
+          // event
+          try {
+            that.trigger('pageChanged', nextPageName, nextPageHash);
           } catch (e) {
             assert(false);
           };
-        /*#ifdef DEV*/
-        }
-        /*#endif*/
 
-        // next page name, page hash
-        if (view && view.pageName)
-          nextPageName = view.pageName;
-        if (view && view.pageHash)
-          nextPageHash = view.pageHash;
+          // stats.
+          Y.Stats.page(previousPageName, nextPageName);
+        },
+        function error() {
+          // some error
+        });
 
-        // acting the change in Router.currentView & Y.GUI.content
-        that.currentView = view;
-        Y.GUI.content = view;
-
-        // event
-        try {
-          that.trigger('pageChanged', nextPageName, nextPageHash);
-        } catch (e) {
-          assert(false);
-        };
-
-        // stats.
-        Y.Stats.page(previousPageName, nextPageName);
-      };
-
-      // scrolltop, juste after reflow
-      // with a good browser engine (aka ie10) rendering is perfect.
-      // FIXME: dependancy router => DOM .. yeak :(
-      var WP8=true;
-      /*#ifndef WP8*/
-      WP8=true;
-      /*#endif*/
-      if (WP8) {
-        if (document.documentElement)
-          document.documentElement.scrollTop = 0;
-        else
-          document.body.scrollTop = 0;
-        document.getElementById("content").getBoundingClientRect(); // force reflow
-        setTimeout(next, 10);
-      } else {
-        next();
-      }
+      return /*void*/;
     }
   });
   Y.Router = new Router();

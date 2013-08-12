@@ -259,15 +259,17 @@ Y.Views.Pages.GameComments = Y.View.extend({
     
     //ajout du score au moment du comment
     var sets = this.game.getSets(0);
-    
-    comment += ' ( ';
-    if (sets[0][0]>0 || sets[0][1]>0)
-      comment += ' '+sets[0][0]+'/'+sets[0][1];
-    if (sets[1][0]>0 || sets[1][1]>0)
-      comment += ' '+sets[1][0]+'/'+sets[1][1];
-    if (sets[2][0]>0 || sets[2][1]>0)
-      comment += ' '+sets[2][0]+'/'+sets[2][1];
-    comment += ' ) ';    
+
+    if (this.game.get('status') === "ongoing") {
+      comment += ' ( ';
+      if (sets[0][0]>0 || sets[0][1]>0)
+        comment += ' '+sets[0][0]+'/'+sets[0][1];
+      if (sets[1][0]>0 || sets[1][1]>0)
+        comment += ' '+sets[1][0]+'/'+sets[1][1];
+      if (sets[2][0]>0 || sets[2][1]>0)
+        comment += ' '+sets[2][0]+'/'+sets[2][1];
+      comment += ' ) ';
+    }    
       
     //on bloque le textarea  
     $('.button').addClass('disabled');

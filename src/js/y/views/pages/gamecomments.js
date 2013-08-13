@@ -76,6 +76,12 @@ Y.Views.Pages.GameComments = Y.View.extend({
   render: function () {
     // empty page.
     this.$el.html(this.templates.page({}));
+    
+    if (Cordova.Device.isGingerbread) {
+      // pb avec canvas toDataUrl sur android gingerbread
+      // @see https://code.google.com/p/android/issues/detail?id=16829
+      $("div[id=getPhoto]").hide();
+    }
      
     this.$el.i18n();  
     return this;

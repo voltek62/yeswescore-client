@@ -12,10 +12,6 @@ var StreamModel = Backbone.Model.extend({
     }
   },
 
-  //initialize : function() {
-  //  this.urlRoot = function () { return Y.Conf.get("api.url.games"); }
-  //},
-
   comparator : function(item) {
     return -item.get("date").getTime();
   },
@@ -24,10 +20,6 @@ var StreamModel = Backbone.Model.extend({
 
     if (method === 'update' || method === 'create') {
 	  var that = this;
-
-	  console.log(this.get('type'));
-	  console.log(this.get('data'));
-	  
 
       return Backbone.ajax({
         dataType : 'json',

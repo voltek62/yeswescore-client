@@ -280,7 +280,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
     }    
       
     //on bloque le textarea  
-    $('.button').addClass('disabled');
+    $('.form-button-black').addClass('disabled');
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.sendingComment = true;
       
@@ -297,14 +297,14 @@ Y.Views.Pages.GameComments = Y.View.extend({
       that.streamItemsCollection.fetch();
       that.$('#messageText').val('');
       that.scrollTop();
-      that.$('.button').removeClass("disabled");
+      that.$('.form-button-black').removeClass("disabled");
       that.sendingComment = false;
     }).fail(function (err) {
-      that.$(".button.send").addClass("ko");
+      that.$("div[id=sendComment]").addClass("ko");
       that.shareTimeout = window.setTimeout(function () {
-        that.$(".button.send").removeClass("ko");
+        that.$("div[id=sendComment]").removeClass("ko");
         that.shareTimeout = null;
-        that.$('.button').removeClass("disabled");    
+        that.$('.form-button-black').removeClass("disabled");    
       }, 4000);
       that.sendingComment = false;
     });   
@@ -334,8 +334,8 @@ Y.Views.Pages.GameComments = Y.View.extend({
 	    var deferred = $.Deferred();
 	    var $image = $("#image");
 	    
-	    // on fait patienter l'utilisateur pendant la sauvegarde de la photo
-	    $("#throbber").show();
+	    $('.form-button-black').addClass('disabled');
+	    
 	    // on sauve la photo
 	    var file = new FileModel();
 	    file.data = image.dataUri;
@@ -345,9 +345,6 @@ Y.Views.Pages.GameComments = Y.View.extend({
 	      })
 	     .fail(function() {
 	       deferred.resolve(null);
-	     })
-	     .always(function () {
-	       $("#throbber").hide();
 	     });
 	            
     	 deferred.always(function (pictureId) {
@@ -367,14 +364,14 @@ Y.Views.Pages.GameComments = Y.View.extend({
 		   stream.save().done(function (streamItem) {
 		     that.streamItemsCollection.fetch();
 		     that.scrollTop();
-		     that.$('.button').removeClass("disabled");
+		     that.$('.form-button-black').removeClass("disabled");
 		     that.sendingComment = false;
 		   }).fail(function (err) {
-		     that.$(".button.send").addClass("ko");
+		     that.$("div[id=getPhoto]").addClass("ko");
 		     that.shareTimeout = window.setTimeout(function () {
-		       that.$(".button.send").removeClass("ko");
+		       that.$("div[id=getPhoto]").removeClass("ko");
 		       that.shareTimeout = null;
-		       that.$('.button').removeClass("disabled");    
+		       that.$('.form-button-black').removeClass("disabled");    
 		     }, 4000);
 		      
 		     that.sendingComment = false;

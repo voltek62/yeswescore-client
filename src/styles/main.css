@@ -905,6 +905,17 @@ ul>li.player>a {
 	cursor: pointer;
 }
 
+.form-button-black .ko {
+  	background-color: #f2734c;
+	border: 1px solid #f2734c;
+}
+
+.form-button-black .disabled {
+	pointer-events: none;
+	cursor: default;
+	background-color: #f2734c;
+}
+
 .form-button-white {
 	margin-top: 15px;
 	position: relative; height : 30px;

@@ -126,7 +126,7 @@ else {
     %>
 	</div>
     <div class="ui-block-b" style="width: 9%;"> 
-      <div class="button-count-comments"><%= game.streamCommentsSize %></div>
+      <div class="button-count-comments"><% print(game.streamCommentsSize+game.streamImagesSize) %></div>
     </div>
     <div class="ui-block-c" style="width: 9%;">
     <%

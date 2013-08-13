@@ -76,8 +76,8 @@ Y.Views.Pages.GameComments = Y.View.extend({
   render: function () {
     // empty page.
     this.$el.html(this.templates.page({}));
-      $('.send').i18n();  
-      $('textarea').i18n();  
+     
+    this.$el.i18n();  
     return this;
   },
   
@@ -178,7 +178,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
           streamItem.data.text = streamItem.data.text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
         else if (streamItem.type==="image") {
           var imageId = streamItem.data.id;   	   
-    	  streamItem.data.text = "<img src=\""+Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg\">"; // default ext.        
+    	  streamItem.data.text = "<img src=\""+Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg\" width=\"100%\">"; // default ext.        
         }
         
         $(divHiddenContainer).html(this.templates.comment({
@@ -326,6 +326,9 @@ Y.Views.Pages.GameComments = Y.View.extend({
     , that = this;
     var that = this;
     
+    if (this.sendingComment)
+      return; // already sending => disabled.    
+    
     Y.Image.resize(image, function (err, image) {
       if (err)
         console.log("error resizing image : " + err);
@@ -349,7 +352,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
 	            
     	 deferred.always(function (pictureId) {
 
-    	   this.sendingComment = true;
+    	   that.sendingComment = true;
       
 	       var stream = new StreamModel({
 	         playerid : playerid,

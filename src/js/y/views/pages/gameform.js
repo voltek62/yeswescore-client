@@ -381,6 +381,31 @@ Y.Views.Pages.GameForm = Y.View.extend({
            $('#expectedHour').val().isDifferentFrom(dateExpected.getHHMM(':'));
   },
 
+  // @param callback function(err, canClose) { }
+  canClose: function (callback) {
+    // si rien n'est modifié => OK
+    if (!this.hasBeenModified())
+      return callback(null, true);
+
+    // autrement, on prompt l'utilisateur
+    navigator.notification.confirm(
+      // chrome affiche "OK" / "CANCEL"
+      // cordova affichera "OUI" / "ANNULER"
+      // numéro du bouton   1 / 2
+      i18n.t('message.savemessage'), // message
+      function(buttonIndex){
+        if (buttonIndex==1) {
+          callback(null, true);
+        }
+        else {
+          callback(null, false);
+        }
+      },  // callback
+      i18n.t('message.savetitle'), // title
+      i18n.t('message.saveyes')+','+i18n.t('message.savecancel') // buttonName
+    );
+  },
+
   onClose: function() {
     
     Y.GUI.delBlueBackground();

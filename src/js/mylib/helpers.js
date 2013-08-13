@@ -78,6 +78,12 @@ if(!String.prototype.trim) {
   };
 }
 
+// undefined <=> ''.
+String.prototype.isDifferentFrom = function (o) {
+  o = o || '';
+  return this.toString() !== o;
+}
+
 // for old browser : parse a date in yyyy-mm-dd format
 var parseDate = function(input) {
   var parts = input.match(/(\d+)/g);
@@ -108,6 +114,21 @@ Date.locale = {
        month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     }
 };
+
+Date.prototype.getYYYYMMDD = function (separator) {
+  separator = separator || '';
+
+  return String(this.getFullYear())+separator+
+         String(this.getMonth()+1).padLeft(2, '0')+separator+
+         String(this.getDate()).padLeft(2, '0');
+};
+
+Date.prototype.getHHMM = function (separator) {
+  separator = separator || '';
+
+  return String(this.getHours()).padLeft(2, '0')+separator+
+         String(this.getMinutes()).padLeft(2, '0');
+}
 
 window.isMobileBrowser = (function () {
   // detect lots of mobile browser (not ipad/tablet/..)

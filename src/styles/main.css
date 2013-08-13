@@ -888,7 +888,7 @@ ul>li.player>a {
 }
 
 .form-button-black {
-	margin-top: 15px;
+	margin-top: 6px;
 	position: relative;
 	height: 30px;
 	width: 130px;
@@ -2643,7 +2643,8 @@ a[data-filter='match-followed'] {
 
 .textarea-border {
 	width: 100%;
-	height: 110px;
+	height: 60px;
+	margin-top:10px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #fff;
@@ -2660,7 +2661,7 @@ a[data-filter='match-followed'] {
   padding: 5px;
   margin: 0;
   width:100%;
-  height:100px;
+  height:55px;
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
   box-sizing:        border-box;

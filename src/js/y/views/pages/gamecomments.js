@@ -8,7 +8,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
   shareTimeout: null,
 
   events: {
-    'mousedown .button.send' : 'sendComment',
+    'click #sendComment' : 'sendComment',
     'click #getPhoto': 'getPhoto'
   },
 
@@ -58,6 +58,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
     this.poller.start();
   },
   
+  /*
   inputModeOn: function (e) {
     // calling parent.
     var r = Y.View.prototype.inputModeOn.apply(this, arguments);
@@ -70,7 +71,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
     var r = Y.View.prototype.inputModeOff.apply(this, arguments);
     this.scrollBottom();
     return r;
-  },
+  },*/
 
   render: function () {
     // empty page.

@@ -519,12 +519,12 @@ Y.Views.Pages.Game = Y.View.extend({
   },
   
   startTeam1 : function() {
-    this.game.get('infos').startTeam = 0;
-  this.renderAndSave();
+    this.game.get('infos').startTeam = this.game.get('teams')[0].id;
+    this.renderAndSave();
   },
   
   startTeam2 : function() {
-    this.game.get('infos').startTeam = 1;
+    this.game.get('infos').startTeam = this.game.get('teams')[1].id;
     this.renderAndSave();
   },
 

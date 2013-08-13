@@ -95,13 +95,11 @@ Y.Views.Pages.GameForm = Y.View.extend({
   startTeam1 : function() {
     $('#startTeam1').parent().addClass("select");
     $('#startTeam2').parent().removeClass("select");
-    this.game.get('infos').startTeam = 0;
   },
   
   startTeam2 : function() {
     $('#startTeam1').parent().removeClass("select");
     $('#startTeam2').parent().addClass("select");
-    this.game.get('infos').startTeam = 1;    
   },
 
   save: function () {
@@ -258,9 +256,9 @@ Y.Views.Pages.GameForm = Y.View.extend({
       }
       
       if ($('#startTeam1').parent().hasClass("select"))
-        this.game.get('infos').startTeam = 0;
+        this.game.get('infos').startTeam = this.game.get('teams')[0].id;
       if ($('#startTeam2').parent().hasClass("select"))
-        this.game.get('infos').startTeam = 1;
+        this.game.get('infos').startTeam = this.game.get('teams')[1].id;
       
       this.save().done(function (result) {
         if (!that.unloaded) {
@@ -268,9 +266,9 @@ Y.Views.Pages.GameForm = Y.View.extend({
           $('span.success').css({display:"block"});
           $('span.success').html(i18n.t('message.updateok')).show();
           
-          if (that.game.get('infos').startTeam == 0) {
+          if (that.game.get('infos').startTeam == that.game.get('teams')[0].id) {
             $('#startTeam1').parent().addClass("select");
-          } else if (that.game.get('infos').startTeam == 1) {
+          } else if (that.game.get('infos').startTeam == that.game.get('teams')[1].id) {
             $('#startTeam2').parent().addClass("select");
           }
         }
@@ -336,12 +334,8 @@ Y.Views.Pages.GameForm = Y.View.extend({
     
     if (game.dates.expected !== undefined) {  
       var dateExpected = Date.fromString(game.dates.expected);
-      var month = dateExpected.getMonth() + 1;
-      var date = (''+dateExpected.getFullYear())+'-'+('0'+month).slice(-2)+'-'+('0'+dateExpected.getDate()).slice(-2);
-      var time = ('0'+dateExpected.getHours()).slice(-2)+':'+('0'+dateExpected.getMinutes()).slice(-2); 
-              
-      $('#expectedDay').val(date);
-      $('#expectedHour').val(time);
+      $('#expectedDay').val(dateExpected.getYYYYMMDD('-'));
+      $('#expectedHour').val(dateExpected.getHHMM(':'));
     }    
     
     if (game.location.city !== undefined) $("#city").val(game.location.city); 
@@ -364,7 +358,27 @@ Y.Views.Pages.GameForm = Y.View.extend({
   },
 
   hasBeenModified: function () {
+    var game = this.game.toJSON();
+    var dateExpected = Date.fromString(game.dates.expected);
 
+    // check qui a le service
+    if ((game.teams[0].id === game.infos.startTeam &&
+         ! $('#startTeam1').parent().hasClass("select")) ||
+        (game.teams[1].id === game.infos.startTeam &&
+         ! $('#startTeam2').parent().hasClass("select")))
+        return true;
+    // check le reste des infos
+    return $("#team1").val().isDifferentFrom(game.teams[0].players[0].name) ||
+           $("#rank1").val().isDifferentFrom(game.teams[0].players[0].rank) ||
+           $("#team2").val().isDifferentFrom(game.teams[1].players[0].name) ||
+           $("#rank2").val().isDifferentFrom(game.teams[1].players[0].rank) ||
+           $("#city").val().isDifferentFrom(game.location.city) ||
+           $("#surface").val().isDifferentFrom(game.infos.surface) ||
+           $("#tour").val().isDifferentFrom(game.infos.tour) ||
+           $("#court").val().isDifferentFrom(game.infos.court) ||
+           $("#official").val().isDifferentFrom(String(game.infos.official)) ||
+           $('#expectedDay').val().isDifferentFrom(dateExpected.getYYYYMMDD('-')) ||
+           $('#expectedHour').val().isDifferentFrom(dateExpected.getHHMM(':'));
   },
 
   onClose: function() {

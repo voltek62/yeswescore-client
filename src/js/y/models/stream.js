@@ -7,13 +7,10 @@ var StreamModel = Backbone.Model.extend({
     type : "comment",
     owner : null,
     data : {
+      type : "",
       text : "...."
     }
   },
-
-  //initialize : function() {
-  //  this.urlRoot = function () { return Y.Conf.get("api.url.games"); }
-  //},
 
   comparator : function(item) {
     return -item.get("date").getTime();
@@ -34,11 +31,8 @@ var StreamModel = Backbone.Model.extend({
             + (this.get('token') || ''),
         type : 'POST',
         data : {
-          // FIXME : only comment
-          type : 'comment',
-          data : {
-            text : (this.get('text') || '')
-          }
+          type : this.get('type'),
+          data : this.get('data')
         },
         success : function(data) {
           // put your code after the game is saved/updated.

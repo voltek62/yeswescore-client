@@ -372,7 +372,7 @@ Y.Views.Pages.Game = Y.View.extend({
   renderCountComment : function() {
   
   //var nbComments = this.streams.length;
-  var nbComments = this.game.get('streamCommentsSize');
+  var nbComments = this.game.get('streamCommentsSize') + this.game.get('streamImagesSize');
   
     if (nbComments > Y.Conf.get("game.max.comments") )
       this.$(".link-comments").html(i18n.t('game.50lastcomments'));

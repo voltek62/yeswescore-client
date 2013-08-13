@@ -8,7 +8,8 @@ Y.Views.Pages.GameComments = Y.View.extend({
   shareTimeout: null,
 
   events: {
-    'mousedown .button.send' : 'sendComment'
+    'click #sendComment' : 'sendComment',
+    'click #getPhoto': 'getPhoto'
   },
 
   myinitialize:function() {
@@ -57,6 +58,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
     this.poller.start();
   },
   
+  /*
   inputModeOn: function (e) {
     // calling parent.
     var r = Y.View.prototype.inputModeOn.apply(this, arguments);
@@ -69,13 +71,13 @@ Y.Views.Pages.GameComments = Y.View.extend({
     var r = Y.View.prototype.inputModeOff.apply(this, arguments);
     this.scrollBottom();
     return r;
-  },
+  },*/
 
   render: function () {
     // empty page.
     this.$el.html(this.templates.page({}));
-      $('.send').i18n();  
-      $('textarea').i18n();  
+     
+    this.$el.i18n();  
     return this;
   },
   
@@ -171,7 +173,13 @@ Y.Views.Pages.GameComments = Y.View.extend({
         
         //filter
         streamItem = streamItem.toJSON();
-        streamItem.data.text = streamItem.data.text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
+        
+        if (streamItem.type==="comment")
+          streamItem.data.text = streamItem.data.text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
+        else if (streamItem.type==="image") {
+          var imageId = streamItem.data.id;   	   
+    	  streamItem.data.text = "<img src=\""+Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg\" width=\"100%\">"; // default ext.        
+        }
         
         $(divHiddenContainer).html(this.templates.comment({
           streamItem  : streamItem,
@@ -272,34 +280,110 @@ Y.Views.Pages.GameComments = Y.View.extend({
     }    
       
     //on bloque le textarea  
-    $('.button').addClass('disabled');
+    $('.form-button-black').addClass('disabled');
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.sendingComment = true;
       
     var stream = new StreamModel({
-          type : "comment",
-          playerid : playerid,
-          token : token,
-          text : comment,
-          gameid : gameid
+      playerid : playerid,
+      gameid : gameid,
+      token : token,
+      type : "comment",      
+      data : {
+        text : comment,
+      }
     });
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
       that.$('#messageText').val('');
       that.scrollTop();
-      that.$('.button').removeClass("disabled");
+      that.$('.form-button-black').removeClass("disabled");
       that.sendingComment = false;
     }).fail(function (err) {
-      that.$(".button.send").addClass("ko");
+      that.$("div[id=sendComment]").addClass("ko");
       that.shareTimeout = window.setTimeout(function () {
-        that.$(".button.send").removeClass("ko");
+        that.$("div[id=sendComment]").removeClass("ko");
         that.shareTimeout = null;
-        that.$('.button').removeClass("disabled");    
+        that.$('.form-button-black').removeClass("disabled");    
       }, 4000);
       that.sendingComment = false;
     });   
     
   },
+
+  getPhoto: function() {
+    var that = this;
+    Cordova.Camera.capturePhoto(function (err, image) {
+      image.dataUri = "data:image/jpeg;base64," + image.dataUri; // WARNING. might cost a lot of memory.
+      that.sendImageComments(image);
+    });
+  },
+
+  sendImageComments: function (image) {
+    var playerid = this.owner.id
+    , token  = this.owner.get('token')
+    , gameid = this.gameid
+    , that = this;
+    var that = this;
+    
+    if (this.sendingComment)
+      return; // already sending => disabled.    
+    
+    Y.Image.resize(image, function (err, image) {
+      if (err)
+        console.log("error resizing image : " + err);
+      else {
+        //$('#image').attr("src", image.dataUri);
+	    var deferred = $.Deferred();
+	    var $image = $("#image");
+	    
+	    $('.form-button-black').addClass('disabled');
+	    
+	    // on sauve la photo
+	    var file = new FileModel();
+	    file.data = image.dataUri;
+	    file.save()
+	      .done(function () {
+	        deferred.resolve(file.get('id'));
+	      })
+	     .fail(function() {
+	       deferred.resolve(null);
+	     });
+	            
+    	 deferred.always(function (pictureId) {
+
+    	   that.sendingComment = true;
+      
+	       var stream = new StreamModel({
+	         playerid : playerid,
+	         token : token,
+	         gameid : gameid,
+	         type: "image",	         
+	         data : {
+	           id : pictureId
+	         }	          
+	       });
+
+		   stream.save().done(function (streamItem) {
+		     that.streamItemsCollection.fetch();
+		     that.scrollTop();
+		     that.$('.form-button-black').removeClass("disabled");
+		     that.sendingComment = false;
+		   }).fail(function (err) {
+		     that.$("div[id=getPhoto]").addClass("ko");
+		     that.shareTimeout = window.setTimeout(function () {
+		       that.$("div[id=getPhoto]").removeClass("ko");
+		       that.shareTimeout = null;
+		       that.$('.form-button-black').removeClass("disabled");    
+		     }, 4000);
+		      
+		     that.sendingComment = false;
+		   });   
+	     }); 
+	   }
+    });     
+  },
+  
 
   onClose: function(){
 

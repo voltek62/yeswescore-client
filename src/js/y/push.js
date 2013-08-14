@@ -18,7 +18,7 @@
 	      /*#endif*/  
 	      if (isCordova) {
           Cordova.Push.getPushID(_.bind(function (err, token) {
-            if (this.data.token !== token && token!==null) {
+            if (this.data.token !== token && token!==null && typeof token!=="undefined") {
               this.data.token = token;
               this.data.platform = window.device.platform.toLowerCase(); 
               console.log('push ok  token:'+ this.data.token+' platform:'+this.data.platform);

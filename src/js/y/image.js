@@ -55,7 +55,8 @@
     // @param function   callback(err, dataUri)
     resize: function (image, callback) {
       var img = new Image();
-      img.onload = function () { 
+      var that = this;
+      img.onload = function () {
         // now the image is loaded, we know the width & height.
         // ensure smallest side is 200px
         var width, height, maxBorderSize=200;
@@ -72,15 +73,16 @@
         canvas.width = width;
         canvas.height = height;
         var ctx = canvas.getContext("2d");
+ 
         // resizing using canvas
         if (Cordova.Device.isIOS) {
-          var vertSquashRatio = detectVerticalSquash(img);
+          var vertSquashRatio = that.detectVerticalSquash(img);
           ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, height / vertSquashRatio);
         }
         else {
           ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, height);
         }
-        
+ 
         image.dataUri = canvas.toDataURL("image/jpeg");
         ctx = null;    // usefull ?
         canvas = null; // usefull ?        

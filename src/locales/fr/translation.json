@@ -239,7 +239,11 @@
     "saveno":"Non",
     "savecancel":"Annuler",
     "savetitle":"Information",    
-    "savemessage":"Des changements n'ont pas été enregistrés, voulez vous continuer ?"  
+    "savemessage":"Des changements n'ont pas été enregistrés, voulez vous continuer ?",
+    "choiceserver":"Souhaitez-vous indiquer qui commence à servir ? Par défaut, nous prenons le joueur 2",
+    "choiceservertitle":"Choix du serveur",
+    "choiceserveryes":"Choisir",
+    "choiceserverno":"Ne pas choisir"          
   },
   "player": {
     "title": "JOUEUR",

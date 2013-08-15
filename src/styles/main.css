@@ -2287,22 +2287,6 @@ a[data-filter='match-followed'] {
 	text-align: center;
 }
 
-.scoreBoard .player-info {
-	display:block;
-	float:right;
-	width:25px;
-	height:25px;
-	cursor:pointer;
-	background-image: url(images/info-player.png);
-	/*#ifdef NOCORDOVA*/
-	background-image: url(/images/info-player.png);
-	/*#endif*/	
-	
-	background-size: 100%;
-	background-repeat: no-repeat;
-}
-
-
 
 .scoreBoard .playerInfos .other {
 	line-height: 10px;
@@ -2341,9 +2325,14 @@ a[data-filter='match-followed'] {
 	font-weight: bold;
 	text-decoration: none;
 	line-height: 16px;
+	cursor:pointer;
 }
 
-
+.scoreBoard .playerEditable .player-name:hover {
+	color: yellow;
+	font-size: 18px;
+	cursor:pointer;
+}
 
 .scoreBoard .playerInfos .club {
 	font-family: Open Sans;

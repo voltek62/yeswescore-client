@@ -332,6 +332,8 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     
     if (player.get('dates').birth)
       birth = Date.fromString(player.get('dates').birth).toYYYYMMDD('-');
+    if ($('#image').attr("data-modified") == "true")
+      return true;
     return player.get('name') !== $("#name").val() ||
            player.get('rank') !== $("#rank").val() ||
            player.get('club').name !== $("#club").val() ||

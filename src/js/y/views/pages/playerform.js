@@ -192,6 +192,9 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       return false;     
     };
     
+    // on supprime tous les messages d'erreurs précédents.
+    $(".label-error").hide();
+
     // avant de lancer l'execution, on bascule en readonly
     this.readonly(true);
 

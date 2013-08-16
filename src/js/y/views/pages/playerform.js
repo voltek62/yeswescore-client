@@ -16,7 +16,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   pageHash: "players/form",  
     
   clubs:null,
-  useSearch:0,    
+  useSearch:0,
   mode:'',
 
   myinitialize:function(obj) { 
@@ -29,8 +29,8 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     // loading templates.
     this.templates = {
       playerform:  Y.Templates.get('page-playerform'),
-    playerdatepickerbirth:  Y.Templates.get('datepicker-player'),  
-    playerdatepickerbirthandroid:  Y.Templates.get('datepicker-player-android'),        
+      playerdatepickerbirth:  Y.Templates.get('datepicker-player'),  
+      playerdatepickerbirthandroid:  Y.Templates.get('datepicker-player-android'),        
       clublist: Y.Templates.get('autocomplete-club')
     };
     
@@ -42,12 +42,17 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   
     // we render immediatly
     this.render();
+
+    this.startMonitoringModifications();
   },
   
   autocompleteClubs: function (input, callback) {
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
       callback('empty');    
     
+    // assuming the fact that changing club input => reset.
+    this.clubid = ''; 
+    //
     Backbone.ajax({
       url: Y.Conf.get("api.url.autocomplete.clubs"),
       type: 'GET',
@@ -84,9 +89,9 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       , imagePlaceholder: Y.Conf.get("gui.image.placeholder.profil")
     };
       
-    if (player.club!== undefined) {    
+    if (player.club !== undefined && player.club.id) {
       dataDisplay.club = player.club.name;
-      dataDisplay.idclub = player.club.id;        
+      dataDisplay.idclub = player.club.id;
     }
     
     this.$el.html(this.templates.playerform({data : dataDisplay})).i18n();
@@ -151,9 +156,6 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       , gender = $('#gender').val()            
       , idlicence = $('#idlicence').val()
       , player = null;
-      
-    //On cache toutes les erreurs 
-    $("div.success").hide();
 
     if (checkRank(rank) && rank.length>0) {
       $('.rank_error').html(i18n.t('message.bad_rank')+' !').show();
@@ -184,6 +186,9 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       return false;     
     };
     
+    // on supprime tous les messages d'erreurs précédents.
+    $(".label-error").hide();
+
     // avant de lancer l'execution, on bascule en readonly
     this.readonly(true);
 
@@ -235,10 +240,13 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       player.save().always(function () {
         // on autorise l'utilisateur a remodifier la GUI.
         that.readonly(false);
+        // on repopulate le club (qui peut ne pas avoir été accepté par le serveur)
+        if (player.get('club') && player.get('club').id) {
+          $("#club").val(player.get('club').name);
+        } else {
+          $("#club").val("");
+        }
       }).done(function (result) {
-        $('div.success').css({display:"block"});
-        $('div.success').html(i18n.t('message.updateok')).show();
-        $('div.success').i18n();
         Y.User.setPlayer(new PlayerModel(result));
         if (that.mode === 'first') {
           Y.Router.navigate("games/add", {trigger: true});       
@@ -319,12 +327,18 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
 
   // FIXME: tests nested avec club & dates sont unsafes.
   hasBeenModified: function () {
-    var player = Y.User.getPlayer();
-
+    var player = Y.User.getPlayer()
+      , birth = '';
+    
+    if (player.get('dates').birth)
+      birth = Date.fromString(player.get('dates').birth).toYYYYMMDD('-');
+    if ($('#image').attr("data-modified") == "true")
+      return true;
     return player.get('name') !== $("#name").val() ||
            player.get('rank') !== $("#rank").val() ||
            player.get('club').name !== $("#club").val() ||
-           (player.get('dates').birth || '') !== $("#birth").val();
+           player.get('gender') !== $('#gender').val() ||
+           birth !== $("#birth").val();
   },
 
   // @param callback function(err, canClose) { }
@@ -356,7 +370,28 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     );
   },
 
+  startMonitoringModifications: function () {
+    if (this.modificationMonitoringIntervalId)
+      return; // do not monitor twice.
+    // if modified => button orange.
+    this.modificationMonitoringIntervalId = window.setInterval(_.bind(function () {
+      if (this.hasBeenModified())
+        $("#savePlayer").addClass("modified");
+      else
+        $("#savePlayer").removeClass("modified");
+    }, this), 1000);
+  },
+
+  stopMonitoringModifications: function () {
+    if (this.modificationMonitoringIntervalId) {
+      window.clearInterval(this.modificationMonitoringIntervalId);
+      this.modificationMonitoringIntervalId = null;
+    }
+  },
+
   onClose: function() { 
     Y.GUI.delBlueBackground();
+
+    this.stopMonitoringModifications();
   }
 });

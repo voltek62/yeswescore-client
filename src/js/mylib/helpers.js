@@ -115,7 +115,7 @@ Date.locale = {
     }
 };
 
-Date.prototype.getYYYYMMDD = function (separator) {
+Date.prototype.toYYYYMMDD = function (separator) {
   separator = separator || '';
 
   return String(this.getFullYear())+separator+
@@ -123,7 +123,7 @@ Date.prototype.getYYYYMMDD = function (separator) {
          String(this.getDate()).padLeft(2, '0');
 };
 
-Date.prototype.getHHMM = function (separator) {
+Date.prototype.toHHMM = function (separator) {
   separator = separator || '';
 
   return String(this.getHours()).padLeft(2, '0')+separator+

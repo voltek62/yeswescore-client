@@ -24,6 +24,8 @@ Y.Views.Pages.SearchForm = Y.View.extend({
       page:  Y.Templates.get('page-searchform')
     };
     this.render();
+
+    this.startMonitoringModifications();
   },
   
   // only one checkbox can be checked at a time.
@@ -121,6 +123,26 @@ Y.Views.Pages.SearchForm = Y.View.extend({
     return userFilters[0] !== guiFilter;
   },
 
+  startMonitoringModifications: function () {
+    if (this.modificationMonitoringIntervalId)
+      return; // do not monitor twice.
+    // if modified => button orange.
+    this.modificationMonitoringIntervalId = window.setInterval(_.bind(function () {
+      if (this.hasBeenModified())
+        $("#save").addClass("modified");
+      else
+        $("#save").removeClass("modified");
+    }, this), 1000);
+  },
+
+  stopMonitoringModifications: function () {
+    if (this.modificationMonitoringIntervalId) {
+      window.clearInterval(this.modificationMonitoringIntervalId);
+      this.modificationMonitoringIntervalId = null;
+    }
+  },
+
+
   canClose: function (callback) {
     // si rien n'est modifié => OK
     if (!this.hasBeenModified())
@@ -143,5 +165,9 @@ Y.Views.Pages.SearchForm = Y.View.extend({
       i18n.t('message.savetitle'), // title
       i18n.t('message.saveyes')+','+i18n.t('message.savecancel') // buttonName
     );
+  },
+
+  close: function () {
+    this.stopMonitoringModifications();
   }
 });

@@ -2333,11 +2333,13 @@ a[data-filter='match-followed'] {
 	cursor:pointer;
 }
 
-.scoreBoard .playerEditable .player-name:hover {
-	color: yellow;
-	font-size: 18px;
-	cursor:pointer;
+
+.scoreBoard .playerEditable .player-name {
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: -moz-none;
 }
+
 
 .scoreBoard .playerInfos .club {
 	font-family: Open Sans;

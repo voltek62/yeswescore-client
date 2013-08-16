@@ -3,7 +3,7 @@ Y.Views.Pages.Players = Y.View.extend({
 
   events : {
     "keyup input#search-basic": "searchOnKey",  
-    "blur input#search-basic": "searchOnBlur",
+    //"blur input#search-basic": "searchOnBlur",
     "click div.ui-block-a": "choosePlayer",
     "click div.ui-block-b": "choosePlayer",
     "click div.ui-block-c": "followPlayer"
@@ -124,15 +124,16 @@ Y.Views.Pages.Players = Y.View.extend({
   searchOnKey: function (event) {
     if(event.keyCode == 13){
       // the user has pressed on ENTER
+      this.inputModeOff();
       this.searchPlayers();
     }
     return this;
   },
 
-  searchOnBlur: function (event) {
-    this.searchPlayers();
-    return this;
-  },   
+  //searchOnBlur: function (event) {
+  //  this.searchPlayers();
+  //  return this;
+  //},   
 
   searchPlayers:function() {
     var q = $("#search-basic").val();

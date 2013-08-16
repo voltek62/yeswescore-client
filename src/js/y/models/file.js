@@ -21,12 +21,15 @@ var FileModel = Backbone.Model.extend({
   // @param $image jquery image object
   //    WARNING, this image must have a src="data=:... format"
   saveImage: function ($image) {
+    assert(typeof image !== "undefined" && typeof image[0] !== "undefined");
+
     // default & safe transfer option is dataURI base64 string.
     //  but, sometimes we can transfer data in binary ~= 30%< upload
     var CanvasPrototype = window.HTMLCanvasElement &&
             window.HTMLCanvasElement.prototype;
 
-    if (Y.Conf.get("upload.binary.enabled") && // Y.Conf.get(
+    if (Y.Conf.get("upload.binary.enabled") &&
+        typeof FormData !== "undefined" &&
         typeof CanvasPrototype.toBlob === "function") {
       // @see https://github.com/blueimp/JavaScript-Canvas-to-Blob/blob/master/js/canvas-to-blob.js
       var canvas = document.createElement("canvas");

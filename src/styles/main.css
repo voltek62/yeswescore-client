@@ -2525,6 +2525,12 @@ a[data-filter='match-followed'] {
 }
 
 
+.comments #throbber {
+  position:relative;
+  top:-20px;
+  left:30px;
+  display: none;
+}
 
 .comments.content-container {
 	padding-left: 0px;

@@ -330,12 +330,16 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
 
   // FIXME: tests nested avec club & dates sont unsafes.
   hasBeenModified: function () {
-    var player = Y.User.getPlayer();
-
+    var player = Y.User.getPlayer()
+      , birth = '';
+    
+    if (player.get('dates').birth)
+      birth = Date.fromString(player.get('dates').birth).toYYYYMMDD('-');
     return player.get('name') !== $("#name").val() ||
            player.get('rank') !== $("#rank").val() ||
            player.get('club').name !== $("#club").val() ||
-           (player.get('dates').birth || '') !== $("#birth").val();
+           player.get('gender') !== $('#gender').val() ||
+           birth !== $("#birth").val();
   },
 
   // @param callback function(err, canClose) { }

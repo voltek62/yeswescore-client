@@ -77,12 +77,30 @@ Y.Views.Pages.GameComments = Y.View.extend({
     // empty page.
     this.$el.html(this.templates.page({}));
     
+    console.log('load templates');
+
+    /*#ifndef CORDOVA*/
+    // hack pour upload n'importe quelle photo pour les tests.
+    var $input = $('<input type="file" id="filepicker" name="image" style="position:absolute;top:0px;left:0px;width:100%;height:40px;opacity:1;"/>');
+    var that = this;
+    $input.on("change", function (event) {
+      var reader = new FileReader();
+      reader.readAsDataURL(this.files[0]);
+      reader.onloadend = function (e) {
+        var image = { dataUri: this.result };
+        that.sendImageComments(image);
+      };
+    });
+    this.$("#getPhoto").append($input);
+    // this.$("#getPhoto").append($('<input type="file" id="filepicker" name="image" style="position:absolute;top:0px;left:0px;width:100%;height:40px;opacity:1;"/>'));
+    /*#endif*/
+    
     if (Cordova.Device.isGingerbread) {
       // pb avec canvas toDataUrl sur android gingerbread
       // @see https://code.google.com/p/android/issues/detail?id=16829
       $("div[id=getPhoto]").hide();
     }
-     
+            
     this.$el.i18n();  
     return this;
   },

@@ -25,7 +25,7 @@ var PlayerModel = Backbone.Model.extend({
     location: {
       currentPos: [0, 0]
     },
-    gender:"",
+    gender:"man",
     profile: { image: null },
     token: "",
     updated_at: new Date()

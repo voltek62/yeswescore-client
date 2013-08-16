@@ -39,10 +39,9 @@ Y.Views.Pages.GameForm = Y.View.extend({
     
     this.player = Y.User.getPlayer();
   
-  this.game = new GameModel({id : this.id});                      
+    this.game = new GameModel({id : this.id});                      
     this.game.on("sync", this.render,this);
     this.game.fetch();
-       
   },
   
   updateList: function (event) {
@@ -151,8 +150,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
       });
     }  
   },
-    
-      
+  
   updateGame: function (event) {
     // first, check the form.
     var team1 = $("#team1").val()
@@ -262,10 +260,6 @@ Y.Views.Pages.GameForm = Y.View.extend({
       
       this.save().done(function (result) {
         if (!that.unloaded) {
-          // uniquement si nous sommes tjs sur cette page.
-          $('span.success').css({display:"block"});
-          $('span.success').html(i18n.t('message.updateok')).show();
-          
           if (that.game.get('infos').startTeam == that.game.get('teams')[0].id) {
             $('#startTeam1').parent().addClass("select");
           } else if (that.game.get('infos').startTeam == that.game.get('teams')[1].id) {
@@ -347,6 +341,8 @@ Y.Views.Pages.GameForm = Y.View.extend({
       $("#official").val(game.infos.official?"true":"false");
     }
     this.$el.i18n();
+
+    this.startMonitoringModifications();
   },
 
   isTeamEditable: function (teamId) {
@@ -357,16 +353,48 @@ Y.Views.Pages.GameForm = Y.View.extend({
            teamPlayer.owner === this.player.get('id');
   },
 
+  startMonitoringModifications: function () {
+    if (this.modificationMonitoringIntervalId)
+      return; // do not monitor twice.
+    // if modified => button orange.
+    this.modificationMonitoringIntervalId = window.setInterval(_.bind(function () {
+      if (this.hasBeenModified())
+        $("#saveGame").addClass("modified");
+      else
+        $("#saveGame").removeClass("modified");
+    }, this), 1000);
+  },
+
+  stopMonitoringModifications: function () {
+    if (this.modificationMonitoringIntervalId) {
+      window.clearInterval(this.modificationMonitoringIntervalId);
+      this.modificationMonitoringIntervalId = null;
+    }
+  },
+
   hasBeenModified: function () {
     var game = this.game.toJSON();
-    var dateExpected = Date.fromString(game.dates.expected);
-
+    
     // check qui a le service
     if ((game.teams[0].id === game.infos.startTeam &&
          ! $('#startTeam1').parent().hasClass("select")) ||
         (game.teams[1].id === game.infos.startTeam &&
-         ! $('#startTeam2').parent().hasClass("select")))
+         ! $('#startTeam2').parent().hasClass("select")) ||
+        (typeof game.infos.startTeam === "undefined" &&
+         ($('#startTeam1').parent().hasClass("select") ||
+          $('#startTeam2').parent().hasClass("select"))))
+      return true;
+    // check les dates
+    if (typeof game.dates.expected === "undefined" && 
+        ($('#expectedDay').val() !== "" ||
+         $('#expectedHour').val() !== ""))
+      return true;
+    if (game.dates.expected) {
+      var dateExpected = Date.fromString(game.dates.expected);
+      if ($('#expectedDay').val().isDifferentFrom(dateExpected.toYYYYMMDD('-')) ||
+          $('#expectedHour').val().isDifferentFrom(dateExpected.toHHMM(':')))
         return true;
+    }
     // check le reste des infos
     return $("#team1").val().isDifferentFrom(game.teams[0].players[0].name) ||
            $("#rank1").val().isDifferentFrom(game.teams[0].players[0].rank) ||
@@ -376,9 +404,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
            $("#surface").val().isDifferentFrom(game.infos.surface) ||
            $("#tour").val().isDifferentFrom(game.infos.tour) ||
            $("#court").val().isDifferentFrom(game.infos.court) ||
-           $("#official").val().isDifferentFrom(String(game.infos.official)) ||
-           $('#expectedDay').val().isDifferentFrom(dateExpected.toYYYYMMDD('-')) ||
-           $('#expectedHour').val().isDifferentFrom(dateExpected.toHHMM(':'));
+           $("#official").val().isDifferentFrom(String(game.infos.official));
   },
 
   // @param callback function(err, canClose) { }
@@ -407,7 +433,6 @@ Y.Views.Pages.GameForm = Y.View.extend({
   },
 
   onClose: function() {
-    
     Y.GUI.delBlueBackground();
   
     this.game.off("sync", this.render, this);
@@ -417,6 +442,8 @@ Y.Views.Pages.GameForm = Y.View.extend({
     if (this.confirmTimeout) {
       window.clearTimeout(this.confirmTimeout);
       this.confirmTimeout = null;
-    }  
+    } 
+
+    this.stopMonitoringModifications();
   }
 });

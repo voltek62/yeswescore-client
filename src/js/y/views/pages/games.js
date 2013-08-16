@@ -4,7 +4,7 @@ Y.Views.Pages.Games = Y.View.extend({
   events: {
     // mode "input"
     "keyup input#search-basic": "searchOnKey",
-    "blur input#search-basic": "searchOnBlur",
+    //"blur input#search-basic": "searchOnBlur",
     "mousedown .button-search": "searchButton",
     "click li": "goToGame",
     'click .button-option-right': 'showFilters',
@@ -205,15 +205,12 @@ Y.Views.Pages.Games = Y.View.extend({
   searchOnKey: function (event) {
     if(event.keyCode == 13){
       // the user has pressed on ENTER
-      this.search();
+      this.inputModeOff();  
+      this.search();     
     }
     return this;
   },
 
-  searchOnBlur: function (event) {
-    return this.search();
-  },
-  
   search: function () {
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.ongoing());
@@ -298,7 +295,7 @@ Y.Views.Pages.Games = Y.View.extend({
   
     this.stopControlTimeout();
     
-  document.removeEventListener("resume", this.onResume, true);
+    document.removeEventListener("resume", this.onResume, true);
     
     this.undelegateEvents();
     this.games.off('sync', this.gameDeferred.resolve, this.gameDeferred);

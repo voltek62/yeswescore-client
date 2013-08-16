@@ -3,7 +3,6 @@ Y.Views.Pages.ClubFollowed = Y.View.extend({
   
   events: {
     "keyup input#search-basic": "searchOnKey",  
-    "blur input#search-basic": "searchOnBlur",
     "click li": "chooseClub"    
   },
 
@@ -84,16 +83,12 @@ Y.Views.Pages.ClubFollowed = Y.View.extend({
   searchOnKey: function (event) {
     if(event.keyCode == 13){
       // the user has pressed on ENTER
+      this.inputModeOff();  
       this.search();
     }
     return this;
   },
 
-  searchOnBlur: function (event) {
-    this.search();
-    return this;
-  },    
-  
   search:function() {
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.error());

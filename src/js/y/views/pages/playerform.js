@@ -16,7 +16,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   pageHash: "players/form",  
     
   clubs:null,
-  useSearch:0,    
+  useSearch:0,
   mode:'',
 
   myinitialize:function(obj) { 
@@ -43,13 +43,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     // we render immediatly
     this.render();
 
-    // if modified => button orange.
-    this.modifiedIntervalId = window.setInterval(_.bind(function () {
-      if (this.hasBeenModified())
-        $("#savePlayer").addClass("modified");
-      else
-        $("#savePlayer").removeClass("modified");
-    }, this), 1000);
+    this.startMonitoringModifications();
   },
   
   autocompleteClubs: function (input, callback) {
@@ -374,12 +368,28 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     );
   },
 
+  startMonitoringModifications: function () {
+    if (this.modificationMonitoringIntervalId)
+      return; // do not monitor twice.
+    // if modified => button orange.
+    this.modificationMonitoringIntervalId = window.setInterval(_.bind(function () {
+      if (this.hasBeenModified())
+        $("#savePlayer").addClass("modified");
+      else
+        $("#savePlayer").removeClass("modified");
+    }, this), 1000);
+  },
+
+  stopMonitoringModifications: function () {
+    if (this.modificationMonitoringIntervalId) {
+      window.clearInterval(this.modificationMonitoringIntervalId);
+      this.modificationMonitoringIntervalId = null;
+    }
+  },
+
   onClose: function() { 
     Y.GUI.delBlueBackground();
 
-    if (this.modifiedTimeout) {
-      window.clearInterval(this.modifiedIntervalId);
-      this.modifiedTimeout = null;
-    }
+    this.stopMonitoringModifications();
   }
 });

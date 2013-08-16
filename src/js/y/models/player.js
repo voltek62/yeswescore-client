@@ -73,29 +73,21 @@ var PlayerModel = Backbone.Model.extend({
       var dataSend = {
         language: Y.language,
         location : {},
-        push : {},
-        club: (this.get('club') || '')  
+        push : {}
       };
-
-      if (this.get('profile') &&
-          typeof this.get('profile').image === "string")
-        dataSend.profile = { image: this.get('profile').image };
       
       // FIXME: l'écriture de la geoloc doit être externe a ce fichier.
       if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)
         dataSend.location.currentPos = [Y.Geolocation.longitude, Y.Geolocation.latitude];   
         
-      if (this.get('push') &&
-          typeof this.get('push').token === "string" &&
-          this.get('push').token) {
-        dataSend.push.token = this.get('push').token;
-      }   
-
-      if (this.get('push') &&
-          typeof this.get('push').platform === "string" &&
-          this.get('push').platform) {
-        dataSend.push.platform = this.get('push').platform; 
-      }   
+      if (this.get('push')) {
+        if (typeof this.get('push').token === "string" && this.get('push').token) {
+          dataSend.push.token = this.get('push').token;
+        }
+        if (typeof this.get('push').platform === "string" && this.get('push').platform) {
+          dataSend.push.platform = this.get('push').platform; 
+        }
+      }
       
       return Backbone.ajax({
         dataType: 'json',
@@ -143,19 +135,14 @@ var PlayerModel = Backbone.Model.extend({
       if (this.get('dates').birth)
         dataSend.dates.birth = this.get('dates').birth;      
       
-      // si club non nul
-      if (typeof this.get('clubid') === "string" && this.get('clubid') !== '' && this.get('club') !== '' ) {
-        dataSend.club = {
-          id: (this.get('clubid') || undefined)
-        };
-        //On met en cache le numero de club
-        Y.User.setClub(this.get('clubid'));
-      } else {
-        Y.User.removeClub();
-         dataSend.club = {
-          id: undefined,
-          name : ''
-        };
+      if (typeof this.get('clubid') === "string") {
+        if (this.get('clubid') === '') {
+          dataSend.club = { id: "" };
+          Y.User.removeClub();
+        } else {
+          dataSend.club = { id: this.get('clubid') };
+          Y.User.setClub(this.get('clubid'));
+        }
       }
       
       if (this.get('push') &&

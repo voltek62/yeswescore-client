@@ -29,8 +29,8 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     // loading templates.
     this.templates = {
       playerform:  Y.Templates.get('page-playerform'),
-    playerdatepickerbirth:  Y.Templates.get('datepicker-player'),  
-    playerdatepickerbirthandroid:  Y.Templates.get('datepicker-player-android'),        
+      playerdatepickerbirth:  Y.Templates.get('datepicker-player'),  
+      playerdatepickerbirthandroid:  Y.Templates.get('datepicker-player-android'),        
       clublist: Y.Templates.get('autocomplete-club')
     };
     
@@ -42,12 +42,23 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
   
     // we render immediatly
     this.render();
+
+    // if modified => button orange.
+    this.modifiedIntervalId = window.setInterval(_.bind(function () {
+      if (this.hasBeenModified())
+        $("#savePlayer").addClass("modified");
+      else
+        $("#savePlayer").removeClass("modified");
+    }, this), 1000);
   },
   
   autocompleteClubs: function (input, callback) {
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
       callback('empty');    
     
+    // assuming the fact that changing club input => reset.
+    this.clubid = ''; 
+    //
     Backbone.ajax({
       url: Y.Conf.get("api.url.autocomplete.clubs"),
       type: 'GET',
@@ -84,9 +95,9 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       , imagePlaceholder: Y.Conf.get("gui.image.placeholder.profil")
     };
       
-    if (player.club!== undefined) {    
+    if (player.club !== undefined && player.club.id) {
       dataDisplay.club = player.club.name;
-      dataDisplay.idclub = player.club.id;        
+      dataDisplay.idclub = player.club.id;
     }
     
     this.$el.html(this.templates.playerform({data : dataDisplay})).i18n();
@@ -151,9 +162,6 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       , gender = $('#gender').val()            
       , idlicence = $('#idlicence').val()
       , player = null;
-      
-    //On cache toutes les erreurs 
-    $("div.success").hide();
 
     if (checkRank(rank) && rank.length>0) {
       $('.rank_error').html(i18n.t('message.bad_rank')+' !').show();
@@ -235,10 +243,13 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       player.save().always(function () {
         // on autorise l'utilisateur a remodifier la GUI.
         that.readonly(false);
+        // on repopulate le club (qui peut ne pas avoir été accepté par le serveur)
+        if (player.get('club') && player.get('club').id) {
+          $("#club").val(player.get('club').name);
+        } else {
+          $("#club").val("");
+        }
       }).done(function (result) {
-        $('div.success').css({display:"block"});
-        $('div.success').html(i18n.t('message.updateok')).show();
-        $('div.success').i18n();
         Y.User.setPlayer(new PlayerModel(result));
         if (that.mode === 'first') {
           Y.Router.navigate("games/add", {trigger: true});       
@@ -358,5 +369,10 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
 
   onClose: function() { 
     Y.GUI.delBlueBackground();
+
+    if (this.modifiedTimeout) {
+      window.clearInterval(this.modifiedIntervalId);
+      this.modifiedTimeout = null;
+    }
   }
 });

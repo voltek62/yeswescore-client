@@ -21,6 +21,8 @@ var FileModel = Backbone.Model.extend({
   // @param $image jquery image object
   //    WARNING, this image must have a src="data=:... format"
   saveImage: function ($image) {
+    assert(typeof image !== "undefined" && typeof image[0] !== "undefined");
+
     // default & safe transfer option is dataURI base64 string.
     //  but, sometimes we can transfer data in binary ~= 30%< upload
     var CanvasPrototype = window.HTMLCanvasElement &&

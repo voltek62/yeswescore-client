@@ -457,7 +457,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vincent Terrasi (ETM38U5U3E)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vincent Terrasi (ETM38U5U3E)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -475,7 +475,7 @@
 				IBC_OVERRIDING_PLUGINS_AND_FRAMEWORKS_DIR = "";
 				IBC_PLUGINS = "";
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AirshipLib\"",
@@ -494,8 +494,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = YesWeScore;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "532657E0-B2E7-4961-8B0C-957B7B965A9B";
+				PROVISIONING_PROFILE = "85B49928-61D2-4149-B7A9-3C711C54DA5A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "85B49928-61D2-4149-B7A9-3C711C54DA5A";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -505,8 +505,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: zenodus";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vincent Terrasi (ETM38U5U3E)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vincent Terrasi (ETM38U5U3E)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "yeswescore/yeswescore-Prefix.pch";
@@ -521,7 +521,7 @@
 				IBC_OVERRIDING_PLUGINS_AND_FRAMEWORKS_DIR = "";
 				IBC_PLUGINS = "";
 				INFOPLIST_FILE = "yeswescore/yeswescore-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AirshipLib\"",
@@ -540,8 +540,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = YesWeScore;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "996D143D-D290-44CE-8ACB-E8F2550D1EC3";
+				PROVISIONING_PROFILE = "85B49928-61D2-4149-B7A9-3C711C54DA5A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "85B49928-61D2-4149-B7A9-3C711C54DA5A";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -567,7 +567,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -609,7 +609,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-weak_framework",

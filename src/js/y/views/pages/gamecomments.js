@@ -184,7 +184,8 @@ Y.Views.Pages.GameComments = Y.View.extend({
           streamItem.data.text = streamItem.data.text.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");
         else if (streamItem.type==="image") {
           var imageId = streamItem.data.id;   	   
-    	  streamItem.data.text = "<img src=\""+Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg\" width=\"100%\">"; // default ext.        
+    	  if (typeof imageId !== "undefined")
+    	    streamItem.data.text = "<img src=\""+Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg\" width=\"100%\">"; // default ext.        
         }
         
         $(divHiddenContainer).html(this.templates.comment({

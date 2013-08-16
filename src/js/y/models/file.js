@@ -26,7 +26,8 @@ var FileModel = Backbone.Model.extend({
     var CanvasPrototype = window.HTMLCanvasElement &&
             window.HTMLCanvasElement.prototype;
 
-    if (Y.Conf.get("upload.binary.enabled") && // Y.Conf.get(
+    if (Y.Conf.get("upload.binary.enabled") &&
+        typeof FormData !== "undefined" &&
         typeof CanvasPrototype.toBlob === "function") {
       // @see https://github.com/blueimp/JavaScript-Canvas-to-Blob/blob/master/js/canvas-to-blob.js
       var canvas = document.createElement("canvas");

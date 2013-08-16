@@ -25,7 +25,9 @@
   };
 
   // registering geolocalisation only when cordova is ready.
-  Cordova.deviceready(function () { 
+  Cordova.deviceready(function () {
+    var push = window.pushNotification;
+    push.registerForNotificationTypes(push.notificationType.sound | push.notificationType.alert);
     Cordova.Push = Push;
   });
 })(Cordova);

@@ -529,9 +529,9 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
      // Updates the device token and registers the token with UA
     UALOG(@"PushNotificationPlugin: registered for remote notifications");
     
-    NSLog(@"My token is: %@", deviceToken);
-    
     [[UAPush shared] registerDeviceToken:deviceToken];
+     NSLog(@"My token is: %@", deviceToken);
+    
     [self raiseRegistration:YES withpushID:[UAirship shared].deviceToken];
 }
 

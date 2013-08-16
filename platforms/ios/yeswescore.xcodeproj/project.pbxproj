@@ -505,8 +505,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vincent Terrasi (ETM38U5U3E)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vincent Terrasi (ETM38U5U3E)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: zenodus";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: zenodus";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "yeswescore/yeswescore-Prefix.pch";
@@ -540,8 +540,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = YesWeScore;
-				PROVISIONING_PROFILE = "85B49928-61D2-4149-B7A9-3C711C54DA5A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "85B49928-61D2-4149-B7A9-3C711C54DA5A";
+				PROVISIONING_PROFILE = "175EA3A6-D719-4184-844C-FFC53D4193D8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "175EA3A6-D719-4184-844C-FFC53D4193D8";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

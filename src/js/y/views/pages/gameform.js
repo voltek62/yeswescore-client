@@ -334,8 +334,8 @@ Y.Views.Pages.GameForm = Y.View.extend({
     
     if (game.dates.expected !== undefined) {  
       var dateExpected = Date.fromString(game.dates.expected);
-      $('#expectedDay').val(dateExpected.getYYYYMMDD('-'));
-      $('#expectedHour').val(dateExpected.getHHMM(':'));
+      $('#expectedDay').val(dateExpected.toYYYYMMDD('-'));
+      $('#expectedHour').val(dateExpected.toHHMM(':'));
     }    
     
     if (game.location.city !== undefined) $("#city").val(game.location.city); 
@@ -377,8 +377,8 @@ Y.Views.Pages.GameForm = Y.View.extend({
            $("#tour").val().isDifferentFrom(game.infos.tour) ||
            $("#court").val().isDifferentFrom(game.infos.court) ||
            $("#official").val().isDifferentFrom(String(game.infos.official)) ||
-           $('#expectedDay').val().isDifferentFrom(dateExpected.getYYYYMMDD('-')) ||
-           $('#expectedHour').val().isDifferentFrom(dateExpected.getHHMM(':'));
+           $('#expectedDay').val().isDifferentFrom(dateExpected.toYYYYMMDD('-')) ||
+           $('#expectedHour').val().isDifferentFrom(dateExpected.toHHMM(':'));
   },
 
   // @param callback function(err, canClose) { }

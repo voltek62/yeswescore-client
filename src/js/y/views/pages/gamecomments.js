@@ -345,17 +345,20 @@ Y.Views.Pages.GameComments = Y.View.extend({
 	    
 	    $('.form-button-black').addClass('disabled');
 	    
+	    $("#throbber").show();
 	    // on sauve la photo
-	    var file = new FileModel();
-	    file.data = image.dataUri;
-	    file.save()
-	      .done(function () {
-	        deferred.resolve(file.get('id'));
-	      })
-	     .fail(function() {
-	       deferred.resolve(null);
-	     });
-	            
+        var file = new FileModel();
+        file.saveImage($('#image'))
+            .done(function () {
+              deferred.resolve(file.get('id'));
+            })
+            .fail(function() {
+              deferred.resolve(null);
+            })
+            .always(function () {
+              $("#throbber").hide();
+            });
+       
     	 deferred.always(function (pictureId) {
 
     	   that.sendingComment = true;

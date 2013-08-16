@@ -212,8 +212,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
         $("#throbber").show();
         // on sauve la photo
         var file = new FileModel();
-        file.data = $('#image').attr("src");
-        file.save()
+        file.saveImage($('#image'))
             .done(function () {
               deferred.resolve(file.get('id'));
             })

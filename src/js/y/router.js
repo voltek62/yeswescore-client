@@ -183,7 +183,6 @@
     },
     
     navigate: function (fragment, options) {
-      console.log('navigate');
       // before Backbone.navigate, we check if the current GUI View can be closed.
       var defer = new $.Deferred();
 
@@ -191,20 +190,16 @@
           typeof this.currentView.canClose === "function") {
           this.currentView.canClose(function (err, val) {
             if (err || !val) {
-              console.log('rejected');
               return defer.reject();
             }
-            console.log('resolved');
             return defer.resolve();
           })
       } else {
-        console.log('resolved 2');
         defer.resolve();
       }
       //
       defer.then(
         function success() {
-          console.log('success');
           Backbone.history.navigate(fragment, options);
         },
         function error() {

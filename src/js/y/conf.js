@@ -139,6 +139,7 @@
         this.set("pooling.geolocation", 10000);  // default 10000 (10sec)
         this.set("pooling.pushregister", 10000); // default 10000 (10sec)        
         this.set("pooling.connection", 1000);    // default 1000  ( 1sec)
+        this.set("upload.binary.enabled", true); // default true
         this.set("version", Y.App.VERSION); // will be usefull on update.
         this.set("_env", env);
 

@@ -5,8 +5,8 @@
    if (game.teams[0].players[0].owner === undefined) 
    { 
    %>     
-  <div class="player-info" id="#players/<%= game.teams[0].players[0].id %>"></div>
-     <div class="playerInfos" id="#players/<%= game.teams[0].players[0].id %>">  
+  <div id="#players/<%= game.teams[0].players[0].id %>"></div>
+     <div class="playerInfos playerEditable" id="#players/<%= game.teams[0].players[0].id %>">  
   <%
    }
    else {
@@ -68,8 +68,8 @@
    if (game.teams[1].players[0].owner === undefined) 
    { 
    %>     
-    <div class="player-info" id="#players/<%= game.teams[1].players[0].id %>"></div>
-      <div class="playerInfos" id="#players/<%= game.teams[1].players[0].id %>">  
+    <div id="#players/<%= game.teams[1].players[0].id %>"></div>
+      <div class="playerInfos playerEditable" id="#players/<%= game.teams[1].players[0].id %>">  
   <%
    }
    else {

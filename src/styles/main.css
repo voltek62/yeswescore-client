@@ -349,23 +349,23 @@ body.wizard #navbar {
 
 #wizard .step .button {
   width: 100%;
-  height: 30px;
+  height: 50px;
   margin-bottom: 5px;
   background-color: #7C7C7E;
   color: white;
   
-  border-radius: 5px;
+  border-radius: 10px;
   
   text-align: center;
   font-family: 'Open Sans', sans-serif;
-	font-weight: bolder;
-	font-size: 12px;
+  font-weight: bolder;
+  font-size: 12px;
   
-  line-height: 30px;
+  line-height: 50px;
   
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 #wizard .bglayer {
@@ -888,7 +888,7 @@ ul>li.player>a {
 }
 
 .form-button-black {
-	margin-top: 15px;
+	margin-top: 6px;
 	position: relative;
 	height: 30px;
 	width: 130px;
@@ -903,6 +903,17 @@ ul>li.player>a {
 	background-color: #19171c;
 	border-radius: 15px;
 	cursor: pointer;
+}
+
+.form-button-black .ko {
+  	background-color: #f2734c;
+	border: 1px solid #f2734c;
+}
+
+.form-button-black .disabled {
+	pointer-events: none;
+	cursor: default;
+	background-color: #f2734c;
 }
 
 .form-button-white {
@@ -2276,22 +2287,6 @@ a[data-filter='match-followed'] {
 	text-align: center;
 }
 
-.scoreBoard .player-info {
-	display:block;
-	float:right;
-	width:25px;
-	height:25px;
-	cursor:pointer;
-	background-image: url(images/info-player.png);
-	/*#ifdef NOCORDOVA*/
-	background-image: url(/images/info-player.png);
-	/*#endif*/	
-	
-	background-size: 100%;
-	background-repeat: no-repeat;
-}
-
-
 
 .scoreBoard .playerInfos .other {
 	line-height: 10px;
@@ -2330,9 +2325,14 @@ a[data-filter='match-followed'] {
 	font-weight: bold;
 	text-decoration: none;
 	line-height: 16px;
+	cursor:pointer;
 }
 
-
+.scoreBoard .playerEditable .player-name:hover {
+	color: yellow;
+	font-size: 18px;
+	cursor:pointer;
+}
 
 .scoreBoard .playerInfos .club {
 	font-family: Open Sans;
@@ -2643,7 +2643,8 @@ a[data-filter='match-followed'] {
 
 .textarea-border {
 	width: 100%;
-	height: 110px;
+	height: 60px;
+	margin-top:10px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #fff;
@@ -2660,7 +2661,7 @@ a[data-filter='match-followed'] {
   padding: 5px;
   margin: 0;
   width:100%;
-  height:100px;
+  height:55px;
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
   box-sizing:        border-box;

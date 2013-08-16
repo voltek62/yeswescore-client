@@ -169,7 +169,11 @@ if (PROD) {
   (function () {
     var start = Date.now();
     var f = console.log;
+    
     console.log = function () {
+      /*#ifdef IOS*/
+      return;
+      /*#endif*/
       var a = Array.prototype.slice.apply(arguments);
       var now = Date.now() - start;
       now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');

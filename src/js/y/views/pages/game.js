@@ -372,7 +372,7 @@ Y.Views.Pages.Game = Y.View.extend({
   renderCountComment : function() {
   
   //var nbComments = this.streams.length;
-  var nbComments = this.game.get('streamCommentsSize');
+  var nbComments = this.game.get('streamCommentsSize') + this.game.get('streamImagesSize');
   
     if (nbComments > Y.Conf.get("game.max.comments") )
       this.$(".link-comments").html(i18n.t('game.50lastcomments'));
@@ -391,10 +391,10 @@ Y.Views.Pages.Game = Y.View.extend({
        $("#statusRestart").html(i18n.t('game.restart'));
     }
     
-    if (this.game.get('infos').startTeam!==undefined) {
-      $(".serverbar").hide();
-      $('.button-comments').css('display', 'block');
-    }
+    //if (this.game.get('infos').startTeam!==undefined) {
+      //$(".serverbar").hide();
+      //$('.button-comments').css('display', 'block');
+    //}
     
     // FIXME: refresh only input and id
     this.$el.html(this.templates.page({
@@ -409,9 +409,9 @@ Y.Views.Pages.Game = Y.View.extend({
     //if (this.streams)
       this.renderCountComment();
   
-    if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
-      $('.button-comments').css('display', 'none');
-    }
+    //if (this.game.get('infos').startTeam === undefined && this.game.isMine()) {
+    //  $('.button-comments').css('display', 'none');
+    //}
 
     if (this.game.get('status') === "created") {
       this.$("#statusButton").html(i18n.t('game.begin'));
@@ -541,6 +541,18 @@ Y.Views.Pages.Game = Y.View.extend({
     if (this.game.get('status') === "created") {
       this.game.set('status', 'ongoing');
       this.renderAndSave();
+      
+      var that = this;
+      navigator.notification.confirm(
+        i18n.t('message.choiceserver'),  // message
+        function(buttonIndex){
+            that.configConfirm(buttonIndex, that);
+        },         // callback
+        i18n.t('message.choiceservertitle'),            // title
+        i18n.t('message.choiceserveryes')+","+i18n.t('message.choiceserverno') // buttonName
+      );  
+              
+      
     } else if (this.game.get('status') === "ongoing") {
       this.game.set('status', 'finished');
       this.game.get('infos').score = this.game.computeScore();
@@ -550,6 +562,12 @@ Y.Views.Pages.Game = Y.View.extend({
       this.renderAndSave();
     }
   },
+  
+  configConfirm : function(buttonIndex, that){
+    if (buttonIndex==1) {   
+      Y.Router.navigate("/games/"+that.id+"/form", {trigger:true});
+    }
+  },  
 
   followGame : function() {
     if (this.follow === 'true') {

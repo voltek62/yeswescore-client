@@ -6,7 +6,7 @@ Y.Views.Pages.Games = Y.View.extend({
     "keyup input#search-basic": "searchOnKey",
     "blur input#search-basic": "searchOnBlur",
     "mousedown .button-search": "searchButton",
-    "vclick li": "goToGame",
+    "click li": "goToGame",
     'click .button-option-right': 'showFilters',
    
     'vclick a[data-filter="searchmyclub"]':'deleteFilter', 

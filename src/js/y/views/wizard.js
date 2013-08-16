@@ -213,6 +213,8 @@ Y.Views.Wizard = Y.View.extend({
       f.call(this, "stop");
     // auto remove pastille
     this.removePastille();
+    // clearing registered callback
+    this.autoUnregisteredCallback(null, null, null, 'off');
     // hide all substeps
     $('.step div[data-substep]').hide();
   },
@@ -268,6 +270,36 @@ Y.Views.Wizard = Y.View.extend({
     }
   },
 
+  // brrrr..
+  // FIXME: refactoring of all this...
+  autoUnregisteredCallback: (function () {
+    var _obj = null
+      , _event = null
+      , _callback = null;
+
+    return function (obj, event, callback, type) {
+      type = type || "one";
+      if (type === "off") {
+        if (_obj && _event && _callback) {
+          _obj.off(_event, _callback);
+          _obj = null;
+          _event = null;
+          _callback = null;
+        }
+      } else {
+        if (_obj && _event && _callback) {
+          console.log('WARNING: might be a bug in wizard, ' + _event + ' / ' + _callback + 
+                      ' replaced by ' + event + '/' + callback);
+        }
+        // replacing obj, event & callback.
+        _obj = obj;
+        _event = event;
+        _callback = _.bind(callback, this);
+        _obj[type](_event, _callback);
+      }
+    };
+  })(),
+
   // cliquer sur mon compte
   step2sub0: function (status) {
     if (status === "start") {
@@ -276,9 +308,13 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("top", "-10px");
       pastille.css("left", "-10px");
       $('#navbar a[data-fragment="account"]').append(pastille);
-      $('#navbar a[data-fragment="account"]').one(this.pointerDown, _.bind(function () {
-        Y.Router.once("pageChanged", this.advanceSubsteps, this);
-      }, this));
+      this.autoUnregisteredCallback(
+        $('#navbar a[data-fragment="account"]'),
+        this.pointerDown,
+        function () {
+          Y.Router.once("pageChanged", this.advanceSubsteps, this);
+        }
+      );
     } else {
       // nothing yet
     }
@@ -293,13 +329,16 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("top", "-40px");
       pastille.css("left", "40px");
       $('#content a[href="#players/form"]').append(pastille);
-      var onPageChanged = function (nextPageName, nextPageHash) {
-        if (nextPageName == "playerForm") {
-          Y.Router.off("pageChanged", onPageChanged, this); // self unregister
-          this.advanceSubsteps();
-        }
-      };
-      Y.Router.on("pageChanged", onPageChanged, this);
+      this.autoUnregisteredCallback(
+        Y.Router,
+        "pageChanged",
+        function (nextPageName, nextPageHash) {
+          if (nextPageName == "playerForm") {
+            Y.Router.off("pageChanged", this.onPageChanged, this); // self unregister
+            this.advanceSubsteps();
+          }
+        },
+        "on");
     } else {
       // nothing yet
     }
@@ -314,10 +353,13 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("right", "40px");
       pastille.css("top", "70px");
       $('#name').parent().append(pastille);
-      $('.button.next3').one("click", _.bind(function () {
-        Y.Router.unlock();
-        this.advanceSubsteps();
-      }, this));
+      this.autoUnregisteredCallback(
+        $('.button.next3'),
+        "click",
+        function () {
+          Y.Router.unlock();
+          this.advanceSubsteps();
+        });
       Y.Router.lock();
     } else {
       Y.Router.unlock();
@@ -333,10 +375,13 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("right", "40px");
       pastille.css("top", "120px");
       $('#rank').parent().append(pastille);
-      $('.button.next4').one("click", _.bind(function () {
-        Y.Router.unlock();
-        this.advanceSubsteps();
-      }, this));
+      this.autoUnregisteredCallback(
+        $('.button.next4'),
+        "click",
+        function () {
+          Y.Router.unlock();
+          this.advanceSubsteps();
+        });
       Y.Router.lock();
     } else {
       Y.Router.unlock();
@@ -352,10 +397,13 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("right", "40px");
       pastille.css("top", "170px");
       $('#club').parent().append(pastille);
-      $('.button.next5').one("click", _.bind(function () {
-        Y.Router.unlock();
-        this.advanceSubsteps();
-      }, this));
+      this.autoUnregisteredCallback(
+        $('.button.next5'),
+        "click",
+        function () {
+          Y.Router.unlock();
+          this.advanceSubsteps();
+        });
       Y.Router.lock();
     } else {
       Y.Router.unlock();
@@ -371,10 +419,13 @@ Y.Views.Wizard = Y.View.extend({
       pastille.css("left", "45%");
       pastille.css("top", "-10px");
       $('#savePlayer').append(pastille);
-      $('#savePlayer').one("mousedown", _.bind(function () {
-        Y.Router.unlock();
-        this.advanceSubsteps();
-      }, this));
+      this.autoUnregisteredCallback(
+        $('#savePlayer'),
+        "mousedown",
+        function () {
+          Y.Router.unlock();
+          this.advanceSubsteps();
+        });
       Y.Router.lock();
     } else {
       Y.Router.unlock();

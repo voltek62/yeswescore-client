@@ -171,9 +171,15 @@ if (PROD) {
     var f = console.log;
     
     console.log = function () {
-      /*#ifdef IOS*/
-      return;
-      /*#endif*/
+    
+      var ios = true;
+      /*#ifndef IOS*/
+        ios = false;
+      /*#endif*/ 
+      if (android) {     
+        return;
+	  }
+	  
       var a = Array.prototype.slice.apply(arguments);
       var now = Date.now() - start;
       now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');

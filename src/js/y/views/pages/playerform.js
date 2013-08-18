@@ -132,6 +132,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
       reader.readAsDataURL(this.files[0]);
       reader.onloadend = function (e) {
         var image = { dataUri: this.result };
+        console.log('onChange', image);        
         that.onPhotoCaptured(image);
       };
     });

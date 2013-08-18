@@ -76,23 +76,21 @@ Y.Views.Pages.GameComments = Y.View.extend({
   render: function () {
     // empty page.
     this.$el.html(this.templates.page({}));
-    
-    console.log('load templates');
-
+   
     /*#ifndef CORDOVA*/
     // hack pour upload n'importe quelle photo pour les tests.
-    var $input = $('<input type="file" id="filepicker" name="image" style="position:absolute;top:0px;left:0px;width:100%;height:40px;opacity:1;"/>');
+    var $input = $('<input type="file" id="filepicker" name="image" style="position:absolute;top:200px;left:10px;width:50%;height:30px;opacity:0;z-index:1000"/>');
     var that = this;
     $input.on("change", function (event) {
       var reader = new FileReader();
       reader.readAsDataURL(this.files[0]);
       reader.onloadend = function (e) {
         var image = { dataUri: this.result };
+        console.log('onChange', image);
         that.sendImageComments(image);
       };
     });
-    this.$("#getPhoto").append($input);
-    // this.$("#getPhoto").append($('<input type="file" id="filepicker" name="image" style="position:absolute;top:0px;left:0px;width:100%;height:40px;opacity:1;"/>'));
+    this.$("#getPhoto").after($input);
     /*#endif*/
     
     if (Cordova.Device.isGingerbread) {

@@ -322,6 +322,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
       that.scrollTop();
       that.$('.form-button-black').removeClass("disabled");
       that.sendingComment = false;
+      that.inputModeOff(); 
     }).fail(function (err) {
       that.$("div[id=sendComment]").addClass("ko");
       that.shareTimeout = window.setTimeout(function () {
@@ -330,6 +331,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
         that.$('.form-button-black').removeClass("disabled");    
       }, 4000);
       that.sendingComment = false;
+      that.inputModeOff();
     });   
     
   },
@@ -391,6 +393,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
             that.scrollTop();
             that.$('.form-button-black').removeClass("disabled");
             that.sendingComment = false;
+            that.inputModeOff();
           }).fail(function (err) {
             that.$("div[id=getPhoto]").addClass("ko");
             that.shareTimeout = window.setTimeout(function () {
@@ -399,6 +402,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
               that.$('.form-button-black').removeClass("disabled");    
             }, 4000);
             that.sendingComment = false;
+            that.inputModeOff();
           });
         });
       }

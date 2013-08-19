@@ -5,7 +5,7 @@ var PlayerModel = Backbone.Model.extend({
 
   defaults: {
     name: "",
-    rank: "NC",
+    rank: "",
     type: "default",
     games: [],
     club: {

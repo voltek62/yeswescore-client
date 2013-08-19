@@ -36,12 +36,13 @@ var GameModel = Backbone.Model.extend({
       official : true
     }
   },
+  
 
   debug: false,
   
-  //initialize : function() {
-  // this.urlRoot = function () { return Y.Conf.get("api.url.games"); }
-  //},
+  initialize : function() {
+    this.version=0;
+  },
 
   setSets : function(s) {
     this.sets = s;
@@ -165,8 +166,11 @@ var GameModel = Backbone.Model.extend({
         type : 'POST',
         data : object,
         success: function (data) {
-          if (options && options.success)
+          if (options && options.success) {
+            //this.set('')
+            console.log('data',data);
             options.success(data);
+          }
         },
         error: function (message) {
           if (options && options.error)

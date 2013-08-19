@@ -52,6 +52,7 @@
     <plugin name="NetworkStatus"/>
     <plugin name="File"/>
     <plugin name="InAppBrowser"/>
+    <plugin name="Camera"/>
   </plugins>
 
 

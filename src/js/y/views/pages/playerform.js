@@ -29,8 +29,8 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     // loading templates.
     this.templates = {
       playerform:  Y.Templates.get('page-playerform'),
-      playerdatepickerbirth:  Y.Templates.get('datepicker-player'),  
-      playerdatepickerbirthandroid:  Y.Templates.get('datepicker-player-android'),        
+      playerdatepickerplayer:  Y.Templates.get('datepicker-player'),  
+      playerdatepickerplayerandroid:  Y.Templates.get('datepicker-player-android'),        
       clublist: Y.Templates.get('autocomplete-club')
     };
     
@@ -102,12 +102,12 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     debug android 2.2 to 2.3.6
     */
    if (Cordova.Device.isGingerbread) {
-       $('#inject-datepicker').prepend(this.templates.playerdatepickerbirthandroid({}));
+       $('#inject-datepicker').prepend(this.templates.playerdatepickerplayerandroid({}));
       // pb avec canvas toDataUrl sur android gingerbread
       // @see https://code.google.com/p/android/issues/detail?id=16829
       $(".column.picture").hide();
     } else {
-      $('#inject-datepicker').prepend(this.templates.playerdatepickerbirth({}));
+      $('#inject-datepicker').prepend(this.templates.playerdatepickerplayer({}));
     }
    
     if (player.gender !== undefined) $("#gender").val(player.gender);

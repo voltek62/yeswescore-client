@@ -94,8 +94,8 @@
     load: function (callback) {
       var that = this;
       // FIXME: this direct DOM interaction is bad :(
-      $("#header").hide();
-      $("#navbar").hide();
+      $("#header").addClass("hide");
+      $("#navbar").addClass("hide");
       // forcing offline status while loading
       Y.Connection.forceStatus(Y.Connection.STATUS_OFFLINE);
       // initializing backbone.
@@ -141,8 +141,8 @@
                      console.log('backbone history start');
                      /*#endif*/
                      // navigation "on"
-                     $("#header").show();
-                     $("#navbar").show();
+                     $("#header").removeClass("hide");
+                     $("#navbar").removeClass("hide");
                      // start dispatching routes
                      // @see http://backbonejs.org/#History-start
                      Backbone.history.start();

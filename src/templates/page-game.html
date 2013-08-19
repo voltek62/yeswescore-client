@@ -33,7 +33,7 @@
       <!-- infos -->
       <div class="ui-grid-d text" >
         <div class="ui-block-a">
-          <span class="timer"><%= timer %></span>
+          <span class="timer unselectable"><%= timer %></span>
         </div>
         <div class="ui-block-b">
 
@@ -76,21 +76,21 @@
         }
         %>
         <b>
-        <%= game.dates.startDate  %><br/>
-        <%= game.dates.startTime %>
+        <span class="unselectable"><%= game.dates.startDate  %></span><br/>
+        <span class="unselectable"><%= game.dates.startTime %></span>
         </b>
         </div>
         <div class="ui-block-c">
-        <b><%= game.location.city %></b>
+        <b><span class="unselectable"><%= game.location.city %></span></b>
         </div>
         <div class="ui-block-d">
         <b><span data-i18n="game.public"></span></b><br/>
-        <b><% 
+        <b><span class="unselectable"><% 
           if (game.infos.official)
             print(i18n.t('game.official'))
           else
             print(i18n.t('game.notofficial'))
-        %></b>
+        %></span></b>
         </div>
         <div class="ui-block-e unselectable<% if (game.owner === playerid) { %> undoSelect<% } %>">
         <% if (game.owner === playerid) { %>
@@ -126,44 +126,45 @@
              }
              else {
              %>
-              <a id="optionButton" data-i18n="game.options"></a>
+              <a id="optionButton" class="unselectable" data-i18n="game.options"></a>
              <%
              }
              %>
-		   </div>
+       </div>
           <div id="social" class="ui-block-b"> 
             <div class="social">       
               <span class="message ok">ok</span>
               <span class="message ko">error</span>             
-              <span data-i18n="game.share" class="share"></span>
+              <span data-i18n="game.share" class="share unselectable"></span>
             </div>
           </div>   
-		  <div class="ui-block-c button status">
-                <% if (game.status === "created" ) { %>
-		        <a id="statusButton" data-i18n="game.begin"></a>
-                <% }
+          <div class="ui-block-c button status">
+            <% if (game.status === "created" ) { %>
+                <a id="statusButton" data-i18n="game.begin" class="unselectable"></a>
+            <% }
                 else if (game.status === "finished" || game.status === "canceled") 
-                {
-                %>
-                <a id ="statusButton" data-i18n="game.gamefinished"></a>
-                <%                  
+               {
+            %>
+                <a id ="statusButton" data-i18n="game.gamefinished" class="unselectable"></a>
+            <%
                 }
-                else {
-                %>
-                <a id="statusButton" data-i18n="game.finish"></a>
+                else
+               {
+            %>
+                <a id="statusButton" data-i18n="game.finish" class="unselectable"></a>
                 <%
-                }
-                %>
-		      </div>
+               }
+            %>
+          </div>
         </div>
       <% } else { %> 
         <div class="ui-grid-b">
           <div class="ui-block-a button">
             <a id="followButton">
               <% if (follow === 'true') { %>
-              <span data-i18n="message.nofollow"></span>
+              <span data-i18n="message.nofollow" class="unselectable"></span>
               <% } else { %>
-              <span data-i18n="message.follow"></span>
+              <span data-i18n="message.follow" class="unselectable"></span>
               <% } %> 
             </a>
           </div>
@@ -171,29 +172,29 @@
             <div class="social">       
               <span class="message ok">ok</span>
               <span class="message ko">error</span>             
-              <span data-i18n="game.share" class="share"></span>
+              <span data-i18n="game.share" class="share unselectable"></span>
             </div>
           </div>          
           <div class="ui-block-c buttonSpecial">
             <%
             if (game.status === "finished") {
             %>
-            <span data-i18n="game.gamefinished"></span>
+            <span data-i18n="game.gamefinished" class="unselectable"></span>
             <%                  
             }
             else if (game.status === "created") {
             %>
-            <span data-i18n="game.gamecreated"></span>
+            <span data-i18n="game.gamecreated" class="unselectable"></span>
             <%                  
             }            
             else if (game.status === "canceled") {
             %>
-            <span data-i18n="game.gamecanceled"></span>
+            <span data-i18n="game.gamecanceled" class="unselectable"></span>
             <%                  
             } 
             else  {
             %>
-            <span data-i18n="game.gameongoing"></span>
+            <span data-i18n="game.gameongoing" class="unselectable"></span>
             <%
             }
             %>

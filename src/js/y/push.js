@@ -13,7 +13,7 @@
     update: (function () {
       return function () {
 	      var isCordova = true;  
-	      /*#ifndef CORDOVA */ 
+	      /*#ifndef CORDOVA*/ 
 	      isCordova = false; 
 	      /*#endif*/  
 	      if (isCordova) {
@@ -51,8 +51,15 @@
 
   // pooling cordova to auto-update push token
   Y.Conf.on("ready", function () {
-    // only once.
-    setTimeout(function () { Push.update(); }, Y.Conf.get("pooling.pushregister"));
+    var wp8 = true;
+    /*#ifndef WP8*/
+    wp8 = false; // false aussi en dev
+    /*#endif*/
+
+    // only once; disabled for wp8.
+    if (!wp8) {
+      setTimeout(function () { Push.update(); }, Y.Conf.get("pooling.pushregister"));
+    }
   });
   
   // exporting to global scope

@@ -53,6 +53,7 @@
     <plugin name="File"/>
     <plugin name="InAppBrowser"/>
     <plugin name="Camera"/>
+    <plugin name="Notification"/>
   </plugins>
 
 

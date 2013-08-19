@@ -168,17 +168,17 @@ if (PROD) {
 } else {
   (function () {
     var start = Date.now();
-    var f = console.log;
+     var f = console.log || function () {};
     
     console.log = function () {
     
-      var ios = true;
+      //var ios = true;
       /*#ifndef IOS*/
-        ios = false;
+      //  ios = false;
       /*#endif*/ 
-      if (ios) {     
-        return;
-	  }
+      //if (ios) {     
+      //  return;
+	  //}
 	  
       var a = Array.prototype.slice.apply(arguments);
       var now = Date.now() - start;

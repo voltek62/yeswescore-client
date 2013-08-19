@@ -356,16 +356,16 @@ Y.Views.Pages.GameComments = Y.View.extend({
       if (err)
         console.log("error resizing image : " + err);
       else {
-        //$('#image').attr("src", image.dataUri);
 	    var deferred = $.Deferred();
-	    var $image = $("#image");
-	    
+	    var img = $('<img>');
+		img.attr('src', image.dataUri);
+		
 	    $('.form-button-black').addClass('disabled');
 	    
 	    $("#throbber").show();
 	    // on sauve la photo
         var file = new FileModel();
-        file.saveImage($('#image'))
+        file.saveImage(img)
             .done(function () {
               deferred.resolve(file.get('id'));
             })

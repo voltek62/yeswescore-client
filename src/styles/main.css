@@ -2528,15 +2528,20 @@ a[data-filter='match-followed'] {
 }
 
 .comments.background {
-	background-color: #41c68f;
+    background-color: #41c68f;
 }
 
+.comments #throbbertable {
+    width:100%;
+    display: block;    	
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .comments #throbber {
-  position:relative;
-  top:-20px;
-  left:30px;
-  display: none;
+    width: 43px;
+    height: 11px;
+    display: none; 
 }
 
 .comments.content-container {

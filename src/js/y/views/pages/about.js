@@ -19,10 +19,21 @@ Y.Views.Pages.About = Y.View.extend({
     linkapp = "https://play.google.com/store/apps/details?id=com.zenodus.client.html5"
     /*#endif*/
     /*#ifdef WP8*/
-	linkapp = "http://www.windowsphone.com/fr-fr/store/app/yeswescore/1d23dd2e-55e4-4c66-a36e-d5d520113755";      
+    linkapp = "http://www.windowsphone.com/fr-fr/store/app/yeswescore/1d23dd2e-55e4-4c66-a36e-d5d520113755";      
     /*#endif*/
         
     $(this.el).html(this.page({versionapp:Y.App.VERSION,linkapp:linkapp}));
     this.$(".about").i18n();
+
+    /*#ifdef DEV*/
+    var devInfos = {
+      env: Y.Env.CURRENT,
+      "api.url.games": Y.Conf.get("api.url.games")
+    };
+    var i;
+    foreach (i in devInfos) {
+      $(".dev").append("<div>"+i+":"+devInfos[i]);
+    }
+    /*#endif*/
   }
 });

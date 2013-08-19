@@ -26,6 +26,8 @@ Y.Views.Wizard = Y.View.extend({
   substepIndex: 0,
 
   initialize: function () {
+    if (this.isDisabled())
+      return;
     // ensure this.steps is correct
     assert(_.isArray(this.steps));
     this.steps.forEach(function (step) {
@@ -45,6 +47,15 @@ Y.Views.Wizard = Y.View.extend({
     // never been stopped: auto start
     if (!this.hasBeenStopped)
       this.start(true);
+  },
+
+  // Disabling wizard on Windows Phone 8
+  isDisabled: function () {
+    var wizardIsDisabled = true;
+    /*#ifndef WP8*/
+    wizardIsDisabled = false;
+    /*#endif*/
+    return wizardIsDisabled;
   },
 
   start: function (force) {

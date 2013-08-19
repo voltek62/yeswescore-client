@@ -15,5 +15,9 @@ Y.Views.Pages.Account = Y.View.extend({
   render: function () {
     $(this.el).html(this.page({player: this.player, clubid: this.clubid}));
     $('a').i18n();
+    // is the wizard disabled ?
+    if (Y.GUI.wizard.isDisabled()) {
+      $('a[href="#help"]').hide();
+    }
   }
 });

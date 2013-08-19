@@ -168,7 +168,15 @@ if (PROD) {
 } else {
   (function () {
     var start = Date.now();
-     var f = console.log || function () {};
+     var f = console.log;
+ 
+     var ios = true;  
+     /*#ifndef IOS*/
+     ios = false;
+     /*#endif*/ 
+     if (ios) {     
+       return;
+     } 
     
     console.log = function () {
       var a = Array.prototype.slice.apply(arguments);

@@ -144,7 +144,9 @@
     <Content Include="config.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Resource Include="www\images\ajax-loader.gif" />
+    <Content Include="www\images\ajax-loader.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\tile-200x200.png" />
     <Content Include="Images\tile.png" />
     <Resource Include="www\images\ajax-loader-light.gif" />

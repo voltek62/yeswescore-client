@@ -8,13 +8,13 @@ Y.Views.Header = Y.View.extend({
   initialize: function () {
     this.startingLength = window.history.length;
 
-	  if (Cordova.Device.isGingerbread)
-	    $('div#header').css('position','relative');
-	  else {
-	    $('div#header').css('position','fixed'); 	
-	    $('div#header').css('z-index','50');
-	    $('div#content').addClass('fixed');	 	  
-	  }
+    if (Cordova.Device.isGingerbread)
+      $('div#header').css('position','relative');
+    else {
+      $('div#header').css('position','fixed'); 	
+      $('div#header').css('z-index','50');
+      $('div#content').addClass('fixed');	 	  
+    }
 
     // on s'abonne au router, pour detecter des changement de pages.
     var that = this;
@@ -27,16 +27,16 @@ Y.Views.Header = Y.View.extend({
 
     // on s'abonne a la classe de connexion pour signifier les changements
     Y.Connection.on("change", function (state) {
+      var connectionStatus = $(".connectionStatus");
+
       if (state[0] === Y.Connection.STATUS_ONLINE) {
-      	var connectionStatus = $(".connectionStatus");
-      	connectionStatus.attr("src", "images/header-logo-on.png");
-      	connectionStatus.attr("width", "23");
-      	connectionStatus.attr("height", "17");
+        connectionStatus.attr("src", "images/header-logo-on.png");
+        connectionStatus.attr("width", "23");
+        connectionStatus.attr("height", "17");
       } else {
-      	var connectionStatus = $(".connectionStatus");
-      	connectionStatus.attr("src", "images/header-logo-off.png");
-      	connectionStatus.attr("width", "35");
-      	connectionStatus.attr("height", "17");
+        connectionStatus.attr("src", "images/header-logo-off.png");
+        connectionStatus.attr("width", "35");
+        connectionStatus.attr("height", "17");
       }
     });
   },

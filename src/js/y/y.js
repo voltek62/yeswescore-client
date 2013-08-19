@@ -93,6 +93,9 @@
 
     load: function (callback) {
       var that = this;
+      // FIXME: this direct DOM interaction is bad :(
+      $("#header").hide();
+      $("#navbar").hide();
       // forcing offline status while loading
       Y.Connection.forceStatus(Y.Connection.STATUS_OFFLINE);
       // initializing backbone.
@@ -116,9 +119,7 @@
                    //  if err is other (ex: "network connection"), we continue to load.
                    if (err == "deprecated" || err == "network error")
                      return callback(err);
-
                    $("a,#offline").i18n();
-
                    // init router
                    that.Router.initialize();
                    /*#ifdef DEV*/
@@ -139,6 +140,9 @@
                      /*#ifdef DEV*/
                      console.log('backbone history start');
                      /*#endif*/
+                     // navigation "on"
+                     $("#header").show();
+                     $("#navbar").show();
                      // start dispatching routes
                      // @see http://backbonejs.org/#History-start
                      Backbone.history.start();

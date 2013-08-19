@@ -137,12 +137,17 @@
   <div id="header">
     <div class="backButton"><div class="triangle"></div></div>
     <div class="logo">&middot; YES WE SCORE &middot;</div> 
-    <div class="title">CHARGEMENT...</div>
-    <img class="connectionStatus" src="images/header-logo-on.png" alt="online/offline" width="23" height="17"  />
+    <div class="title"></div>
+    <img class="connectionStatus" src="images/header-logo-on.png" alt="online/offline" width="23" height="17"/>
   </div>
 
   <div id="content">     
     <!-- here is where you can add your panels -->
+    <div class="loading">
+      <!-- using single word "connexion" because i18n is not ready yet. -->
+      <div>connexion</div>
+      <img src="./images/ajax-loader.gif">
+    </div>
   </div> 
 
   <div id="offline" data-i18n="home.connexionlost"></div>

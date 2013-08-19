@@ -141,18 +141,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config.xml" />
-    <Content Include="CordovaLib\WPCordovaClassLib.dll" />
-    <Content Include="Images\appbar.back.rest.png" />
-    <Content Include="Images\appbar.close.rest.png" />
-    <Content Include="Images\appbar.feature.video.rest.png" />
-    <Content Include="Images\appbar.next.rest.png" />
-    <Content Include="Images\appbar.save.rest.png" />
-    <Content Include="Images\appbar.stop.rest.png" />
+    <Content Include="config.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Resource Include="www\images\ajax-loader.gif" />
     <Content Include="Images\tile-200x200.png" />
     <Content Include="Images\tile.png" />
-    <Content Include="www\images\ajax-loader.png" />
     <Content Include="www\images\ball.png" />
     <Content Include="www\images\bg.jpg" />
     <Content Include="www\images\button-option-right.png" />
@@ -181,9 +175,7 @@
     <Content Include="www\images\house.png" />
     <Content Include="www\images\ico-magnifier-glass.jpg" />
     <Content Include="www\images\info-player.png" />
-    <Content Include="www\images\ko.png" />
     <Content Include="www\images\logo-200x200.png" />
-    <Content Include="www\images\ok.png" />
     <Content Include="www\images\people.png" />
     <Content Include="www\images\pixel.jpg" />
     <Content Include="www\images\pixel.png" />

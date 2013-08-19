@@ -45,7 +45,7 @@ Y.Views.Wizard = Y.View.extend({
       this.status.CURRENT = configuration.status;
     }
     // never been stopped: auto start
-    if (!this.hasBeenStopped)
+    if (!this.hasBeenStopped && Y.User.isEmpty())
       this.start(true);
   },
 

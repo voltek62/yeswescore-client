@@ -347,7 +347,6 @@ Y.Views.Pages.GameComments = Y.View.extend({
     , token  = this.owner.get('token')
     , gameid = this.gameid
     , that = this;
-    var that = this;
     
     if (this.sendingComment)
       return; // already sending => disabled.    
@@ -356,16 +355,14 @@ Y.Views.Pages.GameComments = Y.View.extend({
       if (err)
         console.log("error resizing image : " + err);
       else {
-	    var deferred = $.Deferred();
-	    var img = $('<img>');
-		img.attr('src', image.dataUri);
-		
-	    $('.form-button-black').addClass('disabled');
-	    
-	    $("#throbber").show();
-	    // on sauve la photo
+        var deferred = $.Deferred();
+
+        $('.form-button-black').addClass('disabled');
+      
+        $("#throbber").show();
+        // on sauve la photo
         var file = new FileModel();
-        file.saveImage(img)
+        file.saveImageDataURI(image.dataUri)
             .done(function () {
               deferred.resolve(file.get('id'));
             })
@@ -376,41 +373,38 @@ Y.Views.Pages.GameComments = Y.View.extend({
               $("#throbber").hide();
             });
        
-    	 deferred.always(function (pictureId) {
-
-    	   that.sendingComment = true;
+        deferred.always(function (pictureId) {
+          that.sendingComment = true;
       
-	       var stream = new StreamModel({
-	         playerid : playerid,
-	         token : token,
-	         gameid : gameid,
-	         type: "image",	         
-	         data : {
-	           id : pictureId
-	         }	          
-	       });
+          var stream = new StreamModel({
+            playerid : playerid,
+            token : token,
+            gameid : gameid,
+            type: "image",
+            data : {
+	            id : pictureId
+            }
+          });
 
-		   stream.save().done(function (streamItem) {
-		     that.streamItemsCollection.fetch();
-		     that.scrollTop();
-		     that.$('.form-button-black').removeClass("disabled");
-		     that.sendingComment = false;
-		   }).fail(function (err) {
-		     that.$("div[id=getPhoto]").addClass("ko");
-		     that.shareTimeout = window.setTimeout(function () {
-		       that.$("div[id=getPhoto]").removeClass("ko");
-		       that.shareTimeout = null;
-		       that.$('.form-button-black').removeClass("disabled");    
-		     }, 4000);
-		      
-		     that.sendingComment = false;
-		   });   
-	     }); 
-	   }
-    });     
+          stream.save().done(function (streamItem) {
+            that.streamItemsCollection.fetch();
+            that.scrollTop();
+            that.$('.form-button-black').removeClass("disabled");
+            that.sendingComment = false;
+          }).fail(function (err) {
+            that.$("div[id=getPhoto]").addClass("ko");
+            that.shareTimeout = window.setTimeout(function () {
+              that.$("div[id=getPhoto]").removeClass("ko");
+              that.shareTimeout = null;
+              that.$('.form-button-black').removeClass("disabled");    
+            }, 4000);
+            that.sendingComment = false;
+          });
+        });
+      }
+    });
   },
   
-
   onClose: function(){
 
     this.undelegateEvents();

@@ -20,9 +20,9 @@ var FileModel = Backbone.Model.extend({
   // high level func.
   // @param $image jquery image object
   //    WARNING, this image must have a src="data=:... format"
-  saveImage: function ($image) {
-    assert(typeof $image !== "undefined" && typeof $image[0] !== "undefined"); 
-      
+  saveImageDataURI: function (dataURI) {
+    assert(typeof dataURI === "string");
+    
     // default & safe transfer option is dataURI base64 string.
     //  but, sometimes we can transfer data in binary ~= 30%< upload
     var CanvasPrototype = window.HTMLCanvasElement &&
@@ -30,27 +30,33 @@ var FileModel = Backbone.Model.extend({
 
     if (Y.Conf.get("upload.binary.enabled") &&
         typeof FormData !== "undefined" &&
-        typeof CanvasPrototype.toBlob === "function") {
-         
-      // @see https://github.com/blueimp/JavaScript-Canvas-to-Blob/blob/master/js/canvas-to-blob.js
-      var canvas = document.createElement("canvas");
-      canvas.width = $image[0].width;
-      canvas.height = $image[0].height;
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage($image[0], 0, 0, $image[0].width, $image[0].height);
-      var that = this;
-      var deferred = $.Deferred();
-      this.data = new FormData();
-      this.format = "binary";
-      canvas.toBlob(function (blob) {
-        that.data.append('file', blob);
-        that.save().done(function (r) { deferred.resolve(r); });
-      });
+        typeof CanvasPrototype.toBlob === "function" && false) {
+      var deferred = $.Deferred()
+        , that = this
+        , image = new Image();
+      
+      image.onload = function () {
+        if (!image.width || !image.height)
+          return deferred.reject(null);
+        // @see https://github.com/blueimp/JavaScript-Canvas-to-Blob/blob/master/js/canvas-to-blob.js
+        var canvas = document.createElement("canvas");
+        canvas.width = image.width;
+        canvas.height = image.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, image.width, image.height);
+        that.data = new FormData();
+        that.format = "binary";
+        canvas.toBlob(function (blob) {
+          that.data.append('file', blob);
+          that.save().done(function (r) { deferred.resolve(r); });
+        });
+      };
+      image.onerror = function () { deferred.reject(null); };
+      image.src = dataURI;
       return deferred;
     } else {
-      // FIXME: checker si aucune dataURI, passer par un canvas.
       this.format = "dataURI";
-      this.data = { data: $image.attr("src") };
+      this.data = { data: dataURI };
       return this.save();
     }
   },

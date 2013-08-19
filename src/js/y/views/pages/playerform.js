@@ -218,7 +218,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
         $("#throbber").show();
         // on sauve la photo
         var file = new FileModel();
-        file.saveImage($('#image'))
+        file.saveImageDataURI($image.attr("src"))
             .done(function () {
               deferred.resolve(file.get('id'));
             })
@@ -226,6 +226,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
               deferred.resolve(null);
             })
             .always(function () {
+              $image.attr("data-modified", "")
               $("#throbber").hide();
             });
       }

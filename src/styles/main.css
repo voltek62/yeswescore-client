@@ -2738,6 +2738,18 @@ a[data-filter='match-followed'] {
   display: none;
 }
 
+/*
+  about
+*/
+.dev {
+  font-family:Open Sans;
+  font-size:10px;
+  text-align: center;
+  background-color: #41c68f;
+  margin-top: 30px;
+  color: white;
+}
+
 /**********************************************************
 	Bootstrap failure
 **********************************************************/

@@ -977,6 +977,7 @@ ul>li.player>a {
 .blue-screen.player-form .container {
   padding: 0;
   padding-top: 9px;
+  padding-bottom: 120px;
 }
 
 .blue-screen .zone-list {

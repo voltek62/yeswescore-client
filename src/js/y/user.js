@@ -11,9 +11,6 @@
   var playerClubIdConfKey = 'player.club.id';
   var playerFollowingConfKey = 'player.following';
   var playerSearchOptionsConfKey = 'player.search.options';
-
-  //var playerFiltersSortConfKey = 'player.filters.sort';
-  //var playerFiltersSearchConfKey = 'player.filters.search';  
   
   var User = {
     // @return PlayerModel/null   Player
@@ -191,6 +188,17 @@
       // updating cache.
       DB.saveJSON("Player", player);
       // do not update permanent keys.
+    },
+
+    // player pas encore créé
+    //  ou player vide => isEmpty() vaut true.
+    isEmpty: function () {
+      var player = this.getPlayer();
+      if (player === null)
+        return true;
+      if (player.get('name') || player.get('rank'))
+        return false;
+      return true;
     }
   };
 

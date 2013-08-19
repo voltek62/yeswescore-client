@@ -176,7 +176,7 @@ if (PROD) {
       /*#ifndef IOS*/
         ios = false;
       /*#endif*/ 
-      if (android) {     
+      if (ios) {     
         return;
 	  }
 	  

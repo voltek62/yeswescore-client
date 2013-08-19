@@ -7,7 +7,7 @@ Y.Views.Pages.Game = Y.View.extend({
   countComment : "#countComment",
       
   events : {
-    'click #social'         : 'share',
+    'click .social'         : 'share',
     'click #statusButton'   : 'changeGameStatus',
     'click #statusRestart'  : 'restartGame',
     'click #followButton'   : 'followGame',

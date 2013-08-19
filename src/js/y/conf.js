@@ -19,23 +19,35 @@
     },
 
     // Processus de chargement 
-    //  - si clefs de conf pas encore en cache => chargement
-    //  - appel au bootstrap.
+    //
+    //  Cordova => ready
+    //  Y => appelle Conf.load()
+    //  
+    //  - si clefs de conf ne sont pas en cache => chargement et mise en cache ; appel au bootstrap.
+    //  - sinon, appel au bootstrap
     load: function (env, callback) {
       assert(env === Y.Env.DEV ||
              env === Y.Env.PROD);
+      
+      var ready = _.bind(function (err) {
+        // avant d'appeler la callback, on informe que la conf est ready.
+        this.trigger("ready");
+        //
+        callback = callback || function () { };
+        callback(err);
+      }, this);
 
       // this function will be executed when keys (temporary & permanent) are loaded.
       var onKeysLoaded = _.bind(function (err) {
         // error handling.
         if (err)
-          return callback(err);
+          return ready(err);
         // une fois les clefs chargées, on appelle le bootstrap.
-        this.loadBootstrap(function (err) {
+        this.loadBootstrap(_.bind(function (err) {
           if (err)
-            return callback(err); // might be a "network error" or "deprecated"
-          callback();
-        });
+            return ready(err); // might be a "network error" or "deprecated"
+          ready();
+        }, this));
       }, this);
 
       // conf not loaded => we load temporary keys & permanent keys
@@ -52,17 +64,20 @@
             switch (Y.Env.user) {
               case "marc":
                 var apiBaseUrl = "http://plic.no-ip.org:22222";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
                 var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "618522421507840";
                 break;
               case "vincent":
                 var apiBaseUrl = "http://plic.no-ip.org:1024";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                
                 var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "408897482525651";
                 break;
               case "alpha":
               default:
                 var apiBaseUrl = "http://plic.no-ip.org:20080";
+                var siteBaseUrl = "http://plic.no-ip.org:9082";                  
                 var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "FIXME";
                 break;
@@ -72,6 +87,7 @@
             this.set("api.url.auth.registered", apiBaseUrl + "/v2/auth/registered/");
             this.set("api.url.bootstrap", apiBaseUrl + "/bootstrap/conf.json?version=%VERSION%");
             this.set("api.url.facebook.login", apiBaseUrl + "/v2/facebook/login/");
+            this.set("api.url.files", apiBaseUrl + "/v2/files/");
             this.set("api.url.games", apiBaseUrl + "/v2/games/");
             this.set("api.url.players", apiBaseUrl + "/v2/players/");
             this.set("api.url.clubs", apiBaseUrl + "/v2/clubs/");
@@ -80,18 +96,22 @@
             this.set("api.url.reports.games", apiBaseUrl + "/v2/report/games/");
             this.set("api.url.reports.players", apiBaseUrl + "/v2/report/players/");
             this.set("api.url.reports.clubs", apiBaseUrl + "/v2/report/clubs/");
+            this.set("api.url.static.files", apiBaseUrl + "/static/files/");
             this.set("api.url.autocomplete.players", apiBaseUrl + "/v2/players/autocomplete/");
             this.set("api.url.autocomplete.clubs", apiBaseUrl + "/v2/clubs/autocomplete/");          
             this.set("fb.url.inappbrowser.redirect", fbBaseUrl + "/v2/inappbrowser/redirect.html");
             this.set("facebook.app.id", fbAppId);
             this.set("facebook.url.oauth", "https://www.facebook.com/dialog/oauth?client_id=[fb_app_id]&scope=email,publish_stream,offline_access&redirect_uri=[redirect_uri]&response_type=token");
+            this.set("www.game", siteBaseUrl+"/games/"); 
             /*#endif*/
             break;
           case Y.Env.PROD:
+            this.set("www.game", "http://www.yeswescore.com/games/"); 
             this.set("api.url.auth", "http://api.yeswescore.com/v2/auth/");
             this.set("api.url.auth.registered", "http://api.yeswescore.com/v2/auth/registered/");
             this.set("api.url.bootstrap", "http://api.yeswescore.com/bootstrap/conf.json?version=%VERSION%");
             this.set("api.url.facebook.login", "http://api.yeswescore.com/v2/facebook/login/");
+            this.set("api.url.files", "http://api.yeswescore.com/v2/files/");
             this.set("api.url.games", "http://api.yeswescore.com/v2/games/");
             this.set("api.url.players", "http://api.yeswescore.com/v2/players/");
             this.set("api.url.clubs", "http://api.yeswescore.com/v2/clubs/");
@@ -100,6 +120,7 @@
             this.set("api.url.reports.games", "http://api.yeswescore.com/v2/report/games/");
             this.set("api.url.reports.players", "http://api.yeswescore.com/v2/report/players/");
             this.set("api.url.reports.clubs", "http://api.yeswescore.com/v2/report/clubs/");
+            this.set("api.url.static.files", "http://api.yeswescore.com/static/files/");
             this.set("api.url.autocomplete.players", "http://api.yeswescore.com/v2/players/autocomplete/");
             this.set("api.url.autocomplete.clubs", "http://api.yeswescore.com/v2/clubs/autocomplete/");
             this.set("fb.url.inappbrowser.redirect", "https://fb.yeswescore.com/v2/inappbrowser/redirect.html");
@@ -111,17 +132,21 @@
         }
 
         // Parametrage des variables non dependantes d'un environnement
-        this.set("game.refresh", 10000);        // default 30000 (30sec) //test 10s
-        this.set("games.refresh", 20000);        // default 30000 (30sec) //test 30s        
+        this.set("gui.image.placeholder.profil", "./images/player-pic.jpg");
+        this.set("game.refresh", 30000);         // default 30000 (30sec)
+        this.set("games.refresh", 30000);        // default 30000 (30sec)        
         this.set("game.max.comments", 20); 
-        this.set("pooling.geolocation", 10000); // default 10000 (10sec)
-        this.set("pooling.connection", 1000);   // default 1000  ( 1sec)
+        this.set("pooling.geolocation", 10000);  // default 10000 (10sec)
+        this.set("pooling.pushregister", 10000); // default 10000 (10sec)        
+        this.set("pooling.connection", 1000);    // default 1000  ( 1sec)
+        this.set("upload.binary.enabled", true); // default true
         this.set("version", Y.App.VERSION); // will be usefull on update.
         this.set("_env", env);
 
         // loading permanent keys
         //  stored inside yws.json using format [{key:...,value:...,metadata:...},...]
         Cordova.ready(function () {
+       
           Cordova.File.read(filename, function (err, data) {
             if (err)
               return onKeysLoaded(err); // FIXME
@@ -143,7 +168,6 @@
         });
       }
     },
-
 
     // FIXME: might be in an "app" class ?
     loadBootstrap: function (callback) {

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zenodus.client.html5"
-    android:versionCode="6"
-    android:versionName="3"
+    android:versionCode="7"
+    android:versionName="4"
     android:windowSoftInputMode="adjustPan" >
+    
+	<uses-sdk android:minSdkVersion="7"  android:targetSdkVersion="17"/>
 
     <supports-screens
         android:anyDensity="true"
@@ -12,41 +14,68 @@
         android:resizeable="true"
         android:smallScreens="true" />
 
-    <!-- 
     <uses-permission android:name="android.permission.CAMERA" />
-	 -->
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<!-- 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-	 -->
-	 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
-    <uses-sdk android:minSdkVersion="8" />
-    
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- This app has permission to register with GCM and receive message -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample" with your package name -->
+    <permission android:name="com.zenodus.client.html5.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.zenodus.client.html5.permission.C2D_MESSAGE" />
+
     <application
-        android:hardwareAccelerated="true"
         android:allowBackup="false"
-        android:icon="@drawable/icon"        
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity
-            android:name="zeScoreActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:name="com.zenodus.client.html5.zeScoreActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:label="@string/app_name">
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <!-- REQUIRED for PhoneGap plugin callback support --> 
+        <receiver android:name="com.urbanairship.phonegap.plugins.PushNotificationPluginIntentReceiver" />
+        
+        <!-- REQUIRED for Urban Airship GCM -->
+        <receiver android:name="com.urbanairship.CoreReceiver" />
+        
+        <receiver android:name="com.urbanairship.push.GCMPushReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                
+                <category android:name="com.zenodus.client.html5" />
+            </intent-filter>
+        </receiver>
+        
+        <service android:name="com.urbanairship.push.PushService" android:label="Push Notification Service" />
+        <service android:name="com.urbanairship.analytics.EventService" android:label="Event Service" />
+
+        <!-- This is required for persisting preferences related to push and location -->
+        <provider android:name="com.urbanairship.UrbanAirshipProvider"
+            android:authorities="com.zenodus.client.html5.urbanairship.provider"
+            android:exported="false"
+            android:multiprocess="true" />
+        <!-- END OF REQUIRED ITEMS -->        
+		 
+
+    </application>
 
 </manifest>

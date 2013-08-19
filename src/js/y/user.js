@@ -10,8 +10,7 @@
   var playerTokenConfKey = 'player.token';
   var playerClubIdConfKey = 'player.club.id';
   var playerFollowingConfKey = 'player.following';
-  var playerFiltersSortConfKey = 'player.filters.sort';
-  var playerFiltersSearchConfKey = 'player.filters.search';  
+  var playerSearchOptionsConfKey = 'player.search.options';
   
   var User = {
     // @return PlayerModel/null   Player
@@ -74,63 +73,56 @@
       });
     },
     
-	setFiltersSearch: function (filter) {	
-	
-	  var filters = Y.Conf.get(playerFiltersSearchConfKey);	  
-      if (filters!==undefined) {      	  
-        if (filters.indexOf(filter) !== -1) {
-          filters.splice(filters.indexOf(filter), 1);
+    getOrCreatePlayerAsync: function (callback) {
+      this.getPlayerAsync(_.bind(function (err, player) {
+        if (err)
+          this.createPlayerAsync(callback); // no player => creating player
+        else
+          callback(null, player);
+      }, this));
+    },
 
-          Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });
-        } 
-       else {
-           filters.push(filter);
-           Y.Conf.set(playerFiltersSearchConfKey, filters, { permanent: true });      
-       }        
-      }
-      else {
-         Y.Conf.set(playerFiltersSearchConfKey, [filter], { permanent: true });
-      }  
-      	
-	},
+    // param de recherche par defaut
+    defaultSearchOptions: { filters: [], sort: null },
+    // enregistre les options de recherche de l'utilsateur
+    // @param options { filters: [ "a", "b"], sort: "aa" }
+    setSearchOptions: function (options) {
+      var newOptions = this.getSearchOptions();
+      if (typeof options.filters !== "undefined")
+        newOptions.filters = options.filters;
+      if (typeof options.sort !== "undefined")
+        newOptions.sort = options.sort;
+      Y.Conf.set(playerSearchOptionsConfKey, newOptions, { permanent: true });
+    },
+    // lit les options de recherche de l'utilisateur
+    getSearchOptions: function () {
+      return Y.Conf.get(playerSearchOptionsConfKey) || this.defaultSearchOptions;
+    },
 	
-	getFiltersSearch: function () {	
-      return Y.Conf.get(playerFiltersSearchConfKey);
-      		
-	},	    
-    
-	setFiltersSort: function (filter) {	
-      Y.Conf.set(playerFiltersSortConfKey, filter, { permanent: true });		
-	},
-	
-	getFiltersSort: function () {	
-      return Y.Conf.get(playerFiltersSortConfKey);		
-	},	
-	
-	setClub: function (clubid) {	
+	  setClub: function (clubid) {	
       Y.Conf.set(playerClubIdConfKey, clubid, { permanent: true });		
-	},
+	  },
 
-	removeClub: function () {	
-	  // Y.Conf.del('player.club.id');
+	  removeClub: function () {
       Y.Conf.del('Y.Conf.'+playerClubIdConfKey);		
-	},
+	  },
 	
-	setFollowing: function (id) {
-	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+	  setFollowing: function (id) {
+	    var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+
       if (players_follow !== undefined)
       {
         if (players_follow.indexOf(this.id) === -1) {
           players_follow.push(this.id);
           Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });  
         }
-      }
-      else
+      } else {
         Y.Conf.set('Y.Conf.'+playerFollowingConfKey, [this.id]);	  
-	},
+      }
+	  },
 
-	removeFollowing: function (id) {	
-	  var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
+	  removeFollowing: function (id) {	
+	    var players_follow = Y.Conf.get('Y.Conf.'+playerFollowingConfKey);
       
       if (players_follow !== undefined)
       {
@@ -139,13 +131,12 @@
           players_follow.splice(players_follow.indexOf(this.id), 1);
           Y.Conf.set('Y.Conf.'+playerFollowingConfKey, players_follow, { permanent: true });
         }
-      }
-      	   		
-	},
+      } 		
+	  },
 	
-	getClub: function () {	
+	  getClub: function () {	
       return Y.Conf.get(playerClubIdConfKey);		
-	},	
+	  },	
 
     setPlayer: function (newplayer) {
       assert(newplayer instanceof PlayerModel);
@@ -197,6 +188,17 @@
       // updating cache.
       DB.saveJSON("Player", player);
       // do not update permanent keys.
+    },
+
+    // player pas encore créé
+    //  ou player vide => isEmpty() vaut true.
+    isEmpty: function () {
+      var player = this.getPlayer();
+      if (player === null)
+        return true;
+      if (player.get('name') || player.get('rank'))
+        return false;
+      return true;
     }
   };
 

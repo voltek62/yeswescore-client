@@ -1,6 +1,5 @@
 module.exports = function (grunt) {
   // cordova version (used in cordova-2.4.0.js)
-  //var cordovaVersion = "2.5.0";
 
   // External tasks.
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -93,7 +92,7 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/www/images/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/web/build/images/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/images/*'], dest: 'www/images/', filter: 'isFile' }
         ]
       },
       locales: {
@@ -101,11 +100,11 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/android/assets/www/locales/fr-FR/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/ios/www/locales/fr-FR/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/wp8/build/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/web/build/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'www/locales/fr-FR/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/android/assets/www/locales/fr/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/ios/www/locales/fr/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/wp8/build/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/web/build/locales/fr/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'www/locales/fr/', filter: 'isFile' }
         ]
       },	  
       fonts: {
@@ -113,7 +112,7 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/android/assets/www/styles/webfonts/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/ios/www/styles/webfonts/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/wp8/build/styles/webfonts/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/web/build/styles/webfonts/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'www/styles/webfonts/', filter: 'isFile' }
         ]
       }
     },
@@ -148,17 +147,16 @@ module.exports = function (grunt) {
         STRICT:true
       },
       web: {
-        WEB:true,
         CORDOVA: true,
-        NOCORDOVA: false,
-        CORS: true,
-        DEV:true/*, // cross domain
-        NOCONCAT: true*/
+        NOCORDOVA: false
       },
       androidAlpha: {
         ANDROID: true,
         DEV: true
       },
+      androidBeta: {
+        ANDROID: true
+      },	  
       iosAlpha: {
         IOS: true,
         DEV: true
@@ -176,19 +174,30 @@ module.exports = function (grunt) {
     }
   });
 
-  var platforms = [ ["android","2.7.0"], 
-  					["ios","2.8.0"], 
-  					["wp8","2.6.0"], 
-  					["web","2.5.0"] ];
+  var platforms = [ ["android","2.9.0"], 
+                    ["ios","2.9.0"], 
+                    ["wp8","2.6.0"], 
+                    ["web","2.5.0"] ];
 
   //
   // registering grunt copy-cordova-android-to-dist, copy-cordova-ios-to-dist, ...
   //  ex: copy /platforms/ios/cordova/cordova-2.4.0.js  => /dist/cordova.js
   //
-  platforms.forEach(function (platform) {
-    grunt.registerTask('copy-cordova-' + platform[0] + '-to-dist', function () {
+  platforms.forEach(function (platform) { 
+    grunt.registerTask('copy-' + platform[0] + '-to-dist', function () {
+    if (platform[0].indexOf('web') != -1) {
+      grunt.file.copy('empty.js', 'dist/cordova.js');
+      grunt.file.copy('empty.js', 'dist/pushnotification.js');
+      grunt.file.copy('empty.js', 'dist/social.js');	  		
+    }
+    else {
       grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
-    });
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');  
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/airshipconfig.properties', 'dist/airshipconfig.properties');
+      grunt.file.copy('platforms/' + platform[0] + '/cordova/location.properties', 'dist/location.properties');
+    }
+    });   
   });
 
   //
@@ -197,26 +206,28 @@ module.exports = function (grunt) {
   //
   platforms.forEach(function (platform) {
     grunt.registerTask('to-' + platform[0], function () {
-      if (platform[0].indexOf('android') != -1)
+      if (platform[0].indexOf('android') != -1) {
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/assets/www/index.html');
+        grunt.file.copy('dist/airshipconfig.properties', 'platforms/' + platform[0] + '/assets/airshipconfig.properties');
+        grunt.file.copy('dist/location.properties', 'platforms/' + platform[0] + '/assets/location.properties');
+      }
       else if (platform[0].indexOf('ios') != -1)
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/www/index.html');
-      else
+      else if (platform[0].indexOf('web') != -1)
+        grunt.file.copy('dist/index.html', 'www/index.html');
+    else
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/build/index.html');
     });
   });
 
-  grunt.registerTask('copy-iostest', function () {
-    grunt.file.copy('dist/index-build.html', 'src/index.html');
-  });
 
   // Default task(s).
-  grunt.registerTask('android-beta', ['clean', 'env:cordova', 'copy-cordova-android-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
-  grunt.registerTask('android-alpha', ['clean', 'env:cordova', 'env:androidAlpha', 'copy-cordova-android-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
-  grunt.registerTask('ios-beta', ['clean', 'env:cordova', 'env:iosBeta', 'copy-cordova-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);  
-  grunt.registerTask('ios-alpha', ['clean', 'env:cordova', 'env:iosAlpha', 'copy-cordova-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);
-  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'env:wp8Beta', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
-  grunt.registerTask('wp8-alpha', ['clean', 'env:cordova', 'env:wp8Alpha', 'copy-cordova-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
-  grunt.registerTask('web', ['clean', 'env:web', 'copy-cordova-web-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-web']);
+  grunt.registerTask('android-beta', ['clean', 'env:cordova', 'copy-android-to-dist','template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
+  grunt.registerTask('android-alpha', ['clean', 'env:cordova', 'env:androidAlpha', 'copy-android-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-android']);
+  grunt.registerTask('ios-beta', ['clean', 'env:cordova', 'copy-ios-to-dist','template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);  
+  grunt.registerTask('ios-alpha', ['clean', 'env:cordova', 'env:iosAlpha', 'copy-ios-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-ios']);
+  grunt.registerTask('wp8-beta', ['clean', 'env:cordova', 'copy-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
+  grunt.registerTask('wp8-alpha', ['clean', 'env:cordova', 'env:wp8Alpha', 'copy-wp8-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-wp8']);
+  grunt.registerTask('web', ['clean', 'env:web', 'copy-web-to-dist', 'template', 'concat', 'copy', 'ifdef', 'include', 'to-web']);
   grunt.registerTask('default', 'android');
 };

@@ -15,7 +15,7 @@
           return;
         pooling = true;
         // FIXME: treshold on "change" event ?
-        Cordova.Geolocation.getCurrentPosition(function (coords) {
+        Cordova.Geolocation.getCurrentPosition(function (err, coords) {
           if (coords &&
               (Y.Geolocation.longitude !== coords.longitude ||
                Y.Geolocation.latitude !== coords.latitude)) {
@@ -33,7 +33,9 @@
   _.extend(Geolocation, Backbone.Events);
 
   // pooling cordova to auto-update geoloc coordinates
-  setInterval(function () { Geolocation.update(); }, Y.Conf.get("pooling.geolocation"));
+  Y.Conf.on("ready", function () {
+    setInterval(function () { Geolocation.update(); }, Y.Conf.get("pooling.geolocation"));
+  });
 
   // exporting to global scope
   Y.Geolocation = Geolocation;

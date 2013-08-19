@@ -1,52 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
-
-         http://www.apache.org/licenses/LICENSE-2.0
-
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
--->
-<cordova>
-
-    <!--
-    access elements control the Android whitelist.
-    Domains are assumed blocked unless set otherwise
-    -->
-
+<widget xmlns     = "http://www.w3.org/ns/widgets"
+        id        = "com.zenodus.client.html5"
+        version   = "4.0.0">
+  <name>YesWeScore</name>
+  <description>
+  - Live score on Internet
+  - Send your results to Facebook
+  - Few different types of scoring plus custom option. 
+  - Full scoreboard always visible
+  </description>
+  <author href="http://www.yeswescore.com" email="support@yeswescore.com">zeNodus</author>
+  
+  <cordova>
     <access origin="http://*" />
-    <!-- allow local pages -->
-
     <access origin="http://api.yeswescore.com" subdomains="true" />
-
-    <preference name="useBrowserHistory" value="false" />
-    <preference name="exit-on-suspend" value="false" />
+    <preference name="splashscreen" value="splash" />
     
-	<plugins>
-    <plugin name="App" value="org.apache.cordova.App"/>
-    <plugin name="SplashScreen" value="org.apache.cordova.SplashScreen"/>    
-    <plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
-    <plugin name="Device" value="org.apache.cordova.Device"/>
-    <!--
-    <plugin name="Camera" value="org.apache.cordova.CameraLauncher"/>
-    -->
-    <plugin name="File" value="org.apache.cordova.FileUtils"/>
-    <plugin name="NetworkStatus" value="org.apache.cordova.NetworkManager" />    
-    <plugin name="Notification" value="org.apache.cordova.Notification"/>
-    <plugin name="Storage" value="org.apache.cordova.Storage"/>
-    <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer"/>
-    <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser" />
-    <plugin name="DatePickerPlugin" value="com.phonegap.plugins.DatePickerPlugin"/>
-	</plugins>    
-
-</cordova>
+    <feature name="App">
+        <param name="android-package" value="org.apache.cordova.App"/>
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.GeoBroker"/>
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.Device"/>
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.CameraLauncher"/>
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.FileUtils"/>
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.NetworkManager"/>
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.Notification"/>
+    </feature>
+    <feature name="Storage">
+        <param name="android-package" value="org.apache.cordova.Storage"/>
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.SplashScreen"/>
+    </feature>
+    <feature name="Echo">
+        <param name="android-package" value="org.apache.cordova.Echo"/>
+    </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.Globalization"/>
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.FileTransfer"/>
+    </feature>    
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.InAppBrowser"/>
+    </feature>
+    <feature name="DatePickerPlugin">
+        <param name="android-package" value="com.phonegap.plugins.DatePickerPlugin"/>
+    </feature>
+    <feature name="Social">
+        <param name="android-package" value="com.phonegap.plugins.Social"/>
+    </feature>            
+    <feature name="PushNotificationPlugin">
+        <param name="android-package" value="com.urbanairship.phonegap.plugins.PushNotificationPlugin"/>
+    </feature>     
+     <!-- Deprecated plugins element. Remove in 3.0 -->
+     <plugins></plugins>    
+  </cordova>
+</widget>

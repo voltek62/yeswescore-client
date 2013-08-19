@@ -92,7 +92,9 @@
   _.extend(Connection, Backbone.Events);
 
   // pooling cordova to auto-update connection status
-  poolingId = setInterval(function () { Connection.update(); }, Y.Conf.get("pooling.connection"));
+  Y.Conf.on("ready", function () {
+    poolingId = setInterval(function () { Connection.update(); }, Y.Conf.get("pooling.connection"));
+  });
 
   // exporting to global scope
   Y.Connection = Connection;

@@ -9,12 +9,12 @@
       navigator.geolocation.getCurrentPosition(
         function Cordova_Geolocation_Success(position) {
           if (position && position.coords)
-            callback(position.coords)
+            callback(null, position.coords)
           else
-            callback(null);
+            callback("unknown position");
         },
-        function Cordova_Geolocation_Error() {
-          callback(null);
+        function Cordova_Geolocation_Error(err) {
+          callback(err);
         }
       );
     }

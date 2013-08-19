@@ -8,37 +8,46 @@
 
     currentView: null,
 
+    locked: false,
+
     routes: {
-      '': 'gameList',
-      'index': 'gameList',
-      'sort/:id': 'gameList',
-      'search/form': 'searchForm',      
-      'games/me/:id': 'gameMe',
-      'games/player/:id': 'gamePlayer',      
-      'games/add': 'gameAdd',
-      'games/form/:id': 'gameForm',      
-      'games/follow': 'gameFollow',
-      'games/end/:id': 'gameEnd',
-      'games/club/:id': 'gameClub',
-      'games/list': 'gameList',  
+      //first page
+      ''                   : 'games',
+      // games
+      'games/'             : 'games',
+      'games/list'         : 'games',        
+      'games/add'          : 'gameAdd',
+      'games/:id/form'     : 'gameForm',      
+      'games/follow'       : 'gameFollowed',
+      'games/:id/end'      : 'gameEnd',
       'games/:id/comments/': 'gameComment', 
-      'games/:id': 'game', 
-      'games/': 'gameList',   
-      'notification': 'notificationList',              
-      'players/list': 'playerList',
-      'players/club/:id': 'playerListByClub',
-      'players/form/me': 'playerFormFirst',
+      'games/:id'          : 'game',      
+      'games/me/:id'       : 'gameMe',
+      'games/player/:id'   : 'gamePlayer',      
+      'games/club/:id'     : 'gameClub',
+      // players
+      'players/me/games'   : 'playersMeGames',
+      'players/:id/games'  : 'playersGames',
+      'players/list'       : 'players',
+      'players/club/:id'   : 'playerListByClub',
+      'players/form/me'    : 'playerFormFirst',
       'players/form/search': 'playerFormSearch',                 
-      'players/form': 'playerForm',          
-      'players/signin': 'playerSignin',
-      'players/forget': 'playerForget',
-      'players/follow': 'playerFollow',                                              
-      'players/:id': 'player',
-      'clubs/add': 'clubAdd',
-      'clubs/follow': 'clubFollow',      
-      'clubs/:id': 'club',
-      'account': 'account',
-      'about': 'about'
+      'players/form'       : 'playerForm',          
+      'players/signin'     : 'playerSignin',
+      'players/forget'     : 'playerForget',
+      'players/follow'     : 'playerFollowed',                                              
+      'players/:id'        : 'player',
+      // clubs
+      'clubs/add'          : 'clubAdd',
+      'clubs/follow'       : 'clubFollowed',
+      'clubs/:id'          : 'club',
+      'clubs/:id/games'    : 'clubsGames',
+      // autres
+      'search/form'        : 'searchForm',
+      'notification'       : 'notificationList',
+      'account'            : 'account',
+      'help'               : 'help',
+      'about'              : 'about'
     },
 
     initialize: function (options) {
@@ -58,126 +67,158 @@
     },
 
     about: function () {
-      this.changePage(this.createViewFactory(Y.Views.About));
+      this.changePage(this.createViewFactory(Y.Views.Pages.About));
     },
 
     account: function () {
-      this.changePage(this.createViewFactory(Y.Views.Account));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Account));
     },
 
     club: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Club, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Club, { id: id }));
     },
 
     clubAdd: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.ClubAdd));
+      this.changePage(this.createViewFactory(Y.Views.Pages.ClubAdd));
     },
 
-    clubFollow: function () {
-      this.changePage(this.createViewFactory(Y.Views.ClubFollow));
-    },
-
-    index: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Index, { sort: id }));
+    clubFollowed: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.ClubFollowed));
     },
 
     game: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Game, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Game, { id: id }));
     },
 
-    gameList: function (sort) {
-      if (typeof sort === "undefined") sort='';
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: '', id: '', sort: sort }));
+    games: function (sort) {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Games, { search: '', id: '', sort: sort || '' }));
     },
     
     gameMe: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'me', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Games, { search: 'me', id: id, sort: '' }));
     },
 
     gamePlayer: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'player', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Games, { search: 'player', id: id, sort: '' }));
     },
 
     gameClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameList, { search: 'club', id: id, sort: '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Games, { search: 'club', id: id, sort: '' }));
     },    
 
     gameAdd: function () {
-      this.changePage(this.createViewFactory(Y.Views.GameAdd));
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameAdd));
     },
 
     gameEnd: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameEnd, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameEnd, { id: id }));
     },
 
     gameComment: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameComments, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameComments, { id: id }));
     },
 
-    gameFollow: function () {
-      this.changePage(this.createViewFactory(Y.Views.GameFollow));
+    gameFollowed: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameFollowed));
     },
     
     gameForm: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.GameForm, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.GameForm, { id: id }));
     },    
 
-    searchForm: function () {
-      this.changePage(this.createViewFactory(Y.Views.SearchForm ));
-    }, 
-
-    player: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: '' }));
-    },
-
-    playerFollow: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.PlayerFollow));
-    },
-
-    playerNoFollow: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.Player, { id: id, follow: 'false' }));
-    },
-
-    playerFormFirst: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'first'}));
-    },
-    
-    playerForm: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: ''}));
-    },
-
-    playerFormSearch: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForm, { mode: 'search'}));
+    help: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Help));
     },
 
     notificationList: function () {
-      this.changePage(this.createViewFactory(Y.Views.NotificationList));
+      this.changePage(this.createViewFactory(Y.Views.Pages.NotificationList));
+    }, 
+
+    player: function (id) {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Player, { id: id, follow: '' }));
     },
 
-    playerList: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerList));
+    playerFormFirst: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerForm, { mode: 'first'}));
+    },
+    
+    playerForm: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerForm, { mode: ''}));
+    },
+
+    playerFormSearch: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerForm, { mode: 'search'}));
+    },
+
+    playerFollowed: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Players, { mode: 'follow'}));
+    },
+
+    players: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Players, { mode: ''}));
     },
 
     playerListByClub: function (id) {
-      this.changePage(this.createViewFactory(Y.Views.PlayerList, { id: id }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Players, { clubid: id }));
     },
 
     playerSignin: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerSignin));
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerSignin));
     },
 
     playerForget: function () {
-      this.changePage(this.createViewFactory(Y.Views.PlayerForget));
+      this.changePage(this.createViewFactory(Y.Views.Pages.PlayerForget));
+    },
+    
+    searchForm: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.SearchForm ));
+    },    
+
+    lock: function () {
+      this.locked = true;
+    },
+
+    unlock: function () {
+      this.locked = false;
+    },
+    
+    navigate: function (fragment, options) {
+      // before Backbone.navigate, we check if the current GUI View can be closed.
+      var defer = new $.Deferred();
+
+      if (this.currentView &&
+          typeof this.currentView.canClose === "function") {
+          this.currentView.canClose(function (err, val) {
+            if (err || !val) {
+              return defer.reject();
+            }
+            return defer.resolve();
+          })
+      } else {
+        defer.resolve();
+      }
+      //
+      defer.then(
+        function success() {
+          Backbone.history.navigate(fragment, options);
+        },
+        function error() {
+          console.log('error');/* nothing yet */ 
+        }
+      );
     },
 
     /*
     * you can change page passing a function:
-    *    this.changePage(function () { return new Y.Views.Account() });
+    *    this.changePage(function () { return new Y.Views.Pages.Account() });
     *
     * @param function  viewFactory    function returning a view
     */
     changePage: function (viewFactory) {
       assert(typeof viewFactory === "function");
+
+      if (this.locked)
+        return; // navigation is locked.  
 
       var previousPageName = "none"
         , previousPageHash = "none"
@@ -192,23 +233,31 @@
       if (this.currentView && this.currentView.pageHash)
         previousPageHash = this.currentView.pageHash;
 
-      // event
-      try {
-        this.trigger('beforePageChanged', previousPageName, previousPageHash);
-      } catch (e) {
-        assert(false);
-      };
-
-      // closing current view (still in the DOM)
-      try {
-        if (this.currentView) {
-          this.currentView.close();
-          // this.currentView.remove(); // FIXME. gc: should we call remove ?
-        }
-      } catch (e) {
-        assert(false);
-      };
-
+      // multiple async steps.
+      new $.Deferred().resolve()
+      // step1: trigger event "beforePageChanged"
+      .then(
+        function beforePageChanged() {
+          try {
+            that.trigger('beforePageChanged', previousPageName, previousPageHash);
+          } catch (e) {
+            assert(false);
+          };
+        })
+      // step2: close the currentView (if it exists!)
+      .then(
+        function closeCurrentView() {
+          // closing current view (still in the DOM)
+          try {
+            if (that.currentView) {
+              that.currentView.close();
+              // that.currentView.remove(); // FIXME. gc: should we call remove ?
+            }
+          } catch (e) {
+            assert(false);
+          };
+        })
+      // step3
       //
       // Reflow bug under ie10 (WP8) maybe iOS & android.
       // when document.documentElement is scrolled down & 
@@ -221,63 +270,77 @@
       //
       // /!\ Be warned, this bugfix is empirical.
       //
-      var next = function () {
-        // creating view
+      .then(
+        function scrollTopBeforeRendering() {
+          var defer = new $.Deferred();
 
-        /*#ifdef DEV*/
-        if (true) {
-          // in dev, directly call viewFactory, to be able to debug exceptions.
-          view = viewFactory();
-        } else {
-        /*#endif*/
-          try {
-            // avoiding exception in view.
+          // scrolltop, juste after reflow
+          // with a good browser engine (aka ie10) rendering is perfect.
+          // FIXME: dependancy router => DOM .. yeak :(
+          var WP8=true;
+          /*#ifndef WP8*/
+          WP8=true;
+          /*#endif*/
+          if (WP8) {
+            if (document.documentElement)
+              document.documentElement.scrollTop = 0;
+            else
+              document.body.scrollTop = 0;
+            document.getElementById("content").getBoundingClientRect(); // force reflow
+            setTimeout(function () { defer.resolve(); }, 10);
+          } else {
+            defer.resolve();
+          }
+          return defer;
+        })
+      // step4 creating the view.
+      .then(
+        function createNewView() {
+          /*#ifdef DEV*/
+          if (true) {
+            // in dev, directly call viewFactory, to be able to debug exceptions.
             view = viewFactory();
+          } else {
+          /*#endif*/
+            try {
+              // avoiding exception in view.
+              view = viewFactory();
+            } catch (e) {
+              assert(false);
+            };
+          /*#ifdef DEV*/
+          }
+          /*#endif*/
+
+          // next page name, page hash
+          if (view && view.pageName)
+            nextPageName = view.pageName;
+          if (view && view.pageHash)
+            nextPageHash = view.pageHash;
+
+          // acting the change in Router.currentView & Y.GUI.content
+          that.currentView = view;
+          Y.GUI.content = view;
+        })
+      // step5 the page has now changed, emiting events & some stats.
+      //     or global error catch handler (doing nothing)
+      .then(
+        function pageChanged() {
+          // event
+          try {
+            that.trigger('pageChanged', nextPageName, nextPageHash);
           } catch (e) {
             assert(false);
           };
-        /*#ifdef DEV*/
-        }
-        /*#endif*/
 
-        // next page name, page hash
-        if (view && view.pageName)
-          nextPageName = view.pageName;
-        if (view && view.pageHash)
-          nextPageHash = view.pageHash;
+          // stats.
+          Y.Stats.page(previousPageName, nextPageName);
+        },
+        function error() {
+          // some error
+        });
 
-        // acting the change in Router.currentView & Y.GUI.content
-        that.currentView = view;
-        Y.GUI.content = view;
-
-        // event
-        try {
-          that.trigger('pageChanged', nextPageName, nextPageHash);
-        } catch (e) {
-          assert(false);
-        };
-
-        // stats.
-        Y.Stats.page(previousPageName, nextPageName);
-      };
-
-      // scrolltop, juste after reflow
-      // with a good browser engine (aka ie10) rendering is perfect.
-      // FIXME: dependancy router => DOM .. yeak :(
-      var WP8=true;
-      /*#ifndef WP8*/
-      WP8=true;
-      /*#endif*/
-      if (WP8) {
-        if (document.documentElement)
-          document.documentElement.scrollTop = 0;
-        else
-          document.body.scrollTop = 0;
-        document.getElementById("content").getBoundingClientRect(); // force reflow
-        setTimeout(next, 10);
-      } else {
-        next();
-      }
+      return /*void*/;
     }
   });
   Y.Router = new Router();

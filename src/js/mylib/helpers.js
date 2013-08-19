@@ -78,6 +78,12 @@ if(!String.prototype.trim) {
   };
 }
 
+// undefined <=> ''.
+String.prototype.isDifferentFrom = function (o) {
+  o = o || '';
+  return this.toString() !== o;
+}
+
 // for old browser : parse a date in yyyy-mm-dd format
 var parseDate = function(input) {
   var parts = input.match(/(\d+)/g);
@@ -108,6 +114,21 @@ Date.locale = {
        month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     }
 };
+
+Date.prototype.toYYYYMMDD = function (separator) {
+  separator = separator || '';
+
+  return String(this.getFullYear())+separator+
+         String(this.getMonth()+1).padLeft(2, '0')+separator+
+         String(this.getDate()).padLeft(2, '0');
+};
+
+Date.prototype.toHHMM = function (separator) {
+  separator = separator || '';
+
+  return String(this.getHours()).padLeft(2, '0')+separator+
+         String(this.getMinutes()).padLeft(2, '0');
+}
 
 window.isMobileBrowser = (function () {
   // detect lots of mobile browser (not ipad/tablet/..)
@@ -147,12 +168,30 @@ if (PROD) {
 } else {
   (function () {
     var start = Date.now();
-    var f = console.log;
+     var f = console.log;
+ 
+     var ios = true;  
+     /*#ifndef IOS*/
+     ios = false;
+     /*#endif*/ 
+     if (ios) {     
+       return;
+     } 
+    
     console.log = function () {
       var a = Array.prototype.slice.apply(arguments);
       var now = Date.now() - start;
       now = String(Math.floor(now / 1000)).padLeft(3, '0') + "." + String(now % 1000).padRight(3, '0');
       a.unshift(now);
+      // cas specifique android ... 
+      // il semble que logcat n'affiche que le 1er param du console.log()
+      var android = true;
+      /*#ifndef ANDROID*/
+        android = false;
+      /*#endif*/
+      if (android) {
+        a = [ a.join("|") ];
+      }
       f.apply(console, a);
     };
     console.log.f = f;

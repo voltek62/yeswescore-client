@@ -16,7 +16,6 @@ var GamesCollection = Backbone.Collection.extend({
 	
 		  
   url:function() {
-       
     var url='';
 
     if (this.searchOption.indexOf('player') !== -1 && this.player!=='' ) {      
@@ -36,11 +35,10 @@ var GamesCollection = Backbone.Collection.extend({
       url += "club=" + this.club; 
       url += "&"; 
     }
-      
+    
     if (url === Y.Conf.get("api.url.games")  ) 
     	url += "?";
-   
-        
+    
     if (this.searchOption.indexOf('geo') !== -1 && this.pos !==null) { 
      if (this.pos[1]!==null && this.pos[0]!==null)   
       url +=  "distance=50&latitude="+this.pos[1]+"&longitude="+this.pos[0];
@@ -49,12 +47,11 @@ var GamesCollection = Backbone.Collection.extend({
 
     if (url === Y.Conf.get("api.url.games") ) 
     	url += "?";
-           	
-    	
-	if (this.query!=="" && this.searchOption.indexOf('player') !== -1 ) {
-		url +="q="+this.query+"";
-		url += "&";
-	};
+    
+	  if (this.query!=="" && this.searchOption.indexOf('player') !== -1 ) {
+		  url +="q="+this.query+"";
+		  url += "&";
+	  };
     
     if (url === Y.Conf.get("api.url.games") ) 
     	url += "?";
@@ -65,25 +62,55 @@ var GamesCollection = Backbone.Collection.extend({
       url += "status=finished&";
     else if (this.sortOption==='created')
       url += "status=created&";
-           
-	
-	url += "sort=-dates.start,-dates.expected";   
+    
+	  url += "sort=-dates.start,-dates.expected";   
      
     return url;
   },
 
-  setSort:function(s) {  	
-    this.sortOption=s;
+  // FIXME: dependances.
+  // @param options { filters: [ "a", "b"], sort: "aa" }
+  setSearchOptions: function (options) {
+    // filtres
+    if (options.filters.indexOf('searchmyclub') !== -1) {
+      var clubid = Y.User.getClub();
+      if (clubid) {
+        this.addSearch('club'); 
+        this.setClub(clubid);
+      } else {
+        // FIXME: ne pas retirer cette option dans set
+        this.removeSearch('searchmyclub');        
+      }
+	  }
+    if (options.filters.indexOf('searchgeo') !== -1) {
+      // FIXME: dependances
+      if (Y.Geolocation.longitude !== null && Y.Geolocation.latitude !== null ) {
+        this.setPos([Y.Geolocation.longitude, Y.Geolocation.latitude]);
+        this.addSearch('geo');  
+      } else {
+        this.removeSearch('searchgeo');
+      }
+    }
+    // tri
+    if (options.sort)
+      this.setSort(options.sort);
+  },
+
+  setSort: function (sorts) {
+    this.sortOption = sorts;
+  },
+
+
+  setFilter: function (filters) {
+    this.filterOption = filters;
   },
   
   removeSearch:function(m) {
-
-     if (this.searchOption!==undefined) {      	  
-        if (this.searchOption.indexOf(m) !== -1) {
-          this.searchOption.splice(this.searchOption.indexOf(m), 1);
-        }
-     }
-  
+    if (this.searchOption!==undefined) {      	  
+      if (this.searchOption.indexOf(m) !== -1) {
+        this.searchOption.splice(this.searchOption.indexOf(m), 1);
+      }
+    }
   },
   
   addSearch:function(m) {
@@ -120,13 +147,12 @@ var GamesCollection = Backbone.Collection.extend({
   },
     
   strategies: {
-      city: function (item) { return [item.get("city")]; }, 
-      status: function (item) { return [item.get("status")]; },
-      player: function (item) { return [item.get("teams[0].players[0].name"),item.get("teams[1].players[0].name")]; },
+    city: function (item) { return [item.get("city")]; }, 
+    status: function (item) { return [item.get("status")]; },
+    player: function (item) { return [item.get("teams[0].players[0].name"),item.get("teams[1].players[0].name")]; }
   },
     
   changeSort: function (sortProperty) {
       this.comparator = this.strategies[sortProperty];
   }
 });
-

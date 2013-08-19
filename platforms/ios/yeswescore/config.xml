@@ -64,22 +64,20 @@
     <feature name="File">
         <param name="ios-package" value="CDVFile"/>
     </feature>
-            
-    <!--
-    <plugin name="Camera" value="CDVCamera" />
-    <plugin name="Notification" value="CDVNotification" />
-    <plugin name="Capture" value="CDVCapture" />
-    <plugin name="Echo" value="CDVEcho" />
-
-    <plugin name="FileTransfer" value="CDVFileTransfer" />
-    <plugin name="Compass" value="CDVLocation" />
-    <plugin name="Accelerometer" value="CDVAccelerometer" />
-    <plugin name="Contacts" value="CDVContacts" />
-    <plugin name="Media" value="CDVSound" />       
-    <plugin name="Battery" value="CDVBattery" />
-    -->
-            
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification"/>
+    </feature>
+    <feature name="Camera">
+        <param name="ios-package" value="CDVCamera"/>
+    </feature>
+    <feature name="Social">
+        <param name="ios-package" value="Social"/>
+    </feature>
+    <feature name="PushNotificationPlugin">
+        <param name="ios-package" value="PushNotificationPlugin"/>
+    </feature>
     <!--  Deprecated plugins element. REmove in 3.0  -->
-    <plugins></plugins>
+    <plugins>
+    </plugins>
 
 </widget>

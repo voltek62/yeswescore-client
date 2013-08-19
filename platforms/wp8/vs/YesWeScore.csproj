@@ -141,32 +141,34 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config.xml" />
-    <Content Include="CordovaLib\WPCordovaClassLib.dll" />
-    <Content Include="Images\appbar.back.rest.png" />
-    <Content Include="Images\appbar.close.rest.png" />
-    <Content Include="Images\appbar.feature.video.rest.png" />
-    <Content Include="Images\appbar.next.rest.png" />
-    <Content Include="Images\appbar.save.rest.png" />
-    <Content Include="Images\appbar.stop.rest.png" />
-    <Resource Include="www\images\ajax-loader.gif" />
+    <Content Include="config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="www\images\ajax-loader.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\tile-200x200.png" />
     <Content Include="Images\tile.png" />
-    <Content Include="www\images\ajax-loader.png" />
+    <Resource Include="www\images\ajax-loader-light.gif" />
     <Content Include="www\images\ball.png" />
     <Content Include="www\images\bg.jpg" />
+    <Content Include="www\images\button-option-down.png" />
     <Content Include="www\images\button-option-right.png" />
+    <Content Include="www\images\button-option-up.png" />
     <Content Include="www\images\calendar.png" />
     <Content Include="www\images\checkbox_c.png" />
     <Content Include="www\images\checkbox_nc.png" />
     <Content Include="www\images\checkbox_nc_disabled.png" />
     <Content Include="www\images\chrono.png" />
     <Content Include="www\images\club-pic.jpg" />
+    <Content Include="www\images\count-comments.png" />
     <Content Include="www\images\delete.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="www\images\eye.png" />
     <Content Include="www\images\facebook.png" />
+    <Content Include="www\images\follow-off.png" />
+    <Content Include="www\images\follow-on.png" />
     <Content Include="www\images\header-logo-off.png" />
     <Content Include="www\images\header-logo-on-animate-1.png" />
     <Content Include="www\images\header-logo-on-animate-2.png" />
@@ -181,9 +183,7 @@
     <Content Include="www\images\house.png" />
     <Content Include="www\images\ico-magnifier-glass.jpg" />
     <Content Include="www\images\info-player.png" />
-    <Content Include="www\images\ko.png" />
     <Content Include="www\images\logo-200x200.png" />
-    <Content Include="www\images\ok.png" />
     <Content Include="www\images\people.png" />
     <Content Include="www\images\pixel.jpg" />
     <Content Include="www\images\pixel.png" />
@@ -204,13 +204,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="www\locales\fr\translation.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="www\styles\webfonts\opensans-400.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="www\styles\webfonts\opensans-700.ttf" />
-    <Content Include="www\styles\webfonts\opensans-800.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -9,7 +9,7 @@
     Conf: null,      // @see y/conf.js
     Router: null,    // @see y/router.js
     Templates: null, // @see y/tempates.js
-    Views: {},       // @see y/views/*
+    Views: { Pages: {} }, // @see y/views/*
 
     GUI: null,       // @see y/gui.js
 
@@ -17,7 +17,7 @@
 
     status: "uninitialized",  // uninitialized, loading, loaded
 
-    /* /!\ overwrited in DEV by Y.Env in ey/env.js */
+    /* /!\ overwrited in DEV by Y.Env in y/env.js */
     Env: {
       DEV: "DEV",
       PROD: "PROD",
@@ -93,6 +93,9 @@
 
     load: function (callback) {
       var that = this;
+      // FIXME: this direct DOM interaction is bad :(
+      $("#header").addClass("hide");
+      $("#navbar").addClass("hide");
       // forcing offline status while loading
       Y.Connection.forceStatus(Y.Connection.STATUS_OFFLINE);
       // initializing backbone.
@@ -100,8 +103,6 @@
       // init self configuration
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded(err) {
-                 // /!\ error handling after i18n
-
                  // internationalization.
                  var i18nOptions = { lng: "fr-FR", fallbackLng: "fr" };
                  that.i18nOptions = i18nOptions;
@@ -118,9 +119,7 @@
                    //  if err is other (ex: "network connection"), we continue to load.
                    if (err == "deprecated" || err == "network error")
                      return callback(err);
-
                    $("a,#offline").i18n();
-
                    // init router
                    that.Router.initialize();
                    /*#ifdef DEV*/
@@ -136,10 +135,14 @@
                      that.GUI.header = new Y.Views.Header();
                      that.GUI.content = null; // will be overwrite by the router.
                      that.GUI.autocomplete = new Y.Views.Autocomplete();
+                     that.GUI.wizard = new Y.Views.Wizard();
                      that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
                      /*#ifdef DEV*/
                      console.log('backbone history start');
                      /*#endif*/
+                     // navigation "on"
+                     $("#header").removeClass("hide");
+                     $("#navbar").removeClass("hide");
                      // start dispatching routes
                      // @see http://backbonejs.org/#History-start
                      Backbone.history.start();
@@ -202,6 +205,7 @@
       };
     })()
   };
+
   // exporting YesWeScore to global scope, aliasing it to Y.
   global.YesWeScore = YesWeScore;
   global.Y = YesWeScore;

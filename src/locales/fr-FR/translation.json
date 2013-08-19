@@ -3,7 +3,8 @@
     "title": "A PROPOS",
     "informations": "Informations:",
     "submitidea": "Soumettre une suggestion",
-    "submitbug": "Rapporter un bug"
+    "submitbug": "Rapporter un bug",
+    "helpus" : "Donnez-nous 5 étoiles !"
   },
   "account": {
     "title": "PROFIL",
@@ -15,6 +16,7 @@
     "myprofil": "Mon profil",
     "connect": "Connexion / Enregistrement",
     "disconnect": "Deconnexion",
+    "help": "Aide",
     "about": "A propos"
   },
   "app": {
@@ -74,7 +76,9 @@
     "fbversus3" : "a joué contre",
     "fbstatus1" : "a gagné",
     "fbstatus2" : "mène le jeu",
-    "fbpromo" : "Bientôt les résultats sportifs de vos amis au creux de votre main avec YesWeScore." 
+    "fbpromo" : "Venez suivre le match en direct sur YesWeScore:",
+    "sharetitle" : "YesWeScore : Match à suivre",    
+    "share" : "Partager" 
   },   
   "gamelist": {
     "titleyourgames": "LISTE DE VOS MATCHS",
@@ -97,39 +101,39 @@
     "tour" : "Tour",
     "surface" : "Terrain",
     "official" : "Officiel",
-	"selection":"Selection",
-	"poule":"Poule",
-	"consolante":"Consolante",
-	"select1":"1er tour",
-	"select2":"2e tour",
-	"select3":"3e tour",
-	"select4":"4e tour",
-	"select5":"5e tour",
-	"select6":"6e tour",
-	"select7":"7e tour",
-	"select8":"8e tour",
-	"select9":"9e tour",
-	"select10":"1/256 finale",
-	"select11":"1/128 finale",
-	"select12":"1/64 finale",
-	"select13":"1/32 finale",
-	"select14":"1/16 finale",
-	"select15":"1/8 finale",
-	"select16":"1/4 finale",
-	"select17":"1/2 finale",
-	"select18":"Finale",
-	"select19":"Journée 1",
-	"select20":"Journée 2",
-	"select21":"Journée 3",
-	"select22":"Journée 4",
-	"select23":"Journée 5",
-	"select24":"Journée 6",
-	"select25":"Journée 7",
-	"select26":"Journée 8",
-	"select27":"Journée 9",
-	"select28":"Journée 10",
-	"final":"Finale",
-	"day":"Journée",
+    "selection":"Selection",
+    "poule":"Poule",
+    "consolante":"Consolante",
+    "select1":"1er tour",
+    "select2":"2e tour",
+    "select3":"3e tour",
+    "select4":"4e tour",
+    "select5":"5e tour",
+    "select6":"6e tour",
+    "select7":"7e tour",
+    "select8":"8e tour",
+    "select9":"9e tour",
+    "select10":"1/256 finale",
+    "select11":"1/128 finale",
+    "select12":"1/64 finale",
+    "select13":"1/32 finale",
+    "select14":"1/16 finale",
+    "select15":"1/8 finale",
+    "select16":"1/4 finale",
+    "select17":"1/2 finale",
+    "select18":"Finale",
+    "select19":"Journée 1",
+    "select20":"Journée 2",
+    "select21":"Journée 3",
+    "select22":"Journée 4",
+    "select23":"Journée 5",
+    "select24":"Journée 6",
+    "select25":"Journée 7",
+    "select26":"Journée 8",
+    "select27":"Journée 9",
+    "select28":"Journée 10",
+    "final":"Finale",
+    "day":"Journée",
     "surface_bp":"Béton poreux (quick) - BP",
     "surface_ep":"Enrobé poreux - EP",
     "surface_epdm":"Granulats caoutchouc - EPDM",
@@ -151,6 +155,8 @@
   },  
   "gamecomment": {
     "title": "COMMENTAIRES",
+    "addphoto":"Ajouter une photo",
+    "sendmessage":"Envoyer",    
     "delete" : "supprimer",
     "alert" : "signaler",
     "alerted" : "Message signalé.",     
@@ -178,6 +184,10 @@
   },
   "gamefollow": {
     "title": "MATCHS SUIVIS"
+  },
+  "help": {
+    "title": "AIDE",
+    "profil": "PROFILE"
   },
   "home": {
     "connexionlost": "Connexion perdue"
@@ -220,13 +230,27 @@
     "bad_password":"Votre mot de passe contient des caractères interdits ( Autorisé : A-Z a-z 0-9 !@#$%^&*()_ ) ou il est inférieur à 6 caractères",
     "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",        
     "bad_mail":"Votre mail est invalide",
-    "expected_error":"Merci de saisir une date ET une heure"     
+    "expected_error":"Merci de saisir une date ET une heure",
+    "pushyes":"Oui",
+    "pushno":"Non",
+    "pushtitle":"Information",    
+    "pushmessage":"En suivant ce joueur, vous acceptez de recevoir les alertes MATCH pour savoir quand il commence un match officiel et le résultat final.",
+    "saveyes":"Oui",
+    "saveno":"Non",
+    "savecancel":"Annuler",
+    "savetitle":"Information",
+    "savemessage":"Des changements n'ont pas été enregistrés, voulez vous continuer ?",
+    "choiceserver":"Souhaitez-vous indiquer qui commence à servir ? Par défaut, nous prenons le joueur 2",
+    "choiceservertitle":"Choix du serveur",
+    "choiceserveryes":"Choisir",
+    "choiceserverno":"Ne pas choisir"    
   },
   "player": {
     "title": "JOUEUR",
     "more":"Plus d'infos",
     "lastresults":"Derniers résultats",
-    "getphoto":"Prendre une photo"
+    "getphoto":"Prendre une photo",
+    "delphoto":"Suppr. photo"
   },    
   "playerforget": {
     "title": "MOT DE PASSE OUBLIE",
@@ -246,7 +270,11 @@
     "club":"Club",
     "idlicence":"ID de la licence",
     "clubname":"Nom du Club",
-    "save":"ENREGISTRER"  
+    "save":"ENREGISTRER",
+    "birth":"Date de naissance",
+    "gender":"Sexe",
+    "man":"Homme",
+    "woman":"Femme"
   },     
   "playerlist": {
     "title": "LISTE DES JOUEURS"
@@ -314,5 +342,45 @@
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",
     "errortext": "Veuillez vous connecter à un réseau.",
     "errorbutton": "recharger"
+  },
+  "wizard": {
+    "button": {
+      "continue": "continuer",
+      "skip": "fermer",
+      "finish": "Rock n'roll"
+    },
+    "step-welcome": {
+      "welcome": "Bienvenue !",
+      "thankyou": "Merci d'avoir téléchargé YesWeScore",
+      "explanation": "Vous pouvez quitter cette aide à tout moment en appuyant sur fermer",
+      "continue": "Découvrir l'application",
+      "skip": "Passer l'introduction"
+    },
+    "step-profil": {
+      "title": "Editez votre profil",
+      "sub0": {
+        "p1": "Pour trouver facilement les résultats de votre club ou suivre des amis, veuillez remplir votre profil",
+        "p2": "Cliquez sur \"<b>MON COMPTE</b>\" en bas de l'écran"
+      },
+      "sub1": {
+        "p1": "Cliquez sur \"<b>MON PROFIL</b>\" "
+      },
+      "sub2": {
+        "p1": "Entrez votre nom"
+      },
+      "sub3": {
+        "p1": "Entrez votre classement"
+      },
+      "sub4": {
+        "p1": "Choisissez un club"
+      },
+      "sub5": {
+        "p1": "Une fois votre club choisi, il ne vous reste qu'à enregistrer"
+      },
+      "sub6": {
+        "p1": "Félicitation, vous avez enregistré votre profil.",
+        "p2": "A vous de jouer, explorez YesWeScore, partagez vos matchs, consultez les résultats de vos amis"
+      }
+    }
   }
 }

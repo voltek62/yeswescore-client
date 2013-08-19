@@ -19,13 +19,28 @@
 
     var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
+    var isTouch = function () {
+      return ('ontouchstart' in document && !('callPhantom' in window)) ||
+             window.navigator.msPointerEnabled
+    };
+
+    var computePointerDown = function () {
+      if (isTouch()) {
+        if (window.navigator.msPointerEnabled)
+          return 'MSPointerDown';
+        return 'touchstart';
+      }
+      return 'click';
+    };
+
     _.extend(Backbone.View.prototype, {
         _touching : false,
 
         touchPrevents : true,
 
-        isTouch : ('ontouchstart' in document && !('callPhantom' in window)) ||
-                  window.navigator.msPointerEnabled,
+        isTouch : isTouch(),
+
+        pointerDown: computePointerDown(),
 
         // Drop in replacement for Backbone.View#delegateEvent
         // Enables better touch support

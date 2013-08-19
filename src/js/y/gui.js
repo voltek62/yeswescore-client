@@ -14,11 +14,9 @@
         if (status) {
           $body.addClass("inputmodeon");
           $body.removeClass("inputmodeoff");
-          
         } else {
           $body.removeClass("inputmodeon");
           $body.addClass("inputmodeoff");
-          
         }
       }
       return true;
@@ -43,7 +41,13 @@
       $('body').addClass('update');
     },
     
-    
+    // display a layer on top of the GUI.
+    freeze: function (bool) {
+      if (bool && $("#freeze").length == 0)
+        $('body').append('<div id="freeze" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2147483647;"></div>');
+      if (!bool)
+        $('#freeze').remove();
+    },
     
     addBlueBackground: function () {
       $('#content').addClass('blue-screen background');
@@ -52,7 +56,6 @@
     delBlueBackground: function () {
       $('#content').removeClass('blue-screen background');  
     }
-    
   };
 
   Y.Connection.on("change", function (state) {

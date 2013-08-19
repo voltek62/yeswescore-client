@@ -31,7 +31,7 @@ Y.Views.Pages.About = Y.View.extend({
       "api.url.games": Y.Conf.get("api.url.games")
     };
     var i;
-    foreach (i in devInfos) {
+    for (i in devInfos) {
       $(".dev").append("<div>"+i+":"+devInfos[i]);
     }
     /*#endif*/

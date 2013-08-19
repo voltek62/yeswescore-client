@@ -79,10 +79,10 @@ Y.Views.Pages.PlayerSignin = Y.View.extend({
     });
   }, 
 
-  hideMessages : function () { this.$(".error,.msg").hide(); },
-  hideError: function () { this.$(".error").hide(); },
-  displayMsg: function (msg) { this.hideMessages(); this.$(".msg").html(msg).show(); },
-  displayError: function (msg) { this.hideMessages(); this.$(".error").html(msg).show(); },
+  hideMessages : function () { this.$(".error,.msg").hide();this.scrollTop(); },
+  hideError: function () { this.$(".error").hide();this.scrollTop(); },
+  displayMsg: function (msg) { this.hideMessages(); this.$(".msg").html(msg).show();this.scrollTop(); },
+  displayError: function (msg) { this.hideMessages(); this.$(".error").html(msg).show();this.scrollTop(); },
 
   connexion : function(event) {
     if (this.status.current === this.status.UNREGISTERED)

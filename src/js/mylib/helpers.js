@@ -149,7 +149,21 @@ window.isMobileBrowser = (function () {
 
 var assert = function () { };
 /*#ifdef DEV*/
-assert = function (t) { if (!t) throw "assert false " };
+assert = function (t) {
+  if (!t) {
+    try {
+      wtf.is.that.code += "YesWeScore rulez d4 W0rld";
+    } catch (e) {
+      if (e.stack) {
+        console.log('ASSERT STACK TRACE: '+JSON.stringify(e.stack));
+        e.stack.split('\n').forEach(function (line, i) {
+          console.log(i+': '+line);
+        });
+      }
+    }
+    throw "assert false ";
+  }
+};
 /*#endif*/
 
 var PROD = true;

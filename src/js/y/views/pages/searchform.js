@@ -167,7 +167,7 @@ Y.Views.Pages.SearchForm = Y.View.extend({
     );
   },
 
-  close: function () {
+  onClose: function () {
     this.stopMonitoringModifications();
   }
 });

@@ -208,19 +208,18 @@ Y.Views.Pages.Game = Y.View.extend({
     var message = _.reduce(_.keys(messages), function (result, token) {
       return result.replace(new RegExp(token.toRegExp(), "g"), messages[token]);
     }, messagePattern);
-    
+
     // building message
     var isCordova = true;  
     /*#ifndef CORDOVA */ 
     isCordova = false; 
     /*#endif*/  
-    if (isCordova) {   
+    if (isCordova) {
       //TODO : only Android , work in progress for ios 
       console.log("SHARING MESSAGE: " + message);
       var that = this;    
   
       if (Cordova.Device.isAndroid) {
-        //var share = cordova.require("cordova/plugin/share");
         window.plugins.social.show({subject: i18n.t('game.sharetitle'), text: message, url: link},
           function() {
             that.sharing = false;
@@ -231,20 +230,24 @@ Y.Views.Pages.Game = Y.View.extend({
             that.sharing = false;
             that.shareError(err);
             console.log("PhoneGap Plugin: Share: callback error");
-            /*
-            navigator.notification.alert(
-              i18n.t('message.errorsocial'),  // message
-              function(buttonIndex){
-                that.followPlayerConfirm(buttonIndex, that);
-              },         // callback
-              i18n.t('message.errortitle'),            // title
-              i18n.t('message.erroryes') // buttonName
-            );
-            */
           }
-        );  
+        );
       } 
    
+      if (Cordova.Device.isWP8) {
+        window.plugins.social.shareStatus(message,
+          function() {
+            that.sharing = false;
+            that.shareSuccess();
+            console.log("PhoneGap Plugin: Share: callback success");
+          },
+          function(err) {
+            that.sharing = false;
+            that.shareError(err);
+            console.log("PhoneGap Plugin: Share: callback error");
+          }
+        );
+      } 
 
       if (Cordova.Device.isIOS) {
         window.plugins.social.available(function(avail) {

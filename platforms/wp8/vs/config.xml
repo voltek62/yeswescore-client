@@ -54,6 +54,7 @@
     <plugin name="InAppBrowser"/>
     <plugin name="Camera"/>
     <plugin name="Notification"/>
+    <plugin name="YWSSocialShare"/>
   </plugins>
 
 

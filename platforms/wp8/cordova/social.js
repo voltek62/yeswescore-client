@@ -3,16 +3,13 @@
 (function(window){
   var cdv = window.cordova || window.Cordova;
 
-  // refactoring of
-  // https://github.com/phonegap/phonegap-plugins/blob/master/WindowsPhone/PGSocialShare/PGSocialShare.js
-  // for cordova 2.x
+  // refactoring of https://github.com/phonegap/phonegap-plugins/blob/master/WindowsPhone/PGSocialShare/PGSocialShare.js
+  window.plugins = window.plugins || {};
   window.plugins.social =
   {
-    // adding show func to mimic android / iOS social interfaces.
-    show: function (msg, win, fail) {
-      var options = {"message":msg, "shareType":0}; // 0 == status
-      cdv.exec(win, fail, "PGSocialShare", "share", options);
+    shareStatus: function (message, win, fail) {
+      cdv.exec(win, fail, "YWSSocialShare", "shareStatus", message);
     },
-    available: function () { return true } // sur winPhone, il y a forcément le share natif.
+    available: function () { return true } // on winPhone, share is always available.
   };
 })(window);

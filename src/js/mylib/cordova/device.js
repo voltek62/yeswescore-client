@@ -5,8 +5,13 @@
 
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
   var isGingerbread = /android 2\.3/i.test(userAgent);
+  var isOldAndroid = /(android 2\.3|android 4\.0)/i.test(userAgent);  
   var isAndroid = /android/i.test(userAgent);   
   var isIOS = /(iPad|iPhone|iPod)/i.test(userAgent);
+  var isWP8 = true;
+  /*#ifndef WP8*/
+  isWP8 = false;
+  /*#endif*/
   // wrapper around cordova device 
   //  will be overrided by fake cordova in dev.
   var Device = {
@@ -19,7 +24,9 @@
     // custom properties
     isGingerbread: isGingerbread,
     isIOS: isIOS,
-    isAndroid : isAndroid    
+    isAndroid : isAndroid,
+    isOldAndroid : isOldAndroid,
+    isWP8: isWP8
   };
   
   // registering geolocalisation only when cordova is ready.

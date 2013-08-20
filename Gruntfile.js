@@ -92,7 +92,7 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/android/assets/www/images/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/ios/www/images/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/wp8/build/images/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/images/*'], dest: 'www/images/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/images/*'], dest: 'platforms/web/build/images/', filter: 'isFile' }
         ]
       },
       locales: {
@@ -100,11 +100,11 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/android/assets/www/locales/fr-FR/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/ios/www/locales/fr-FR/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/wp8/build/locales/fr-FR/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'www/locales/fr-FR/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/fr-FR/*'], dest: 'platforms/web/build/locales/fr-FR/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/android/assets/www/locales/fr/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/ios/www/locales/fr/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/wp8/build/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'www/locales/fr/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/web/build/locales/fr/', filter: 'isFile' }
         ]
       },	  
       fonts: {
@@ -112,7 +112,7 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/android/assets/www/styles/webfonts/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/ios/www/styles/webfonts/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/wp8/build/styles/webfonts/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'www/styles/webfonts/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/styles/webfonts/*'], dest: 'platforms/web/build/styles/webfonts/', filter: 'isFile' }
         ]
       }
     },

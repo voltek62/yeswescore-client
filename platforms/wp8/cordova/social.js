@@ -1,22 +1,15 @@
+/* MIT licensed */
+// (c) 2011 Jesse MacFadyen,  Adobe Systems Incorporated
+(function(window){
+  var cdv = window.cordova || window.Cordova;
 
-
-cordova.define("cordova/plugin/share", function (require, exports, module) {
- var exec = require("cordova/exec");
-  module.exports = {
-   show: function (message, win, fail) {
-     exec(win, fail, "Social", "share", [message]);
-   },
-   share: function (message, url, image) {
-     exec(null, null, "Social", "share", [message]);
-   },   
-   available: function (callback) {
-     exec(function(avail) {callback(avail ? true : false);}, null, "Social", "available", []);
-   }   
+  // refactoring of https://github.com/phonegap/phonegap-plugins/blob/master/WindowsPhone/PGSocialShare/PGSocialShare.js
+  window.plugins = window.plugins || {};
+  window.plugins.social =
+  {
+    shareStatus: function (message, win, fail) {
+      cdv.exec(win, fail, "YWSSocialShare", "shareStatus", message);
+    },
+    available: function () { return true } // on winPhone, share is always available.
   };
-});
-
-if (!window.plugins) {
-    window.plugins = {};	
-}
-
-window.plugins.social = cordova.require("cordova/plugin/share");
+})(window);

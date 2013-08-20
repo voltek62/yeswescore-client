@@ -99,9 +99,9 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     this.$(".container").addClass(this.mode);
 
     /*
-    debug android 2.2 to 2.3.6
+    debug android 2.2 to 2.3.6 and 4.0
     */
-   if (Cordova.Device.isGingerbread) {
+   if (Cordova.Device.isOldAndroid) {
        $('#inject-datepicker').prepend(this.templates.playerdatepickerplayerandroid({}));
       // pb avec canvas toDataUrl sur android gingerbread
       // @see https://code.google.com/p/android/issues/detail?id=16829

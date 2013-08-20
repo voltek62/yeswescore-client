@@ -128,6 +128,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plugins\ywssocialshare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +145,7 @@
     <Content Include="config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="CordovaLib\WPCordovaClassLib.dll" />
     <Content Include="www\images\ajax-loader.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -222,9 +224,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plugins\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Reference Include="WPCordovaClassLib, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>

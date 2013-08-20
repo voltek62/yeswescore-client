@@ -5,6 +5,7 @@
 
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
   var isGingerbread = /android 2\.3/i.test(userAgent);
+  var isOldAndroid = /(android 2\.3|android 4\.0)/i.test(userAgent);  
   var isAndroid = /android/i.test(userAgent);   
   var isIOS = /(iPad|iPhone|iPod)/i.test(userAgent);
   var isWP8 = true;
@@ -24,6 +25,7 @@
     isGingerbread: isGingerbread,
     isIOS: isIOS,
     isAndroid : isAndroid,
+    isOldAndroid : isOldAndroid,
     isWP8: isWP8
   };
   

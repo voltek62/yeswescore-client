@@ -24,6 +24,21 @@
              window.navigator.msPointerEnabled
     };
 
+    var isEnabledOnPlatform = (function () {
+      var enabled = true;
+      // default => enabled (all platforms)
+      //  but on android => disabled
+      //  but on android 2.3, 2.4 => re-enabled
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/android/i.test(userAgent))
+        enabled = false;
+      if (/(android 2\.3)/i.test(userAgent))
+        enabled = true;
+      return function () {
+        return enabled;
+      };
+    })();
+
     var computePointerDown = function () {
       if (isTouch()) {
         if (window.navigator.msPointerEnabled)
@@ -66,7 +81,7 @@
                 that._touchHandler(e, {method:method});
               };
             })(method);
-            if (this.isTouch && eventName === 'vclick') {
+            if (this.isTouch && eventName === 'vclick' && isEnabledOnPlatform()) {
               if (window.navigator.msPointerEnabled) {
                   this.$el.on('MSPointerDown', selector, boundHandler);
                   this.$el.on('MSPointerUp', selector, boundHandler);

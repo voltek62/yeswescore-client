@@ -98,16 +98,17 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
 
     this.$(".container").addClass(this.mode);
 
-    /*
-    debug android 2.2 to 2.3.6 and 4.0
-    */
-   if (Cordova.Device.isOldAndroid) {
+    // debug android 2.2 to 2.3.6 and 4.0
+    if (Cordova.Device.isOldAndroid) {
        $('#inject-datepicker').prepend(this.templates.playerdatepickerplayerandroid({}));
+    } else {
+      $('#inject-datepicker').prepend(this.templates.playerdatepickerplayer({}));
+    }
+
+    if (Cordova.Device.isGingerbread) {
       // pb avec canvas toDataUrl sur android gingerbread
       // @see https://code.google.com/p/android/issues/detail?id=16829
       $(".column.picture").hide();
-    } else {
-      $('#inject-datepicker').prepend(this.templates.playerdatepickerplayer({}));
     }
    
     if (player.gender !== undefined) $("#gender").val(player.gender);

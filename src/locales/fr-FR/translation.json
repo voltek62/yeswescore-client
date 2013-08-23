@@ -352,6 +352,9 @@
     "championship": "Championnat",
     "add": "Enregistrer"
   },  
+  "team": {
+    "title":"Equipe"  
+  },  
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",
     "errortext": "Veuillez vous connecter à un réseau.",

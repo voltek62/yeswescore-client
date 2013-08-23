@@ -90,6 +90,7 @@
             this.set("api.url.files", apiBaseUrl + "/v2/files/");
             this.set("api.url.games", apiBaseUrl + "/v2/games/");
             this.set("api.url.players", apiBaseUrl + "/v2/players/");
+            this.set("api.url.teams", apiBaseUrl + "/v2/teams/");            
             this.set("api.url.clubs", apiBaseUrl + "/v2/clubs/");
             this.set("api.url.stats", apiBaseUrl + "/v2/stats/");
             this.set("api.url.reports", apiBaseUrl + "/v2/report/");
@@ -114,6 +115,7 @@
             this.set("api.url.files", "http://api.yeswescore.com/v2/files/");
             this.set("api.url.games", "http://api.yeswescore.com/v2/games/");
             this.set("api.url.players", "http://api.yeswescore.com/v2/players/");
+            this.set("api.url.teams", "http://api.yeswescore.com/v2/teams/");    
             this.set("api.url.clubs", "http://api.yeswescore.com/v2/clubs/");
             this.set("api.url.stats", "http://api.yeswescore.com/v2/stats/");
             this.set("api.url.reports", "http://api.yeswescore.com/v2/report/");

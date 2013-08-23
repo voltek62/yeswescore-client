@@ -19,6 +19,12 @@
     "help": "Aide",
     "about": "A propos"
   },
+  "add" : {
+    "title": "CREER",
+    "newgame": "Créer un match",
+    "newteam": "Créer une équipe",
+    "newclub": "Créer un club"    
+  },  
   "app": {
     "name": "Yes We Score"
   },

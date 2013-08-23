@@ -3,8 +3,9 @@ Y.Views.Navbar = Y.View.extend({
 
   events: {
     'vclick a[data-fragment="games/list"]': "goToGames",
-    'vclick a[data-fragment="games/add"]': "goToGamesAdd",
-    'vclick a[data-fragment="account"]': "goToAccount"
+    'vclick a[data-fragment="games/add"]' : "goToGamesAdd",
+    'vclick a[data-fragment="add"]'       : "goToAdd",    
+    'vclick a[data-fragment="account"]'   : "goToAccount"
   },
 
   initialize: function () {
@@ -46,6 +47,7 @@ Y.Views.Navbar = Y.View.extend({
 	  this.$el.hide();
   },
 
+  goToAdd: function () { Y.Router.navigate("add", {trigger: true}); },  
   goToGames: function () { Y.Router.navigate("games/list", {trigger: true}); },
   goToGamesAdd: function () { Y.Router.navigate("games/add", {trigger: true}); },
   goToAccount: function () { Y.Router.navigate("account", {trigger: true}); }

@@ -13,6 +13,7 @@
     routes: {
       //first page
       ''                   : 'games',
+      'add'                : 'add',
       // games
       'games/'             : 'games',
       'games/list'         : 'games',        
@@ -72,6 +73,10 @@
 
     account: function () {
       this.changePage(this.createViewFactory(Y.Views.Pages.Account));
+    },
+
+    add: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Add));
     },
 
     club: function (id) {

@@ -49,6 +49,7 @@
           "module-ongoing",
           "page-about",
           "page-account",
+          "page-add",
           "page-club",
           "page-clubadd",
           "page-clubfollow",

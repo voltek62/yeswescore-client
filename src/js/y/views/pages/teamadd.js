@@ -1,19 +1,19 @@
-Y.Views.Pages.ClubAdd = Y.View.extend({
+Y.Views.Pages.TeamAdd = Y.View.extend({
   el: "#content",
 
   events: {
-    'submit form#frmAddClub': 'addClub'
+    'submit form#frmAddTeam': 'addTeam'
   },
 
-  pageName: "clubAdd",
-  pageHash : "clubs/add",
+  pageName: "teamAdd",
+  pageHash : "teams/add",
   playerid : "",
   token : "",
 
   myinitialize: function () {
-    Y.GUI.header.title(i18n.t('clubadd.title'));
+    Y.GUI.header.title(i18n.t('teamadd.title'));
 
-    this.page = Y.Templates.get('page-clubadd');
+    this.page = Y.Templates.get('page-teamadd');
 
     this.owner = Y.User.getPlayer();    
     this.token = this.owner.get('token');
@@ -22,19 +22,18 @@ Y.Views.Pages.ClubAdd = Y.View.extend({
     this.render();
   },
 
-  addClub: function (event) {
+  addTeam: function (event) {
     $("#navbar").show();
     $("#content").css("bottom", "48px");
     
     var name = $('#name').val()
       , city = $('#city').val();
     
-    var club = new ClubModel({
-      name: name
-    , city: city          
+    var team = new TeamModel({
+      name: name         
     });
 
-    club.save();    
+    team.save();    
    
     return false;
   },

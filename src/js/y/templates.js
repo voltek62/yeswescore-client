@@ -68,6 +68,9 @@
           "page-players",
           "page-playersignin",
           "page-searchform",
+          "page-teams",          
+          "page-team",
+          "page-teamadd",
           "wizard-welcome",
           "wizard-profil",
           "wizard-step3"

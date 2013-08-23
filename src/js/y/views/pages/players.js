@@ -83,7 +83,7 @@ Y.Views.Pages.Players = Y.View.extend({
               
           if (players.length<1) {
           $(that.listview).html(that.templates.list({players:[],query:' '}));
-        $('p.message').i18n();              
+          $(that.listview).i18n();              
           }
           else
             this.playerLast = players[players.length-1];
@@ -97,7 +97,7 @@ Y.Views.Pages.Players = Y.View.extend({
     }
     else {   
       $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
-      $('p.message').i18n();
+      $(that.listview).i18n();
     }  
   }
   else {
@@ -156,7 +156,8 @@ Y.Views.Pages.Players = Y.View.extend({
 
   // render the content into div of view
   render : function() {
-    this.$el.html(this.templates.page({})).i18n();
+    this.$el.html(this.templates.page({}));
+    this.$el.i18n();
     return this;
   },
 
@@ -166,7 +167,8 @@ Y.Views.Pages.Players = Y.View.extend({
       , query : ' '
       , players_follow : this.players_follow
     }));
-
+    this.$el.i18n();
+    
     return this;
   },
 

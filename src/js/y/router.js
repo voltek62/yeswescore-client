@@ -14,6 +14,11 @@
       //first page
       ''                   : 'games',
       'add'                : 'add',
+      //teams
+      'teams/'             : 'teams',          
+      'teams/list'         : 'teams',        
+      'teams/add'          : 'teamAdd', 
+      'teams/:id'          : 'team',          
       // games
       'games/'             : 'games',
       'games/list'         : 'games',        
@@ -86,10 +91,22 @@
     clubAdd: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Pages.ClubAdd));
     },
-
+    
     clubFollowed: function () {
       this.changePage(this.createViewFactory(Y.Views.Pages.ClubFollowed));
     },
+    
+    team: function (id) {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Team, { id: id }));
+    },
+
+    teams: function (sort) {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Teams, { search: '', id: '', sort: sort || '' }));
+    },
+
+    teamAdd: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.TeamAdd));
+    },   
 
     game: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Pages.Game, { id: id }));

@@ -1421,7 +1421,7 @@ ul>li.player>a {
 }
 
 .link-form .button {
-  width: 122px;
+  width: 200px;
   height: 34px;
   margin: auto;
   font-family: Open Sans;
@@ -1446,7 +1446,7 @@ ul>li.player>a {
 }
 
 .link-form .button-selected {
-	width: 122px;
+	width: 200px;
 	height: 34px;
 	margin: auto;
 	font-family: Open Sans;

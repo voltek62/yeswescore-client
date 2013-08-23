@@ -1,28 +1,24 @@
 <!-- template page-clubadd.html -->
-<div class="gameAdd background"></div>
-<div class="gameAdd content-container">
+<div class="blue-screen gameAdd background"></div>
+<div class="blue-screen gameAdd content-container">
   <div class="simple">
-  
+    <span class="success label label-info hide" style="color: red"></span>
+    <div>
+      <label class="form-label unselectable" for="name">* <span data-i18n="clubadd.name"></span></label>
+    </div>
+    <div>
+      <input type="text" id="name" name="name" data-i18n="[placeholder]clubadd.name;" class='jq-ui-forms' value="" /> 
+      <span class="name_error label label-info hide"></span>
+    </div>
 
-<span class="success label label-info hide" style="color: red"></span>
-
-<div>
-      <label class="ui-input-text" for="name">* <span data-i18n="clubadd.name"></span></label>
-</div>
-<div>
-		<input type="text" id="name" name="name" data-i18n="[placeholder]clubadd.name;" class='jq-ui-forms' value="" /> 
-		<span class="name_error label label-info hide"></span>
-</div>
-
-<div>
-      <label class="ui-input-text " for="city">* <span data-i18n="clubadd.city"></span></label>
-</div>
-<div>
-		<input type="text" id="city" name="city" data-i18n="[placeholder]clubadd.city;" class='jq-ui-forms' value="" /> 
-		<span class="city_error label label-info hide"></span>
-</div>
-
-</div>
+    <div>
+      <label class="form-label unselectable" for="city">* <span data-i18n="clubadd.city"></span></label>
+    </div>
+    <div>
+      <input type="text" id="city" name="city" data-i18n="[placeholder]clubadd.city;" class='jq-ui-forms' value="" /> 
+      <span class="city_error label label-info hide"></span>
+    </div>
+  </div>
 </div>
 
 <!--

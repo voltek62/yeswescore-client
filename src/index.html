@@ -159,13 +159,23 @@
         
   <!-- autocomplete view -->
   <div id="autocomplete"></div>
-      
+  
+  <div id="subnavbar" class="button-form">
+    <div class="background rounded"></div>
+    <div class="background trapeze"></div>  
+    <div class="link-form" style="bottom:100px;">
+      <div data-fragment="player" class="button" style="position:absolute;margin:0;background-color:black;border-color:gray;width:80px;margin-left:-40px;left:20%;">JOUEUR</div>
+      <div data-fragment="club" class="button" style="position:absolute;margin:0;background-color:black;border-color:gray;width:80px;margin-left:-40px;left:50%;">CLUB</div>
+      <div data-fragment="team" class="button" style="position:absolute;margin:0;background-color:black;border-color:gray;width:80px;margin-left:-40px;left:80%;">EQUIPE</div>
+   </div>
+  </div>   
+        
   <!-- bottom navbar. Add additional tabs here -->
   <div id="navbar" data-input-mode="hide">
     <div>
       <div class="background rounded"></div>
       <div class="background trapeze"></div>
-      <a data-fragment="games/list" style="padding-top:15px" data-i18n="nav.matchs" class="button"></a>
+      <a data-fragment="follow" style="padding-top:15px" data-i18n="nav.matchs" class="button"></a>
     </div><!--
  --><div>
       <div class="background rounded"></div>
@@ -178,6 +188,7 @@
       <a data-fragment="account" style="padding-top:15px;" data-i18n="nav.account" class="button"></a>
     </div>
   </div>
+    
   <!-- @include dist/templates.html -->
 </body>
 </html>

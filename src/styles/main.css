@@ -569,7 +569,15 @@ body.wizard #navbar {
 	background: inherit;
 }
 
+#subnavbar {
+    display:none;
+}
+
 #navbar a.highlighted {
+	color: #46c0e9;
+}
+
+div.highlighted {
 	color: #46c0e9;
 }
 

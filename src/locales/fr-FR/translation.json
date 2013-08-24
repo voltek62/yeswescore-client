@@ -301,7 +301,10 @@
   "nav": {
     "matchs": "Suivre",
     "create": "Créer",
-    "account": "Gérer"
+    "account": "Gérer",
+    "player": "Joueur",
+    "team": "Equipe",
+    "club": "Club"    
   },
   "notification": {
     "title": "Notifications",

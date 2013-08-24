@@ -1,13 +1,14 @@
 Y.Views.Navbar = Y.View.extend({
-  el: "#navbar",
+  el: "#footer",
+  submenu : "",
   
   events: {
-    'vclick a[data-fragment="follow"]': "displaySubBarFollow",    
-    'vclick a[data-fragment="add"]'  : "displaySubBarAdd",
+    'vclick a[data-fragment="follow"]': "displaySubBar",    
+    'vclick a[data-fragment="add"]'  : "displaySubBar",
     
-    'vclick #subnavbar div[data-fragment="player"]': "goToPlayer",
-    'vclick #subnavbar div[data-fragment="team"]': "goToTeam",
-    'vclick #subnavbar div[data-fragment="club"]': "goToClub",         
+    'vclick a[data-fragment="player"]': "goToPlayer",  
+    'vclick a[data-fragment="team"]': "goToTeam",
+    'vclick a[data-fragment="club"]': "goToClub",         
       
     'vclick a[data-fragment="account"]'   : "goToAccount"
   },
@@ -15,7 +16,9 @@ Y.Views.Navbar = Y.View.extend({
   initialize: function () {
     var that = this;
     Y.Router.on("pageChanged", function (page, fragment) {
+      this.hideSubBar();
       this.highlight(fragment);
+      this.submenu="";
     }, this);
     
   },
@@ -52,23 +55,60 @@ Y.Views.Navbar = Y.View.extend({
     this.$el.hide();
   },
 
+  showButton: function () {
+    $('div.button').show();  
+  },
 
-  displaySubBarFollow: function () { this.highlight("follow");$('#subnavbar').show(); },   
-  displaySubBarAdd: function () { this.highlight("add");$('#subnavbar').show(); },  
+  hideButton: function () {
+    $('div.button').hide();  
+  },
+  
+  hideSubBar: function () { 
+    $('#subnavbar').hide();
+  }, 
+  
+  displaySubBar: function (e) { 
+     
+    var elmt = $(e.currentTarget);
+    var id = elmt.attr("data-fragment");
+
+    if (this.submenu!==id) {
+      this.highlight(id);
+      this.hideButton();    
+      $('#subnavbar').show();
+      //$('#subnavbar a').i18n();
+      this.submenu=id; 
+    }
+    else
+    {
+      this.hideSubBar();
+      this.showButton(); 
+      this.submenu="";
+    }
+  },  
   
   goToPlayer: function () { 
     console.log('goToPlayer');
     this.$('div[data-fragment="player"]').addClass("highlighted");
+    
     Y.Router.navigate("games/list", {trigger: true}); 
   },
   goToTeam: function () { 
     console.log('goToTeam');  
+    this.$('div[data-fragment="team"]').addClass("highlighted"); 
+       
     Y.Router.navigate("teams/list", {trigger: true}); 
   },
   goToClub: function () { 
     console.log('goToClub');  
+    this.$('div[data-fragment="club"]').addClass("highlighted");
+    
     Y.Router.navigate("clubs/list", {trigger: true}); 
   },  
   
-  goToAccount: function () { $('#subnavbar').hide();Y.Router.navigate("account", {trigger: true}); }
+  goToAccount: function () { 
+    $('#subnavbar').hide();
+    this.highlight("account");
+    Y.Router.navigate("account", {trigger: true}); 
+  }
 });

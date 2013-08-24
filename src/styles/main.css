@@ -569,15 +569,48 @@ body.wizard #navbar {
 	background: inherit;
 }
 
-#subnavbar {
-    display:none;
-}
 
 #navbar a.highlighted {
 	color: #46c0e9;
 }
 
-div.highlighted {
+#subnavbar {
+    display:none;
+	z-index: 11;
+	position: fixed;
+	overflow: visible;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;    
+}
+
+#subnavbar a {
+	position:absolute;
+	margin:0;
+	background-color:black;
+	border-color:gray;
+	width:80px;
+	margin-left:-40px;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: -moz-none;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 800;
+	font-size: 12px;
+	color: white;
+	text-transform: uppercase;
+	text-decoration: none;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#subnavbar a:active {
+	/* @see http://stackoverflow.com/questions/13529777/ie10-gray-square-on-click-in-windows-8 */
+	background: inherit;
+}
+
+#subnavbar a.highlighted {
 	color: #46c0e9;
 }
 

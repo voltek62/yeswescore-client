@@ -47,6 +47,7 @@
       // clubs
       'clubs/add'          : 'clubAdd',
       'clubs/follow'       : 'clubFollowed',
+      'clubs/list'         : 'clubs',      
       'clubs/:id'          : 'club',
       'clubs/:id/games'    : 'clubsGames',
       // autres
@@ -92,10 +93,14 @@
     clubAdd: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Pages.ClubAdd));
     },
-    
+       
     clubFollowed: function () {
-      this.changePage(this.createViewFactory(Y.Views.Pages.ClubFollowed));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: 'follow'}));
     },
+
+    clubs: function () {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: ''}));
+    },    
     
     team: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Pages.Team, { id: id }));

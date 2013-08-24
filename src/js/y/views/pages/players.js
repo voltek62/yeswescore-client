@@ -19,12 +19,12 @@ Y.Views.Pages.Players = Y.View.extend({
   datafollow:"",
   
   myinitialize : function(param) {
-
+    
     // saving parameter
     this.param = param || {};
       
-  //header
-  if (this.param.mode === 'follow')    
+    //header
+    if (this.param.mode === 'follow')    
       Y.GUI.header.title(i18n.t('playerfollow.title')); 
     else
       Y.GUI.header.title(i18n.t('playerlist.title'));
@@ -46,52 +46,51 @@ Y.Views.Pages.Players = Y.View.extend({
     this.mytoken = Y.User.getPlayer().get('token'); 
 
     //load players via localstorage
-  if (this.param.mode === 'follow') {
+    if (this.param.mode === 'follow') {
       if (players!==undefined) {
         this.playerLast = players[players.length-1];
       this.collection = new PlayersCollection();  
       var that = this;  
       var i = players.length;  
       
-        if (players.length<1) {
+      if (players.length<1) {
         $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow}));
         $('p.message').i18n();              
-        }      
+      }      
       
-    this.syncPlayer = function (player) { 
+      this.syncPlayer = function (player) { 
         that.collection.add(player);
         i--;
           //si dernier element du tableau
           if (that.playerLast === player.get('id')) {
           $(that.listview).html(that.templates.list({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow }));    
         }             
-    };      
+      };      
       
       this.players = [];
       
       players.forEach(function (playerid,index) {  
-      var player = new PlayerModel({id : playerid});          
+        var player = new PlayerModel({id : playerid});          
         player.once("sync", this.syncPlayer, this);
           
         player.fetch().fail(function (xhrResult, error) {          
           if (players.indexOf(playerid) !== -1) {
-          players.splice(players.indexOf(playerid), 1);
-          //On retire le joueur qui existe plus              
-          //Y.Conf.set("owner.players.followed", players, { permanent: true });
-          var data = {id: that.myid, following: that.players };
-              Y.User.updatePlayer(data);
+            players.splice(players.indexOf(playerid), 1);
+            //On retire le joueur qui existe plus              
+            //Y.Conf.set("owner.players.followed", players, { permanent: true });
+            var data = {id: that.myid, following: that.players };
+            Y.User.updatePlayer(data);
               
-          if (players.length<1) {
-          $(that.listview).html(that.templates.list({players:[],query:' '}));
-          $(that.listview).i18n();              
+            if (players.length<1) {
+              $(that.listview).html(that.templates.list({players:[],query:' '}));
+              $(that.listview).i18n();              
+            }
+            else
+              this.playerLast = players[players.length-1];      
           }
-          else
-            this.playerLast = players[players.length-1];
-                
-        }
-      });         
+         });         
 
-        this.players[index] = player;  
+         this.players[index] = player;  
                     
      },this);
     }

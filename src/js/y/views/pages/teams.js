@@ -17,6 +17,7 @@ Y.Views.Pages.Teams = Y.View.extend({
   following: false,
   dataid:"",
   datafollow:"",
+  button: true,  
   
   myinitialize : function(param) {
 
@@ -156,7 +157,7 @@ Y.Views.Pages.Teams = Y.View.extend({
 
   // render the content into div of view
   render : function() {
-    this.$el.html(this.templates.page({})).i18n();
+    this.$el.html(this.templates.page({ button:this.button })).i18n();
     return this;
   },
 
@@ -246,14 +247,14 @@ Y.Views.Pages.Teams = Y.View.extend({
     this.undelegateEvents();
 
   if (this.param.mode === 'follow') {    
-    if (this.players!==undefined) {
-      this.players.forEach(function (player) {
-       player.off("sync", this.syncTeam, this);
+    if (this.teams!==undefined) {
+      this.teams.forEach(function (team) {
+       team.off("sync", this.syncTeam, this);
     }, this);
     }
   }
   else {
-      this.players.off('sync', this.renderList, this);  
+      this.teams.off('sync', this.renderList, this);  
     }   
   }
   

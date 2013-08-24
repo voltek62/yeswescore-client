@@ -18,8 +18,8 @@ var PlayersCollection = Backbone.Collection.extend({
     else	
       return Y.Conf.get("api.url.players");
   },
-	
-	setMode:function(m,q) {
+
+  setMode:function(m,q) {
     this.mode=m;
     this.query=q;
   },

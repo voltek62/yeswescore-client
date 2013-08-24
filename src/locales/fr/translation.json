@@ -43,12 +43,15 @@
   },
   "clubadd": {
     "title": "AJOUTER UN CLUB",
-    "name" : "Nom",
+    "name" : "Nom du club",
     "placeholdername" : "Nom du Club",    
     "city" : "Ville",
     "placeholdercity" : "Ville",      
-    "add":"Ajouter"
+    "add":"ENREGISTRER"
   },
+  "clublist": {
+    "title": "LISTE DES CLUBS"
+  },   
   "clubfollow": {
     "title": "CLUBS SUIVIS"
   },   
@@ -325,7 +328,8 @@
  	"playerfollowed": "Joueurs favoris",       
     "gameplaceholder": "Rechercher par nom, par club",
     "playerplaceholder": "Rechercher par nom",  
-    "clubplaceholder": "Rechercher par nom",  
+    "teamplaceholder": "Rechercher par équipe",    
+    "clubplaceholder": "Rechercher par club",  
     "filtermatchnot" : "Aucun", 
     "filtermatchgeo" : "Matchs à proximité",
     "filtermatchclub" : "Matchs de mon club",
@@ -358,6 +362,9 @@
   "team": {
     "title":"Equipe"
   }, 
+  "teamlist": {
+    "title":"LISTE DES EQUIPES"  
+  },    
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",
     "errortext": "Veuillez vous connecter à un réseau.",

@@ -1,7 +1,6 @@
 <!-- template page-players.html -->
 <div class="content-container">
-  <div class="indexViewTemplate">
-   
+  <div class="indexViewTemplate">   
     <div class="ui-grid-a searchbar">
       <div class="ui-block-a">
         <div class="input-search-background">
@@ -11,9 +10,22 @@
         </span>
       </div>
       
+      <% if (button === true) { %>
+      <div class="ui-block-b">
+        <div class="button-option-right"></div>
+      </div>
+       <% } 
+       else { %>
+      <div class="ui-block-b">
+        <span class="form-button refresh" data-i18n="gameadd.refresh"></span>
+      </div>             
+       <% } %>      
+      
     </div>
 
-    <ul id="listTeamsView" class="ui-listview results"></ul>
+    <ul id="listTeamsView" class="ui-listview results">
+      <!-- default is module ongoing -->    
+    </ul>
   <div>
 <div>
 

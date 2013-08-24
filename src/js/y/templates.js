@@ -39,6 +39,7 @@
           "list-game",
           "list-notification",
           "list-player",
+          "list-team",
           "module-comments-comment",
           "module-comments-score",
           "module-empty",

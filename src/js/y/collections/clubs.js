@@ -24,11 +24,6 @@ var ClubsCollection = Backbone.Collection.extend({
     this.query = q;
   },
 
-  // FIXME : if exists in localStorage, don't request
-  sync : function(method, model, options) {
 
-    return Backbone.sync(method, model, options);
-
-  },
 
 });

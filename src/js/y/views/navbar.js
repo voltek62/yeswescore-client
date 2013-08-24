@@ -91,19 +91,28 @@ Y.Views.Navbar = Y.View.extend({
     console.log('goToPlayer');
     this.$('div[data-fragment="player"]').addClass("highlighted");
     
-    Y.Router.navigate("games/list", {trigger: true}); 
+    if (this.submenu==="follow")
+      Y.Router.navigate("games/list", {trigger: true}); 
+    else
+      Y.Router.navigate("games/add", {trigger: true});       
   },
   goToTeam: function () { 
     console.log('goToTeam');  
     this.$('div[data-fragment="team"]').addClass("highlighted"); 
-       
-    Y.Router.navigate("teams/list", {trigger: true}); 
+
+    if (this.submenu==="follow")       
+      Y.Router.navigate("teams/list", {trigger: true}); 
+    else
+      Y.Router.navigate("teams/add", {trigger: true});        
   },
   goToClub: function () { 
     console.log('goToClub');  
     this.$('div[data-fragment="club"]').addClass("highlighted");
-    
-    Y.Router.navigate("clubs/list", {trigger: true}); 
+
+    if (this.submenu==="follow")      
+      Y.Router.navigate("clubs/list", {trigger: true}); 
+    else
+      Y.Router.navigate("clubs/add", {trigger: true});       
   },  
   
   goToAccount: function () { 

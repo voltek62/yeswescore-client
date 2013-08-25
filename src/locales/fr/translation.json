@@ -353,12 +353,12 @@
  	"priorityplayerfollowed" : "Voir les joueurs favoris en priorité"         
   },
   "teamadd": {
-    "title" : "Créer une équipe",  
+    "title" : "AJOUTER UNE EQUIPE",
     "name": "Nom de l'équipe",
     "nbplayers": "Nombre de joueurs",
     "championship": "Championnat",
-    "add": "Enregistrer"
-  },  
+    "add": "ENREGISTRER"
+  },
   "team": {
     "title":"Equipe"
   }, 

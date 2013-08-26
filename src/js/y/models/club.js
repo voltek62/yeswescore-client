@@ -23,8 +23,7 @@ var ClubModel = Backbone.Model.extend({
     dates : {
       update : "",
       creation : new Date()
-    },
-    updated_at : new Date()
+    }
   },  
 
   //initialize : function() {
@@ -32,19 +31,15 @@ var ClubModel = Backbone.Model.extend({
   //},
 
   sync : function(method, model, options) {
-
-    /*
-     * var params = _.extend({ type: 'GET', dataType: 'json', url: model.url(),
-     * processData:false }, options);
-     * 
-     * return $.ajax(params);
-     */
-
-    if (method === 'create') {
+    // allowing playerid & token overload.
+    var that = this;
+    var playerid = options.playerid || this.get('id') || '';
+    var token = options.token || this.get('token') || '';
 
 
-      var object = {
-          
+    if (method === 'create' && this.get('id') === undefined) {
+
+      var dataSend = {       
           sport: "tennis",
           name: this.get('name'),
           location : {
@@ -56,23 +51,27 @@ var ClubModel = Backbone.Model.extend({
          
       };
 
-
-
       return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.clubs"),
         type : 'POST',
-        data : object,
-        success : function(result) {
-          
-          if (result.id !== null)
-            $('span.success').html('Enregistrement OK ' + data.id).show();
-          else
-            $('span.success').html('Erreur').show();
-          
+        data : dataSend,
+        // WHYYYYY ?????
+		success: function (data) {
+          that.set(data);
+          if (options && options.success) {
+            options.success(data);
+          }
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
         }
       });
 
+    }
+    else if (method === 'update' && this.get('id') !== undefined) {
+      console.log("FIXME");
     }
     else {
       model.url = Y.Conf.get("api.url.clubs")+this.id;

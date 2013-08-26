@@ -22,6 +22,12 @@
       <span class="championship_error label label-info hide"></span>
     </div>
      -->
+
+    <div class="form-label unselectable" data-i18n="playerform.clubname"></div>
+    <div>
+      <input type="text" id="club" name="club" data-i18n="[placeholder]playerform.clubname;" value="<%= data.club %>" data-autocomplete="autocompleteClubs" data-autocomplete-onselected="autocompleteChoose"/>
+    </div>
+    <div class="club_error label label-error hide"></div>        
     
   </div>
 </div>
@@ -29,7 +35,7 @@
 <!--
   COMMENT SAVE
 -->
-<div class="button-form" data-input-mode="hide">
+<div class="button-form" data-input-mode="process">
   <div class="background rounded"></div>
   <div class="background trapeze"></div>
   <div class="link-form"><div class="button" data-i18n="teamadd.add"></div></div>  

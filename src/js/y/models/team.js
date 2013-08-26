@@ -4,34 +4,59 @@ var TeamModel = Backbone.Model.extend({
   mode : '',
   
   defaults : {
+    name : "",
     sport : "tennis",
-    name : ""
+    profile : {},    
+    club : "",    
+    players: [],
+    substitutes : [],
+    captain: {},
+    captainSubstitute: {},
+    coach: {},
+    competition : true
   },  
 
   sync : function(method, model, options) {
-  
-    if (method === 'create') {
-      var object = {        
-          sport: "tennis",
-          name: this.get('name')    
+    // allowing playerid & token overload.
+    var that = this;
+    var playerid = options.playerid || this.get('id') || '';
+    var token = options.token || this.get('token') || '';
+      
+    if (method === 'create' && this.get('id') === undefined) {
+    
+      var dataSend = {        
+        sport: "tennis",
+        name: this.get('name'),
+        club: this.get('club'),
+        players: this.get('players'),
+        substitutes: this.get('substitutes'),
+        captain: this.get('captain')
       };
+      
+      console.log(dataSend);
 
       return Backbone.ajax({
         dataType : 'json',
         url : Y.Conf.get("api.url.teams"),
         type : 'POST',
-        data : object,
-        success : function(result) {
-          
-          if (result.id !== null)
-            $('span.success').html('Enregistrement OK ' + data.id).show();
-          else
-            $('span.success').html('Erreur').show();
-          
+        data : dataSend,
+        // WHYYYYY ?????
+		success: function (data) {
+          that.set(data);
+          if (options && options.success) {
+            options.success(data);
+          }
+        },
+        error: function (message) {
+          if (options && options.error)
+            options.error(message);
         }
       });
 
     }
+    else if (method === 'update' && this.get('id') !== undefined) {
+      console.log("FIXME");
+    }    
     else {
       model.url = Y.Conf.get("api.url.teams")+this.id;
       return Backbone.sync(method, model, options);

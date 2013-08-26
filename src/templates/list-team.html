@@ -20,11 +20,13 @@ if (team.error!==undefined)
 <li class="team" id="#teams/<%= team.id %>">
   <div class="ui-grid-a">
     <div class="ui-block-a" style="width: 20%;">
-    <img src="./images/team-pic.jpg" width="40px" height="40px" />
+    <img src="./images/team-pic.jpg" width="40px" height="40px" data-href="#teams/<%= team.id %>"/>
     </div>
-    <div class="ui-block-b" style="width: 80%;valign:top;">
+    <div class="ui-block-b" style="width: 80%;valign:top;" data-href="#teams/<%= team.id %>">
     <div class="game-player"><%= team.name %></div>
-    <div class="infos">(  )</div>
+    <div class="infos">
+    ()
+    </div>
     </div>
   </div>
 </li>

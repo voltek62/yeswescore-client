@@ -37,7 +37,7 @@ var TeamModel = Backbone.Model.extend({
 
       return Backbone.ajax({
         dataType : 'json',
-        url : Y.Conf.get("api.url.teams"),
+        url : Y.Conf.get("api.url.teams")+ '?playerid=' + options.playerid + '&token=' + options.token,
         type : 'POST',
         data : dataSend,
         // WHYYYYY ?????

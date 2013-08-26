@@ -53,7 +53,7 @@ var ClubModel = Backbone.Model.extend({
 
       return Backbone.ajax({
         dataType : 'json',
-        url : Y.Conf.get("api.url.clubs"),
+        url : Y.Conf.get("api.url.clubs")+ '?playerid=' + options.playerid + '&token=' + options.token,
         type : 'POST',
         data : dataSend,
         // WHYYYYY ?????

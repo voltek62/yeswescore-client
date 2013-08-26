@@ -3,7 +3,10 @@
 <div class="gameAdd content-container">
   <div id="gameAddForm" class="zone-list simple">
     <span class="success label label-info hide"></span>	
-    <div class="form-label" data-i18n="gameadd.player1"></div>
+    
+    <div id="simples">
+    
+    <div class="form-label-player" data-i18n="gameadd.player1"></div>
 	<div class="ui-grid-b first-team me">
 	  <div class="ui-block-a">
 	    <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1_holder;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
@@ -16,33 +19,66 @@
 	  </div>
 	</div>		
 	<div class="team1_error label label-error hide"></div>
-  	
-    <div class="form-label" data-i18n="gameadd.player2"></div>	  
+    
+    <div class="form-label-player" data-i18n="gameadd.player2"></div>	  
     <div class="ui-grid-b">
-	  <div class="ui-block-a">
-	    <input type="text" id="team2" name="team2" data-i18n="[placeholder]gameadd.player2;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
-	  </div>
-	  <div class="ui-block-b">
-	    <input type="text" id="rank2" name="rank2" data-i18n="[placeholder]gameadd.rank;" value="" />
-	  </div>
-      <div class="ui-block-c">
-         <span class="form-button more-options" data-i18n="gameadd.plus"></span>
-       </div>
-	</div>
-		
+  	  <div class="ui-block-a">
+  	    <input type="text" id="team2" name="team2" data-i18n="[placeholder]gameadd.player2;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
+  	  </div>
+  	  <div class="ui-block-b">
+  	    <input type="text" id="rank2" name="rank2" data-i18n="[placeholder]gameadd.rank;" value="" />
+  	  </div>
+        <div class="ui-block-c">
+           <span class="form-button more-options" data-i18n="gameadd.plus"></span>
+         </div>
+  	</div>
+  		
     <div class="team2_error label label-error hide"></div>  
-    
-    
-    <div class="radiolisthorizontal">
-      <span style="width: 50%;">
-        <input type="radio" name="type-match" id="mode-simple" checked="checked">
+      
+    </div>      
+      
+    <!-- radiolisthorizontal  -->
+    <div class="ui-grid-a radiolisthorizontal">
+      <div class="ui-block-a" style="border-right: 1px solid #000000;">        
+        <input type="radio" name="type-match" id="mode-simple" checked="checked" value="simples">
         <label for="mode-simple">Simple</label>
-      </span>
-      <span style="width: 50%;">
-        <input type="radio" name="type-match" id="mode-double">
+      </div>
+      <div class="ui-block-b">      
+        <input type="radio" name="type-match" id="mode-double" value="doubles">
         <label for="mode-double">Double</label>
-      </span>    
-    </div>    
+      </div>
+    </div>
+        
+    
+    
+    <fieldset id="doubles" style="display:none;border:solid 1px #FFFFFF;margin-top:15px;"> 
+      <legend style="color:#FFFFFF;"> Team 2 </legend> 
+      <div class="form-label-player" data-i18n="gameadd.player1" style="padding-top:0;"></div>    
+      <div class="ui-grid-b">
+      <div class="ui-block-a">
+        <input type="text" id="team3" name="team3" data-i18n="[placeholder]gameadd.player2;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam3"/>
+      </div>
+      <div class="ui-block-b">
+        <input type="text" id="rank3" name="rank3" data-i18n="[placeholder]gameadd.rank;" value="" />
+      </div>
+        <div class="ui-block-c">
+           &nbsp;
+         </div>
+      </div>    
+      
+      <div class="form-label-player" data-i18n="gameadd.player2"></div>    
+      <div class="ui-grid-b">
+      <div class="ui-block-a">
+        <input type="text" id="team4" name="team4" data-i18n="[placeholder]gameadd.player2;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam4"/>
+      </div>
+      <div class="ui-block-b">
+        <input type="text" id="rank4" name="rank4" data-i18n="[placeholder]gameadd.rank;" value="" />
+      </div>
+        <div class="ui-block-c">
+           &nbsp;
+         </div>
+      </div>
+    </fieldset>    
     
     <div class="additionnal-options">	
       <div class="form-label" style="position:relative" data-i18n="gameadd.city"></div>

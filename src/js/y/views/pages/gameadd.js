@@ -10,9 +10,13 @@ Y.Views.Pages.GameAdd = Y.View.extend({
 
   team1_id: null,
   team2_id: null,
+  team3_id: null,
+  team4_id: null,
   
   events: {
     'mousedown .button': 'addGame',
+    'click #mode-simple': 'setSimple',    
+    'click #mode-double': 'setDouble',        
     'click .form-button.other-team': 'otherTeam',
     'click .form-button.more-options': 'moreOption',
     'blur #team1': 'changeTeam1',
@@ -39,6 +43,20 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     this.team2_id = null;
     this.render();
   },
+
+  setSimple: function () {
+    $('.form-label-player').css('padding-top','');
+    $('#team1').children("legend").remove();
+    $('#simples').unwrap('<fieldset id="team1" style="border:solid 1px #FFFFFF;"></fieldset>');    
+    $('#doubles').hide(); 
+  },
+  
+  setDouble: function () {
+    $('#doubles').show();
+    $('#simples').wrap('<fieldset id="team1" style="border:solid 1px #FFFFFF;"></fieldset>');
+    $('#team1').append('<legend style="color:#FFFFFF;"> Team 1 </legend> ');
+    $('.form-label-player').css('padding-top','0');
+  },  
 
   otherTeam: function () {
     this.team1_id = null;
@@ -127,6 +145,8 @@ Y.Views.Pages.GameAdd = Y.View.extend({
       , team2 = $('#team2').val()
       , rank2 = $('#rank2').val()
       , city = $('#city').val()
+      , numberofbestsets = $('[name=bestofsets]:checked').val()
+      , type = $('[name=type-match]:checked').val()
       , expectedDay = $('#expectedDay').val() 
       , expectedHour = $('#expectedHour').val()
       , game;
@@ -155,11 +175,13 @@ Y.Views.Pages.GameAdd = Y.View.extend({
         , team2_id : this.team2_id
         , location : { city : $('#city').val() }
         , infos : { 
-        court : $('#court').val() 
+          //Stocke infos temporaire sans rapport avec le modele
+            court : $('#court').val() 
+          , type : type
+          , numberOfBestSets : parseInt(numberofbestsets,10)          
           , surface : $('#surface').val()
           , tour : $('#tour').val() 
           , official : ($('#official').val() === "true")
-          //Stocke infos temporaire sans rapport avec le modele
           , expectedDay : $('#expectedDay').val()
           , expectedHour : $('#expectedHour').val()
         } 
@@ -231,9 +253,11 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     , dates : {}
     , infos : { 
         court : $('#court').val() 
-      , surface : $('#surface').val()
-      , tour : $('#tour').val()
-      , official : ($('#official').val() === "true")
+        , type : type
+        , numberOfBestSets : parseInt(numberofbestsets,10)         
+        , surface : $('#surface').val()
+        , tour : $('#tour').val()
+        , official : ($('#official').val() === "true")
       }
     });   
     
@@ -306,6 +330,22 @@ Y.Views.Pages.GameAdd = Y.View.extend({
       this.team2_id = data.id;
     }
   }, 
+
+  autocompleteTeam3: function (data) {
+
+    if (data && data.name) {
+      this.$("#team3").val(data.name);
+      this.team3_id = data.id;
+    }
+  },
+  
+  autocompleteTeam4: function (data) {
+
+    if (data && data.name) {
+      this.$("#team4").val(data.name);
+      this.team4_id = data.id;
+    }
+  },  
 
   //render the content into div of view
   render: function () {

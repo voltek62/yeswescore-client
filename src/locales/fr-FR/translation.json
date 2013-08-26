@@ -302,10 +302,11 @@
     "registering": "Vous pouvez vous enregistrer en choisissant un mot de passe."
   },   
   "nav": {
-    "matchs": "Suivre",
+    "follow": "Suivre",
     "create": "Créer",
     "account": "Gérer",
     "player": "Joueur",
+    "match": "Match",    
     "team": "Equipe",
     "club": "Club"    
   },

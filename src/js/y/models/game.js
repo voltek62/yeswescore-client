@@ -25,7 +25,8 @@ var GameModel = Backbone.Model.extend({
       } ]
     } ],
     infos : {
-      type : "singles",
+      type : "",
+      numberOfBestSets : 3,
       subtype : "A",
       sets : "0/0",
       score : "0/0",
@@ -103,8 +104,7 @@ var GameModel = Backbone.Model.extend({
       } ];
     }
 	 
-    object.infos.type = "singles";	
-    
+	
      if (typeof this.get('location').city !== "undefined") 
        object.location.city = this.get('location').city;
      if (typeof this.get('location').country !== "undefined")
@@ -131,6 +131,12 @@ var GameModel = Backbone.Model.extend({
    
     if (typeof this.get('infos').official === "boolean")
       object.infos.official = this.get('infos').official;
+	 if (typeof this.get('infos').type !== "undefined") 
+       object.infos.type = this.get('infos').type;	
+	 if (typeof this.get('infos').numberOfBestSets !== "undefined") 
+       object.infos.type = this.get('infos').numberOfBestSets;	
+              
+      
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
 

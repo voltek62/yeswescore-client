@@ -65,7 +65,7 @@ Y.Views.Pages.TeamAdd = Y.View.extend({
     
     var name = $('#name').val()
       , club = $('#club').val()
-      , clubid = this.clubid    
+      , clubid = this.clubid          
       , city = $('#city').val();
       
     if (this.addingTeam)
@@ -74,11 +74,11 @@ Y.Views.Pages.TeamAdd = Y.View.extend({
     this.addingTeam = true;
     
     var team = new TeamModel({
-      name: name,
-      club: {id: clubid},
+      name: name
+      , club: {id: clubid}
       //On doit placer le player par défaut
-      players:[{id:this.player.get('id')}],
-      captain:this.player.get('id')      
+      , players:[this.player.get('id')]
+      , captain:this.player.get('id')
     });
 
     var that = this;

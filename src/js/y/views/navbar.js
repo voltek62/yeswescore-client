@@ -56,11 +56,11 @@ Y.Views.Navbar = Y.View.extend({
   },
 
   showButton: function () {
-    $('div.button').show();  
+    $('#footer div.button').show();  
   },
 
   hideButton: function () {
-    $('div.button').hide();  
+    $('#footer div.button').hide();  
   },
   
   hideSubBar: function () { 

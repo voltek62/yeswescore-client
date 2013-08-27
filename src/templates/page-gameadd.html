@@ -2,39 +2,35 @@
 <div class="gameAdd background"></div>
 <div class="gameAdd content-container">
   <div id="gameAddForm" class="zone-list simple">
-    <span class="success label label-info hide"></span>	
-    
+    <span class="success label label-info hide"></span>	    
     <div id="simples">
+      <div class="form-label-player" data-i18n="gameadd.player1"></div>
+	  <div class="ui-grid-b first-team me">
+	    <div class="ui-block-a">
+	      <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1_holder;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
+	    </div>
+	    <div class="ui-block-b">
+	      <input type="text" id="rank1" name="rank1" data-i18n="[placeholder]gameadd.rank;" class='jq-ui-forms-white' value="" />
+	    </div>
+        <div class="ui-block-c" data-input-mode="hide">
+	      <span class="form-button other-team" data-i18n="gameadd.other"></span>
+	    </div>
+	  </div>		
+	  <div class="team1_error label label-error hide"></div>
     
-    <div class="form-label-player" data-i18n="gameadd.player1"></div>
-	<div class="ui-grid-b first-team me">
-	  <div class="ui-block-a">
-	    <input type="text" id="team1" name="team1" data-i18n="[placeholder]gameadd.player1_holder;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam1" disabled/>
-	  </div>
-	  <div class="ui-block-b">
-	    <input type="text" id="rank1" name="rank1" data-i18n="[placeholder]gameadd.rank;" class='jq-ui-forms-white' value="" />
-	  </div>
-      <div class="ui-block-c" data-input-mode="hide">
-	    <span class="form-button other-team" data-i18n="gameadd.other"></span>
-	  </div>
-	</div>		
-	<div class="team1_error label label-error hide"></div>
-    
-    <div class="form-label-player" data-i18n="gameadd.player2"></div>	  
-    <div class="ui-grid-b">
-  	  <div class="ui-block-a">
-  	    <input type="text" id="team2" name="team2" data-i18n="[placeholder]gameadd.player2;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
-  	  </div>
-  	  <div class="ui-block-b">
-  	    <input type="text" id="rank2" name="rank2" data-i18n="[placeholder]gameadd.rank;" value="" />
-  	  </div>
+      <div class="form-label-player" data-i18n="gameadd.player2"></div>	  
+      <div class="ui-grid-b">
+  	    <div class="ui-block-a">
+  	      <input type="text" id="team2" name="team2" data-i18n="[placeholder]gameadd.player2;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam2"/>
+  	    </div>
+  	    <div class="ui-block-b">
+  	      <input type="text" id="rank2" name="rank2" data-i18n="[placeholder]gameadd.rank;" value="" />
+  	    </div>
         <div class="ui-block-c">
            <span class="form-button more-options" data-i18n="gameadd.plus"></span>
          </div>
-  	</div>
-  		
-    <div class="team2_error label label-error hide"></div>  
-      
+  	  </div>
+      <div class="team2_error label label-error hide"></div>       
     </div>      
       
     <!-- radiolisthorizontal  -->
@@ -49,8 +45,6 @@
       </div>
     </div>
         
-    
-    
     <fieldset id="doubles" style="display:none;border:solid 1px #FFFFFF;margin-top:15px;"> 
       <legend style="color:#FFFFFF;"> Team 2 </legend> 
       <div class="form-label-player" data-i18n="gameadd.player1" style="padding-top:0;"></div>    

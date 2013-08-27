@@ -131,14 +131,17 @@ var GameModel = Backbone.Model.extend({
    
     if (typeof this.get('infos').official === "boolean")
       object.infos.official = this.get('infos').official;
-	 if (typeof this.get('infos').type !== "undefined") 
+	
+	if (typeof this.get('infos').type !== "undefined") 
        object.infos.type = this.get('infos').type;	
-	 if (typeof this.get('infos').numberOfBestSets !== "undefined") 
-       object.infos.type = this.get('infos').numberOfBestSets;	
-              
-      
+	
+	if (typeof this.get('infos').numberOfBestSets !== "undefined") 
+       object.infos.numberOfBestSets = this.get('infos').numberOfBestSets;	
+                   
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];
+      
+    console.log('object Game',object);
 
     if (method === 'create' && options.playerid !== undefined) {
       return Backbone.ajax({
@@ -350,7 +353,7 @@ var GameModel = Backbone.Model.extend({
       });
     });
     if (typeof padding !== "undefined") {
-      for (var i = 0; i < 3; ++i) {
+      for (var i = 0; i < 5; ++i) {
         if (typeof sets[i] === "undefined")
           sets[i] = [padding, padding];
       }

@@ -42,7 +42,8 @@ Y.Views.Pages.Game = Y.View.extend({
     // loading templates.
     this.templates = {
       page       : Y.Templates.get('page-game'),
-      scoreboard : Y.Templates.get('module-game-scoreboard')
+      scoreboard3sets : Y.Templates.get('module-game-scoreboard-3sets'),      
+      scoreboard5sets : Y.Templates.get('module-game-scoreboard-5sets')
     };
     
     // On stock les dernieres modifs
@@ -344,13 +345,20 @@ Y.Views.Pages.Game = Y.View.extend({
     var diff_sets1 = Math.abs(parseInt(sets_tmp[0][0], 10)-parseInt(sets_tmp[0][1], 10));
     var diff_sets2 = Math.abs(parseInt(sets_tmp[1][0], 10)-parseInt(sets_tmp[1][1], 10));
     var diff_sets3 = Math.abs(parseInt(sets_tmp[2][0], 10)-parseInt(sets_tmp[2][1], 10));
+    var diff_sets4 = Math.abs(parseInt(sets_tmp[3][0], 10)-parseInt(sets_tmp[3][1], 10));
+    var diff_sets5 = Math.abs(parseInt(sets_tmp[4][0], 10)-parseInt(sets_tmp[4][1], 10));    
 
     if ((sets_tmp[0][0]>=7 && diff_sets1>2) ||
         (sets_tmp[0][1]>=7 && diff_sets1>2) ||
         (sets_tmp[1][0]>=7 && diff_sets2>2) ||
         (sets_tmp[1][1]>=7 && diff_sets2>2) ||
         (sets_tmp[2][0]>=7 && diff_sets3>2) ||
-        (sets_tmp[2][1]>=7 && diff_sets3>2)) {
+        (sets_tmp[2][1]>=7 && diff_sets3>2) ||
+        (sets_tmp[3][0]>=7 && diff_sets3>2) ||
+        (sets_tmp[3][1]>=7 && diff_sets3>2) ||
+        (sets_tmp[4][0]>=7 && diff_sets3>2) ||
+        (sets_tmp[4][1]>=7 && diff_sets3>2)                
+        ) {
       // incrementation impossible
       return;
     }
@@ -438,20 +446,42 @@ Y.Views.Pages.Game = Y.View.extend({
 
   renderScoreBoard : function(game) {
     var sets = game.getSets('&nbsp')
-      , score = game.getScore();
+      , score = game.getScore()
+      , numberOfBestSets = game.get('infos').numberOfBestSets;
     
     //
-    $(this.displayViewScoreBoard).html(this.templates.scoreboard({
+    console.log('nbSets',numberOfBestSets);
+    
+    if (numberOfBestSets==5 && typeof numberOfBestSets === "number") {
+      $(this.displayViewScoreBoard).html(this.templates.scoreboard5sets({
         game : game.toJSON()
-      , team1_set1 : sets[0][0]
-      , team1_set2 : sets[1][0]
-      , team1_set3 : sets[2][0]
-      , team2_set1 : sets[0][1]
-      , team2_set2 : sets[1][1]
-      , team2_set3 : sets[2][1]
-      , team1_sets : String(score[0]) || '&nbsp'
-      , team2_sets : String(score[1]) || '&nbsp'
-    }));
+        , team1_set1 : sets[0][0]
+        , team1_set2 : sets[1][0]
+        , team1_set3 : sets[2][0]
+        , team1_set4 : sets[3][0]
+        , team1_set5 : sets[4][0]            
+        , team2_set1 : sets[0][1]
+        , team2_set2 : sets[1][1]
+        , team2_set3 : sets[2][1]
+        , team2_set4 : sets[3][1]
+        , team2_set5 : sets[4][1]            
+        , team1_sets : String(score[0]) || '&nbsp'
+        , team2_sets : String(score[1]) || '&nbsp'
+      }));
+    }
+    else {
+      $(this.displayViewScoreBoard).html(this.templates.scoreboard3sets({
+        game : game.toJSON()
+        , team1_set1 : sets[0][0]
+        , team1_set2 : sets[1][0]
+        , team1_set3 : sets[2][0]         
+        , team2_set1 : sets[0][1]
+        , team2_set2 : sets[1][1]
+        , team2_set3 : sets[2][1]         
+        , team1_sets : String(score[0]) || '&nbsp'
+        , team2_sets : String(score[1]) || '&nbsp'
+      }));    
+    }
     
     //i18n
     //PERF:on remplace que les champs du DOM concernés
@@ -545,6 +575,7 @@ Y.Views.Pages.Game = Y.View.extend({
       this.game.set('status', 'ongoing');
       this.renderAndSave();
       
+      /*
       var that = this;
       navigator.notification.confirm(
         i18n.t('message.choiceserver'),  // message
@@ -554,7 +585,7 @@ Y.Views.Pages.Game = Y.View.extend({
         i18n.t('message.choiceservertitle'),            // title
         i18n.t('message.choiceserveryes')+","+i18n.t('message.choiceserverno') // buttonName
       );  
-              
+       */       
       
     } else if (this.game.get('status') === "ongoing") {
       this.game.set('status', 'finished');

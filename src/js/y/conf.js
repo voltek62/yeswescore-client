@@ -135,7 +135,7 @@
 
         // Parametrage des variables non dependantes d'un environnement
         this.set("gui.image.placeholder.profil", "./images/player-pic.jpg");
-        this.set("game.refresh", 30000);         // default 30000 (30sec)
+        this.set("game.refresh",  30000);         // default 30000 (30sec)
         this.set("games.refresh", 30000);        // default 30000 (30sec)        
         this.set("game.max.comments", 20); 
         this.set("pooling.geolocation", 10000);  // default 10000 (10sec)

@@ -170,7 +170,37 @@ else {
 
 <%
 if (game.status === "created") {
-%>
+
+  if (game.infos.type === "doubles") {
+  %>
+ <div class="ui-grid-b" style="margin-top:5px;">
+  <div class="ui-block-a game-player" style="width:40%;text-align:center;line-height:12px;">
+  <% 
+  if (game.teams[0].players[0]!== undefined) { 
+    print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+    print("<b>"+game.teams[0].players[1].name+"</b>&nbsp;"); 
+  }
+  %>   
+  </div>
+  <div class="ui-block-b game-player" style="width:20%;text-align:center;line-height:12px;">
+  <b>VS</b><br/>
+  <%= game.dates.startTime %>
+  </div>
+  <div class="ui-block-c game-player" style="width:40%;text-align:center;line-height:12px;">
+  <% 
+  if (game.teams[1].players[0]!== undefined) { 
+    print("<b>"+game.teams[1].players[0].name+"</b><br/>"); 
+    print("<b>"+game.teams[1].players[1].name+"</b>&nbsp;"); 
+  }
+  %>       
+  </div>  
+ </div>
+<%
+}
+// mode simple
+else {
+
+  %>
  <div class="ui-grid-b" style="margin-top:5px;">
   <div class="ui-block-a game-player" style="width:40%;text-align:center;line-height:12px;">
   <% 
@@ -215,63 +245,101 @@ if (game.status === "created") {
   </div>  
  </div>
 <%
+
+  }
 }
 else
 {
-%>
- <div class="ui-grid-d" style="margin-top:5px;">
-     <div class="ui-block-a game-player" style="width:63%;">
-	<% 
-	if (game.teams[0].players[0]!== undefined) { 
-		print("<b>"+game.teams[0].players[0].name+"</b><br/>&nbsp;");
-    
-		print('<span class="div_score_mini">');
-		print(game.teams[0].players[0].rank);	
-		
-		if (game.teams[0].players[0].club !== undefined) {	
-		
-			
-		  if (game.teams[0].players[0].club.name.length>20)
-		  	game.teams[0].players[0].club.name = game.teams[0].players[0].club.name.substr(0,19);		
-		    print(' '+game.teams[0].players[0].club.name);	
-		}	
-		print('</span>');	
-	}
-	%>         
-     </div>
-     <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
-     <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
-     <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
-     <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
- </div>
-
- <div class="ui-grid-d" style="margin-top:5px;">
-     <div class="ui-block-a game-player" style="width:63%;">
-	<% 
-	if (game.teams[1].players[0]!== undefined) { 
-		print("<b>"+game.teams[1].players[0].name+"</b><br/>&nbsp;");	
-		print('<span class="div_score_mini">');
-		print(game.teams[1].players[0].rank);	
-
-		if (game.teams[1].players[0].club !== undefined) {
-		
-		
-		  if (game.teams[1].players[0].club.name.length>20)
-		  	game.teams[1].players[0].club.name = game.teams[1].players[0].club.name.substr(0,19);
-		   print(' '+game.teams[1].players[0].club.name);	
-		}
-		print('</span>');		
-	}
-	%>         
-     </div>
-     <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
-     <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
-     <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
-     <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
- </div>
- <%
+  if (game.infos.type === "doubles") {
+  %>
+   <div class="ui-grid-d" style="margin-top:5px;">
+       <div class="ui-block-a game-player" style="width:63%;">
+  	<% 
+  	if (game.teams[0].players[0]!== undefined) { 
+  	  print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+      print("<b>"+game.teams[0].players[1].name+"</b>&nbsp;");      
+  	}
+  	%>         
+       </div>
+       <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
+       <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
+       <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
+       <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
+   </div>
+  
+   <div class="ui-grid-d" style="margin-top:5px;">
+       <div class="ui-block-a game-player" style="width:63%;">
+  	<% 
+  	if (game.teams[1].players[0]!== undefined) { 
+  		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
+        print("<b>"+game.teams[1].players[1].name+"</b>&nbsp;");   		
+  	}
+  	%>         
+       </div>
+       <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
+       <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
+       <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
+       <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
+   </div>
+   <%
  }
- %>
+ //mode simple
+ else {
+  %>
+   <div class="ui-grid-d" style="margin-top:5px;">
+       <div class="ui-block-a game-player" style="width:63%;">
+    <% 
+    if (game.teams[0].players[0]!== undefined) { 
+      print("<b>"+game.teams[0].players[0].name+"</b><br/>&nbsp;");
+      
+      print('<span class="div_score_mini">');
+      print(game.teams[0].players[0].rank); 
+      
+      if (game.teams[0].players[0].club !== undefined) {  
+      
+        
+        if (game.teams[0].players[0].club.name.length>20)
+          game.teams[0].players[0].club.name = game.teams[0].players[0].club.name.substr(0,19);   
+          print(' '+game.teams[0].players[0].club.name);  
+      } 
+      print('</span>'); 
+    }
+    %>         
+       </div>
+       <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set1 %></span></div>
+       <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set2 %></span></div>
+       <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team1_set3 %></span></div>
+       <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team1_sets %></span></div>
+   </div>
+  
+   <div class="ui-grid-d" style="margin-top:5px;">
+       <div class="ui-block-a game-player" style="width:63%;">
+    <% 
+    if (game.teams[1].players[0]!== undefined) { 
+      print("<b>"+game.teams[1].players[0].name+"</b><br/>&nbsp;"); 
+      print('<span class="div_score_mini">');
+      print(game.teams[1].players[0].rank); 
+  
+      if (game.teams[1].players[0].club !== undefined) {
+      
+      
+        if (game.teams[1].players[0].club.name.length>20)
+          game.teams[1].players[0].club.name = game.teams[1].players[0].club.name.substr(0,19);
+         print(' '+game.teams[1].players[0].club.name); 
+      }
+      print('</span>');   
+    }
+    %>         
+       </div>
+       <div class="ui-block-b" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set1 %></span></div>
+       <div class="ui-block-c" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set2 %></span></div>
+       <div class="ui-block-d" style="width: 9%;"><span class="div_set_scoreboard"><%= team2_set3 %></span></div>
+       <div class="ui-block-e" style="width:10%;"><span class="div_set_scoreboard div_set"><%= team2_sets %></span></div>
+   </div>
+   <% 
+ }
+}
+%>
  
 </li>
 <% } %>

@@ -47,13 +47,13 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   setSimple: function () {
     $('.form-label-player').css('padding-top','');
     $('#team1').children("legend").remove();
-    $('#simples').unwrap('<fieldset id="team1" style="border:solid 1px #FFFFFF;"></fieldset>');    
-    $('#doubles').hide(); 
+    $('#simples').unwrap('<fieldset id="doubles1" style="border:solid 1px #FFFFFF;"></fieldset>');    
+    $('#doubles2').hide(); 
   },
   
   setDouble: function () {
-    $('#doubles').show();
-    $('#simples').wrap('<fieldset id="team1" style="border:solid 1px #FFFFFF;"></fieldset>');
+    $('#doubles2').show();
+    $('#simples').wrap('<fieldset id="doubles1" style="border:solid 1px #FFFFFF;"></fieldset>');
     $('#team1').append('<legend style="color:#FFFFFF;"> Team 1 </legend> ');
     $('.form-label-player').css('padding-top','0');
   },  
@@ -63,6 +63,8 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     // 
     $('.team1_error').hide();
     $('.team2_error').hide();
+    $('.team3_error').hide();
+    $('.team4_error').hide();    
     
     $(".form-button.other-team").addClass("selected");
     $(".ui-grid-b.first-team").removeClass("me");
@@ -142,8 +144,12 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   addingGame: false,
   addGame: function (event) {
     var team1 = $('#team1').val()   
-      , team2 = $('#team2').val()
+      , team2 = $('#team2').val() 
       , rank2 = $('#rank2').val()
+      , team3 = $('#team3').val()     
+      , rank3 = $('#rank3').val()  
+      , team4 = $('#team4').val()     
+      , rank4 = $('#rank4').val()                 
       , city = $('#city').val()
       , numberofbestsets = $('[name=bestofsets]:checked').val()
       , type = $('[name=type-match]:checked').val()
@@ -171,8 +177,14 @@ Y.Views.Pages.GameAdd = Y.View.extend({
         , rank1 : $('#rank1').val()
         , team1_id : this.team1_id
         , team2 : team2
-        , rank2 : $('#rank2').val()
+        , rank2 : $('#rank2').val()        
         , team2_id : this.team2_id
+        , team3 : team3
+        , rank3 : $('#rank3').val()        
+        , team3_id : this.team3_id
+        , team4 : team4
+        , rank4 : $('#rank4').val()        
+        , team4_id : this.team4_id                
         , location : { city : $('#city').val() }
         , infos : { 
           //Stocke infos temporaire sans rapport avec le modele
@@ -222,21 +234,60 @@ Y.Views.Pages.GameAdd = Y.View.extend({
       return false;
     };
     
+    //Control double
+    if (type === "doubles") {
+	  if (checkName(team3) && team3.length>0) { 
+	    $('.team3_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('#team3').val('');        
+	    return false;     
+	  };
+	    
+	  if (checkRank(rank3) && rank3.length>0) {
+	    $('.team3_error').html(i18n.t('message.bad_rank')+' !').show();
+	    $('#rank3').val('');        
+	    return false;     
+	  };    
+	
+	  if ( ( team3.length < 3  || team3.indexOf('  ')!==-1 ) && this.team3_id === null ) {
+	    $('.team3_error').html(i18n.t('message.error_emptyplayer')+' !').show();
+	    $('#team3').val('');
+	    return false;
+	  }; 
+	  
+	  if (checkName(team4) && team4.length>0) { 
+	    $('.team4_error').html(i18n.t('message.bad_name')+' !').show();
+	    $('#team4').val('');        
+	    return false;     
+	  };
+	    
+	  if (checkRank(rank4) && rank4.length>0) {
+	    $('.team4_error').html(i18n.t('message.bad_rank')+' !').show();
+	    $('#rank4').val('');        
+	    return false;     
+	  };    
+	
+	  if ( ( team4.length < 3  || team4.indexOf('  ')!==-1 ) && this.team4_id === null ) {
+	    $('.team4_error').html(i18n.t('message.error_emptyplayer')+' !').show();
+	    $('#team4').val('');
+	    return false;
+	  };	     
+    }
+    
     if (checkName(city) && city.length>0) {             
     $('span.city_error').html(i18n.t('message.bad_name')+' !').show();
       $('#city').val('');        
       return false;     
     };
 
-  if (expectedDay.length < 1 && expectedHour.length > 1) {
-    $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();        
-    return false;   
-  }
+    if (expectedDay.length < 1 && expectedHour.length > 1) {
+      $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();        
+      return false;   
+    }
 
-  if (expectedDay.length > 1 && expectedHour.length < 1) {
-    $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();      
-    return false;   
-  }
+    if (expectedDay.length > 1 && expectedHour.length < 1) {
+      $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();      
+      return false;   
+    }
 
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.addingGame = true;
@@ -249,6 +300,12 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     , team2 : team2
     , rank2 : $('#rank2').val()
     , team2_id : this.team2_id
+    , team3 : team3
+    , rank3 : $('#rank3').val()        
+    , team3_id : this.team3_id
+    , team4 : team4
+    , rank4 : $('#rank4').val()        
+    , team4_id : this.team4_id       
     , location : { city : $('#city').val() }
     , dates : {}
     , infos : { 

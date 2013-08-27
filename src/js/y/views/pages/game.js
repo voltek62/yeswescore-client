@@ -41,9 +41,11 @@ Y.Views.Pages.Game = Y.View.extend({
         
     // loading templates.
     this.templates = {
-      page       : Y.Templates.get('page-game'),
-      scoreboard3sets : Y.Templates.get('module-game-scoreboard-3sets'),      
-      scoreboard5sets : Y.Templates.get('module-game-scoreboard-5sets')
+      page                    : Y.Templates.get('page-game'),
+      scoreboard3setssimple : Y.Templates.get('module-game-scoreboard-3sets-simple'),      
+      scoreboard5setssimple : Y.Templates.get('module-game-scoreboard-5sets-simple'),
+      scoreboard3setsdouble : Y.Templates.get('module-game-scoreboard-3sets-double'),      
+      scoreboard5setsdouble : Y.Templates.get('module-game-scoreboard-5sets-double')
     };
     
     // On stock les dernieres modifs
@@ -447,39 +449,78 @@ Y.Views.Pages.Game = Y.View.extend({
   renderScoreBoard : function(game) {
     var sets = game.getSets('&nbsp')
       , score = game.getScore()
+      , typeMatch = game.get('infos').type
       , numberOfBestSets = game.get('infos').numberOfBestSets;
-    
-    if (numberOfBestSets==5 && typeof numberOfBestSets === "number") {
-      $(this.displayViewScoreBoard).html(this.templates.scoreboard5sets({
-        game : game.toJSON()
-        , team1_set1 : sets[0][0]
-        , team1_set2 : sets[1][0]
-        , team1_set3 : sets[2][0]
-        , team1_set4 : sets[3][0]
-        , team1_set5 : sets[4][0]            
-        , team2_set1 : sets[0][1]
-        , team2_set2 : sets[1][1]
-        , team2_set3 : sets[2][1]
-        , team2_set4 : sets[3][1]
-        , team2_set5 : sets[4][1]            
-        , team1_sets : String(score[0]) || '&nbsp'
-        , team2_sets : String(score[1]) || '&nbsp'
-      }));
-    }
+
+	if (typeMatch==="doubles") {
+       if (numberOfBestSets==5 && typeof numberOfBestSets === "number") {
+        console.log('5setsdouble');
+        $(this.displayViewScoreBoard).html(this.templates.scoreboard5setsdouble({
+          game : game.toJSON()
+          , team1_set1 : sets[0][0]
+          , team1_set2 : sets[1][0]
+          , team1_set3 : sets[2][0]
+          , team1_set4 : sets[3][0]
+          , team1_set5 : sets[4][0]            
+          , team2_set1 : sets[0][1]
+          , team2_set2 : sets[1][1]
+          , team2_set3 : sets[2][1]
+          , team2_set4 : sets[3][1]
+          , team2_set5 : sets[4][1]            
+          , team1_sets : String(score[0]) || '&nbsp'
+          , team2_sets : String(score[1]) || '&nbsp'
+        }));
+      }
+      else { 
+        console.log('3setsdouble');
+        $(this.displayViewScoreBoard).html(this.templates.scoreboard3setsdouble({
+          game : game.toJSON()
+          , team1_set1 : sets[0][0]
+          , team1_set2 : sets[1][0]
+          , team1_set3 : sets[2][0]         
+          , team2_set1 : sets[0][1]
+          , team2_set2 : sets[1][1]
+          , team2_set3 : sets[2][1]         
+          , team1_sets : String(score[0]) || '&nbsp'
+          , team2_sets : String(score[1]) || '&nbsp'
+        }));    
+      }   
+    }    
     else {
-      $(this.displayViewScoreBoard).html(this.templates.scoreboard3sets({
-        game : game.toJSON()
-        , team1_set1 : sets[0][0]
-        , team1_set2 : sets[1][0]
-        , team1_set3 : sets[2][0]         
-        , team2_set1 : sets[0][1]
-        , team2_set2 : sets[1][1]
-        , team2_set3 : sets[2][1]         
-        , team1_sets : String(score[0]) || '&nbsp'
-        , team2_sets : String(score[1]) || '&nbsp'
-      }));    
+      if (numberOfBestSets==5 && typeof numberOfBestSets === "number") {
+        console.log('5setssimple');
+        $(this.displayViewScoreBoard).html(this.templates.scoreboard5setssimple({
+          game : game.toJSON()
+          , team1_set1 : sets[0][0]
+          , team1_set2 : sets[1][0]
+          , team1_set3 : sets[2][0]
+          , team1_set4 : sets[3][0]
+          , team1_set5 : sets[4][0]            
+          , team2_set1 : sets[0][1]
+          , team2_set2 : sets[1][1]
+          , team2_set3 : sets[2][1]
+          , team2_set4 : sets[3][1]
+          , team2_set5 : sets[4][1]            
+          , team1_sets : String(score[0]) || '&nbsp'
+          , team2_sets : String(score[1]) || '&nbsp'
+        }));
+      }
+      else {
+        console.log('3setssimple');
+        $(this.displayViewScoreBoard).html(this.templates.scoreboard3setssimple({
+          game : game.toJSON()
+          , team1_set1 : sets[0][0]
+          , team1_set2 : sets[1][0]
+          , team1_set3 : sets[2][0]         
+          , team2_set1 : sets[0][1]
+          , team2_set2 : sets[1][1]
+          , team2_set3 : sets[2][1]         
+          , team1_sets : String(score[0]) || '&nbsp'
+          , team2_sets : String(score[1]) || '&nbsp'
+        }));    
+      }
     }
-    
+        
     //i18n
     //PERF:on remplace que les champs du DOM concernés
     $('a').i18n();

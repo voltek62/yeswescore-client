@@ -25,7 +25,7 @@ var GameModel = Backbone.Model.extend({
       } ]
     } ],
     infos : {
-      type : "",
+      type : "singles",
       numberOfBestSets : 3,
       subtype : "A",
       sets : "0/0",
@@ -64,46 +64,107 @@ var GameModel = Backbone.Model.extend({
     var that = this;
     var team1_json = null;
     var team2_json = null;
-    
-    // if player exists / not exists
-    if (this.get('team1_id')) {
-      team1_json = {
-        id : this.get('team1_id')
-      };
-    } else if (this.get('team1')) {
-      team1_json = {
-        name : this.get('team1'),
-        rank : this.get('rank1')
-      };
-    }
-
-    if (this.get('team2_id')) {
-      team2_json = {
-        id : this.get('team2_id')
-      };
-    } else if (this.get('team2')) {
-      team2_json = {
-        name : this.get('team2'),
-        rank : this.get('rank2')
-      };
-    }
-    
+    var team3_json = null;
+    var team4_json = null;
+        
     var object = {
       infos : {}
     , location : {}
     , dates : {}
-    };
+    };    
+    
 
-    if (team1_json && team2_json) {
-      object.teams = [ {
-        id : null,
-        players : [ team1_json ]
-      }, {
-        id : null,
-        players : [ team2_json ]
-      } ];
+    // if player exists / not exists
+    if (this.get('infos').type === "doubles") {
+      
+      if (this.get('team1_id')) {
+        team1_json = {
+          id : this.get('team1_id')
+        };
+      } else if (this.get('team1')) {
+        team1_json = {
+          name : this.get('team1'),
+          rank : this.get('rank1')
+        };
+      }
+
+      if (this.get('team2_id')) {
+        team2_json = {
+          id : this.get('team2_id')
+        };
+      } else if (this.get('team2')) {
+        team2_json = {
+          name : this.get('team2'),
+          rank : this.get('rank2')
+        };
+      }
+
+      if (this.get('team3_id')) {
+        team3_json = {
+          id : this.get('team3_id')
+        };
+      } else if (this.get('team3')) {
+        team3_json = {
+          name : this.get('team3'),
+          rank : this.get('rank3')
+        };
+      }
+      
+      if (this.get('team4_id')) {
+        team4_json = {
+          id : this.get('team4_id')
+        };
+      } else if (this.get('team4')) {
+        team4_json = {
+          name : this.get('team4'),
+          rank : this.get('rank4')
+        };
+      }      
+      
+      if (team1_json && team2_json && team3_json && team4_json) {
+        object.teams = [ {
+          id : null,
+          players : [ team1_json, team2_json ]
+        }, {
+          id : null,
+          players : [ team3_json, team4_json ]
+        } ];
+      } 
+            
     }
-	 
+    else {
+      if (this.get('team1_id')) {
+        team1_json = {
+          id : this.get('team1_id')
+        };
+      } else if (this.get('team1')) {
+        team1_json = {
+          name : this.get('team1'),
+          rank : this.get('rank1')
+        };
+      }
+
+      if (this.get('team2_id')) {
+        team2_json = {
+          id : this.get('team2_id')
+        };
+      } else if (this.get('team2')) {
+        team2_json = {
+          name : this.get('team2'),
+          rank : this.get('rank2')
+        };
+      }
+      
+      if (team1_json && team2_json) {
+        object.teams = [ {
+          id : null,
+          players : [ team1_json ]
+        }, {
+          id : null,
+          players : [ team2_json ]
+        } ];
+      }      
+    }
 	
      if (typeof this.get('location').city !== "undefined") 
        object.location.city = this.get('location').city;
@@ -132,8 +193,9 @@ var GameModel = Backbone.Model.extend({
     if (typeof this.get('infos').official === "boolean")
       object.infos.official = this.get('infos').official;
 	
-	if (typeof this.get('infos').type !== "undefined") 
+	if (typeof this.get('infos').type !== "undefined") {
        object.infos.type = this.get('infos').type;	
+    }
 	
 	if (typeof this.get('infos').numberOfBestSets !== "undefined") 
        object.infos.numberOfBestSets = this.get('infos').numberOfBestSets;	

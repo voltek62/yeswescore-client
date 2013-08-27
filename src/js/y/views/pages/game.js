@@ -449,9 +449,6 @@ Y.Views.Pages.Game = Y.View.extend({
       , score = game.getScore()
       , numberOfBestSets = game.get('infos').numberOfBestSets;
     
-    //
-    console.log('nbSets',numberOfBestSets);
-    
     if (numberOfBestSets==5 && typeof numberOfBestSets === "number") {
       $(this.displayViewScoreBoard).html(this.templates.scoreboard5sets({
         game : game.toJSON()
@@ -488,29 +485,23 @@ Y.Views.Pages.Game = Y.View.extend({
     $('a').i18n();
     $('span').i18n();
     
-    var total_sets = parseInt(score[0]) + parseInt(score[1]);
-    if (total_sets >= 2)  {
-      $('#team1_set1_div .score').removeClass('ongoing');
-      $('#team2_set1_div .score').removeClass('ongoing');
-      $('#team1_set2_div .score').removeClass('ongoing');
-      $('#team2_set2_div .score').removeClass('ongoing');
-      $('#team3_set3_div .score').addClass('ongoing');
-      $('#team3_set3_div .score').addClass('ongoing');
+    var total_sets = parseInt(score[0]) + parseInt(score[1]);    
+    $('.ui-grid-f div[class*=ui-block] .score').removeClass('ongoing');
+    
+    if (total_sets >= 4)  {
+      $('.ui-grid-f div[class*=ui-block-e] .score').addClass('ongoing');
+    }  
+    else if (total_sets >= 3)  {
+      $('.ui-grid-f div[class*=ui-block-d] .score').addClass('ongoing');
+    }         
+    else if (total_sets >= 2)  {
+      $('.ui-grid-f div[class*=ui-block-c] .score').addClass('ongoing');
     }             
     else if (total_sets === 1)  {
-      $('#team1_set1_div .score').removeClass('ongoing');
-      $('#team2_set1_div .score').removeClass('ongoing');
-      $('#team1_set2_div .score').addClass('ongoing');
-      $('#team2_set2_div .score').addClass('ongoing');
-      $('#team3_set3_div .score').removeClass('ongoing');
-      $('#team3_set3_div .score').removeClass('ongoing');
-    } else {
-      $('#team1_set1_div .score').addClass('ongoing');
-      $('#team2_set1_div .score').addClass('ongoing');
-      $('#team1_set2_div .score').removeClass('ongoing');
-      $('#team2_set2_div .score').removeClass('ongoing');
-      $('#team3_set3_div .score').removeClass('ongoing');
-      $('#team3_set3_div .score').removeClass('ongoing');
+      $('.ui-grid-f div[class*=ui-block-b] .score').addClass('ongoing');
+    } 
+    else {
+      $('.ui-grid-f div[class*=ui-block-a] .score').addClass('ongoing');
     }
 
     var startTeam = game.get('infos').startTeam;

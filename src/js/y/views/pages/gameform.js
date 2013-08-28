@@ -30,7 +30,8 @@ Y.Views.Pages.GameForm = Y.View.extend({
     this.useSearch=0;
 
     this.templates = {
-      page:  Y.Templates.get('page-gameform'),
+      pagesimple:  Y.Templates.get('page-gameform-simple'),
+      pagedouble:  Y.Templates.get('page-gameform-double'),      
       gameselect:  Y.Templates.get('module-game-select'),      
       gamedatepicker:  Y.Templates.get('datepicker-game'),  
       gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),              
@@ -155,37 +156,96 @@ Y.Views.Pages.GameForm = Y.View.extend({
     // first, check the form.
     var team1 = $("#team1").val()
       , team2 = $("#team2").val()
+      , team3 = $("#team3").val()
+      , team4 = $("#team4").val()
+      
       , rank1 = $("#rank1").val()
       , rank2 = $("#rank2").val()
+      , rank3 = $("#rank3").val()
+      , rank4 = $("#rank4").val()      
+      
       , ownedPlayer = null
       , expectedDay = $('#expectedDay').val() 
       , expectedHour = $('#expectedHour').val()      
       , that = this;
 
-    if (this.isTeamEditable(0)) {
-      if (checkName(team1) && team1.length>0) {
-        $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
-        $('#team1').val('');
-        return false;
-      }
-      if (checkRank(rank1) && rank1.length>0) {
-        $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
-        $('#rank1').val('');        
-        return false;     
-      }
-    }
-    if (this.isTeamEditable(1)) {
-      if (checkName(team2) && team2.length>0) { 
-        $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
-        $('#team2').val('');
-        return false;
-      }
-      if (checkRank(rank2) && rank2.length>0) {
-        $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
-        $('#rank2').val('');
-        return false;
-      }
-    }
+	if (this.game.get('infos').type==="doubles") {
+	  
+	  if (this.isTeamEditable(0,0)) {
+	    if (checkName(team1) && team1.length>0) {
+	      $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+	      $('#team1').val('');
+	      return false;
+	    }
+	    if (checkRank(rank1) && rank1.length>0) {
+	      $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
+	      $('#rank1').val('');        
+	      return false;     
+	    }
+	  }
+	  if (this.isTeamEditable(0,1)) {
+	    if (checkName(team2) && team2.length>0) { 
+	      $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+	      $('#team2').val('');
+	      return false;
+	    }
+	    if (checkRank(rank2) && rank2.length>0) {
+	      $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+	      $('#rank2').val('');
+	      return false;
+	    }
+	  }	    
+	  if (this.isTeamEditable(1,0)) {
+	    if (checkName(team3) && team3.length>0) {
+	      $('span.team3_error').html(i18n.t('message.bad_name')+' !').show();
+	      $('#team3').val('');
+	      return false;
+	    }
+	    if (checkRank(rank3) && rank3.length>0) {
+	      $('span.team3_error').html(i18n.t('message.bad_rank')+' !').show();
+	      $('#rank3').val('');        
+	      return false;     
+	    }
+	  }
+	  if (this.isTeamEditable(1,1)) {
+	    if (checkName(team4) && team4.length>0) { 
+	      $('span.team4_error').html(i18n.t('message.bad_name')+' !').show();
+	      $('#team4').val('');
+	      return false;
+	    }
+	    if (checkRank(rank4) && rank4.length>0) {
+	      $('span.team4_error').html(i18n.t('message.bad_rank')+' !').show();
+	      $('#rank4').val('');
+	      return false;
+	    }
+	  }	
+	}
+	else {
+	  if (this.isTeamEditable(0,0)) {
+	    if (checkName(team1) && team1.length>0) {
+	      $('span.team1_error').html(i18n.t('message.bad_name')+' !').show();
+	      $('#team1').val('');
+	      return false;
+	    }
+	    if (checkRank(rank1) && rank1.length>0) {
+	      $('span.team1_error').html(i18n.t('message.bad_rank')+' !').show();
+	      $('#rank1').val('');        
+	      return false;     
+	    }
+	  }
+	  if (this.isTeamEditable(1,0)) {
+	    if (checkName(team2) && team2.length>0) { 
+	      $('span.team2_error').html(i18n.t('message.bad_name')+' !').show();
+	      $('#team2').val('');
+	      return false;
+	    }
+	    if (checkRank(rank2) && rank2.length>0) {
+	      $('span.team2_error').html(i18n.t('message.bad_rank')+' !').show();
+	      $('#rank2').val('');
+	      return false;
+	    }
+	  }
+	}
     
     if (expectedDay.length < 1 && expectedHour.length > 1) {
       $('span.expected_error').html(i18n.t('message.expected_error')+' !').show();        
@@ -199,24 +259,89 @@ Y.Views.Pages.GameForm = Y.View.extend({
     
     // then, we save the player only if modified && owned.
     var promises = [];
-    if (this.isTeamEditable(0) &&
-        (team1 !== this.game.get('teams')[0].players[0].name ||
-         rank1 !== this.game.get('teams')[0].players[0].rank)) {
+    
+    if (this.game.get('infos').type==="doubles") {
+    
+	  if (this.isTeamEditable(0,0) &&
+	      (team1 !== this.game.get('teams')[0].players[0].name ||
+	       rank1 !== this.game.get('teams')[0].players[0].rank)) {
+	    // enregistrement de la modif sur ce player owned.
+	    ownedPlayer = new PlayerModel({ 
+	      id: this.game.get('teams')[0].players[0].id,
+	      name: team1,
+	      rank: rank1
+	    });
+	    promises.push(ownedPlayer.save(null, {
+	      playerid: this.player.get('id'),
+	      token: this.player.get('token')
+	    }));
+	  }
+	
+    if (this.isTeamEditable(0,1) &&
+       (team2 !== this.game.get('teams')[0].players[1].name ||
+        rank2 !== this.game.get('teams')[0].players[1].rank)) {
       // enregistrement de la modif sur ce player owned.
       ownedPlayer = new PlayerModel({ 
-        id: this.game.get('teams')[0].players[0].id,
-        name: team1,
-        rank: rank1
+        id: this.game.get('teams')[0].players[1].id,
+        name: team2,
+        rank: rank2
       });
       promises.push(ownedPlayer.save(null, {
         playerid: this.player.get('id'),
         token: this.player.get('token')
       }));
-    }
+     }    
 
-    if (this.isTeamEditable(1) &&
-        (team2 !== this.game.get('teams')[1].players[0].name ||
-         rank2 !== this.game.get('teams')[1].players[0].rank)) {
+	 if (this.isTeamEditable(1,0) &&
+	      (team3 !== this.game.get('teams')[1].players[0].name ||
+	       rank3 !== this.game.get('teams')[1].players[0].rank)) {
+	   // enregistrement de la modif sur ce player owned.
+	   ownedPlayer = new PlayerModel({ 
+	     id: this.game.get('teams')[1].players[0].id,
+	     name: team3,
+	     rank: rank3
+	   });
+	   promises.push(ownedPlayer.save(null, {
+	     playerid: this.player.get('id'),
+	     token: this.player.get('token')
+	   }));
+	}
+	
+    if (this.isTeamEditable(1,1) &&
+       (team4 !== this.game.get('teams')[1].players[1].name ||
+        rank4 !== this.game.get('teams')[1].players[1].rank)) {
+      // enregistrement de la modif sur ce player owned.
+      ownedPlayer = new PlayerModel({ 
+        id: this.game.get('teams')[1].players[1].id,
+        name: team4,
+        rank: rank4
+      });
+      promises.push(ownedPlayer.save(null, {
+        playerid: this.player.get('id'),
+        token: this.player.get('token')
+      }));
+     } 
+    }
+    // mode simples
+    else {
+	  if (this.isTeamEditable(0,0) &&
+	      (team1 !== this.game.get('teams')[0].players[0].name ||
+	       rank1 !== this.game.get('teams')[0].players[0].rank)) {
+	    // enregistrement de la modif sur ce player owned.
+	    ownedPlayer = new PlayerModel({ 
+	      id: this.game.get('teams')[0].players[0].id,
+	      name: team1,
+	      rank: rank1
+	    });
+	    promises.push(ownedPlayer.save(null, {
+	      playerid: this.player.get('id'),
+	      token: this.player.get('token')
+	    }));
+	  }
+	
+    if (this.isTeamEditable(1,0) &&
+       (team2 !== this.game.get('teams')[1].players[0].name ||
+        rank2 !== this.game.get('teams')[1].players[0].rank)) {
       // enregistrement de la modif sur ce player owned.
       ownedPlayer = new PlayerModel({ 
         id: this.game.get('teams')[1].players[0].id,
@@ -227,10 +352,11 @@ Y.Views.Pages.GameForm = Y.View.extend({
         playerid: this.player.get('id'),
         token: this.player.get('token')
       }));
-    }
+     }
+   }
 
-    // une fois les players enregistrés, on peut enregistrer la game.
-    $.when(promises)
+   // une fois les players enregistrés, on peut enregistrer la game.
+   $.when(promises)
      .always(_.bind(function () {
       // on drop les erreurs sur l'enregistrement de players.
       // FIXME : gestion date de debut    
@@ -288,12 +414,22 @@ Y.Views.Pages.GameForm = Y.View.extend({
   render: function(){
     Y.GUI.addBlueBackground();  
     var game = this.game.toJSON();
-
-    this.$el.html(this.templates.page({
-    game : game
-    , selection : i18n.t('gameadd.selection')
-    , surface : i18n.t('gameadd.surface')
-    }));
+    
+    if (game.infos.type==="doubles") {
+      this.$el.html(this.templates.pagedouble({
+      game : game
+      , selection : i18n.t('gameadd.selection')
+      , surface : i18n.t('gameadd.surface')
+      }));    
+    }
+    //mode simple
+ 	else {
+      this.$el.html(this.templates.pagesimple({
+      game : game
+      , selection : i18n.t('gameadd.selection')
+      , surface : i18n.t('gameadd.surface')
+      }));
+    }
     
     $('#inject-select').prepend(this.templates.gameselect({ 
       selection : i18n.t('gameadd.selection')
@@ -310,20 +446,50 @@ Y.Views.Pages.GameForm = Y.View.extend({
     }
     else if (game.teams[1].id === this.game.get('infos').startTeam) {
       $('#startTeam2').parent().addClass("select");
-    }
-
-    if (game.teams[0].players[0].name !== undefined ) $("#team1").val(game.teams[0].players[0].name);
-    if (game.teams[0].players[0].rank !== undefined ) $("#rank1").val(game.teams[0].players[0].rank);    
-    if (game.teams[1].players[0].name !== undefined ) $("#team2").val(game.teams[1].players[0].name);    
-    if (game.teams[1].players[0].rank !== undefined ) $("#rank2").val(game.teams[1].players[0].rank);                
+    }             
 
     // can we modify players ?
-    if (!this.isTeamEditable(0)) {
-      $("#team1,#rank1").prop('disabled', true); // team1 is ME or, some player I don't own.
-    }
+    if (game.infos.type==="doubles") {
+      
+      if (game.teams[0].players[0].name !== undefined ) $("#team1").val(game.teams[0].players[0].name);
+      if (game.teams[0].players[0].rank !== undefined ) $("#rank1").val(game.teams[0].players[0].rank);    
+      if (game.teams[0].players[1].name !== undefined ) $("#team2").val(game.teams[0].players[1].name);    
+      if (game.teams[0].players[1].rank !== undefined ) $("#rank2").val(game.teams[0].players[1].rank);        
+      if (game.teams[1].players[0].name !== undefined ) $("#team3").val(game.teams[1].players[0].name);    
+      if (game.teams[1].players[0].rank !== undefined ) $("#rank3").val(game.teams[1].players[0].rank);  
+      if (game.teams[1].players[1].name !== undefined ) $("#team4").val(game.teams[1].players[1].name);    
+      if (game.teams[1].players[1].rank !== undefined ) $("#rank4").val(game.teams[1].players[1].rank);  
+                  
+      if (!this.isTeamEditable(0,0)) {
+        $("#team1,#rank1").prop('disabled', true); // team1 is ME or, some player I don't own.
+      }
 
-    if (!this.isTeamEditable(1)) {
-      $("#team2,#rank2").prop('disabled', true); // team1 is ME or, some player I don't own.
+      if (!this.isTeamEditable(0,1)) {
+        $("#team2,#rank2").prop('disabled', true); // team2 is ME or, some player I don't own.
+      }   
+       
+      if (!this.isTeamEditable(1,0)) {
+        $("#team3,#rank3").prop('disabled', true); // team3 is ME or, some player I don't own.
+      }
+
+      if (!this.isTeamEditable(1,1)) {
+        $("#team4,#rank4").prop('disabled', true); // team4 is ME or, some player I don't own.
+      }   
+    }
+    else {
+    
+      if (game.teams[0].players[0].name !== undefined ) $("#team1").val(game.teams[0].players[0].name);
+      if (game.teams[0].players[0].rank !== undefined ) $("#rank1").val(game.teams[0].players[0].rank);    
+      if (game.teams[1].players[0].name !== undefined ) $("#team2").val(game.teams[1].players[0].name);    
+      if (game.teams[1].players[0].rank !== undefined ) $("#rank2").val(game.teams[1].players[0].rank);       
+    
+      if (!this.isTeamEditable(0,0)) {
+        $("#team1,#rank1").prop('disabled', true); // team1 is ME or, some player I don't own.
+      }
+
+      if (!this.isTeamEditable(1,0)) {
+        $("#team2,#rank2").prop('disabled', true); // team2 is ME or, some player I don't own.
+      }
     }
     
     if (game.dates.expected !== undefined) {  
@@ -358,8 +524,8 @@ Y.Views.Pages.GameForm = Y.View.extend({
     this.startMonitoringModifications();
   },
 
-  isTeamEditable: function (teamId) {
-    var teamPlayer = this.game.get('teams')[teamId].players[0];
+  isTeamEditable: function (teamId,position) {
+    var teamPlayer = this.game.get('teams')[teamId].players[position];
 
     return teamPlayer.id !== this.player.get('id') &&
            teamPlayer.owner !== undefined &&
@@ -409,12 +575,30 @@ Y.Views.Pages.GameForm = Y.View.extend({
         return true;
     }
     
-    // check le reste des infos
-    return $("#team1").val().isDifferentFrom(game.teams[0].players[0].name) ||
+    if (game.infos.type==="doubles") {
+      if ( $("#team1").val().isDifferentFrom(game.teams[0].players[0].name) ||
+           $("#rank1").val().isDifferentFrom(game.teams[0].players[0].rank) ||
+           $("#team2").val().isDifferentFrom(game.teams[0].players[1].name) ||
+           $("#rank2").val().isDifferentFrom(game.teams[0].players[1].rank) ||
+           $("#team3").val().isDifferentFrom(game.teams[1].players[0].name) ||
+           $("#rank3").val().isDifferentFrom(game.teams[1].players[0].rank) ||        
+           $("#team4").val().isDifferentFrom(game.teams[1].players[1].name) ||
+           $("#rank4").val().isDifferentFrom(game.teams[1].players[1].rank)        
+        ) {
+        return true;      
+      }     
+    }
+    else {
+      if ( $("#team1").val().isDifferentFrom(game.teams[0].players[0].name) ||
            $("#rank1").val().isDifferentFrom(game.teams[0].players[0].rank) ||
            $("#team2").val().isDifferentFrom(game.teams[1].players[0].name) ||
-           $("#rank2").val().isDifferentFrom(game.teams[1].players[0].rank) ||
-           $("#city").val().isDifferentFrom(game.location.city) ||
+           $("#rank2").val().isDifferentFrom(game.teams[1].players[0].rank) ) {
+        return true;      
+      }   
+    }
+    
+    // check le reste des infos
+    return $("#city").val().isDifferentFrom(game.location.city) ||
            $("#surface").val().isDifferentFrom(game.infos.surface) ||
            $("#tour").val().isDifferentFrom(game.infos.tour) ||
            $("#court").val().isDifferentFrom(game.infos.court) ||

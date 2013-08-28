@@ -482,10 +482,10 @@ var GameModel = Backbone.Model.extend({
       // set4 : only if game is finished or set3 exists & not empty
       if (this.isFinished() || (sets.length > 4 && sets[4][0] + sets[4][1] !== 0)) {
         // team 2 < team 1 && team 1 >= 6
-        if (sets[3][1] < sets[1][0] && sets[3][0] >= 6)
+        if (sets[3][1] < sets[3][0] && sets[3][0] >= 6)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[3][0] < sets[1][1] && sets[3][1] >= 6)
+        if (sets[3][0] < sets[3][1] && sets[3][1] >= 6)
           scoreTeam2++;
       }
             

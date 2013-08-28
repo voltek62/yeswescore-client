@@ -1187,7 +1187,7 @@ ul>li.team>a {
 	height:30px;
 }
 
-.gameAdd .radiolisthorizontal {
+.gameAdd .radiolisthorizontal, .blue-screen .radiolisthorizontal {
 	width:100%;
 	height:25px;
 	background-color: #FFFFFF;
@@ -2663,6 +2663,15 @@ a[data-filter='match-followed'] {
 	height: 92px;
 	border-right: 2px dotted #ddf1f8;
 }
+
+.scoreBoard5sets .score-grid .separatordouble {
+	position: absolute;
+	top: 34px;
+	left: 81%;
+	height: 92px;
+	border-right: 2px dotted #ddf1f8;
+}
+
 
 .scoreBoard5sets .score-grid .score {
 	width: 40px;

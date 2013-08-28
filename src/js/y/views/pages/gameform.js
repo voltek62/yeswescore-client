@@ -340,6 +340,19 @@ Y.Views.Pages.GameForm = Y.View.extend({
     if (typeof game.infos.official === "boolean") {
       $("#official").val(game.infos.official?"true":"false");
     }
+
+    if (typeof game.infos.numberOfBestSets === "number") {
+      if (game.infos.numberOfBestSets == 5)
+        $("#5sets").prop('checked', true);
+      else
+        $("#3sets").prop('checked', true);
+    }
+    //On ne peut plus modifier le nombre de sets une fois la partie créé
+    $("#5sets").prop('disabled', true);
+    $("#3sets").prop('disabled', true);    
+    
+    console.log('numberOfBestSets',game.infos.numberOfBestSets);
+
     this.$el.i18n();
 
     this.startMonitoringModifications();
@@ -395,6 +408,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
           $('#expectedHour').val().isDifferentFrom(dateExpected.toHHMM(':')))
         return true;
     }
+    
     // check le reste des infos
     return $("#team1").val().isDifferentFrom(game.teams[0].players[0].name) ||
            $("#rank1").val().isDifferentFrom(game.teams[0].players[0].rank) ||

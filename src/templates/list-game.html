@@ -21,9 +21,13 @@ if (game.error!==undefined)
 team1_set1 = '&nbsp;'; 
 team1_set2 = '&nbsp;'; 
 team1_set3 = '&nbsp;';
+team1_set4 = '&nbsp;';
+team1_set5 = '&nbsp;';
 team2_set1 = '&nbsp;'; 
 team2_set2 = '&nbsp;'; 
 team2_set3 = '&nbsp;';
+team2_set4 = '&nbsp;';
+team2_set5 = '&nbsp;';
 set_current = 1; 
 team1_sets = '0'; 
 team2_sets = '0'; 
@@ -40,7 +44,7 @@ if (game.infos.sets !== null ) {
   if (game.infos.sets.indexOf(';')!=-1) { 
     scoreboard = game.infos.sets.split(';'); 
     
-    if (scoreboard.length==2 ||scoreboard.length==3) { 
+    if (scoreboard.length>1) { 
       scoreboard1 = scoreboard[0].split('/');
       team1_set1 = scoreboard1[0]; 
       team2_set1 = scoreboard1[1]; 
@@ -50,11 +54,41 @@ if (game.infos.sets !== null ) {
       set_current=2; 
     } 
     
-    if (scoreboard.length==3) { 
+    if (scoreboard.length>2) { 
       scoreboard3 = scoreboard[2].split('/'); 
       team1_set3 = scoreboard3[0]; 
-      team2_set3 = scoreboard3[1]; set_current=3; 
-    } 
+      team2_set3 = scoreboard3[1]; 
+      set_current=3; 
+    }
+    
+
+    if (scoreboard.length>3) { 
+      scoreboard4 = scoreboard[3].split('/'); 
+      team1_set4 = scoreboard4[0]; 
+      team2_set4 = scoreboard4[1];     
+      //on decale les sets pour ne garder que les trois derniers sets
+      team1_set1=team1_set2;      
+      team1_set2=team1_set3;
+      team1_set3=team1_set4;
+      team2_set1=team2_set2;      
+      team2_set2=team2_set3;
+      team2_set3=team2_set4;        
+    }
+    
+    if (scoreboard.length>4) { 
+      scoreboard5 = scoreboard[4].split('/'); 
+      team1_set5 = scoreboard5[0]; 
+      team2_set5 = scoreboard5[1];       
+      //on decale les sets pour ne garder que les trois derniers sets
+      team1_set1=team1_set3;      
+      team1_set2=team1_set4;
+      team1_set3=team1_set5;
+      team2_set1=team2_set3;      
+      team2_set2=team2_set4;
+      team2_set3=team2_set5;                        
+    }  
+             
+     
   } 
   // 1 set 
   else { 

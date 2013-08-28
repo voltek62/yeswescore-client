@@ -239,17 +239,18 @@ else {
   <div class="ui-block-a game-player" style="width:40%;text-align:center;line-height:12px;">
   <% 
   if (game.teams[0].players[0]!== undefined) { 
+  
     print("<b>"+game.teams[0].players[0].name+"</b><br/>&nbsp;");
     
     print('<span class="div_score_mini">');
     print(game.teams[0].players[0].rank); 
     
     if (game.teams[0].players[0].club !== undefined) {  
-    
-      
+              
       if (game.teams[0].players[0].club.name.length>20)
         game.teams[0].players[0].club.name = game.teams[0].players[0].club.name.substr(0,19);   
-        print(' '+game.teams[0].players[0].club.name);  
+        print(' '+game.teams[0].players[0].club.name); 
+         
     } 
     print('</span>'); 
   }
@@ -262,6 +263,7 @@ else {
   <div class="ui-block-c game-player" style="width:40%;text-align:center;line-height:12px;">
   <% 
   if (game.teams[1].players[0]!== undefined) { 
+        
     print("<b>"+game.teams[1].players[0].name+"</b><br/>&nbsp;"); 
     print('<span class="div_score_mini">');
     print(game.teams[1].players[0].rank); 
@@ -289,8 +291,26 @@ else
    <div class="ui-grid-d" style="margin-top:5px;">
        <div class="ui-block-a game-player" style="width:63%;">
   	<% 
-  	if (game.teams[0].players[0]!== undefined) { 
+  	if (game.teams[0].players[0]!== undefined) {
+    
+      if (game.infos.winners!== undefined) {
+         if (game.infos.winners.status!== undefined) {
+           if (game.infos.winners.status== 'win' && game.infos.winners.teams.indexOf(game.teams[0].id) !=-1) {
+             print('<img src="/images/winner.png" width="15" height="15"/>&nbsp;');
+           }  
+         }  
+      } 
+         
   	  print("<b>"+game.teams[0].players[0].name+"</b><br/>");
+      
+      if (game.infos.winners!== undefined) {
+         if (game.infos.winners.status!== undefined) {
+           if (game.infos.winners.status== 'win' && game.infos.winners.teams.indexOf(game.teams[0].id) !=-1) {
+             print('<img src="/images/winner.png" width="15" height="15"/>&nbsp;');
+           }  
+         }  
+      } 
+            
       print("<b>"+game.teams[0].players[1].name+"</b>&nbsp;");      
   	}
   	%>         
@@ -305,8 +325,26 @@ else
        <div class="ui-block-a game-player" style="width:63%;">
   	<% 
   	if (game.teams[1].players[0]!== undefined) { 
-  		print("<b>"+game.teams[1].players[0].name+"</b><br/>");	
-        print("<b>"+game.teams[1].players[1].name+"</b>&nbsp;");   		
+
+      if (game.infos.winners!== undefined) {
+         if (game.infos.winners.status!== undefined) {
+           if (game.infos.winners.status== 'win' && game.infos.winners.teams.indexOf(game.teams[1].id)!=-1) {
+             print('<img src="/images/winner.png" width="15" height="15"/>&nbsp;');
+           }  
+         }  
+      } 
+          
+      print("<b>"+game.teams[1].players[0].name+"</b><br/>");
+      
+      if (game.infos.winners!== undefined) {
+         if (game.infos.winners.status!== undefined) {
+           if (game.infos.winners.status== 'win' && game.infos.winners.teams.indexOf(game.teams[1].id) !=-1) {
+             print('<img src="/images/winner.png" width="15" height="15"/>&nbsp;');
+           }  
+         }  
+      }       
+      	
+      print("<b>"+game.teams[1].players[1].name+"</b>&nbsp;");   		
   	}
   	%>         
        </div>
@@ -324,6 +362,15 @@ else
        <div class="ui-block-a game-player" style="width:63%;">
     <% 
     if (game.teams[0].players[0]!== undefined) { 
+    
+      if (game.infos.winners!== undefined) {
+         if (game.infos.winners.status!== undefined) {
+           if (game.infos.winners.status== 'win' && game.infos.winners.teams.indexOf(game.teams[0].id) != -1) {
+             print('<img src="/images/winner.png" width="15" height="15"/>&nbsp;');
+           }  
+         }  
+      } 
+          
       print("<b>"+game.teams[0].players[0].name+"</b><br/>&nbsp;");
       
       print('<span class="div_score_mini">');
@@ -350,6 +397,15 @@ else
        <div class="ui-block-a game-player" style="width:63%;">
     <% 
     if (game.teams[1].players[0]!== undefined) { 
+    
+      if (game.infos.winners!== undefined) {
+         if (game.infos.winners.status!== undefined) {
+           if (game.infos.winners.status== 'win' && game.infos.winners.teams.indexOf(game.teams[1].id) != -1) {
+             print('<img src="/images/winner.png" width="15" height="15"/>&nbsp;');
+           }  
+         }  
+      } 
+          
       print("<b>"+game.teams[1].players[0].name+"</b><br/>&nbsp;"); 
       print('<span class="div_score_mini">');
       print(game.teams[1].players[0].rank); 

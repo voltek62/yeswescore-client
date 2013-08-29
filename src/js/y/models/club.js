@@ -18,6 +18,7 @@ var ClubModel = Backbone.Model.extend({
     location : {
       address : "",
       city : "",
+      zip : "",
       pos : [ 0, 0 ]
     },
     dates : {
@@ -42,6 +43,9 @@ var ClubModel = Backbone.Model.extend({
       var dataSend = {       
           sport: "tennis",
           name: this.get('name'),
+          //FIXME:dont't work !
+          //indoor:(this.get('indoor') || 0),
+          //outdoor:(this.get('outddor') || 0),
           location : {
             pos: (this.get('pos') || ''),
             address: (this.get('address') || ''),

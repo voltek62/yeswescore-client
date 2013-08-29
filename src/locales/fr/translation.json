@@ -46,7 +46,11 @@
     "name" : "Nom du club",
     "placeholdername" : "Nom du Club",    
     "city" : "Ville",
-    "placeholdercity" : "Ville",      
+    "placeholdercity" : "Ville", 
+    "address":"Adresse",
+    "zip":"Code postal",
+    "outdoor":"Nombre de terrain extérieur",
+    "indoor":"Nombre de terrain intérieur",        
     "add":"ENREGISTRER"
   },
   "clublist": {

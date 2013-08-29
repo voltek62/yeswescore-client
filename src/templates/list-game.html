@@ -121,17 +121,32 @@ else {
 if (game.status === "ongoing") game.status2 = i18n.t('game.ongoing');
 else if (game.status === "finished") game.status2 = i18n.t('game.finished');
 else if (game.status === "created") game.status2 = i18n.t('game.created');
- 
-if (game.status === "created") { 
-%>
-<li id="#games/<%= game.id %>" class="unselectable" style="height:60px;">
-<%
+
+if (typeof game.infos.official === "boolean" && game.infos.official==true) {
+  if (game.status === "created") { 
+  %>
+  <li id="#games/<%= game.id %>" class="unselectable" style="height:60px;background-color:#f0f0f0;">
+  <%
+  }
+  else {
+  %>
+  <li id="#games/<%= game.id %>" class="unselectable" style="background-color:#f0f0f0;">
+  <%
+  }
+} 
+else { 
+  if (game.status === "created") { 
+  %>
+  <li id="#games/<%= game.id %>" class="unselectable" style="height:60px;">
+  <%
+  }
+  else {
+  %>
+  <li id="#games/<%= game.id %>" class="unselectable">
+  <%
+  }
 }
-else {
-%>
-<li id="#games/<%= game.id %>" class="unselectable">
-<%
-}
+
 %>
 <div class="ui-grid-c" style="height:18px;">
 	<div class="ui-block-a game-location" style="width: 63%;"> 

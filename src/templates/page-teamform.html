@@ -20,9 +20,18 @@
     <% 
     var players = team.players;
     for (var i = 0; i < players.length; i++) { 
-      print (players[i]+"<br/>");  
+      print ("Mode Edition "+players[i]+"<br/>");  
     }
-    %>        
+    %>      
+    
+    <div class="ui-grid-a">
+	  <div class="ui-block-a">
+	    <input type="text" id="team" name="team" data-i18n="[placeholder]gameadd.player;" value="" data-autocomplete="autocompletePlayers" data-autocomplete-onselected="autocompleteTeam"/>
+	  </div>
+      <div class="ui-block-b">
+        <span class="form-button more-options" data-i18n="gameadd.plus"></span>
+       </div>
+	</div> 
        
     <div style="padding:100px"></div>
   

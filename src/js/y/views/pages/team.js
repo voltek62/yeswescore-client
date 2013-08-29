@@ -1,5 +1,7 @@
 Y.Views.Pages.Team = Y.View.extend({
   el : "#content",
+  
+  player_id: null,
 
   events : {
     'click #followButton' : 'followTeam'
@@ -15,8 +17,12 @@ Y.Views.Pages.Team = Y.View.extend({
     // loading templates.
     this.templates = {
       empty: Y.Templates.get('module-empty'),
-      page:  Y.Templates.get('page-team')
+      page:  Y.Templates.get('page-team'),
+      pageform:  Y.Templates.get('page-teamform')      
     };
+    
+    // loading owner
+    this.player = Y.User.getPlayer();      
     
     // we render immediatly
     this.render();        
@@ -76,6 +82,40 @@ Y.Views.Pages.Team = Y.View.extend({
     }
   },
 
+  autocompletePlayers: function (input, callback) {
+    if (input.indexOf('  ')!==-1 || input.length<= 1 )
+      callback('empty');    
+    
+    Backbone.ajax({
+      url: Y.Conf.get("api.url.autocomplete.players"),
+      type: 'GET',
+      dataType : 'json',
+      data: { q: input }
+    }).done(function (players) {
+      if (players && _.isArray(players) && players.length>0) {
+        callback(null, players.splice(0, 3).map(function (p) {
+          p.text = p.name; 
+          //FIXME : add rank
+          if (p.club !== undefined && p.club.name !== undefined) {
+            p.text += " ( "+p.club.name+" )";
+          }
+          return p; 
+        }));
+      } else {
+        callback(null, []);
+      }
+    }).fail(function (xhr, error) { 
+      callback(error);
+    });
+  },
+
+  autocompleteTeam: function (data) {
+    if (data && data.name) {
+      this.$("#team").val(data.name);
+      this.player_id = data.id;
+    }
+  },
+
   render: function () {
     // empty page.
     this.$el.html(this.templates.empty());
@@ -85,9 +125,22 @@ Y.Views.Pages.Team = Y.View.extend({
  
   // render the content into div of view
   renderTeam : function() {
-    this.$el.html(this.templates.page({
-      team : this.team.toJSON(),follow:this.follow
-    }));
+    
+    console.log();
+    console.log();
+    
+    
+    if (this.team.get('players').indexOf(this.player.get('id'))!=-1) {
+      this.$el.html(this.templates.pageform({
+        team : this.team.toJSON(),follow:this.follow
+      }));    
+    }
+    else { 
+      this.$el.html(this.templates.page({
+        team : this.team.toJSON(),follow:this.follow
+      }));
+    }
+    
     this.$el.i18n();
     return this;
   },

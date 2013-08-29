@@ -75,6 +75,7 @@
           "page-searchform",
           "page-teams",          
           "page-team",
+          "page-teamform",          
           "page-teamadd",
           "wizard-welcome",
           "wizard-profil",

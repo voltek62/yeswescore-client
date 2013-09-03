@@ -16,7 +16,7 @@ Y.Views.Pages.ClubAdd = Y.View.extend({
     this.player = Y.User.getPlayer();
 
     this.render();
-  },
+  }, 
   
   addingClub: false,
   addClub: function (event) {

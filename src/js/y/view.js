@@ -61,6 +61,10 @@
     },
 
     inputModeOn: function (e) {
+      //if input, hide subnavbar
+      Y.GUI.navbar.hideSubBar();
+      Y.GUI.navbar.showButton();
+        
       this.lastInput = document.activeElement.id;
       this.clearInputModeOffDelayed();
       if ($(e.target).attr("data-autocomplete"))

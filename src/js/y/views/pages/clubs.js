@@ -33,51 +33,60 @@ Y.Views.Pages.Clubs = Y.View.extend({
     this.render();
        
     var clubs = Y.Conf.get("owner.clubs.followed");
-    
-    if (clubs!==undefined) {
-      this.clubLast = clubs[clubs.length-1];
-      this.collection = new ClubsCollection();
-      var that = this;
-      var i = clubs.length;
-      
-      if (clubs.length<1) {
-        $(this.listview).html(this.templates.list({clubs:[],query:' '}));
-        $('p.message').i18n();
-      }
-      
-      this.syncClub = function (club) {
-        that.collection.add(club);
-        i--;
-        //si dernier element du tableau
-        if (that.clubLast === club.get('id')) {        
-          $(that.listview).html(that.templates.list({clubs:that.collection.toJSON(),query:' '}));    
-        }
-      };
-     
-      this.clubs = [];
-      clubs.forEach(function (clubid,index) {
-        var club = new ClubModel({id : clubid});
-        club.once("sync", this.syncClub, this);
-        club.fetch().fail(function (xhrResult, error) {
-            if (clubs.indexOf(clubid) !== -1) {
-              clubs.splice(clubs.indexOf(clubid), 1);
-              Y.Conf.set("owner.clubs.followed", clubs, { permanent: true });
-              
-              if (clubs.length<1) {
-                $(that.listview).html(that.templates.list({clubs:[],query:' '}));
-                $('p.message').i18n();
-              } else {
-                this.clubLast = clubs[clubs.length-1];
-              }
-            }
-          });
-        this.clubs[index] = club;
-       },this);
+
+    //load players via localstorage
+    if (this.param.mode === 'follow') {       
+	  if (clubs!==undefined) {
+	    this.clubLast = clubs[clubs.length-1];
+	    this.collection = new ClubsCollection();
+	    var that = this;
+	    var i = clubs.length;
+	      
+	    if (clubs.length<1) {
+	      $(this.listview).html(this.templates.list({clubs:[],query:' '}));
+	      $('p.message').i18n();
+	    }
+	      
+	    this.syncClub = function (club) {
+	      that.collection.add(club);
+	      i--;
+	      //si dernier element du tableau
+	      if (that.clubLast === club.get('id')) {        
+	        $(that.listview).html(that.templates.list({clubs:that.collection.toJSON(),query:' '}));    
+	      }
+	    };
+	    
+	    this.clubs = [];
+	    clubs.forEach(function (clubid,index) {
+	      var club = new ClubModel({id : clubid});
+	      club.once("sync", this.syncClub, this);
+	      club.fetch().fail(function (xhrResult, error) {
+	          if (clubs.indexOf(clubid) !== -1) {
+	            clubs.splice(clubs.indexOf(clubid), 1);
+	            Y.Conf.set("owner.clubs.followed", clubs, { permanent: true });
+	            
+	            if (clubs.length<1) {
+	              $(that.listview).html(that.templates.list({clubs:[],query:' '}));
+	              $('p.message').i18n();
+	            } else {
+	              this.clubLast = clubs[clubs.length-1];
+	            }
+	          }
+	        });
+	      this.clubs[index] = club;
+	     },this);
+	  }
+	  else {
+	    $(this.listview).html(this.templates.list({clubs:[],query:' '}));
+	    $('p.message').i18n();
+	  }
     }
     else {
-      $(this.listview).html(this.templates.list({clubs:[],query:' '}));
-      $('p.message').i18n();
+      this.clubs = new ClubsCollection();
+      this.clubs.once('sync', this.renderList, this);           
+      this.clubs.fetch();   
     }
+    
   },
   
   chooseClub : function(elmt) { 

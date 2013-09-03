@@ -105,7 +105,7 @@ Y.Views.Pages.Teams = Y.View.extend({
     // renderList
       if (this.param.clubid !== 'null') {
         this.teams = new TeamsCollection();
-        this.teams.setMode('club', this.param.clubid);
+        //this.teams.setMode('club', this.param.clubid);
         this.teams.once('sync', this.renderList, this);           
         this.teams.fetch();
       }

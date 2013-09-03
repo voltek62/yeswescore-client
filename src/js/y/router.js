@@ -99,7 +99,7 @@
     },
 
     clubs: function () {
-      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: ''}));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: 'follow'}));
     },    
     
     team: function (id) {

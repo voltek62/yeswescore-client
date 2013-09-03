@@ -18,7 +18,8 @@
     "connect": "Connexion / Enregistrement",
     "disconnect": "Deconnexion",
     "help": "Aide",
-    "about": "A propos"
+    "about": "A propos",
+    "mypushs" : "Mes Notifications"
   },
   "add" : {
     "title": "CREER",
@@ -57,7 +58,7 @@
     "title": "LISTE DES CLUBS"
   }, 
   "clubfollow": {
-    "title": "CLUBS SUIVIS"
+    "title": "LISTE DES CLUBS SUIVIS"
   },   
   "game": {
     "title": "MATCH",  
@@ -262,7 +263,7 @@
     "choiceservertitle":"Choix du serveur",
     "choiceserveryes":"Choisir",
     "choiceserverno":"Ne pas choisir"          
-  },
+  }, 
   "player": {
     "title": "JOUEUR",
     "more":"Plus d'infos",
@@ -295,8 +296,11 @@
     "woman":"Femme"
   },     
   "playerlist": {
-    "title": "LISTE DES JOUEURS"
-  },    
+    "title": "LISTE DES JOUEURS",
+    "titlemypushs" : "MES NOTIFICATIONS",
+    "addpush":"Ajouter",
+    "delpush":"Retirer"
+  },     
   "playersignin": {
     "title": "CONNEXION",
     "email": "Email",

@@ -56,7 +56,7 @@
           "page-add",
           "page-club",
           "page-clubadd",
-          "page-clubfollow",
+          "page-clubs",
           "page-game",
           "page-gameadd",
           "page-gamecomments",

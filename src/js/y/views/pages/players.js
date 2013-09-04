@@ -54,7 +54,12 @@ Y.Views.Pages.Players = Y.View.extend({
       var i = players.length;  
       
       if (players.length<1) {
-        $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow, playersImgUrl:[]}));
+        $(this.listview).html(this.templates.list({
+          players:[]
+          , query:' '
+          , players_follow : this.players_follow
+          , playersImgUrl:[]
+        }));
         $('p.message').i18n();              
       }      
       
@@ -67,7 +72,12 @@ Y.Views.Pages.Players = Y.View.extend({
         
         //si dernier element du tableau
         if (that.playerLast === player.get('id')) {
-          $(that.listview).html(that.templates.list({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow, playersImgUrl : that.playersImgUrl }));
+          $(that.listview).html(that.templates.list({
+            players:that.collection.toJSON()
+            , query:' '
+            , players_follow : this.players_follow
+            , playersImgUrl : that.playersImgUrl 
+          }));
           that.$el.i18n();    
         }             
       };      
@@ -88,7 +98,11 @@ Y.Views.Pages.Players = Y.View.extend({
             Y.User.updatePlayer(data);
               
             if (players.length<1) {
-              $(that.listview).html(that.templates.list({players:[],query:' ',playersImgUrl:[]}));
+              $(that.listview).html(that.templates.list({
+                players:[]
+                , query:' '
+                , playersImgUrl:[]
+              }));
               $(that.listview).i18n();              
             }
             else
@@ -101,7 +115,12 @@ Y.Views.Pages.Players = Y.View.extend({
      },this);
     }
     else {   
-      $(this.listview).html(this.templates.list({players:[],query:' ', players_follow : this.players_follow, playersImgUrl:[]}));
+      $(this.listview).html(this.templates.list({
+        players:[]
+        , query:' '
+        , players_follow : this.players_follow
+        , playersImgUrl:[]
+      }));
       $(that.listview).i18n();
     }  
   }
@@ -149,27 +168,13 @@ Y.Views.Pages.Players = Y.View.extend({
     this.playersImgUrl = [];
     
     this.players.fetch().done($.proxy(function () {
-    
-      //TODO add this.playersImgUrl      
+     
       if (this.players.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
       }
       else {
-        
-        var that = this;
-        var i = 0;
-        this.players.forEach(function (playerid,index) { 
-          //console.log(that.players.get(playerid).toJSON());
-          //console.log(that.players.get(playerid).getImageUrlOrPlaceholder());
-          that.playersImgUrl[i] = that.players.get(playerid).getImageUrlOrPlaceholder();
-          i++;
-        });
-      
-        $(this.listview).html(this.templates.list({ players: this.players.toJSON(), query: q, players_follow : this.players_follow, playersImgUrl : this.playersImgUrl }));   
-     }
-        
-      $(this.listview).i18n();
-    }, this));
+        this.renderList(q);
+      }}, this));
     
     this.$el.i18n();
     
@@ -183,11 +188,24 @@ Y.Views.Pages.Players = Y.View.extend({
     return this;
   },
 
-  renderList : function(query) {
+  renderList : function(q) {
+
+    var i = 0;
+    var that = this;
+    this.playersImgUrl = [];
+    
+    this.players.forEach(function (playerid,index) { 
+      //console.log(that.players.get(playerid).toJSON());
+      //console.log(that.players.get(playerid).getImageUrlOrPlaceholder());
+      that.playersImgUrl[i] = that.players.get(playerid).getImageUrlOrPlaceholder();
+      i++;
+    });  
+  
     $(this.listview).html(this.templates.list({
       players : this.players.toJSON()
-      , query : ' '
+      , query : q
       , players_follow : this.players_follow
+      , playersImgUrl : this.playersImgUrl
     }));
     this.$el.i18n();
     
@@ -211,7 +229,7 @@ Y.Views.Pages.Players = Y.View.extend({
      console.log('datafollow true');
 
       this.following = true;
-    Backbone.ajax({
+      Backbone.ajax({
         dataType: 'json',
         url: Y.Conf.get("api.url.players") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken+"&_method=delete",
         type: 'POST',
@@ -314,14 +332,14 @@ Y.Views.Pages.Players = Y.View.extend({
   onClose : function() {
     this.undelegateEvents();
 
-  if (this.param.mode === 'follow') {    
-    if (this.players!==undefined) {
-      this.players.forEach(function (player) {
-       player.off("sync", this.syncPlayer, this);
-    }, this);
+    if (this.param.mode === 'follow') {    
+      if (this.players!==undefined) {
+        this.players.forEach(function (player) {
+         player.off("sync", this.syncPlayer, this);
+        }, this);
+      }
     }
-  }
-  else {
+    else {
       this.players.off('sync', this.renderList, this);  
     }   
   }

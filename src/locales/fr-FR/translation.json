@@ -55,10 +55,12 @@
     "add":"ENREGISTRER"
   },
   "clublist": {
-    "title": "LISTE DES CLUBS"
+    "title": "LISTE DES CLUBS",
+    "follow":"Suivre",
+    "nofollow":"Ne plus suivre"       
   }, 
   "clubfollow": {
-    "title": "LISTE DES CLUBS SUIVIS"
+    "title": "LISTE DES CLUBS"
   },   
   "game": {
     "title": "MATCH",  
@@ -376,7 +378,9 @@
     "title":"EQUIPE"  
   },  
   "teamlist": {
-    "title":"LISTE DES EQUIPES" 
+    "title":"LISTE DES EQUIPES" ,
+    "follow":"Suivre",
+    "nofollow":"Ne plus suivre"
   },  
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

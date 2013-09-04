@@ -98,8 +98,8 @@
       this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: 'follow'}));
     },
 
-    clubs: function () {
-      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: 'follow'}));
+    clubs: function (sort) {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { search: '', id: '', sort: sort || ''}));
     },    
     
     team: function (id) {

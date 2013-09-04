@@ -2,14 +2,21 @@ Y.Views.Pages.Clubs = Y.View.extend({
   el:"#content",
   
   events: {
-    "keyup input#search-basic": "searchOnKey",  
-    "click li": "chooseClub"    
+    "keyup input#search-basic": "searchOnKey",
+    //"blur input#search-basic": "searchOnBlur",      
+    "click div.ui-block-a": "chooseClub",
+    "click div.ui-block-b": "chooseClub",
+    "click div.ui-block-c": "followClub" 
   },
 
   listview:"#listClubsView",  
   
-  pageName: "clubFollow",
-  pageHash : "clubs/follow",
+  pageName: "clubList",
+  pageHash : "clubs/list",
+  // one by one
+  following: false,
+  dataid:"",
+  datafollow:"",  
 
   myinitialize:function(param) {
   
@@ -25,7 +32,7 @@ Y.Views.Pages.Clubs = Y.View.extend({
     // loading templates.
     this.templates = {
       list    : Y.Templates.get('list-club'),
-      page    : Y.Templates.get('page-clubfollow'),
+      page    : Y.Templates.get('page-clubs'),
       error   : Y.Templates.get('module-error'),
       ongoing : Y.Templates.get('module-ongoing') 
     };
@@ -33,8 +40,14 @@ Y.Views.Pages.Clubs = Y.View.extend({
     this.render();
        
     var clubs = Y.Conf.get("owner.clubs.followed");
-
-    //load players via localstorage
+    if (typeof clubs !== "undefined")
+      this.clubs_follow = teams;   
+    else
+       this.clubs_follow = [];    
+    this.myid = Y.User.getPlayer().get('id');
+    this.mytoken = Y.User.getPlayer().get('token'); 
+    	
+    //load clubs via localstorage
     if (this.param.mode === 'follow') {       
 	  if (clubs!==undefined) {
 	    this.clubLast = clubs[clubs.length-1];
@@ -43,7 +56,11 @@ Y.Views.Pages.Clubs = Y.View.extend({
 	    var i = clubs.length;
 	      
 	    if (clubs.length<1) {
-	      $(this.listview).html(this.templates.list({clubs:[],query:' '}));
+	      $(this.listview).html(this.templates.list({
+	        clubs:[]
+	        , query:' '
+	        , clubs_follow : this.clubs_follow
+	      }));
 	      $('p.message').i18n();
 	    }
 	      
@@ -52,7 +69,11 @@ Y.Views.Pages.Clubs = Y.View.extend({
 	      i--;
 	      //si dernier element du tableau
 	      if (that.clubLast === club.get('id')) {        
-	        $(that.listview).html(that.templates.list({clubs:that.collection.toJSON(),query:' '}));    
+	        $(that.listview).html(that.templates.list({
+	          clubs:that.collection.toJSON()
+	          , query:' '
+	          , clubs_follow : this.clubs_follow
+	        }));    
 	      }
 	    };
 	    
@@ -61,23 +82,36 @@ Y.Views.Pages.Clubs = Y.View.extend({
 	      var club = new ClubModel({id : clubid});
 	      club.once("sync", this.syncClub, this);
 	      club.fetch().fail(function (xhrResult, error) {
-	          if (clubs.indexOf(clubid) !== -1) {
-	            clubs.splice(clubs.indexOf(clubid), 1);
-	            Y.Conf.set("owner.clubs.followed", clubs, { permanent: true });
+	        if (clubs.indexOf(clubid) !== -1) {
+	          clubs.splice(clubs.indexOf(clubid), 1);
+	          //On retire le club qui n'existe plus  
+	          Y.Conf.set("owner.clubs.followed", clubs, { permanent: true });
 	            
-	            if (clubs.length<1) {
-	              $(that.listview).html(that.templates.list({clubs:[],query:' '}));
-	              $('p.message').i18n();
-	            } else {
-	              this.clubLast = clubs[clubs.length-1];
-	            }
-	          }
-	        });
+	          if (clubs.length<1) {
+	            $(that.listview).html(that.templates.list({
+	              clubs:[]
+	              , query:' '
+	              , clubs_follow : this.clubs_follow
+	            }));
+	            
+	            $('p.message').i18n();
+	          } else 
+	            this.clubLast = clubs[clubs.length-1];
+	        
+	        }
+	      });
+	      
 	      this.clubs[index] = club;
-	     },this);
+	      
+	    },this);
 	  }
 	  else {
-	    $(this.listview).html(this.templates.list({clubs:[],query:' '}));
+	    $(this.listview).html(this.templates.list({
+	      clubs:[]
+	      , query:' '
+	      , clubs_follow : this.clubs_follow
+	    }));
+	    
 	    $('p.message').i18n();
 	  }
     }
@@ -97,15 +131,19 @@ Y.Views.Pages.Clubs = Y.View.extend({
   
 
   searchOnKey: function (event) {
+  
     if(event.keyCode == 13){
       // the user has pressed on ENTER
       this.inputModeOff();  
-      this.search();
+      this.searchClubs();
     }
     return this;
   },
 
-  search:function() {
+  searchClubs:function() {
+    
+    console.log('search Clubs');
+        
     var q = $("#search-basic").val();
     $(this.listview).html(this.templates.error());
     $('p').i18n();
@@ -116,7 +154,12 @@ Y.Views.Pages.Clubs = Y.View.extend({
         $(this.listview).html(this.templates.error());
       }
       else
-        $(this.listview).html(this.templates.list({ clubs: this.clubs.toJSON(), query: q }));
+        $(this.listview).html(this.templates.list({ 
+          clubs: this.clubs.toJSON()
+          , query: q
+          , clubs_follow : this.clubs_follow           
+        }));
+      
       $(this.listview).i18n();
     }, this));
     return this;
@@ -124,23 +167,116 @@ Y.Views.Pages.Clubs = Y.View.extend({
 
   //render the content into div of view
   render: function(){
-    this.$el.html(this.templates.page({}));
-    $('a').i18n(); 
+    this.$el.html(this.templates.page({})).i18n(); 
     return this;
   },
 
   renderList: function(query) {
-    $(this.listview).html(this.templates.list({clubs:this.collection.toJSON(), query:' '}));
+    $(this.listview).html(this.templates.list({
+      clubs:this.collection.toJSON()
+      , query:' '
+      , clubs_follow : this.clubs_follow    
+    }));
 
     return this;
   },
+  
+  followClub: function(elmt) {
+  
+    this.dataid = $(elmt.currentTarget).data('clubid');
+    this.datafollow = $(elmt.currentTarget).data('follow');
+    
+    if (this.following)
+      return;   
+    
+    var that = this;
+         
+    if (this.datafollow === true) {
+    
+      console.log('datafollow true');
+
+      if (this.clubs_follow !== undefined)
+      {
+        if (this.clubs_follow.indexOf(this.dataid) !== -1) {
+          //On retire l'elmt
+          this.clubs_follow.splice(this.clubs_follow.indexOf(this.dataid), 1);
+          Y.Conf.set("owner.clubs.followed", this.clubs_follow, { permanent: true });
+
+		  //change text
+		  $('.ui-block-c[data-clubid='+this.dataid+']>span.form-button').html(i18n.t('clublist.follow'));
+		  $('.ui-block-c[data-clubid='+this.dataid+']').data('follow',false);          
+        }
+      }
+	  /*
+	  FIX if we save following clubs on mongo
+	  this.following = true;
+	  Backbone.ajax({
+        dataType: 'json',
+		url: Y.Conf.get("api.url.clubs") +this.myid+"/following/?playerid="+this.myid+"&token="+this.mytoken+"&_method=delete",
+		type: 'POST',
+		data: {
+		  id: this.dataid
+		},
+		success: function (data) {
+		that.following = false;
+		      
+		//On supprime l'id
+		if (that.clubs_follow !== undefined)
+		{
+		  if (that.clubs_follow.indexOf(that.dataid) !== -1) {
+		  //On retire l'elmt
+		    that.clubs_follow.splice(that.clubs_follow.indexOf(that.dataid), 1);
+		    var data = {id: that.myid, following: that.clubs_follow };
+		    Y.User.updatePlayer(data);
+		  }
+		}
+		    
+		//change text
+		$('.ui-block-c[data-clubid='+that.dataid+']>span.form-button').html(i18n.t('message.follow'));
+		$('.ui-block-c[data-clubid='+that.dataid+']').data('follow',false);
+		      
+		},
+		error: function (err) {
+		  that.following = false;
+		  //that.displayError(i18n.t('message.error'));
+		  console.log(i18n.t('message.error'));
+		}
+	  });
+      */      
+      
+    } else {  
+        console.log('datafollow false');
+        
+	    if (this.clubs_follow !== undefined)
+	    {
+	      if (this.clubs_follow.indexOf(this.id) === -1) {
+	        this.clubs_follow.push(this.dataid);
+	        Y.Conf.set("owner.clubs.followed", this.clubs_follow, { permanent: true });
+	      }
+	    }
+	    else
+	      Y.Conf.set("owner.clubs.followed", [this.dataid]);
+	      
+		//change text
+		$('.ui-block-c[data-clubid='+this.dataid+']>span.form-button').html(i18n.t('clublist.nofollow'));
+		$('.ui-block-c[data-clubid='+this.dataid+']').data('follow',true);   	              
+    }  
+  
+  },   
 
   onClose: function() {
     this.undelegateEvents();
-    if (this.clubs!==undefined) {
-      this.clubs.forEach(function (club) {
-        club.off("sync", this.syncClub, this);
-      }, this);
+    
+    if (this.param.mode === 'follow') {        
+      if (this.clubs!==undefined) {
+        this.clubs.forEach(function (club) {
+          club.off("sync", this.syncClub, this);
+        }, this);
+      }
     }
+    else {
+      this.clubs.off('sync', this.renderList, this);  
+    }         
   }
+  
 });

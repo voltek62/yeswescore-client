@@ -67,6 +67,7 @@ Y.Views.Pages.Club = Y.View.extend({
       }
       else
         Y.Conf.set("owner.clubs.followed", [this.id]);
+        
       $('span.success').css({display:"block"});
       $('span.success').html(i18n.t('message.followclubok')).show();
       $("#followButton").text(i18n.t('message.nofollow'));

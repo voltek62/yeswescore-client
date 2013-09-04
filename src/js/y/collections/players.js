@@ -14,7 +14,7 @@ var PlayersCollection = Backbone.Collection.extend({
     if (this.mode === 'club')
       return Y.Conf.get("api.url.players")+'?club='+this.query;
     else if (this.mode === 'search'  )
-      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query+'&fields=name,rank,club.name&limit=15';        
+      return Y.Conf.get("api.url.players")+'autocomplete/?q='+this.query+'&fields=name,rank,club.name,profile&limit=15';        
     else	
       return Y.Conf.get("api.url.players");
   },

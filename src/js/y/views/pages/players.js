@@ -61,10 +61,10 @@ Y.Views.Pages.Players = Y.View.extend({
       this.syncPlayer = function (player) { 
         that.collection.add(player);
         
-        that.playersImgUrl[i] = player.getImageUrlOrPlaceholder();
-        console.log(that.playersImgUrl[i]);
-        
         i--;
+        that.playersImgUrl[i] = player.getImageUrlOrPlaceholder();
+        //console.log(that.playersImgUrl[i]);
+        
         //si dernier element du tableau
         if (that.playerLast === player.get('id')) {
           $(that.listview).html(that.templates.list({players:that.collection.toJSON(),query:' ', players_follow : this.players_follow, playersImgUrl : that.playersImgUrl }));
@@ -154,8 +154,20 @@ Y.Views.Pages.Players = Y.View.extend({
       if (this.players.toJSON().length === 0) {
         $(this.listview).html(this.templates.error());
       }
-      else
-        $(this.listview).html(this.templates.list({ players: this.players.toJSON(), query: q, players_follow : this.players_follow, playersImgUrl : [] }));   
+      else {
+        
+        var that = this;
+        var i = 0;
+        this.players.forEach(function (playerid,index) { 
+          //console.log(that.players.get(playerid).toJSON());
+          //console.log(that.players.get(playerid).getImageUrlOrPlaceholder());
+          that.playersImgUrl[i] = that.players.get(playerid).getImageUrlOrPlaceholder();
+          i++;
+        });
+      
+        $(this.listview).html(this.templates.list({ players: this.players.toJSON(), query: q, players_follow : this.players_follow, playersImgUrl : this.playersImgUrl }));   
+     }
+        
       $(this.listview).i18n();
     }, this));
     

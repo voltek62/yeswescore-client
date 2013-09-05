@@ -79,6 +79,7 @@
           "page-team",
           "page-teamform",          
           "page-teamadd",
+          "page-teamcomments",          
           "wizard-welcome",
           "wizard-profil",
           "wizard-step3"

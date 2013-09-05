@@ -8,7 +8,7 @@ Y.Views.Pages.Club = Y.View.extend({
   pageName: "club",
   pageHash : "clubs/",
   
-  initialize : function() {
+  myinitialize : function() {
     //header
     Y.GUI.header.title(i18n.t('club.title'));
   

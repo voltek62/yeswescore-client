@@ -1,9 +1,9 @@
-Y.Views.Pages.GameComments = Y.View.extend({
+Y.Views.Pages.TeamComments = Y.View.extend({
   el:"#content",
-  gameid:'',
+  teamid:'',
 
-  pageName: "gameComment",
-  pageHash : "games/comment/",
+  pageName: "teamComment",
+  pageHash : "teams/comment/",
 
   shareTimeout: null,
 
@@ -14,16 +14,16 @@ Y.Views.Pages.GameComments = Y.View.extend({
 
   myinitialize:function() {
     this.pageHash += this.id; 
-    this.gameid = this.id;
-    this.game = null;
+    this.teamid = this.id;
+    this.team = null;
     this.streamItemsCollection = null;
 
     // header
-    Y.GUI.header.title(i18n.t('gamecomment.title'));
+    Y.GUI.header.title(i18n.t('teamcomment.title'));
   
     // loading templates.
     this.templates = {
-      page: Y.Templates.get('page-gamecomments'),
+      page: Y.Templates.get('page-teamcomments'),
       score:  Y.Templates.get('module-comments-score'),
       comment: Y.Templates.get('module-comments-comment')
     };
@@ -37,19 +37,17 @@ Y.Views.Pages.GameComments = Y.View.extend({
     // FIXME: utiliser une factory pour recuperer l'objet game.
     // FIXME: quand la factory existera et que les objets seront globaux
     //         on pourra activer du pooling sur l'objet.
-     this.game = new GameModel({id : this.gameid});
+     this.team = new TeamModel({id : this.teamid});
      
      var that = this;
-     this.syncGame = function () {
-      //that.game = game;
-      that.renderScore(); // might be later.     
-     };
-     
-    //this.game.once("sync", this.syncGame, this);
-    //this.game.fetch();
+     this.player = Y.User.getPlayer();  
 
     // updating comment list when collection is updated
-    this.streamItemsCollection = new StreamsCollection([], {gameid : this.gameid});
+    this.streamItemsCollection = new StreamsCollectionTeam([], {
+      teamid : this.teamid,
+      playerid : this.player.get('id'),
+      token : this.player.get('token')
+    });
     this.streamItemsCollection.on("sync", this.renderList, this);
 
     // pool the collection regulary
@@ -103,75 +101,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
     return this;
   },
   
-  // score component (top of the page)
-  renderScore: function () {
-  
-   var timer = '';
-   var game = this.game.toJSON();
-        
-    if ( game.status === "finished" ) {
-       
-      //var dateEnd = new Date(game.dates.end);
-      //var dateStart = new Date(game.dates.start);
 
-      var dateEnd = Date.fromString(game.dates.end);      
-      var dateStart = Date.fromString(game.dates.start);
-            
-      timer = dateEnd - dateStart;
-      var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-      timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
-        
-    }
-    else if ( game.status === "ongoing" ) {
-      
-      //comment connaitre la date actuelle par rapport au serveur ?
-      var dateEnd = new Date();
-      //var dateStart = new Date(game.dates.start);
-      var dateStart = Date.fromString(game.dates.start);
-            
-      timer = dateEnd - dateStart;
-          
-      if (timer>0)
-      {
-        var dateTimer = new Date(0, 0, 0, 0, 0, 0, timer);         
-        timer = ('0'+dateTimer.getHours()).slice(-2)+':'+('0'+dateTimer.getMinutes()).slice(-2);        
-      }
-      //declenche setTimeout(); qui met à jour toutes les 50 secondes ???
-      //setInterval ( this.refreshTimer, 1000 );
-          
-    }  
-  
-  this.$(".zone-score").html(this.templates.score({game : this.game.toJSON(), timer :timer}));
-    
-  var startTeam = this.game.get('infos').startTeam;
-  this.server1 = "";
-  this.server2 = "";    
-    
-  if ( this.game.whoServe() === startTeam ) {
-    if (this.game.get('teams')[0].id === startTeam) 
-    {
-    $('.server1').addClass('server-ball');
-    $('.server2').removeClass('server-ball');  
-    }
-    else {
-    $('.server1').removeClass('server-ball');
-    $('.server2').addClass('server-ball');              
-    }
-  }
-  else {
-    if (this.game.get('teams')[0].id === startTeam) 
-    {
-    $('.server1').removeClass('server-ball');
-    $('.server2').addClass('server-ball');        
-    }
-    else {
-    $('.server1').addClass('server-ball');
-    $('.server2').removeClass('server-ball');          
-    }
-  }    
-    
-    return this;
-  },
 
   // liste de commentaires 
   renderList : function() {
@@ -216,8 +146,8 @@ Y.Views.Pages.GameComments = Y.View.extend({
     $('a').i18n();
     $('span').i18n();
     
-    this.game.once("sync", this.syncGame, this);
-    this.game.fetch();
+    this.team.once("sync", this.syncGame, this);
+    this.team.fetch();
         
     return this;
   }, 
@@ -228,8 +158,8 @@ Y.Views.Pages.GameComments = Y.View.extend({
     
     Backbone.ajax({
       dataType : 'json',
-      url : Y.Conf.get("api.url.games")
-      + this.gameid 
+      url : Y.Conf.get("api.url.teams")
+      + this.teamid 
       + '/stream/'
       + id 
       + '/?playerid='+this.owner.get('id')
@@ -258,7 +188,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
 
     Backbone.ajax({
         dataType : 'json',
-        url : Y.Conf.get("api.url.reports.games")+ this.gameid + '/stream/'+ id + '/',
+        url : Y.Conf.get("api.url.reports.teams")+ this.teamid + '/stream/'+ id + '/',
         type : 'GET',
         success : function(result) { 
 
@@ -274,7 +204,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
   sendComment : function() {
     var playerid = this.owner.id
     , token  = this.owner.get('token')
-    , gameid = this.gameid
+    , teamid = this.teamid
     , comment = $('#messageText').val()
     , that = this;
     
@@ -286,36 +216,22 @@ Y.Views.Pages.GameComments = Y.View.extend({
       return; // already sending => disabled.
       
     //filter
-    comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");  
-    
-    //ajout du score au moment du comment
-    var sets = this.game.getSets(0);
-
-    if (this.game.get('status') === "ongoing") {
-      comment += ' ( ';
-      if (sets[0][0]>0 || sets[0][1]>0)
-        comment += ' '+sets[0][0]+'/'+sets[0][1];
-      if (sets[1][0]>0 || sets[1][1]>0)
-        comment += ' '+sets[1][0]+'/'+sets[1][1];
-      if (sets[2][0]>0 || sets[2][1]>0)
-        comment += ' '+sets[2][0]+'/'+sets[2][1];
-      comment += ' ) ';
-    }    
+    comment = comment.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;");      
       
     //on bloque le textarea  
     $('.form-button-black').addClass('disabled');
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.sendingComment = true;
       
-    var stream = new StreamModel({
+    var stream = new StreamModelTeam({
       playerid : playerid,
-      gameid : gameid,
+      teamid : teamid,
       token : token,
       type : "comment",      
       data : {
         text : comment,
       },
-      url : Y.Conf.get("api.url.games")
+      url : Y.Conf.get("api.url.teams")
     });
     stream.save().done(function (streamItem) {
       that.streamItemsCollection.fetch();
@@ -348,7 +264,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
   sendImageComments: function (image) {
     var playerid = this.owner.id
     , token  = this.owner.get('token')
-    , gameid = this.gameid
+    , teamid = this.teamid
     , that = this;
     
     if (this.sendingComment)
@@ -379,15 +295,15 @@ Y.Views.Pages.GameComments = Y.View.extend({
         deferred.always(function (pictureId) {
           that.sendingComment = true;
       
-          var stream = new StreamModel({
+          var stream = new StreamModelTeam({
             playerid : playerid,
             token : token,
-            gameid : gameid,
+            teamid : teamid,
             type: "image",
             data : {
 	            id : pictureId
-            }, 
-            url : Y.Conf.get("api.url.games") 
+            },
+            url : Y.Conf.get("api.url.teams")
           });
 
           stream.save().done(function (streamItem) {
@@ -420,7 +336,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
       this.shareTimeout = null;
     }    
     
-    this.game.off("sync", this.syncGame, this);
+    this.team.off("sync", this.syncGame, this);
     
     this.streamItemsCollection.off('success', this.renderList, this);
     

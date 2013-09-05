@@ -106,6 +106,7 @@
   "gameadd": {
     "title": "CREER UNE PARTIE",
     "refresh": "Rafraichir",    
+    "player": "Joueur",
     "player1": "Joueur 1",
     "player1_holder": "Moi",    
     "player2": "Joueur 2",  
@@ -167,7 +168,9 @@
     "no":"Non",
     "submit" : "ENREGISTRER",  
     "dateday" : "Date Prévu",
-    "datehour" : "Heure Prévu"          	                      
+    "datehour" : "Heure Prévu",
+    "listplayers" : "Liste des joueurs",
+    "add" : "Ajouter"           	                      
   },
   "gameclub": {
     "title": ""
@@ -379,7 +382,8 @@
     "add": "ENREGISTRER"
   },  
   "team": {
-    "title":"EQUIPE"  
+    "title":"EQUIPE",
+    "noname":"Non renseigné"  
   },  
   "teamlist": {
     "title":"LISTE DES EQUIPES",

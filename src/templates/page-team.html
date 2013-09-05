@@ -1,22 +1,27 @@
 <!-- template page-club.html -->
 <div class="info background"></div>
 <div class="info content-container">
-<div class="simple">
-  
+  <div class="simple">
     <div class="ui-grid-a" style="padding-top:10px">
-        <div class="ui-block-a" style="width:30%">
+      <div class="ui-block-a" style="width:30%">
         <img src="./images/team-pic.jpg" width="60px" height="60px" />
-        </div>
-        <div class="ui-block-b titlePlayer" style="width:70%">
-        <%= team.name %><br/>
-        <%
-        if (team.club)
-          if (team.club.name) 
-            print(team.club.name);
-        %>
-        </div>
+      </div>
+      <div class="ui-block-b titlePlayer" style="width:70%">
+      <% 
+      if (team.name!=='') 
+        print(team.name);
+      else
+        print(i18n.t('team.noname'));
+      %><br/>
+      <%
+      if (team.club)
+        if (team.club.name) 
+          print(team.club.name);
+      %>
+      </div>
     </div> 
-     <br/>
+    
+    <span class="subtitle" data-i18n="gameadd.listplayers"></span><br/>
     <% 
     var players = team.players;
     for (var i = 0; i < players.length; i++) {
@@ -25,7 +30,8 @@
     <%= player.name %>
     <%
     if (typeof player !== "undefined")
-      print("("+player.rank+")");      
+      if (player.rank!=="")
+        print("("+player.rank+")");      
     %>  
     <br/>
     <%  

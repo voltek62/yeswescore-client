@@ -1,4 +1,5 @@
 var StreamModel = Backbone.Model.extend({
+
   urlRoot : function () { return Y.Conf.get("api.url.games"); },
 
   defaults : {
@@ -11,6 +12,10 @@ var StreamModel = Backbone.Model.extend({
       text : "...."
     }
   },
+  
+  initialize: function (options) {
+    this.url = options.url;
+  },  
 
   comparator : function(item) {
     return -item.get("date").getTime();
@@ -23,8 +28,9 @@ var StreamModel = Backbone.Model.extend({
 
       return Backbone.ajax({
         dataType : 'json',
-        url : Y.Conf.get("api.url.games") 
-        	+ (this.get('gameid') || '') 
+        //url : Y.Conf.get("api.url.games")
+        url : this.url        
+        	+ (this.get('gameid') || this.get('teamid')) 
         	+ '/stream/?playerid='
             + (this.get('playerid') || '') 
             + '&token='
@@ -55,4 +61,8 @@ var StreamModel = Backbone.Model.extend({
 
   }
 
+});
+
+var StreamModelTeam = StreamModel.extend({
+  urlRoot : function () { return Y.Conf.get("api.url.teams"); }
 });

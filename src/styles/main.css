@@ -3008,6 +3008,10 @@ a[data-filter='match-followed'] {
   display: none;
 }
 
+span.subtitle {
+  font-weight:bold;
+}
+
 /*
   about
 */

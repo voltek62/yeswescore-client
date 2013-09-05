@@ -62,6 +62,10 @@ var PlayerModel = Backbone.Model.extend({
     return imageUrl || Y.Conf.get("gui.image.placeholder.profil");
   },
 
+  equalsId : function(other) {
+     return other.id == this.id;
+  },
+
   sync: function (method, model, options) {
     // allowing playerid & token overload.
     var that = this;

@@ -126,18 +126,20 @@ Y.Views.Pages.Team = Y.View.extend({
   // render the content into div of view
   renderTeam : function() {
     
-    console.log();
-    console.log();
+    console.log('players',this.team.get('players'));
+    console.log('id',this.player.get('id'));
     
     
     if (this.team.get('players').indexOf(this.player.get('id'))!=-1) {
       this.$el.html(this.templates.pageform({
-        team : this.team.toJSON(),follow:this.follow
+        team : this.team.toJSON()
+        , follow:this.follow
       }));    
     }
     else { 
       this.$el.html(this.templates.page({
-        team : this.team.toJSON(),follow:this.follow
+        team : this.team.toJSON()
+        , follow:this.follow
       }));
     }
     

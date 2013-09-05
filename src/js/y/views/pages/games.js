@@ -203,6 +203,9 @@ Y.Views.Pages.Games = Y.View.extend({
   },
 
   searchOnKey: function (event) {
+  
+    console.log('games searchOnKey');
+  
     if(event.keyCode == 13){
       // the user has pressed on ENTER
       this.inputModeOff();  

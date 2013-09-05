@@ -30,7 +30,7 @@ if (player.error!==undefined)
      if (players_follow.indexOf(player.id) === -1) {
      %>
     <div class="ui-block-c" style="width:30%;" data-playerid="<%= player.id %>" data-follow="false">
-      <span class="form-button more-options" data-i18n="teamlist.follow" data-playerid="<%= player.id %>" data-follow="false"></span>
+      <span class="form-button more-options" data-i18n="playerlist.addpush" data-playerid="<%= player.id %>" data-follow="false"></span>
     </div>
     <%
     }
@@ -38,7 +38,7 @@ if (player.error!==undefined)
     {
     %>
     <div class="ui-block-c" style="width:30%;" data-playerid="<%= player.id %>" data-follow="true">    
-      <span class="form-button more-options" data-i18n="teamlist.nofollow" data-playerid="<%= player.id %>" data-follow="true"></span>  
+      <span class="form-button more-options" data-i18n="playerlist.delpush" data-playerid="<%= player.id %>" data-follow="true"></span>  
     </div>        
     <%
     }

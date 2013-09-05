@@ -32,6 +32,7 @@ Y.Views.Pages.Players = Y.View.extend({
     // loading templates.
     this.templates = {
       list:  Y.Templates.get('list-player'),
+      listnotification:  Y.Templates.get('list-player-notification'),
       page: Y.Templates.get('page-players'),
       error: Y.Templates.get('module-error'),
       ongoing: Y.Templates.get('module-ongoing')
@@ -59,8 +60,7 @@ Y.Views.Pages.Players = Y.View.extend({
           , query:' '
           , players_follow : this.players_follow
           , playersImgUrl:[]
-        }));
-        $('p.message').i18n();              
+        })).i18n();              
       }      
       
       this.syncPlayer = function (player) { 
@@ -72,13 +72,12 @@ Y.Views.Pages.Players = Y.View.extend({
         
         //si dernier element du tableau
         if (that.playerLast === player.get('id')) {
-          $(that.listview).html(that.templates.list({
+          $(that.listview).html(that.templates.listnotification({
             players:that.collection.toJSON()
             , query:' '
             , players_follow : this.players_follow
             , playersImgUrl : that.playersImgUrl 
-          }));
-          that.$el.i18n();    
+          })).i18n();    
         }             
       };      
       
@@ -120,8 +119,7 @@ Y.Views.Pages.Players = Y.View.extend({
         , query:' '
         , players_follow : this.players_follow
         , playersImgUrl:[]
-      }));
-      $(that.listview).i18n();
+      })).i18n();
     }  
   }
   else {

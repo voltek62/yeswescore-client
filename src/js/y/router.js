@@ -95,11 +95,11 @@
     },
        
     clubFollowed: function () {
-      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: 'follow'}));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: 'follow' }));
     },
 
     clubs: function (sort) {
-      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { search: '', id: '', sort: sort || ''}));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Clubs, { mode: 'follow' }));
     },    
     
     team: function (id) {
@@ -107,7 +107,7 @@
     },
 
     teams: function (sort) {
-      this.changePage(this.createViewFactory(Y.Views.Pages.Teams, { search: '', id: '', sort: sort || '' }));
+      this.changePage(this.createViewFactory(Y.Views.Pages.Teams, { mode: 'follow' }));
     },
 
     teamAdd: function () {

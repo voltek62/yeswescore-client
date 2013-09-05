@@ -16,13 +16,21 @@
         %>
         </div>
     </div> 
-     
+    Mode Edition<br/>    
     <% 
     var players = team.players;
-    for (var i = 0; i < players.length; i++) { 
-      print ("Mode Edition "+players[i]+"<br/>");  
+    for (var i = 0; i < players.length; i++) {
+      var player = players[i];
+    %>
+    <%= player.name %>
+    <%
+    if (typeof player !== "undefined")
+      print("("+player.rank+")");      
+    %>  
+    <br/>
+    <%  
     }
-    %>      
+    %>         
     
     <div class="ui-grid-a">
 	  <div class="ui-block-a">

@@ -219,8 +219,8 @@
     "players":"Joueurs"
   },      
   "message": {
-    "noresult": "Aucun resultat",
-    "noresultfor": "Aucun resultat pour",  
+    "noresult": "Aucun résultat",
+    "noresultfor": "Aucun résultat pour",  
     "noconnection": "Impossible de se connecter",
     "results": "resultats",  
     "updateok" : "Mise à jour réussie",
@@ -264,7 +264,9 @@
     "choiceserver":"Souhaitez-vous indiquer qui commence à servir ? Par défaut, nous prenons le joueur 2",
     "choiceservertitle":"Choix du serveur",
     "choiceserveryes":"Choisir",
-    "choiceserverno":"Ne pas choisir"          
+    "choiceserverno":"Ne pas choisir",
+    "searchteam":"Merci d'utiliser le moteur de recherche ci-dessus pour suivre des équipes",
+    "searchclub":"Merci d'utiliser le moteur de recherche ci-dessus pour suivre des clubs"        
   },
   "player": {
     "title": "JOUEUR",
@@ -301,7 +303,9 @@
     "title": "LISTE DES JOUEURS",
     "titlemypushs" : "MES NOTIFICATIONS",
     "addpush":"Ajouter",
-    "delpush":"Retirer"
+    "delpush":"Retirer",
+    "follow":"Suivre",
+    "unfollow":"Ne plus suivre"
   },    
   "playersignin": {
     "title": "CONNEXION",
@@ -378,6 +382,7 @@
   }, 
   "teamlist": {
     "title":"LISTE DES EQUIPES",
+    "titlefollow":"LISTE DES EQUIPES",    
     "follow":"Suivre",
     "nofollow":"Ne plus suivre"    
   },    

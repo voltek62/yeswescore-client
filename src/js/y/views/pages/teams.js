@@ -23,19 +23,21 @@ Y.Views.Pages.Teams = Y.View.extend({
 
     // saving parameter
     this.param = param || {};
+    
+    console.log('teams');
       
     //header
     if (this.param.mode === 'follow')    
-      Y.GUI.header.title(i18n.t('teamfollow.title')); 
+      Y.GUI.header.title(i18n.t('teamlist.titlefollow')); 
     else
       Y.GUI.header.title(i18n.t('teamlist.title'));
       
     // loading templates.
     this.templates = {
-      list:  Y.Templates.get('list-team'),
-      page: Y.Templates.get('page-teams'),
-      error: Y.Templates.get('module-error'),
-      ongoing: Y.Templates.get('module-ongoing')
+      list      : Y.Templates.get('list-team'),
+      page      : Y.Templates.get('page-teams'),
+      error     : Y.Templates.get('module-error'),    
+      ongoing   : Y.Templates.get('module-ongoing')
     };
     
     // we render immediatly
@@ -45,7 +47,8 @@ Y.Views.Pages.Teams = Y.View.extend({
     if (typeof teams !== "undefined")
       this.teams_follow = teams;   
     else
-       this.teams_follow = [];   
+       this.teams_follow = [];  
+        
     this.myid = Y.User.getPlayer().get('id');
     this.mytoken = Y.User.getPlayer().get('token'); 
 
@@ -62,20 +65,19 @@ Y.Views.Pages.Teams = Y.View.extend({
             teams:[]
             , query:' '
             , teams_follow : this.teams_follow
-          }));
-          $('p.message').i18n();              
+          })).i18n();              
         }      
       
         this.syncTeam = function (team) { 
           that.collection.add(team);
           i--;
             //si dernier element du tableau
-            if (that.teamLast === team.get('id')) {
+          if (that.teamLast === team.get('id')) {
             $(that.listview).html(that.templates.list({
               teams:that.collection.toJSON()
               , query:' '
               , teams_follow : this.teams_follow
-            }));    
+            })).i18n();   
           }             
         };      
       
@@ -94,9 +96,7 @@ Y.Views.Pages.Teams = Y.View.extend({
                   teams:[]
                   , query:' '
                   , teams_follow : this.teams_follow
-                }));
-              
-              $('p.message').i18n();              
+                })).i18n();              
             }
             else
               this.teamLast = teams[teams.length-1];
@@ -113,9 +113,7 @@ Y.Views.Pages.Teams = Y.View.extend({
           teams:[]
           , query:' ' 
           , teams_follow : this.teams_follow
-        }));
-      
-        $('p.message').i18n();
+        })).i18n();
       }  
     }
     else {
@@ -136,7 +134,8 @@ Y.Views.Pages.Teams = Y.View.extend({
     }  
   },  
 
-  searchOnKey: function (event) {
+  searchOnKeyTeam: function (event) {
+    
     if(event.keyCode == 13){
       // the user has pressed on ENTER
       this.inputModeOff();

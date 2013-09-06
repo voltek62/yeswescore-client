@@ -395,7 +395,8 @@
     "title":"LISTE DES EQUIPES",
     "titlefollow":"LISTE DES EQUIPES",    
     "follow":"Suivre",
-    "nofollow":"Ne plus suivre"
+    "nofollow":"Ne plus suivre",
+    "status":"Statut"      
   },  
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",

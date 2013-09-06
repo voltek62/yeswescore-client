@@ -22,21 +22,8 @@
     </div> 
     
     <span class="subtitle" data-i18n="gameadd.listplayers"></span><br/>
-    <% 
-    var players = team.players;
-    for (var i = 0; i < players.length; i++) {
-      var player = players[i];
-    %>
-    <%= player.name %>
-    <%
-    if (typeof player !== "undefined")
-      if (player.rank!=="")
-        print("("+player.rank+")");      
-    %>  
-    <br/>
-    <%  
-    }
-    %>        
+    
+    <ul id="listPlayersView" class="ui-listview results"></ul>        
        
     <div style="padding:100px"></div>
   

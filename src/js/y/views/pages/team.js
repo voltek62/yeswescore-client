@@ -6,7 +6,10 @@ Y.Views.Pages.Team = Y.View.extend({
   events : {
     'click #followButton'   : 'followTeam',
     'click .form-button'    : 'updateTeam',
-    'click .button-comments': 'goToComment'     
+    'click .button-comments': 'goToComment',
+    "click div.ui-block-a"  : 'choosePlayer',
+    "click div.ui-block-b"  : 'choosePlayer',
+    "click div.ui-block-c"  : 'openStatus'         
   },
   
   listview : "#listPlayersView",  
@@ -31,6 +34,7 @@ Y.Views.Pages.Team = Y.View.extend({
     
     // loading owner
     this.player = Y.User.getPlayer();  
+    this.playerid = this.player.get('id');
     this.players_follow = Y.User.getPlayer().get('following');
         
     this.playeridArray = new Array;
@@ -93,6 +97,19 @@ Y.Views.Pages.Team = Y.View.extend({
       this.follow = 'true';
     }
   },
+  
+  openStatus : function() { 
+    console.log('openstatus');    
+  },
+
+  choosePlayer : function(elmt) { 
+    var href= $(elmt.currentTarget).data('href');
+
+    if (href) {
+      var route = href;
+      Y.Router.navigate(route, {trigger: true}); 
+    }  
+  },   
 
   updatingTeam: false,  
   updateTeam: function() {
@@ -128,11 +145,29 @@ Y.Views.Pages.Team = Y.View.extend({
       playerid: this.player.get('id'),
       token: this.player.get('token')
     }).done(function (model, response) {    
-      that.updatingTeam = false; 
+      that.updatingTeam = false;     
+              
+      if(that.$("#team").val()!=='') {
+        
+        console.log('model',model);
+        console.log('model.players',model.players);
+        
+        var player = model.players[model.players.length-1];
+        console.log(player);
       
-	  that.$('#listPlayersView').append(that.$("#team").val()+"<br/>");
-	  that.$("#team").val(' ');    
-           
+        var playersImgUrl = "";
+        if (typeof player.profile !== "undefined")
+          if(player.profile.image!=="")
+            playersImgUrl = PlayerModel.getExtractImageUrl(player.profile.image);
+          else
+            playersImgUrl = Y.Conf.get("gui.image.placeholder.profil");
+        else
+          playersImgUrl = Y.Conf.get("gui.image.placeholder.profil");      
+      
+	    that.$('#listPlayersView').append(that.templates.li({player:player,playersImgUrl:playersImgUrl}));
+	    that.$("#team").val(' ');
+	  }    
+            
     }).fail(function (err) {       
       that.updatingTeam = false;      
     });   
@@ -201,9 +236,20 @@ Y.Views.Pages.Team = Y.View.extend({
   
     this.teamid = this.team.get('id');
     this.teamname = this.team.get('name');
-        
+   
+    var playersImgUrl = [];
+    
+    var i=0;    
 	for(var o in this.team.get('players')) {
       this.playeridArray.push(this.team.get('players')[o].id);
+      
+      //recup img
+      if (typeof this.team.get('players')[o].profile !== "undefined" && this.team.get('players')[o].profile.image !== "")
+        playersImgUrl[i] = PlayerModel.getExtractImageUrl(this.team.get('players')[o].profile.image);
+      else
+        playersImgUrl[i] = Y.Conf.get("gui.image.placeholder.profil");
+        
+      i++;
 	}
     
     if (this.playeridArray.indexOf(this.player.get('id'))!=-1) {
@@ -219,16 +265,12 @@ Y.Views.Pages.Team = Y.View.extend({
       }));
     }
     
-    console.log('players',this.team.get('players'));
-    
-    
-    
     //display players
 	$(this.listview).html(this.templates.list({
             players:this.team.toJSON().players
             , query:' '
-            , players_follow : this.players_follow
-            , playersImgUrl : []
+            , playerid : this.playerid
+            , playersImgUrl : playersImgUrl
           })).i18n();    
     
     //display comments

@@ -54,7 +54,8 @@ var PlayerModel = Backbone.Model.extend({
     if (!this.hasImage())
       return null;
     var imageId = this.get('profile').image;
-    return Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg"; // default ext.
+    //return Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg"; // default ext.
+    return PlayerModel.getExtractImageUrl(imageId);
   },
 
   getImageUrlOrPlaceholder: function () {
@@ -185,3 +186,8 @@ var PlayerModel = Backbone.Model.extend({
     }
   }
 });
+
+PlayerModel.getExtractImageUrl = function(imageId)
+{
+  return Y.Conf.get("api.url.static.files") + imageId.substr(0, 10).match(/.{1,2}/g).join("/") + "/" + imageId + ".jpeg"; // default ext.
+}

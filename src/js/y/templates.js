@@ -75,6 +75,7 @@
           "page-playerforget",
           "page-playerform",
           "page-players",
+          "page-players-push",          
           "page-playersignin",
           "page-searchform",
           "page-teams",          

@@ -90,7 +90,7 @@ Y.Views.Navbar = Y.View.extend({
   },  
   
   goToPlayer: function () { 
-    console.log('goToPlayer');
+    //console.log('goToPlayer');
     this.$('div[data-fragment="player"]').addClass("highlighted");
     
     if (this.submenu==="follow")
@@ -99,7 +99,7 @@ Y.Views.Navbar = Y.View.extend({
       Y.Router.navigate("games/add", {trigger: true});       
   },
   goToTeam: function () { 
-    console.log('goToTeam');  
+    //console.log('goToTeam');  
     this.$('div[data-fragment="team"]').addClass("highlighted"); 
 
     if (this.submenu==="follow")       
@@ -108,7 +108,7 @@ Y.Views.Navbar = Y.View.extend({
       Y.Router.navigate("teams/add", {trigger: true});        
   },
   goToClub: function () { 
-    console.log('goToClub');  
+    //console.log('goToClub');  
     this.$('div[data-fragment="club"]').addClass("highlighted");
 
     if (this.submenu==="follow")      

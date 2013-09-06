@@ -31,11 +31,12 @@ Y.Views.Pages.Players = Y.View.extend({
       
     // loading templates.
     this.templates = {
-      list:  Y.Templates.get('list-player'),
-      listnotification:  Y.Templates.get('list-player-notification'),
-      page: Y.Templates.get('page-players'),
-      error: Y.Templates.get('module-error'),
-      ongoing: Y.Templates.get('module-ongoing')
+      list            : Y.Templates.get('list-player'),
+      listnotification: Y.Templates.get('list-player-notification'),
+      page            : Y.Templates.get('page-players'),
+      pagepush        : Y.Templates.get('page-players-push'),      
+      error           : Y.Templates.get('module-error'),
+      ongoing         : Y.Templates.get('module-ongoing')
     };
     
     // we render immediatly
@@ -181,8 +182,13 @@ Y.Views.Pages.Players = Y.View.extend({
 
   // render the content into div of view
   render : function() {
-    this.$el.html(this.templates.page({}));
-    this.$el.i18n();
+    if (this.param.mode === 'follow') {
+      this.$el.html(this.templates.pagepush({})).i18n();
+    }
+    else {
+      this.$el.html(this.templates.page({})).i18n();    
+    }
+    
     return this;
   },
 

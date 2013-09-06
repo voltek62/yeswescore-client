@@ -44,10 +44,7 @@ var StreamsCollectionTeam = StreamsCollection.extend({
   
 
   url: function() {
-  
-    console.log('playerid',this.playerid);
-    console.log('token',this.token);
-
+ 
     if (this.length > 0) {
       var lastid = this.at(0).id;
       return Y.Conf.get("api.url.teams")+this.teamid+'/stream/?lastid='+lastid+'&playerid='

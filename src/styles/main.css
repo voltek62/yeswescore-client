@@ -1194,7 +1194,8 @@ ul>li.team>a {
 	margin-top:25px;
 	padding-top:5px;
 	font-size: 15px;
-	color: #999999;
+	/*color: #999999;*/
+	color: #000000,
 	border-color: #CCCCCC;
 	-moz-border-radius: 12px;
 	-webkit-border-radius: 12px;
@@ -1770,7 +1771,7 @@ ul>li.team>a {
 	z-index: 10;
 }
 
-.indexViewTemplate .results .message {
+.indexViewTemplate .results .message, .indexViewTemplate .message {
 	font-family: Open Sans;
 	font-weight: normal;
 	font-size: 12px;

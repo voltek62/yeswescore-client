@@ -7,7 +7,7 @@
     "helpus" : "Donnez-nous 5 étoiles !"    
   },
   "account": {
-    "title": "PROFIL",
+    "title": "GERER",
     "mymatchs": "Mes Matchs",
     "myteams": "Mes Equipes",
     "clubsfollowed": "Clubs Favoris",
@@ -170,7 +170,9 @@
     "dateday" : "Date Prévu",
     "datehour" : "Heure Prévu",
     "listplayers" : "Liste des joueurs",
-    "add" : "Ajouter"           	                      
+    "add" : "Ajouter",
+    "2bestofsets" : "2 Sets Gagnants",
+	"3bestofsets" : "3 Sets Gagnants"                 	                      
   },
   "gameclub": {
     "title": ""
@@ -338,6 +340,7 @@
   },    
   "search": {
     "title": "RECHERCHE",
+    "push": "YesWeScore vous permet de recevoir une notification dès qu'un joueur ajouté via le moteur ci-dessus commence ou termine son match.",    
     "zone": "Zone",
     "filters":"Filtres :",    
     "filtergps":"GPS",

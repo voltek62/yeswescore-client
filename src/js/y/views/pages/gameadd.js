@@ -46,7 +46,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
 
   setSimple: function () {
     $('.form-label-player').css('padding-top','');
-    $('#team1').children("legend").remove();
+    $('#doubles1').children("legend").remove();
     $('#simples').unwrap('<fieldset id="doubles1" style="border:solid 1px #FFFFFF;"></fieldset>');    
     $('#doubles2').hide(); 
   },
@@ -54,7 +54,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   setDouble: function () {
     $('#doubles2').show();
     $('#simples').wrap('<fieldset id="doubles1" style="border:solid 1px #FFFFFF;"></fieldset>');
-    $('#team1').append('<legend style="color:#FFFFFF;"> Team 1 </legend> ');
+    $('#doubles1').append('<legend style="color:#FFFFFF;"> '+i18n.t('gameform.team1')+' </legend> ');
     $('.form-label-player').css('padding-top','0');
   },  
 
@@ -434,15 +434,33 @@ Y.Views.Pages.GameAdd = Y.View.extend({
         $("#team2").val(game.team2); 
         this.team2_id = game.team2_id;
         $("#rank2").val(game.rank2);                
-      
+
+        $("#team3").val(game.team3); 
+        this.team3_id = game.team3_id;
+        $("#rank3").val(game.rank3);  
+        
+        $("#team4").val(game.team4); 
+        this.team4_id = game.team4_id;
+        $("#rank4").val(game.rank4);  
+              
         if ( game.location.city !== "" ) $("#city").val(game.location.city);    
         if ( game.infos.surface !== "" ) $("#surface").val(game.infos.surface);
         if ( game.infos.tour !== "" ) $("#tour").val(game.infos.tour);
         if ( game.infos.court !== "" ) $("#court").val(game.infos.court);
         if ( game.infos.official !== "" ) $("#official").val(game.infos.official);  
         if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
-        if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);                  
+        if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);
+        if ( game.infos.bestofsets !== "" ) $("#bestofsets").val(game.infos.bestofsets);                          
 
+		if ( game.infos.type === "doubles" ) {
+		  $("#mode-double").prop('checked', true);  
+		  this.setDouble();
+		}
+		else {
+		  $("#mode-simple").prop('checked', true); 
+		  this.setSimple();
+		}
+		
         this.DB.remove("game"); 
       }
     }

@@ -80,7 +80,7 @@ Y.Views.Pages.Player = Y.View.extend({
         
          $('span.success').css({display:"block"});
          $('span.success').html(i18n.t('message.nofollowplayerok')).show();
-         $("#followButton").text(i18n.t('message.follow'));
+         $("#followButton").text(i18n.t('playerlist.follow'));
          $('#followButton').removeClass('button-selected');
          $('#followButton').addClass('button');         
           
@@ -140,7 +140,7 @@ Y.Views.Pages.Player = Y.View.extend({
           
           $('span.success').css({display:"block"});
           $('span.success').html(i18n.t('message.followplayerok')).show();
-          $("#followButton").text(i18n.t('message.nofollow'));
+          $("#followButton").text(i18n.t('playerlist.unfollow'));
           $('#followButton').removeClass('button');
           $('#followButton').addClass('button-selected');               
       

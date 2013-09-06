@@ -2,20 +2,22 @@
 <% if(players.length==0) { %>
 <li><p class="message" data-i18n="message.noresult"></p></li>
 <% } %> 
-<% for (var i = 0; i < players.length; i++) { 
+<% 
 
-player = players[i]; 
+for (var i = 0; i < players.length; i++) { 
 
-if (player.error!==undefined) 
-{
-  if (player.error.length > 1 ) 
-  { 
-  %>
-  <li><p class="message" data-i18n="message.error"></p></li>
-  <%
-   break;
+  player = players[i];
+
+  if (player.error!==undefined) 
+  {
+    if (player.error.length > 1 ) 
+    { 
+    %>
+    <li><p class="message" data-i18n="message.error"></p></li>
+    <%
+    break;
+    }
   }
-}
 %>
 <li class="player">
   <div class="ui-grid-a" data-href="#players/<%= player.id %>">
@@ -24,13 +26,13 @@ if (player.error!==undefined)
     </div>
     <div class="ui-block-b" style="width:50%;valign:top;" data-href="#players/<%= player.id %>">
     <div class="game-player"><%= player.name %></div>
-    <div class="infos"><% if (player.club) print(player.club.name) %> ( <%= player.rank %> )</div>
+    <div class="infos"><% if (player.club) print(player.club.name) %>  ( <%= player.rank %> )</div>
     </div>
     <%
      if (players_follow.indexOf(player.id) === -1) {
      %>
     <div class="ui-block-c" style="width:30%;" data-playerid="<%= player.id %>" data-follow="false">
-      <span class="form-button more-options" data-i18n="playerlist.addpush" data-playerid="<%= player.id %>" data-follow="false"></span>
+      <span class="form-button more-options" data-i18n="teamlist.follow" data-playerid="<%= player.id %>" data-follow="false"></span>
     </div>
     <%
     }
@@ -38,13 +40,13 @@ if (player.error!==undefined)
     {
     %>
     <div class="ui-block-c" style="width:30%;" data-playerid="<%= player.id %>" data-follow="true">    
-      <span class="form-button more-options" data-i18n="playerlist.delpush" data-playerid="<%= player.id %>" data-follow="true"></span>  
+      <span class="form-button more-options" data-i18n="teamlist.nofollow" data-playerid="<%= player.id %>" data-follow="true"></span>  
     </div>        
     <%
     }
     %>        
   </div>
 </li>
-<% 
+<%
 } 
 %>

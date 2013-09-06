@@ -24,7 +24,7 @@ if (player.error!==undefined)
     </div>
     <div class="ui-block-b" style="width:50%;valign:top;" data-href="#players/<%= player.id %>">
     <div class="game-player"><%= player.name %></div>
-    <div class="infos"><%= player.club.name %>  ( <%= player.rank %> )</div>
+    <div class="infos"><% if (player.club) print(player.club.name) %>  ( <%= player.rank %> )</div>
     </div>
     <%
      if (players_follow.indexOf(player.id) === -1) {

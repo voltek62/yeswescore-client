@@ -383,7 +383,10 @@
   "team": {
     "title":"EQUIPE",
     "noname":"Non renseigné" 
-  }, 
+  },
+  "teamcomment": {
+    "title":"COMMENTAIRES DE MON EQUIPE"
+  },   
   "teamlist": {
     "title":"LISTE DES EQUIPES",
     "titlefollow":"LISTE DES EQUIPES",    

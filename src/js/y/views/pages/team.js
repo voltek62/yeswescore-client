@@ -8,6 +8,8 @@ Y.Views.Pages.Team = Y.View.extend({
     'click .form-button'    : 'updateTeam',
     'click .button-comments': 'goToComment'     
   },
+  
+  listview : "#listPlayersView",  
 
   pageName: "team",
   pageHash : "team/",
@@ -20,6 +22,8 @@ Y.Views.Pages.Team = Y.View.extend({
   
     // loading templates.
     this.templates = {
+      list:  Y.Templates.get('list-player-team'),  
+      li:  Y.Templates.get('list-player-team-li'),          
       empty: Y.Templates.get('module-empty'),
       page:  Y.Templates.get('page-team'),
       pageform:  Y.Templates.get('page-teamform')      
@@ -27,7 +31,7 @@ Y.Views.Pages.Team = Y.View.extend({
     
     // loading owner
     this.player = Y.User.getPlayer();  
-
+    this.players_follow = Y.User.getPlayer().get('following');
         
     this.playeridArray = new Array;
         
@@ -113,7 +117,11 @@ Y.Views.Pages.Team = Y.View.extend({
     });
     team.set('players', this.playeridArray);  
     
+    //if captain ok
+    
     console.log('team',team);
+	//team.set('captain',ID);
+
 
     var that = this;    
     team.save(null, {
@@ -121,7 +129,8 @@ Y.Views.Pages.Team = Y.View.extend({
       token: this.player.get('token')
     }).done(function (model, response) {    
       that.updatingTeam = false; 
-	  that.$('.addnew').append(that.$("#team").val()+"<br/>");
+      
+	  that.$('#listPlayersView').append(that.$("#team").val()+"<br/>");
 	  that.$("#team").val(' ');    
            
     }).fail(function (err) {       
@@ -129,6 +138,7 @@ Y.Views.Pages.Team = Y.View.extend({
     });   
   
   },  
+  
 
   autocompletePlayers: function (input, callback) {
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
@@ -209,6 +219,19 @@ Y.Views.Pages.Team = Y.View.extend({
       }));
     }
     
+    console.log('players',this.team.get('players'));
+    
+    
+    
+    //display players
+	$(this.listview).html(this.templates.list({
+            players:this.team.toJSON().players
+            , query:' '
+            , players_follow : this.players_follow
+            , playersImgUrl : []
+          })).i18n();    
+    
+    //display comments
     this.renderCountComment();
     
     this.$el.i18n();

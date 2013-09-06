@@ -39,6 +39,8 @@
           "list-game",
           "list-notification",
           "list-player",
+          "list-player-team",  
+          "list-player-team-li",                    
           "list-player-notification",
           "list-team",
           "module-comments-comment",

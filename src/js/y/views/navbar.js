@@ -1,6 +1,7 @@
 Y.Views.Navbar = Y.View.extend({
   el: "#footer",
   submenu : "",
+  currentfragment: "",
   
   events: {
     'vclick a[data-fragment="follow"]': "displaySubBar",    
@@ -18,6 +19,7 @@ Y.Views.Navbar = Y.View.extend({
     Y.Router.on("pageChanged", function (page, fragment) {
       this.hideSubBar();
       this.highlight(fragment);
+      this.currentfragment = fragment;
       this.submenu="";
     }, this);
     
@@ -73,6 +75,7 @@ Y.Views.Navbar = Y.View.extend({
      
     var elmt = $(e.currentTarget);
     var id = elmt.attr("data-fragment");
+    console.log('displaySubBar ',id);
 
     if (this.submenu!==id) {
       this.highlight(id);
@@ -86,6 +89,7 @@ Y.Views.Navbar = Y.View.extend({
       this.hideSubBar();
       this.showButton(); 
       this.submenu="";
+      this.highlight(this.currentfragment);
     }
   },  
   
@@ -117,7 +121,11 @@ Y.Views.Navbar = Y.View.extend({
       Y.Router.navigate("clubs/add", {trigger: true});       
   },  
   
-  goToAccount: function () { 
+  goToAccount: function () {
+
+    this.submenu='account';  
+    console.log('displaySubBar ',this.submenu);
+          
     $('#subnavbar').hide();
     this.highlight("account");
     Y.Router.navigate("account", {trigger: true}); 

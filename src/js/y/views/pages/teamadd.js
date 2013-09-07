@@ -11,6 +11,7 @@ Y.Views.Pages.TeamAdd = Y.View.extend({
 
   pageName: "teamAdd",
   pageHash : "teams/add",
+  clubid: "",
 
   clubs:null,
 
@@ -69,7 +70,11 @@ Y.Views.Pages.TeamAdd = Y.View.extend({
       , city = $('#city').val();
       
     if (this.addingTeam)
-      return; // already sending => disabled.          
+      return; // already sending => disabled.     
+      
+    if (this.clubid === "") {
+      $('.club_error').html(i18n.t('message.error_emptyclub')+' !').show();    
+    }       
     
     this.addingTeam = true;
     

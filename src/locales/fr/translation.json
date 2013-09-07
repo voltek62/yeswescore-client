@@ -232,6 +232,7 @@
     "updateerror" : "Mise à jour impossible",    
     "error": "Une erreur s'est produite",
     "error_emptyplayer" : "Vous devez indiquer un joueur",
+    "error_emptyclub" : "Vous devez indiquer un club",     
     "error_emptyyou" : "Vous devez indiquer au moins un nom et un classement pour vous",    
     "error_deconnexion": "Erreur de deconnexion",
     "nofollowplayerok":"Ce joueur n'est plus dans vos favoris",

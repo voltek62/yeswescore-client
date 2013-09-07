@@ -62,7 +62,3 @@ var StreamModel = Backbone.Model.extend({
   }
 
 });
-
-var StreamModelTeam = StreamModel.extend({
-  urlRoot : function () { return Y.Conf.get("api.url.teams"); }
-});

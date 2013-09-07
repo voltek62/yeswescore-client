@@ -69,8 +69,7 @@ Y.Views.Pages.Game = Y.View.extend({
 
     // creating object game & stream (required by render)
     this.game = new GameModel({id : this.gameid});
-    //this.streams = new StreamsCollection([], {gameid : this.gameid});
-       
+  
     // Rendering.
     // first: we render immediatly
     this.render();

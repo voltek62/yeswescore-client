@@ -49,7 +49,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
     //this.game.fetch();
 
     // updating comment list when collection is updated
-    this.streamItemsCollection = new StreamsCollection([], {gameid : this.gameid});
+    this.streamItemsCollection = new StreamsCollectionGame([], {gameid : this.gameid});
     this.streamItemsCollection.on("sync", this.renderList, this);
 
     // pool the collection regulary
@@ -307,7 +307,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.sendingComment = true;
       
-    var stream = new StreamModel({
+    var stream = new StreamModelGame({
       playerid : playerid,
       gameid : gameid,
       token : token,
@@ -379,7 +379,7 @@ Y.Views.Pages.GameComments = Y.View.extend({
         deferred.always(function (pictureId) {
           that.sendingComment = true;
       
-          var stream = new StreamModel({
+          var stream = new StreamModelGame({
             playerid : playerid,
             token : token,
             gameid : gameid,

@@ -1,15 +1,20 @@
 Y.Views.Pages.Team = Y.View.extend({
   el : "#content",
   
-  player_id: null,
+  playeraddid: null,
 
   events : {
-    'click #followButton'   : 'followTeam',
-    'click .form-button'    : 'updateTeam',
-    'click .button-comments': 'goToComment',
-    "click div.ui-block-a"  : 'choosePlayer',
-    "click div.ui-block-b"  : 'choosePlayer',
-    "click div.ui-block-c"  : 'openStatus'         
+    'click #followButton'              : 'followTeam',
+    'click #addButton'                 : 'addPlayer',
+    'click .button-comments'           : 'goToComment',
+    'click div.ui-block-a'             : 'viewPlayer',
+    'click div.ui-block-b'             : 'viewPlayer',
+    'click div.ui-block-c'             : 'openStatus',
+    'click a[data-fragment=iscaptain]'   : 'doCaptain',
+    'click a[data-fragment=isplayer]'    : 'changeMode',
+    'click a[data-fragment=issubstitute]': 'changeMode',
+    'click a[data-fragment=quit]'      : 'changeMode',            
+    'click div.ui-block-c'             : 'openStatus'                 
   },
   
   listview : "#listPlayersView",  
@@ -17,7 +22,8 @@ Y.Views.Pages.Team = Y.View.extend({
   pageName: "team",
   pageHash : "team/",
   
-  player_id: null,
+  playeraddid: null,
+  displayStatus: false,
   
   myinitialize : function() {
     //header
@@ -28,6 +34,7 @@ Y.Views.Pages.Team = Y.View.extend({
       list:  Y.Templates.get('list-player-team'),  
       li:  Y.Templates.get('list-player-team-li'),          
       empty: Y.Templates.get('module-empty'),
+      formstatus: Y.Templates.get('module-team-formstatus'),      
       page:  Y.Templates.get('page-team'),
       pageform:  Y.Templates.get('page-teamform')      
     };
@@ -99,47 +106,104 @@ Y.Views.Pages.Team = Y.View.extend({
   },
   
   openStatus : function() { 
-    console.log('openstatus');    
+    if (this.displayStatus==false) {
+      this.displayStatus=true;
+      $('#listPlayersView li:contains("'+this.player.get('name')+'")').after(
+        this.templates.formstatus({
+          captain : i18n.t('team.captain')
+          , player : i18n.t('team.player')
+          , substitute : i18n.t('team.substitute')
+          , quit : i18n.t('team.quit')
+        })
+      ).i18n();
+      
+      // isCaptain
+      // isPlayer
+      // isSubsitute
+      if (this.playeridArray.indexOf(this.playerid)!=-1)
+        this.$('a[data-fragment=isplayer]').addClass("highlighted");
+      if (typeof this.team.get('captain') !== "undefined")  
+        if (this.team.get('captain').id === this.playerid)
+          this.$('a[data-fragment=iscaptain]').addClass("highlighted");        
+      
+    }
+    else {
+      this.displayStatus=false;
+      $('#formstatus').remove();
+    }
   },
 
-  choosePlayer : function(elmt) { 
+  viewPlayer : function(elmt) { 
     var href= $(elmt.currentTarget).data('href');
 
     if (href) {
       var route = href;
       Y.Router.navigate(route, {trigger: true}); 
     }  
-  },   
+  },
+  
+  changeMode: function() {
+    console.log('changeMode ON');
+   
+    //close status ?
+    //this.displayStatus=false;
+    //$('#formstatus').remove();     
+  },     
 
-  updatingTeam: false,  
-  updateTeam: function() {
+
+  doCaptain: function() {
+    console.log('doCaptain ON');
     
+    var team = new TeamModel({
+      id:this.teamid,
+      name:this.teamname
+    });
+    //team.set('captain', this.playerid);
+    team.set('captain', '');  
+
+    this.updateTeam(team);
+           
+    //close status ?
+    //this.displayStatus=false;
+    //$('#formstatus').remove();     
+  },  
+  
+  
+  addPlayer: function() {
+
     if (this.playeridArray !== undefined)
     {
-      if (this.playeridArray.indexOf(this.player_id) === -1) {
-        this.playeridArray.push(this.player_id);
+      if (this.playeridArray.indexOf(this.playeraddid) === -1) {
+        this.playeridArray.push(this.playeraddid);
+      }
+      else {
+        //already exists
+        this.$("#team").val(' ');
+        return;
       }
     }
     else
-      this.playeridArray = [this.player_id]; 
-    
-    if (this.updatingTeam)
-      return; // already sending => disabled.          
-    
-    this.updatingTeam = true;  
-    
+      this.playeridArray = [this.playeraddid]; 
+
     var team = new TeamModel({
       id:this.teamid,
       name:this.teamname
     });
     team.set('players', this.playeridArray);  
     
-    //if captain ok
+    this.updateTeam(team);
+  
+  },  
+
+  updatingTeam: false,  
+  updateTeam: function(team) {
+        
+    if (this.updatingTeam)
+      return; // already sending => disabled.          
     
-    console.log('team',team);
-	//team.set('captain',ID);
-
-
+    this.updatingTeam = true;  
+    
+    
     var that = this;    
     team.save(null, {
       playerid: this.player.get('id'),
@@ -149,12 +213,8 @@ Y.Views.Pages.Team = Y.View.extend({
               
       if(that.$("#team").val()!=='') {
         
-        console.log('model',model);
-        console.log('model.players',model.players);
-        
         var player = model.players[model.players.length-1];
-        console.log(player);
-      
+
         var playersImgUrl = "";
         if (typeof player.profile !== "undefined")
           if(player.profile.image!=="")
@@ -166,6 +226,7 @@ Y.Views.Pages.Team = Y.View.extend({
       
 	    that.$('#listPlayersView').append(that.templates.li({player:player,playersImgUrl:playersImgUrl}));
 	    that.$("#team").val(' ');
+	    that.playeridArray.push(player.id);
 	  }    
             
     }).fail(function (err) {       
@@ -205,7 +266,7 @@ Y.Views.Pages.Team = Y.View.extend({
   autocompleteTeam: function (data) {
     if (data && data.name) {
       this.$("#team").val(data.name);
-      this.player_id = data.id;
+      this.playeraddid = data.id;
     }
   },
 
@@ -267,7 +328,9 @@ Y.Views.Pages.Team = Y.View.extend({
     
     //display players
 	$(this.listview).html(this.templates.list({
-            players:this.team.toJSON().players
+			team:this.team.toJSON()
+            , players:this.team.toJSON().players
+            , playeridArray : this.playeridArray
             , query:' '
             , playerid : this.playerid
             , playersImgUrl : playersImgUrl

@@ -1545,6 +1545,31 @@ ul>li.team>a {
 	box-sizing: border-box;
 }
 
+
+.link-form-status {
+	width: 100%;
+	text-align: center;
+	line-height: 14px;
+}
+
+.link-form-status a.highlighted {
+	color: #46c0e9;
+}
+
+.link-form-status .button {
+  padding-right: 10px;
+  padding-left: 10px;  
+  font-family: Open Sans;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 34px;
+  -webkit-border-radius: 22px;
+  border-radius: 22px;
+  background-color: #000000;
+  color: #fff;
+  cursor: pointer;
+}
+
 .link-form {
 	position: absolute;
 	width: 100%;

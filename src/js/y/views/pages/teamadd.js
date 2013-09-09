@@ -83,7 +83,7 @@ Y.Views.Pages.TeamAdd = Y.View.extend({
       , club: {id: clubid}
       //On doit placer le player par défaut
       , players:[this.player.get('id')]
-      , captain:this.player.get('id')
+      //, captain:this.player.get('id')
     });
 
     var that = this;

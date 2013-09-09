@@ -10,6 +10,19 @@ Y.Views.Pages.Account = Y.View.extend({
     this.clubid = Y.User.getClub();
     this.player = Y.User.getPlayer()
     this.render();
+    
+    this.teams = new TeamsCollection();
+    this.teams.setMode('player',this.player.get('id'));
+    this.teams.once('sync', this.setMyTeams, this);           
+    this.teams.fetch();      
+  },
+
+  setMyTeams: function () {
+    
+    if (this.teams.length>0) {
+      $('#teamMe').removeAttr("disabled");
+    }
+    
   },
 
   render: function () {
@@ -19,5 +32,12 @@ Y.Views.Pages.Account = Y.View.extend({
     if (Y.GUI.wizard.isDisabled()) {
       $('a[href="#help"]').hide();
     }
-  }
+  },
+  
+  onClose : function() {
+    this.undelegateEvents();
+
+    this.teams.off('sync', this.setMyTeams, this);  
+     
+  }  
 });

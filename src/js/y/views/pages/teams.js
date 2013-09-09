@@ -24,13 +24,9 @@ Y.Views.Pages.Teams = Y.View.extend({
     // saving parameter
     this.param = param || {};
     
-    console.log('teams');
-      
-    //header
-    if (this.param.mode === 'follow')    
-      Y.GUI.header.title(i18n.t('teamlist.titlefollow')); 
-    else
-      Y.GUI.header.title(i18n.t('teamlist.title'));
+    // initialization
+    this.initializeTitle(param);
+    this.initializePageName(param);
       
     // loading templates.
     this.templates = {
@@ -116,14 +112,62 @@ Y.Views.Pages.Teams = Y.View.extend({
         })).i18n();
       }  
     }
+    else if (this.param.search === 'me') {
+      this.teams = new TeamsCollection();
+      this.teams.setMode('player',this.myid);
+      this.teams.once('sync', this.renderList, this);           
+      this.teams.fetch();    
+	}    
     else {
       this.teams = new TeamsCollection();
       this.teams.once('sync', this.renderList, this);           
       this.teams.fetch();
-     
     }
     
   },
+  
+  initializeTitle: function (param) {
+    var search = (param) ? param.search : null
+    
+    switch (search) {
+      case 'me':
+        Y.GUI.header.title(i18n.t('teamlist.titleyourteams'));
+        this.button=false; // FIXME: render ?
+        break;
+      case 'player':
+        Y.GUI.header.title(i18n.t('gamelist.titleplayerteams'));
+        this.button=false; // FIXME: render ?  
+        break;
+      case 'club':
+        Y.GUI.header.title(i18n.t('teamlist.titleclubteams'));
+        break;
+      case 'follow':
+        Y.GUI.header.title(i18n.t('teamlist.titlefollow'));
+        break;
+      default:
+        Y.GUI.header.title(i18n.t('teamlist.title'));
+        break;
+    }
+  },  
+  
+  initializePageName: function (param) {
+    var search = (param) ? param.search : "none";
+
+    switch (search) {
+      case 'me':
+        this.pageName = "teamListByMe";
+        break;
+      case 'player':
+        this.pageName = "teamListPlayer";
+        break;
+      case 'club':
+        this.pageName = "teamListByClub";
+        break;
+      default:
+        this.pageName = "teamList";
+        break;
+    }
+  },  
 
   chooseTeam : function(elmt) { 
     var href= $(elmt.currentTarget).data('href');

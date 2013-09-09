@@ -1,19 +1,18 @@
 var GamesCollection = Backbone.Collection.extend({
   	 
-	model:GameModel, 
+  model : GameModel, 
 	
-	searchOption:[],
-	//searchOptionParam:'',	
-	sortOption:'',
-	query:'',
-	pos: null,
-	club:'',
-	player:'',
+  searchOption:[],
+  //searchOptionParam:'',	
+  sortOption : '',
+  query : '',
+  pos : null,
+  club : '',
+  player : '',
 	
-	initialize: function (param) {	
-		this.changeSort("city");		
-	},
-	
+  initialize: function (param) {	
+    this.changeSort("city");		
+  },
 		  
   url:function() {
     var url='';
@@ -153,6 +152,6 @@ var GamesCollection = Backbone.Collection.extend({
   },
     
   changeSort: function (sortProperty) {
-      this.comparator = this.strategies[sortProperty];
+    this.comparator = this.strategies[sortProperty];
   }
 });

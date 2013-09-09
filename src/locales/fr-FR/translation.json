@@ -387,7 +387,11 @@
   },  
   "team": {
     "title":"EQUIPE",
-    "noname":"Non renseigné"  
+    "noname":"Non renseigné",
+    "player":"Joueur",
+    "captain":"Captaine",
+    "substitute":"Remplaçant",
+    "quit":"Quitter"         
   },  
   "teamcomment": {
     "title":"COMMENTAIRES DE MON EQUIPE"

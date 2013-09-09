@@ -20,7 +20,8 @@
       'teams/add'          : 'teamAdd', 
       'teams/:id'          : 'team', 
       'teams/:id/comments/': 'teamComment',
-      'teams/me/:id'       : 'teamMe',                      
+      'teams/me/:id'       : 'teamMe', 
+      'teams/club/:id'     : 'teamClub',                           
       // games
       'games/'             : 'games',
       'games/list'         : 'games',        
@@ -117,7 +118,11 @@
 
     teamAdd: function () {
       this.changePage(this.createViewFactory(Y.Views.Pages.TeamAdd));
-    },   
+    },
+    
+    teamClub: function (id) {
+      this.changePage(this.createViewFactory(Y.Views.Pages.Teams, { search: 'club', id: id, sort: '' }));
+    },          
     
     teamComment: function (id) {
       this.changePage(this.createViewFactory(Y.Views.Pages.TeamComments, { id: id }));

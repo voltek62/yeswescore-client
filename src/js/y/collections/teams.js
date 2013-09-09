@@ -16,9 +16,9 @@ var TeamsCollection = Backbone.Collection.extend({
     if (this.mode === 'search')
       return Y.Conf.get("api.url.teams") + 'autocomplete/?q=' + this.query+'&limit=15';
     else if (this.mode === 'club')
-      return Y.Conf.get("api.url.teams") + '?clubid=' + this.query;
+      return Y.Conf.get("api.url.teams") + '?club=' + this.query;
     else if (this.mode === 'player')
-      return Y.Conf.get("api.url.teams") + '?playerid=' + this.query;            
+      return Y.Conf.get("api.url.teams") + '?player=' + this.query;            
     else
       return Y.Conf.get("api.url.teams");
   },

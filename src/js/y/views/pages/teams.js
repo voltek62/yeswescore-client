@@ -47,6 +47,7 @@ Y.Views.Pages.Teams = Y.View.extend({
         
     this.myid = Y.User.getPlayer().get('id');
     this.mytoken = Y.User.getPlayer().get('token'); 
+    
 
     //load teams via localstorage
     if (this.param.mode === 'follow') {
@@ -118,6 +119,13 @@ Y.Views.Pages.Teams = Y.View.extend({
       this.teams.once('sync', this.renderList, this);           
       this.teams.fetch();    
 	}    
+    else if (this.param.search === 'club') {
+      this.teams = new TeamsCollection();
+      var clubid = this.param.id;
+      this.teams.setMode('club',clubid);
+      this.teams.once('sync', this.renderList, this);           
+      this.teams.fetch();    
+	}  
     else {
       this.teams = new TeamsCollection();
       this.teams.once('sync', this.renderList, this);           

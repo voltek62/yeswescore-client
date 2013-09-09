@@ -36,6 +36,7 @@
     "city":"Ville",
     "site":"Site",
     "listplayers":"Liste des joueurs",
+    "listteams":"Liste des équipes",      
     "lastresult":"Dernier résultat",
     "outdoor":"Court(s) extérieur(s)",
     "indoor":"Court(s) intérieur(s)",  
@@ -398,7 +399,9 @@
   },  
   "teamlist": {
     "title":"LISTE DES EQUIPES",
-    "titlefollow":"LISTE DES EQUIPES",    
+    "titlefollow":"LISTE DES EQUIPES", 
+    "titleyourteams":"LISTE DE MES EQUIPES",
+	"titleclubteams":"LISTE DES EQUIPES DU CLUB",           
     "follow":"Suivre",
     "nofollow":"Ne plus suivre",
     "status":"Statut"      

@@ -173,8 +173,10 @@
       }
       //
       var fetchFunctionName = $(e.target).attr("data-autocomplete");
+      var fetchTypeData = $(e.target).attr("data-type");
+
       assert(typeof this[fetchFunctionName] === "function");
-      this.autocompleteObj = new Y.Autocomplete();
+      this.autocompleteObj = new Y.Autocomplete({type:fetchTypeData});
       this.autocompleteObj.on("input.temporized", function (input) {
         if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
         // fetching data for input

@@ -19,7 +19,7 @@ Y.Views.Autocomplete = Y.View.extend({
 
   autocomplete: null,
 
-  setProposals: function (autocomplete, proposals) {
+  setProposals: function (autocomplete, proposals, mode) {
     assert(autocomplete instanceof Y.Autocomplete);
     assert(_.isArray(proposals));
 
@@ -28,12 +28,14 @@ Y.Views.Autocomplete = Y.View.extend({
     this.proposals = proposals;
     // empty GUI.
     this.$el.empty();
+    
+    //TODO choose good template
+    console.log('type proposal ',mode);  
+    
     // creating list of proposals
     this.proposals.forEach(function (proposal, i) {
       var text = null;
-      
-      console.log('typeof proposal ')
-      
+            
       if (proposal) {
         if (typeof proposal === "string")
           text = proposal;
@@ -42,6 +44,7 @@ Y.Views.Autocomplete = Y.View.extend({
       }
       if (!text)
         return; // nothing to display.
+        
         
       this.$el.append($('<div class="proposal" data-index="'+ i +'">')
         .html(this.templates.player({

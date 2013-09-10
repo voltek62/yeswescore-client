@@ -358,7 +358,10 @@ Y.Views.Pages.GameAdd = Y.View.extend({
       if (players && _.isArray(players) && players.length>0) {
         callback(null, players.splice(0, 3).map(function (p) {
           p.text = p.name; 
-          //FIXME : add rank
+
+          if (p.rank)
+            p.text += " "+p.rank+"";
+
           if (p.club !== undefined && p.club.name !== undefined) {
             p.text += " ( "+p.club.name+" )";
           }

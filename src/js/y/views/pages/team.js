@@ -278,15 +278,19 @@ Y.Views.Pages.Team = Y.View.extend({
     }).done(function (players) {
       if (players && _.isArray(players) && players.length>0) {
         callback(null, players.splice(0, 4).map(function (p) {
+
           p.text = p.name; 
-          //FIXME : add rank
+
+          if (p.rank)
+            p.text += " "+p.rank+"";
+            
           if (p.club !== undefined && p.club.name !== undefined) {
             p.text += " ( "+p.club.name+" )";
           }
           return p; 
-        }));
+        }),'player');
       } else {
-        callback(null, []);
+        callback(null, [], 'default');
       }
     }).fail(function (xhr, error) { 
       callback(error);

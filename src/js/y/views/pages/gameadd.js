@@ -33,8 +33,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
       page:  Y.Templates.get('page-gameadd'),
       gameselect:  Y.Templates.get('module-game-select'),      
       gamedatepicker:  Y.Templates.get('datepicker-game'),  
-      gamedatepickerandroid:  Y.Templates.get('datepicker-game-android'),          
-      playerlist: Y.Templates.get('autocomplete-player')
+      gamedatepickerandroid:  Y.Templates.get('datepicker-game-android')
     };
 
     this.player = Y.User.getPlayer();

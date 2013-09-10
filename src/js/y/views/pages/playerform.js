@@ -30,8 +30,7 @@ Y.Views.Pages.PlayerForm = Y.View.extend({
     this.templates = {
       playerform:  Y.Templates.get('page-playerform'),
       playerdatepickerplayer:  Y.Templates.get('datepicker-player'),  
-      playerdatepickerplayerandroid:  Y.Templates.get('datepicker-player-android'),        
-      clublist: Y.Templates.get('autocomplete-club')
+      playerdatepickerplayerandroid:  Y.Templates.get('datepicker-player-android')
     };
     
     // we already have the player in memory

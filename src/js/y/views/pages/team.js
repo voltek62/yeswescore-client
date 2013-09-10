@@ -4,17 +4,17 @@ Y.Views.Pages.Team = Y.View.extend({
   playeraddid: null,
 
   events : {
-    'click #followButton'              : 'followTeam',
-    'click #addButton'                 : 'addPlayer',
-    'click .button-comments'           : 'goToComment',
-    'click div.ui-block-a'             : 'viewPlayer',
-    'click div.ui-block-b'             : 'viewPlayer',
-    'click div.ui-block-c'             : 'openStatus',
+    'click #followButton'                : 'followTeam',
+    'click #addButton'                   : 'addPlayer',
+    'click .button-comments'             : 'goToComment',
+    'click div.ui-block-a'               : 'viewPlayer',
+    'click div.ui-block-b'               : 'viewPlayer',
+    'click div.ui-block-c'               : 'openStatus',
     'click a[data-fragment=iscaptain]'   : 'doCaptain',
     'click a[data-fragment=isplayer]'    : 'changeMode',
     'click a[data-fragment=issubstitute]': 'changeMode',
-    'click a[data-fragment=quit]'      : 'changeMode',            
-    'click div.ui-block-c'             : 'openStatus'                 
+    'click a[data-fragment=quit]'        : 'quitTeam',            
+    'click div.ui-block-c'               : 'openStatus'                 
   },
   
   listview : "#listPlayersView",  
@@ -152,22 +152,43 @@ Y.Views.Pages.Team = Y.View.extend({
 
 
   doCaptain: function() {
-    console.log('doCaptain ON');
+
+    var team = new TeamModel({
+      id:this.teamid,
+      name:this.teamname
+    });
+    
+    
+    //team.set('captain', this.playerid);
+    if (this.team.get('captain').id === this.playerid) {
+      team.set('captain', '');  
+      console.log('captain vide'); 
+    }
+    else
+      team.set('captain', this.playerid);  
+     
+    this.updateTeam(team);
+    
+               
+  },  
+
+  quitTeam: function() {
     
     var team = new TeamModel({
       id:this.teamid,
       name:this.teamname
     });
-    //team.set('captain', this.playerid);
-    team.set('captain', '');  
-
-    this.updateTeam(team);
-           
-    //close status ?
-    //this.displayStatus=false;
-    //$('#formstatus').remove();     
-  },  
-  
+    
+    if (this.playeridArray !== undefined)
+    {
+      if (this.playeridArray.indexOf(this.playeraddid) !== -1) {
+        that.playeridArray.splice(this.playeridArray.indexOf(this.playerid), 1);
+        team.set('players', this.playeridArray);  
+        this.updateTeam(team);
+      }
+    }
+                   
+  },    
   
   addPlayer: function() {
 
@@ -227,10 +248,19 @@ Y.Views.Pages.Team = Y.View.extend({
 	    that.$('#listPlayersView').append(that.templates.li({player:player,playersImgUrl:playersImgUrl}));
 	    that.$("#team").val(' ');
 	    that.playeridArray.push(player.id);
-	  }    
+	    
+
+	  }   
+	  
+      if (that.team.get('captain').id === that.playerid)
+        that.$('a[data-fragment=iscaptain]').addClass("highlighted");
+      else
+        that.$('a[data-fragment=iscaptain]').removeClass("highlighted");	   
             
     }).fail(function (err) {       
-      that.updatingTeam = false;      
+      that.updatingTeam = false;  
+      
+  
     });   
   
   },  
@@ -247,7 +277,7 @@ Y.Views.Pages.Team = Y.View.extend({
       data: { q: input }
     }).done(function (players) {
       if (players && _.isArray(players) && players.length>0) {
-        callback(null, players.splice(0, 3).map(function (p) {
+        callback(null, players.splice(0, 4).map(function (p) {
           p.text = p.name; 
           //FIXME : add rank
           if (p.club !== undefined && p.club.name !== undefined) {

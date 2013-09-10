@@ -8,8 +8,6 @@ var TeamModel = Backbone.Model.extend({
     sport : "tennis",
     profile : {},    
     club : "",    
-    players: [],
-    substitutes : [],
     captain: {},
     captainSubstitute: {},
     coach: {},
@@ -60,13 +58,21 @@ var TeamModel = Backbone.Model.extend({
         id : this.get('id'),        
         sport: "tennis",
         name: this.get('name'),
-        club: this.get('club'),
-        players: this.get('players'),
-        substitutes: this.get('substitutes'),
-        captain: this.get('captain')
+        club: this.get('club')
       };
       
-      console.log(dataSend);
+      if (typeof this.get('players') !== undefined) {
+        dataSend.players = this.get('players');
+        console.log('dataSend.players');
+      }
+      if (typeof this.get('captain') !== undefined) {
+        dataSend.captain = this.get('captain');
+        console.log('dataSend.captain');                
+      }
+
+      console.log('captain',this.get('captain'));   
+         
+      console.log('dataSend',dataSend);
 
       return Backbone.ajax({
         dataType : 'json',

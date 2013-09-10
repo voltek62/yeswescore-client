@@ -8,7 +8,13 @@ Y.Views.Autocomplete = Y.View.extend({
     'mousedown .proposal': 'selected'
   },
 
-  initialize: function () { },
+  initialize: function () { 
+  
+    this.templates = {
+      player:  Y.Templates.get('autocomplete-player'),
+    };
+  
+  },
   render: function () { },
 
   autocomplete: null,
@@ -25,6 +31,9 @@ Y.Views.Autocomplete = Y.View.extend({
     // creating list of proposals
     this.proposals.forEach(function (proposal, i) {
       var text = null;
+      
+      console.log('typeof proposal ')
+      
       if (proposal) {
         if (typeof proposal === "string")
           text = proposal;
@@ -33,7 +42,15 @@ Y.Views.Autocomplete = Y.View.extend({
       }
       if (!text)
         return; // nothing to display.
-      this.$el.append($('<div class="proposal" data-index="'+ i +'">').html(text));
+        
+      this.$el.append($('<div class="proposal" data-index="'+ i +'">')
+        .html(this.templates.player({
+          text:text
+          , id:1
+          , club:"Club"
+          , rank:"NC"
+        })));
+            
     }, this);
   },
 

@@ -189,10 +189,12 @@
         }, this));
       }, this);
       var selectedFunctionName = $(e.target).attr("data-autocomplete-onselected");
+      
       if (selectedFunctionName) {
         assert(typeof this[selectedFunctionName] === "function");
+
         this.autocompleteObj.on("selected", function (val) {
-          //console.log('View.js: onselected (autocomplete)');
+          //console.log('View.js: onselected (autocomplete)',val);
           this[selectedFunctionName](val);
         }, this);
       }

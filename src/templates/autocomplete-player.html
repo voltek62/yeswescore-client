@@ -1,9 +1,13 @@
 <!-- template autocomplete-player.html -->
-<!-- 
-<li class="player" style="height:22px;width:320px;list-style-type:none;overflow:hidden;">
- -->
-  <%= text %>
-<!-- 
-</li>
- -->
-
+<div class="autocomplete-player" data-index="<%= number %>">
+  <div id="picture" data-index="<%= number %>">
+    <img src="<%= picture %>" width="40px"/>
+  </div>
+  <div style="float:left;width:2%" data-index="<%= number %>">
+  &nbsp;
+  </div>
+  <div id="infos" data-index="<%= number %>">  
+    <%= name %> <%= rank %><br/>
+    <%= club %>
+  </div>
+</div>

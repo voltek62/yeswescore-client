@@ -1,16 +1,12 @@
 <!-- template autocomplete-club.html -->
-<% if(clubs.length==0) { %>
-<li><p><span data-i18n="message.noresultfor"></span><%= query %></p></li>
-<% } %> 
-<% for (var i = 0; i < clubs.length; i++) { 
-club = clubs[i]; %>
-
-<li title="<% if (club!==undefined) print(club.id); %>">
-<input type="checkbox" name="club_choice" value="<% if (club!==undefined) print(club.id); %>" id="club_choice" class="custom" /> 
-<label for="club_name"><% if (club!==undefined) print(club.name); %></label><br/>
-<label for="club_city"><% if (club!==undefined) print(" - "+club.location.city); %></label>
-</li>
-
-<% if (i>6) break; } if (clubs.length>5) { %>
-<li>... ( <%= clubs.length %> <span data-i18n="message.results"></span>)</li>
-<% } %>
+<div class="autocomplete-club" data-index="<%= number %>">
+  <div id="picture" data-index="<%= number %>">
+    <img src="<%= picture %>" width="40px"/>
+  </div>
+  <div style="float:left;width:2%" data-index="<%= number %>">
+  &nbsp;
+  </div>
+  <div id="infos" data-index="<%= number %>">  
+    <%= name %> <%= city %><br/>
+  </div>
+</div>

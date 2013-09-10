@@ -456,13 +456,64 @@ body.wizard #navbar {
 **********************************************************/
 #autocomplete {
   position: fixed;
-  z-index: 12;
+  z-index: 51;
   width: 100%;
-  top: 46px;
+  /*top: 46px;*/
+  bottom : 0px;
   text-align: center;
 }
 
-#autocomplete div {
+#autocomplete div.autocomplete-player {
+	height:50px;
+	width:100%;
+	background-color:#ffffff;
+	list-style-type:none;
+	overflow:hidden;
+	cursor:pointer;
+	box-sizing: border-box;	
+	border-top: 2px solid #c5c5c5;
+}
+
+#autocomplete div.autocomplete-player div#picture {
+	padding-top:4px;
+	width:20%; 
+	float:left; 
+	text-align:right;
+}
+
+#autocomplete div.autocomplete-player div#infos {
+	padding-top:4px;
+	width:78%;
+	float:left; 
+	text-align:left;
+}
+
+#autocomplete div.autocomplete-club {
+	height:50px;
+	width:100%;
+	background-color:#ffffff;
+	list-style-type:none;
+	overflow:hidden;
+	cursor:pointer;
+	box-sizing: border-box;	
+	border-top: 2px solid #c5c5c5;
+}
+
+#autocomplete div.autocomplete-club div#picture {
+	padding-top:4px;
+	width:20%; 
+	float:left; 
+	text-align:right;
+}
+
+#autocomplete div.autocomplete-club div#infos {
+	padding-top:4px;
+	width:78%;
+	float:left; 
+	text-align:left;
+}
+
+#autocomplete div.proposal {
   float: left;
   border:  1px solid #d0ebf6;
   background-color: #46b1db;

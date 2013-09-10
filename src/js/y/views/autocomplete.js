@@ -5,13 +5,16 @@ Y.Views.Autocomplete = Y.View.extend({
 
   events: {
     // Hack. mousedown is triggered before blur in the GUI.
-    'mousedown .proposal': 'selected'
+    'mousedown .proposal': 'selected',
+    'mousedown .autocomplete-club': 'selected',
+    'mousedown .autocomplete-player': 'selected'    
   },
 
   initialize: function () { 
   
     this.templates = {
       player:  Y.Templates.get('autocomplete-player'),
+      club  :  Y.Templates.get('autocomplete-club')      
     };
   
   },
@@ -29,9 +32,6 @@ Y.Views.Autocomplete = Y.View.extend({
     // empty GUI.
     this.$el.empty();
     
-    //TODO choose good template
-    console.log('type proposal ',mode);  
-    
     // creating list of proposals
     this.proposals.forEach(function (proposal, i) {
       var text = null;
@@ -44,15 +44,54 @@ Y.Views.Autocomplete = Y.View.extend({
       }
       if (!text)
         return; // nothing to display.
+      
+      if (mode==="player") {
+      
+        var object = {
+          id        : proposal.id
+          , number  : i
+          , rank    : proposal.rank || ''
+          , name    : proposal.name || ''
+        };       
         
+        if (proposal.hasOwnProperty('club'))
+          object.club = proposal.club.name;
+        else
+          object.club = '';
+          
+        if (typeof proposal.profile !== "undefined")
+          if(proposal.profile.image!=="")
+            object.picture = PlayerModel.getExtractImageUrl(proposal.profile.image);
+          else
+            object.picture = Y.Conf.get("gui.image.placeholder.profil");                
+        else
+          object.picture = Y.Conf.get("gui.image.placeholder.profil");      
+      
+		this.$el
+		.append(this.templates.player(object));       
+              
+      }     
+      else if (mode==="club") {
+
+        var object = {
+          id        : proposal.id
+          , number  : i
+          , picture : Y.Conf.get("gui.image.placeholder.profil")
+          , name    : proposal.name || ''          
+        }; 
         
-      this.$el.append($('<div class="proposal" data-index="'+ i +'">')
-        .html(this.templates.player({
-          text:text
-          , id:1
-          , club:"Club"
-          , rank:"NC"
-        })));
+        if (proposal.hasOwnProperty('location'))
+          object.city = proposal.location.city;
+        else
+          object.city = '';        
+
+		this.$el
+		.append(this.templates.club(object));           
+              
+      }
+      else
+		this.$el.append($('<div class="proposal" data-index="'+ i +'">')
+        .html(text));
             
     }, this);
   },
@@ -64,8 +103,10 @@ Y.Views.Autocomplete = Y.View.extend({
   //  BUT, this actualy leads to memory managment tricks
   //    autocompleteObj must unregister itself from this class, when disposed.
   selected: function (e) {
+
     var index = $(e.target).attr('data-index');
     if (this.autocomplete)
-      this.autocomplete.trigger("selected", this.proposals[index]);
+      this.autocomplete.trigger("selected", this.proposals[index]);       
+      
   }
 });

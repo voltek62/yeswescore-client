@@ -640,8 +640,8 @@ body.wizard #navbar {
 	margin:0;
 	background-color:black;
 	border-color:gray;
-	width:80px;
-	margin-left:-40px;
+	width:100px;
+	margin-left:-50px;
 	-ms-user-select: none;
 	-webkit-user-select: none;
 	-moz-user-select: -moz-none;

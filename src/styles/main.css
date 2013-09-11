@@ -40,6 +40,103 @@
 }
 */
 
+
+/**********************************************************
+	AUTOCOMPLETE
+**********************************************************/
+
+#autocomplete {
+  display: none;
+}
+
+.autocomplete #autocomplete {
+	padding-top: 60px; /* #header */
+	background-color: #45b1db;
+    display: block;  
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+    text-align: center;  
+    color: black;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;  
+    height: 1000px; 
+	z-index: 60;
+	width: 100%;
+}
+
+.autocomplete #content {
+  display: none;
+}
+
+#autocomplete div.autocomplete-player {
+	height:50px;
+	width:100%;
+	background-color:#ffffff;
+	list-style-type:none;
+	overflow:hidden;
+	cursor:pointer;
+	box-sizing: border-box;	
+	border-top: 2px solid #c5c5c5;
+}
+
+#autocomplete div.autocomplete-player div#picture {
+	padding-top:4px;
+	width:20%; 
+	float:left; 
+	text-align:right;
+}
+
+#autocomplete div.autocomplete-player div#infos {
+	padding-top:4px;
+	width:78%;
+	float:left; 
+	text-align:left;
+}
+
+#autocomplete div.autocomplete-club {
+	height:50px;
+	width:100%;
+	background-color:#ffffff;
+	list-style-type:none;
+	overflow:hidden;
+	cursor:pointer;
+	box-sizing: border-box;	
+	border-top: 2px solid #c5c5c5;
+}
+
+#autocomplete div.autocomplete-club div#picture {
+	padding-top:4px;
+	width:20%; 
+	float:left; 
+	text-align:right;
+}
+
+#autocomplete div.autocomplete-club div#infos {
+	padding-top:4px;
+	width:78%;
+	float:left; 
+	text-align:left;
+}
+
+#autocomplete div.proposal {
+  float: left;
+  border: 1px solid #d0ebf6;
+  background-color: #46b1db;  
+  padding: 5px;
+  margin-right: 5px;
+  margin-bottom: 2px;  
+  -webkit-border-radius: 10px;
+  border-radius: 10px;  
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+}
+
+
 /*******************
 no connection
 ******************/
@@ -48,24 +145,20 @@ no connection
 }
 .offline #offline {
 	padding-top: 60px; /* #header */
-  display: block;
-  
+    display: block;  
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 	font-weight: bold;
-  text-align: center;
-  
-  color: black;
-  
+    text-align: center;  
+    color: black;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-  
-  height: 1000px;
-  
+	box-sizing: border-box;  
+    height: 1000px; 
 	z-index: 5;
 	width: 100%;
 }
+
 .offline {
   pointer-events: none;
 }
@@ -451,87 +544,6 @@ body.wizard #navbar {
 }
 
 
-/**********************************************************
-	AUTOCOMPLETE
-**********************************************************/
-#autocomplete {
-  position: fixed;
-  z-index: 51;
-  width: 100%;
-  /*top: 46px;*/
-  bottom : 0px;
-  text-align: center;
-}
-
-#autocomplete div.autocomplete-player {
-	height:50px;
-	width:100%;
-	background-color:#ffffff;
-	list-style-type:none;
-	overflow:hidden;
-	cursor:pointer;
-	box-sizing: border-box;	
-	border-top: 2px solid #c5c5c5;
-}
-
-#autocomplete div.autocomplete-player div#picture {
-	padding-top:4px;
-	width:20%; 
-	float:left; 
-	text-align:right;
-}
-
-#autocomplete div.autocomplete-player div#infos {
-	padding-top:4px;
-	width:78%;
-	float:left; 
-	text-align:left;
-}
-
-#autocomplete div.autocomplete-club {
-	height:50px;
-	width:100%;
-	background-color:#ffffff;
-	list-style-type:none;
-	overflow:hidden;
-	cursor:pointer;
-	box-sizing: border-box;	
-	border-top: 2px solid #c5c5c5;
-}
-
-#autocomplete div.autocomplete-club div#picture {
-	padding-top:4px;
-	width:20%; 
-	float:left; 
-	text-align:right;
-}
-
-#autocomplete div.autocomplete-club div#infos {
-	padding-top:4px;
-	width:78%;
-	float:left; 
-	text-align:left;
-}
-
-#autocomplete div.proposal {
-  float: left;
-  border:  1px solid #d0ebf6;
-  background-color: #46b1db;
-  
-  padding: 5px;
-  margin-right: 5px;
-  margin-bottom: 2px;
-  
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  
-  font-family: 'Open Sans', sans-serif;
-	font-weight: bold;
-	font-size: 12px;
-	color: white;
-  
-  cursor: pointer;
-}
 
 /**********************************************************
 	NAV BAR
@@ -640,8 +652,8 @@ body.wizard #navbar {
 	margin:0;
 	background-color:black;
 	border-color:gray;
-	width:100px;
-	margin-left:-50px;
+	width:90px;
+	margin-left:-45px;
 	-ms-user-select: none;
 	-webkit-user-select: none;
 	-moz-user-select: -moz-none;

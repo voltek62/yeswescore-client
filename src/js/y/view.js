@@ -14,7 +14,7 @@
     // helpers
     'click *[data-js-call]': 'mycall',
     'click a[data-js-navigate]': 'navigate',
-    // autocompletion
+    // autocompletion   
     'click *[data-autocomplete]': 'autocompleteStart',
     //'blur *[data-autocomplete]': 'autocompleteStopDelayed', // keep 0.5 sec on screen.
     'keyup *[data-autocomplete]': 'autocompleteCall'
@@ -160,9 +160,10 @@
 
     // autocomplete helpers
     autocompleteObj: null,
-    autocompleteTimeout: null,
+    autocompleteTimeout: null,    
 
     autocompleteStart: function (e) {
+
       if (this.autocompleteTimeout) {
         window.clearTimeout(this.autocompleteTimeout);
         this.autocompleteTimeout = null;
@@ -172,11 +173,19 @@
         this.autocompleteObj = null;
       }
       //
+      //redirect special page
+      if ( $(e.target).is('[readonly]') ) { 
+        $('body').addClass("autocomplete"); 
+        $('#player').focus();
+        $('div').i18n();
+      }      
+      
       var fetchFunctionName = $(e.target).attr("data-autocomplete");
       var fetchTypeData = $(e.target).attr("data-type");
+      var fetchTypeId = $(e.target).attr("id");      
 
       assert(typeof this[fetchFunctionName] === "function");
-      this.autocompleteObj = new Y.Autocomplete({type:fetchTypeData});
+      this.autocompleteObj = new Y.Autocomplete({type:fetchTypeData,elmt:fetchTypeId});
       this.autocompleteObj.on("input.temporized", function (input) {
         if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
         // fetching data for input

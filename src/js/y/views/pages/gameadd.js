@@ -476,7 +476,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
   
     if (this.playersTeam1 !== undefined) this.playersTeam1.off("all", this.renderListTeam1, this);
     if (this.playersTeam2 !== undefined) this.playersTeam2.off("all", this.renderListTeam2, this);
-  this.confirmGameAdd = true;  
+  	this.confirmGameAdd = true;  
   } 
   
 });

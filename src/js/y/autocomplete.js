@@ -30,6 +30,7 @@
     this._nextInput = null;
     // public
     this.mode = options.type || 'default';
+    this.elmt = options.elmt || 'list';    
     this.proposals = [/* { text: "..." } */];
     // mapping events to methods.
     this.on("input", this.temporizeInputs, this);
@@ -95,7 +96,7 @@
     },
 
     repaint : function () {
-      Y.GUI.autocomplete.setProposals(this, this.proposals, this.mode);
+      Y.GUI.autocomplete.setProposals(this, this.proposals, this.mode, this.elmt);
     },
 
     fetch : function (data) { return [ { text: data } ]; }, // default is echo request.
@@ -104,7 +105,7 @@
       // events
       this.off();
       // repainting GUI with no proposals
-      Y.GUI.autocomplete.setProposals(this, [], 'default');
+      Y.GUI.autocomplete.setProposals(this, [], 'default', '');
       Y.GUI.autocomplete.autocomplete = null; // removing ref (Hacky Hacky)
       // temporization
       if (this._timeout) {

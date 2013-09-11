@@ -58,7 +58,7 @@
           "module-team-formstatus",          
           "page-about",
           "page-account",
-          "page-add",
+          "page-add",         
           "page-club",
           "page-clubadd",
           "page-clubs",

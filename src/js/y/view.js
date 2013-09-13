@@ -172,20 +172,31 @@
         this.autocompleteObj.dispose();
         this.autocompleteObj = null;
       }
+    
+      var fetchTypeId = $(e.target).attr("id");         
+      var fetchTypeData = $(e.target).attr("data-type");         
+      var fetchFunctionName = $(e.target).attr("data-autocomplete");         
+      var fetchFunctionNameSelected = $(e.target).attr("data-autocomplete-onselected");         
+            
       //
       //redirect special page
       if ( $(e.target).is('[readonly]') ) { 
         $('body').addClass("autocomplete"); 
         $('#player').focus();
         $('div').i18n();
+        var autocomplete = new Y.Views.Autocomplete()
+        autocomplete.setRender(fetchTypeData,fetchTypeId,fetchFunctionName,fetchFunctionNameSelected);
+        //return;
       }      
-      
-      var fetchFunctionName = $(e.target).attr("data-autocomplete");
-      var fetchTypeData = $(e.target).attr("data-type");
-      var fetchTypeId = $(e.target).attr("id");      
+  
 
       assert(typeof this[fetchFunctionName] === "function");
-      this.autocompleteObj = new Y.Autocomplete({type:fetchTypeData,elmt:fetchTypeId});
+      this.autocompleteObj = new Y.Autocomplete({
+      	  type            : fetchTypeData
+        , elmt            : fetchTypeId
+        , fctname         : fetchFunctionName
+        , fctnameselected : fetchFunctionNameSelected
+      });
       this.autocompleteObj.on("input.temporized", function (input) {
         if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
         // fetching data for input

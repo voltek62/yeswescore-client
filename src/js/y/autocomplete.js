@@ -29,13 +29,16 @@
     this._fetching = false;
     this._nextInput = null;
     // public
-    this.mode = options.type || 'default';
+    this.type = options.type || 'default';
     this.elmt = options.elmt || 'list';    
+    this.fctname = options.fctname || '';   
+    this.fctnameselected = options.fctnameselected || '';           
     this.proposals = [/* { text: "..." } */];
     // mapping events to methods.
     this.on("input", this.temporizeInputs, this);
     this.on("fetched.result", this.onFetchedResult, this);
     this.on("fetched.error", this.onFetchedError, this);
+
   };
 
   _.extend(Autocomplete.prototype, Backbone.Events, {
@@ -96,7 +99,7 @@
     },
 
     repaint : function () {
-      Y.GUI.autocomplete.setProposals(this, this.proposals, this.mode, this.elmt);
+      Y.GUI.autocomplete.setProposals(this, this.proposals, this.type, this.elmt);
     },
 
     fetch : function (data) { return [ { text: data } ]; }, // default is echo request.

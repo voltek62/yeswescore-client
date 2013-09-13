@@ -62,6 +62,7 @@
           "page-club",
           "page-clubadd",
           "page-clubs",
+          "page-autocomplete",          
           "page-game",
           "page-gameadd",
           "page-gamecomments",

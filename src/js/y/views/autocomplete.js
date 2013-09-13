@@ -8,20 +8,21 @@ Y.Views.Autocomplete = Y.View.extend({
     // Hack. mousedown is triggered before blur in the GUI.
     'mousedown .proposal': 'selected',
     'mousedown .autocomplete-club': 'selected',
-    'mousedown .autocomplete-player': 'selected'    
+    'mousedown .autocomplete-player': 'selected',    
+    'click .button-close': 'exitOverlay'
   },
 
-  myinitialize: function () { 
-  
+  myinitialize: function (param) {
+    
     this.templates = {
+      page:  Y.Templates.get('page-autocomplete'),    
       player:  Y.Templates.get('autocomplete-player'),
       club  :  Y.Templates.get('autocomplete-club')      
     };
-  
-    this.render();
     
   },
   render: function () { 
+  
     return this; 
   },
   
@@ -58,14 +59,32 @@ Y.Views.Autocomplete = Y.View.extend({
   },  
 
   autocomplete: null,
-
-  setProposals: function (autocomplete, proposals, mode, elmt) {
+  
+  setRender: function (type,elmt,fctname,fctnameselected) {   
+    console.log('setRender');
+    
+    this.elmt = elmt;   
+  
+    this.$el.html(this.templates.page({
+      type             : type,
+      elmt             : elmt,
+      fctname          : fctname,
+      fctnameselected  : fctnameselected      
+    }));     
+  },
+  
+  exitOverlay: function () {
+    $('body').removeClass("autocomplete"); 
+  },  
+  
+  setProposals: function (autocomplete, proposals, type, elmt) {
     assert(autocomplete instanceof Y.Autocomplete);
     assert(_.isArray(proposals));
 
     // refs.
     this.autocomplete = autocomplete;
     this.proposals = proposals;
+    
     // empty GUI.
     this.$(this.listview).empty();
     
@@ -81,8 +100,10 @@ Y.Views.Autocomplete = Y.View.extend({
       }
       if (!text)
         return; // nothing to display.
+        
+      console.log('type',type);  
       
-      if (mode==="player") {
+      if (type==="player") {
       
         var object = {
           id        : proposal.id
@@ -105,16 +126,18 @@ Y.Views.Autocomplete = Y.View.extend({
           object.picture = Y.Conf.get("gui.image.placeholder.profil");      
       
                   
-		this.$el
+        //console.log('autocomplete',object);                    
+                  
+		this.$(this.listview)
 		.append(this.templates.player(object));    
 		//TODO : On passe tout dans la liste
 		   
         //.append('<br/>Test');
-        console.log('el',this.$el);
-        console.log('autocomplete.js',object);
+        //console.log('el',this.$el);
+        //console.log('autocomplete.js',object);
               
       }     
-      else if (mode==="club") {
+      else if (type==="club") {
 
         var object = {
           id        : proposal.id
@@ -126,10 +149,13 @@ Y.Views.Autocomplete = Y.View.extend({
         if (proposal.hasOwnProperty('location'))
           object.city = proposal.location.city;
         else
-          object.city = '';      
+          object.city = '';    
+          
           
 		//this.$el
-		//.append(this.templates.club(object));           
+		//.append(this.templates.club(object));         
+		this.$(this.listview)
+		.append(this.templates.club(object));      
               
       }
       //OLD CPDE
@@ -140,22 +166,8 @@ Y.Views.Autocomplete = Y.View.extend({
     }, this);
   },
   
-  
 
-  // FIXME:
-  // This function should be inlined in setProposals
-  //  but we will not have fast-click (no backbone touch ...)
-  //  so we prefer to leave it outside, until we can speed up any clicks.
-  //  BUT, this actualy leads to memory managment tricks
-  //    autocompleteObj must unregister itself from this class, when disposed.
-  selected: function (e) {
-
-    var index = $(e.target).attr('data-index');
-    if (this.autocomplete)
-      this.autocomplete.trigger("selected", this.proposals[index]);           
-  },
-
-  autocompletePlayer: function (input, callback) {
+  autocompletePlayers: function (input, callback) {
     if (input.indexOf('  ')!==-1 || input.length<= 1 )
       callback('empty');    
     
@@ -177,13 +189,54 @@ Y.Views.Autocomplete = Y.View.extend({
       callback(error);
     });
   },
-
-  autocompletePlayerSelected: function (data) {
-    if (data && data.name) {
-      this.$("#player").val(data.name);
-      this.team1_id = data.id;
-    }
-  }  
   
+  autocompleteClubs: function (input, callback) {
+    if (input.indexOf('  ')!==-1 || input.length<= 1 )
+      callback('empty');    
+    
+    // assuming the fact that changing club input => reset.
+    this.clubid = ''; 
+    //
+    Backbone.ajax({
+      url: Y.Conf.get("api.url.autocomplete.clubs"),
+      type: 'GET',
+      dataType : 'json',
+      data: { q: input }
+    }).done(function (clubs) {
+      if (clubs && _.isArray(clubs) && clubs.length>0) {
+        callback(null, clubs.splice(0, 3).map(function (p) { p.text = p.name; return p; }));
+      } else {
+        callback(null, []);
+      }
+    }).fail(function (xhr, error) { 
+      callback(error);
+    });
+  },  
+  
+  
+  autocompleteFake: function (data) {
+
+  },
+  
+ 
+
+  // FIXME:
+  // This function should be inlined in setProposals
+  //  but we will not have fast-click (no backbone touch ...)
+  //  so we prefer to leave it outside, until we can speed up any clicks.
+  //  BUT, this actualy leads to memory managment tricks
+  //    autocompleteObj must unregister itself from this class, when disposed.
+  selected: function (e) {
+
+    var index = $(e.target).attr('data-index');
+
+    if (this.autocomplete) {
+      this.$("#"+this.elmt).val(this.proposals[index]);    
+      this.autocomplete.trigger("selected", this.proposals[index]);         
+    }    
+      
+    this.exitOverlay();
+        
+  }
   
 });

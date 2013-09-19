@@ -9,20 +9,35 @@ Y.Views.Autocomplete = Y.View.extend({
     'mousedown .proposal': 'selected',
     'mousedown .autocomplete-club': 'selected',
     'mousedown .autocomplete-player': 'selected',    
-    'click .button-close': 'exitOverlay'
+    'click .button-close': 'close',
+    // autocompletion
+    'keyup #autocompleteinput': 'autocompleteCall'
   },
 
+  type: "player",
+  val: null,
+  callback: null,
+  onselected: null,
+
   myinitialize: function (param) {
-    
+    this.type = param.type;
+    this.val = param.val;
+    this.callback = param.callback;
+    this.onselected = param.onselected;
+
     this.templates = {
       page:  Y.Templates.get('page-autocomplete'),    
       player:  Y.Templates.get('autocomplete-player'),
       club  :  Y.Templates.get('autocomplete-club')      
     };
-    
   },
-  render: function () { 
-  
+
+  render: function () {
+    this.$el.html(this.templates.page({type:this.type}));
+    $('body').addClass("autocomplete");
+    $("#autocompleteinput").val(this.val);
+    $("#autocompleteinput").focus();
+    this.autocompleteStart();
     return this; 
   },
   
@@ -59,23 +74,6 @@ Y.Views.Autocomplete = Y.View.extend({
   },  
 
   autocomplete: null,
-  
-  setRender: function (type,elmt,fctname,fctnameselected) {   
-    console.log('setRender');
-    
-    this.elmt = elmt;   
-  
-    this.$el.html(this.templates.page({
-      type             : type,
-      elmt             : elmt,
-      fctname          : fctname,
-      fctnameselected  : fctnameselected      
-    }));     
-  },
-  
-  exitOverlay: function () {
-    $('body').removeClass("autocomplete"); 
-  },  
   
   setProposals: function (autocomplete, proposals, type, elmt) {
     assert(autocomplete instanceof Y.Autocomplete);
@@ -128,9 +126,9 @@ Y.Views.Autocomplete = Y.View.extend({
                   
         //console.log('autocomplete',object);                    
                   
-		this.$(this.listview)
-		.append(this.templates.player(object));    
-		//TODO : On passe tout dans la liste
+	      this.$(this.listview)
+	      .append(this.templates.player(object));    
+	      //TODO : On passe tout dans la liste
 		   
         //.append('<br/>Test');
         //console.log('el',this.$el);
@@ -213,13 +211,6 @@ Y.Views.Autocomplete = Y.View.extend({
     });
   },  
   
-  
-  autocompleteFake: function (data) {
-
-  },
-  
- 
-
   // FIXME:
   // This function should be inlined in setProposals
   //  but we will not have fast-click (no backbone touch ...)
@@ -227,16 +218,75 @@ Y.Views.Autocomplete = Y.View.extend({
   //  BUT, this actualy leads to memory managment tricks
   //    autocompleteObj must unregister itself from this class, when disposed.
   selected: function (e) {
-
     var index = $(e.target).attr('data-index');
 
     if (this.autocomplete) {
       this.$("#"+this.elmt).val(this.proposals[index]);    
       this.autocomplete.trigger("selected", this.proposals[index]);         
-    }    
+    }
+  },
+
+
+  // autocomplete helpers
+  autocompleteObj: null,
+  autocompleteTimeout: null,    
+
+  autocompleteStart: function () {
+    if (this.autocompleteTimeout) {
+      window.clearTimeout(this.autocompleteTimeout);
+      this.autocompleteTimeout = null;
+    }
+    if (this.autocompleteObj) {
+      this.autocompleteObj.dispose();
+      this.autocompleteObj = null;
+    }
+
+    assert(typeof this.callback === "function");
+    this.autocompleteObj = new Y.Autocomplete({ type: this.type });
+    this.autocompleteObj.on("input.temporized", function (input) {
+      if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
+      // fetching data for input
+      this.callback(input, _.bind(function (err, data) {
+        if (this.unloaded || !this.autocompleteObj) return;  // prevent execution if unloaded.
+        // FIXME: this function will not be disposed :(
+        if (err)
+          return this.autocompleteObj.trigger("fetched.error", err);
+        this.autocompleteObj.trigger("fetched.result", data || []);
+      }, this));
+    }, this);
       
-    this.exitOverlay();
-        
+    assert(typeof this.onselected === "function");
+    this.autocompleteObj.on("selected", function (val) {
+      this.onselected(val);
+      this.close();
+    }, this);
+    return true;
+  },
+
+  autocompleteStopDelayed: function () {
+    // keep on screen 0.5 sec.
+    this.autocompleteTimeout = window.setTimeout(_.bind(function () {
+      this.autocompleteStop(); 
+      this.autocompleteTimeout = null;
+    }, this), 500);
+    return true;
+  },
+
+  autocompleteStop: function () {
+    if (this.autocompleteObj) {
+      this.autocompleteObj.dispose();
+      this.autocompleteObj = null;
+    }
+    return true;
+  },
+
+  autocompleteCall: function (e) {
+    if (this.autocompleteObj)
+      this.autocompleteObj.trigger("input", $(e.target).val());
+  },
+
+  onClose: function () {
+    this.autocompleteStop();
+    $('body').removeClass("autocomplete");
   }
-  
 });

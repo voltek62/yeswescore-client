@@ -134,7 +134,7 @@
                      // init GUI singleton
                      that.GUI.header = new Y.Views.Header();
                      that.GUI.content = null; // will be overwrite by the router.
-                     that.GUI.autocomplete = new Y.Views.Autocomplete();
+                     that.GUI.autocomplete = null; // instantiated on demand
                      that.GUI.wizard = new Y.Views.Wizard();
                      that.GUI.navbar = new Y.Views.Navbar();  // unused yet.
                      /*#ifdef DEV*/

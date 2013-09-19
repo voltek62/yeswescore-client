@@ -14,10 +14,9 @@
     // helpers
     'click *[data-js-call]': 'mycall',
     'click a[data-js-navigate]': 'navigate',
+
     // autocompletion   
-    'click *[data-autocomplete]': 'autocompleteStart',
-    //'blur *[data-autocomplete]': 'autocompleteStopDelayed', // keep 0.5 sec on screen.
-    'keyup *[data-autocomplete]': 'autocompleteCall'
+    'click *[data-autocomplete]': 'autocompleteStart'
   };
 
   var View = Backbone.View.extend({
@@ -67,10 +66,28 @@
         
       this.lastInput = document.activeElement.id;
       this.clearInputModeOffDelayed();
-      if ($(e.target).attr("data-autocomplete"))
-        this.autocompleteStart(e);
       Y.GUI.inputMode(true);
       return true;
+    },
+
+    autocompleteStart: function (e) {
+      var $target = $(e.target)
+        , type = $target.attr("data-type")
+        , callback = this[$target.attr("data-autocomplete")];
+
+      // grabbing data
+      var onselected = _.bind(function (val) {
+        $target.val(val);
+        this[$target.attr("data-autocomplete-onselected")](val);
+      }, this);
+
+      Y.GUI.autocomplete = new Y.Views.Autocomplete({
+        type: type,
+        val: $target.val(),
+        callback: callback,
+        onselected: onselected
+      });
+      Y.GUI.autocomplete.render();
     },
 
     inputModeOffTimeout: null,
@@ -84,40 +101,10 @@
 
         var activeElement = document.activeElement;
         if (activeElement && activeElement.nodeName.toLowerCase() === "input") {
-          //console.log('View.js: new activeElement is an input');
           return; // security...
         }
-        //console.log('View.js: => input mode off ' + activeElement.nodeName + ' => on bascule en input mode off');
-
-		/*console.log('lastInput ',that.lastInput);*/
-		
-		/*
-		if (that.lastInput !== null)
-		{
-			var element = $('#'+that.lastInput);
-			console.log('element où on force blur ',element)
-			
-			if (element.is('input')) element.attr('readonly', 'readonly'); // Force keyboard to hide on input field.
-		    if (element.is('textarea')) element.attr('disabled', 'true'); // Force keyboard to hide on textarea field.
-		    setTimeout(function() {
-		        element.blur();  //actually close the keyboard
-		        // Remove readonly attribute after keyboard is hidden.
-		        if (element.is('input')) element.removeAttr('readonly');
-		        if (element.is('textarea')) element.removeAttr('disabled');
-		        console.log('View.js on cache le clavier');
-		        
-		    }, 100);
-		};*/
-		
-		/*
-		console.log('View.js action ');
-		$(activeElement).filter(':input:focus').blur();
-		*/
-		   
         Y.GUI.inputMode(false);
       }, 100);
-      // au cas ou ... on n'a pas d'autres moyens de toute façon..
-      this.autocompleteStopDelayed(e);
       return true;
     },
 
@@ -132,7 +119,6 @@
       this.undelegateEvents();
       this.unloaded = true;
       this.inputModeOff();
-      this.autocompleteStop();
       this.readonly(false);
       this.off();
       if (typeof this.onClose === "function")
@@ -156,91 +142,6 @@
 
     readonly: function (bool) {
       Y.GUI.freeze(bool);
-    },
-
-    // autocomplete helpers
-    autocompleteObj: null,
-    autocompleteTimeout: null,    
-
-    autocompleteStart: function (e) {
-
-      if (this.autocompleteTimeout) {
-        window.clearTimeout(this.autocompleteTimeout);
-        this.autocompleteTimeout = null;
-      }
-      if (this.autocompleteObj) {
-        this.autocompleteObj.dispose();
-        this.autocompleteObj = null;
-      }
-    
-      var fetchTypeId = $(e.target).attr("id");         
-      var fetchTypeData = $(e.target).attr("data-type");         
-      var fetchFunctionName = $(e.target).attr("data-autocomplete");         
-      var fetchFunctionNameSelected = $(e.target).attr("data-autocomplete-onselected");         
-            
-      //
-      //redirect special page
-      if ( $(e.target).is('[readonly]') ) { 
-        $('body').addClass("autocomplete"); 
-        $('#player').focus();
-        $('div').i18n();
-        var autocomplete = new Y.Views.Autocomplete()
-        autocomplete.setRender(fetchTypeData,fetchTypeId,fetchFunctionName,fetchFunctionNameSelected);
-        //return;
-      }      
-  
-
-      assert(typeof this[fetchFunctionName] === "function");
-      this.autocompleteObj = new Y.Autocomplete({
-      	  type            : fetchTypeData
-        , elmt            : fetchTypeId
-        , fctname         : fetchFunctionName
-        , fctnameselected : fetchFunctionNameSelected
-      });
-      this.autocompleteObj.on("input.temporized", function (input) {
-        if (this.unloaded || !this.autocompleteObj) return; // prevent execution if unloaded.
-        // fetching data for input
-        this[fetchFunctionName](input, _.bind(function (err, data) {
-          if (this.unloaded || !this.autocompleteObj) return;  // prevent execution if unloaded.
-          // FIXME: this function will not be disposed :(
-          if (err)
-            return this.autocompleteObj.trigger("fetched.error", err);
-          this.autocompleteObj.trigger("fetched.result", data || []);
-        }, this));
-      }, this);
-      var selectedFunctionName = $(e.target).attr("data-autocomplete-onselected");
-      
-      if (selectedFunctionName) {
-        assert(typeof this[selectedFunctionName] === "function");
-
-        this.autocompleteObj.on("selected", function (val) {
-          //console.log('View.js: onselected (autocomplete)',val);
-          this[selectedFunctionName](val);
-        }, this);
-      }
-      return true;
-    },
-
-    autocompleteStopDelayed: function () {
-      // keep on screen 0.5 sec.
-      this.autocompleteTimeout = window.setTimeout(_.bind(function () {
-        this.autocompleteStop(); 
-        this.autocompleteTimeout = null;
-      }, this), 500);
-      return true;
-    },
-
-    autocompleteStop: function () {
-      if (this.autocompleteObj) {
-        this.autocompleteObj.dispose();
-        this.autocompleteObj = null;
-      }
-      return true;
-    },
-
-    autocompleteCall: function (e) {
-      if (this.autocompleteObj)
-        this.autocompleteObj.trigger("input", $(e.target).val());
     }
   });
 

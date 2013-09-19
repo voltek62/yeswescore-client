@@ -7,9 +7,9 @@ Y.Views.Navbar = Y.View.extend({
     'vclick a[data-fragment="follow"]': "displaySubBar",    
     'vclick a[data-fragment="add"]'  : "displaySubBar",
     
-    'vclick a[data-fragment="player"]': "goToPlayer",  
-    'vclick a[data-fragment="team"]': "goToTeam",
-    'vclick a[data-fragment="club"]': "goToClub",         
+    'click a[data-fragment="player"]': "goToPlayer",  
+    'click a[data-fragment="team"]': "goToTeam",
+    'click a[data-fragment="club"]': "goToClub",         
       
     'vclick a[data-fragment="account"]'   : "goToAccount"
   },

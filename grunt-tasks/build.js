@@ -7,6 +7,30 @@ module.exports = function( grunt ) {
 
   var rimraf = require("rimraf");
 
+
+  grunt.registerMultiTask('inlineTemplates', 'inlineTemplates', function () {
+      var content = '';
+      // Iterate over all specified file groups.
+      this.files.forEach(function(f) {
+      
+        f.src.forEach(function(filepath, i) {
+          // Warn on and remove invalid source files (if nonull was set).
+          if (!grunt.file.exists(filepath)) {
+            grunt.log.warn('Source file "' + filepath + '" not found.');
+            return false;
+          }
+          var filename = filepath.split("/").pop().split(".").shift();
+          var filecontent = grunt.file.read(filepath);
+          content += '<script type="text/template" id="' + filename + '">'+"\n";
+          content += filecontent+"\n";
+          content += '</script>'+"\n";
+        });
+
+        // Write the destination file.
+        grunt.file.write(f.dest, content);
+      });
+  });
+
   (function () {
     var regexps = [
       // <!-- #ifdef KEY --> ... <!-- #endif -->

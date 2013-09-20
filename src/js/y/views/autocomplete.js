@@ -123,22 +123,11 @@ Y.Views.Autocomplete = Y.View.extend({
         else
           object.picture = Y.Conf.get("gui.image.placeholder.profil");      
       
-                  
-        //console.log('autocomplete',object);                    
-                  
-	      this.$(this.listview)
-	      .append(this.templates.player(object));    
-	      //TODO : On passe tout dans la liste
-		   
-        //.append('<br/>Test');
-        //console.log('el',this.$el);
-        //console.log('autocomplete.js',object);
-              
-      }     
-      else if (type==="club") {
+        this.$(this.listview).append(this.templates.player(object));
+      } else if (type==="club") {
 
         var object = {
-          id        : proposal.id
+            id      : proposal.id
           , number  : i
           , picture : Y.Conf.get("gui.image.placeholder.profil")
           , name    : proposal.name || ''          
@@ -148,19 +137,8 @@ Y.Views.Autocomplete = Y.View.extend({
           object.city = proposal.location.city;
         else
           object.city = '';    
-          
-          
-		//this.$el
-		//.append(this.templates.club(object));         
-		this.$(this.listview)
-		.append(this.templates.club(object));      
-              
+        this.$(this.listview).append(this.templates.club(object));
       }
-      //OLD CPDE
-      //else
-	  //	this.$el.append($('<div class="proposal" data-index="'+ i +'">')
-      //  .html(text));
-            
     }, this);
   },
   

@@ -1,0 +1,454 @@
+{
+  "about": {
+    "title": "ABOUT",
+    "informations": "Information:",
+    "submitidea": "Submit a suggestion",
+    "submitbug": "Report a bug",
+    "helpus" : "Give us 5 stars!"    
+  },
+  "account": {
+    "title": "MANAGE",
+    "mymatchs": "My Matches",
+    "myteams": "My Teams",
+    "clubsfollowed": "Favourite Clubs ",
+    "gamesfollowed": "Favourite Matches ",    
+    "playersfollowed": "Favourite Players ",
+    "myclub": "My Club",
+    "myprofil": "My Profile",
+    "connect": "Connection / Registration",
+    "disconnect": "Disconnect",
+    "help": "Help",
+    "about": "About",
+    "mypushs" : "My Notifications"
+  },
+  "add" : {
+    "title": "ADD",
+    "newgame": "Add a match",
+    "newteam": "Add a team",
+    "newclub": "Add a club"    
+  },  
+  "app": {
+    "name": "Yes We Score"
+  },
+  "club": {
+    "title": "CLUB",
+    "sport":"Sport",
+    "city":"City",
+    "site":"Site",
+    "listplayers":"List of players",
+    "listteams":"List of teams",      
+    "lastresult":"Last result",
+    "outdoor":"Outdoor court(s)",
+    "indoor":"Indoor court(s)",  
+    "countPlayers":"Number of players",  
+    "countTeams":"Number of teams"                
+  },
+  "clubadd": {
+    "title": "ADD A CLUB",
+    "name" : "Name of club",
+    "placeholdername" : "Name of Club",    
+    "city" : "City",
+    "placeholdercity" : "City",
+    "address":"Address",
+    "zip":"Postcode",
+    "outdoor":"Number of outdoor courts",
+    "indoor":"Number of indoor courts",           
+    "add":"SAVE"
+  },
+  "clublist": {
+    "title": "LIST OF CLUBS",
+    "follow":"Follow",
+    "nofollow":"Unfollow"       
+  }, 
+  "clubfollow": {
+    "title": "LIST OF CLUBS"
+  },   
+  "game": {
+    "title": "MATCH",  
+    "restart" : "Restart",
+    "spectators" : "Spectator Mode",
+    "finish": "End match",
+    "ongoing": "Ongoing",
+    "finished": "Finished",
+    "created": "Forthcoming",
+    "undo" : "Undo",
+    "begin" : "Start match",
+    "gamefinished" : "Match finished",
+    "gameongoing" : "Match ongoing",
+    "gamecanceled" : "Match cancelled",
+    "gamecreated" : "Forthcoming match",            
+    "options" : "Match options",
+    "public" : "Public",
+    "private" : "Private",
+    "official" : "Official",
+    "notofficial" : "Friendly",    
+    "comments" : "COMMENTS", 
+    "50lastcomments" : "LAST COMMENTS",
+    "10lastcomments" : "LAST COMMENTS",
+    "1comment" : "1 COMMENT",    
+    "0comment" : "0 COMMENTS",
+    "fbversus1" : "will soon be playing",
+    "fbversus2" : "is playing",
+    "fbversus3" : "has played",    
+    "fbegality" : "Deuce",    
+    "fbversus3" : "has played",
+    "fbstatus1" : "has won",
+    "fbstatus2" : "is leading in the match",
+    "fbpromo" : "Follow the match in real time on YesWeScore:",
+    "sharetitle" : "YesWeScore : Match to follow",     
+    "share" : "Share"   
+  },   
+  "gamelist": {
+    "titleyourgames": "YOUR MATCHES",
+    "titleclubsgames": "CLUB MATCHES",
+    "titlegames": "MATCHES",
+    "titleplayergames": "PLAYER’S MATCHES"           
+  },
+  "gameadd": {
+    "title": "ADD MATCH",
+    "refresh": "Refresh",    
+    "player": "Player",
+    "player1": "Player 1",
+    "player1_holder": "Me",    
+    "player2": "Player 2",  
+    "player3": "Player 3",
+    "player4": "Player 4",       
+    "other": "Other",
+    "plus": "Plus",
+    "me": "Me",
+    "rank" : "Ranking",                
+    "city" : "City",    
+    "court" : "Court", 
+    "tour" : "Tour",
+    "surface" : "Surface",
+    "official" : "Official",
+    "selection":"Selection",
+    "poule":"Group",
+    "consolante":"Consolation",
+    "select1":"1st round",
+    "select2":"2nd round",
+    "select3":"3rd round",
+    "select4":"4th round",
+    "select5":"5th round",
+    "select6":"6th round",
+    "select7":"7th round",
+    "select8":"8th round",
+    "select9":"9th round",
+    "select10":"1/256 final",
+    "select11":"1/128 final",
+    "select12":"1/64 final",
+    "select13":"1/32 final",
+    "select14":"1/16 final",
+    "select15":"1/8 final",
+    "select16":"quarter final",
+    "select17":"semi-final",
+    "select18":"Final",
+    "select19":"Day 1",
+    "select20":"Day 2",
+    "select21":"Day 3",
+    "select22":"Day 4",
+    "select23":"Day 5",
+    "select24":"Day 6",
+    "select25":"Day 7",
+    "select26":"Day 8",
+    "select27":"Day 9",
+    "select28":"Day 10",
+    "final":"Final",
+    "day":"Day",
+    "surface_bp":"Porous concrete (fast) - PC",
+    "surface_ep":"Porous asphalt - PA",
+    "surface_epdm":"Rubber granules - EPDM",
+    "surface_gas":"Artificial grass - AG",
+    "surface_gaz":"Grass - GR",
+    "surface_moq":"Carpet - C",
+    "surface_nvtb":"Artificial clay - ART",
+    "surface_par":"Parquet (wood) - PAR",
+    "surface_res":"Acrylic (greenset) - ACR",
+    "surface_tb":"Clay - CL",
+    "yes":"Yes",
+    "no":"No",
+    "submit" : "SAVE",  
+    "dateday" : "Date Scheduled",
+    "datehour" : "Time Scheduled",
+    "listplayers" : "List of players",
+    "add" : "Add",
+    "2bestofsets" : "Best of 3 Sets",
+	"3bestofsets" : "Best of 5 Sets"                 	                      
+  },
+  "gameclub": {
+    "title": ""
+  },  
+  "gamecomment": {
+    "title": "COMMENTS",
+    "addphoto":"Add a photo",
+    "sendmessage":"Send",    
+    "delete" : "delete",
+    "alert" : "alert",
+    "alerted" : "Alerted",    
+    "said" : "said",
+    "by" : "to",
+    "the" : "the",    
+    "placeholder" : "Write a comment", 
+    "send" : "SEND"    
+  },  
+  "gameend": {
+    "title": "END MATCH",
+    "saveprivate":"You are about to end the match.<br />Would you like to add a private note (advice, tips)?",
+    "savefb":"You can indicate a message to be posted on FB",    
+    "finish":"Finish"
+  },  	 
+  "gameform": {
+    "title": "MY OPTIONS",
+    "whoserverdfirst" : "Who served first ?",
+    "delete": "Delete match",
+    "confirmdelete": "Confirm delete",
+    "date":"Date of match",
+    "time":"Time of match",
+    "city":"City",
+    "update":"UPDATE",
+    "team1":"Team 1",
+    "team2":"Team 2"  
+  },
+  "gamefollow": {
+    "title": "MATCHES FOLLOWED"
+  },
+  "help": {
+    "title": "HELP",
+    "profil": "PROFILE"
+  },
+  "home": {
+    "connexionlost": "Connection lost"
+  },
+  "index": {
+    "title": "HOME",
+    "games": "Matches",
+    "players":"Players"
+  },      
+  "message": {
+    "noresult": "No result",
+    "noresultfor": "No result for",  
+    "noconnection": "Not possible to connect",
+    "results": "Results",  
+    "updateok" : "Update successful",
+    "updateerror" : "Update error",    
+    "error": "An error has occurred",
+    "error_emptyplayer" : "You should name a player",
+    "error_emptyclub" : "You should name a club",    
+    "error_emptyyou" : "You should at least give a name and a ranking for yourself",    
+    "error_deconnexion": "Disconnection error",
+    "nofollowplayerok":"This player is no longer in your favourites",
+    "followplayerok":"This player is in your favourites",   
+    "nofollowgameok":"This match is no longer in your favourites",
+    "followgameok":"This match is in your favourites",
+    "nofollowclubok":"This club is no longer in your favourites",
+    "followclubok":"This club is in your favourites",   
+    "follow":"Add to Favourites",
+    "nofollow":"Delete from Favourites", 
+    "mailspam":"Message sent",
+    "mailspam_sentence":"Warming: the message with your password reminder may go into your spam folder.",
+    "mailerror":"Message unknown, or message that has not been approved",
+    "password_mismatch":"Error, the passwords are not the same",
+    "registering_error":"Registration error",
+    "signinok":"Loading successful",
+    "signinerror":"Error, incorrect password",
+    "loading":"LOADING",       
+    "bad_rank":"The ranking is invalid",   
+    "empty_name":"You should at least give a surname and/or first name",     
+    "bad_name":"The name can only contain letters, with at least 3 characters",
+    "bad_password":"Your password contains incorrect characters ( Authorised characters: A-Z a-z 0-9 !@#$%^&*()_ ) or there are fewer than 6 characters",
+    "bad_licence":"The licence number is invalid. There should be at least 4 characters with numbers and letters",           
+    "bad_mail":"Your email is invalid",
+    "expected_error":"Please select a date AND a time",
+    "pushyes":"Yes",
+    "pushno":"No",
+    "pushtitle":"Information",    
+    "pushmessage":"By following this player, you agree to receive MATCH alerts to know when an official match is beginning and the final result.",
+    "saveyes":"Yes",
+    "saveno":"No",
+    "savecancel":"Cancel",
+    "savetitle":"Information",    
+    "savemessage":"Some changes have not been saved, do you want to continue?",
+    "choiceserver":"Would you like to select who will serve first ? By default, we choose player 2",
+    "choiceservertitle":"Select server",
+    "choiceserveryes":"Select",
+    "choiceserverno":"Do not select",
+    "searchteam":"Please use the above search engine to follow the teams",
+    "searchclub":"Please use the above search engine to follow the clubs"                   
+  }, 
+  "player": {
+    "title": "PLAYER",
+    "more":"More info",
+    "lastresults":"Last results",
+    "getphoto":"Add photo",
+    "delphoto":"Delete photo"
+  },    
+  "playerforget": {
+    "title": "PASSWORD FORGOTTEN",
+    "email": "Email",    
+    "send": "Send" 
+  }, 
+  "playerfollow": {
+    "title": "PLAYERS FOLLOWED"
+  },     
+  "playerform": {
+    "title": "MY PROFILE",
+    "firstconnection" : "Please at least give your surname and first name:",
+    "name":"Surname First Name",
+    "mail":"Email",
+    "password":"Password",
+    "rank":"Ranking",
+    "club":"Club",
+    "idlicence":"Licence ID",
+    "clubname":"Club name",
+    "save":"SAVE",
+    "birth":"Date of birth",
+    "gender":"Sex",
+    "man":"Male",
+    "woman":"Female"
+  },     
+  "playerlist": {
+    "title": "LIST OF PLAYERS",
+    "titlemypushs" : "MY NOTIFICATIONS",
+    "addpush":"Add",
+    "delpush":"Delete",
+    "follow":"Follow",
+    "unfollow":"Unfollow"    
+  },     
+  "playersignin": {
+    "title": "CONNECTION",
+    "email": "Email",
+    "emailplaceholder": "Email",    
+    "password": "Password",
+    "passwordconfirm": "Confirm your password",
+    "passwordforgotten": "Password forgotten",    
+    "connexion": "Connection",
+    "deconnexion": "Disconnection",
+    "registered": "You are registered",
+    "registering": "You can register by selecting a password."
+  },   
+  "nav": {
+    "follow": "Follow",
+    "create": "Create",
+    "account": "Manage",
+    "player": "Player",
+    "match": "Match",    
+    "team": "Team",
+    "club": "Club"    
+  },
+  "notification": {
+    "title": "Notifications",
+    "noresult": "No result",
+    "error": "Error"
+  },    
+  "search": {
+    "title": "SEARCH",
+    "push": "YesWeScore allows you to receive a notification as soon as a player added to the above search engine begins or ends a match.",    
+    "zone": "Zone",
+    "filters":"Filters:",    
+    "filtergps":"GPS",
+    "filtermyclub":"My Club",    
+ 	"introform": "Personalise your home page",   
+ 	"geo": "Close by",   
+ 	"myclub": "My Club",   
+ 	"clubfollowed": "Favourite Clubs",   
+ 	"gamefollowed": "Favourite matches",   
+ 	"playerfollowed": "Favourite players",       
+    "gameplaceholder": "Search by name, by club",
+    "playerplaceholder": "Search by name",  
+    "teamplaceholder": "Search by team",      
+    "clubplaceholder": "Search by club",  
+    "filtermatchnot" : "None", 
+    "filtermatchgeo" : "Matches close by",
+    "filtermatchclub" : "My club matches",
+    "filtermatchfollowed" : "Favourite matches",                    
+    "filterdate" : "by date",
+    "filterlocation" : "by city",
+    "filterclub" : "by club",
+    "filterstatusall" : "All",  
+    "filterstatusongoing" : "Ongoing",
+    "filterstatusfinished" : "Finished",
+    "filterstatuscreated" : "Forthcoming",  
+    "filtername" : "by name",
+    "ongoing" : "Search in progress",
+    "update" : "Save",
+	"infogeo": "GPS",  
+	"gpsoff" : "off",    
+ 	"infomyclub": "Select your club",   
+ 	"infoclubfollowed": "Manage favourite clubs",   
+ 	"infogamefollowed": "Manage favourite matches",   
+ 	"infoplayerfollowed": "Manage favourite players",
+ 	"priorityplayerfollowed" : "See favourite players first"         
+  },
+  "teamadd": {
+    "title" : "ADD A TEAM",
+    "name": "Name of team",
+    "nbplayers": "Number of players",
+    "championship": "Championship",
+    "add": "SAVE"
+  },  
+  "team": {
+    "title":"TEAM",
+    "noname":"Unknown",
+    "player":"Player",
+    "captain":"Captain",
+    "substitute":"Substitute",
+    "quit":"Quit"         
+  },  
+  "teamcomment": {
+    "title":"MY TEAM’S COMMENTS"
+  },  
+  "teamlist": {
+    "title":"LIST OF TEAMS",
+    "titlefollow":"LIST OF TEAMS", 
+    "titleyourteams":"LIST OF MY TEAMS",
+	"titleclubteams":"LIST OF CLUB TEAMS",           
+    "follow":"Follow",
+    "nofollow":"Unfollow",
+    "status":"Status"      
+  },  
+  "bootstrap": {
+    "updaterequired": "Please update the application to continue using it",
+    "errortext": "Please connect to a network.",
+    "errorbutton": "refresh"
+  },
+  "wizard": {
+    "button": {
+      "continue": "continue",
+      "skip": "close",
+      "finish": "Let’s Rock & Roll"
+    },
+    "step-welcome": {
+      "welcome": "Welcome !",
+      "thankyou": "Thank you for downloading YesWeScore",
+      "explanation": "You can quit this help screen at any time by clicking on close",
+      "continue": "Discover YesWeScore",
+      "skip": "Skip introduction"
+    },
+    "step-profil": {
+      "title": "Edit your profile",
+      "sub0": {
+        "p1": "To find your club results easily or to follow friends, please complete your profile",
+        "p2": "Click on \"<b>MY ACCOUNT</b>\" at the bottom of the screen"
+      },
+      "sub1": {
+        "p1": "Click on \"<b>MY PROFILE</b>\" "
+      },
+      "sub2": {
+        "p1": "Enter your name"
+      },
+      "sub3": {
+        "p1": "Enter your ranking"
+      },
+      "sub4": {
+        "p1": "Choose a club"
+      },
+      "sub5": {
+        "p1": "Once you have chosen your club, all you have to do is save"
+      },
+      "sub6": {
+        "p1": "Congratulations, you have registered your profile.",
+        "p2": "You can now play, explore YesWeScore, share your matches, see your friends’ results"
+      }
+    }
+  }
+}

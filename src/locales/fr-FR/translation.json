@@ -9,14 +9,14 @@
   "account": {
     "title": "GERER",
     "mymatchs": "Mes Matchs",
-    "myteams": "Mes Equipes",
+    "myteams": "Mes Equipes",    
     "clubsfollowed": "Clubs Favoris",
     "gamesfollowed": "Matchs Favoris",    
     "playersfollowed": "Joueurs Favoris",
     "myclub": "Mon Club",
     "myprofil": "Mon profil",
     "connect": "Connexion / Enregistrement",
-    "disconnect": "Deconnexion",
+    "disconnect": "Déconnexion",
     "help": "Aide",
     "about": "A propos",
     "mypushs" : "Mes Notifications"
@@ -36,10 +36,10 @@
     "city":"Ville",
     "site":"Site",
     "listplayers":"Liste des joueurs",
-    "listteams":"Liste des équipes",      
+    "listteams":"Liste des équipes",    
     "lastresult":"Dernier résultat",
-    "outdoor":"Court(s) extérieur(s)",
-    "indoor":"Court(s) intérieur(s)",  
+    "outdoor":"Nombre de terrains extérieurs",
+    "indoor":"Nombre de terrains intérieurs",  
     "countPlayers":"Nombre de joueurs",  
     "countTeams":"Nombre d'équipes"                
   },
@@ -48,24 +48,24 @@
     "name" : "Nom du club",
     "placeholdername" : "Nom du Club",    
     "city" : "Ville",
-    "placeholdercity" : "Ville",
+    "placeholdercity" : "Ville", 
     "address":"Adresse",
     "zip":"Code postal",
     "outdoor":"Nombre de terrain extérieur",
-    "indoor":"Nombre de terrain intérieur",           
+    "indoor":"Nombre de terrain intérieur",        
     "add":"ENREGISTRER"
   },
   "clublist": {
     "title": "LISTE DES CLUBS",
     "follow":"Suivre",
     "nofollow":"Ne plus suivre"       
-  }, 
+  },   
   "clubfollow": {
     "title": "LISTE DES CLUBS"
   },   
   "game": {
     "title": "MATCH",  
-    "restart" : "Reprendre",
+    "restart" : "Reprise",
     "spectators" : "Mode Spectateur",
     "finish": "Terminer match",
     "ongoing": "En direct",
@@ -87,7 +87,7 @@
     "10lastcomments" : "DERNIERS COMMENTAIRES",
     "1comment" : "1 COMMENTAIRE",    
     "0comment" : "0 COMMENTAIRE",
-    "fbversus1" : "va bientot jouer contre",
+    "fbversus1" : "va bientôt jouer contre",
     "fbversus2" : "joue contre",
     "fbversus3" : "a joué contre",    
     "fbegality" : "Egalité",    
@@ -106,13 +106,13 @@
   },
   "gameadd": {
     "title": "CREER UNE PARTIE",
-    "refresh": "Rafraichir",    
+    "refresh": "Rafraîchir",    
     "player": "Joueur",
     "player1": "Joueur 1",
     "player1_holder": "Moi",    
-    "player2": "Joueur 2",  
+    "player2": "Joueur 2",    
     "player3": "Joueur 3",
-    "player4": "Joueur 4",       
+    "player4": "Joueur 4",    
     "other": "Autre",
     "plus": "Plus",
     "me": "Moi",
@@ -122,7 +122,7 @@
     "tour" : "Tour",
     "surface" : "Surface",
     "official" : "Officiel",
-    "selection":"Selection",
+    "selection":"Sélection",
     "poule":"Poule",
     "consolante":"Consolante",
     "select1":"1er tour",
@@ -158,22 +158,22 @@
     "surface_bp":"Béton poreux (quick) - BP",
     "surface_ep":"Enrobé poreux - EP",
     "surface_epdm":"Granulats caoutchouc - EPDM",
-    "surface_gas":"Gazon synthetique - GAS",
+    "surface_gas":"Gazon synthétique - GAS",
     "surface_gaz":"Gazon naturel - GAZ",
     "surface_moq":"Moquette - MOQ",
     "surface_nvtb":"Terre battue non gélive - NVTB",
     "surface_par":"Parquet (bois) - PAR",
-    "surface_res":"Resine (greenset) - RES",
-    "surface_tb":"Terre-battue - TB",
+    "surface_res":"Résine (greenset) - RES",
+    "surface_tb":"Terre battue - TB",
     "yes":"Oui",
     "no":"Non",
     "submit" : "ENREGISTRER",  
-    "dateday" : "Date Prévu",
-    "datehour" : "Heure Prévu",
+    "dateday" : "Date Prévue",
+    "datehour" : "Heure Prévue",
     "listplayers" : "Liste des joueurs",
     "add" : "Ajouter",
     "2bestofsets" : "2 Sets Gagnants",
-	"3bestofsets" : "3 Sets Gagnants"                 	                      
+	"3bestofsets" : "3 Sets Gagnants"                   	                      
   },
   "gameclub": {
     "title": ""
@@ -193,7 +193,7 @@
   },  
   "gameend": {
     "title": "TERMINER LA PARTIE",
-    "saveprivate":"Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note privé ( conseils, astuces ) ?",
+    "saveprivate":"Vous allez terminer la partie.<br />Souhaitez-vous ajouter une note privée ( conseils, astuces ) ?",
     "savefb":"Vous pouvez indiquer le message qui sera diffusé sur FB ?",    
     "finish":"Terminer"
   },  	 
@@ -207,14 +207,14 @@
     "city":"Ville",
     "update":"MODIFIER",
     "team1":"Equipe 1",
-    "team2":"Equipe 2"  
+    "team2":"Equipe 2"       
   },
   "gamefollow": {
     "title": "MATCHS SUIVIS"
   },
   "help": {
     "title": "AIDE",
-    "profil": "PROFILE"
+    "profil": "PROFIL"
   },
   "home": {
     "connexionlost": "Connexion perdue"
@@ -228,14 +228,14 @@
     "noresult": "Aucun résultat",
     "noresultfor": "Aucun résultat pour",  
     "noconnection": "Impossible de se connecter",
-    "results": "resultats",  
+    "results": "résultats",  
     "updateok" : "Mise à jour réussie",
     "updateerror" : "Mise à jour impossible",    
     "error": "Une erreur s'est produite",
     "error_emptyplayer" : "Vous devez indiquer un joueur",
-    "error_emptyclub" : "Vous devez indiquer un club",    
+    "error_emptyclub" : "Vous devez indiquer un club",     
     "error_emptyyou" : "Vous devez indiquer au moins un nom et un classement pour vous",    
-    "error_deconnexion": "Erreur de deconnexion",
+    "error_deconnexion": "Erreur de déconnexion",
     "nofollowplayerok":"Ce joueur n'est plus dans vos favoris",
     "followplayerok":"Ce joueur est dans vos favoris",   
     "nofollowgameok":"Ce match n'est plus dans vos favoris",
@@ -257,7 +257,7 @@
     "bad_name":"Le nom peut contenir seulement des lettres et au moins 3 caractères",
     "bad_password":"Votre mot de passe contient des caractères interdits ( Autorisé : A-Z a-z 0-9 !@#$%^&*()_ ) ou il est inférieur à 6 caractères",
     "bad_licence":"Le numéro de licence est invalide. Il faut au moins 4 caractères composés de chiffres et lettres",           
-    "bad_mail":"Votre mail est invalide",
+    "bad_mail":"Votre e-mail est invalide",
     "expected_error":"Merci de saisir une date ET une heure",
     "pushyes":"Oui",
     "pushno":"Non",
@@ -267,14 +267,14 @@
     "saveno":"Non",
     "savecancel":"Annuler",
     "savetitle":"Information",    
-    "savemessage":"Des changements n'ont pas été enregistrés, voulez vous continuer ?",
+    "savemessage":"Des changements n'ont pas été enregistrés, voulez-vous continuer ?",
     "choiceserver":"Souhaitez-vous indiquer qui commence à servir ? Par défaut, nous prenons le joueur 2",
     "choiceservertitle":"Choix du serveur",
     "choiceserveryes":"Choisir",
     "choiceserverno":"Ne pas choisir",
     "searchteam":"Merci d'utiliser le moteur de recherche ci-dessus pour suivre des équipes",
-    "searchclub":"Merci d'utiliser le moteur de recherche ci-dessus pour suivre des clubs"                   
-  }, 
+    "searchclub":"Merci d'utiliser le moteur de recherche ci-dessus pour suivre des clubs"        
+  },
   "player": {
     "title": "JOUEUR",
     "more":"Plus d'infos",
@@ -284,7 +284,7 @@
   },    
   "playerforget": {
     "title": "MOT DE PASSE OUBLIE",
-    "email": "Email",    
+    "email": "E-mail",    
     "send": "Envoyer" 
   }, 
   "playerfollow": {
@@ -294,7 +294,7 @@
     "title": "MON PROFIL",
     "firstconnection" : "Merci d'indiquer au moins votre nom et prénom :",
     "name":"Nom Prénom",
-    "mail":"Email",
+    "mail":"E-mail",
     "password":"Mot de passe",
     "rank":"Classement",
     "club":"Club",
@@ -312,28 +312,27 @@
     "addpush":"Ajouter",
     "delpush":"Retirer",
     "follow":"Suivre",
-    "unfollow":"Ne plus suivre"    
-  },     
+    "unfollow":"Ne plus suivre"
+  },    
   "playersignin": {
     "title": "CONNEXION",
-    "email": "Email",
-    "emailplaceholder": "Email",    
+    "email": "E-mail",
+    "emailplaceholder": "E-mail",    
     "password": "Mot de passe",
     "passwordconfirm": "Confirmez votre mot de passe",
     "passwordforgotten": "Mot de passe oublié",    
     "connexion": "Connexion",
-    "deconnexion": "Deconnexion",
+    "deconnexion": "Déconnexion",
     "registered": "Vous êtes enregistré",
     "registering": "Vous pouvez vous enregistrer en choisissant un mot de passe."
   },   
   "nav": {
-    "follow": "Suivre",
+    "matchs": "Suivre",
     "create": "Créer",
     "account": "Gérer",
     "player": "Joueur",
-    "match": "Match",    
     "team": "Equipe",
-    "club": "Club"    
+    "club": "Club"   
   },
   "notification": {
     "title": "Notifications",
@@ -342,7 +341,7 @@
   },    
   "search": {
     "title": "RECHERCHE",
-    "push": "YesWeScore vous permet de recevoir une notification dès qu'un joueur ajouté via le moteur ci-dessus commence ou termine son match.",    
+    "push": "YesWeScore vous permet de recevoir une notification dès qu'un joueur ajouté via le moteur ci-dessus commence ou termine son match.",
     "zone": "Zone",
     "filters":"Filtres :",    
     "filtergps":"GPS",
@@ -350,12 +349,12 @@
  	"introform": "Personnalisez votre accueil",   
  	"geo": "A proximité",   
  	"myclub": "Mon Club",   
- 	"clubfollowed": "Club favoris",   
+ 	"clubfollowed": "Clubs favoris",   
  	"gamefollowed": "Matchs favoris",   
  	"playerfollowed": "Joueurs favoris",       
     "gameplaceholder": "Rechercher par nom, par club",
     "playerplaceholder": "Rechercher par nom",  
-    "teamplaceholder": "Rechercher par équipe",      
+    "teamplaceholder": "Rechercher par équipe",    
     "clubplaceholder": "Rechercher par club",  
     "filtermatchnot" : "Aucun", 
     "filtermatchgeo" : "Matchs à proximité",
@@ -385,27 +384,27 @@
     "nbplayers": "Nombre de joueurs",
     "championship": "Championnat",
     "add": "ENREGISTRER"
-  },  
+  },
   "team": {
     "title":"EQUIPE",
     "noname":"Non renseigné",
     "player":"Joueur",
     "captain":"Captaine",
     "substitute":"Remplaçant",
-    "quit":"Quitter"         
-  },  
+    "quit":"Quitter"    
+  },
   "teamcomment": {
     "title":"COMMENTAIRES DE MON EQUIPE"
-  },  
+  },   
   "teamlist": {
     "title":"LISTE DES EQUIPES",
-    "titlefollow":"LISTE DES EQUIPES", 
+    "titlefollow":"LISTE DES EQUIPES",  
     "titleyourteams":"LISTE DE MES EQUIPES",
-	"titleclubteams":"LISTE DES EQUIPES DU CLUB",           
+	"titleclubteams":"LISTE DES EQUIPES DU CLUB",    
     "follow":"Suivre",
     "nofollow":"Ne plus suivre",
-    "status":"Statut"      
-  },  
+    "status":"Statut"  
+  },    
   "bootstrap": {
     "updaterequired": "Veuillez mettre &agrave; jour l'application pour continuer &agrave; l'utiliser",
     "errortext": "Veuillez vous connecter à un réseau.",
@@ -446,7 +445,7 @@
         "p1": "Une fois votre club choisi, il ne vous reste qu'à enregistrer"
       },
       "sub6": {
-        "p1": "Félicitation, vous avez enregistré votre profil.",
+        "p1": "Félicitations, vous avez enregistré votre profil.",
         "p2": "A vous de jouer, explorez YesWeScore, partagez vos matchs, consultez les résultats de vos amis"
       }
     }

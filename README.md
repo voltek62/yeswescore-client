@@ -6,7 +6,7 @@ The JavaScript build phase depends on node.js and npm, to get these tools for yo
 
 Run the following commands in a command-line terminal in the projects root directory (where `grunt.js` is located):
 	
-	//Si déjà installé
+	//Si dï¿½jï¿½ installï¿½
 	npm uninstall -g grunt
 	//Install le client
 	npm install -g grunt-cli
@@ -37,3 +37,28 @@ The iOS build phase depends on xCode to be installed. To get a copy of xCode you
 You will need to complete the JavaScript Build phase before you continue with the iOS Build phase.
 
 Navigate to the `ios` directory under the project root and double-click the `PhotoMapper.xcodeproj` file to open the project in xCode. Click the 'Run' button to build the project and open it in the iPhone Simulator.
+
+### License
+
+The MIT License (MIT)
+
+Copyright (c) 2013 marc.dassonneville@gmail.com, vt3ktek@hotmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+

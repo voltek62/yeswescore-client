@@ -12,7 +12,7 @@
     initEnv: function () {
       Y.Env.CURRENT = Y.Env.PROD; // default behaviour
       /*#ifdef DEV*/
-      Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
+      //Y.Env.CURRENT = Y.Env.DEV;  // overloaded in dev
       /*#endif*/
       
       return this; // chainable
@@ -56,7 +56,7 @@
       {
         // loading default keys (temporary)
         // Parametrage des variables dependantes d'un environnement
-        Y.Env.user = "marc";
+        Y.Env.user = "vincent";
     
         switch (env) {
           case Y.Env.DEV:
@@ -69,8 +69,8 @@
                 var fbAppId = "618522421507840";
                 break;
               case "vincent":
-                var apiBaseUrl = "http://plic.no-ip.org:1024";
-                var siteBaseUrl = "http://plic.no-ip.org:9082";                
+                var apiBaseUrl = "http://176.31.108.85:1024";
+                var siteBaseUrl = "http://176.31.108.85:9082";                
                 var fbBaseUrl = "https://fb.yeswescore.com";
                 var fbAppId = "408897482525651";
                 break;

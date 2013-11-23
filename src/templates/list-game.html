@@ -125,12 +125,12 @@ else if (game.status === "created") game.status2 = i18n.t('game.created');
 if (typeof game.infos.official === "boolean" && game.infos.official==true) {
   if (game.status === "created") { 
   %>
-  <li id="#games/<%= game.id %>" class="unselectable" style="height:60px;background-color:#f0f0f0;">
+  <li id="#games/<%= game.id %>" class="unselectable" style="height:60px;">
   <%
   }
   else {
   %>
-  <li id="#games/<%= game.id %>" class="unselectable" style="background-color:#f0f0f0;">
+  <li id="#games/<%= game.id %>" class="unselectable">
   <%
   }
 } 

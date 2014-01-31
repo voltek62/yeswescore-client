@@ -4,7 +4,7 @@
   /*#endif*/
 
   var App = {
-    VERSION: 4 // current version.
+    VERSION: 5 // current version.
   };
 
   // setting conf

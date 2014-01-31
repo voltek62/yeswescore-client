@@ -173,7 +173,9 @@
     "listplayers" : "List of players",
     "add" : "Add",
     "2bestofsets" : "Best of 3 Sets",
-	"3bestofsets" : "Best of 5 Sets"                 	                      
+	  "3bestofsets" : "Best of 5 Sets",                 	                      
+    "maxi5sets" : "5 Sets",
+    "maxi6sets" : "6 Sets"
   },
   "gameclub": {
     "title": ""

@@ -151,6 +151,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
       , rank4 = $('#rank4').val()                 
       , city = $('#city').val()
       , numberofbestsets = $('[name=bestofsets]:checked').val()
+      , maxisets = $('[name=maxisets]:checked').val()      
       , type = $('[name=type-match]:checked').val()
       , expectedDay = $('#expectedDay').val() 
       , expectedHour = $('#expectedHour').val()
@@ -311,6 +312,7 @@ Y.Views.Pages.GameAdd = Y.View.extend({
         court : $('#court').val() 
         , type : type
         , numberOfBestSets : parseInt(numberofbestsets,10)         
+        , maxiSets : parseInt(maxisets,10)      
         , surface : $('#surface').val()
         , tour : $('#tour').val()
         , official : ($('#official').val() === "true")

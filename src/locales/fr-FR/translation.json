@@ -173,7 +173,9 @@
     "listplayers" : "Liste des joueurs",
     "add" : "Ajouter",
     "2bestofsets" : "2 Sets Gagnants",
-	"3bestofsets" : "3 Sets Gagnants"                   	                      
+	"3bestofsets" : "3 Sets Gagnants",
+    "maxi5sets" : "5 Sets",
+    "maxi6sets" : "6 Sets"	                   	                      
   },
   "gameclub": {
     "title": ""

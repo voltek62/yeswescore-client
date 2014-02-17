@@ -83,6 +83,7 @@
 
       Y.GUI.autocomplete = new Y.Views.Autocomplete({
         type: type,
+        dest: $target.attr("id"),
         val: $target.val(),
         callback: callback,
         onselected: onselected

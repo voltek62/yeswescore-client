@@ -31,6 +31,7 @@
     // public
     this.type = options.type || 'default';
     this.elmt = options.elmt || 'list';    
+    this.dest = options.dest || '';        
     this.fctname = options.fctname || '';   
     this.fctnameselected = options.fctnameselected || '';           
     this.proposals = [/* { text: "..." } */];

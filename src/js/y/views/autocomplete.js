@@ -24,6 +24,9 @@ Y.Views.Autocomplete = Y.View.extend({
     this.val = param.val;
     this.callback = param.callback;
     this.onselected = param.onselected;
+    
+    this.dest = param.dest;
+    console.log('dest ',param.dest);
 
     this.templates = {
       page:  Y.Templates.get('page-autocomplete'),    
@@ -31,7 +34,60 @@ Y.Views.Autocomplete = Y.View.extend({
       club  :  Y.Templates.get('autocomplete-club')      
     };
   },
+  
+  autocompletePlayerSelected: function (data) {    
+    if (data && data.name) {     
+      if (this.dest==="team1") {
+        $("#team1").val(data.name);
+        this.team1_id = data.id;
+      }
+      else if (this.dest==="team2") {
+        $("#team2").val(data.name);
+        this.team2_id = data.id;
+      }
+      else if (this.dest==="team3") {
+        $("#team3").val(data.name);
+        this.team3_id = data.id;
+      }
+      else if (this.dest==="team4") {
+        $("#team4").val(data.name);
+        this.team4_id = data.id;
+      }           
+      $('body').removeClass("autocomplete");
+      //quit -> dispose
+    }
+  },   
 
+  close: function () {  
+    //check if data
+    dataUser = $('#autocompleteinput').val();
+    console.log('dataUser',dataUser);    
+    console.log('dataUser',this.dest);    
+    //if nothing, we take data in input
+    if (typeof dataUser === "string" && this.proposals.length==0) {        
+      if (this.dest==="team1") {
+        $("#team1").val(dataUser);
+        this.team1_id = '';
+      }
+      else if (this.dest==="team2") {
+        $("#team2").val(dataUser);
+        this.team2_id = '';
+      }
+      else if (this.dest==="team3") {
+        $("#team3").val(dataUser);
+        this.team3_id = '';
+      }
+      else if (this.dest==="team4") {
+        $("#team4").val(dataUser);
+        this.team4_id = '';
+      }             
+      //$('body').removeClass("autocomplete");
+      this.dest='';
+      //quit -> dispose
+    }       
+    this.onClose();
+  },
+  
   render: function () {
     this.$el.html(this.templates.page({type:this.type}));
     $('body').addClass("autocomplete");
@@ -62,16 +118,7 @@ Y.Views.Autocomplete = Y.View.extend({
     }).fail(function (xhr, error) { 
       callback(error);
     });
-  },
-
-  autocompletePlayerSelected: function (data) {
-    if (data && data.name) {
-      $("#team2").val(data.name);
-      this.team1_id = data.id;
-      $('body').removeClass("autocomplete");
-      //quit -> dispose
-    }
-  },  
+  }, 
 
   autocomplete: null,
   
@@ -236,7 +283,9 @@ Y.Views.Autocomplete = Y.View.extend({
     assert(typeof this.onselected === "function");
     this.autocompleteObj.on("selected", function (val) {
       this.onselected(val);
+             
       this.close();
+      
     }, this);
     return true;
   },
@@ -260,11 +309,11 @@ Y.Views.Autocomplete = Y.View.extend({
 
   autocompleteCall: function (e) {
     if (this.autocompleteObj)
-      this.autocompleteObj.trigger("input", $(e.target).val());
+      this.autocompleteObj.trigger("input", $(e.target).val());    
   },
 
   onClose: function () {
     this.autocompleteStop();
-    $('body').removeClass("autocomplete");
+    $('body').removeClass("autocomplete");          
   }
 });

@@ -40,6 +40,9 @@ Y.Views.Pages.GameAdd = Y.View.extend({
     this.DB = new Y.DB("Y.GameAdd.");
     this.team1_id = this.player.get('id');
     this.team2_id = null;
+    this.team3_id = null;
+    this.team4_id = null;
+    
     this.render();
   },
 
@@ -190,7 +193,8 @@ Y.Views.Pages.GameAdd = Y.View.extend({
           //Stocke infos temporaire sans rapport avec le modele
             court : $('#court').val() 
           , type : type
-          , numberOfBestSets : parseInt(numberofbestsets,10)          
+          , numberOfBestSets : parseInt(numberofbestsets,10) 
+          , maxiSets : parseInt(maxisets,10)           
           , surface : $('#surface').val()
           , tour : $('#tour').val() 
           , official : ($('#official').val() === "true")
@@ -327,6 +331,8 @@ Y.Views.Pages.GameAdd = Y.View.extend({
       var datetime = date.toString('yyyy-MM-dd')+' '+time.toString('h:mm');      
       game.get("dates").expected = datetime;      
     }
+    
+    console.log(game);
 
     var that = this;
       

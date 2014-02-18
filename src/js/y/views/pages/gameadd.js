@@ -452,7 +452,8 @@ Y.Views.Pages.GameAdd = Y.View.extend({
         if ( game.infos.official !== "" ) $("#official").val(game.infos.official);  
         if ( game.infos.expectedDay !== "" ) $("#expectedDay").val(game.infos.expectedDay);
         if ( game.infos.expectedHour !== "" ) $("#expectedHour").val(game.infos.expectedHour);
-        if ( game.infos.bestofsets !== "" ) $("#bestofsets").val(game.infos.bestofsets);                          
+        if ( game.infos.bestofsets !== "" ) $("#bestofsets").val(game.infos.bestofsets);
+        if ( game.infos.maxisets !== "" ) $("#maxisets").val(game.infos.maxisets);
 
 		if ( game.infos.type === "doubles" ) {
 		  $("#mode-double").prop('checked', true);  

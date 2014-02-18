@@ -27,6 +27,7 @@ var GameModel = Backbone.Model.extend({
     infos : {
       type : "singles",
       numberOfBestSets : 3,
+      maxiSets : 6,
       subtype : "A",
       sets : "0/0",
       score : "0/0",
@@ -198,7 +199,10 @@ var GameModel = Backbone.Model.extend({
     }
 	
 	if (typeof this.get('infos').numberOfBestSets !== "undefined") 
-       object.infos.numberOfBestSets = this.get('infos').numberOfBestSets;	
+       object.infos.numberOfBestSets = this.get('infos').numberOfBestSets;
+
+    if (typeof this.get('infos').maxiSets !== "undefined")
+        object.infos.maxiSets = this.get('infos').maxiSets;
                    
     if (Y.Geolocation.longitude!==null && Y.Geolocation.latitude!==null)      
       object.location.pos = [Y.Geolocation.longitude, Y.Geolocation.latitude];

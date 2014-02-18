@@ -320,6 +320,7 @@ Y.Views.Pages.Game = Y.View.extend({
     var sets = this.game.getSets();
     var sets_tmp = this.game.getSets(0);
     var score = this.game.getScore();
+    var maxiSets = this.game.getMaxiSets();
     var set = $(ev.currentTarget).data('set');
     var team = $(ev.currentTarget).data('team');
 
@@ -349,16 +350,16 @@ Y.Views.Pages.Game = Y.View.extend({
     var diff_sets4 = Math.abs(parseInt(sets_tmp[3][0], 10)-parseInt(sets_tmp[3][1], 10));
     var diff_sets5 = Math.abs(parseInt(sets_tmp[4][0], 10)-parseInt(sets_tmp[4][1], 10));    
 
-    if ((sets_tmp[0][0]>=7 && diff_sets1>2) ||
-        (sets_tmp[0][1]>=7 && diff_sets1>2) ||
-        (sets_tmp[1][0]>=7 && diff_sets2>2) ||
-        (sets_tmp[1][1]>=7 && diff_sets2>2) ||
-        (sets_tmp[2][0]>=7 && diff_sets3>2) ||
-        (sets_tmp[2][1]>=7 && diff_sets3>2) ||
-        (sets_tmp[3][0]>=7 && diff_sets3>2) ||
-        (sets_tmp[3][1]>=7 && diff_sets3>2) ||
-        (sets_tmp[4][0]>=7 && diff_sets3>2) ||
-        (sets_tmp[4][1]>=7 && diff_sets3>2)                
+    if ((sets_tmp[0][0]>maxiSets && diff_sets1>2) ||
+        (sets_tmp[0][1]>maxiSets && diff_sets1>2) ||
+        (sets_tmp[1][0]>maxiSets && diff_sets2>2) ||
+        (sets_tmp[1][1]>maxiSets && diff_sets2>2) ||
+        (sets_tmp[2][0]>maxiSets && diff_sets3>2) ||
+        (sets_tmp[2][1]>maxiSets && diff_sets3>2) ||
+        (sets_tmp[3][0]>maxiSets && diff_sets3>2) ||
+        (sets_tmp[3][1]>maxiSets && diff_sets3>2) ||
+        (sets_tmp[4][0]>maxiSets && diff_sets3>2) ||
+        (sets_tmp[4][1]>maxiSets && diff_sets3>2)
         ) {
       // incrementation impossible
       return;

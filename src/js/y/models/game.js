@@ -444,6 +444,11 @@ var GameModel = Backbone.Model.extend({
     });
   },
 
+  getMaxiSets: function () {
+      var num = this.get("infos").maxiSets || "6";
+      return parseInt(num, 10);
+  },
+
   // compute score based on sets.
   // @return "scoreTeam1/scoreTeam2"
   computeScore : function() { 
@@ -451,55 +456,56 @@ var GameModel = Backbone.Model.extend({
     var scoreTeam2 = 0;
     var sets = this.getSets(0);
     var numberOfBestSets = this.get("infos").numberOfBestSets || 3;
+    var maxiSets = this.get("infos").maxiSets || 6;
     
     if (numberOfBestSets==5) {
       // set1 : only if game is finished or set2 exists & not empty
       if (this.isFinished() || (sets.length > 1 && sets[1][0] + sets[1][1] !== 0)) {
         // team 2 < team 1 && team 1 >= 6
-        if (sets[0][1] < sets[0][0] && sets[0][0] >= 6)
+        if (sets[0][1] < sets[0][0] && sets[0][0] >= maxiSets)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[0][0] < sets[0][1] && sets[0][1] >= 6)
+        if (sets[0][0] < sets[0][1] && sets[0][1] >= maxiSets)
           scoreTeam2++;
       }
 
       // set2 : only if game is finished or set3 exists & not empty
       if (this.isFinished() || (sets.length > 2 && sets[2][0] + sets[2][1] !== 0)) {
         // team 2 < team 1 && team 1 >= 6
-        if (sets[1][1] < sets[1][0] && sets[1][0] >= 6)
+        if (sets[1][1] < sets[1][0] && sets[1][0] >= maxiSets)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[1][0] < sets[1][1] && sets[1][1] >= 6)
+        if (sets[1][0] < sets[1][1] && sets[1][1] >= maxiSets)
           scoreTeam2++;
       }
 
       // set3 : only if game is finished or set3 exists & not empty
       if (this.isFinished() || (sets.length > 3 && sets[3][0] + sets[3][1] !== 0)) {
         // team 2 < team 1 && team 1 >= 6
-        if (sets[2][1] < sets[2][0] && sets[2][0] >= 6)
+        if (sets[2][1] < sets[2][0] && sets[2][0] >= maxiSets)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[2][0] < sets[2][1] && sets[2][1] >= 6)
+        if (sets[2][0] < sets[2][1] && sets[2][1] >= maxiSets)
           scoreTeam2++;
       }
       
       // set4 : only if game is finished or set3 exists & not empty
       if (this.isFinished() || (sets.length > 4 && sets[4][0] + sets[4][1] !== 0)) {
         // team 2 < team 1 && team 1 >= 6
-        if (sets[3][1] < sets[3][0] && sets[3][0] >= 6)
+        if (sets[3][1] < sets[3][0] && sets[3][0] >= maxiSets)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[3][0] < sets[3][1] && sets[3][1] >= 6)
+        if (sets[3][0] < sets[3][1] && sets[3][1] >= maxiSets)
           scoreTeam2++;
       }
             
       // set5 : only if game is finished.
       if (this.isFinished() ) { 
         // team 2 < team 1 && team 1 >= 6
-        if (sets[4][1] < sets[4][0] && sets[4][0] >= 6)
+        if (sets[4][1] < sets[4][0] && sets[4][0] >= maxiSets)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[4][0] < sets[4][1] && sets[4][1] >= 6)
+        if (sets[4][0] < sets[4][1] && sets[4][1] >= maxiSets)
           scoreTeam2++;
       }    
     }
@@ -507,30 +513,30 @@ var GameModel = Backbone.Model.extend({
       // set1 : only if game is finished or set2 exists & not empty
       if (this.isFinished() || (sets.length > 1 && sets[1][0] + sets[1][1] !== 0)) {
         // team 2 < team 1 && team 1 >= 6
-        if (sets[0][1] < sets[0][0] && sets[0][0] >= 6)
+        if (sets[0][1] < sets[0][0] && sets[0][0] >= maxiSets)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[0][0] < sets[0][1] && sets[0][1] >= 6)
+        if (sets[0][0] < sets[0][1] && sets[0][1] >= maxiSets)
           scoreTeam2++;
       }
 
       // set2 : only if game is finished or set3 exists & not empty
       if (this.isFinished() || (sets.length > 2 && sets[2][0] + sets[2][1] !== 0)) {
         // team 2 < team 1 && team 1 >= 6
-        if (sets[1][1] < sets[1][0] && sets[1][0] >= 6)
+        if (sets[1][1] < sets[1][0] && sets[1][0] >= maxiSets)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[1][0] < sets[1][1] && sets[1][1] >= 6)
+        if (sets[1][0] < sets[1][1] && sets[1][1] >= maxiSets)
           scoreTeam2++;
       }
 
       // set3 : only if game is finished.
       if (this.isFinished() ) { 
         // team 2 < team 1 && team 1 >= 6
-        if (sets[2][1] < sets[2][0] && sets[2][0] >= 6)
+        if (sets[2][1] < sets[2][0] && sets[2][0] >= maxiSets)
           scoreTeam1++;
         // team 1 < team 2 && team 2 >= 6
-        if (sets[2][0] < sets[2][1] && sets[2][1] >= 6)
+        if (sets[2][0] < sets[2][1] && sets[2][1] >= maxiSets)
           scoreTeam2++;
       }
     }

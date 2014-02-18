@@ -61,9 +61,9 @@ Y.Views.Autocomplete = Y.View.extend({
   close: function () {  
     //check if data
     dataUser = $('#autocompleteinput').val();
-    console.log('dataUser',dataUser);    
-    console.log('dataUser',this.dest);    
     //if nothing, we take data in input
+    if (this.proposals === null)
+        this.proposals = [];
     if (typeof dataUser === "string" && this.proposals.length==0) {        
       if (this.dest==="team1") {
         $("#team1").val(dataUser);

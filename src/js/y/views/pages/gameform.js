@@ -515,9 +515,21 @@ Y.Views.Pages.GameForm = Y.View.extend({
     }
     //On ne peut plus modifier le nombre de sets une fois la partie créé
     $("#5sets").prop('disabled', true);
-    $("#3sets").prop('disabled', true);    
-    
+    $("#3sets").prop('disabled', true);
+
     console.log('numberOfBestSets',game.infos.numberOfBestSets);
+
+    if (typeof game.infos.maxiSets === "number") {
+        if (game.infos.maxiSets == 5)
+            $("#5maxisets").prop('checked', true);
+        else
+            $("#3maxisets").prop('checked', true);
+    }
+    //On ne peut plus modifier le nombre de sets une fois la partie créé
+    $("#5maxisets").prop('disabled', true);
+    $("#6maxisets").prop('disabled', true);
+
+    console.log('maxiSets',game.infos.maxiSets);
 
     this.$el.i18n();
 

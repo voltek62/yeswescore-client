@@ -43,6 +43,7 @@
           //console.log('Backbone.ajax: '+url+' '+JSON.stringify(options));
           // event system
           /*#ifdef DEV*/
+          console.log('lg: ' + window.navigator.language);
           console.log('Backbone.ajax: ' + url + ' options = ' + JSON.stringify(options));
           /*#endif*/
 
@@ -105,6 +106,9 @@
                .load(this.Env.CURRENT, function onConfLoaded(err) {
                  // internationalization.
                  var i18nOptions = { lng: "en-EN", fallbackLng: "en" };
+                 if (window.navigator.language.indexOf('fr')!=-1)
+                     i18nOptions = { lng: "fr-FR", fallbackLng: "fr" };
+
                  that.i18nOptions = i18nOptions;
                  /*#ifndef WP8*/
                  if (false) {

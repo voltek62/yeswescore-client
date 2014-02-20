@@ -329,13 +329,13 @@
     "registering": "Vous pouvez vous enregistrer en choisissant un mot de passe."
   },   
   "nav": {
-    "matchs": "Suivre",
+    "match": "Match",
     "create": "Créer",
     "account": "Gérer",
     "follow": "Suivre",
     "player": "Joueur",
     "team": "Equipe",
-    "club": "Club"   
+    "club": "Club"
   },
   "notification": {
     "title": "Notifications",

@@ -5,7 +5,7 @@
   /*#endif*/
 
   var YesWeScore = {
-    language: window.navigator.language || "en-US",
+    language: window.navigator.language || "fr-FR",
     Conf: null,      // @see y/conf.js
     Router: null,    // @see y/router.js
     Templates: null, // @see y/tempates.js

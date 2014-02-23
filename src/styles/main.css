@@ -8,7 +8,7 @@
 	font-weight: 400;
 	src: /*#ifdef NOCORDOVA*/ url(/styles/webfonts/opensans-400.ttf) format(
 		'truetype'), /*#endif*/ 
-     url(styles/webfonts/opensanswind-400.ttf) format( 'truetype');
+     url(webfonts/opensans-400.ttf) format( 'truetype');
 }
 
 @font-face {
@@ -17,7 +17,7 @@
 	font-weight: 700;
 	src: /*#ifdef NOCORDOVA*/ url(/styles/webfonts/opensans-700.ttf) format(
 		'truetype'), /*#endif*/ 
-     url(styles/webfonts/opensans-700.ttf) format( 'truetype');
+     url(webfonts/opensans-700.ttf) format( 'truetype');
 }
 
 @font-face {
@@ -26,7 +26,7 @@
 	font-weight: 800;
 	src: /*#ifdef NOCORDOVA*/ url(/styles/webfonts/opensans-800.ttf) format(
 		'truetype'), /*#endif*/ 
-     url(styles/webfonts/opensans-800.ttf) format( 'truetype');
+     url(webfonts/opensans-800.ttf) format( 'truetype');
 }
 /* 
  disabled: bug on WP8

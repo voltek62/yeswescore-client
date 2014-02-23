@@ -36,14 +36,15 @@ Y.Views.Autocomplete = Y.View.extend({
   },
   
   autocompletePlayerSelected: function (data) {    
-    if (data && data.name) {     
+    if (data && data.name) {
+      
       if (this.dest==="team1") {
         $("#team1").val(data.name);
-        this.team1_id = data.id;
+        this.team1_id = data.id;        
       }
       else if (this.dest==="team2") {
         $("#team2").val(data.name);
-        this.team2_id = data.id;
+        this.team2_id = data.id; 
       }
       else if (this.dest==="team3") {
         $("#team3").val(data.name);
@@ -68,6 +69,9 @@ Y.Views.Autocomplete = Y.View.extend({
       if (this.dest==="team1") {
         $("#team1").val(dataUser);
         this.team1_id = '';
+        $(".form-button.other-team").addClass("selected");
+        $(".ui-grid-b.first-team").removeClass("me");
+        $("#team1").prop("disabled", false);
       }
       else if (this.dest==="team2") {
         $("#team2").val(dataUser);
@@ -247,7 +251,8 @@ Y.Views.Autocomplete = Y.View.extend({
 
     if (this.autocomplete) {
       this.$("#"+this.elmt).val(this.proposals[index]);    
-      this.autocomplete.trigger("selected", this.proposals[index]);         
+      this.autocomplete.trigger("selected", this.proposals[index]);     
+      
     }
   },
 

@@ -295,6 +295,11 @@ Y.Views.Pages.GameAdd = Y.View.extend({
 
     // on evite que l'utilisateur qui double tap, envoie 2 comments
     this.addingGame = true;
+    
+    // hack
+    if ( $("#team1").prop("disabled") == false ) {
+      this.team1_id = null;
+    }
 
     // On sauve dans Collections
     game = new GameModel({

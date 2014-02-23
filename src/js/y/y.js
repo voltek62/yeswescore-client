@@ -105,8 +105,17 @@
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded(err) {
                  // internationalization.
+                 var lang, androidLang;
+                 // works for earlier version of Android (2.3.x)
+                 if (window.navigator && window.navigator.userAgent && (androidLang = window.navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+                   lang = androidLang[1];
+                 } else {
+                   // works for iOS and Android 4.x
+                   lang = window.navigator.userLanguage || window.navigator.language;
+                 }
+                 
                  var i18nOptions = { lng: "fr-FR", fallbackLng: "fr" };
-                 if (window.navigator.language.indexOf('en')!=-1)
+                 if (lang.indexOf('en')!=-1)
                      i18nOptions = { lng: "en-EN", fallbackLng: "en" };
 
                  that.i18nOptions = i18nOptions;

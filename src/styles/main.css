@@ -582,7 +582,7 @@ body.wizard #navbar {
 	left: 50%;
 	margin-left: -35px;
 	width: 75px;
-	height: 43px;
+	height: 40px;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	background-color: #19171c;
@@ -597,8 +597,8 @@ body.wizard #navbar {
 	left: 50%;
 	margin-left: -40px;
 	width: 85px;
-	height: 33px;
-	border-bottom: 33px solid #19171c;
+	height: 30px;
+	border-bottom: 30px solid #19171c;
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
 	-moz-box-sizing: border-box;
@@ -2696,6 +2696,9 @@ a[data-filter='match-followed'] {
 	line-height: 10px;
 	height: 11px;
 	/* allow empty scoreBoard5sets height to equal full scoreBoard5sets */
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;		
 }
 
 

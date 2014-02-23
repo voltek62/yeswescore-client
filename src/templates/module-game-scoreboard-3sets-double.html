@@ -23,15 +23,15 @@
          </span>
       
          <div class="other">
+          <span class="player-rank">
+          <%= game.teams[0].players[0].rank %>
+          </span>         
           <span class="club">
             <%
              if (game.teams[0].players[0].club !== undefined) {  
                print(' '+game.teams[0].players[0].club.name);  
              } 
             %>
-          </span>
-          <span class="player-rank">
-          <%= game.teams[0].players[0].rank %>
           </span>
         </div>
       </div>
@@ -56,15 +56,15 @@
           </span>
       
           <div class="other">
+          <span class="player-rank">
+            <%= game.teams[0].players[1].rank %>
+          </span>          
             <span class="club">
             <%
             if (game.teams[0].players[1].club !== undefined) {  
               print(' '+game.teams[0].players[1].club.name);  
             } 
             %>
-          </span>
-          <span class="player-rank">
-            <%= game.teams[0].players[1].rank %>
           </span>
         </div>    
       </div>
@@ -121,16 +121,16 @@
          </span>
       
          <div class="other">
-          <span class="club">
+           <span class="player-rank">
+           <%= game.teams[1].players[0].rank %>
+           </span>         
+           <span class="club">
             <%
              if (game.teams[1].players[0].club !== undefined) {  
                print(' '+game.teams[1].players[0].club.name);  
              } 
             %>
-          </span>
-          <span class="player-rank">
-          <%= game.teams[1].players[0].rank %>
-          </span>
+           </span>
          </div>
       </div>
     </div>
@@ -154,15 +154,15 @@
           </span>
       
           <div class="other">
+            <span class="player-rank">
+            <%= game.teams[1].players[1].rank %>
+            </span>          
             <span class="club">
             <%
             if (game.teams[1].players[1].club !== undefined) {  
               print(' '+game.teams[1].players[1].club.name);  
             } 
             %>
-          </span>
-          <span class="player-rank">
-            <%= game.teams[1].players[1].rank %>
           </span>
         </div>    
       </div>

@@ -22,15 +22,15 @@
     </span>
   
     <div class="other">
+      <span class="player-rank">
+        <%= game.teams[0].players[0].rank %>
+      </span>    
       <span class="club">
         <%
          if (game.teams[0].players[0].club !== undefined) {  
            print(' '+game.teams[0].players[0].club.name);  
          } 
         %>
-      </span>
-      <span class="player-rank">
-        <%= game.teams[0].players[0].rank %>
       </span>
     </div>
   </div> 
@@ -114,6 +114,9 @@
        <b class="server2">&nbsp;&nbsp;&nbsp;</b>&nbsp;<%= game.teams[1].players[0].name %>&nbsp;<b class="follow2">&nbsp;&nbsp;&nbsp;</b>
     </span>
     <div class="other">
+      <span class="player-rank">
+        <%= game.teams[1].players[0].rank %>
+      </span>    
       <span class="club">
       <% 
         if (game.teams[1].players[0].club !== undefined) {  
@@ -121,11 +124,7 @@
         } 
       %>
       </span>
-      <span class="player-rank">
-        <%= game.teams[1].players[0].rank %>
-      </span>
     </div>
   </div>
   
- 
 </div>

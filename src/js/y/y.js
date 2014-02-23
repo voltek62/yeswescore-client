@@ -105,9 +105,9 @@
       this.Conf.initEnv()
                .load(this.Env.CURRENT, function onConfLoaded(err) {
                  // internationalization.
-                 var i18nOptions = { lng: "en-EN", fallbackLng: "en" };
-                 if (window.navigator.language.indexOf('fr')!=-1)
-                     i18nOptions = { lng: "fr-FR", fallbackLng: "fr" };
+                 var i18nOptions = { lng: "fr-FR", fallbackLng: "fr" };
+                 if (window.navigator.language.indexOf('en')!=-1)
+                     i18nOptions = { lng: "en-EN", fallbackLng: "en" };
 
                  that.i18nOptions = i18nOptions;
                  /*#ifndef WP8*/

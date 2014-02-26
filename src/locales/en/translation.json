@@ -174,8 +174,8 @@
     "add" : "Add",
     "2bestofsets" : "Best of 3 Sets",
 	  "3bestofsets" : "Best of 5 Sets",                 	                      
-    "maxi5sets" : "5 Sets",
-    "maxi6sets" : "6 Sets"
+    "maxi5sets" : "Format 5 Games",
+    "maxi6sets" : "Format 6 Games"
   },
   "gameclub": {
     "title": ""

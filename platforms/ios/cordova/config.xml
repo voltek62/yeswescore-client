@@ -1,0 +1,6 @@
+<preference name="com.urbanairship.production_app_key" value="wJ1Ikc_pRuqSWl7FKkRJdA" />
+<preference name="com.urbanairship.production_app_secret" value="fDzhjswXRT6S84HzIqsyOg" />
+<preference name="com.urbanairship.development_app_key" value="Ua5gAbxKRxqh2YYJufhA3A" />
+<preference name="com.urbanairship.development_app_secret" value="URSBSy-LRmmmJc8rV0-dlA" />
+<preference name="com.urbanairship.in_production" value="true" />
+<preference name="com.urbanairship.gcm_sender" value="321581564302" />

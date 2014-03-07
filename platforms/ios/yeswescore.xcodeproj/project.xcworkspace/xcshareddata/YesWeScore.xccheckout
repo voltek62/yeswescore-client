@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A9416547-9CA5-42ED-91C3-DD94A1A76941</string>
+	<key>IDESourceControlProjectName</key>
+	<string>YesWeScore</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FDC1914F-8060-42A0-959A-F8ABF84C6B55</key>
+		<string>ssh://github.com/voltek62/yeswescore-client.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>platforms/ios/YesWeScore.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FDC1914F-8060-42A0-959A-F8ABF84C6B55</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/voltek62/yeswescore-client.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FDC1914F-8060-42A0-959A-F8ABF84C6B55</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FDC1914F-8060-42A0-959A-F8ABF84C6B55</string>
+			<key>IDESourceControlWCCName</key>
+			<string>yeswescore-client</string>
+		</dict>
+	</array>
+</dict>
+</plist>

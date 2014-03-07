@@ -77,7 +77,6 @@
 #else
         self.viewController = [[[MainViewController alloc] init] autorelease];
 #endif
-    //self.viewController.useSplashScreen = YES;
 
     // Set your app's start page by setting the <content src='foo.html' /> tag in config.xml.
     // If necessary, uncomment the line below to override it.
@@ -91,7 +90,6 @@
 
     return YES;
 }
-
 
 // this happens while we are running ( in the background, or from within our own app )
 // only valid if yeswescore-Info.plist specifies a protocol to handle

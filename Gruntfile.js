@@ -112,7 +112,16 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/android/assets/www/locales/fr/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/ios/www/locales/fr/', filter: 'isFile' },
           { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/wp8/build/locales/fr/', filter: 'isFile' },
-          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/web/build/locales/fr/', filter: 'isFile' }
+          { expand: true, flatten: true, src: ['src/locales/fr/*'], dest: 'platforms/web/build/locales/fr/', filter: 'isFile' },
+
+          { expand: true, flatten: true, src: ['src/locales/en-EN/*'], dest: 'platforms/android/assets/www/locales/en-EN/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/en-EN/*'], dest: 'platforms/ios/www/locales/en-EN/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/en-EN/*'], dest: 'platforms/wp8/build/locales/en-EN/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/en-EN/*'], dest: 'platforms/web/build/locales/en-EN/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/en/*'], dest: 'platforms/android/assets/www/locales/en/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/en/*'], dest: 'platforms/ios/www/locales/en/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/en/*'], dest: 'platforms/wp8/build/locales/en/', filter: 'isFile' },
+          { expand: true, flatten: true, src: ['src/locales/en/*'], dest: 'platforms/web/build/locales/en/', filter: 'isFile' }
         ]
       },	  
       fonts: {
@@ -183,7 +192,7 @@ module.exports = function (grunt) {
   });
 
   var platforms = [ ["android","2.9.0"], 
-                    ["ios","2.9.0"], 
+                    ["ios","3.4.0"], 
                     ["wp8","2.6.0"], 
                     ["web","2.5.0"] ];
 
@@ -195,15 +204,20 @@ module.exports = function (grunt) {
     grunt.registerTask('copy-' + platform[0] + '-to-dist', function () {
     if (platform[0].indexOf('web') != -1) {
       grunt.file.copy('empty.js', 'dist/cordova.js');
+      grunt.file.copy('empty.js', 'dist/cordova_plugins.js');
       grunt.file.copy('empty.js', 'dist/pushnotification.js');
       grunt.file.copy('empty.js', 'dist/social.js');	  		
     }
     else {
       grunt.file.copy('platforms/' + platform[0] + '/cordova/cordova-' + platform[1] + '.js', 'dist/cordova.js');
-      grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
-      grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');  
-      grunt.file.copy('platforms/' + platform[0] + '/cordova/airshipconfig.properties', 'dist/airshipconfig.properties');
-      grunt.file.copy('platforms/' + platform[0] + '/cordova/location.properties', 'dist/location.properties');
+      grunt.file.copy('platforms/' + platform[0] + '/www/cordova_plugins.js', 'dist/cordova_plugins.js');
+      //grunt.file.copy('platforms/' + platform[0] + '/cordova/pushnotification.js', 'dist/pushnotification.js');
+      //grunt.file.copy('platforms/' + platform[0] + '/cordova/social.js', 'dist/social.js');  
+      grunt.file.copy('empty.js', 'dist/pushnotification.js');
+      grunt.file.copy('empty.js', 'dist/social.js');
+
+      //grunt.file.copy('platforms/' + platform[0] + '/cordova/config.xml', 'dist/config.xml');
+      //grunt.file.copy('platforms/' + platform[0] + '/cordova/location.properties', 'dist/location.properties');
     }
     });   
   });
@@ -216,8 +230,8 @@ module.exports = function (grunt) {
     grunt.registerTask('to-' + platform[0], function () {
       if (platform[0].indexOf('android') != -1) {
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/assets/www/index.html');
-        grunt.file.copy('dist/airshipconfig.properties', 'platforms/' + platform[0] + '/assets/airshipconfig.properties');
-        grunt.file.copy('dist/location.properties', 'platforms/' + platform[0] + '/assets/location.properties');
+        //grunt.file.copy('dist/config.xml', 'platforms/' + platform[0] + '/www/config.xml');
+        //grunt.file.copy('dist/location.properties', 'platforms/' + platform[0] + '/assets/location.properties');
       }
       else if (platform[0].indexOf('ios') != -1)
         grunt.file.copy('dist/index.html', 'platforms/' + platform[0] + '/www/index.html');

@@ -449,6 +449,11 @@ var GameModel = Backbone.Model.extend({
       return parseInt(num, 10);
   },
 
+  getNumberOfBestSets: function () {
+    var num = this.get("infos").numberOfBestSets || "3";
+    return parseInt(num, 10);
+  },  
+  
   // compute score based on sets.
   // @return "scoreTeam1/scoreTeam2"
   computeScore : function() { 

@@ -321,6 +321,8 @@ Y.Views.Pages.Game = Y.View.extend({
     var sets_tmp = this.game.getSets(0);
     var score = this.game.getScore();
     var maxiSets = this.game.getMaxiSets();
+    var numberOfBestSets = this.game.getNumberOfBestSets();
+    
     var set = $(ev.currentTarget).data('set');
     var team = $(ev.currentTarget).data('team');
 
@@ -343,28 +345,47 @@ Y.Views.Pages.Game = Y.View.extend({
     sets[set][team]++;
     sets_tmp[set][team]++;
 
-    // limitation
-    var diff_sets1 = Math.abs(parseInt(sets_tmp[0][0], 10)-parseInt(sets_tmp[0][1], 10));
-    var diff_sets2 = Math.abs(parseInt(sets_tmp[1][0], 10)-parseInt(sets_tmp[1][1], 10));
-    var diff_sets3 = Math.abs(parseInt(sets_tmp[2][0], 10)-parseInt(sets_tmp[2][1], 10));
-    var diff_sets4 = Math.abs(parseInt(sets_tmp[3][0], 10)-parseInt(sets_tmp[3][1], 10));
-    var diff_sets5 = Math.abs(parseInt(sets_tmp[4][0], 10)-parseInt(sets_tmp[4][1], 10));    
-
-    if ((sets_tmp[0][0]>maxiSets && diff_sets1>2) ||
-        (sets_tmp[0][1]>maxiSets && diff_sets1>2) ||
-        (sets_tmp[1][0]>maxiSets && diff_sets2>2) ||
-        (sets_tmp[1][1]>maxiSets && diff_sets2>2) ||
-        (sets_tmp[2][0]>maxiSets && diff_sets3>2) ||
-        (sets_tmp[2][1]>maxiSets && diff_sets3>2) ||
-        (sets_tmp[3][0]>maxiSets && diff_sets3>2) ||
-        (sets_tmp[3][1]>maxiSets && diff_sets3>2) ||
-        (sets_tmp[4][0]>maxiSets && diff_sets3>2) ||
-        (sets_tmp[4][1]>maxiSets && diff_sets3>2)
-        ) {
-      // incrementation impossible
-      return;
+    if (numberOfBestSets<4) {
+      // limitation
+      var diff_sets1 = Math.abs(parseInt(sets_tmp[0][0], 10)-parseInt(sets_tmp[0][1], 10));
+      var diff_sets2 = Math.abs(parseInt(sets_tmp[1][0], 10)-parseInt(sets_tmp[1][1], 10));
+      var diff_sets3 = Math.abs(parseInt(sets_tmp[2][0], 10)-parseInt(sets_tmp[2][1], 10));
+  
+      if (((sets_tmp[0][0]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][0]>(maxiSets+1)) ||
+          ((sets_tmp[0][1]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][1]>(maxiSets+1)) ||
+          ((sets_tmp[1][0]>=(maxiSets+1) && diff_sets2>2) || sets_tmp[1][0]>(maxiSets+1)) ||
+          ((sets_tmp[1][1]>=(maxiSets+1) && diff_sets2>2) || sets_tmp[1][1]>(maxiSets+1)) ||
+          ( sets_tmp[2][0]>=(maxiSets+1) && diff_sets3>2) ||
+          ( sets_tmp[2][1]>=(maxiSets+1) && diff_sets3>2) 
+          ) {
+        // incrementation impossible
+        return;
+      }            
     }
-    
+    else {
+      // limitation
+      var diff_sets1 = Math.abs(parseInt(sets_tmp[0][0], 10)-parseInt(sets_tmp[0][1], 10));
+      var diff_sets2 = Math.abs(parseInt(sets_tmp[1][0], 10)-parseInt(sets_tmp[1][1], 10));
+      var diff_sets3 = Math.abs(parseInt(sets_tmp[2][0], 10)-parseInt(sets_tmp[2][1], 10));
+      var diff_sets4 = Math.abs(parseInt(sets_tmp[3][0], 10)-parseInt(sets_tmp[3][1], 10));
+      var diff_sets5 = Math.abs(parseInt(sets_tmp[4][0], 10)-parseInt(sets_tmp[4][1], 10));    
+  
+      if (((sets_tmp[0][0]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][0]>(maxiSets+1)) ||
+          ((sets_tmp[0][1]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][1]>(maxiSets+1)) ||
+          ((sets_tmp[1][0]>=(maxiSets+1) && diff_sets2>2) || sets_tmp[1][0]>(maxiSets+1)) ||
+          ((sets_tmp[1][1]>=(maxiSets+1) && diff_sets2>2) || sets_tmp[1][1]>(maxiSets+1)) ||
+          ((sets_tmp[2][0]>=(maxiSets+1) && diff_sets3>2) || sets_tmp[2][0]>(maxiSets+1)) ||
+          ((sets_tmp[2][1]>=(maxiSets+1) && diff_sets3>2) || sets_tmp[2][1]>(maxiSets+1)) ||
+          ((sets_tmp[3][0]>=(maxiSets+1) && diff_sets4>2) || sets_tmp[3][0]>(maxiSets+1)) ||
+          ((sets_tmp[3][1]>=(maxiSets+1) && diff_sets4>2) || sets_tmp[3][1]>(maxiSets+1)) ||
+          ( sets_tmp[4][0]>=(maxiSets+1) && diff_sets5>2) ||
+          ( sets_tmp[4][1]>=(maxiSets+1) && diff_sets5>2)
+          ) {
+        // incrementation impossible
+        return;
+      }
+    }
+  
     // MAJ cache
     var setsCache = this.DB.readJSON("sets");
     var newData = [this.game.get('infos').sets, this.game.get('infos').score];

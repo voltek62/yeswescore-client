@@ -1267,7 +1267,7 @@ ul>li.team>a {
 	width:100%;
 	height:25px;
 	background-color: #FFFFFF;
-	margin-top:25px;
+	margin-top:20px;
 	padding-top:5px;
 	font-size: 15px;
 	/*color: #999999;*/
@@ -1327,6 +1327,11 @@ ul>li.team>a {
   font-size: 12px;
   color: white;
   white-space: nowrap;
+}
+
+.form-space {
+  padding-top: 20px;
+  padding-left: 10px;
 }
 
 .form-label-player {

@@ -20,7 +20,7 @@ var GamesCollection = Backbone.Collection.extend({
     if (this.searchOption.indexOf('player') !== -1 && this.player!=='' ) {      
       // /v1/players/:id/games/  <=> cette url liste tous les matchs dans lequel un player joue / a jou�
 	    // /v1/players/:id/games/?owned=true <=> cette url liste tous les matchs qu'un player poss�de (qu'il a cr��)
-      url = Y.Conf.get("api.url.players") + this.player + "/games/?owned=true";
+      url = Y.Conf.get("api.url.players") + this.player + "/games/?owned=false";
     }
     else 
       url =  Y.Conf.get("api.url.games");

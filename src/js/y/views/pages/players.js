@@ -44,6 +44,14 @@ Y.Views.Pages.Players = Y.View.extend({
     
     var players = Y.User.getPlayer().get('following');
     this.players_follow = players;      
+    
+    if ( Y.User.getPlayer().get('nopush') !== undefined ) {
+      this.players_nopush = Y.User.getPlayer().get('nopush');
+    }
+    else {
+      this.players_nopush = [];
+    }
+    
     this.myid = Y.User.getPlayer().get('id');
     this.mytoken = Y.User.getPlayer().get('token'); 
 
@@ -60,6 +68,7 @@ Y.Views.Pages.Players = Y.View.extend({
           players:[]
           , query:' '
           , players_follow : this.players_follow
+          , players_nopush : this.players_nopush          
           , playersImgUrl:[]
         })).i18n();              
       }      
@@ -77,6 +86,7 @@ Y.Views.Pages.Players = Y.View.extend({
             players:that.collection.toJSON()
             , query:' '
             , players_follow : this.players_follow
+            , players_nopush : this.players_nopush               
             , playersImgUrl : that.playersImgUrl 
           })).i18n();    
         }             
@@ -119,6 +129,7 @@ Y.Views.Pages.Players = Y.View.extend({
         players:[]
         , query:' '
         , players_follow : this.players_follow
+        , players_nopush : this.players_nopush           
         , playersImgUrl:[]
       })).i18n();
     }  
@@ -209,6 +220,7 @@ Y.Views.Pages.Players = Y.View.extend({
       players : this.players.toJSON()
       , query : q
       , players_follow : this.players_follow
+      , players_nopush : this.players_nopush      
       , playersImgUrl : this.playersImgUrl
     }));
     this.$el.i18n();
@@ -230,8 +242,6 @@ Y.Views.Pages.Players = Y.View.extend({
          
     if (this.datafollow === true) {
     
-     console.log('datafollow true');
-
       this.following = true;
       Backbone.ajax({
         dataType: 'json',
@@ -269,9 +279,7 @@ Y.Views.Pages.Players = Y.View.extend({
       
 
     } else {
-   
-        console.log('datafollow false');
-   
+
        navigator.notification.confirm(
         i18n.t('message.pushmessage'),  // message
         function(buttonIndex){
@@ -300,8 +308,8 @@ Y.Views.Pages.Players = Y.View.extend({
         success: function (data) {
           that.following = false;
 
-      //On ajoute l'id
-      if (that.players_follow !== undefined)
+        //On ajoute l'id
+        if (that.players_follow !== undefined)
           {
             if (that.players_follow.indexOf(that.dataid) === -1) {     
               that.players_follow.push(that.dataid);
@@ -319,6 +327,7 @@ Y.Views.Pages.Players = Y.View.extend({
         //change attribute data-follow
         $('.ui-block-c[data-playerid='+that.dataid+']').data('follow',true); 
         //$('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').attr('data-follow','true');
+        $('.ui-block-b[data-playerid='+that.dataid+']>div.infos>div.push').html('Notification : ON');
               
         },
         error: function (err) {
@@ -329,6 +338,30 @@ Y.Views.Pages.Players = Y.View.extend({
       });          
 
             
+    }
+    else {
+      
+      if (that.players_follow !== undefined)
+      {
+        if (that.players_follow.indexOf(that.dataid) === -1) {     
+          that.players_follow.push(that.dataid);
+          that.players_nopush.push(that.dataid);
+          var data = {id: that.myid, following: that.players_follow, nopush: that.players_nopush };
+          Y.User.updatePlayer(data); 
+        }
+      }
+      else {
+        var data = {id: that.myid, following: [that.dataid], nopush: [that.dataid]  };            
+        Y.User.updatePlayer(data); 
+      }
+      
+      //change text
+      $('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').html(i18n.t('playerlist.delpush'));
+      //change attribute data-follow
+      $('.ui-block-c[data-playerid='+that.dataid+']').data('follow',true); 
+      //$('.ui-block-c[data-playerid='+that.dataid+']>span.form-button').attr('data-follow','true');
+      $('.ui-block-b[data-playerid='+that.dataid+']>div.infos>div.push').html('Notification : OFF');
+    
     }
   },  
 

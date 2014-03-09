@@ -350,17 +350,33 @@ Y.Views.Pages.Game = Y.View.extend({
       var diff_sets1 = Math.abs(parseInt(sets_tmp[0][0], 10)-parseInt(sets_tmp[0][1], 10));
       var diff_sets2 = Math.abs(parseInt(sets_tmp[1][0], 10)-parseInt(sets_tmp[1][1], 10));
       var diff_sets3 = Math.abs(parseInt(sets_tmp[2][0], 10)-parseInt(sets_tmp[2][1], 10));
-  
-      if (((sets_tmp[0][0]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][0]>(maxiSets+1)) ||
+      
+      if (maxiSets==5) {
+        if (((sets_tmp[0][0]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][0]>maxiSets) ||
+            ((sets_tmp[0][1]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][1]>maxiSets) ||
+            ((sets_tmp[1][0]>=(maxiSets+1) && diff_sets2>2) || sets_tmp[1][0]>maxiSets) ||
+            ((sets_tmp[1][1]>=(maxiSets+1) && diff_sets2>2) || sets_tmp[1][1]>maxiSets) ||
+            ( sets_tmp[2][0]>=(maxiSets+1) && diff_sets3>2) ||
+            ( sets_tmp[2][1]>=(maxiSets+1) && diff_sets3>2) 
+            ) {
+              // incrementation impossible
+              return;
+          }                 
+      }
+      else {
+        if (((sets_tmp[0][0]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][0]>(maxiSets+1)) ||
           ((sets_tmp[0][1]>=(maxiSets+1) && diff_sets1>2) || sets_tmp[0][1]>(maxiSets+1)) ||
           ((sets_tmp[1][0]>=(maxiSets+1) && diff_sets2>2) || sets_tmp[1][0]>(maxiSets+1)) ||
           ((sets_tmp[1][1]>=(maxiSets+1) && diff_sets2>2) || sets_tmp[1][1]>(maxiSets+1)) ||
           ( sets_tmp[2][0]>=(maxiSets+1) && diff_sets3>2) ||
           ( sets_tmp[2][1]>=(maxiSets+1) && diff_sets3>2) 
           ) {
-        // incrementation impossible
-        return;
-      }            
+            // incrementation impossible
+            return;
+        } 
+      }
+      
+      
     }
     else {
       // limitation
@@ -381,9 +397,9 @@ Y.Views.Pages.Game = Y.View.extend({
           ( sets_tmp[4][0]>=(maxiSets+1) && diff_sets5>2) ||
           ( sets_tmp[4][1]>=(maxiSets+1) && diff_sets5>2)
           ) {
-        // incrementation impossible
-        return;
-      }
+            // incrementation impossible
+            return;
+        }
     }
   
     // MAJ cache

@@ -384,6 +384,7 @@ Y.Views.Pages.GameForm = Y.View.extend({
       if ($('#startTeam2').parent().hasClass("select"))
         this.game.get('infos').startTeam = this.game.get('teams')[1].id;
       
+      
       this.save().done(function (result) {
         if (!that.unloaded) {
           if (that.game.get('infos').startTeam == that.game.get('teams')[0].id) {
@@ -392,6 +393,10 @@ Y.Views.Pages.GameForm = Y.View.extend({
             $('#startTeam2').parent().addClass("select");
           }
         }
+        
+        //redirect
+        Y.Router.navigate("games/"+that.game.id, {trigger: true});
+        
       });
     }, this));
   },
